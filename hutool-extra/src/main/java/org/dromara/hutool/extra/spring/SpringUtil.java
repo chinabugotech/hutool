@@ -87,8 +87,6 @@ public class SpringUtil implements ApplicationContextInitializer<ConfigurableApp
 		return applicationContext.getBeanFactory();
 	}
 
-	//通过name获取 Bean.
-
 	/**
 	 * 通过name获取 Bean
 	 *
@@ -99,6 +97,17 @@ public class SpringUtil implements ApplicationContextInitializer<ConfigurableApp
 	@SuppressWarnings("unchecked")
 	public static <T> T getBean(final String name) {
 		return (T) getBeanFactory().getBean(name);
+	}
+
+	/**
+	 * 通过class获取Bean
+	 *
+	 * @param <T>  Bean类型
+	 * @param clazz Bean类
+	 * @return Bean对象
+	 */
+	public static <T> T getBean(final Class<T> clazz) {
+		return getBeanFactory().getBean(clazz);
 	}
 
 	/**
