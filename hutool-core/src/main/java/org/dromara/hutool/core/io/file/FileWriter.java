@@ -204,7 +204,7 @@ public class FileWriter extends FileWrapper {
 	 * @since 3.1.0
 	 */
 	public <T> File writeLines(final Iterable<T> list, final LineSeparator lineSeparator, final boolean isAppend) throws IORuntimeException {
-		return writeLines(list, lineSeparator, isAppend, false);
+		return writeLines(list, lineSeparator, isAppend, true);
 	}
 
 	/**
@@ -234,13 +234,12 @@ public class FileWriter extends FileWrapper {
 						printNewLine(writer, lineSeparator);
 					}
 					writer.print(t);
-					if(appendLineSeparator){
-						printNewLine(writer, lineSeparator);
-					}
-
-					writer.flush();
 				}
 			}
+			if(appendLineSeparator){
+				printNewLine(writer, lineSeparator);
+			}
+			writer.flush();
 		}
 		return this.file;
 	}
