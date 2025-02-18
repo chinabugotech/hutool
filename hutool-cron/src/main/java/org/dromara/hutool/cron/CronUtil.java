@@ -34,11 +34,12 @@ import java.util.concurrent.locks.ReentrantLock;
  * {@link #setMatchSecond(boolean)} 方法用于定义是否使用秒匹配模式，如果为true，则定时任务表达式中的第一位为秒，否则为分，默认是分
  *
  * @author Looly
- *
  */
 public class CronUtil {
 
-	/** Crontab配置文件 */
+	/**
+	 * Crontab配置文件
+	 */
 	public static final String CRONTAB_CONFIG_PATH = "config/cron.setting";
 	/**
 	 * Crontab配置文件2
@@ -85,7 +86,7 @@ public class CronUtil {
 	 * 加入定时任务
 	 *
 	 * @param schedulingPattern 定时任务执行时间的crontab表达式
-	 * @param task 任务
+	 * @param task              任务
 	 * @return 定时任务ID
 	 */
 	public static String schedule(final String schedulingPattern, final Task task) {
@@ -95,9 +96,9 @@ public class CronUtil {
 	/**
 	 * 加入定时任务
 	 *
-	 * @param id 定时任务ID
+	 * @param id                定时任务ID
 	 * @param schedulingPattern 定时任务执行时间的crontab表达式
-	 * @param task 任务
+	 * @param task              任务
 	 * @return 定时任务ID
 	 * @since 3.3.0
 	 */
@@ -128,7 +129,7 @@ public class CronUtil {
 	/**
 	 * 更新Task的执行时间规则
 	 *
-	 * @param id Task的ID
+	 * @param id      Task的ID
 	 * @param pattern {@link CronPattern}
 	 * @since 4.0.10
 	 */
@@ -214,15 +215,17 @@ public class CronUtil {
 
 	/**
 	 * 验证是否为合法的Cron表达式
+	 *
+	 * @param expression 表达式
 	 */
-	public static boolean isValidExpression(String expression) {
+	public static boolean isValidExpression(final String expression) {
 		if (expression == null) {
 			return false;
 		} else {
 			try {
 				PatternParser.parse(expression);
 				return true;
-			} catch (RuntimeException e) {
+			} catch (final RuntimeException e) {
 				return false;
 			}
 		}
