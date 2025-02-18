@@ -33,6 +33,10 @@ public class LineCounter implements Closeable {
 	private final InputStream is;
 	private final int bufferSize;
 
+	/**
+	 * 是否将最后一行分隔符作为新行，Linux下要求最后一行必须带有换行符，不算一行，此处用户选择
+	 */
+	private boolean lastLineSeparatorAsNewLine = true;
 	private int count = -1;
 
 	/**
@@ -44,6 +48,17 @@ public class LineCounter implements Closeable {
 	public LineCounter(final InputStream is, final int bufferSize) {
 		this.is = is;
 		this.bufferSize = bufferSize < 1 ? 1024 : bufferSize;
+	}
+
+	/**
+	 * 设置是否将最后一行分隔符作为新行，Linux下要求最后一行必须带有换行符，不算一行，此处用户选择
+	 *
+	 * @param lastLineSeparatorAsNewLine 是否将最后一行分隔符作为新行
+	 * @return this
+	 */
+	public LineCounter setLastLineSeparatorAsNewLine(final boolean lastLineSeparatorAsNewLine) {
+		this.lastLineSeparatorAsNewLine = lastLineSeparatorAsNewLine;
+		return this;
 	}
 
 	/**
@@ -108,9 +123,16 @@ public class LineCounter implements Closeable {
 			readChars = is.read(buf);
 		}
 
-		// 最后一个字符为换行符，则单独计数行
-		if(c == CharUtil.CR){
-			++count;
+		if(lastLineSeparatorAsNewLine){
+			// 最后一个字符为\r，则单独计数行
+			if(c == CharUtil.CR){
+				++count;
+			}
+		}else{
+			// 最后一个字符为\n，则可选是否算作新行单独计数行
+			if(c == CharUtil.LF){
+				--count;
+			}
 		}
 
 		return count;

@@ -193,7 +193,7 @@ public class FileWriter extends FileWrapper {
 	}
 
 	/**
-	 * 将列表写入文件
+	 * 将列表写入文件，最后一行末尾不追加换行符
 	 *
 	 * @param <T>           集合元素类型
 	 * @param list          列表
@@ -204,6 +204,22 @@ public class FileWriter extends FileWrapper {
 	 * @since 3.1.0
 	 */
 	public <T> File writeLines(final Iterable<T> list, final LineSeparator lineSeparator, final boolean isAppend) throws IORuntimeException {
+		return writeLines(list, lineSeparator, isAppend, false);
+	}
+
+	/**
+	 * 将列表写入文件
+	 *
+	 * @param <T>           集合元素类型
+	 * @param list          列表
+	 * @param lineSeparator 换行符枚举（Windows、Mac或Linux换行符）
+	 * @param isAppend      是否追加
+	 * @param appendLineSeparator 是否在最后一行末尾追加换行符，Linux下要求最后一行必须带有换行符
+	 * @return 目标文件
+	 * @throws IORuntimeException IO异常
+	 * @since 3.1.0
+	 */
+	public <T> File writeLines(final Iterable<T> list, final LineSeparator lineSeparator, final boolean isAppend, final boolean appendLineSeparator) throws IORuntimeException {
 		try (final PrintWriter writer = getPrintWriter(isAppend)) {
 			boolean isFirst = true;
 			for (final T t : list) {
@@ -218,6 +234,9 @@ public class FileWriter extends FileWrapper {
 						printNewLine(writer, lineSeparator);
 					}
 					writer.print(t);
+					if(appendLineSeparator){
+						printNewLine(writer, lineSeparator);
+					}
 
 					writer.flush();
 				}

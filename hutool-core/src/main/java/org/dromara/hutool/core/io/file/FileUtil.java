@@ -564,7 +564,8 @@ public class FileUtil {
 
 	/**
 	 * 计算文件的总行数<br>
-	 * 参考：https://stackoverflow.com/questions/453018/number-of-lines-in-a-file-in-java
+	 * 参考：https://stackoverflow.com/questions/453018/number-of-lines-in-a-file-in-java<br>
+	 * 最后一行如果末尾带有换行符，则被当作为新行
 	 *
 	 * @param file 文件
 	 * @return 该文件总行数
@@ -576,7 +577,8 @@ public class FileUtil {
 
 	/**
 	 * 计算文件的总行数<br>
-	 * 参考：https://stackoverflow.com/questions/453018/number-of-lines-in-a-file-in-java
+	 * 参考：https://stackoverflow.com/questions/453018/number-of-lines-in-a-file-in-java<br>
+	 * 最后一行如果末尾带有换行符，则被当作为新行
 	 *
 	 * @param file       文件
 	 * @param bufferSize 缓存大小，小于1则使用默认的1024
@@ -584,8 +586,23 @@ public class FileUtil {
 	 * @since 5.8.28
 	 */
 	public static int getTotalLines(final File file, final int bufferSize) {
+		return getTotalLines(file, bufferSize, true);
+	}
+
+	/**
+	 * 计算文件的总行数<br>
+	 * 参考：https://stackoverflow.com/questions/453018/number-of-lines-in-a-file-in-java
+	 *
+	 * @param file       文件
+	 * @param bufferSize 缓存大小，小于1则使用默认的1024
+	 * @param lastLineSeparatorAsNewLine 是否将最后一行分隔符作为新行，Linux下要求最后一行必须带有换行符，不算一行，此处用户选择
+	 * @return 该文件总行数
+	 * @since 5.8.28
+	 */
+	public static int getTotalLines(final File file, final int bufferSize, final boolean lastLineSeparatorAsNewLine) {
 		Assert.isTrue(isFile(file), ()-> new IORuntimeException("Input must be a File"));
 		try (final LineCounter lineCounter = new LineCounter(getInputStream(file), bufferSize)) {
+			lineCounter.setLastLineSeparatorAsNewLine(lastLineSeparatorAsNewLine);
 			return lineCounter.getCount();
 		} catch (final IOException e) {
 			throw new IORuntimeException(e);
@@ -2493,8 +2510,26 @@ public class FileUtil {
 	 * @return 目标文件
 	 * @throws IORuntimeException IO异常
 	 */
-	public static <T> File writeLines(final Collection<T> list, final File file, final Charset charset, final boolean isAppend) throws IORuntimeException {
+	public static <T> File writeLines(final Collection<T> list, final File file, final Charset charset,
+									  final boolean isAppend) throws IORuntimeException {
 		return FileWriter.of(file, charset).writeLines(list, isAppend);
+	}
+
+	/**
+	 * 将列表写入文件
+	 *
+	 * @param <T>      集合元素类型
+	 * @param list     列表
+	 * @param file     文件
+	 * @param charset  字符集
+	 * @param isAppend 是否追加
+	 * @param appendLineSeparator 是否在末尾追加换行符
+	 * @return 目标文件
+	 * @throws IORuntimeException IO异常
+	 */
+	public static <T> File writeLines(final Collection<T> list, final File file, final Charset charset,
+									  final boolean isAppend, final boolean appendLineSeparator) throws IORuntimeException {
+		return FileWriter.of(file, charset).writeLines(list, null, isAppend, appendLineSeparator);
 	}
 
 	/**
