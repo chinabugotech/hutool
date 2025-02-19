@@ -216,7 +216,7 @@ public class ObjectMapper {
 			XML.toJSONObject(jsonObject, jsonStr, false);
 			return;
 		}
-		mapFromTokener(new JSONTokener(StrUtil.trim(source), jsonObject.getConfig()), jsonObject, filter);
+		mapFromTokener(new JSONTokener(jsonStr, jsonObject.getConfig()), jsonObject, filter);
 	}
 
 	/**

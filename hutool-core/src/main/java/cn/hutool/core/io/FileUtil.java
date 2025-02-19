@@ -561,7 +561,8 @@ public class FileUtil extends PathUtil {
 
 	/**
 	 * 计算文件的总行数<br>
-	 * 参考：https://stackoverflow.com/questions/453018/number-of-lines-in-a-file-in-java
+	 * 参考：https://stackoverflow.com/questions/453018/number-of-lines-in-a-file-in-java<br>
+	 * 最后一行如果末尾带有换行符，则被当作为新行
 	 *
 	 * @param file       文件
 	 * @param bufferSize 缓存大小，小于1则使用默认的1024
@@ -569,6 +570,20 @@ public class FileUtil extends PathUtil {
 	 * @since 5.8.28
 	 */
 	public static int getTotalLines(File file, int bufferSize) {
+		return getTotalLines(file, bufferSize, true);
+	}
+
+	/**
+	 * 计算文件的总行数<br>
+	 * 参考：https://stackoverflow.com/questions/453018/number-of-lines-in-a-file-in-java
+	 *
+	 * @param file       文件
+	 * @param bufferSize 缓存大小，小于1则使用默认的1024
+	 * @param lastLineSeparatorAsNewLine 是否将最后一行分隔符作为新行，Linux下要求最后一行必须带有换行符，不算一行，此处用户选择
+	 * @return 该文件总行数
+	 * @since 5.8.37
+	 */
+	public static int getTotalLines(File file, int bufferSize, boolean lastLineSeparatorAsNewLine) {
 		if (false == isFile(file)) {
 			throw new IORuntimeException("Input must be a File");
 		}
@@ -614,9 +629,16 @@ public class FileUtil extends PathUtil {
 				readChars = is.read(chars);
 			}
 
-			// 最后一个字符为换行符，则单独计数行
-			if(c == CharUtil.CR){
-				++count;
+			if(lastLineSeparatorAsNewLine){
+				// 最后一个字符为\r，则单独计数行
+				if(c == CharUtil.CR){
+					++count;
+				}
+			}else{
+				// 最后一个字符为\n，则可选是否算作新行单独计数行
+				if(c == CharUtil.LF){
+					--count;
+				}
 			}
 
 			return count;
