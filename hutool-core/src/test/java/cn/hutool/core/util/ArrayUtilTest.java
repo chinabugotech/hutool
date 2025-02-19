@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -331,6 +332,24 @@ public class ArrayUtilTest {
 		assertEquals("B", array[1]);
 		assertEquals("C", array[2]);
 		assertEquals("D", array[3]);
+
+		// 元素类型支持多态和泛型
+		final ArrayList<List<String>> list2 = CollUtil.newArrayList(
+			CollUtil.newArrayList("A", "B"),
+			CollUtil.newArrayList("C", "D")
+		);
+
+		List<String>[] array2 = ArrayUtil.toArray(list2.iterator(), List.class);
+		assertEquals(CollUtil.newArrayList("A", "B"), array2[0]);
+		assertEquals(CollUtil.newArrayList("C", "D"), array2[1]);
+
+		List<String>[] array3 = ArrayUtil.toArray((Iterable<List<String>>) list2, List.class);
+		assertEquals(CollUtil.newArrayList("A", "B"), array3[0]);
+		assertEquals(CollUtil.newArrayList("C", "D"), array3[1]);
+
+		List<String>[] array4 = ArrayUtil.toArray(list2, List.class);
+		assertEquals(CollUtil.newArrayList("A", "B"), array4[0]);
+		assertEquals(CollUtil.newArrayList("C", "D"), array4[1]);
 	}
 
 	@Test
