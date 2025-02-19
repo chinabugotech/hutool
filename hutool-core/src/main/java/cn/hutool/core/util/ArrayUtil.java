@@ -1302,7 +1302,7 @@ public class ArrayUtil extends PrimitiveArrayUtil {
 	 * @return 数组
 	 * @since 3.0.9
 	 */
-	public static <T> T[] toArray(Iterator<T> iterator, Class<T> componentType) {
+	public static <T> T[] toArray(Iterator<? extends T> iterator, Class<T> componentType) {
 		return toArray(CollUtil.newArrayList(iterator), componentType);
 	}
 
@@ -1315,7 +1315,7 @@ public class ArrayUtil extends PrimitiveArrayUtil {
 	 * @return 数组
 	 * @since 3.0.9
 	 */
-	public static <T> T[] toArray(Iterable<T> iterable, Class<T> componentType) {
+	public static <T> T[] toArray(Iterable<? extends T> iterable, Class<T> componentType) {
 		return toArray(CollectionUtil.toCollection(iterable), componentType);
 	}
 
@@ -1328,7 +1328,7 @@ public class ArrayUtil extends PrimitiveArrayUtil {
 	 * @return 数组
 	 * @since 3.0.9
 	 */
-	public static <T> T[] toArray(Collection<T> collection, Class<T> componentType) {
+	public static <T> T[] toArray(Collection<? extends T> collection, Class<T> componentType) {
 		return collection.toArray(newArray(componentType, 0));
 	}
 
