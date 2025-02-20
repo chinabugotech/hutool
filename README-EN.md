@@ -49,11 +49,6 @@
 
 -------------------------------------------------------------------------------
 
-<p align="center">
-	<a href="#"><img style="width: 45%" alt="" src="https://plus.hutool.cn/images/zanzhu.jpg"/></a>
-</p>
-
--------------------------------------------------------------------------------
 
 [**🌎中文说明**](README.md)
 
@@ -122,23 +117,7 @@ Each module can be introduced individually, or all modules can be introduced by 
 
 -------------------------------------------------------------------------------
 
-## 🪙Support Hutool
 
-### 💳Donate
-
-If you think Hutool is good, you can donate to buy the author a pack of chili~, thanks in advance ^_^.
-
-[Gitee donate](https://gitee.com/dromara/hutool)
-
-[Dromara donate](https://dromara.gitee.io/donate.html)
-
-### 👕Shop about Hutool
-
-We provide the T-Shirt and Sweater with Hutool Logo, please visit the shop：
-
-👉 [Hutool Shop](https://market.m.taobao.com/apps/market/content/index.html?wh_weex=true&contentId=331724720170) 👈
-
--------------------------------------------------------------------------------
 
 ## 📦Install
 
