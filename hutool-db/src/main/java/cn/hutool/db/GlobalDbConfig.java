@@ -1,6 +1,9 @@
 package cn.hutool.db;
 
+import cn.hutool.core.io.resource.FileResource;
 import cn.hutool.core.io.resource.NoResourceException;
+import cn.hutool.core.io.resource.Resource;
+import cn.hutool.core.io.resource.ResourceUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.db.sql.SqlLog;
 import cn.hutool.log.level.Level;
@@ -99,7 +102,12 @@ public class GlobalDbConfig {
 		final String[] defaultDbSettingPaths = {"file:" + DEFAULT_DB_SETTING_PATH, "file:" + DEFAULT_DB_SETTING_PATH2, DEFAULT_DB_SETTING_PATH, DEFAULT_DB_SETTING_PATH2};
 		for (final String settingPath : defaultDbSettingPaths) {
 			try {
-				return new Setting(settingPath, true);
+				final Resource resource = ResourceUtil.getResourceObj(settingPath);
+				if (resource instanceof FileResource) {
+					FileResource fileResource = (FileResource) resource;
+					if (!fileResource.getFile().exists()) continue;
+				}
+				return new Setting(resource, Setting.DEFAULT_CHARSET, true);
 			} catch (final NoResourceException e) {
 				// ignore
 			}
