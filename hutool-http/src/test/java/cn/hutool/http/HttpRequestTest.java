@@ -270,4 +270,11 @@ public class HttpRequestTest {
 		HttpRequest request = HttpRequest.get("http://localhost:9999/qms/bus/qmsBusReportCenterData/getReportDataList?reportProcessNo=A00&goodsName=工业硫酸98%&conReportTypeId=1010100000000000007&measureDateStr=2024-07-01");
 		request.execute();
 	}
+
+	@Test
+	public void testHttpHead(){
+		//测试不传入请求头时是否会报空指针异常
+		HttpRequest httpRequest = HttpRequest.post("http://127.0.0.1:8080/testHttpHead");
+		HttpResponse execute = httpRequest.execute();
+	}
 }

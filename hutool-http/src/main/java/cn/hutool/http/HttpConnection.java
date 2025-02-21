@@ -226,7 +226,7 @@ public class HttpConnection {
 					this.header(name, StrUtil.nullToEmpty(values.get(0)), true);
 					continue;
 				}
-				for (String value : entry.getValue()) {
+				for (String value : values) {
 					this.header(name, StrUtil.nullToEmpty(value), isOverride);
 				}
 			}
