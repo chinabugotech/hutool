@@ -221,9 +221,9 @@ public class HttpConnection {
 			String name;
 			for (Entry<String, List<String>> entry : headerMap.entrySet()) {
 				name = entry.getKey();
-				for (String value : entry.getValue()) {
-					this.header(name, StrUtil.nullToEmpty(value), isOverride);
-				}
+				List<String> values = entry.getValue();
+				String headValues = StrUtil.join(",", values);
+				this.header(name, StrUtil.nullToEmpty(headValues), isOverride);
 			}
 		}
 		return this;

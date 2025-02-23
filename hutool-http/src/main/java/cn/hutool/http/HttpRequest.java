@@ -1247,7 +1247,7 @@ public class HttpRequest extends HttpBase<HttpRequest> {
 			// issue#3462 自定义body长度
 			.setFixedLengthStreamingMode(this.fixedContentLength)
 			// 覆盖默认Header
-			.header(this.headers, false);
+			.header(this.headers, true);
 
 		if (null != this.cookie) {
 			// 当用户自定义Cookie时，全局Cookie自动失效

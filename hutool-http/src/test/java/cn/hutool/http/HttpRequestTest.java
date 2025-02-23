@@ -270,4 +270,16 @@ public class HttpRequestTest {
 		HttpRequest request = HttpRequest.get("http://localhost:9999/qms/bus/qmsBusReportCenterData/getReportDataList?reportProcessNo=A00&goodsName=工业硫酸98%&conReportTypeId=1010100000000000007&measureDateStr=2024-07-01");
 		request.execute();
 	}
+
+	@Test
+	public void testHttpHead(){
+		Map<String,String> map = new HashMap<>();
+		map.put("test","test");
+		HttpRequest httpRequest = HttpRequest.post("http://127.0.0.1:8080/testHttpHead")
+			.header("test","test1")
+			.headerMap(map,false);
+		System.out.println(httpRequest.headers());
+		HttpResponse execute = httpRequest.execute();
+		System.out.println(execute.body());
+	}
 }
