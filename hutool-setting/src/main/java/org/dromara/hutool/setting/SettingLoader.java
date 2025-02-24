@@ -19,6 +19,7 @@ package org.dromara.hutool.setting;
 import org.dromara.hutool.core.io.IoUtil;
 import org.dromara.hutool.core.io.LineReader;
 import org.dromara.hutool.core.io.file.FileUtil;
+import org.dromara.hutool.core.io.resource.NoResourceException;
 import org.dromara.hutool.core.io.resource.Resource;
 import org.dromara.hutool.core.lang.Assert;
 import org.dromara.hutool.core.regex.ReUtil;
@@ -132,23 +133,26 @@ public class SettingLoader {
 	 *
 	 * @param resource 配置文件URL
 	 * @return 加载是否成功
+	 * @throws NoResourceException 如果资源不存在，抛出此异常
 	 */
-	public GroupedMap load(final Resource resource) {
-		if (resource == null) {
-			throw new NullPointerException("Null setting url define!");
-		}
-		log.debug("Load setting file [{}]", resource);
+	public GroupedMap load(final Resource resource) throws NoResourceException{
+		Assert.notNull(resource, "Null setting url define!");
+
+		GroupedMap groupedMap;
 		InputStream settingStream = null;
 		try {
 			settingStream = resource.getStream();
-			return load(settingStream);
+			groupedMap = load(settingStream);
+			log.debug("Load setting file [{}]", resource);
 		} catch (final Exception e) {
-			log.error(e, "Load setting error!");
-			// 加载错误跳过，返回空的map
-			return new GroupedMap();
+			if(e instanceof NoResourceException){
+				throw (NoResourceException)e;
+			}
+			throw new NoResourceException(e);
 		} finally {
 			IoUtil.closeQuietly(settingStream);
 		}
+		return groupedMap;
 	}
 
 	/**
