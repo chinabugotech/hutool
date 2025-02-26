@@ -36,7 +36,18 @@ public interface PinyinEngine {
 	 * @param c 任意字符，汉字返回拼音，非汉字原样返回
 	 * @return 汉字返回拼音，非汉字原样返回
 	 */
-	String getPinyin(char c);
+	default String getPinyin(final char c){
+		return getPinyin(c, false);
+	};
+
+	/**
+	 * 如果c为汉字，则返回大写拼音；如果c不是汉字，则返回String.valueOf(c)
+	 *
+	 * @param c 任意字符，汉字返回拼音，非汉字原样返回
+	 * @param tone 是否返回声调
+	 * @return 汉字返回拼音，非汉字原样返回
+	 */
+	String getPinyin(char c, boolean tone);
 
 	/**
 	 * 获取字符串对应的完整拼音，非中文返回原字符
@@ -45,7 +56,19 @@ public interface PinyinEngine {
 	 * @param separator 拼音之间的分隔符
 	 * @return 拼音
 	 */
-	String getPinyin(String str, String separator);
+	default String getPinyin(final String str, final String separator){
+		return getPinyin(str, separator, false);
+	}
+
+	/**
+	 * 获取字符串对应的完整拼音，非中文返回原字符
+	 *
+	 * @param str       字符串
+	 * @param separator 拼音之间的分隔符
+	 * @param tone      是否返回声调
+	 * @return 拼音
+	 */
+	String getPinyin(String str, String separator, boolean tone);
 
 	/**
 	 * 将输入字符串转为拼音首字母，其它字符原样返回

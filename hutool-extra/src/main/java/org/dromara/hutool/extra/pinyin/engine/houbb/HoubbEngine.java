@@ -16,6 +16,7 @@
 
 package org.dromara.hutool.extra.pinyin.engine.houbb;
 
+import org.dromara.hutool.core.lang.Assert;
 import org.dromara.hutool.extra.pinyin.engine.PinyinEngine;
 import com.github.houbb.pinyin.constant.enums.PinyinStyleEnum;
 import com.github.houbb.pinyin.util.PinyinHelper;
@@ -41,48 +42,25 @@ import com.github.houbb.pinyin.util.PinyinHelper;
  */
 public class HoubbEngine implements PinyinEngine {
 
-	// 汉字拼音输出的格式
-	private PinyinStyleEnum format;
-
 	/**
 	 * 构造
 	 */
 	public HoubbEngine() {
-		this(null);
-	}
-
-	/**
-	 * 构造
-	 *
-	 * @param format 格式
-	 */
-	public HoubbEngine(final PinyinStyleEnum format) {
-		init(format);
-	}
-
-	/**
-	 * 初始化
-	 *
-	 * @param format 格式
-	 */
-	public void init(PinyinStyleEnum format) {
-		if (null == format) {
-			format = PinyinStyleEnum.NORMAL;
-		}
-		this.format = format;
+		// SPI方式加载时检查库是否引入
+		Assert.notNull(PinyinHelper.class);
 	}
 
 	@Override
-	public String getPinyin(final char c) {
+	public String getPinyin(final char c, final boolean tone) {
 		final String result;
-		result = PinyinHelper.toPinyin(String.valueOf(c), format);
+		result = PinyinHelper.toPinyin(String.valueOf(c), tone ? PinyinStyleEnum.DEFAULT : PinyinStyleEnum.NORMAL);
 		return result;
 	}
 
 	@Override
-	public String getPinyin(final String str, final String separator) {
+	public String getPinyin(final String str, final String separator, final boolean tone) {
 		final String result;
-		result = PinyinHelper.toPinyin(str, format, separator);
+		result = PinyinHelper.toPinyin(str, tone ? PinyinStyleEnum.DEFAULT : PinyinStyleEnum.NORMAL, separator);
 		return result;
 	}
 }

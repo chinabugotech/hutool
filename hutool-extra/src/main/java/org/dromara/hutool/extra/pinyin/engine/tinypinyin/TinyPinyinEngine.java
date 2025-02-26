@@ -60,7 +60,7 @@ public class TinyPinyinEngine implements PinyinEngine {
 	}
 
 	@Override
-	public String getPinyin(final char c) {
+	public String getPinyin(final char c, final boolean tone) {
 		if (!Pinyin.isChinese(c)) {
 			return String.valueOf(c);
 		}
@@ -68,7 +68,7 @@ public class TinyPinyinEngine implements PinyinEngine {
 	}
 
 	@Override
-	public String getPinyin(final String str, final String separator) {
+	public String getPinyin(final String str, final String separator, final boolean tone) {
 		final String pinyin = Pinyin.toPinyin(str, separator);
 		return StrUtil.isEmpty(pinyin) ? pinyin : pinyin.toLowerCase();
 	}

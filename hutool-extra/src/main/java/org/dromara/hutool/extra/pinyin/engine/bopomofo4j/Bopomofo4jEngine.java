@@ -51,12 +51,12 @@ public class Bopomofo4jEngine implements PinyinEngine {
 	}
 
 	@Override
-	public String getPinyin(final char c) {
-		return Bopomofo4j.pinyin(String.valueOf(c), ToneType.WITHOUT_TONE, false, false, StrUtil.EMPTY);
+	public String getPinyin(final char c, final boolean tone) {
+		return Bopomofo4j.pinyin(String.valueOf(c), tone ? ToneType.WITH_VOWEL_TONE : ToneType.WITHOUT_TONE, false, false, StrUtil.EMPTY);
 	}
 
 	@Override
-	public String getPinyin(final String str, final String separator) {
-		return Bopomofo4j.pinyin(str, ToneType.WITHOUT_TONE, false, false, separator);
+	public String getPinyin(final String str, final String separator, final boolean tone) {
+		return Bopomofo4j.pinyin(str, tone ? ToneType.WITH_VOWEL_TONE : ToneType.WITHOUT_TONE, false, false, separator);
 	}
 }

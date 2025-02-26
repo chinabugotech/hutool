@@ -17,6 +17,7 @@
 package org.dromara.hutool.extra.pinyin.engine.pinyin4j;
 
 import org.dromara.hutool.core.array.ArrayUtil;
+import org.dromara.hutool.core.lang.Assert;
 import org.dromara.hutool.extra.pinyin.engine.PinyinEngine;
 import org.dromara.hutool.extra.pinyin.PinyinException;
 import net.sourceforge.pinyin4j.PinyinHelper;
@@ -47,48 +48,37 @@ import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombi
  */
 public class Pinyin4jEngine implements PinyinEngine {
 
-	//设置汉子拼音输出的格式
-	private HanyuPinyinOutputFormat format;
+	private static final HanyuPinyinOutputFormat WITH_TONE_MARK;
+	private static final HanyuPinyinOutputFormat WITHOUT_TONE;
+	static {
+		WITH_TONE_MARK = new HanyuPinyinOutputFormat();
+		// 小写
+		WITH_TONE_MARK.setCaseType(HanyuPinyinCaseType.LOWERCASE);
+		// 'ü' 使用 "v" 代替
+		WITH_TONE_MARK.setVCharType(HanyuPinyinVCharType.WITH_V);
+		WITH_TONE_MARK.setToneType(HanyuPinyinToneType.WITH_TONE_MARK);
+
+		WITHOUT_TONE = new HanyuPinyinOutputFormat();
+		// 小写
+		WITHOUT_TONE.setCaseType(HanyuPinyinCaseType.LOWERCASE);
+		// 'ü' 使用 "v" 代替
+		WITHOUT_TONE.setVCharType(HanyuPinyinVCharType.WITH_V);
+		WITHOUT_TONE.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
+	}
 
 	/**
 	 * 构造
 	 */
 	public Pinyin4jEngine() {
-		this(null);
-	}
-
-	/**
-	 * 构造
-	 *
-	 * @param format 格式
-	 */
-	public Pinyin4jEngine(final HanyuPinyinOutputFormat format) {
-		init(format);
-	}
-
-	/**
-	 * 初始化
-	 *
-	 * @param format 格式
-	 */
-	public void init(HanyuPinyinOutputFormat format) {
-		if (null == format) {
-			format = new HanyuPinyinOutputFormat();
-			// 小写
-			format.setCaseType(HanyuPinyinCaseType.LOWERCASE);
-			// 不加声调
-			format.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
-			// 'ü' 使用 "v" 代替
-			format.setVCharType(HanyuPinyinVCharType.WITH_V);
-		}
-		this.format = format;
+		// SPI方式加载时检查库是否引入
+		Assert.notNull(PinyinHelper.class);
 	}
 
 	@Override
-	public String getPinyin(final char c) {
+	public String getPinyin(final char c, final boolean tone) {
 		String result;
 		try {
-			final String[] results = PinyinHelper.toHanyuPinyinStringArray(c, format);
+			final String[] results = PinyinHelper.toHanyuPinyinStringArray(c, tone ? WITH_TONE_MARK : WITHOUT_TONE);
 			result = ArrayUtil.isEmpty(results) ? String.valueOf(c) : results[0];
 		} catch (final BadHanyuPinyinOutputFormatCombination e) {
 			result = String.valueOf(c);
@@ -97,7 +87,7 @@ public class Pinyin4jEngine implements PinyinEngine {
 	}
 
 	@Override
-	public String getPinyin(final String str, final String separator) {
+	public String getPinyin(final String str, final String separator, final boolean tone) {
 		final StringBuilder result = new StringBuilder();
 		boolean isFirst = true;
 		final int strLen = str.length();
@@ -108,7 +98,7 @@ public class Pinyin4jEngine implements PinyinEngine {
 				} else{
 					result.append(separator);
 				}
-				final String[] pinyinStringArray = PinyinHelper.toHanyuPinyinStringArray(str.charAt(i), format);
+				final String[] pinyinStringArray = PinyinHelper.toHanyuPinyinStringArray(str.charAt(i), tone ? WITH_TONE_MARK : WITHOUT_TONE);
 				if(ArrayUtil.isEmpty(pinyinStringArray)){
 					result.append(str.charAt(i));
 				} else{
