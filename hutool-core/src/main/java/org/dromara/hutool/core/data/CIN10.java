@@ -89,9 +89,13 @@ public class CIN10 {
 	 * @param code 身份证号码
 	 * @throws IllegalArgumentException 身份证格式不支持
 	 */
-	public CIN10(final String code) throws IllegalArgumentException {
+	public CIN10(String code) throws IllegalArgumentException {
 		this.code = code;
 		if (StrUtil.isNotBlank(code)) {
+			// issue#IBP6T1 中文空格替换为英文
+			code = StrUtil.replace(code, "（", "(");
+			code = StrUtil.replace(code, "）", ")");
+
 			if (ReUtil.isMatch(PATTERN_TW, code)) { // 台湾
 				this.province = "台湾";
 				final char char2 = code.charAt(1);
