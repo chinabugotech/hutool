@@ -59,6 +59,17 @@ public class PinyinUtil {
 	}
 
 	/**
+	 * 如果c为汉字，则返回大写拼音；如果c不是汉字，则返回String.valueOf(c)
+	 *
+	 * @param c    任意字符，汉字返回拼音，非汉字原样返回
+	 * @param tone 是否保留声调
+	 * @return 汉字返回拼音，非汉字原样返回
+	 */
+	public static String getPinyin(final char c, final boolean tone) {
+		return getEngine().getPinyin(c, tone);
+	}
+
+	/**
 	 * 将输入字符串转为拼音，每个字之间的拼音使用空格分隔
 	 *
 	 * @param str 任意字符，汉字返回拼音，非汉字原样返回
@@ -66,6 +77,17 @@ public class PinyinUtil {
 	 */
 	public static String getPinyin(final String str) {
 		return getPinyin(str, StrUtil.SPACE);
+	}
+
+	/**
+	 * 将输入字符串转为拼音，每个字之间的拼音使用空格分隔
+	 *
+	 * @param str  任意字符，汉字返回拼音，非汉字原样返回
+	 * @param tone 是否保留声调
+	 * @return 汉字返回拼音，非汉字原样返回
+	 */
+	public static String getPinyin(final String str, final boolean tone) {
+		return getPinyin(str, StrUtil.SPACE, tone);
 	}
 
 	/**
@@ -77,6 +99,18 @@ public class PinyinUtil {
 	 */
 	public static String getPinyin(final String str, final String separator) {
 		return getEngine().getPinyin(str, separator);
+	}
+
+	/**
+	 * 将输入字符串转为拼音，以字符为单位插入分隔符
+	 *
+	 * @param str       任意字符，汉字返回拼音，非汉字原样返回
+	 * @param separator 每个字拼音之间的分隔符
+	 * @param tone      是否保留声调
+	 * @return 汉字返回拼音，非汉字原样返回
+	 */
+	public static String getPinyin(final String str, final String separator, final boolean tone) {
+		return getEngine().getPinyin(str, separator, tone);
 	}
 
 	/**
