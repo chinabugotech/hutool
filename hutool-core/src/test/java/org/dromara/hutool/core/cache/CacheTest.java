@@ -23,6 +23,11 @@ import org.dromara.hutool.core.util.RandomUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
 /**
  * 缓存测试用例
  * @author Looly
@@ -35,8 +40,8 @@ public class CacheTest {
 		final Cache<String,String> fifoCache = CacheUtil.newFIFOCache(3);
 		fifoCache.setListener((key, value)->{
 			// 监听测试，此测试中只有key1被移除，测试是否监听成功
-			Assertions.assertEquals("key1", key);
-			Assertions.assertEquals("value1", value);
+			assertEquals("key1", key);
+			assertEquals("value1", value);
 		});
 
 		fifoCache.put("key1", "value1", DateUnit.SECOND.getMillis() * 3);
@@ -55,7 +60,7 @@ public class CacheTest {
 		for (int i = 0; i < RandomUtil.randomInt(100, 1000); i++) {
 			fifoCache.put("key" + i, "value" + i);
 		}
-		Assertions.assertEquals(100, fifoCache.size());
+		assertEquals(100, fifoCache.size());
 	}
 
 	@Test
@@ -121,20 +126,42 @@ public class CacheTest {
 		final String value1 = timedCache.get("key1");
 		Assertions.assertNull(value1);
 		final String value2 = timedCache.get("key2");
-		Assertions.assertEquals("value2", value2);
+		assertEquals("value2", value2);
 
 		//5毫秒后，由于设置了默认过期，key3只被保留4毫秒，因此为null
 		final String value3 = timedCache.get("key3");
 		Assertions.assertNull(value3);
 
 		final String value3Supplier = timedCache.get("key3", () -> "Default supplier");
-		Assertions.assertEquals("Default supplier", value3Supplier);
+		assertEquals("Default supplier", value3Supplier);
 
 		// 永不过期
 		final String value4 = timedCache.get("key4");
-		Assertions.assertEquals("value4", value4);
+		assertEquals("value4", value4);
 
 		//取消定时清理
 		timedCache.cancelPruneSchedule();
+	}
+
+	/**
+	 * TimedCache的数据过期后不是每次都触发监听器onRemove，而是偶尔触发onRemove
+	 * https://gitee.com/chinabugotech/hutool/issues/IBP752
+	 */
+	@Test
+	public void whenContainsKeyTimeout_shouldCallOnRemove() {
+		final int timeout = 50;
+		final TimedCache<Integer, String> ALARM_CACHE = new TimedCache<>(timeout);
+
+		final AtomicInteger counter = new AtomicInteger(0);
+		ALARM_CACHE.setListener((key, value) -> {
+			counter.incrementAndGet();
+		});
+
+		ALARM_CACHE.put(1, "value1");
+
+		ThreadUtil.sleep(100);
+
+		assertFalse(ALARM_CACHE.containsKey(1));
+		assertEquals(1, counter.get());
 	}
 }
