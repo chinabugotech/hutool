@@ -418,7 +418,7 @@ public class TypeUtil {
 	 *     2. 泛型变量，类似于T
 	 * </pre>
 	 *
-	 * @param type         类
+	 * @param type         泛型类
 	 * @param typeVariable 泛型变量，例如T等
 	 * @return 实际类型，可能为Class等
 	 */
@@ -431,7 +431,10 @@ public class TypeUtil {
 		}
 		// pr#3876 解决泛型数组泛型类型无法识别问题
 		if (typeVariable instanceof GenericArrayType) {
-			return ActualTypeMapperPool.getActualType(type, (GenericArrayType) typeVariable);
+			final Type actualType = ActualTypeMapperPool.getActualType(type, (GenericArrayType) typeVariable);
+			if(null != actualType){
+				return actualType;
+			}
 		}
 
 		// 没有需要替换的泛型变量，原样输出

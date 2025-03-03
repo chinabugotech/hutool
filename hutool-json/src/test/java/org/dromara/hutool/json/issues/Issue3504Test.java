@@ -42,6 +42,8 @@ public class Issue3504Test {
 		jsonBean.setClasses(new Class[]{String.class});
 
 		final String jsonStr = JSONUtil.toJsonStr(jsonBean);
+		Assertions.assertEquals("{\"name\":\"test\",\"classes\":[\"java.lang.String\"]}", jsonStr);
+
 		final JsonBean bean = JSONUtil.toBean(jsonStr, JsonBean.class);
 		Assertions.assertNotNull(bean);
 		Assertions.assertEquals("test", bean.getName());

@@ -31,6 +31,11 @@ import java.util.Objects;
 class ClassUtilTest {
 
 	@Test
+	void forNameTest() {
+		Assertions.assertEquals(String.class, ClassUtil.forName("java.lang.String", false, null));
+	}
+
+	@Test
 	void testGetSuperClasses() {
 		// if root is null
 		List<Class<?>> superclasses = ClassUtil.getSuperClasses(null);
