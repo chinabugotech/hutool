@@ -426,9 +426,12 @@ public class TypeUtil {
 		if (typeVariable instanceof ParameterizedType) {
 			return getActualType(type, (ParameterizedType) typeVariable);
 		}
-
 		if (typeVariable instanceof TypeVariable) {
 			return getActualType(type, (TypeVariable<?>) typeVariable);
+		}
+		// pr#3876 解决泛型数组泛型类型无法识别问题
+		if (typeVariable instanceof GenericArrayType) {
+			return ActualTypeMapperPool.getActualType(type, (GenericArrayType) typeVariable);
 		}
 
 		// 没有需要替换的泛型变量，原样输出
