@@ -73,8 +73,6 @@ public class ValueProviderToBeanCopier<T> extends AbsCopier<ValueProvider<String
 				return;
 			}
 
-			// 获取目标字段真实类型
-			final Type fieldType = TypeUtil.getActualType(this.targetType ,propDesc.getFieldType());
 			// 编辑键值对
 			final MutableEntry<Object, Object> entry = copyOptions.editField(tFieldName, null);
 			if(null == entry){
@@ -89,6 +87,8 @@ public class ValueProviderToBeanCopier<T> extends AbsCopier<ValueProvider<String
 			if(!source.containsKey(tFieldName)){
 				return;
 			}
+			// 获取目标字段真实类型
+			final Type fieldType = TypeUtil.getActualType(this.targetType ,propDesc.getFieldType());
 			final Object sValue = source.value(tFieldName, fieldType);
 
 			// 检查目标对象属性是否过滤属性

@@ -85,14 +85,13 @@ public class ActualTypeMapperPool {
 	public static Type getActualType(final Type type, final GenericArrayType genericArrayType) {
 		final Map<Type, Type> typeTypeMap = get(type);
 		Type actualType = typeTypeMap.get(genericArrayType);
-
 		if (actualType == null) {
+			// 获取泛型数组元素泛型对应的确切类型
 			final Type componentType = typeTypeMap.get(genericArrayType.getGenericComponentType());
-			if (!(componentType instanceof Class<?>)) {
-				return null;
+			if (componentType instanceof Class) {
+				actualType = ArrayUtil.getArrayType((Class<?>) componentType);
+				typeTypeMap.put(genericArrayType, actualType);
 			}
-			actualType = ArrayUtil.getArrayType((Class<?>) componentType);
-			typeTypeMap.put(genericArrayType, actualType);
 		}
 
 		return actualType;
