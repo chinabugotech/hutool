@@ -39,7 +39,7 @@ public class RetryUtil {
 	 * @param run         执行方法
 	 * @param maxAttempts 最大的重试次数
 	 * @param delay       重试间隔
-	 * @param recover     达到最大重试次数后执行的备用方法，入参是重试过程中的异常
+	 * @param recover     达到最大重试次数后执行的备用方法
 	 * @param exs         指定的异常类型需要重试
 	 */
 	public static void ofException(final Runnable run, final long maxAttempts, final Duration delay,
@@ -65,7 +65,7 @@ public class RetryUtil {
 	 * @param sup         执行方法
 	 * @param maxAttempts 最大的重试次数
 	 * @param delay       重试间隔
-	 * @param recover     达到最大重试次数后执行的备用方法，入参是重试过程中的异常
+	 * @param recover     达到最大重试次数后执行的备用方法
 	 * @param exs         指定的异常类型需要重试
 	 * @param <T>         结果类型
 	 * @return 执行结果
@@ -90,7 +90,7 @@ public class RetryUtil {
 	 * @param run         执行方法
 	 * @param maxAttempts 最大的重试次数
 	 * @param delay       重试间隔
-	 * @param recover     达到最大重试次数后执行的备用方法，入参是重试过程中的异常
+	 * @param recover     达到最大重试次数后执行的备用方法
 	 * @param predicate   自定义重试条件
 	 */
 	public static void ofPredicate(final Runnable run, final long maxAttempts, final Duration delay,
@@ -111,7 +111,7 @@ public class RetryUtil {
 	 * @param sup         执行方法
 	 * @param maxAttempts 最大的重试次数
 	 * @param delay       重试间隔
-	 * @param recover     达到最大重试次数后执行的备用方法，入参是重试过程中的异常
+	 * @param recover     达到最大重试次数后执行的备用方法
 	 * @param predicate   自定义重试条件
 	 * @param <T>         结果类型
 	 * @return 执行结果
