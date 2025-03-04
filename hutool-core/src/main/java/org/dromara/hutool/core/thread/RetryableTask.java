@@ -124,6 +124,10 @@ public class RetryableTask<T> {
 	 * 重试间隔，默认1秒
 	 */
 	private Duration delay = Duration.ofSeconds(1);
+	/**
+	 * 异常信息
+	 */
+	private Throwable throwable;
 
 	/**
 	 * 构造方法，内部使用，调用请使用请用ofXXX
@@ -175,6 +179,24 @@ public class RetryableTask<T> {
 	}
 
 	/**
+	 * 获取结果, 如果无法获取结果, 则抛出最后一次执行时的异常
+	 *
+	 * @return 结果
+	 */
+	public T orElseThrow() throws Throwable {
+		return Optional.ofNullable(this.result).orElseThrow(() -> this.throwable().orElse(new RuntimeException()));
+	}
+
+	/**
+	 * 获取异常
+	 *
+	 * @return 返回包装了异常的 {@link Optional}对象
+	 */
+	public Optional<Throwable> throwable() {
+		return Optional.ofNullable(this.throwable);
+	}
+
+	/**
 	 * 异步执行重试方法
 	 *
 	 * @return 返回一个异步对象 {@link CompletableFuture}
@@ -216,6 +238,7 @@ public class RetryableTask<T> {
 			ThreadUtil.sleep(delay.toMillis());
 		}
 
+		this.throwable = th;
 		return this;
 	}
 
