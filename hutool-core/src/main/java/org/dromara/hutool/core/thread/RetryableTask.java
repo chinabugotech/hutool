@@ -182,6 +182,7 @@ public class RetryableTask<T> {
 	 * 获取结果, 如果无法获取结果, 则抛出最后一次执行时的异常
 	 *
 	 * @return 结果
+	 * @throws Throwable 获取结果时, 如果无法获取结果, 则抛出最后一次执行时的异常
 	 */
 	public T orElseThrow() throws Throwable {
 		return Optional.ofNullable(this.result).orElseThrow(() -> this.throwable().orElse(new RuntimeException()));
