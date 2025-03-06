@@ -43,6 +43,7 @@ public class PooledDataSource extends AbstractDataSource {
 	private static final String KEY_MAX_WAIT = "maxWait";
 	private static final String KEY_INITIAL_SIZE = "initialSize";
 	private static final String KEY_MAX_ACTIVE = "maxActive";
+	private static final String KEY_MAX_IDLE = "maxIdle";
 
 	protected Driver driver;
 	private final int maxWait;
@@ -66,7 +67,8 @@ public class PooledDataSource extends AbstractDataSource {
 			.setPartitionSize(1)
 			.setMaxWait(this.maxWait)
 			.setMinSize(poolProps.getInt(KEY_INITIAL_SIZE, 0))
-			.setMaxSize(poolProps.getInt(KEY_MAX_ACTIVE, 8));
+			.setMaxSize(poolProps.getInt(KEY_MAX_ACTIVE, 8))
+			.setMaxIdle(poolProps.getInt(KEY_MAX_IDLE, 0));
 
 		this.connPool = new PartitionObjectPool<>(poolConfig, createConnFactory(config));
 	}
