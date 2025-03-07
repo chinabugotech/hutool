@@ -152,17 +152,17 @@ public class UrlQueryUtil {
 					pos = i + 1;
 				}
 			} else if (c == '&') { // 参数对的分界点
-				if (pos != i) {
-					if (null == name) {
-						// 对于像&a&这类无参数值的字符串，我们将name为a的值设为""
+				if (null == name) {
+					// 对于像&a&这类无参数值的字符串，我们将name为a的值设为""
+					if (pos != i) {
 						name = queryPart.substring(pos, i);
 						builder.append(RFC3986.QUERY_PARAM_NAME.encode(name, charset)).append('=');
-					} else {
-						builder.append(RFC3986.QUERY_PARAM_NAME.encode(name, charset)).append('=')
-							.append(RFC3986.QUERY_PARAM_VALUE.encode(queryPart.substring(pos, i), charset)).append('&');
 					}
-					name = null;
+				} else {
+					builder.append(RFC3986.QUERY_PARAM_NAME.encode(name, charset)).append('=')
+						.append(RFC3986.QUERY_PARAM_VALUE.encode(queryPart.substring(pos, i), charset)).append('&');
 				}
+				name = null;
 				pos = i + 1;
 			}
 		}
