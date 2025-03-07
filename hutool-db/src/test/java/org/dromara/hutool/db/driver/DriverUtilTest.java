@@ -60,6 +60,7 @@ public class DriverUtilTest {
 		map.put("jdbc:mariadb:", "org.mariadb.jdbc.Driver");
 		map.put("jdbc:hive2:", "org.apache.hive.jdbc.HiveDriver");
 		map.put("jdbc:hive:", "org.apache.hadoop.hive.jdbc.HiveDriver");
+		map.put("jdbc:goldendb:", "com.goldendb.jdbc.Driver");
 
 		map.forEach((k, v) -> Assertions.assertEquals(v,
 			DriverUtil.identifyDriver(k + RandomUtil.randomStringLower(2))));

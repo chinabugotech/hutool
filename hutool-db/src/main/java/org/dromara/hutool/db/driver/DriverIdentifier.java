@@ -129,7 +129,9 @@ public class DriverIdentifier implements DriverNames{
 			new StartsWithDriverMatcher(DRIVER_GREENPLUM, "jdbc:pivotal:greenplum:"),
 			// 华为OpenGauss
 			new StartsWithDriverMatcher(DRIVER_GAUSS, "jdbc:zenith:"),
-			new StartsWithDriverMatcher(DRIVER_OPENGAUSS, "jdbc:opengauss:")
+			new StartsWithDriverMatcher(DRIVER_OPENGAUSS, "jdbc:opengauss:"),
+			// 中兴GoldenDB
+			new StartsWithDriverMatcher(DRIVER_GOLDENDB, "jdbc:goldendb:")
 		);
 	}
 

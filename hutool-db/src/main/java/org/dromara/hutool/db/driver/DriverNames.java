@@ -253,4 +253,8 @@ public interface DriverNames {
 	 */
 	String DRIVER_GREENPLUM = "com.pivotal.jdbc.GreenplumDriver";
 
+	/**
+	 * JDBC 驱动 GoldenDB
+	 */
+	String DRIVER_GOLDENDB = "com.goldendb.jdbc.Driver";
 }

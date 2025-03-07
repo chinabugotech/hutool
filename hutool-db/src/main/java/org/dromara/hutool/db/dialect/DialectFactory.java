@@ -86,6 +86,9 @@ public class DialectFactory {
 				return new PhoenixDialect(dbConfig);
 			} else if (DriverNames.DRIVER_DM.equalsIgnoreCase(driverName)) {
 				return new DmDialect(dbConfig);
+			} else if (DriverNames.DRIVER_GOLDENDB.equalsIgnoreCase(driverName)) {
+				// MySQL兼容
+				return new MysqlDialect(dbConfig);
 			}
 		}
 		// 无法识别可支持的数据库类型默认使用ANSI方言，可兼容大部分SQL语句
