@@ -227,6 +227,9 @@ public class UrlQuery {
 				if (StrUtil.isBlank(queryStr)) {
 					return this;
 				}
+			} else if (StrUtil.startWith(queryStr, "http://") || StrUtil.startWith(queryStr, "https://")) {
+				// issue#IBRVE4 用户传入只有URL，没有param部分，返回空
+				return this;
 			}
 		}
 
