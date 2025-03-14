@@ -39,6 +39,9 @@
 	<a target="_blank" href='https://gitcode.com/dromara/hutool'>
 		<img src="https://gitcode.com/dromara/hutool/star/badge.svg" alt="gitcode star"/>
 	</a>
+	<a target="_blank" href='https://libs.tech/project/18723836/hutool'>
+		<img src="https://libs.tech/project/18723836/badge.svg" alt="libs.tech recommends"/>
+	</a>	
 </p>
 
 <br/>
