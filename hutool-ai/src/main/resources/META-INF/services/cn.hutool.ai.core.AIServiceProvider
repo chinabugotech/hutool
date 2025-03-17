@@ -1,0 +1,4 @@
+cn.hutool.ai.model.deepseek.DeepSeekProvider
+cn.hutool.ai.model.openai.OpenaiProvider
+cn.hutool.ai.model.doubao.DoubaoProvider
+cn.hutool.ai.model.grok.GrokProvider
