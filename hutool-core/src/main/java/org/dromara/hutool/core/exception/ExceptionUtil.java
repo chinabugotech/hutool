@@ -63,6 +63,7 @@ public class ExceptionUtil {
 		return (null == e) ? StrUtil.NULL : e.getMessage();
 	}
 
+	// region ----- wrap and unwrap
 	/**
 	 * 使用运行时异常包装编译异常<br>
 	 * <p>
@@ -176,6 +177,7 @@ public class ExceptionUtil {
 			}
 		}
 	}
+	// endregion
 
 	/**
 	 * 获取当前栈信息
