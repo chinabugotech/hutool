@@ -16,13 +16,13 @@
 
 package org.dromara.hutool.core.exception;
 
+import org.dromara.hutool.core.array.ArrayUtil;
 import org.dromara.hutool.core.io.IORuntimeException;
 import org.dromara.hutool.core.io.stream.FastByteArrayOutputStream;
 import org.dromara.hutool.core.map.MapUtil;
 import org.dromara.hutool.core.reflect.ConstructorUtil;
-import org.dromara.hutool.core.text.StrUtil;
-import org.dromara.hutool.core.array.ArrayUtil;
 import org.dromara.hutool.core.text.CharUtil;
+import org.dromara.hutool.core.text.StrUtil;
 
 import java.io.IOException;
 import java.io.PrintStream;
@@ -90,6 +90,18 @@ public class ExceptionUtil {
 	 */
 	public static RuntimeException wrapRuntime(final String message) {
 		return new RuntimeException(message);
+	}
+
+	/**
+	 * 将指定的异常与消息包装为运行时异常
+	 *
+	 * @param throwable 异常
+	 * @param message   异常消息
+	 * @param params    参数值
+	 * @return 运行时异常
+	 */
+	public static RuntimeException wrapRuntime(final Throwable throwable, final String message, final Object... params) {
+		return new RuntimeException(StrUtil.format(message, params), throwable);
 	}
 
 	/**
