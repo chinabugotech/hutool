@@ -91,8 +91,12 @@ public class NumberChineseFormatter {
 	 * @since 5.7.23
 	 */
 	public static String format(double amount, boolean isUseTraditional, boolean isMoneyMode, String negativeName, String unitName) {
+		if(StrUtil.isNullOrUndefined(unitName)){
+			unitName = "元";
+		}
+
 		if (0 == amount) {
-			return isMoneyMode ? "零元整" : "零";
+			return isMoneyMode ? "零" + unitName + "整" : "零";
 		}
 		Assert.checkBetween(amount, -99_9999_9999_9999.99, 99_9999_9999_9999.99,
 				"Number support only: (-99999999999999.99 ~ 99999999999999.99)！");
@@ -116,7 +120,7 @@ public class NumberChineseFormatter {
 			// 金额模式下，无需“零元”
 			chineseStr.append(longToChinese(yuan, isUseTraditional));
 			if (isMoneyMode) {
-				chineseStr.append(StrUtil.isNullOrUndefined(unitName) ? "元" : unitName);
+				chineseStr.append(unitName);
 			}
 		}
 
