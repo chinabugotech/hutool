@@ -475,7 +475,7 @@ public class SM2 extends AbstractAsymmetricCrypto<SM2> {
 	/**
 	 * 用私钥对信息生成数字签名
 	 *
-	 * @param dataHex 被签名的数据数据（Hex格式）
+	 * @param dataHex 被签名的数据（Hex格式）
 	 * @return 签名
 	 * @since 5.8.33
 	 */
@@ -486,7 +486,7 @@ public class SM2 extends AbstractAsymmetricCrypto<SM2> {
 	/**
 	 * 用私钥对信息生成数字签名
 	 *
-	 * @param dataHex 被签名的数据数据（Hex格式）
+	 * @param dataHex 被签名的数据（Hex格式）
 	 * @param idHex   可以为null，若为null，则默认withId为字节数组:"1234567812345678".getBytes()
 	 * @return 签名
 	 * @since 5.8.33
@@ -498,7 +498,7 @@ public class SM2 extends AbstractAsymmetricCrypto<SM2> {
 	/**
 	 * 用私钥对信息生成数字签名
 	 *
-	 * @param data 被签名的数据数据
+	 * @param data 被签名的数据
 	 * @return 签名
 	 */
 	public String signHex(final byte[] data) {
@@ -508,7 +508,7 @@ public class SM2 extends AbstractAsymmetricCrypto<SM2> {
 	/**
 	 * 用私钥对信息生成数字签名
 	 *
-	 * @param data 被签名的数据数据
+	 * @param data 被签名的数据
 	 * @param id   可以为null，若为null，则默认withId为字节数组:"1234567812345678".getBytes()
 	 * @return 签名
 	 */
@@ -531,7 +531,7 @@ public class SM2 extends AbstractAsymmetricCrypto<SM2> {
 	 * 用私钥对信息生成数字签名，签名格式为ASN1<br>
 	 * 在硬件签名中，返回结果为R+S，可以通过调用{@link SmUtil#rsAsn1ToPlain(byte[])}方法转换之。
 	 *
-	 * @param data 被签名的数据数据
+	 * @param data 被签名的数据
 	 * @param id   可以为null，若为null，则默认withId为字节数组:"1234567812345678".getBytes()
 	 * @return 签名
 	 */
@@ -556,7 +556,7 @@ public class SM2 extends AbstractAsymmetricCrypto<SM2> {
 	/**
 	 * 用公钥检验数字签名的合法性
 	 *
-	 * @param dataHex 后的数据
+	 * @param dataHex 数据
 	 * @param signHex 签名
 	 * @return 是否验证通过
 	 * @since 5.2.0
