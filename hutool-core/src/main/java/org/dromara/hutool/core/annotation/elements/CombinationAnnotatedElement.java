@@ -24,7 +24,6 @@ import org.dromara.hutool.core.map.TableMap;
 import java.io.Serializable;
 import java.lang.annotation.*;
 import java.lang.reflect.AnnotatedElement;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
@@ -135,7 +134,10 @@ public class CombinationAnnotatedElement implements AnnotatedElement, Serializab
 		parseDeclared(declaredAnnotations);
 
 		final Annotation[] annotations = element.getAnnotations();
-		if (Arrays.equals(declaredAnnotations, annotations)) {
+//		if (Arrays.equals(declaredAnnotations, annotations)) {
+		// pr#1323 如果子类重写了父类的注解，虽然两者数组内部元素一样的，但是数组中的顺序可能不一样
+		// getAnnotations()的包含父类，getDeclaredAnnotations()不包含父类。他们两是一个包含关系，只会存在后者的注解元素大于等于前者的情况。
+		if (declaredAnnotations.length == annotations.length) {
 			this.annotationMap = this.declaredAnnotationMap;
 		} else {
 			this.annotationMap = new TableMap<>();
