@@ -26,8 +26,8 @@ public class BaseAIService {
 	protected Response sendGet(String endpoint) {
 		//链式构建请求
 		try {
-			//设置超时
-			HttpGlobalConfig.setTimeout(3000);
+			//设置超时3分钟
+			HttpGlobalConfig.setTimeout(180000);
 			return HttpUtil.createRequest(config.getApiUrl() + endpoint, Method.GET)
 				.header(HeaderName.ACCEPT, "application/json")
 				.header(HeaderName.AUTHORIZATION, "Bearer " + config.getApiKey())
@@ -40,8 +40,8 @@ public class BaseAIService {
 	protected Response sendPost(String endpoint, String paramJson) {
 		//链式构建请求
 		try {
-			//设置超时
-			HttpGlobalConfig.setTimeout(3000);
+			//设置超时3分钟
+			HttpGlobalConfig.setTimeout(180000);
 			return HttpUtil.createRequest(config.getApiUrl() + endpoint, Method.POST)
 				.header(HeaderName.CONTENT_TYPE, "application/json")
 				.header(HeaderName.ACCEPT, "application/json")
@@ -57,8 +57,8 @@ public class BaseAIService {
 	protected Response sendFormData(String endpoint, Map<String, Object> paramMap) {
 		//链式构建请求
 		try {
-			//设置超时
-			HttpGlobalConfig.setTimeout(3000);
+			//设置超时3分钟
+			HttpGlobalConfig.setTimeout(180000);
 			return HttpUtil.createPost(config.getApiUrl() + endpoint)
 				//form表单中有file对象会自动将文件编码为 multipart/form-data 格式。不需要设置
 //				.header(HeaderName.CONTENT_TYPE, "multipart/form-data")
