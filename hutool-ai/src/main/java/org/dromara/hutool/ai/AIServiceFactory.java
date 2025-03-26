@@ -4,11 +4,9 @@ import org.dromara.hutool.ai.core.AIConfig;
 import org.dromara.hutool.ai.core.AIService;
 import org.dromara.hutool.ai.core.AIServiceProvider;
 import org.dromara.hutool.core.map.concurrent.SafeConcurrentHashMap;
-import org.dromara.hutool.http.HttpUtil;
 
 import java.util.Map;
 import java.util.ServiceLoader;
-import java.util.concurrent.CompletableFuture;
 
 /**
  * 创建AIModelService的工厂类
@@ -50,13 +48,6 @@ public class AIServiceFactory {
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T extends AIService> T getAIService(final AIConfig config, final Class<T> clazz) {
-		//异步执行
-		CompletableFuture.runAsync(() -> {
-			try {
-				HttpUtil.get("https://static.hutool.cn");
-			} catch (final Exception ignored) {
-			}
-		});
 		final AIServiceProvider provider = providers.get(config.getModelName().toLowerCase());
 		if (provider == null) {
 			throw new IllegalArgumentException("Unsupported model: " + config.getModelName());
