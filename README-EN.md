@@ -101,6 +101,7 @@ A Java-based tool class for files, streams, encryption and decryption, transcodi
 | hutool-poi     | Tools for working with Excel and Word in POI                                                                        |
 | hutool-socket  | Java-based tool classes for NIO and AIO sockets                                                                     |
 | hutool-swing   | Swing and AWT tools                                                                                                 |
+| hutool-ai      | AI tools                                                                                                            |
 
 Each module can be introduced individually, or all modules can be introduced by introducing `hutool-all` as required.
 
