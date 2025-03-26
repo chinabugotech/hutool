@@ -15,8 +15,10 @@
  */
 
 /**
- * AI模块
+ * Hutool-ai主要用于AI大模型的封装，只需要对AI模型最基本的设置，即可调用AI大模型。
  *
  * @author elichow
+ * @since 6.0.0
  */
+
 package org.dromara.hutool.ai;

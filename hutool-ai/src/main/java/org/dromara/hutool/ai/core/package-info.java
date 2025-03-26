@@ -18,5 +18,7 @@
  * AI相关基础类
  *
  * @author elichow
+ * @since 6.0.0
  */
+
 package org.dromara.hutool.ai.core;

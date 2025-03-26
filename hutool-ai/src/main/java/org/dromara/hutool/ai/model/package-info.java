@@ -14,26 +14,11 @@
  * limitations under the License.
  */
 
-package org.dromara.hutool.ai.model.openai;
-
-import org.dromara.hutool.ai.core.AIConfig;
-import org.dromara.hutool.ai.core.AIServiceProvider;
-
 /**
- * 创建Openai服务实现类
+ * 对各个AI大模型的相关封装
  *
  * @author elichow
  * @since 6.0.0
  */
-public class OpenaiProvider implements AIServiceProvider {
 
-	@Override
-	public String getServiceName() {
-		return "openai";
-	}
-
-	@Override
-	public OpenaiService create(final AIConfig config) {
-		return new OpenaiServiceImpl(config);
-	}
-}
+package org.dromara.hutool.ai.model;

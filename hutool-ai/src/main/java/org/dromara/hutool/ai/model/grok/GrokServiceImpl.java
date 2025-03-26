@@ -1,3 +1,19 @@
+/*
+ * Copyright (c) 2025 Hutool Team and hutool.cn
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.dromara.hutool.ai.model.grok;
 
 import org.dromara.hutool.ai.core.AIConfig;
@@ -32,7 +48,7 @@ public class GrokServiceImpl extends BaseAIService implements GrokService {
 	//获取延迟对话
 	private final String DEFERRED_COMPLETION = "/chat/deferred-completion";
 
-	public GrokServiceImpl(AIConfig config) {
+	public GrokServiceImpl(final AIConfig config) {
 		//初始化grok客户端
 		super(config);
 	}
@@ -40,14 +56,14 @@ public class GrokServiceImpl extends BaseAIService implements GrokService {
 	@Override
 	public String chat(String prompt) {
 		// 定义消息结构
-		List<Message> messages = new ArrayList<>();
+		final List<Message> messages = new ArrayList<>();
 		messages.add(new Message("system", "You are a helpful assistant"));
 		messages.add(new Message("user", prompt));
 		return chat(messages);
 	}
 
 	@Override
-	public String chat(List<Message> messages) {
+	public String chat(final List<Message> messages) {
 		String paramJson = buildChatRequestBody(messages);
 		Response response = sendPost(CHAT_ENDPOINT, paramJson);
 		return response.bodyStr();
@@ -56,7 +72,7 @@ public class GrokServiceImpl extends BaseAIService implements GrokService {
 	@Override
 	public String message(String prompt, int maxToken) {
 		// 定义消息结构
-		List<Message> messages = new ArrayList<>();
+		final List<Message> messages = new ArrayList<>();
 		messages.add(new Message("system", "You are a helpful assistant"));
 		messages.add(new Message("user", prompt));
 		String paramJson = buildMessageRequestBody(messages, maxToken);
@@ -65,7 +81,7 @@ public class GrokServiceImpl extends BaseAIService implements GrokService {
 	}
 
 	@Override
-	public String chatVision(String prompt, List<String> images, String detail) {
+	public String chatVision(String prompt, final List<String> images, String detail) {
 		String paramJson = buildChatVisionRequestBody(prompt, images, detail);
 		Response response = sendPost(CHAT_ENDPOINT, paramJson);
 		return response.bodyStr();
@@ -109,9 +125,9 @@ public class GrokServiceImpl extends BaseAIService implements GrokService {
 	}
 
 	// 构建chat请求体
-	private String buildChatRequestBody(List<Message> messages) {
+	private String buildChatRequestBody(final List<Message> messages) {
 		//使用JSON工具
-		Map<String, Object> paramMap = new HashMap<>();
+		final Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("model", config.getModel());
 		paramMap.put("messages", messages);
 		//合并其他参数
@@ -121,12 +137,12 @@ public class GrokServiceImpl extends BaseAIService implements GrokService {
 	}
 
 	//构建chatVision请求体
-	private String buildChatVisionRequestBody(String prompt, List<String> images, String detail) {
+	private String buildChatVisionRequestBody(String prompt, final List<String> images, String detail) {
 		// 定义消息结构
-		List<Message> messages = new ArrayList<>();
-		List<Object> content = new ArrayList<>();
+		final List<Message> messages = new ArrayList<>();
+		final List<Object> content = new ArrayList<>();
 
-		Map<String, String> contentMap = new HashMap<>();
+		final Map<String, String> contentMap = new HashMap<>();
 		contentMap.put("type", "text");
 		contentMap.put("text", prompt);
 		content.add(contentMap);
@@ -143,7 +159,7 @@ public class GrokServiceImpl extends BaseAIService implements GrokService {
 		messages.add(new Message("user", content));
 
 		//使用JSON工具
-		Map<String, Object> paramMap = new HashMap<>();
+		final Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("model", config.getModel());
 		paramMap.put("messages", messages);
 		//合并其他参数
@@ -152,8 +168,8 @@ public class GrokServiceImpl extends BaseAIService implements GrokService {
 	}
 
 	//构建消息回复请求体
-	private String buildMessageRequestBody(List<Message> messages, int maxToken) {
-		Map<String, Object> paramMap = new HashMap<>();
+	private String buildMessageRequestBody(final List<Message> messages, int maxToken) {
+		final Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("model", config.getModel());
 		paramMap.put("messages", messages);
 		paramMap.put("max_tokens", maxToken);
@@ -166,7 +182,7 @@ public class GrokServiceImpl extends BaseAIService implements GrokService {
 	//构建分词请求体
 	private String buildTokenizeRequestBody(String text) {
 		//使用JSON工具
-		Map<String, Object> paramMap = new HashMap<>();
+		final Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("model", config.getModel());
 		paramMap.put("text", text);
 		//合并其他参数

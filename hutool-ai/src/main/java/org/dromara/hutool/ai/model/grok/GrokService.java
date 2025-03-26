@@ -1,3 +1,19 @@
+/*
+ * Copyright (c) 2025 Hutool Team and hutool.cn
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.dromara.hutool.ai.model.grok;
 
 import org.dromara.hutool.ai.core.AIService;
@@ -31,7 +47,7 @@ public interface GrokService extends AIService {
 	 * @return AI回答
 	 * @since 6.0.0
 	 */
-	String chatVision(String prompt, List<String> images, String detail);
+	String chatVision(String prompt, final List<String> images, String detail);
 
 	/**
 	 * 图像理解：模型会依据传入的图片信息以及问题，给出回复。
@@ -41,7 +57,7 @@ public interface GrokService extends AIService {
 	 * @return AI回答
 	 * @since 6.0.0
 	 */
-	default String chatVision(String prompt, List<String> images) {
+	default String chatVision(String prompt, final List<String> images) {
 		return chatVision(prompt, images, GrokCommon.GrokVision.AUTO.getDetail());
 	}
 

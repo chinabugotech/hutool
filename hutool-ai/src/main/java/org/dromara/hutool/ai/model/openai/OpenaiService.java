@@ -1,3 +1,19 @@
+/*
+ * Copyright (c) 2025 Hutool Team and hutool.cn
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.dromara.hutool.ai.model.openai;
 
 import org.dromara.hutool.ai.core.AIService;
@@ -24,7 +40,7 @@ public interface OpenaiService extends AIService {
 	 * @return AI回答
 	 * @since 6.0.0
 	 */
-	String chatVision(String prompt, List<String> images, String detail);
+	String chatVision(String prompt, final List<String> images, String detail);
 
 	/**
 	 * 图像理解：模型会依据传入的图片信息以及问题，给出回复。
@@ -34,7 +50,7 @@ public interface OpenaiService extends AIService {
 	 * @return AI回答
 	 * @since 6.0.0
 	 */
-	default String chatVision(String prompt, List<String> images) {
+	default String chatVision(String prompt, final List<String> images) {
 		return chatVision(prompt, images, OpenaiCommon.OpenaiVision.AUTO.getDetail());
 	}
 
@@ -56,7 +72,7 @@ public interface OpenaiService extends AIService {
 	 * @return 包含生成图片的url
 	 * @since 6.0.0
 	 */
-	String imagesEdits(String prompt, File image, File mask);
+	String imagesEdits(String prompt, final File image, final File mask);
 
 	/**
 	 * 图片编辑 该方法仅支持 DALL·E 2 model
@@ -66,7 +82,7 @@ public interface OpenaiService extends AIService {
 	 * @return 包含生成图片的url
 	 * @since 6.0.0
 	 */
-	default String imagesEdits(String prompt, File image) {
+	default String imagesEdits(String prompt, final File image) {
 		return imagesEdits(prompt, image, null);
 	}
 
@@ -77,7 +93,7 @@ public interface OpenaiService extends AIService {
 	 * @return 包含生成图片的url
 	 * @since 6.0.0
 	 */
-	String imagesVariations(File image);
+	String imagesVariations(final File image);
 
 	/**
 	 * TTS文本转语音 请设置config中model为支持TTS功能的模型 TTS系列
@@ -87,7 +103,7 @@ public interface OpenaiService extends AIService {
 	 * @return 返回的音频mp3文件流
 	 * @since 6.0.0
 	 */
-	InputStream textToSpeech(String input, OpenaiCommon.OpenaiSpeech voice);
+	InputStream textToSpeech(String input, final OpenaiCommon.OpenaiSpeech voice);
 
 	/**
 	 * TTS文本转语音 请设置config中model为支持TTS功能的模型 TTS系列
@@ -107,7 +123,7 @@ public interface OpenaiService extends AIService {
 	 * @return 返回的文本内容
 	 * @since 6.0.0
 	 */
-	String speechToText(File file);
+	String speechToText(final File file);
 
 	/**
 	 * 文本向量化 请设置config中model为支持文本向量化功能的模型 text-embedding系列
@@ -173,7 +189,7 @@ public interface OpenaiService extends AIService {
 	 * @return AI回答
 	 * @since 6.0.0
 	 */
-	String chatReasoning(List<Message> messages, String reasoningEffort);
+	String chatReasoning(final List<Message> messages, String reasoningEffort);
 
 	/**
 	 * 推理chat
@@ -183,7 +199,7 @@ public interface OpenaiService extends AIService {
 	 * @return AI回答
 	 * @since 6.0.0
 	 */
-	default String chatReasoning(List<Message> messages) {
+	default String chatReasoning(final List<Message> messages) {
 		return chatReasoning(messages, OpenaiCommon.OpenaiReasoning.MEDIUM.getEffort());
 	}
 
