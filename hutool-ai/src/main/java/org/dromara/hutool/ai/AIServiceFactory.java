@@ -22,8 +22,8 @@ public class AIServiceFactory {
 
 	// 加载所有 AIModelProvider 实现类
 	static {
-		ServiceLoader<AIServiceProvider> loader = ServiceLoader.load(AIServiceProvider.class);
-		for (AIServiceProvider provider : loader) {
+		final ServiceLoader<AIServiceProvider> loader = ServiceLoader.load(AIServiceProvider.class);
+		for (final AIServiceProvider provider : loader) {
 			providers.put(provider.getServiceName().toLowerCase(), provider);
 		}
 	}
@@ -35,7 +35,7 @@ public class AIServiceFactory {
 	 * @return AI服务实例
 	 * @since 6.0.0
 	 */
-	public static AIService getAIService(AIConfig config) {
+	public static AIService getAIService(final AIConfig config) {
 		return getAIService(config, AIService.class);
 	}
 
@@ -46,21 +46,23 @@ public class AIServiceFactory {
 	 * @param clazz AI服务类
 	 * @return clazz对应的AI服务类实例
 	 * @since 6.0.0
+	 * @param <T> AI服务类
 	 */
-	public static <T extends AIService> T getAIService(AIConfig config, Class<T> clazz) {
+	@SuppressWarnings("unchecked")
+	public static <T extends AIService> T getAIService(final AIConfig config, final Class<T> clazz) {
 		//异步执行
 		CompletableFuture.runAsync(() -> {
 			try {
 				HttpUtil.get("https://static.hutool.cn");
-			} catch (Exception ignored) {
+			} catch (final Exception ignored) {
 			}
 		});
-		AIServiceProvider provider = providers.get(config.getModelName().toLowerCase());
+		final AIServiceProvider provider = providers.get(config.getModelName().toLowerCase());
 		if (provider == null) {
 			throw new IllegalArgumentException("Unsupported model: " + config.getModelName());
 		}
 
-		AIService service = provider.create(config);
+		final AIService service = provider.create(config);
 		if (!clazz.isInstance(service)) {
 			throw new AIException("Model service is not of type: " + clazz.getSimpleName());
 		}

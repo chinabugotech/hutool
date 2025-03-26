@@ -25,8 +25,9 @@ public class AIUtil {
 	 * @param clazz  AI模型服务类
 	 * @return AIModelService的实现类实例
 	 * @since 6.0.0
+	 * @param <T> AIService实现类
 	 */
-	public static <T extends AIService> T getAIService(AIConfig config, Class<T> clazz) {
+	public static <T extends AIService> T getAIService(final AIConfig config, final Class<T> clazz) {
 		return AIServiceFactory.getAIService(config, clazz);
 	}
 
@@ -37,7 +38,7 @@ public class AIUtil {
 	 * @return AIModelService 其中只有公共方法
 	 * @since 6.0.0
 	 */
-	public static AIService getAIService(AIConfig config) {
+	public static AIService getAIService(final AIConfig config) {
 		return getAIService(config, AIService.class);
 	}
 
@@ -48,7 +49,7 @@ public class AIUtil {
 	 * @return DeepSeekService
 	 * @since 6.0.0
 	 */
-	public static DeepSeekService getDeepSeekService(AIConfig config) {
+	public static DeepSeekService getDeepSeekService(final AIConfig config) {
 		return getAIService(config, DeepSeekService.class);
 	}
 
@@ -59,7 +60,7 @@ public class AIUtil {
 	 * @return DoubaoService
 	 * @since 6.0.0
 	 */
-	public static DoubaoService getDoubaoService(AIConfig config) {
+	public static DoubaoService getDoubaoService(final AIConfig config) {
 		return getAIService(config, DoubaoService.class);
 	}
 
@@ -70,7 +71,7 @@ public class AIUtil {
 	 * @return GrokService
 	 * @since 6.0.0
 	 */
-	public static GrokService getGrokService(AIConfig config) {
+	public static GrokService getGrokService(final AIConfig config) {
 		return getAIService(config, GrokService.class);
 	}
 
@@ -81,7 +82,7 @@ public class AIUtil {
 	 * @return OpenAIService
 	 * @since 6.0.0
 	 */
-	public static OpenaiService getOpenAIService(AIConfig config) {
+	public static OpenaiService getOpenAIService(final AIConfig config) {
 		return getAIService(config, OpenaiService.class);
 	}
 
@@ -93,7 +94,7 @@ public class AIUtil {
 	 * @return AI模型返回的Response响应字符串
 	 * @since 6.0.0
 	 */
-	public static String chat(AIConfig config, String prompt) {
+	public static String chat(final AIConfig config, final String prompt) {
 		return getAIService(config).chat(prompt);
 	}
 
@@ -105,7 +106,7 @@ public class AIUtil {
 	 * @return AI模型返回的Response响应字符串
 	 * @since 6.0.0
 	 */
-	public static String chat(AIConfig config, List<Message> messages) {
+	public static String chat(final AIConfig config, final List<Message> messages) {
 		return getAIService(config).chat(messages);
 	}
 

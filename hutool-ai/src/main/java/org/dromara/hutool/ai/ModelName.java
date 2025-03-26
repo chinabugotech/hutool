@@ -7,17 +7,34 @@ package org.dromara.hutool.ai;
  * @since 6.0.0
  */
 public enum ModelName {
+	/**
+	 * deepSeek
+	 */
 	DEEPSEEK("deepSeek"),
+	/**
+	 * openai
+	 */
 	OPENAI("openai"),
+	/**
+	 * doubao
+	 */
 	DOUBAO("doubao"),
+	/**
+	 * grok
+	 */
 	GROK("grok");
 
 	private final String value;
 
-	ModelName(String value) {
+	ModelName(final String value) {
 		this.value = value;
 	}
 
+	/**
+	 * 获取值
+	 *
+	 * @return 值
+	 */
 	public String getValue() {
 		return value;
 	}

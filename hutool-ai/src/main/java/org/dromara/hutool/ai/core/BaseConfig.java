@@ -23,7 +23,7 @@ public class BaseConfig implements AIConfig {
 	protected Map<String, Object> additionalConfig = new SafeConcurrentHashMap<>();
 
 	@Override
-	public void setApiKey(String apiKey) {
+	public void setApiKey(final String apiKey) {
 		this.apiKey = apiKey;
 	}
 
@@ -33,7 +33,7 @@ public class BaseConfig implements AIConfig {
 	}
 
 	@Override
-	public void setApiUrl(String apiUrl) {
+	public void setApiUrl(final String apiUrl) {
 		this.apiUrl = apiUrl;
 	}
 
@@ -43,7 +43,7 @@ public class BaseConfig implements AIConfig {
 	}
 
 	@Override
-	public void setModel(String model) {
+	public void setModel(final String model) {
 		this.model = model;
 	}
 
@@ -53,12 +53,12 @@ public class BaseConfig implements AIConfig {
 	}
 
 	@Override
-	public void putAdditionalConfigByKey(String key, Object value) {
+	public void putAdditionalConfigByKey(final String key, final Object value) {
 		this.additionalConfig.put(key, value);
 	}
 
 	@Override
-	public Object getAdditionalConfigByKey(String key) {
+	public Object getAdditionalConfigByKey(final String key) {
 		return additionalConfig.get(key);
 	}
 

@@ -19,11 +19,16 @@ public class BaseAIService {
 
 	protected final AIConfig config;
 
-	public BaseAIService(AIConfig config) {
+	/**
+	 * 构造方法
+	 *
+	 * @param config AI配置
+	 */
+	public BaseAIService(final AIConfig config) {
 		this.config = config;
 	}
 
-	protected Response sendGet(String endpoint) {
+	protected Response sendGet(final String endpoint) {
 		//链式构建请求
 		try {
 			//设置超时3分钟
@@ -32,12 +37,12 @@ public class BaseAIService {
 				.header(HeaderName.ACCEPT, "application/json")
 				.header(HeaderName.AUTHORIZATION, "Bearer " + config.getApiKey())
 				.send();
-		} catch (AIException e) {
+		} catch (final AIException e) {
 			throw new AIException("Failed to send GET request: " + e.getMessage(), e);
 		}
 	}
 
-	protected Response sendPost(String endpoint, String paramJson) {
+	protected Response sendPost(final String endpoint, final String paramJson) {
 		//链式构建请求
 		try {
 			//设置超时3分钟
@@ -48,13 +53,13 @@ public class BaseAIService {
 				.header(HeaderName.AUTHORIZATION, "Bearer " + config.getApiKey())
 				.body(paramJson)
 				.send();
-		} catch (AIException e) {
+		} catch (final AIException e) {
 			throw new AIException("Failed to send POST request：" + e.getMessage(), e);
 		}
 
 	}
 
-	protected Response sendFormData(String endpoint, Map<String, Object> paramMap) {
+	protected Response sendFormData(final String endpoint, final Map<String, Object> paramMap) {
 		//链式构建请求
 		try {
 			//设置超时3分钟
@@ -65,7 +70,7 @@ public class BaseAIService {
 				.header(HeaderName.AUTHORIZATION, "Bearer " + config.getApiKey())
 				.form(paramMap)
 				.send();
-		} catch (AIException e) {
+		} catch (final AIException e) {
 			throw new AIException("Failed to send POST request：" + e.getMessage(), e);
 		}
 	}

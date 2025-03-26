@@ -17,18 +17,18 @@ public class AIConfigBuilder {
 	 *
 	 * @param modelName 模型厂商的名称（注意不是指具体的模型）
 	 */
-	public AIConfigBuilder(String modelName) {
+	public AIConfigBuilder(final String modelName) {
 		try {
 			// 获取配置类
-			Class<? extends AIConfig> configClass = AIConfigRegistry.getConfigClass(modelName);
+			final Class<? extends AIConfig> configClass = AIConfigRegistry.getConfigClass(modelName);
 			if (configClass == null) {
 				throw new IllegalArgumentException("Unsupported model: " + modelName);
 			}
 
 			// 使用反射创建实例
-			Constructor<? extends AIConfig> constructor = configClass.getDeclaredConstructor();
+			final Constructor<? extends AIConfig> constructor = configClass.getDeclaredConstructor();
 			config = constructor.newInstance();
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			throw new RuntimeException("Failed to create AIConfig instance", e);
 		}
 	}
@@ -40,7 +40,7 @@ public class AIConfigBuilder {
 	 * @return config
 	 * @since 6.0.0
 	 */
-	public synchronized AIConfigBuilder setApiKey(String apiKey) {
+	public synchronized AIConfigBuilder setApiKey(final String apiKey) {
 		if (apiKey != null) {
 			config.setApiKey(apiKey);
 		}
@@ -54,7 +54,7 @@ public class AIConfigBuilder {
 	 * @return config
 	 * @since 6.0.0
 	 */
-	public synchronized AIConfigBuilder setApiUrl(String apiUrl) {
+	public synchronized AIConfigBuilder setApiUrl(final String apiUrl) {
 		if (apiUrl != null) {
 			config.setApiUrl(apiUrl);
 		}
@@ -68,7 +68,7 @@ public class AIConfigBuilder {
 	 * @return config
 	 * @since 6.0.0
 	 */
-	public synchronized AIConfigBuilder setModel(String model) {
+	public synchronized AIConfigBuilder setModel(final String model) {
 		if (model != null) {
 			config.setModel(model);
 		}
@@ -83,7 +83,7 @@ public class AIConfigBuilder {
 	 * @return config
 	 * @since 6.0.0
 	 */
-	public AIConfigBuilder putAdditionalConfig(String key, Object value) {
+	public AIConfigBuilder putAdditionalConfig(final String key, final Object value) {
 		if (value != null) {
 			config.putAdditionalConfigByKey(key, value);
 		}

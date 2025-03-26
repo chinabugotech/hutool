@@ -17,13 +17,19 @@ public class AIConfigRegistry {
 
 	// 加载所有 AIConfig 实现类
 	static {
-		ServiceLoader<AIConfig> loader = ServiceLoader.load(AIConfig.class);
-		for (AIConfig config : loader) {
+		final ServiceLoader<AIConfig> loader = ServiceLoader.load(AIConfig.class);
+		for (final AIConfig config : loader) {
 			configClasses.put(config.getModelName().toLowerCase(), config.getClass());
 		}
 	}
 
-	public static Class<? extends AIConfig> getConfigClass(String modelName) {
+	/**
+	 * 根据模型名称获取AIConfig实现类
+	 *
+	 * @param modelName 模型名称
+	 * @return AIConfig实现类
+	 */
+	public static Class<? extends AIConfig> getConfigClass(final String modelName) {
 		return configClasses.get(modelName.toLowerCase());
 	}
 }
