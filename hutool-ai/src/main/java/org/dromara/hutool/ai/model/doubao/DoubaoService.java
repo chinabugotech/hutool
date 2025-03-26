@@ -1,3 +1,19 @@
+/*
+ * Copyright (c) 2025 Hutool Team and hutool.cn
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.dromara.hutool.ai.model.doubao;
 
 import org.dromara.hutool.ai.core.AIService;
@@ -22,7 +38,7 @@ public interface DoubaoService extends AIService {
 	 * @return AI回答
 	 * @since 6.0.0
 	 */
-	String chatVision(String prompt, List<String> images, String detail);
+	String chatVision(String prompt, final List<String> images, String detail);
 
 	/**
 	 * 图像理解：模型会依据传入的图片信息以及问题，给出回复。
@@ -32,7 +48,7 @@ public interface DoubaoService extends AIService {
 	 * @return AI回答
 	 * @since 6.0.0
 	 */
-	default String chatVision(String prompt, List<String> images) {
+	default String chatVision(String prompt, final List<String> images) {
 		return chatVision(prompt, images, DoubaoCommon.DoubaoVision.AUTO.getDetail());
 	}
 
@@ -46,7 +62,7 @@ public interface DoubaoService extends AIService {
 	 * @return 生成任务id
 	 * @since 6.0.0
 	 */
-	String videoTasks(String text, String image, List<DoubaoCommon.DoubaoVideo> videoParams);
+	String videoTasks(String text, String image, final List<DoubaoCommon.DoubaoVideo> videoParams);
 
 	/**
 	 * 创建视频生成任务
@@ -96,7 +112,7 @@ public interface DoubaoService extends AIService {
 	 * @return AI回答
 	 * @since 6.0.0
 	 */
-	String botsChat(List<Message> messages);
+	String botsChat(final List<Message> messages);
 
 	/**
 	 * 分词：可以将文本转换为模型可理解的 token id，并返回文本的 tokens 数量、token id、 token 在原始文本中的偏移量等信息
@@ -127,7 +143,7 @@ public interface DoubaoService extends AIService {
 	 * @return AI回答
 	 * @since 6.0.0
 	 */
-	String batchChat(List<Message> messages);
+	String batchChat(final List<Message> messages);
 
 	/**
 	 * 创建上下文缓存： 创建上下文缓存，获得缓存 id字段后，在上下文缓存对话 API中使用。
@@ -139,7 +155,7 @@ public interface DoubaoService extends AIService {
 	 * @return 返回的缓存id
 	 * @since 6.0.0
 	 */
-	String createContext(List<Message> messages, String mode);
+	String createContext(final List<Message> messages, String mode);
 
 	/**
 	 * 创建上下文缓存： 创建上下文缓存，获得缓存 id字段后，在上下文缓存对话 API中使用。
@@ -150,7 +166,7 @@ public interface DoubaoService extends AIService {
 	 * @return 返回的缓存id
 	 * @since 6.0.0
 	 */
-	default String createContext(List<Message> messages) {
+	default String createContext(final List<Message> messages) {
 		return createContext(messages, DoubaoCommon.DoubaoContext.SESSION.getMode());
 	}
 
@@ -174,6 +190,6 @@ public interface DoubaoService extends AIService {
 	 * @return AI的回答
 	 * @since 6.0.0
 	 */
-	String chatContext(List<Message> messages, String contextId);
+	String chatContext(final List<Message> messages, String contextId);
 
 }

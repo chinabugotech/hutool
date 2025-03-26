@@ -1,3 +1,19 @@
+/*
+ * Copyright (c) 2025 Hutool Team and hutool.cn
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.dromara.hutool.ai.core;
 
 import org.dromara.hutool.ai.AIException;
@@ -28,6 +44,11 @@ public class BaseAIService {
 		this.config = config;
 	}
 
+	/**
+	 * 发送Get请求
+	 * @param endpoint 请求节点
+	 * @return 请求响应
+	 */
 	protected Response sendGet(final String endpoint) {
 		//链式构建请求
 		try {
@@ -42,6 +63,12 @@ public class BaseAIService {
 		}
 	}
 
+	/**
+	 * 发送Post请求
+	 * @param endpoint 请求节点
+	 * @param paramJson 请求参数json
+	 * @return 请求响应
+	 */
 	protected Response sendPost(final String endpoint, final String paramJson) {
 		//链式构建请求
 		try {
@@ -59,6 +86,12 @@ public class BaseAIService {
 
 	}
 
+	/**
+	 * 发送表单请求
+	 * @param endpoint 请求节点
+	 * @param paramMap 请求参数map
+	 * @return 请求响应
+	 */
 	protected Response sendFormData(final String endpoint, final Map<String, Object> paramMap) {
 		//链式构建请求
 		try {

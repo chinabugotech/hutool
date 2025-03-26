@@ -1,3 +1,19 @@
+/*
+ * Copyright (c) 2025 Hutool Team and hutool.cn
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.dromara.hutool.ai.model.deepseek;
 
 import org.dromara.hutool.ai.core.AIConfig;
@@ -28,7 +44,7 @@ public class DeepSeekServiceImpl extends BaseAIService implements DeepSeekServic
 	//余额查询
 	private final String BALANCE_ENDPOINT = "/user/balance";
 
-	public DeepSeekServiceImpl(AIConfig config) {
+	public DeepSeekServiceImpl(final AIConfig config) {
 		//初始化DeepSeek客户端
 		super(config);
 	}
@@ -36,14 +52,14 @@ public class DeepSeekServiceImpl extends BaseAIService implements DeepSeekServic
 	@Override
 	public String chat(String prompt) {
 		// 定义消息结构
-		List<Message> messages = new ArrayList<>();
+		final List<Message> messages = new ArrayList<>();
 		messages.add(new Message("system", "You are a helpful assistant"));
 		messages.add(new Message("user", prompt));
 		return chat(messages);
 	}
 
 	@Override
-	public String chat(List<Message> messages) {
+	public String chat(final List<Message> messages) {
 		String paramJson = buildChatRequestBody(messages);
 		Response response = sendPost(CHAT_ENDPOINT, paramJson);
 		return response.bodyStr();
@@ -69,9 +85,9 @@ public class DeepSeekServiceImpl extends BaseAIService implements DeepSeekServic
 	}
 
 	// 构建chat请求体
-	private String buildChatRequestBody(List<Message> messages) {
+	private String buildChatRequestBody(final List<Message> messages) {
 		//使用JSON工具
-		Map<String, Object> paramMap = new HashMap<>();
+		final Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("model", config.getModel());
 		paramMap.put("messages", messages);
 		//合并其他参数
@@ -84,7 +100,7 @@ public class DeepSeekServiceImpl extends BaseAIService implements DeepSeekServic
 	private String buildBetaRequestBody(String prompt) {
 		// 定义消息结构
 		//使用JSON工具
-		Map<String, Object> paramMap = new HashMap<>();
+		final Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("model", config.getModel());
 		paramMap.put("prompt", prompt);
 //		//合并其他参数
