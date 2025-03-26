@@ -87,20 +87,21 @@ Hutool目前主要版本4.x、5.x、6.x，选择如下：
 
 ## 🛠️包含组件
 
-| 模块             | 介绍                                              |
-|----------------|-------------------------------------------------|
-| hutool-core    | 核心，包括Bean操作、日期、各种Util等                          |
-| hutool-cron    | 定时任务模块，提供类Crontab表达式的定时任务                       |
-| hutool-crypto  | 加密解密模块，提供对称、非对称和摘要算法封装                          |
-| hutool-db      | JDBC封装后的数据操作，基于ActiveRecord思想                   |
-| hutool-extra   | 扩展模块，对第三方封装（模板引擎、邮件、Servlet、二维码、Emoji、FTP、分词等）  |
+| 模块             | 介绍                                            |
+|----------------|-----------------------------------------------|
+| hutool-core    | 核心，包括Bean操作、日期、各种Util等                        |
+| hutool-cron    | 定时任务模块，提供类Crontab表达式的定时任务                     |
+| hutool-crypto  | 加密解密模块，提供对称、非对称和摘要算法封装                        |
+| hutool-db      | JDBC封装后的数据操作，基于ActiveRecord思想                 |
+| hutool-extra   | 扩展模块，对第三方封装（模板引擎、邮件、Servlet、二维码、Emoji、FTP、分词等） |
 | hutool-http    | 基于HttpUrlConnection、HttpClient、OkHttp的Http客户端封装 |
-| hutool-log     | 功能强大的日志门面                                       |
-| hutool-setting | 功能更强大的配置文件封装和工具                                 |
-| hutool-json    | JSON实现                                          |
-| hutool-poi     | POI中Excel和Word的封装以及OFD封装                        |
-| hutool-socket  | 基于Java的NIO和AIO的Socket封装                         |
-| hutool-swing   | Swing和JWT相关封装                                   |
+| hutool-log     | 功能强大的日志门面                                     |
+| hutool-setting | 功能更强大的配置文件封装和工具                               |
+| hutool-json    | JSON实现                                        |
+| hutool-poi     | POI中Excel和Word的封装以及OFD封装                      |
+| hutool-socket  | 基于Java的NIO和AIO的Socket封装                       |
+| hutool-swing   | Swing和JWT相关封装                                 |
+| hutool-ai      | AI大模型封装                                       |
 
 可以根据需求对每个模块单独引入，也可以通过引入`hutool-all`方式引入所有模块。
 
