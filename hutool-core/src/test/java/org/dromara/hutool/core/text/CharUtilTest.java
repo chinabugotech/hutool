@@ -19,6 +19,8 @@ package org.dromara.hutool.core.text;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 public class CharUtilTest {
 
 	@Test
@@ -56,7 +58,10 @@ public class CharUtilTest {
 		Assertions.assertTrue(CharUtil.isBlankChar(a3));
 
 		final char a4 = '\u0000';
-		Assertions.assertTrue(CharUtil.isBlankChar(a4));
+		assertTrue(CharUtil.isBlankChar(a4));
+
+		final char a6 = '\u200c';
+		assertTrue(CharUtil.isBlankChar(a6));
 	}
 
 	@Test
