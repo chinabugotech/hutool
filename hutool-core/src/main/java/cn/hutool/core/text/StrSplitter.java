@@ -188,7 +188,7 @@ public class StrSplitter {
 	 */
 	public static <R> List<R> split(CharSequence text, char separator, int limit, boolean ignoreEmpty,
 									boolean ignoreCase, Function<String, R> mapping) {
-		if (null == text) {
+		if (CharSequenceUtil.isEmpty(text)) {
 			return new ArrayList<>(0);
 		}
 		final SplitIter splitIter = new SplitIter(text, new CharFinder(separator, ignoreCase), limit, ignoreEmpty);
