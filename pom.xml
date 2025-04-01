@@ -309,7 +309,7 @@
 						<version>0.6.0</version>
 						<extensions>true</extensions>
 						<configuration>
-							<publishingServerId>central</publishingServerId>
+							<publishingServerId>central6</publishingServerId>
 							<!-- 自动发布 -->
 							<autoPublish>true</autoPublish>
 							<!-- 等待发布 -->
