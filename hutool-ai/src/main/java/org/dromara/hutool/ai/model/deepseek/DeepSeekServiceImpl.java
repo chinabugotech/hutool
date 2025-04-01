@@ -44,13 +44,18 @@ public class DeepSeekServiceImpl extends BaseAIService implements DeepSeekServic
 	//余额查询
 	private final String BALANCE_ENDPOINT = "/user/balance";
 
+	/**
+	 * 构造函数
+	 *
+	 * @param config AI配置
+	 */
 	public DeepSeekServiceImpl(final AIConfig config) {
 		//初始化DeepSeek客户端
 		super(config);
 	}
 
 	@Override
-	public String chat(String prompt) {
+	public String chat(final String prompt) {
 		// 定义消息结构
 		final List<Message> messages = new ArrayList<>();
 		messages.add(new Message("system", "You are a helpful assistant"));
@@ -60,27 +65,27 @@ public class DeepSeekServiceImpl extends BaseAIService implements DeepSeekServic
 
 	@Override
 	public String chat(final List<Message> messages) {
-		String paramJson = buildChatRequestBody(messages);
-		Response response = sendPost(CHAT_ENDPOINT, paramJson);
+		final String paramJson = buildChatRequestBody(messages);
+		final Response response = sendPost(CHAT_ENDPOINT, paramJson);
 		return response.bodyStr();
 	}
 
 	@Override
-	public String beta(String prompt) {
-		String paramJson = buildBetaRequestBody(prompt);
-		Response response = sendPost(BETA_ENDPOINT, paramJson);
+	public String beta(final String prompt) {
+		final String paramJson = buildBetaRequestBody(prompt);
+		final Response response = sendPost(BETA_ENDPOINT, paramJson);
 		return response.bodyStr();
 	}
 
 	@Override
 	public String models() {
-		Response response = sendGet(MODELS_ENDPOINT);
+		final Response response = sendGet(MODELS_ENDPOINT);
 		return response.bodyStr();
 	}
 
 	@Override
 	public String balance() {
-		Response response = sendGet(BALANCE_ENDPOINT);
+		final Response response = sendGet(BALANCE_ENDPOINT);
 		return response.bodyStr();
 	}
 
@@ -97,7 +102,7 @@ public class DeepSeekServiceImpl extends BaseAIService implements DeepSeekServic
 	}
 
 	// 构建beta请求体
-	private String buildBetaRequestBody(String prompt) {
+	private String buildBetaRequestBody(final String prompt) {
 		// 定义消息结构
 		//使用JSON工具
 		final Map<String, Object> paramMap = new HashMap<>();

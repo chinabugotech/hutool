@@ -29,13 +29,13 @@ class AIServiceFactoryTest {
 
 	@Test
 	void getAIService() {
-		AIService aiService = AIServiceFactory.getAIService(new AIConfigBuilder(ModelName.DEEPSEEK.getValue()).setApiKey(key).build());
+		final AIService aiService = AIServiceFactory.getAIService(new AIConfigBuilder(ModelName.DEEPSEEK.getValue()).setApiKey(key).build());
 		assertNotNull(aiService);
 	}
 
 	@Test
 	void testGetAIService() {
-		DeepSeekService deepSeekService = AIServiceFactory.getAIService(new AIConfigBuilder(ModelName.DEEPSEEK.getValue()).setApiKey(key).build(), DeepSeekService.class);
+		final DeepSeekService deepSeekService = AIServiceFactory.getAIService(new AIConfigBuilder(ModelName.DEEPSEEK.getValue()).setApiKey(key).build(), DeepSeekService.class);
 		assertNotNull(deepSeekService);
 	}
 }

@@ -36,52 +36,52 @@ class AIUtilTest {
 
 	@Test
 	void getAIService() {
-		DeepSeekService deepSeekService = AIUtil.getAIService(new AIConfigBuilder(ModelName.DEEPSEEK.getValue()).setApiKey(key).build(), DeepSeekService.class);
+		final DeepSeekService deepSeekService = AIUtil.getAIService(new AIConfigBuilder(ModelName.DEEPSEEK.getValue()).setApiKey(key).build(), DeepSeekService.class);
 		assertNotNull(deepSeekService);
 	}
 
 	@Test
 	void testGetAIService() {
-		AIService aiService = AIUtil.getAIService(new AIConfigBuilder(ModelName.OPENAI.getValue()).setApiKey(key).build());
+		final AIService aiService = AIUtil.getAIService(new AIConfigBuilder(ModelName.OPENAI.getValue()).setApiKey(key).build());
 		assertNotNull(aiService);
 	}
 
 	@Test
 	void getDeepSeekService() {
-		DeepSeekService deepSeekService = AIUtil.getDeepSeekService(new AIConfigBuilder(ModelName.DEEPSEEK.getValue()).setApiKey(key).build());
+		final DeepSeekService deepSeekService = AIUtil.getDeepSeekService(new AIConfigBuilder(ModelName.DEEPSEEK.getValue()).setApiKey(key).build());
 		assertNotNull(deepSeekService);
 	}
 
 	@Test
 	void getDoubaoService() {
-		DoubaoService doubaoService = AIUtil.getDoubaoService(new AIConfigBuilder(ModelName.DOUBAO.getValue()).setApiKey(key).build());
+		final DoubaoService doubaoService = AIUtil.getDoubaoService(new AIConfigBuilder(ModelName.DOUBAO.getValue()).setApiKey(key).build());
 		assertNotNull(doubaoService);
 	}
 
 	@Test
 	void getGrokService() {
-		GrokService grokService = AIUtil.getGrokService(new AIConfigBuilder(ModelName.GROK.getValue()).setApiKey(key).build());
+		final GrokService grokService = AIUtil.getGrokService(new AIConfigBuilder(ModelName.GROK.getValue()).setApiKey(key).build());
 		assertNotNull(grokService);
 	}
 
 	@Test
 	void getOpenAIService() {
-		OpenaiService openAIService = AIUtil.getOpenAIService(new AIConfigBuilder(ModelName.OPENAI.getValue()).setApiKey(key).build());
+		final OpenaiService openAIService = AIUtil.getOpenAIService(new AIConfigBuilder(ModelName.OPENAI.getValue()).setApiKey(key).build());
 		assertNotNull(openAIService);
 	}
 
 	@Test
 	void chat() {
-		String chat = AIUtil.chat(new AIConfigBuilder(ModelName.DEEPSEEK.getValue()).setApiKey(key).build(), "写一首赞美我的诗");
+		final String chat = AIUtil.chat(new AIConfigBuilder(ModelName.DEEPSEEK.getValue()).setApiKey(key).build(), "写一首赞美我的诗");
 		assertNotNull(chat);
 	}
 
 	@Test
 	void testChat() {
-		List<Message> messages = new ArrayList<>();
+		final List<Message> messages = new ArrayList<>();
 		messages.add(new Message("system","你是财神爷，只会说“我是财神”"));
 		messages.add(new Message("user","你是谁啊？"));
-		String chat = AIUtil.chat(new AIConfigBuilder(ModelName.DEEPSEEK.getValue()).setApiKey(key).build(), messages);
+		final String chat = AIUtil.chat(new AIConfigBuilder(ModelName.DEEPSEEK.getValue()).setApiKey(key).build(), messages);
 		System.out.println(chat);
 	}
 }

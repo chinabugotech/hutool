@@ -20,6 +20,7 @@ import org.dromara.hutool.ai.AIServiceFactory;
 import org.dromara.hutool.ai.ModelName;
 import org.dromara.hutool.ai.core.AIConfigBuilder;
 import org.dromara.hutool.ai.core.Message;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -31,35 +32,40 @@ class DeepSeekServiceTest {
 	DeepSeekService deepSeekService = AIServiceFactory.getAIService(new AIConfigBuilder(ModelName.DEEPSEEK.getValue()).setApiKey(key).build(),DeepSeekService.class);
 
 	@Test
+	@Disabled
 	void chat(){
-		String chat = deepSeekService.chat("写一个疯狂星期四广告词");
+		final String chat = deepSeekService.chat("写一个疯狂星期四广告词");
 		System.out.println(chat);
 	}
 
 	@Test
+	@Disabled
 	void testChat(){
-		List<Message> messages = new ArrayList<>();
+		final List<Message> messages = new ArrayList<>();
 		messages.add(new Message("system","你是个抽象大师，会说很抽象的话，最擅长说抽象的笑话"));
 		messages.add(new Message("user","给我说一个笑话"));
-		String chat = deepSeekService.chat(messages);
+		final String chat = deepSeekService.chat(messages);
 		System.out.println(chat);
 	}
 
 	@Test
+	@Disabled
 	void beta() {
-		String beta = deepSeekService.beta("写一个疯狂星期四广告词");
+		final String beta = deepSeekService.beta("写一个疯狂星期四广告词");
 		System.out.println(beta);
 	}
 
 	@Test
+	@Disabled
 	void models() {
-		String models = deepSeekService.models();
+		final String models = deepSeekService.models();
 		System.out.println(models);
 	}
 
 	@Test
+	@Disabled
 	void balance() {
-		String balance = deepSeekService.balance();
+		final String balance = deepSeekService.balance();
 		System.out.println(balance);
 	}
 }
