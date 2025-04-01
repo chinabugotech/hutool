@@ -98,12 +98,16 @@
 
 	<licenses>
 		<license>
-			<name>Mulan Permissive Software License，Version 2</name>
-			<url>https://license.coscl.org.cn/MulanPSL2</url>
+			<name>Apache License Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0</url>
 		</license>
 	</licenses>
 
 	<developers>
+		<developer>
+			<name>bugo</name>
+			<email>bugo@bugotech.cn</email>
+		</developer>
 		<developer>
 			<name>Looly</name>
 			<email>loolly@gmail.com</email>
@@ -139,9 +143,9 @@
 	</developers>
 
 	<scm>
-		<connection>scm:git@github.com:dromara/hutool.git</connection>
-		<developerConnection>scm:git@github.com:dromara/hutool.git</developerConnection>
-		<url>git@github.com:dromara/hutool.git</url>
+		<connection>scm:git@github.com:chinabugotech/hutool.git</connection>
+		<developerConnection>scm:git@github.com:chinabugotech/hutool.git</developerConnection>
+		<url>git@github.com:chinabugotech/hutool.git</url>
 	</scm>
 
 	<build>
