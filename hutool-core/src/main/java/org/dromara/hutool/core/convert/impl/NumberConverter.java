@@ -45,6 +45,7 @@ import java.util.function.Function;
  * <li>{@code java.lang.Short}</li>
  * <li>{@code java.lang.Integer}</li>
  * <li>{@code java.util.concurrent.atomic.AtomicInteger}</li>
+ *
  * <li>{@code java.lang.Long}</li>
  * <li>{@code java.util.concurrent.atomic.AtomicLong}</li>
  * <li>{@code java.lang.Float}</li>

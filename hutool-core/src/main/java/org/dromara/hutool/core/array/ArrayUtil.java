@@ -153,7 +153,7 @@ public class ArrayUtil extends PrimitiveArrayUtil {
 	}
 
 	/**
-	 * 是否存都不为{@code null}或空对象或空白符的对象，通过{@link #hasBlank(CharSequence...)} 判断元素
+	 * 是否全都不为{@code null}或空对象或空白符的对象，通过{@link #hasBlank(CharSequence...)} 判断元素
 	 *
 	 * @param args 被检查的对象,一个或者多个
 	 * @return 是否都不为空
