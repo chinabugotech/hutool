@@ -3673,13 +3673,26 @@ public class CharSequenceUtil extends StrValidator {
 	 * @since 5.8.38
 	 */
 	public static String toLoweCase(final CharSequence str) {
+		return toLoweCase(str, Locale.getDefault());
+	}
+
+	/**
+	 * 将字符串转为小写
+	 *
+	 * @param str 被转的字符串
+	 * @param locale Locale
+	 * @return 转换后的字符串
+	 * @see String#toLowerCase()
+	 * @since 6.0.0
+	 */
+	public static String toLoweCase(final CharSequence str, final Locale locale) {
 		if (null == str) {
 			return null;
 		}
 		if(0 == str.length()){
 			return EMPTY;
 		}
-		return str.toString().toLowerCase();
+		return str.toString().toLowerCase(locale);
 	}
 
 	/**
@@ -3691,6 +3704,19 @@ public class CharSequenceUtil extends StrValidator {
 	 * @since 5.8.38
 	 */
 	public static String toUpperCase(final CharSequence str) {
+		return toUpperCase(str, Locale.getDefault());
+	}
+
+	/**
+	 * 将字符串转为大写
+	 *
+	 * @param str 被转的字符串
+	 * @param locale Locale
+	 * @return 转换后的字符串
+	 * @see String#toUpperCase()
+	 * @since 6.0.0
+	 */
+	public static String toUpperCase(final CharSequence str, final Locale locale) {
 		if (null == str) {
 			return null;
 		}
