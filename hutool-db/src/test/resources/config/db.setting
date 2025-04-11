@@ -108,3 +108,9 @@ url = jdbc:oceanbase://localhost:2881/test
 user = root
 pass = 123456
 remarks = true
+
+[hana]
+url = jdbc:sap://localhost:30015/HAP_CONN?autoReconnect=true
+user = DB
+pass = 123456
+remarks = true

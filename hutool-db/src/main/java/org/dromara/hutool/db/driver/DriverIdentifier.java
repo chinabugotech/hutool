@@ -33,7 +33,7 @@ import java.util.List;
  * @author Looly
  * @since 6.0.0
  */
-public class DriverIdentifier implements DriverNames{
+public class DriverIdentifier implements DriverNames {
 
 	/**
 	 * 单例驱动识别器
@@ -131,7 +131,9 @@ public class DriverIdentifier implements DriverNames{
 			new StartsWithDriverMatcher(DRIVER_GAUSS, "jdbc:zenith:"),
 			new StartsWithDriverMatcher(DRIVER_OPENGAUSS, "jdbc:opengauss:"),
 			// 中兴GoldenDB
-			new StartsWithDriverMatcher(DRIVER_GOLDENDB, "jdbc:goldendb:")
+			new StartsWithDriverMatcher(DRIVER_GOLDENDB, "jdbc:goldendb:"),
+			// SAP HANA
+			new StartsWithDriverMatcher(DRIVER_HANA, "jdbc:sap:")
 		);
 	}
 

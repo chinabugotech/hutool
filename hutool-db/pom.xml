@@ -164,5 +164,11 @@
 			<version>2.4.12</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.sap.cloud.db.jdbc</groupId>
+			<artifactId>ngdbc</artifactId>
+			<version>2.24.7</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 </project>

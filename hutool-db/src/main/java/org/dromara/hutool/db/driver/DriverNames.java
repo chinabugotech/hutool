@@ -252,9 +252,12 @@ public interface DriverNames {
 	 * JDBC 驱动 Greenplum
 	 */
 	String DRIVER_GREENPLUM = "com.pivotal.jdbc.GreenplumDriver";
-
 	/**
 	 * JDBC 驱动 GoldenDB
 	 */
 	String DRIVER_GOLDENDB = "com.goldendb.jdbc.Driver";
+	/**
+	 * JDBC 驱动 Sap Hana
+	 */
+	String DRIVER_HANA = "com.sap.db.jdbc.Driver";
 }
