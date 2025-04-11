@@ -1,7 +1,6 @@
 package org.dromara.hutool.db;
 
 import org.dromara.hutool.core.lang.Console;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -11,7 +10,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class HanaTest {
-	@BeforeAll
+	//@BeforeAll
 	public static void createTable() {
 		final Db db = Db.of("hana");
 		final long count = db.count("SELECT * FROM SYS.TABLES WHERE TABLE_NAME = ? AND SCHEMA_NAME = CURRENT_SCHEMA", "user");
