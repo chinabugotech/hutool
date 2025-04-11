@@ -3665,6 +3665,42 @@ public class CharSequenceUtil extends StrValidator {
 	// region ----- lower and upper
 
 	/**
+	 * 将字符串转为小写
+	 *
+	 * @param str 被转的字符串
+	 * @return 转换后的字符串
+	 * @see String#toLowerCase()
+	 * @since 5.8.38
+	 */
+	public static String toLoweCase(final CharSequence str) {
+		if (null == str) {
+			return null;
+		}
+		if(0 == str.length()){
+			return EMPTY;
+		}
+		return str.toString().toLowerCase();
+	}
+
+	/**
+	 * 将字符串转为大写
+	 *
+	 * @param str 被转的字符串
+	 * @return 转换后的字符串
+	 * @see String#toUpperCase()
+	 * @since 5.8.38
+	 */
+	public static String toUpperCase(final CharSequence str) {
+		if (null == str) {
+			return null;
+		}
+		if(0 == str.length()){
+			return EMPTY;
+		}
+		return str.toString().toUpperCase();
+	}
+
+	/**
 	 * 原字符串首字母大写并在其首部添加指定字符串 例如：str=name, preString=get =》 return getName
 	 *
 	 * @param str       被处理的字符串
