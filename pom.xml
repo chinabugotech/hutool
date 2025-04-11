@@ -241,6 +241,12 @@
 					<generateBackupPoms>false</generateBackupPoms>
 				</configuration>
 			</plugin>
+			<!-- 单元测试 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.5.3</version>
+			</plugin>
 			<!-- 测试覆盖度 -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
