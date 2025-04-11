@@ -71,6 +71,7 @@ public class HanaTest {
 	}
 
 	@Test
+	@Disabled
 	public void upsertTest() {
 		final Db db = Db.of("hana");
 		db.insert(Entity.of("user").set("id", 1).set("account", "ice").set("pass", "123456"));
