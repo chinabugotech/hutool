@@ -23,9 +23,9 @@
 	<packaging>jar</packaging>
 
 	<parent>
-		<groupId>org.dromara.hutool</groupId>
+		<groupId>cn.hutool.v7</groupId>
 		<artifactId>hutool-parent</artifactId>
-		<version>6.0.0-M18</version>
+		<version>7.0.0.M1</version>
 	</parent>
 
 	<artifactId>hutool-jmh</artifactId>
@@ -33,7 +33,7 @@
 	<description>Hutool 性能测试</description>
 
 	<properties>
-		<Automatic-Module-Name>org.dromara.hutool.jmh</Automatic-Module-Name>
+		<Automatic-Module-Name>cn.hutool.v7.jmh</Automatic-Module-Name>
 		<!-- 此模块不部署 -->
 		<maven.deploy.skip>true</maven.deploy.skip>
 		<jmh.version>1.37</jmh.version>
@@ -41,7 +41,7 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.dromara.hutool</groupId>
+			<groupId>cn.hutool.v7</groupId>
 			<artifactId>hutool-bom</artifactId>
 			<version>${project.parent.version}</version>
 			<type>pom</type>

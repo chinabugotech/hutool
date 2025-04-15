@@ -23,9 +23,9 @@
 	<packaging>jar</packaging>
 
 	<parent>
-		<groupId>org.dromara.hutool</groupId>
+		<groupId>cn.hutool.v7</groupId>
 		<artifactId>hutool-parent</artifactId>
-		<version>6.0.0-M22</version>
+		<version>7.0.0.M1</version>
 	</parent>
 
 	<artifactId>hutool-db</artifactId>
@@ -33,7 +33,7 @@
 	<description>Hutool 数据库JDBC的ORM封装</description>
 
 	<properties>
-		<Automatic-Module-Name>org.dromara.hutool.db</Automatic-Module-Name>
+		<Automatic-Module-Name>cn.hutool.v7.db</Automatic-Module-Name>
 		<!-- versions -->
 		<c3p0.version>0.10.1</c3p0.version>
 		<dbcp2.version>2.12.0</dbcp2.version>
@@ -49,17 +49,17 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.dromara.hutool</groupId>
+			<groupId>cn.hutool.v7</groupId>
 			<artifactId>hutool-core</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.dromara.hutool</groupId>
+			<groupId>cn.hutool.v7</groupId>
 			<artifactId>hutool-setting</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.dromara.hutool</groupId>
+			<groupId>cn.hutool.v7</groupId>
 			<artifactId>hutool-log</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>

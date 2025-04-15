@@ -1,0 +1,66 @@
+/*
+ * Copyright (c) 2013-2025 Hutool Team and hutool.cn
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package cn.hutool.v7.json.issues;
+
+import cn.hutool.v7.core.lang.mutable.MutableEntry;
+import cn.hutool.v7.core.reflect.TypeReference;
+import cn.hutool.v7.json.JSONUtil;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+import java.util.AbstractMap;
+
+public class IssueI6SZYBTest {
+
+	@Test
+	void mutableEntryTest() {
+		final MutableEntry<String, String> entry = MutableEntry.of("a", "b");
+		final String jsonStr = JSONUtil.toJsonStr(entry);
+		final MutableEntry<String, String> entry2 = JSONUtil.toBean(jsonStr, new TypeReference<MutableEntry<String, String>>() {});
+
+		Assertions.assertEquals(entry, entry2);
+	}
+
+	@Test
+	void mutableEntryTest2() {
+		final MutableEntry<Integer, Integer> entry = MutableEntry.of(1, 2);
+		final String jsonStr = JSONUtil.toJsonStr(entry);
+		final MutableEntry<Integer, Integer> entry2 = JSONUtil.toBean(jsonStr,
+			new TypeReference<MutableEntry<Integer, Integer>>() {});
+
+		Assertions.assertEquals(entry, entry2);
+	}
+
+	@Test
+	void simpleEntryTest() {
+		final AbstractMap.SimpleEntry<String, String> entry = new AbstractMap.SimpleEntry<>("a", "b");
+		final String jsonStr = JSONUtil.toJsonStr(entry);
+		final AbstractMap.SimpleEntry<String, String> entry2 = JSONUtil.toBean(jsonStr, new TypeReference<AbstractMap.SimpleEntry<String, String>>() {});
+
+		Assertions.assertEquals(entry, entry2);
+	}
+
+	@Test
+	void simpleEntryTest2() {
+		final AbstractMap.SimpleEntry<String, String> entry = new AbstractMap.SimpleEntry<>("a", "b");
+		final String jsonStr = JSONUtil.toJsonStr(entry);
+		final MutableEntry<String, String> entry2 = JSONUtil.toBean(jsonStr, new TypeReference<MutableEntry<String, String>>() {});
+
+
+		Assertions.assertEquals(entry, entry2);
+	}
+}

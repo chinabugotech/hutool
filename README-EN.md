@@ -9,8 +9,8 @@
 </p>
 
 <p align="center">
-	<a target="_blank" href="https://search.maven.org/artifact/org.dromara.hutool/hutool-all">
-		<img src="https://img.shields.io/maven-central/v/org.dromara.hutool/hutool-all.svg?label=Maven%20Central" />
+	<a target="_blank" href="https://search.maven.org/artifact/cn.hutool.v7/hutool-all">
+		<img src="https://img.shields.io/maven-central/v/cn.hutool.v7/hutool-all.svg?label=Maven%20Central" />
 	</a>
 	<a target="_blank" href="https://www.apache.org/licenses/LICENSE-2.0.html">
 		<img alt="" src="https://img.shields.io/:license-apache2.0-blue.svg?logo=apache" />
@@ -25,7 +25,7 @@
 		<img src="https://app.codacy.com/project/badge/Grade/8a6897d9de7440dd9de8804c28d2871d"/>
 	</a>
 	<a href="https://codecov.io/gh/dromara/hutool">
-		<img src="https://codecov.io/gh/dromara/hutool/branch/v6-master/graph/badge.svg" />
+		<img src="https://codecov.io/gh/dromara/hutool/branch/v7-master/graph/badge.svg" />
 	</a>
 	<a target="_blank" href="https://gitter.im/hutool/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge">
 		<img src="https://badges.gitter.im/hutool/Lobby.svg" />
@@ -126,20 +126,20 @@ Each module can be introduced individually, or all modules can be introduced by 
 ### 🍊Maven
 ```xml
 <dependency>
-    <groupId>org.dromara.hutool</groupId>
+    <groupId>cn.hutool.v7</groupId>
     <artifactId>hutool-all</artifactId>
-    <version>6.0.0-M22</version>
+    <version>7.0.0.M1</version>
 </dependency>
 ```
 
 ### 🍐Gradle
 ```
-implementation 'org.dromara.hutool:hutool-all:6.0.0-M22'
+implementation 'cn.hutool.v7:hutool-all:7.0.0.M1'
 ```
 
 ## 📥Download
 
-- [Maven Repo](https://repo1.maven.org/maven2/cn/hutool/hutool-all/6.0.0-M22/)
+- [Maven Repo](https://repo1.maven.org/maven2/cn/hutool/hutool-all/7.0.0.M1/)
 
 > 🔔️note:
 > Hutool 5.x supports JDK8+ and is not tested on Android platforms, and cannot guarantee that all tool classes or tool methods are available.
@@ -168,8 +168,8 @@ Hutool's source code is divided into two branches:
 
 | branch    | description                                                                                                                                                         |
 |-----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| v6-master | The master branch, the branch used by the release version, is the same as the jar committed to the central repository and does not receive any pr or modifications. |
-| v6-dev    | Development branch, which defaults to the next SNAPSHOT version, accepts modifications or pr                                                                        |
+| v7-master | The master branch, the branch used by the release version, is the same as the jar committed to the central repository and does not receive any pr or modifications. |
+| v7-dev    | Development branch, which defaults to the next SNAPSHOT version, accepts modifications or pr                                                                        |
 
 ### 🐞Provide feedback or suggestions on bugs
 
@@ -186,7 +186,7 @@ Hutool welcomes anyone to contribute code to Hutool, but the author suffers from
 1. Improve the comments, especially each new method should follow the Java documentation specification to indicate the method description, parameter description, return value description and other information, if necessary, please add unit tests, if you want, you can also add your name.
 2. Code indentation according to Eclipse.
 3. Newly added methods do not use third-party library methods，Unless the method tool is add to the '**extra module**'.
-4. Please pull request to the `v6-dev` branch. Hutool uses a new branch after 5.x: `v6-master` is the master branch, which indicates the version of the central library that has been released, and this branch does not allow pr or modifications.
+4. Please pull request to the `v7-dev` branch. Hutool uses a new branch after 5.x: `v7-master` is the master branch, which indicates the version of the central library that has been released, and this branch does not allow pr or modifications.
 
 -------------------------------------------------------------------------------
 

@@ -4,7 +4,7 @@
 
 | Version | Supported          |
 |---------|--------------------|
-| 6.x.x   | :white_check_mark: |
+| 7.x.x   | :white_check_mark: |
 
 ## Reporting a Vulnerability（报告漏洞）
 

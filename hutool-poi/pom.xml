@@ -23,9 +23,9 @@
 	<packaging>jar</packaging>
 
 	<parent>
-		<groupId>org.dromara.hutool</groupId>
+		<groupId>cn.hutool.v7</groupId>
 		<artifactId>hutool-parent</artifactId>
-		<version>6.0.0-M22</version>
+		<version>7.0.0.M1</version>
 	</parent>
 
 	<artifactId>hutool-poi</artifactId>
@@ -33,7 +33,7 @@
 	<description>Hutool POI工具类（对Office文档、OFD等操作）</description>
 
 	<properties>
-		<Automatic-Module-Name>org.dromara.hutool.poi</Automatic-Module-Name>
+		<Automatic-Module-Name>cn.hutool.v7.poi</Automatic-Module-Name>
 		<!-- versions -->
 		<poi.version>5.3.0</poi.version>
 		<log4j2.version>2.20.0</log4j2.version>
@@ -41,7 +41,7 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.dromara.hutool</groupId>
+			<groupId>cn.hutool.v7</groupId>
 			<artifactId>hutool-core</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>

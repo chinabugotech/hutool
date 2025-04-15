@@ -23,9 +23,9 @@
 	<packaging>jar</packaging>
 
 	<parent>
-		<groupId>org.dromara.hutool</groupId>
+		<groupId>cn.hutool.v7</groupId>
 		<artifactId>hutool-parent</artifactId>
-		<version>6.0.0-M22</version>
+		<version>7.0.0.M1</version>
 	</parent>
 
 	<artifactId>hutool-json</artifactId>
@@ -33,19 +33,19 @@
 	<description>Hutool JSON封装</description>
 
 	<properties>
-		<Automatic-Module-Name>org.dromara.hutool.json</Automatic-Module-Name>
+		<Automatic-Module-Name>cn.hutool.v7.json</Automatic-Module-Name>
 		<!-- versions -->
 		<jjwt.version>0.12.6</jjwt.version>
 	</properties>
 
 	<dependencies>
 		<dependency>
-			<groupId>org.dromara.hutool</groupId>
+			<groupId>cn.hutool.v7</groupId>
 			<artifactId>hutool-core</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.dromara.hutool</groupId>
+			<groupId>cn.hutool.v7</groupId>
 			<artifactId>hutool-crypto</artifactId>
 			<version>${project.parent.version}</version>
 			<optional>true</optional>

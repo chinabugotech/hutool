@@ -23,9 +23,9 @@
 	<packaging>jar</packaging>
 
 	<parent>
-		<groupId>org.dromara.hutool</groupId>
+		<groupId>cn.hutool.v7</groupId>
 		<artifactId>hutool-parent</artifactId>
-		<version>6.0.0-M22</version>
+		<version>7.0.0.M1</version>
 	</parent>
 
 	<artifactId>hutool-swing</artifactId>
@@ -33,7 +33,7 @@
 	<description>Hutool swing桌面和图片多媒体相关封装</description>
 
 	<properties>
-		<Automatic-Module-Name>org.dromara.hutool.swing</Automatic-Module-Name>
+		<Automatic-Module-Name>cn.hutool.v7.swing</Automatic-Module-Name>
 		<animated-gif-lib.version>1.4</animated-gif-lib.version>
 		<metadata-extractor.version>2.19.0</metadata-extractor.version>
 		<zxing.version>3.5.3</zxing.version>
@@ -41,7 +41,7 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.dromara.hutool</groupId>
+			<groupId>cn.hutool.v7</groupId>
 			<artifactId>hutool-core</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>

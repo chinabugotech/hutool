@@ -23,9 +23,9 @@
 	<packaging>jar</packaging>
 
 	<parent>
-		<groupId>org.dromara.hutool</groupId>
+		<groupId>cn.hutool.v7</groupId>
 		<artifactId>hutool-parent</artifactId>
-		<version>6.0.0-M22</version>
+		<version>7.0.0.M1</version>
 	</parent>
 
 	<artifactId>hutool-crypto</artifactId>
@@ -33,12 +33,12 @@
 	<description>Hutool 加密解密</description>
 
 	<properties>
-		<Automatic-Module-Name>org.dromara.hutool.crypto</Automatic-Module-Name>
+		<Automatic-Module-Name>cn.hutool.v7.crypto</Automatic-Module-Name>
 	</properties>
 
 	<dependencies>
 		<dependency>
-			<groupId>org.dromara.hutool</groupId>
+			<groupId>cn.hutool.v7</groupId>
 			<artifactId>hutool-core</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>

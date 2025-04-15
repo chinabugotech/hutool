@@ -1,0 +1,150 @@
+/*
+ * Copyright (c) 2013-2025 Hutool Team and hutool.cn
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package cn.hutool.v7.json.test.bean;
+
+import lombok.Data;
+
+import java.io.Serializable;
+
+@Data
+public class ResultDto<T> implements Serializable {
+	private static final long serialVersionUID = -1417999729205654379L;
+
+	/**
+	 * 成功码.
+	 */
+	public static final int SUCCESS_CODE = 200;
+
+	/**
+	 * 成功信息.
+	 */
+	public static final String SUCCESS_MESSAGE = "操作成功";
+
+	/**
+	 * 错误码.
+	 */
+	public static final int ERROR_CODE = 500;
+
+	/**
+	 * 错误信息.
+	 */
+	public static final String ERROR_MESSAGE = "内部异常";
+
+	/**
+	 * 错误码：参数非法
+	 */
+	public static final int ILLEGAL_ARGUMENT_CODE_ = 100;
+
+	/**
+	 * 错误信息：参数非法
+	 */
+	public static final String ILLEGAL_ARGUMENT_MESSAGE = "参数非法";
+
+	/**
+	 * 编号.
+	 */
+	private int code;
+
+	/**
+	 * 信息.
+	 */
+	private String message;
+
+	/**
+	 * 结果数据
+	 */
+	private T result;
+
+	/**
+	 * Instantiates a new wrapper. default code=200
+	 */
+	public ResultDto() {
+		this(SUCCESS_CODE, SUCCESS_MESSAGE);
+	}
+
+	/**
+	 * Instantiates a new wrapper.
+	 *
+	 * @param code the code
+	 * @param message the message
+	 */
+	public ResultDto(final int code, final String message) {
+		this(code, message, null);
+	}
+
+	/**
+	 * Instantiates a new wrapper.
+	 *
+	 * @param code the code
+	 * @param message the message
+	 * @param result the result
+	 */
+	public ResultDto(final int code, final String message, final T result) {
+		this.code(code).message(message).result(result);
+	}
+
+	/**
+	 * Sets the 编号 , 返回自身的引用.
+	 *
+	 * @param code the new 编号
+	 * @return the wrapper
+	 */
+	private ResultDto<T> code(final int code) {
+		this.setCode(code);
+		return this;
+	}
+
+	/**
+	 * Sets the 信息 , 返回自身的引用.
+	 *
+	 * @param message the new 信息
+	 * @return the wrapper
+	 */
+	private ResultDto<T> message(final String message) {
+		this.setMessage(message);
+		return this;
+	}
+
+	/**
+	 * Sets the 结果数据 , 返回自身的引用.
+	 *
+	 * @param result the new 结果数据
+	 * @return the wrapper
+	 */
+	public ResultDto<T> result(final T result) {
+		this.setResult(result);
+		return this;
+	}
+
+	/**
+	 * 判断是否成功： 依据 ResultDto.SUCCESS_CODE == this.code
+	 *
+	 * @return code =200,true;否则 false.
+	 */
+	public boolean success() {
+		return ResultDto.SUCCESS_CODE == this.code;
+	}
+
+	/**
+	 * 判断是否成功： 依据 ResultDto.SUCCESS_CODE != this.code
+	 *
+	 * @return code !=200,true;否则 false.
+	 */
+	public boolean error() {
+		return !success();
+	}
+}

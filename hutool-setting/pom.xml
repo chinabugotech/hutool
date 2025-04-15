@@ -23,9 +23,9 @@
 	<packaging>jar</packaging>
 
 	<parent>
-		<groupId>org.dromara.hutool</groupId>
+		<groupId>cn.hutool.v7</groupId>
 		<artifactId>hutool-parent</artifactId>
-		<version>6.0.0-M22</version>
+		<version>7.0.0.M1</version>
 	</parent>
 
 	<artifactId>hutool-setting</artifactId>
@@ -33,18 +33,18 @@
 	<description>Hutool 配置文件增强</description>
 
 	<properties>
-		<Automatic-Module-Name>org.dromara.hutool.setting</Automatic-Module-Name>
+		<Automatic-Module-Name>cn.hutool.v7.setting</Automatic-Module-Name>
 		<snakeyaml.version>2.3</snakeyaml.version>
 	</properties>
 
 	<dependencies>
 		<dependency>
-			<groupId>org.dromara.hutool</groupId>
+			<groupId>cn.hutool.v7</groupId>
 			<artifactId>hutool-core</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.dromara.hutool</groupId>
+			<groupId>cn.hutool.v7</groupId>
 			<artifactId>hutool-log</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>

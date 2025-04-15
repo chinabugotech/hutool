@@ -1,0 +1,104 @@
+/*
+ * Copyright (c) 2013-2025 Hutool Team and hutool.cn
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package cn.hutool.v7.core.compress;
+
+import cn.hutool.v7.core.text.StrUtil;
+
+import java.io.IOException;
+import java.nio.file.CopyOption;
+import java.nio.file.DirectoryNotEmptyException;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.FileSystem;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
+
+/**
+ * Zip文件拷贝的FileVisitor实现，zip中追加文件，此类非线程安全<br>
+ * 此类在遍历源目录并复制过程中会自动创建目标目录中不存在的上级目录。
+ *
+ * @author Looly
+ * @since 5.7.15
+ */
+public class ZipCopyVisitor extends SimpleFileVisitor<Path> {
+
+	/**
+	 * 源Path，或基准路径，用于计算被拷贝文件的相对路径
+	 */
+	private final Path source;
+	private final FileSystem fileSystem;
+	private final CopyOption[] copyOptions;
+
+	/**
+	 * 构造
+	 *
+	 * @param source      源Path，或基准路径，用于计算被拷贝文件的相对路径
+	 * @param fileSystem  目标Zip文件
+	 * @param copyOptions 拷贝选项，如跳过已存在等
+	 */
+	public ZipCopyVisitor(final Path source, final FileSystem fileSystem, final CopyOption... copyOptions) {
+		this.source = source;
+		this.fileSystem = fileSystem;
+		this.copyOptions = copyOptions;
+	}
+
+	@Override
+	public FileVisitResult preVisitDirectory(final Path dir, final BasicFileAttributes attrs) throws IOException {
+		final Path targetDir = resolveTarget(dir);
+		if (StrUtil.isNotEmpty(targetDir.toString())) {
+			// 在目标的Zip文件中的相对位置创建目录
+			try {
+				Files.copy(dir, targetDir, copyOptions);
+			} catch (final DirectoryNotEmptyException ignore) {
+				// 目录已经存在，则跳过
+			} catch (final FileAlreadyExistsException e) {
+				if (!Files.isDirectory(targetDir)) {
+					throw e;
+				}
+				// 目录非空情况下，跳过创建目录
+			}
+		}
+
+		return FileVisitResult.CONTINUE;
+	}
+
+	@Override
+	public FileVisitResult visitFile(final Path file, final BasicFileAttributes attrs) throws IOException {
+		// 如果目标存在，无论目录还是文件都抛出FileAlreadyExistsException异常，此处不做特别处理
+		Files.copy(file, resolveTarget(file), copyOptions);
+
+		return FileVisitResult.CONTINUE;
+	}
+
+	/**
+	 * 根据源文件或目录路径，拼接生成目标的文件或目录路径<br>
+	 * 原理是首先截取源路径，得到相对路径，再和目标路径拼接
+	 *
+	 * <p>
+	 * 如：源路径是 /opt/test/，需要拷贝的文件是 /opt/test/a/a.txt，得到相对路径 a/a.txt<br>
+	 * 目标路径是/home/，则得到最终目标路径是 /home/a/a.txt
+	 * </p>
+	 *
+	 * @param file 需要拷贝的文件或目录Path
+	 * @return 目标Path
+	 */
+	private Path resolveTarget(final Path file) {
+		return fileSystem.getPath(source.relativize(file).toString());
+	}
+}
