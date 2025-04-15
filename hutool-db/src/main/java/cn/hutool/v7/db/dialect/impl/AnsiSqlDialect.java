@@ -1,0 +1,166 @@
+/*
+ * Copyright (c) 2013-2025 Hutool Team and hutool.cn
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package cn.hutool.v7.db.dialect.impl;
+
+import cn.hutool.v7.core.array.ArrayUtil;
+import cn.hutool.v7.core.lang.Assert;
+import cn.hutool.v7.db.DbException;
+import cn.hutool.v7.db.Entity;
+import cn.hutool.v7.db.Page;
+import cn.hutool.v7.db.sql.StatementUtil;
+import cn.hutool.v7.db.config.DbConfig;
+import cn.hutool.v7.db.dialect.Dialect;
+import cn.hutool.v7.db.dialect.DialectName;
+import cn.hutool.v7.db.sql.Condition;
+import cn.hutool.v7.db.sql.Query;
+import cn.hutool.v7.db.sql.QuoteWrapper;
+import cn.hutool.v7.db.sql.SqlBuilder;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+
+/**
+ * ANSI SQL 方言
+ *
+ * @author loolly
+ */
+public class AnsiSqlDialect implements Dialect {
+	private static final long serialVersionUID = 2088101129774974580L;
+
+	protected DbConfig dbConfig;
+	protected QuoteWrapper quoteWrapper = new QuoteWrapper();
+
+	/**
+	 * 构造
+	 *
+	 * @param dbConfig 数据库配置
+	 */
+	public AnsiSqlDialect(final DbConfig dbConfig) {
+		this.dbConfig = dbConfig;
+	}
+
+	@Override
+	public QuoteWrapper getWrapper() {
+		return this.quoteWrapper;
+	}
+
+	@Override
+	public void setWrapper(final QuoteWrapper quoteWrapper) {
+		this.quoteWrapper = quoteWrapper;
+	}
+
+	@Override
+	public PreparedStatement psForInsert(final boolean returnGeneratedKey, final Connection conn, final Entity entity) {
+		final SqlBuilder insert = SqlBuilder.of(quoteWrapper).insert(entity, this.dialectName());
+
+		return StatementUtil.prepareStatement(returnGeneratedKey, this.dbConfig, conn, insert.build(), insert.getParamValueArray());
+	}
+
+	@Override
+	public PreparedStatement psForInsertBatch(final Connection conn, final Entity... entities) {
+		if (ArrayUtil.isEmpty(entities)) {
+			throw new DbException("Entities for batch insert is empty !");
+		}
+		// 批量，根据第一行数据结构生成SQL占位符
+		final SqlBuilder insert = SqlBuilder.of(quoteWrapper).insert(entities[0], this.dialectName());
+		return StatementUtil.prepareStatementForBatch(this.dbConfig, conn, insert.build(), entities);
+	}
+
+	@Override
+	public PreparedStatement psForDelete(final Connection conn, final Query query) throws DbException {
+		Assert.notNull(query, "query must be not null !");
+
+		final Condition[] where = query.getWhere();
+		if (ArrayUtil.isEmpty(where)) {
+			// 对于无条件删除语句直接抛出异常禁止，防止误删除
+			throw new DbException("No 'WHERE' condition, we can't prepared statement for delete everything.");
+		}
+		final SqlBuilder delete = SqlBuilder.of(quoteWrapper).delete(query.getFirstTableName()).where(where);
+		return StatementUtil.prepareStatement(false, this.dbConfig, conn, delete.build(), delete.getParamValueArray());
+	}
+
+	@Override
+	public PreparedStatement psForUpdate(final Connection conn, final Entity entity, final Query query) throws DbException {
+		Assert.notNull(query, "query must be not null !");
+
+		final Condition[] where = query.getWhere();
+		if (ArrayUtil.isEmpty(where)) {
+			// 对于无条件地删除语句直接抛出异常禁止，防止误删除
+			throw new DbException("No 'WHERE' condition, we can't prepare statement for update everything.");
+		}
+
+		final SqlBuilder update = SqlBuilder.of(quoteWrapper).update(entity).where(where);
+
+		return StatementUtil.prepareStatement(false, this.dbConfig, conn, update.build(), update.getParamValueArray());
+	}
+
+	@Override
+	public PreparedStatement psForUpsert(final Connection conn, final Entity entity, final String... keys) throws DbException {
+		throw new DbException("Unsupported upsert operation of " + dialectName());
+	}
+
+	@Override
+	public PreparedStatement psForFind(final Connection conn, final Query query) {
+		return psForPage(conn, query);
+	}
+
+	@Override
+	public PreparedStatement psForPage(final Connection conn, final Query query) {
+		Assert.notNull(query, "query must be not null !");
+		if (ArrayUtil.hasBlank(query.getTableNames())) {
+			throw new DbException("Table name must be not empty !");
+		}
+
+		final SqlBuilder find = SqlBuilder.of(quoteWrapper).query(query);
+		return psForPage(conn, find, query.getPage());
+	}
+
+	@Override
+	public PreparedStatement psForPage(final Connection conn, SqlBuilder sqlBuilder, final Page page) {
+		// 根据不同数据库在查询SQL语句基础上包装其分页的语句
+		if (null != page) {
+			sqlBuilder = wrapPageSql(sqlBuilder.orderBy(page.getOrders()), page);
+		}
+		return StatementUtil.prepareStatement(false, this.dbConfig, conn, sqlBuilder.build(), sqlBuilder.getParamValueArray());
+	}
+
+	/**
+	 * 根据不同数据库在查询SQL语句基础上包装其分页的语句<br>
+	 * 各自数据库通过重写此方法实现最小改动情况下修改分页语句
+	 *
+	 * @param find 标准查询语句
+	 * @param page 分页对象
+	 * @return 分页语句
+	 * @since 3.2.3
+	 */
+	protected SqlBuilder wrapPageSql(final SqlBuilder find, final Page page) {
+		// limit A offset B 表示：A就是你需要多少行，B就是查询的起点位置。
+		return find
+			.append(" limit ")
+			.append(page.getPageSize())
+			.append(" offset ")
+			.append(page.getBeginIndex());
+	}
+
+	@Override
+	public String dialectName() {
+		return DialectName.ANSI.name();
+	}
+
+	// ---------------------------------------------------------------------------- Protected method start
+	// ---------------------------------------------------------------------------- Protected method end
+}

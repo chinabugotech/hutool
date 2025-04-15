@@ -16,12 +16,12 @@
 # limitations under the License.
 #
 
-echo -e "\033[32mCheckout to v6-dev\033[0m"
-git checkout v6-dev
+echo -e "\033[32mCheckout to v7-dev\033[0m"
+git checkout v7-dev
 
-echo -e "\033[32mPush to Github(origin) v6-dev\033[0m"
-git push origin v6-dev
-echo -e "\033[32mPush to Gitee v6-dev\033[0m"
-git push osc v6-dev
-echo -e "\033[32mPush to Gitcode v6-dev\033[0m"
-git push gitcode v6-dev
+echo -e "\033[32mPush to Github(origin) v7-dev\033[0m"
+git push origin v7-dev
+echo -e "\033[32mPush to Gitee v7-dev\033[0m"
+git push osc v7-dev
+echo -e "\033[32mPush to Gitcode v7-dev\033[0m"
+git push gitcode v7-dev

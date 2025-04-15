@@ -1,0 +1,53 @@
+/*
+ * Copyright (c) 2013-2025 Hutool Team and hutool.cn
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package cn.hutool.v7.http.server;
+
+import cn.hutool.v7.core.date.DateUtil;
+import cn.hutool.v7.core.lang.Console;
+import cn.hutool.v7.core.map.multi.ListValueMap;
+import cn.hutool.v7.http.HttpUtil;
+import cn.hutool.v7.http.server.engine.sun.SimpleServer;
+import cn.hutool.v7.http.server.handler.ServerRequest;
+import cn.hutool.v7.http.server.handler.ServerResponse;
+
+/**
+ * http://localhost:8888/?name=hutool
+ */
+public class Issue3343Test {
+
+	public static void main(final String[] args) {
+		final SimpleServer server = HttpUtil.createServer(8888)
+			.addFilter((req, res, chain)->{
+				Console.log(DateUtil.now() + " got request: " + req.getPath());
+				Console.log(" >   from : " + req.getClientIP());
+				// 过滤器中获取请求参数
+				Console.log(" > params : " + req.getParams());
+				chain.doFilter(req.getExchange());
+			});
+
+		server.addAction("/", Issue3343Test::index);
+
+		server.start();
+	}
+
+	private static void index(final ServerRequest request, final ServerResponse response) {
+		// 具体逻辑中再次获取请求参数
+		final ListValueMap<String, String> params = request.getParams();
+		Console.log("index params: " + params);
+		response.getWriter().write("GOT: " + params);
+	}
+}

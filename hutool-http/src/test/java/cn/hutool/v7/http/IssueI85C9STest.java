@@ -1,0 +1,62 @@
+/*
+ * Copyright (c) 2013-2025 Hutool Team and hutool.cn
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package cn.hutool.v7.http;
+
+import cn.hutool.v7.core.lang.Console;
+import cn.hutool.v7.core.map.MapBuilder;
+import cn.hutool.v7.http.client.Request;
+import cn.hutool.v7.http.client.Response;
+import cn.hutool.v7.http.client.engine.ClientEngine;
+import cn.hutool.v7.http.client.engine.httpclient5.HttpClient5Engine;
+import cn.hutool.v7.http.meta.Method;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+
+/**
+ * 配合SimpleServerTest测试
+ */
+public class IssueI85C9STest {
+
+	private final ClientEngine engine = new HttpClient5Engine();
+
+	@Test
+	@Disabled
+	void getWithFormTest() {
+
+		final Response send = Request.of("http://localhost:8888/formTest")
+			.method(Method.GET)
+			.form(MapBuilder.of("a", (Object) 1).put("b", 2).build())
+			.send(engine);
+
+		final String bodyStr = send.bodyStr();
+		Console.log(bodyStr);
+		Assertions.assertEquals("{a=[1], b=[2]}", bodyStr);
+	}
+
+	@Test
+	@Disabled
+	void getWithFormAndUrlParamTest() {
+
+		final Response send = Request.of("http://localhost:8888/formTest?c=3")
+			.method(Method.GET)
+			.form(MapBuilder.of("a", (Object) 1).put("b", 2).build())
+			.send(engine);
+
+		Assertions.assertEquals("{a=[1], b=[2], c=[3]}", send.bodyStr());
+	}
+}

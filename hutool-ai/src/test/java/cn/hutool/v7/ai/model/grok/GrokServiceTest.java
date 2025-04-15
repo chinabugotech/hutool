@@ -1,0 +1,123 @@
+/*
+ * Copyright (c) 2025 Hutool Team and hutool.cn
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package cn.hutool.v7.ai.model.grok;
+
+import cn.hutool.v7.ai.AIServiceFactory;
+import cn.hutool.v7.ai.ModelName;
+import cn.hutool.v7.ai.Models;
+import cn.hutool.v7.ai.core.AIConfigBuilder;
+import cn.hutool.v7.ai.core.Message;
+import cn.hutool.v7.swing.img.ImgUtil;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class GrokServiceTest {
+
+	String key = "your key";
+	GrokService grokService = AIServiceFactory.getAIService(new AIConfigBuilder(ModelName.GROK.getValue()).setApiKey(key).build(), GrokService.class);
+
+
+	@Test
+	@Disabled
+	void chat(){
+		final String chat = grokService.chat("写一个疯狂星期四广告词");
+		System.out.println(chat);
+	}
+
+	@Test
+	@Disabled
+	void testChat(){
+		final List<Message> messages = new ArrayList<>();
+		messages.add(new Message("system","你是个抽象大师，会说很抽象的话，最擅长说抽象的笑话"));
+		messages.add(new Message("user","给我说一个笑话"));
+		final String chat = grokService.chat(messages);
+		System.out.println(chat);
+	}
+
+	@Test
+	@Disabled
+	void message() {
+		final String message = grokService.message("给我一个KFC的广告词", 4096);
+		System.out.println(message);
+	}
+
+	@Test
+	@Disabled
+	void chatVision() {
+		final GrokService grokService = AIServiceFactory.getAIService(new AIConfigBuilder(ModelName.GROK.getValue()).setModel(Models.Grok.GROK_2_VISION_1212.getModel()).setApiKey(key).build(), GrokService.class);
+		final String base64 = ImgUtil.toBase64DataUri(Toolkit.getDefaultToolkit().createImage("your imageUrl"), "png");
+		final String chatVision = grokService.chatVision("图片上有些什么？", Arrays.asList(base64));
+		System.out.println(chatVision);
+	}
+
+	@Test
+	@Disabled
+	void testChatVision() {
+		final GrokService grokService = AIServiceFactory.getAIService(new AIConfigBuilder(ModelName.GROK.getValue()).setModel(Models.Grok.GROK_2_VISION_1212.getModel()).setApiKey(key).build(), GrokService.class);
+		final String chatVision = grokService.chatVision("图片上有些什么？", Arrays.asList("https://img2.baidu.com/it/u=862000265,4064861820&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1544"));
+		System.out.println(chatVision);
+	}
+
+	@Test
+	@Disabled
+	void models() {
+		final String models = grokService.models();
+		assertNotNull(models);
+	}
+
+	@Test
+	@Disabled
+	void getModel() {
+		final String model = grokService.getModel("");
+		assertNotNull(model);
+	}
+
+	@Test
+	@Disabled
+	void languageModels() {
+		final String languageModels = grokService.languageModels();
+		assertNotNull(languageModels);
+	}
+
+	@Test
+	@Disabled
+	void getLanguageModel() {
+		final String language = grokService.getLanguageModel("");
+		assertNotNull(language);
+	}
+
+	@Test
+	@Disabled
+	void tokenizeText() {
+		final String tokenizeText = grokService.tokenizeText(key);
+		assertNotNull(tokenizeText);
+	}
+
+	@Test
+	@Disabled
+	void deferredCompletion() {
+		final String deferred = grokService.deferredCompletion(key);
+		assertNotNull(deferred);
+	}
+}

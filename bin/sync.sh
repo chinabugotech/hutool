@@ -19,10 +19,10 @@
 # show Hutool logo
 "$(dirname ${BASH_SOURCE[0]})"/logo.sh
 
-# 保证当前在v6-dev分支
-git checkout v6-dev
+# 保证当前在v7-dev分支
+git checkout v7-dev
 
 # 同时同步Gitee、Github和Gitcode的库
-git pull osc v6-dev
-git pull origin v6-dev
-git pull gitcode v6-dev
+git pull osc v7-dev
+git pull origin v7-dev
+git pull gitcode v7-dev

@@ -19,15 +19,15 @@
 # show Hutool logo
 "$(dirname ${BASH_SOURCE[0]})"/logo.sh
 
-echo -e "\033[32mCheckout to v6-master\033[0m"
-git checkout v6-master
+echo -e "\033[32mCheckout to v7-master\033[0m"
+git checkout v7-master
 
-echo -e "\033[32mMerge v6-dev branch\033[0m"
-git merge v6-dev -m 'Prepare release'
+echo -e "\033[32mMerge v7-dev branch\033[0m"
+git merge v7-dev -m 'Prepare release'
 
-echo -e "\033[32mPush to Github(origin) v6-master\033[0m"
-git push origin v6-master
-echo -e "\033[32mPush to Gitee v6-master\033[0m"
-git push osc v6-master
-echo -e "\033[32mPush to Gitcode v6-master\033[0m"
-git push gitcode v6-master
+echo -e "\033[32mPush to Github(origin) v7-master\033[0m"
+git push origin v7-master
+echo -e "\033[32mPush to Gitee v7-master\033[0m"
+git push osc v7-master
+echo -e "\033[32mPush to Gitcode v7-master\033[0m"
+git push gitcode v7-master

@@ -1,0 +1,98 @@
+/*
+ * Copyright (c) 2013-2025 Hutool Team and hutool.cn
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package cn.hutool.v7.crypto.asymmetric;
+
+import cn.hutool.v7.core.io.IORuntimeException;
+import cn.hutool.v7.core.io.IoUtil;
+import cn.hutool.v7.core.text.StrUtil;
+import cn.hutool.v7.core.util.CharsetUtil;
+import cn.hutool.v7.crypto.SecureUtil;
+
+import java.io.InputStream;
+import java.nio.charset.Charset;
+
+/**
+ * 非对称解密器接口，提供：
+ * <ul>
+ *     <li>从bytes解密</li>
+ *     <li>从Hex(16进制)解密</li>
+ *     <li>从Base64解密</li>
+ * </ul>
+ *
+ * @author Looly
+ * @since 5.7.12
+ */
+public interface AsymmetricDecryptor {
+
+	/**
+	 * 解密
+	 *
+	 * @param bytes   被解密的bytes
+	 * @param keyType 私钥或公钥 {@link KeyType}
+	 * @return 解密后的bytes
+	 */
+	byte[] decrypt(byte[] bytes, KeyType keyType);
+
+	/**
+	 * 解密
+	 *
+	 * @param data    被解密的bytes
+	 * @param keyType 私钥或公钥 {@link KeyType}
+	 * @return 解密后的bytes
+	 * @throws IORuntimeException IO异常
+	 */
+	default byte[] decrypt(final InputStream data, final KeyType keyType) throws IORuntimeException {
+		return decrypt(IoUtil.readBytes(data), keyType);
+	}
+
+	/**
+	 * 从Hex或Base64字符串解密，编码为UTF-8格式
+	 *
+	 * @param data    Hex（16进制）或Base64字符串
+	 * @param keyType 私钥或公钥 {@link KeyType}
+	 * @return 解密后的bytes
+	 * @since 4.5.2
+	 */
+	default byte[] decrypt(final String data, final KeyType keyType) {
+		return decrypt(SecureUtil.decode(data), keyType);
+	}
+
+	/**
+	 * 解密为字符串，密文需为Hex（16进制）或Base64字符串
+	 *
+	 * @param data    数据，Hex（16进制）或Base64字符串
+	 * @param keyType 密钥类型
+	 * @param charset 加密前编码
+	 * @return 解密后的密文
+	 * @since 4.5.2
+	 */
+	default String decryptStr(final String data, final KeyType keyType, final Charset charset) {
+		return StrUtil.str(decrypt(data, keyType), charset);
+	}
+
+	/**
+	 * 解密为字符串，密文需为Hex（16进制）或Base64字符串
+	 *
+	 * @param data    数据，Hex（16进制）或Base64字符串
+	 * @param keyType 密钥类型
+	 * @return 解密后的密文，UTF-8编码
+	 * @since 4.5.2
+	 */
+	default String decryptStr(final String data, final KeyType keyType) {
+		return decryptStr(data, keyType, CharsetUtil.UTF_8);
+	}
+}

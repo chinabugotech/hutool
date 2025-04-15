@@ -23,9 +23,9 @@
 	<packaging>jar</packaging>
 
 	<parent>
-		<groupId>org.dromara.hutool</groupId>
+		<groupId>cn.hutool.v7</groupId>
 		<artifactId>hutool-parent</artifactId>
-		<version>6.0.0-M22</version>
+		<version>7.0.0.M1</version>
 	</parent>
 
 	<artifactId>hutool-extra</artifactId>
@@ -33,7 +33,7 @@
 	<description>Hutool 扩展工具类（提供其它类库的封装）</description>
 
 	<properties>
-		<Automatic-Module-Name>org.dromara.hutool.extra</Automatic-Module-Name>
+		<Automatic-Module-Name>cn.hutool.v7.extra</Automatic-Module-Name>
 		<!-- versions -->
 		<velocity.version>2.4.1</velocity.version>
 		<beetl.version>3.19.0.RELEASE</beetl.version>
@@ -64,17 +64,17 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.dromara.hutool</groupId>
+			<groupId>cn.hutool.v7</groupId>
 			<artifactId>hutool-core</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.dromara.hutool</groupId>
+			<groupId>cn.hutool.v7</groupId>
 			<artifactId>hutool-swing</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.dromara.hutool</groupId>
+			<groupId>cn.hutool.v7</groupId>
 			<artifactId>hutool-setting</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>

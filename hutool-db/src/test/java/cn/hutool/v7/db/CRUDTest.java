@@ -1,0 +1,227 @@
+/*
+ * Copyright (c) 2013-2025 Hutool Team and hutool.cn
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package cn.hutool.v7.db;
+
+import cn.hutool.v7.core.collection.ListUtil;
+import cn.hutool.v7.core.lang.Console;
+import cn.hutool.v7.core.map.MapUtil;
+import cn.hutool.v7.db.handler.EntityListHandler;
+import cn.hutool.v7.db.pojo.User;
+import cn.hutool.v7.db.sql.Condition;
+import cn.hutool.v7.db.sql.Condition.LikeType;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.List;
+
+/**
+ * 增删改查测试
+ *
+ * @author Looly
+ */
+public class CRUDTest {
+
+	private static final Db db = Db.of("test");
+
+	@Test
+	public void findIsNullTest() {
+		final List<Entity> results = db.findAll(Entity.of("user").set("age", "is null"));
+		Assertions.assertEquals(0, results.size());
+	}
+
+	@Test
+	public void findIsNullTest2() {
+		final List<Entity> results = db.findAll(Entity.of("user").set("age", "= null"));
+		Assertions.assertEquals(0, results.size());
+	}
+
+	@Test
+	public void findIsNullTest3() {
+		final List<Entity> results = db.findAll(Entity.of("user").set("age", null));
+		Assertions.assertEquals(0, results.size());
+	}
+
+	@Test
+	public void findBetweenTest() {
+		final List<Entity> results = db.findAll(Entity.of("user").set("age", "between '18' and '40'"));
+		Assertions.assertEquals(1, results.size());
+	}
+
+	@Test
+	public void findByBigIntegerTest() {
+		final List<Entity> results = db.findAll(Entity.of("user").set("age", new BigInteger("12")));
+		Assertions.assertEquals(2, results.size());
+	}
+
+	@Test
+	public void findByBigDecimalTest() {
+		final List<Entity> results = db.findAll(Entity.of("user").set("age", new BigDecimal("12")));
+		Assertions.assertEquals(2, results.size());
+	}
+
+	@Test
+	public void findLikeTest() {
+		final List<Entity> results = db.findAll(Entity.of("user").set("name", "like \"%三%\""));
+		Assertions.assertEquals(2, results.size());
+	}
+
+	@Test
+	public void findLikeTest2() {
+		final List<Entity> results = db.findAll(Entity.of("user").set("name", new Condition("name", "三", LikeType.Contains)));
+		Assertions.assertEquals(2, results.size());
+	}
+
+	@Test
+	public void findLikeTest3() {
+		final List<Entity> results = db.findAll(Entity.of("user").set("name", new Condition("name", null, LikeType.Contains)));
+		Assertions.assertEquals(0, results.size());
+	}
+
+	@Test
+	public void findInTest() {
+		final List<Entity> results = db.findAll(Entity.of("user").set("id", "in 1,2,3"));
+		Console.log(results);
+		Assertions.assertEquals(2, results.size());
+	}
+
+	@Test
+	public void findInTest2() {
+		final List<Entity> results = db.findAll(Entity.of("user")
+				.set("id", new Condition("id", new long[]{1, 2, 3})));
+		Assertions.assertEquals(2, results.size());
+	}
+
+	@Test
+	public void findInTest3() {
+		final List<Entity> results = db.findAll(Entity.of("user")
+				.set("id", new long[]{1, 2, 3}));
+		Assertions.assertEquals(2, results.size());
+	}
+
+	@Test
+	public void findInTest4() {
+		final List<Entity> results = db.findAll(Entity.of("user")
+				.set("id", new String[]{"1", "2", "3"}));
+		Assertions.assertEquals(2, results.size());
+	}
+
+	@Test
+	public void findAllTest() {
+		final List<Entity> results = db.findAll("user");
+		Assertions.assertEquals(4, results.size());
+	}
+
+	@Test
+	public void findTest() {
+		final List<Entity> find = db.find(ListUtil.of("name AS name2"), Entity.of("user"), EntityListHandler.of());
+		Assertions.assertFalse(find.isEmpty());
+	}
+
+	@Test
+	public void findActiveTest() {
+		final ActiveEntity entity = new ActiveEntity(db, "user");
+		entity.setFieldNames("name AS name2").load();
+		Assertions.assertEquals("user", entity.getTableName());
+		Assertions.assertFalse(entity.isEmpty());
+	}
+
+	/**
+	 * 对增删改查做单元测试
+	 *
+	 */
+	@Test
+	@Disabled
+	public void crudTest() {
+
+		// 增
+		final Long id = db.insertForGeneratedKey(Entity.of("user").set("name", "unitTestUser").set("age", 66));
+		Assertions.assertTrue(id > 0);
+		final Entity result = db.get("user", "name", "unitTestUser");
+		Assertions.assertSame(66, result.getInt("age"));
+
+		// 改
+		final int update = db.update(Entity.of().set("age", 88), Entity.of("user").set("name", "unitTestUser"));
+		Assertions.assertTrue(update > 0);
+		final Entity result2 = db.get("user", "name", "unitTestUser");
+		Assertions.assertSame(88, result2.getInt("age"));
+
+		// 删
+		final int del = db.del("user", "name", "unitTestUser");
+		Assertions.assertTrue(del > 0);
+		final Entity result3 = db.get("user", "name", "unitTestUser");
+		Assertions.assertNull(result3);
+	}
+
+	@Test
+	@Disabled
+	public void insertBatchTest() {
+		final User user1 = new User();
+		user1.setName("张三");
+		user1.setAge(12);
+		user1.setBirthday("19900112");
+		user1.setGender(true);
+
+		final User user2 = new User();
+		user2.setName("李四");
+		user2.setAge(12);
+		user2.setBirthday("19890512");
+		user2.setGender(false);
+
+		final Entity data1 = Entity.of(user1);
+		data1.put("name", null);
+		final Entity data2 = Entity.of(user2);
+
+		Console.log(data1);
+		Console.log(data2);
+
+		final int[] result = db.insert(ListUtil.of(data1, data2));
+		Console.log(result);
+	}
+
+	@Test
+	@Disabled
+	public void insertBatchOneTest() {
+		final User user1 = new User();
+		user1.setName("张三");
+		user1.setAge(12);
+		user1.setBirthday("19900112");
+		user1.setGender(true);
+
+		final Entity data1 = Entity.of(user1);
+
+		Console.log(data1);
+
+		final int[] result = db.insert(ListUtil.of(new Entity[]{data1}));
+		Console.log(result);
+	}
+
+	@Test
+	public void selectInTest() {
+		final List<Entity> results = db.query("select * from user where id in (:ids)",
+				MapUtil.of("ids", new int[]{1, 2, 3}));
+		Assertions.assertEquals(2, results.size());
+	}
+
+	@Test
+	@Disabled
+	public void findWithDotTest(){
+		db.find(Entity.of("user").set("WTUR.Other.Rg.S.WTName", "value"));
+	}
+}

@@ -23,9 +23,9 @@
 	<packaging>jar</packaging>
 
 	<parent>
-		<groupId>org.dromara.hutool</groupId>
+		<groupId>cn.hutool.v7</groupId>
 		<artifactId>hutool-parent</artifactId>
-		<version>6.0.0-M22</version>
+		<version>7.0.0.M1</version>
 	</parent>
 
 	<artifactId>hutool-log</artifactId>
@@ -33,7 +33,7 @@
 	<description>Hutool 日志封装</description>
 
 	<properties>
-		<Automatic-Module-Name>org.dromara.hutool.log</Automatic-Module-Name>
+		<Automatic-Module-Name>cn.hutool.v7.log</Automatic-Module-Name>
 		<!-- versions -->
 		<slf4j.version>2.0.9</slf4j.version>
 		<logback.version>1.5.12</logback.version>
@@ -49,7 +49,7 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.dromara.hutool</groupId>
+			<groupId>cn.hutool.v7</groupId>
 			<artifactId>hutool-core</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
