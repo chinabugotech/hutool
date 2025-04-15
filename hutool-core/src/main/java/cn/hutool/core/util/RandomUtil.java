@@ -580,7 +580,8 @@ public class RandomUtil {
 
 	/**
 	 * 获得一个随机的字符串（只包含数字和字符）
-	 *
+	 * 使用SecureRandom确保安全性
+   * 
 	 * @param length 字符串的长度
 	 * @return 随机字符串
 	 */
@@ -590,14 +591,32 @@ public class RandomUtil {
 
 	/**
 	 * 获得一个随机的字符串（只包含数字和大写字符）
-	 *
+	 * 使用SecureRandom确保安全性
+   * 
+   * @param baseString 随机字符选取的样本
 	 * @param length 字符串的长度
 	 * @return 随机字符串
 	 * @since 4.0.13
 	 */
-	public static String randomStringUpper(final int length) {
-		return randomString(BASE_CHAR_NUMBER, length).toUpperCase();
-	}
+	public static String randomString(final String baseString, int length) {
+    if (StrUtil.isEmpty(baseString)) {
+        return StrUtil.EMPTY;
+    }
+    if (length < 1) {
+        length = 1;
+    }
+
+    final StringBuilder sb = new StringBuilder(length);
+    final int baseLength = baseString.length();
+    // Use SecureRandom instead of ThreadLocalRandom for security
+    final SecureRandom secureRandom = getSecureRandom();
+    
+    for (int i = 0; i < length; i++) {
+        final int number = secureRandom.nextInt(baseLength);
+        sb.append(baseString.charAt(number));
+    }
+    return sb.toString();
+}
 
 	/**
 	 * 获得一个随机的字符串（只包含数字和字母） 并排除指定字符串
