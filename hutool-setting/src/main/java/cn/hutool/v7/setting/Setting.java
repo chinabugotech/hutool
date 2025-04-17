@@ -26,6 +26,7 @@ import cn.hutool.v7.core.io.resource.Resource;
 import cn.hutool.v7.core.io.resource.ResourceUtil;
 import cn.hutool.v7.core.io.watch.WatchMonitor;
 import cn.hutool.v7.core.io.watch.WatchUtil;
+import cn.hutool.v7.core.io.watch.watchers.DelayWatcher;
 import cn.hutool.v7.core.io.watch.watchers.SimpleWatcher;
 import cn.hutool.v7.core.lang.Assert;
 import cn.hutool.v7.core.text.CharUtil;
@@ -35,6 +36,7 @@ import cn.hutool.v7.log.LogUtil;
 import cn.hutool.v7.setting.props.Props;
 
 import java.io.File;
+import java.io.Serial;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.WatchEvent;
@@ -56,6 +58,7 @@ import java.util.function.Consumer;
  * @author Looly
  */
 public class Setting extends AbsSetting implements Map<String, String> {
+	@Serial
 	private static final long serialVersionUID = 3618305164959883393L;
 
 	/**
@@ -199,7 +202,8 @@ public class Setting extends AbsSetting implements Map<String, String> {
 		Assert.notNull(this.resource, "Setting resource must be not null !");
 		// 先关闭之前的监听
 		IoUtil.closeQuietly(this.watchMonitor);
-		this.watchMonitor = WatchUtil.ofModify(resource.getUrl(), new SimpleWatcher() {
+		this.watchMonitor = WatchUtil.ofModify(resource.getUrl(), new DelayWatcher(new SimpleWatcher() {
+			@Serial
 			private static final long serialVersionUID = 5190107321461226190L;
 
 			@Override
@@ -210,7 +214,7 @@ public class Setting extends AbsSetting implements Map<String, String> {
 					callback.accept(Setting.this);
 				}
 			}
-		});
+		}, 600));
 		this.watchMonitor.start();
 		LogUtil.debug("Auto load for [{}] listenning...", this.resource.getUrl());
 	}

@@ -79,12 +79,12 @@
 
 Hutool目前主要版本4.x、5.x、6.x、7.x，选择如下：
 
-| 版本  | jdk    | Maven仓库                                                                                             | 主要特点                                |
-|-----|--------|-----------------------------------------------------------------------------------------------------|-------------------------------------|
-| 4.x | jdk1.7 | [cn.hutool/hutool-all/4.x](https://mvnrepository.com/artifact/cn.hutool/hutool-all/4.6.17)          | jdk1.7编译                            |
-| 5.x | jdk1.8 | [cn.hutool/hutool-all/5.x ](https://mvnrepository.com/artifact/cn.hutool/hutool-all)                | jdk1.8编译,使用JavaEE,适配JDK11、17、21     |
+| 版本  | jdk    | Maven仓库                                                                                                | 主要特点                                |
+|-----|--------|--------------------------------------------------------------------------------------------------------|-------------------------------------|
+| 4.x | jdk1.7 | [cn.hutool/hutool-all/4.x](https://mvnrepository.com/artifact/cn.hutool/hutool-all/4.6.17)             | jdk1.7编译                            |
+| 5.x | jdk1.8 | [cn.hutool/hutool-all/5.x ](https://mvnrepository.com/artifact/cn.hutool/hutool-all)                   | jdk1.8编译,使用JavaEE,适配JDK11、17、21     |
 | 6.x | jdk1.8 | [org.dromara.hutool/hutool-all/6.x ](https://mvnrepository.com/artifact/org.dromara.hutool/hutool-all) | jdk1.8编译,使用Jakarta EE,适配JDK11、17、21 |
-| 7.x | jdk17  | [cn.hutool/hutool-all/6.x ](https://mvnrepository.com/artifact/org.dromara.hutool/hutool-all)       | jdk17编译,使用Jakarta EE,适配17+          |
+| 7.x | jdk17  | [cn.hutool.v7/hutool-all/6.x ](https://mvnrepository.com/artifact/org.dromara.hutool/hutool-all)       | jdk17编译,使用Jakarta EE,适配17+          |
 
 ## 🛠️包含组件
 
