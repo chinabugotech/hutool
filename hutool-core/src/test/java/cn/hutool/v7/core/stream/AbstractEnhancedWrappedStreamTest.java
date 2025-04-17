@@ -100,13 +100,13 @@ public class AbstractEnhancedWrappedStreamTest {
 	@Test
 	public void testToZip() {
 		final List<Integer> orders = asList(1, 2, 3);
-		final List<String> list = asList("dromara", "hutool", "sweet");
+		final List<String> list = asList("bugotech", "hutool", "sweet");
 		final Map<Integer, String> toZip = wrap(orders).toZip(list);
 		Assertions.assertEquals(new HashMap<Integer, String>() {
 			private static final long serialVersionUID = 1L;
 
 			{
-				put(1, "dromara");
+				put(1, "bugotech");
 				put(2, "hutool");
 				put(3, "sweet");
 			}

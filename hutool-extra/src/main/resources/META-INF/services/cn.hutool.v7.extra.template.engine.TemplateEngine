@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-# 实现：org.dromara.hutool.extra.template.engine.TemplateEngine
+# 实现：cn.hutool.v7.extra.template.engine.TemplateEngine
 
 cn.hutool.v7.extra.template.engine.beetl.BeetlEngine
 cn.hutool.v7.extra.template.engine.freemarker.FreemarkerEngine

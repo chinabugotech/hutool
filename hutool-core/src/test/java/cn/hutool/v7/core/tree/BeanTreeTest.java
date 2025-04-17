@@ -63,28 +63,28 @@ public class BeanTreeTest {
 	public void setUp() {
 		originJavaBeanList = EasyStream
 				.of(
-						JavaBean.builder().id(1L).name("dromara").matchParent(true).build(),
-						JavaBean.builder().id(2L).name("baomidou").matchParent(true).build(),
+						JavaBean.builder().id(1L).name("bugotech").matchParent(true).build(),
+						JavaBean.builder().id(2L).name("abcde").matchParent(true).build(),
 						JavaBean.builder().id(3L).name("hutool").parentId(1L).build(),
-						JavaBean.builder().id(4L).name("sa-token").parentId(1L).build(),
-						JavaBean.builder().id(5L).name("mybatis-plus").parentId(2L).build(),
+						JavaBean.builder().id(4L).name("sasa").parentId(1L).build(),
+						JavaBean.builder().id(5L).name("cde").parentId(2L).build(),
 						JavaBean.builder().id(6L).name("Looly").parentId(3L).build(),
 						JavaBean.builder().id(7L).name("click33").parentId(4L).build(),
 						JavaBean.builder().id(8L).name("jobob").parentId(5L).build()
 				).toList();
 		originJavaBeanTree = asList(
-				JavaBean.builder().id(1L).name("dromara").matchParent(true)
+				JavaBean.builder().id(1L).name("bugotech").matchParent(true)
 						.children(asList(
 								JavaBean.builder().id(3L).name("hutool").parentId(1L)
 										.children(singletonList(JavaBean.builder().id(6L).name("Looly").parentId(3L).build()))
 										.build(),
-								JavaBean.builder().id(4L).name("sa-token").parentId(1L)
+								JavaBean.builder().id(4L).name("sasa").parentId(1L)
 										.children(singletonList(JavaBean.builder().id(7L).name("click33").parentId(4L).build()))
 										.build()))
 						.build(),
-				JavaBean.builder().id(2L).name("baomidou").matchParent(true)
+				JavaBean.builder().id(2L).name("abcde").matchParent(true)
 						.children(singletonList(
-								JavaBean.builder().id(5L).name("mybatis-plus").parentId(2L)
+								JavaBean.builder().id(5L).name("cde").parentId(2L)
 										.children(singletonList(
 												JavaBean.builder().id(8L).name("jobob").parentId(5L).build()
 										))
@@ -113,7 +113,7 @@ public class BeanTreeTest {
 	public void testFilter() {
 		final List<JavaBean> javaBeanTree = beanTree.filter(originJavaBeanTree, s -> "Looly".equals(s.getName()));
 		Assertions.assertEquals(singletonList(
-						JavaBean.builder().id(1L).name("dromara").matchParent(true)
+						JavaBean.builder().id(1L).name("bugotech").matchParent(true)
 								.children(singletonList(JavaBean.builder().id(3L).name("hutool").parentId(1L)
 										.children(singletonList(JavaBean.builder().id(6L).name("Looly").parentId(3L).build()))
 										.build()))
@@ -125,17 +125,17 @@ public class BeanTreeTest {
 	public void testForeach() {
 		final List<JavaBean> javaBeanList = beanTree.forEach(originJavaBeanTree, s -> s.setName("【open source】" + s.getName()));
 		Assertions.assertEquals(asList(
-				JavaBean.builder().id(1L).name("【open source】dromara").matchParent(true)
+				JavaBean.builder().id(1L).name("【open source】bugotech").matchParent(true)
 						.children(asList(JavaBean.builder().id(3L).name("【open source】hutool").parentId(1L)
 										.children(singletonList(JavaBean.builder().id(6L).name("【open source】Looly").parentId(3L).build()))
 										.build(),
-								JavaBean.builder().id(4L).name("【open source】sa-token").parentId(1L)
+								JavaBean.builder().id(4L).name("【open source】sasa").parentId(1L)
 										.children(singletonList(JavaBean.builder().id(7L).name("【open source】click33").parentId(4L).build()))
 										.build()))
 						.build(),
-				JavaBean.builder().id(2L).name("【open source】baomidou").matchParent(true)
+				JavaBean.builder().id(2L).name("【open source】abcde").matchParent(true)
 						.children(singletonList(
-								JavaBean.builder().id(5L).name("【open source】mybatis-plus").parentId(2L)
+								JavaBean.builder().id(5L).name("【open source】cde").parentId(2L)
 										.children(singletonList(
 												JavaBean.builder().id(8L).name("【open source】jobob").parentId(5L).build()
 										))

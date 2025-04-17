@@ -120,26 +120,6 @@
 			<name>CherryRum</name>
 			<email>yulin.1996@foxmail.com</email>
 		</developer>
-		<developer>
-			<name>Emptypoint</name>
-			<email>1215582715@qq.com</email>
-		</developer>
-		<developer>
-			<name>Createsequence</name>
-			<email>cn.createsequence@gmail.com</email>
-		</developer>
-		<developer>
-			<name>TianPeiRong</name>
-			<email>canghaihongxin@163.com</email>
-		</developer>
-		<developer>
-			<name>Dazer007</name>
-			<email>dazer007@163.com</email>
-		</developer>
-		<developer>
-			<name>Aihuahua</name>
-			<email>aihuahua522@qq.com</email>
-		</developer>
 	</developers>
 
 	<scm>

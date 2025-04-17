@@ -9,8 +9,8 @@
 </p>
 
 <p align="center">
-    <a target="_blank" href="https://search.maven.org/artifact/org.dromara.hutool/hutool-all">
-        <img alt="" src="https://img.shields.io/maven-central/v/org.dromara.hutool/hutool-all.svg?label=Maven%20Central" />
+    <a target="_blank" href="https://search.maven.org/artifact/cn.hutool/hutool-all">
+        <img alt="" src="https://img.shields.io/maven-central/v/cn.hutool/hutool-all.svg?label=Maven%20Central" />
     </a>
     <a target="_blank" href="https://www.apache.org/licenses/LICENSE-2.0.html">
         <img alt="" src="https://img.shields.io/:license-apache2.0-blue.svg?logo=apache" />
@@ -18,14 +18,14 @@
     <a target="_blank" href="https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html">
         <img alt="" src="https://img.shields.io/badge/JDK-8+-green.svg" />
     </a>
-    <a target="_blank" href="https://travis-ci.com/dromara/hutool">
-        <img alt="" src="https://travis-ci.com/dromara/hutool.svg?branch=v5-master" />
+    <a target="_blank" href="https://travis-ci.com/chinabugotech/hutool">
+        <img alt="" src="https://travis-ci.com/chinabugotech/hutool.svg?branch=v5-master" />
     </a>
-    <a href="https://www.codacy.com/gh/dromara/hutool/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=dromara/hutool&amp;utm_campaign=Badge_Grade">
+    <a href="https://www.codacy.com/gh/chinabugotech/hutool/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=chinabugotech/hutool&amp;utm_campaign=Badge_Grade">
         <img alt="" src="https://app.codacy.com/project/badge/Grade/8a6897d9de7440dd9de8804c28d2871d"/>
     </a>
-    <a href="https://codecov.io/gh/dromara/hutool">
-        <img alt="" src="https://codecov.io/gh/dromara/hutool/branch/v6-master/graph/badge.svg" />
+    <a href="https://codecov.io/gh/cn/hutool">
+        <img alt="" src="https://codecov.io/gh/chinabugotech/hutool/branch/v7-master/graph/badge.svg" />
     </a>
     <a target="_blank" href="https://gitter.im/hutool/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge">
         <img alt="" src="https://badges.gitter.im/hutool/Lobby.svg" />
@@ -34,7 +34,7 @@
         <img alt="star" src='https://gitee.com/chinabugotech/hutool/badge/star.svg'/>
     </a>
     <a target="_blank" href='https://github.com/chinabugotech/hutool'>
-        <img alt="github star" src="https://img.shields.io/github/stars/dromara/hutool.svg?style=social"/>
+        <img alt="github star" src="https://img.shields.io/github/stars/chinabugotech/hutool.svg?style=social"/>
     </a>
     <a target="_blank" href='https://gitcode.com/chinabugotech/hutool'>
         <img src="https://gitcode.com/chinabugotech/hutool/star/badge.svg" alt="gitcode star"/>
@@ -79,12 +79,12 @@
 
 Hutool目前主要版本4.x、5.x、6.x、7.x，选择如下：
 
-| 版本  | jdk    | Maven仓库                                                                                                | 主要特点                                |
-|-----|--------|--------------------------------------------------------------------------------------------------------|-------------------------------------|
-| 4.x | jdk1.7 | [cn.hutool/hutool-all/4.x](https://mvnrepository.com/artifact/cn.hutool/hutool-all/4.6.17)             | jdk1.7编译                            |
-| 5.x | jdk1.8 | [cn.hutool/hutool-all/5.x ](https://mvnrepository.com/artifact/cn.hutool/hutool-all)                   | jdk1.8编译,使用JavaEE,适配JDK11、17、21     |
+| 版本  | jdk    | Maven仓库                                                                                             | 主要特点                                |
+|-----|--------|-----------------------------------------------------------------------------------------------------|-------------------------------------|
+| 4.x | jdk1.7 | [cn.hutool/hutool-all/4.x](https://mvnrepository.com/artifact/cn.hutool/hutool-all/4.6.17)          | jdk1.7编译                            |
+| 5.x | jdk1.8 | [cn.hutool/hutool-all/5.x ](https://mvnrepository.com/artifact/cn.hutool/hutool-all)                | jdk1.8编译,使用JavaEE,适配JDK11、17、21     |
 | 6.x | jdk1.8 | [org.dromara.hutool/hutool-all/6.x ](https://mvnrepository.com/artifact/org.dromara.hutool/hutool-all) | jdk1.8编译,使用Jakarta EE,适配JDK11、17、21 |
-| 7.x | jdk17  | [cn.hutool.v7/hutool-all/6.x ](https://mvnrepository.com/artifact/org.dromara.hutool/hutool-all)       | jdk17编译,使用Jakarta EE,适配JDK11、17、21  |
+| 7.x | jdk17  | [cn.hutool/hutool-all/6.x ](https://mvnrepository.com/artifact/org.dromara.hutool/hutool-all)       | jdk17编译,使用Jakarta EE,适配17+          |
 
 ## 🛠️包含组件
 

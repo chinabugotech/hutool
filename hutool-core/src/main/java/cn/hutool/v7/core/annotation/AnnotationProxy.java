@@ -19,6 +19,7 @@ package cn.hutool.v7.core.annotation;
 import cn.hutool.v7.core.reflect.method.MethodUtil;
 import cn.hutool.v7.core.text.StrUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationHandler;
