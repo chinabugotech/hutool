@@ -151,7 +151,7 @@ public class TreeTest {
 	}
 
 	/**
-	 * https://gitee.com/dromara/hutool/pulls/1248/
+	 * https://gitee.com/chinabugotech/hutool/pulls/1248/
 	 */
 	@Test
 	public void lambdaConfigTest() {

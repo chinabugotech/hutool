@@ -33,7 +33,7 @@ public class ClassUtilTest {
 	@Test
 	public void getClassNameTest() {
 		final String className = ClassUtil.getClassName(ClassUtil.class, false);
-		Assertions.assertEquals("cn.hutool.v7.core.reflect.core.ClassUtil", className);
+		Assertions.assertEquals("cn.hutool.v7.core.reflect.ClassUtil", className);
 
 		final String simpleClassName = ClassUtil.getClassName(ClassUtil.class, true);
 		Assertions.assertEquals("ClassUtil", simpleClassName);
@@ -47,9 +47,10 @@ public class ClassUtilTest {
 
 	@Test
 	public void getShortClassNameTest() {
-		final String className = "cn.hutool.v7.core.text.core.StrUtil";
+		final String className = "cn.hutool.v7.core.text.StrUtil";
 		final String result = ClassUtil.getShortClassName(className);
-		Assertions.assertEquals("o.d.h.c.t.StrUtil", result);
+		System.out.println(result);
+		Assertions.assertEquals("c.h.v.c.t.StrUtil", result);
 	}
 
 	@Test

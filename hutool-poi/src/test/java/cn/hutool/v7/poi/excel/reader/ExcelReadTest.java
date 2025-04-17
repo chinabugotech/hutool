@@ -269,14 +269,14 @@ public class ExcelReadTest {
 
 	@Test
 	public void readColumnNPETest() {
-		// https://github.com/dromara/hutool/pull/2234
+		// https://github.com/chinabugotech/hutool/pull/2234
 		final ExcelReader reader = ExcelUtil.getReader(ResourceUtil.getStream("read_row_npe.xlsx"));
 		reader.readColumn(0, 1);
 	}
 
 	@Test
 	public void readIssueTest() {
-		//https://gitee.com/dromara/hutool/issues/I5OSFC
+		//https://gitee.com/chinabugotech/hutool/issues/I5OSFC
 		final ExcelReader reader = ExcelUtil.getReader(ResourceUtil.getStream("read.xlsx"));
 		final List<Map<Object, Object>> read = reader.read(1,2,2);
 		for (final Map<Object, Object> map : read) {

@@ -32,7 +32,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 
 /**
- * https://gitee.com/dromara/hutool/issues/I6MBS5<br>
+ * https://gitee.com/chinabugotech/hutool/issues/I6MBS5<br>
  * 经过测试，发现BigExcelWriter中的comment会错位<br>
  * 修正方式见: https://stackoverflow.com/questions/28169011/using-sxssfapache-poi-and-adding-comment-does-not-generate-proper-excel-file
  */

@@ -807,7 +807,7 @@ public class ArrayUtilTest {
 
 	@Test
 	public void insertPrimitiveTest() {
-		// https://gitee.com/dromara/hutool/pulls/874
+		// https://gitee.com/chinabugotech/hutool/pulls/874
 
 		final boolean[] booleans = new boolean[10];
 		final byte[] bytes = new byte[10];

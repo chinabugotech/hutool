@@ -222,7 +222,7 @@ public class UserAgentUtilTest {
 	}
 
 	/**
-	 * https://github.com/dromara/hutool/issues/1177
+	 * https://github.com/chinabugotech/hutool/issues/1177
 	 */
 	@Test
 	public void parseMicroMessengerTest() {
@@ -379,7 +379,7 @@ public class UserAgentUtilTest {
 
 	@Test
 	public void parseEdgATest(){
-		// https://gitee.com/dromara/hutool/issues/I4MCBP
+		// https://gitee.com/chinabugotech/hutool/issues/I4MCBP
 		final String uaStr = "userAgent: Mozilla/5.0 (Linux; Android 11; MI 9 Transparent Edition) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.55 Mobile Safari/537.36 EdgA/96.0.1054.36";
 		final UserAgent ua = UserAgentUtil.parse(uaStr);
 		assertEquals("MSEdge", ua.getBrowser().toString());
@@ -394,7 +394,7 @@ public class UserAgentUtilTest {
 
 	@Test
 	public void parseLenovoTest(){
-		// https://gitee.com/dromara/hutool/issues/I4QBMD
+		// https://gitee.com/chinabugotech/hutool/issues/I4QBMD
 		final String uaStr = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.89 Safari/537.36 SLBrowser/7.0.0.6241 SLBChan/30";
 		final UserAgent ua = UserAgentUtil.parse(uaStr);
 
@@ -425,7 +425,7 @@ public class UserAgentUtilTest {
 
 	@Test
 	public void parseFromDeepinTest(){
-		// https://gitee.com/dromara/hutool/issues/I50YGY
+		// https://gitee.com/chinabugotech/hutool/issues/I50YGY
 		final String uaStr = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36";
 		final UserAgent ua = UserAgentUtil.parse(uaStr);
 		assertEquals("Linux", ua.getOs().toString());
@@ -446,7 +446,7 @@ public class UserAgentUtilTest {
 	}
 
 	/**
-	 * <a href="https://gitee.com/dromara/hutool/issues/I7OTCU">fix : issues I7OTCU </a>
+	 * <a href="https://gitee.com/chinabugotech/hutool/issues/I7OTCU">fix : issues I7OTCU </a>
 	 */
 	@Test
 	public void issuseI7OTCUTest() {

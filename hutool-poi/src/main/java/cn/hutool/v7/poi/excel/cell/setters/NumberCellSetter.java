@@ -40,7 +40,7 @@ public class NumberCellSetter implements CellSetter {
 
 	@Override
 	public void setValue(final Cell cell) {
-		// issue https://gitee.com/dromara/hutool/issues/I43U9G
+		// issue https://gitee.com/chinabugotech/hutool/issues/I43U9G
 		// 避免float到double的精度问题
 		cell.setCellValue(NumberUtil.toDouble(value));
 	}

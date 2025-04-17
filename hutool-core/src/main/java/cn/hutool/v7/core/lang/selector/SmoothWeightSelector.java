@@ -25,7 +25,7 @@ import java.util.List;
  * 平滑加权轮询选择器
  *
  * <p>
- * 来自：https://gitee.com/dromara/hutool/pulls/982/
+ * 来自：https://gitee.com/chinabugotech/hutool/pulls/982/
  * </p>
  * <p>
  * 介绍：https://cloud.tencent.com/developer/beta/article/1680928

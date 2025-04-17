@@ -707,7 +707,7 @@ public class ExcelWriteTest {
 	@Test
 	@Disabled
 	public void mergeTest3() {
-		// https://github.com/dromara/hutool/issues/1696
+		// https://github.com/chinabugotech/hutool/issues/1696
 
 		final List<Map<String, Object>> list = new ArrayList<>();
 		final Map<String, Object> map = new HashMap<>();
@@ -737,7 +737,7 @@ public class ExcelWriteTest {
 	@Test
 	@Disabled
 	public void mergeForDateTest() {
-		// https://github.com/dromara/hutool/issues/1911
+		// https://github.com/chinabugotech/hutool/issues/1911
 
 		//通过工具类创建writer
 		final String path = "d:/test/mergeForDate.xlsx";
@@ -762,7 +762,7 @@ public class ExcelWriteTest {
 	@Test
 	@Disabled
 	public void writeFloatTest() {
-		//issue https://gitee.com/dromara/hutool/issues/I43U9G
+		//issue https://gitee.com/chinabugotech/hutool/issues/I43U9G
 		final String path = "d:/test/floatTest.xlsx";
 		FileUtil.del(FileUtil.file(path));
 
@@ -774,7 +774,7 @@ public class ExcelWriteTest {
 	@Test
 	@Disabled
 	public void writeDoubleTest() {
-		// https://gitee.com/dromara/hutool/issues/I5PI5C
+		// https://gitee.com/chinabugotech/hutool/issues/I5PI5C
 		final String path = "d:/test/doubleTest.xlsx";
 		FileUtil.del(FileUtil.file(path));
 
@@ -787,7 +787,7 @@ public class ExcelWriteTest {
 	@Test
 	@Disabled
 	public void issueI466ZZTest() {
-		// https://gitee.com/dromara/hutool/issues/I466ZZ
+		// https://gitee.com/chinabugotech/hutool/issues/I466ZZ
 		// 需要输出S_20000314_x5116_0004
 		// 此处加入一个转义前缀：_x005F
 		final List<Object> row = ListUtil.view(new EscapeStrCellSetter("S_20000314_x5116_0004"));
@@ -800,7 +800,7 @@ public class ExcelWriteTest {
 	@Test
 	@Disabled
 	public void writeLongTest() {
-		//https://gitee.com/dromara/hutool/issues/I49R6U
+		//https://gitee.com/chinabugotech/hutool/issues/I49R6U
 		final ExcelWriter writer = ExcelUtil.getWriter("d:/test/long.xlsx");
 		writer.write(ListUtil.view(1427545395336093698L));
 		writer.close();

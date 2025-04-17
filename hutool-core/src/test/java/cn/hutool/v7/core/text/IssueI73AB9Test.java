@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Test;
 public class IssueI73AB9Test {
 
 	/**
-	 * https://gitee.com/dromara/hutool/issues/I73AB9
+	 * https://gitee.com/chinabugotech/hutool/issues/I73AB9
 	 */
 	@Test
 	void subWithLengthTest() {

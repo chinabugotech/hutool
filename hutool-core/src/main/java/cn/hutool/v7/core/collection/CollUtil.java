@@ -1560,7 +1560,7 @@ public class CollUtil {
 			final String arrayStr = StrUtil.unWrap((CharSequence) value, '[', ']');
 			iter = SplitUtil.splitTrim(arrayStr, StrUtil.COMMA).iterator();
 		} else if (value instanceof Map && BeanUtil.isWritableBean(TypeUtil.getClass(elementType))) {
-			//https://github.com/dromara/hutool/issues/3139
+			//https://github.com/chinabugotech/hutool/issues/3139
 			// 如果值为Map，而目标为一个Bean，则Map应整体转换为Bean，而非拆分成Entry转换
 			iter = new ArrayIter<>(new Object[]{value});
 		} else {

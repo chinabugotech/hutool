@@ -34,7 +34,7 @@ import java.util.stream.Stream;
 
 /**
  * 复制jdk16中的Optional，以及自己进行了一点调整和新增，比jdk8中的Optional多了几个实用的函数<br>
- * 详细见：<a href="https://gitee.com/dromara/hutool/pulls/426"></a>
+ * 详细见：<a href="https://gitee.com/chinabugotech/hutool/pulls/426"></a>
  *
  * @param <T> 包裹里元素的类型
  * @author VampireAchao

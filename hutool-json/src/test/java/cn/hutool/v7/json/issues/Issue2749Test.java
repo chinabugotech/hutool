@@ -26,7 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * https://github.com/dromara/hutool/issues/2749
+ * https://github.com/chinabugotech/hutool/issues/2749
  * <p>
  * 由于使用了递归方式解析和写出，导致JSON太长的话容易栈溢出。
  */

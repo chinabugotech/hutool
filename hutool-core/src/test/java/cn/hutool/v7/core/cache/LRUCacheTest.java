@@ -28,7 +28,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * 见：<a href="https://github.com/dromara/hutool/issues/1895">https://github.com/dromara/hutool/issues/1895</a><br>
+ * 见：<a href="https://github.com/chinabugotech/hutool/issues/1895">https://github.com/chinabugotech/hutool/issues/1895</a><br>
  * 并发问题测试，在5.7.15前，LRUCache存在并发问题，多线程get后，map结构变更，导致null的位置不确定，
  * 并可能引起死锁。
  */
@@ -37,7 +37,7 @@ public class LRUCacheTest {
 	@Test
 	@Disabled
 	public void putTest(){
-		//https://github.com/dromara/hutool/issues/2227
+		//https://github.com/chinabugotech/hutool/issues/2227
 		final LRUCache<String, String> cache = CacheUtil.newLRUCache(100, 10);
 		for (int i = 0; i < 10000; i++) {
 			//ThreadUtil.execute(()-> cache.put(RandomUtil.randomString(5), "1243", 10));

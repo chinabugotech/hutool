@@ -186,7 +186,7 @@ public class UUID implements java.io.Serializable, Comparable<UUID> {
 
 	/**
 	 * 获取随机生成的UUIDv7<br>
-	 * 【开源之夏】贡献内容，见：https://gitee.com/dromara/hutool/pulls/1263
+	 * 【开源之夏】贡献内容，见：https://gitee.com/chinabugotech/hutool/pulls/1263
 	 *
 	 * @return UUIDv7
 	 * @author Cason(https://gitee.com/Casonhqc)

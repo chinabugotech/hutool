@@ -27,7 +27,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 /**
- * https://gitee.com/dromara/hutool/issues/I4EMST
+ * https://gitee.com/chinabugotech/hutool/issues/I4EMST
  */
 public class Sm4StreamTest {
 

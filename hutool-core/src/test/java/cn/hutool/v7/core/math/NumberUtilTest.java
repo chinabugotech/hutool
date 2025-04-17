@@ -398,7 +398,7 @@ public class NumberUtilTest {
 
 	@Test
 	public void issue2878Test() throws ParseException {
-		// https://github.com/dromara/hutool/issues/2878
+		// https://github.com/chinabugotech/hutool/issues/2878
 		// 当数字中包含一些非数字字符时，按照JDK的规则，不做修改。
 		final BigDecimal bigDecimal = NumberUtil.toBigDecimal("345.sdf");
 		assertEquals(NumberFormat.getInstance().parse("345.sdf"), bigDecimal.longValue());

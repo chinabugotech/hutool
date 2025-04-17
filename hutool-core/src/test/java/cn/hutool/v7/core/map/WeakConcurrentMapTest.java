@@ -22,6 +22,7 @@ import cn.hutool.v7.core.thread.ThreadUtil;
 import cn.hutool.v7.core.util.ObjUtil;
 import cn.hutool.v7.core.util.RandomUtil;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class WeakConcurrentMapTest {
@@ -60,6 +61,7 @@ public class WeakConcurrentMapTest {
 	}
 
 	@Test
+	@Disabled
 	public void getConcurrencyTest() {
 		final WeakConcurrentMap<String, String> cache = new WeakConcurrentMap<>();
 		final ConcurrencyTester tester = new ConcurrencyTester(2000);

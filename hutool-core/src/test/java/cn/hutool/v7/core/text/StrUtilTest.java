@@ -389,7 +389,7 @@ public class StrUtilTest {
 		containsAny = StrUtil.containsAny("aaabbbccc", "d", "c");
 		Assertions.assertTrue(containsAny);
 
-		// https://gitee.com/dromara/hutool/issues/I7WSYD
+		// https://gitee.com/chinabugotech/hutool/issues/I7WSYD
 		containsAny = StrUtil.containsAny("你好啊", "嗯", null);
 		Assertions.assertFalse(containsAny);
 	}
@@ -598,7 +598,7 @@ public class StrUtilTest {
 
 	@Test
 	public void testReplace2() {
-		// https://gitee.com/dromara/hutool/issues/I4M16G
+		// https://gitee.com/chinabugotech/hutool/issues/I4M16G
 		final String replace = "#{A}";
 		final String result = StrUtil.replace(replace, "#{AAAAAAA}", "1");
 		assertEquals(replace, result);

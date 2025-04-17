@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * 测试上传超时情况<br>
- * https://gitee.com/dromara/hutool/issues/I6Q30X<br>
+ * https://gitee.com/chinabugotech/hutool/issues/I6Q30X<br>
  *
  * post http://localhost:8888/file
  * form-data: file: file-data

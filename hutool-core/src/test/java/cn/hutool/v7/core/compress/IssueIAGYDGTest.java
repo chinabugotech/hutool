@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 
 /**
- * https://gitee.com/dromara/hutool/issues/IAGYDG
+ * https://gitee.com/chinabugotech/hutool/issues/IAGYDG
  */
 public class IssueIAGYDGTest {
 	@Test

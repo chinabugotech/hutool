@@ -33,11 +33,11 @@
 	<a target="_blank" href='https://gitee.com/dromara/hutool/stargazers'>
 		<img src='https://gitee.com/dromara/hutool/badge/star.svg?theme=gvp' alt='star'/>
 	</a>
-	<a target="_blank" href='https://github.com/dromara/hutool'>
-		<img src="https://img.shields.io/github/stars/dromara/hutool.svg?style=social" alt="github star"/>
+	<a target="_blank" href='https://github.com/chinabugotech/hutool'>
+		<img src="https://img.shields.io/github/stars/chinabugotech/hutool.svg?style=social" alt="github star"/>
 	</a>
-	<a target="_blank" href='https://gitcode.com/dromara/hutool'>
-		<img src="https://gitcode.com/dromara/hutool/star/badge.svg" alt="gitcode star"/>
+	<a target="_blank" href='https://gitcode.com/chinabugotech/hutool'>
+		<img src="https://gitcode.com/chinabugotech/hutool/star/badge.svg" alt="gitcode star"/>
 	</a>
 </p>
 
@@ -126,32 +126,32 @@ Each module can be introduced individually, or all modules can be introduced by 
 ### 🍊Maven
 ```xml
 <dependency>
-    <groupId>org.dromara.hutool</groupId>
-    <artifactId>hutool-all</artifactId>
-    <version>6.0.0-M22</version>
+	<groupId>cn.hutool.v7</groupId>
+	<artifactId>hutool-all</artifactId>
+	<version>7.0.0.M1</version>
 </dependency>
 ```
 
 ### 🍐Gradle
 ```
-implementation 'org.dromara.hutool:hutool-all:6.0.0-M22'
+implementation 'cn.hutool.v7:hutool-all:7.0.0.M1'
 ```
 
 ## 📥Download
 
-- [Maven Repo](https://repo1.maven.org/maven2/cn/hutool/hutool-all/6.0.0-M22/)
+- [Maven Repo](https://repo1.maven.org/maven2/cn/hutool/v7/hutool-all/7.0.0.M1/)
 
 > 🔔️note:
-> Hutool 5.x supports JDK8+ and is not tested on Android platforms, and cannot guarantee that all tool classes or tool methods are available.
+> Hutool 7.x supports JDK17 and is not tested on Android platforms, and cannot guarantee that all tool classes or tool methods are available.
 > If your project uses JDK7, please use Hutool 4.x version.
 
 ### 🚽Compile and install
 
 Download the entire project source code
 
-gitee：[https://gitee.com/dromara/hutool](https://gitee.com/dromara/hutool) 
+gitee：[https://gitee.com/chinabugotech/hutool](https://gitee.com/chinabugotech/hutool) 
 
-github:[https://github.com/dromara/hutool](https://github.com/dromara/hutool)
+github:[https://github.com/chinabugotech/hutool](https://github.com/chinabugotech/hutool)
 
 ```sh
 cd ${hutool}
@@ -168,16 +168,16 @@ Hutool's source code is divided into two branches:
 
 | branch    | description                                                                                                                                                         |
 |-----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| v6-master | The master branch, the branch used by the release version, is the same as the jar committed to the central repository and does not receive any pr or modifications. |
-| v6-dev    | Development branch, which defaults to the next SNAPSHOT version, accepts modifications or pr                                                                        |
+| v7-master | The master branch, the branch used by the release version, is the same as the jar committed to the central repository and does not receive any pr or modifications. |
+| v7-dev    | Development branch, which defaults to the next SNAPSHOT version, accepts modifications or pr                                                                        |
 
 ### 🐞Provide feedback or suggestions on bugs
 
 When submitting feedback, please indicate which JDK version, Hutool version, and related dependency library version you are using.
 
-- [Gitee issue](https://gitee.com/dromara/hutool/issues)
-- [Github issue](https://github.com/dromara/hutool/issues)
-- [Gitcode issue](https://gitcode.com/dromara/hutool/issues)
+- [Gitee issue](https://gitee.com/chinabugotech/hutool/issues)
+- [Github issue](https://github.com/chinabugotech/hutool/issues)
+- [Gitcode issue](https://gitcode.com/chinabugotech/hutool/issues)
 
 ### 🧬Principles of PR(pull request)
 
@@ -186,13 +186,13 @@ Hutool welcomes anyone to contribute code to Hutool, but the author suffers from
 1. Improve the comments, especially each new method should follow the Java documentation specification to indicate the method description, parameter description, return value description and other information, if necessary, please add unit tests, if you want, you can also add your name.
 2. Code indentation according to Eclipse.
 3. Newly added methods do not use third-party library methods，Unless the method tool is add to the '**extra module**'.
-4. Please pull request to the `v6-dev` branch. Hutool uses a new branch after 5.x: `v6-master` is the master branch, which indicates the version of the central library that has been released, and this branch does not allow pr or modifications.
+4. Please pull request to the `v7-dev` branch. Hutool uses a new branch after 7.x: `v7-master` is the master branch, which indicates the version of the central library that has been released, and this branch does not allow pr or modifications.
 
 -------------------------------------------------------------------------------
 
 ## ⭐Star Hutool
 
-[![Stargazers over time](https://starchart.cc/dromara/hutool.svg)](https://starchart.cc/dromara/hutool)
+[![Stargazers over time](https://starchart.cc/chinabugotech/hutool.svg)](https://starchart.cc/chinabugotech/hutool)
 
 ## 📌WeChat Official Account
 

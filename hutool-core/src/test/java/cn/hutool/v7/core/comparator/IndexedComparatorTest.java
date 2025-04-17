@@ -32,7 +32,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * https://gitee.com/dromara/hutool/pulls/1240
+ * https://gitee.com/chinabugotech/hutool/pulls/1240
  */
 public class IndexedComparatorTest {
 	@Test

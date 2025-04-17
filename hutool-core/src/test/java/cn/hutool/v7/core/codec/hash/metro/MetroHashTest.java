@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
- * https://gitee.com/dromara/hutool/pulls/532
+ * https://gitee.com/chinabugotech/hutool/pulls/532
  */
 public class MetroHashTest {
 

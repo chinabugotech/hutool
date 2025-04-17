@@ -106,7 +106,7 @@ public class DsTest {
 
 	@Test
 	public void c3p0DsuserAndPassTest() {
-		// https://gitee.com/dromara/hutool/issues/I4T7XZ
+		// https://gitee.com/chinabugotech/hutool/issues/I4T7XZ
 		DSUtil.setGlobalDSFactory(new C3p0DSFactory());
 		final ComboPooledDataSource ds = (ComboPooledDataSource) DSUtil.getDS("mysql").getRaw();
 		Assertions.assertEquals("root", ds.getUser());

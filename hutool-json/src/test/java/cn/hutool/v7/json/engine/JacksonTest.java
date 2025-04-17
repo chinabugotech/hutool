@@ -43,7 +43,7 @@ public class JacksonTest {
 	}
 
 	/**
-	 * https://gitee.com/dromara/hutool/issues/IB3GM4<br>
+	 * https://gitee.com/chinabugotech/hutool/issues/IB3GM4<br>
 	 * JSON和Jackson兼容
 	 */
 	@Test

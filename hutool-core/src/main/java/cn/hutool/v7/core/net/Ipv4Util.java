@@ -109,7 +109,7 @@ public class Ipv4Util implements Ipv4Pool {
 	 * <p>
 	 * 此方法不会抛出异常，获取失败将返回{@code null}<br>
 	 * <p>
-	 * 见：https://github.com/dromara/hutool/issues/428
+	 * 见：https://github.com/chinabugotech/hutool/issues/428
 	 *
 	 * @return 本机网卡IP地址，获取失败返回{@code null}
 	 */
@@ -129,7 +129,7 @@ public class Ipv4Util implements Ipv4Pool {
 	 * <p>
 	 * 此方法不会抛出异常，获取失败将返回{@code null}<br>
 	 * <p>
-	 * 见：https://github.com/dromara/hutool/issues/428
+	 * 见：https://github.com/chinabugotech/hutool/issues/428
 	 *
 	 * @return 本机网卡IP地址，获取失败返回{@code null}
 	 */
@@ -149,7 +149,7 @@ public class Ipv4Util implements Ipv4Pool {
 	 * <p>
 	 * 此方法不会抛出异常，获取失败将返回{@code null}<br>
 	 * <p>
-	 * 见：https://github.com/dromara/hutool/issues/428
+	 * 见：https://github.com/chinabugotech/hutool/issues/428
 	 *
 	 * @param includeSiteLocal 是否包含局域网地址，如10.0.0.0 ~ 10.255.255.255、172.16.0.0 ~ 172.31.255.255、192.168.0.0 ~ 192.168.255.255
 	 * @return 本机网卡IP地址，获取失败返回{@code null}

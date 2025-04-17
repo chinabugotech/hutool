@@ -14,12 +14,14 @@
 # limitations under the License.
 #
 
-cn.hutool.v7.extra.tokenizer.engine.ansj.AnsjEngine
-cn.hutool.v7.extra.tokenizer.engine.hanlp.HanLPEngine
-cn.hutool.v7.extra.tokenizer.engine.ikanalyzer.IKAnalyzerEngine
-cn.hutool.v7.extra.tokenizer.engine.jcseg.JcsegEngine
-cn.hutool.v7.extra.tokenizer.engine.jieba.JiebaEngine
-cn.hutool.v7.extra.tokenizer.engine.mmseg.MmsegEngine
-cn.hutool.v7.extra.tokenizer.engine.word.WordEngine
-cn.hutool.v7.extra.tokenizer.engine.analysis.SmartcnEngine
-cn.hutool.v7.extra.tokenizer.engine.mynlp.MynlpEngine
+# 实现：org.dromara.hutool.extra.template.engine.TemplateEngine
+
+cn.hutool.v7.extra.template.engine.beetl.BeetlEngine
+cn.hutool.v7.extra.template.engine.freemarker.FreemarkerEngine
+cn.hutool.v7.extra.template.engine.velocity.VelocityEngine
+cn.hutool.v7.extra.template.engine.rythm.RythmEngine
+cn.hutool.v7.extra.template.engine.enjoy.EnjoyEngine
+cn.hutool.v7.extra.template.engine.thymeleaf.ThymeleafEngine
+cn.hutool.v7.extra.template.engine.wit.WitEngine
+cn.hutool.v7.extra.template.engine.jetbrick.JetbrickEngine
+cn.hutool.v7.extra.template.engine.pebble.PebbleTemplateEngine

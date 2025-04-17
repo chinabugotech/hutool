@@ -81,7 +81,7 @@ public class BitStatusUtil {
 	 *     <li>必须大于0</li>
 	 *     <li>必须为偶数</li>
 	 * </ul>
-	 * 原因见：https://github.com/dromara/hutool/pull/3706
+	 * 原因见：https://github.com/chinabugotech/hutool/pull/3706
 	 *
 	 * @param args 被检查的状态
 	 */

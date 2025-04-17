@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Map;
 
 /**
- * https://gitee.com/dromara/hutool/issues/I7FQ29
+ * https://gitee.com/chinabugotech/hutool/issues/I7FQ29
  */
 public class IssueI7FQ29Test {
 

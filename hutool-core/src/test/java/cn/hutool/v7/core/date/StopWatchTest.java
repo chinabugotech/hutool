@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit;
 public class StopWatchTest {
 
 	/**
-	 * https://gitee.com/dromara/hutool/issues/I6HSBG
+	 * https://gitee.com/chinabugotech/hutool/issues/I6HSBG
 	 */
 	@Test
 	public void prettyPrintTest() {

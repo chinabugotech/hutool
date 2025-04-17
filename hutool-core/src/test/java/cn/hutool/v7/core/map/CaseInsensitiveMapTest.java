@@ -44,7 +44,7 @@ public class CaseInsensitiveMapTest {
 
 	@Test
 	public void mergeTest(){
-		//https://github.com/dromara/hutool/issues/2086
+		//https://github.com/chinabugotech/hutool/issues/2086
 		final Map.Entry<String, String> b = MapUtil.entry("a", "value");
 		final Map.Entry<String, String> a = MapUtil.entry("A", "value");
 		final CaseInsensitiveMap<Object, Object> map = new CaseInsensitiveMap<>();

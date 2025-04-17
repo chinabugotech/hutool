@@ -102,7 +102,7 @@ public class HmacTest {
 
 	@Test
 	public void sm4CMACTest(){
-		// https://github.com/dromara/hutool/issues/2206
+		// https://github.com/chinabugotech/hutool/issues/2206
 		final byte[] key = new byte[16];
 		final HMac mac = new HMac(HmacAlgorithm.SM4CMAC,
 				KeyUtil.generateKey("SM4", key));

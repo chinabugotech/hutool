@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * https://gitee.com/dromara/hutool/issues/I4XFMW
+ * https://gitee.com/chinabugotech/hutool/issues/I4XFMW
  */
 public class IssueI4XFMWTest {
 

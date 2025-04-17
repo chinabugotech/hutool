@@ -40,7 +40,7 @@ public class CalendarUtilTest {
 			final Calendar calendar = CalendarUtil.parse("2021-09-27 00:00:112323",
 				DateFormatPool.NORM_DATETIME_FORMAT, false);
 
-			// https://github.com/dromara/hutool/issues/1849
+			// https://github.com/chinabugotech/hutool/issues/1849
 			// 在使用严格模式时，秒不正确，抛出异常
 			DateUtil.date(calendar);
 		});

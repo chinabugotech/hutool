@@ -28,7 +28,7 @@ import java.util.Map;
 public class Issue2202Test {
 
 	/**
-	 * https://github.com/dromara/hutool/issues/2202
+	 * https://github.com/chinabugotech/hutool/issues/2202
 	 */
 	@Test
 	public void mapToBeanWithFieldNameEditorTest(){

@@ -31,7 +31,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
- * https://gitee.com/dromara/hutool/issues/I6IS5B
+ * https://gitee.com/chinabugotech/hutool/issues/I6IS5B
  */
 public class IssueI6IS5BTest {
 

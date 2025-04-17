@@ -92,7 +92,7 @@ public class RSATest {
 
 	@Test
 	public void rsaECBTest() {
-		final RSA rsa = new RSA(AsymmetricAlgorithm.RSA_ECB.getValue());
+		final RSA rsa = new RSA(AsymmetricAlgorithm.RSA_ECB_PKCS1.getValue());
 
 		// 获取私钥和公钥
 		assertNotNull(rsa.getPrivateKey());

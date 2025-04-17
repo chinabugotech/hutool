@@ -14,5 +14,5 @@
 # limitations under the License.
 #
 
-cn.hutool.v7.extra.aop.engine.spring.SpringCglibProxyEngine
-cn.hutool.v7.extra.aop.engine.jdk.JdkProxyEngine
+cn.hutool.v7.core.spi.ListServiceLoaderTest$TestService2
+cn.hutool.v7.core.spi.ListServiceLoaderTest$TestService1

@@ -24,7 +24,7 @@ import java.util.Date;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * https://gitee.com/dromara/hutool/issues/I8IUTB
+ * https://gitee.com/chinabugotech/hutool/issues/I8IUTB
  */
 public class DefaultRegexDateParserTest {
 

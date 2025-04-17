@@ -362,7 +362,7 @@ public class JSONTokener extends ReaderWrapper {
 				case CharUtil.LF:
 				case CharUtil.CR:
 					//throw this.syntaxError("Unterminated string");
-					// https://gitee.com/dromara/hutool/issues/I76CSU
+					// https://gitee.com/chinabugotech/hutool/issues/I76CSU
 					// 兼容非转义符
 					sb.append(c);
 					break;

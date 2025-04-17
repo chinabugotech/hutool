@@ -170,7 +170,7 @@ public class ZipUtilTest {
 	@Test
 	@Disabled
 	public void zipStreamTest(){
-		//https://github.com/dromara/hutool/issues/944
+		//https://github.com/chinabugotech/hutool/issues/944
 		final String dir = "d:/test";
 		final String zip = "d:/test.zip";
 		try (final OutputStream out = PathUtil.getOutputStream(Paths.get(zip))){
@@ -184,7 +184,7 @@ public class ZipUtilTest {
 	@Test
 	@Disabled
 	public void zipStreamTest2(){
-		// https://github.com/dromara/hutool/issues/944
+		// https://github.com/chinabugotech/hutool/issues/944
 		final String file1 = "d:/test/a.txt";
 		final String file2 = "d:/test/a.txt";
 		final String file3 = "d:/test/asn1.key";
@@ -234,7 +234,7 @@ public class ZipUtilTest {
 	@Test
 	@Disabled
 	public void unzipTest3() {
-		// https://github.com/dromara/hutool/issues/3018
+		// https://github.com/chinabugotech/hutool/issues/3018
 		ZipUtil.unzip("d:/test/default.zip", "d:/test/");
 	}
 }

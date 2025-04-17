@@ -28,7 +28,7 @@ import org.junit.jupiter.api.Test;
 import java.security.KeyPair;
 
 /**
- *https://github.com/dromara/hutool/issues/3205
+ *https://github.com/chinabugotech/hutool/issues/3205
  */
 public class Issue3205Test {
 	@Test

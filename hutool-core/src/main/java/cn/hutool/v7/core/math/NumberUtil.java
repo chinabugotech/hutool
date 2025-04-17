@@ -306,7 +306,7 @@ public class NumberUtil extends NumberValidator {
 	public static BigDecimal div(final Number v1, final Number v2, int scale, final RoundingMode roundingMode) {
 		Assert.notNull(v2, "Divisor must be not null !");
 		if (null == v1 || isZero(v1)) {
-			// https://gitee.com/dromara/hutool/issues/I6UZYU
+			// https://gitee.com/chinabugotech/hutool/issues/I6UZYU
 			return BigDecimal.ZERO;
 		}
 

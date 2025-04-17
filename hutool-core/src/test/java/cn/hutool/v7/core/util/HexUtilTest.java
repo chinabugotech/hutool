@@ -62,7 +62,7 @@ public class HexUtilTest {
 		String a = "0x3544534F444";
 		Assertions.assertTrue(HexUtil.isHexNumber(a));
 
-		// https://gitee.com/dromara/hutool/issues/I62H7K
+		// https://gitee.com/chinabugotech/hutool/issues/I62H7K
 		a = "0x0000000000000001158e460913d00000";
 		Assertions.assertTrue(HexUtil.isHexNumber(a));
 
@@ -70,7 +70,7 @@ public class HexUtilTest {
 		a = "0x0000001000T00001158e460913d00000";
 		Assertions.assertFalse(HexUtil.isHexNumber(a));
 
-		// 错误的,https://github.com/dromara/hutool/issues/2857
+		// 错误的,https://github.com/chinabugotech/hutool/issues/2857
 		a = "-1";
 		Assertions.assertFalse(HexUtil.isHexNumber(a));
 	}

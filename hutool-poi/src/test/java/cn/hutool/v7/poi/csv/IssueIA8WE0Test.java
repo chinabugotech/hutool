@@ -24,7 +24,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * https://gitee.com/dromara/hutool/issues/IA8WE0
+ * https://gitee.com/chinabugotech/hutool/issues/IA8WE0
  */
 public class IssueIA8WE0Test {
 	@Test

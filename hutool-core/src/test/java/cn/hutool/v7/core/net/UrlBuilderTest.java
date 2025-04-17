@@ -44,7 +44,7 @@ public class UrlBuilderTest {
 
 	@Test
 	public void buildWithoutSlashTest() {
-		// https://github.com/dromara/hutool/issues/2459
+		// https://github.com/chinabugotech/hutool/issues/2459
 		String buildUrl = UrlBuilder.of().setScheme("http").setHost("192.168.1.1").setPort(8080).setWithEndTag(false).build();
 		assertEquals("http://192.168.1.1:8080", buildUrl);
 
@@ -297,7 +297,7 @@ public class UrlBuilderTest {
 
 	@Test
 	public void encodePathTest2() {
-		// https://gitee.com/dromara/hutool/issues/I4RA42
+		// https://gitee.com/chinabugotech/hutool/issues/I4RA42
 		// Path中`:`在第一个segment需要转义，之后的不需要
 		final String urlStr = "https://hutool.cn/aa/bb/Pre-K,Kindergarten,First,Second,Third,Fourth,Fifth/Page:3";
 		final UrlBuilder urlBuilder = UrlBuilder.ofHttp(urlStr, CharsetUtil.UTF_8);
@@ -316,7 +316,7 @@ public class UrlBuilderTest {
 
 	@Test
 	public void fragmentEncodeTest() {
-		// https://gitee.com/dromara/hutool/issues/I49KAL
+		// https://gitee.com/chinabugotech/hutool/issues/I49KAL
 		// 见：https://stackoverflow.com/questions/26088849/url-fragment-allowed-characters
 		final String url = "https://hutool.cn/docs/#/?id=简介";
 		UrlBuilder urlBuilder = UrlBuilder.ofHttp(url);
@@ -328,7 +328,7 @@ public class UrlBuilderTest {
 
 	@Test
 	public void slashEncodeTest() {
-		// https://github.com/dromara/hutool/issues/1904
+		// https://github.com/chinabugotech/hutool/issues/1904
 		// 在query中，"/"是不可转义字符
 		// 见：https://www.rfc-editor.org/rfc/rfc3986.html#section-3.4
 		final String url = "https://invoice.maycur.com/2b27a802-8423-4d41-86f5-63a6b259f61e.xlsx?download/2b27a802-8423-4d41-86f5-63a6b259f61e.xlsx&e=1630491088";
@@ -351,7 +351,7 @@ public class UrlBuilderTest {
 
 	@Test
 	public void addPathEncodeTest2() {
-		// https://github.com/dromara/hutool/issues/1912
+		// https://github.com/chinabugotech/hutool/issues/1912
 		final String url = UrlBuilder.of()
 				.setScheme("https")
 				.setHost("domain.cn")
@@ -377,7 +377,7 @@ public class UrlBuilderTest {
 
 	@Test
 	public void fragmentTest() {
-		// https://gitee.com/dromara/hutool/issues/I49KAL#note_8060874
+		// https://gitee.com/chinabugotech/hutool/issues/I49KAL#note_8060874
 		final String url = "https://www.hutool.cn/#/a/b?timestamp=1640391380204";
 		final UrlBuilder builder = UrlBuilder.ofHttp(url);
 
@@ -386,7 +386,7 @@ public class UrlBuilderTest {
 
 	@Test
 	public void fragmentAppendParamTest() {
-		// https://gitee.com/dromara/hutool/issues/I49KAL#note_8060874
+		// https://gitee.com/chinabugotech/hutool/issues/I49KAL#note_8060874
 		final String url = "https://www.hutool.cn/#/a/b";
 		final UrlBuilder builder = UrlBuilder.ofHttp(url);
 		builder.setFragment(builder.getFragment() + "?timestamp=1640391380204");
@@ -450,7 +450,7 @@ public class UrlBuilderTest {
 
 	@Test
 	public void issue2243Test() {
-		// https://github.com/dromara/hutool/issues/2243
+		// https://github.com/chinabugotech/hutool/issues/2243
 		// 如果用户已经做了%编码，不应该重复编码
 		final String url = "https://hutool.cn/v1.0?privateNum=%2B8616512884988";
 		final String s = UrlBuilder.of(url, null).toString();
@@ -492,7 +492,7 @@ public class UrlBuilderTest {
 
 	@Test
 	public void addPathTest() {
-		//https://gitee.com/dromara/hutool/issues/I5O4ML
+		//https://gitee.com/chinabugotech/hutool/issues/I5O4ML
 		UrlBuilder.of().addPath("");
 		UrlBuilder.of().addPath("/");
 		UrlBuilder.of().addPath("//");

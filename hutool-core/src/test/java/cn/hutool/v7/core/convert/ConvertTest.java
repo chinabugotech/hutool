@@ -410,7 +410,7 @@ public class ConvertTest {
 
 	@Test
 	public void toBigDecimalTest(){
-		// https://github.com/dromara/hutool/issues/1818
+		// https://github.com/chinabugotech/hutool/issues/1818
 		final String str = "33020000210909112800000124";
 		final BigDecimal bigDecimal = ConvertUtil.toBigDecimal(str);
 		assertEquals(str, bigDecimal.toPlainString());
@@ -420,7 +420,7 @@ public class ConvertTest {
 
 	@Test
 	public void toFloatTest(){
-		// https://gitee.com/dromara/hutool/issues/I4M0E4
+		// https://gitee.com/chinabugotech/hutool/issues/I4M0E4
 		final String hex2 = "CD0CCB43";
 		final byte[] value = HexUtil.decode(hex2);
 		final float f = ConvertUtil.toFloat(value);

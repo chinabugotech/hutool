@@ -95,7 +95,7 @@ public class FileTypeUtilTest {
 	@Test
 	@Disabled
 	public void webpTest() {
-		// https://gitee.com/dromara/hutool/issues/I5BGTF
+		// https://gitee.com/chinabugotech/hutool/issues/I5BGTF
 		final File file = FileUtil.file("d:/test/a.webp");
 		final BufferedInputStream inputStream = FileUtil.getInputStream(file);
 		final String type = FileTypeUtil.getType(inputStream);

@@ -146,7 +146,7 @@ public final class CsvWriter implements Closeable, Flushable, Serializable {
 	 */
 	public CsvWriter(final File file, final Charset charset, final boolean isAppend, final CsvWriteConfig config) {
 		this(FileUtil.getWriter(file, charset, isAppend),
-			// https://gitee.com/dromara/hutool/pulls/1011
+			// https://gitee.com/chinabugotech/hutool/pulls/1011
 			isAppend ? (config == null ? CsvWriteConfig.defaultConfig().setEndingLineBreak(true)
 				: config.setEndingLineBreak(true)) : config);
 	}

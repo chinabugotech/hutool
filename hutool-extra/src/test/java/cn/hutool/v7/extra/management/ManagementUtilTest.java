@@ -63,7 +63,7 @@ public class ManagementUtilTest {
 
 	@Test
 	public void getUserInfoTest(){
-		// https://gitee.com/dromara/hutool/issues/I3NM39
+		// https://gitee.com/chinabugotech/hutool/issues/I3NM39
 		final UserInfo userInfo = ManagementUtil.getUserInfo();
 		Assertions.assertTrue(userInfo.getTempDir().endsWith(File.separator));
 	}

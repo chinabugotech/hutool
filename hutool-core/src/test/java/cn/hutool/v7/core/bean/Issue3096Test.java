@@ -25,7 +25,7 @@ public class Issue3096Test {
 	void beanDescTest() {
 		final BeanDesc desc = BeanUtil.getBeanDesc(User.class);
 
-		// https://github.com/dromara/hutool/issues/3096
+		// https://github.com/chinabugotech/hutool/issues/3096
 		// 新修改的规则中，isLastPage字段优先匹配setIsLastPage，这个顺序固定。
 		// 只有setIsLastPage不存在时，才匹配setLastPage
 		Assertions.assertEquals("setLastPage", desc.getSetter("lastPage").getName());

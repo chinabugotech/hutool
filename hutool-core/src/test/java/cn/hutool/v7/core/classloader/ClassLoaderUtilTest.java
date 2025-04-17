@@ -37,7 +37,7 @@ public class ClassLoaderUtilTest {
 
 	@Test
 	public void isPresentTest() {
-		final boolean present = ClassLoaderUtil.isPresent("cn.hutool.v7.core.classloader.core.ClassLoaderUtil");
+		final boolean present = ClassLoaderUtil.isPresent("cn.hutool.v7.core.classloader.ClassLoaderUtil");
 		Assertions.assertTrue(present);
 	}
 

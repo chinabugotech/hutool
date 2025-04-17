@@ -23,7 +23,7 @@ import java.io.File;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * https://gitee.com/dromara/hutool/issues/IAB65V
+ * https://gitee.com/chinabugotech/hutool/issues/IAB65V
  */
 public class IssueIAB65VTest {
 	@Test

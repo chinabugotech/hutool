@@ -573,7 +573,7 @@ public class EasyStreamTest {
 	}
 
 	/**
-	 * https://github.com/dromara/hutool/pull/3128
+	 * https://github.com/chinabugotech/hutool/pull/3128
 	 */
 	@Test
 	void testStreamBigDecimal() {

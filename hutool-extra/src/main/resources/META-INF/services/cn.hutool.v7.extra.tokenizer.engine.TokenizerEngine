@@ -14,10 +14,12 @@
 # limitations under the License.
 #
 
-cn.hutool.v7.db.ds.hikari.HikariDSFactory
-cn.hutool.v7.db.ds.druid.DruidDSFactory
-cn.hutool.v7.db.ds.tomcat.TomcatDSFactory
-cn.hutool.v7.db.ds.bee.BeeDSFactory
-cn.hutool.v7.db.ds.dbcp.DbcpDSFactory
-cn.hutool.v7.db.ds.c3p0.C3p0DSFactory
-cn.hutool.v7.db.ds.pooled.PooledDSFactory
+cn.hutool.v7.extra.tokenizer.engine.ansj.AnsjEngine
+cn.hutool.v7.extra.tokenizer.engine.hanlp.HanLPEngine
+cn.hutool.v7.extra.tokenizer.engine.ikanalyzer.IKAnalyzerEngine
+cn.hutool.v7.extra.tokenizer.engine.jcseg.JcsegEngine
+cn.hutool.v7.extra.tokenizer.engine.jieba.JiebaEngine
+cn.hutool.v7.extra.tokenizer.engine.mmseg.MmsegEngine
+cn.hutool.v7.extra.tokenizer.engine.word.WordEngine
+cn.hutool.v7.extra.tokenizer.engine.analysis.SmartcnEngine
+cn.hutool.v7.extra.tokenizer.engine.mynlp.MynlpEngine

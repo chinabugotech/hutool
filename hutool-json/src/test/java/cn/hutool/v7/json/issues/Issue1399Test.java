@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Test;
 import java.sql.SQLException;
 
 /**
- * https://github.com/dromara/hutool/issues/1399<br>
+ * https://github.com/chinabugotech/hutool/issues/1399<br>
  * Throwable的默认序列化策略
  */
 public class Issue1399Test {

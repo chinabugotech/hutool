@@ -131,7 +131,7 @@ public class LambdaFactory {
 	 * 通过Lambda函数代理方法或构造
 	 * <p>
 	 *     TODO 在多模块项目中，使用module-info.java声明的模块项目，使用此方法获取的Lookup对象存在权限不足问题<br>
-	 *     见：https://gitee.com/dromara/hutool/issues/I96JIP
+	 *     见：https://gitee.com/chinabugotech/hutool/issues/I96JIP
 	 * </p>
 	 *
 	 * @param funcType       函数类型

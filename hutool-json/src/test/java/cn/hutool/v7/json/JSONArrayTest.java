@@ -250,7 +250,7 @@ public class JSONArrayTest {
 		assertEquals(3, jsonArray.size());
 	}
 
-	// https://github.com/dromara/hutool/issues/1858
+	// https://github.com/chinabugotech/hutool/issues/1858
 	@Test
 	public void putTest2() {
 		final JSONArray jsonArray = new JSONArray();

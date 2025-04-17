@@ -37,7 +37,7 @@ public class CharSequenceUtilTest {
 
 	@Test
 	public void replaceTest2() {
-		// https://gitee.com/dromara/hutool/issues/I4M16G
+		// https://gitee.com/chinabugotech/hutool/issues/I4M16G
 		final String replace = "#{A}";
 		final String result = CharSequenceUtil.replace(replace, "#{AAAAAAA}", "1");
 		assertEquals(replace, result);
@@ -72,7 +72,7 @@ public class CharSequenceUtilTest {
 		result = CharSequenceUtil.addSuffixIfNot(str, " is Good");
 		assertEquals(str + " is Good", result);
 
-		// https://gitee.com/dromara/hutool/issues/I4NS0F
+		// https://gitee.com/chinabugotech/hutool/issues/I4NS0F
 		result = CharSequenceUtil.addSuffixIfNot("", "/");
 		assertEquals("/", result);
 	}
@@ -113,7 +113,7 @@ public class CharSequenceUtilTest {
 
 	@Test
 	public void subPreGbkTest() {
-		// https://gitee.com/dromara/hutool/issues/I4JO2E
+		// https://gitee.com/chinabugotech/hutool/issues/I4JO2E
 		final String s = "华硕K42Intel酷睿i31代2G以下独立显卡不含机械硬盘固态硬盘120GB-192GB4GB-6GB";
 
 		String v = CharSequenceUtil.subPreGbk(s, 40, false);
@@ -131,7 +131,7 @@ public class CharSequenceUtilTest {
 
 	@Test
 	public void startWithTest() {
-		// https://gitee.com/dromara/hutool/issues/I4MV7Q
+		// https://gitee.com/chinabugotech/hutool/issues/I4MV7Q
 		assertFalse(CharSequenceUtil.startWith("123", "123", false, true));
 		assertFalse(CharSequenceUtil.startWith(null, null, false, true));
 		assertFalse(CharSequenceUtil.startWith("abc", "abc", true, true));

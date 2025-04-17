@@ -29,7 +29,7 @@ public class CBCBlockCipherMacEngineTest {
 
 	@Test
 	public void SM4CMACTest(){
-		// https://github.com/dromara/hutool/issues/2206
+		// https://github.com/chinabugotech/hutool/issues/2206
 		final byte[] key = new byte[16];
 		final CipherParameters parameter = new KeyParameter(KeyUtil.generateKey("SM4", key).getEncoded());
 		final Mac mac = new Mac(new SM4MacEngine(parameter));
@@ -43,7 +43,7 @@ public class CBCBlockCipherMacEngineTest {
 
 	@Test
 	public void SM4CMACWithIVTest(){
-		// https://github.com/dromara/hutool/issues/2206
+		// https://github.com/chinabugotech/hutool/issues/2206
 		final byte[] key = new byte[16];
 		final byte[] iv = new byte[16];
 		CipherParameters parameter = new KeyParameter(KeyUtil.generateKey("SM4", key).getEncoded());

@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
- * https://gitee.com/dromara/hutool/issues/I76TRQ
+ * https://gitee.com/chinabugotech/hutool/issues/I76TRQ
  */
 public class IssueI76TRQTest {
 	@Test

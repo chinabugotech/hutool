@@ -165,7 +165,7 @@ public class ResponseBody implements HttpBody, Closeable {
 
 	/**
 	 * 将响应内容写出到文件-避免未完成的文件
-	 * 来自：<a href="https://gitee.com/dromara/hutool/pulls/407">https://gitee.com/dromara/hutool/pulls/407</a><br>
+	 * 来自：<a href="https://gitee.com/chinabugotech/hutool/pulls/407">https://gitee.com/chinabugotech/hutool/pulls/407</a><br>
 	 * 此方法原理是先在目标文件同级目录下创建临时文件，下载之，等下载完毕后重命名，避免因下载错误导致的文件不完整。
 	 *
 	 * @param targetFileOrDir 写出到的文件或目录
@@ -178,7 +178,7 @@ public class ResponseBody implements HttpBody, Closeable {
 
 	/**
 	 * 将响应内容写出到文件-避免未完成的文件
-	 * 来自：<a href="https://gitee.com/dromara/hutool/pulls/407">https://gitee.com/dromara/hutool/pulls/407</a><br>
+	 * 来自：<a href="https://gitee.com/chinabugotech/hutool/pulls/407">https://gitee.com/chinabugotech/hutool/pulls/407</a><br>
 	 * 此方法原理是先在目标文件同级目录下创建临时文件，下载之，等下载完毕后重命名，避免因下载错误导致的文件不完整。
 	 *
 	 * @param targetFileOrDir 写出到的文件或目录

@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * https://github.com/dromara/hutool/issues/3136
+ * https://github.com/chinabugotech/hutool/issues/3136
  */
 public class Issue3136Test {
 

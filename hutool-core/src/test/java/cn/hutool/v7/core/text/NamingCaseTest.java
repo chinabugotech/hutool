@@ -50,16 +50,16 @@ public class NamingCaseTest {
 				.set("H#case", "H#case")
 				.set("PNLabel", "PN_label")
 				.set("wPRunOZTime", "w_P_run_OZ_time")
-				// https://github.com/dromara/hutool/issues/2070
+				// https://github.com/chinabugotech/hutool/issues/2070
 				.set("customerNickV2", "customer_nick_v2")
-				// https://gitee.com/dromara/hutool/issues/I4X9TT
+				// https://gitee.com/chinabugotech/hutool/issues/I4X9TT
 				.set("DEPT_NAME","DEPT_NAME")
 				.forEach((key, value) -> Assertions.assertEquals(value, NamingCase.toUnderlineCase(key)));
 	}
 
 	@Test
 	public void issueI5TVMUTest(){
-		// https://gitee.com/dromara/hutool/issues/I5TVMU
+		// https://gitee.com/chinabugotech/hutool/issues/I5TVMU
 		Assertions.assertEquals("t1C1", NamingCase.toUnderlineCase("t1C1"));
 	}
 

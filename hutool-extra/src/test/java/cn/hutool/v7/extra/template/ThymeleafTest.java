@@ -40,7 +40,7 @@ import java.util.*;
 public class ThymeleafTest {
 
 	/**
-	 * <a href="https://github.com/dromara/hutool/issues/2530">...</a>
+	 * <a href="https://github.com/chinabugotech/hutool/issues/2530">...</a>
 	 * 自定义操作原始引擎
 	 */
 	@Test

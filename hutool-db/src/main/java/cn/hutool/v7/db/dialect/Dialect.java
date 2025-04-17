@@ -186,7 +186,7 @@ public interface Dialect extends Serializable {
 	 * @since 5.7.2
 	 */
 	default PreparedStatement psForCount(final Connection conn, SqlBuilder sqlBuilder) throws DbException {
-		// https://gitee.com/dromara/hutool/issues/I713XQ
+		// https://gitee.com/chinabugotech/hutool/issues/I713XQ
 		// 为了兼容informix等数据库，此处使用count(*)而非count(1)
 		sqlBuilder = sqlBuilder
 				.insertPreFragment("SELECT count(*) from(")

@@ -198,7 +198,7 @@ public class DbTest {
 	@Test
 	@Disabled
 	public void queryFetchTest() {
-		// https://gitee.com/dromara/hutool/issues/I4JXWN
+		// https://gitee.com/chinabugotech/hutool/issues/I4JXWN
 		Db.of().query((conn -> {
 			final PreparedStatement ps = conn.prepareStatement("select * from table",
 				ResultSet.TYPE_FORWARD_ONLY,

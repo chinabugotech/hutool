@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
- * https://github.com/dromara/hutool/issues/3088
+ * https://github.com/chinabugotech/hutool/issues/3088
  */
 public class Issue3088Test {
 	@Test

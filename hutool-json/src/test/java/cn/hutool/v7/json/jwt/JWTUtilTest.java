@@ -62,7 +62,7 @@ public class JWTUtilTest {
 	@Test
 	public void parseNullTest(){
 		Assertions.assertThrows(IllegalArgumentException.class, ()->{
-			// https://gitee.com/dromara/hutool/issues/I5OCQB
+			// https://gitee.com/chinabugotech/hutool/issues/I5OCQB
 			JWTUtil.parseToken(null);
 		});
 	}
@@ -70,7 +70,7 @@ public class JWTUtilTest {
 	@Test
 	public void parseEmptyTest(){
 		Assertions.assertThrows(IllegalArgumentException.class, ()->{
-			// https://gitee.com/dromara/hutool/issues/I5OCQB
+			// https://gitee.com/chinabugotech/hutool/issues/I5OCQB
 			JWTUtil.parseToken("");
 		});
 	}
@@ -78,7 +78,7 @@ public class JWTUtilTest {
 	@Test
 	public void parseBlankTest(){
 		Assertions.assertThrows(IllegalArgumentException.class, ()->{
-			// https://gitee.com/dromara/hutool/issues/I5OCQB
+			// https://gitee.com/chinabugotech/hutool/issues/I5OCQB
 			JWTUtil.parseToken("  ");
 		});
 	}

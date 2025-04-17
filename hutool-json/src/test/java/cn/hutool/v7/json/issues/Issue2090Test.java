@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
 import java.time.*;
 
 /**
- * <a href="https://github.com/dromara/hutool/issues/2090">https://github.com/dromara/hutool/issues/2090</a>
+ * <a href="https://github.com/chinabugotech/hutool/issues/2090">https://github.com/chinabugotech/hutool/issues/2090</a>
  */
 public class Issue2090Test {
 

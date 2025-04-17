@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Test;
 public class SystemUtilTest {
 	@Test
 	void getSystemPropertiesTest() {
-		final String s = SystemUtil.get("path");
+		final String s = SystemUtil.get("PATH");
 		Assertions.assertNotNull(s);
 	}
 }

@@ -50,7 +50,7 @@ public class ZodiacTest {
 
 	@Test
 	public void getZodiacOutOfRangeTest() {
-		// https://github.com/dromara/hutool/issues/3036
+		// https://github.com/chinabugotech/hutool/issues/3036
 		Assertions.assertThrows(IllegalArgumentException.class, ()-> DateUtil.getZodiac(Month.UNDECIMBER.getValue(), 10));
 	}
 }

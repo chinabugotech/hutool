@@ -94,7 +94,7 @@ public class PemUtilTest {
 	@Test
 	@Disabled
 	public void readECPrivateKeyTest2() {
-		// https://gitee.com/dromara/hutool/issues/I37Z75
+		// https://gitee.com/chinabugotech/hutool/issues/I37Z75
 		final byte[] d = PemUtil.readPem(FileUtil.getInputStream("d:/test/keys/priv.key"));
 		final byte[] publicKey = PemUtil.readPem(FileUtil.getInputStream("d:/test/keys/pub.key"));
 

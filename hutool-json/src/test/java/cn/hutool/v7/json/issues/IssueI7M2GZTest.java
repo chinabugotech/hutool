@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * https://gitee.com/dromara/hutool/issues/I7M2GZ
+ * https://gitee.com/chinabugotech/hutool/issues/I7M2GZ
  */
 public class IssueI7M2GZTest {
 

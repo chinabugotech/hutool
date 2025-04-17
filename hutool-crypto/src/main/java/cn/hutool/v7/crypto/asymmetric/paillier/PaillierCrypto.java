@@ -29,7 +29,7 @@ import java.security.SecureRandom;
 /**
  * 同态加密算法Paillier<br>
  * 来自：https://github.com/peterstefanov/paillier<br>
- * 来自：https://github.com/dromara/hutool/pull/3131
+ * 来自：https://github.com/chinabugotech/hutool/pull/3131
  * <p>
  * 加法同态，存在有效算法+，E(x+y)=E(x)+E(y)或者 x+y=D(E(x)+E(y))成立，并且不泄漏 x 和 y。
  * 乘法同态，存在有效算法*，E(x×y)=E(x)*E(y)或者 xy=D(E(x)*E(y))成立，并且不泄漏 x 和 y。

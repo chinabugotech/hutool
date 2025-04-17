@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 import java.util.stream.Stream;
 
 /**
- * https://gitee.com/dromara/hutool/issues/I49VZB
+ * https://gitee.com/chinabugotech/hutool/issues/I49VZB
  */
 public class IssueI49VZBTest {
 	public enum NBCloudKeyType {

@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 /**
- * https://github.com/dromara/hutool/issues/2131<br>
+ * https://github.com/chinabugotech/hutool/issues/2131<br>
  * 字段定义成final，意味着setCollections无效，因此JSON转Bean的时候无法调用setCollections注入，所以是空的。
  */
 public class Issue2131Test {

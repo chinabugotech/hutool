@@ -168,7 +168,7 @@ public class Ipv6Util {
 	 * <p>
 	 * 此方法不会抛出异常，获取失败将返回{@code null}<br>
 	 * <p>
-	 * 见：https://github.com/dromara/hutool/issues/428
+	 * 见：https://github.com/chinabugotech/hutool/issues/428
 	 *
 	 * @return 本机网卡IP地址，获取失败返回{@code null}
 	 */

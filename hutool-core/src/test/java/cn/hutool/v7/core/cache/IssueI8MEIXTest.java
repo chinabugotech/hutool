@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
- * https://gitee.com/dromara/hutool/issues/I8MEIX<br>
+ * https://gitee.com/chinabugotech/hutool/issues/I8MEIX<br>
  * get操作非原子
  */
 public class IssueI8MEIXTest {

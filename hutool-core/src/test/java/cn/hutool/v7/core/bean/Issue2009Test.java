@@ -20,7 +20,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
- * https://github.com/dromara/hutool/issues/2009
+ * https://github.com/chinabugotech/hutool/issues/2009
  */
 public class Issue2009Test {
 
