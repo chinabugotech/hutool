@@ -17,20 +17,17 @@
 package cn.hutool.v7.http.server.engine.jetty;
 
 import cn.hutool.v7.http.server.handler.HttpHandler;
-import cn.hutool.v7.http.server.servlet.JavaxServletRequest;
-import cn.hutool.v7.http.server.servlet.JavaxServletResponse;
+import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Request;
-import org.eclipse.jetty.server.handler.AbstractHandler;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import org.eclipse.jetty.server.Response;
+import org.eclipse.jetty.util.Callback;
 
 /**
- * Jetty9版本使用的Handler
+ * Jetty版本使用的Handler
  *
  * @author Looly
  */
-public class Jetty9Handler extends AbstractHandler {
+public class JettyHandler extends Handler.Abstract {
 
 	private final HttpHandler handler;
 
@@ -39,13 +36,13 @@ public class Jetty9Handler extends AbstractHandler {
 	 *
 	 * @param handler 处理器
 	 */
-	public Jetty9Handler(final HttpHandler handler) {
+	public JettyHandler(final HttpHandler handler) {
 		this.handler = handler;
 	}
 
 	@Override
-	public void handle(final String target, final Request baseRequest,
-					   final HttpServletRequest request, final HttpServletResponse response) {
-		handler.handle(new JavaxServletRequest(request), new JavaxServletResponse(response));
+	public boolean handle(Request request, Response response, Callback callback) {
+		handler.handle(new JettyRequest(request), new JettyResponse(response));
+		return true;
 	}
 }

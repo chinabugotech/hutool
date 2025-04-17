@@ -36,9 +36,6 @@ import javax.net.ssl.SSLContext;
 public class JettyEngine extends AbstractServerEngine {
 
 	private Server server;
-	/**
-	 * 由于Jetty9和以上版本中接口实现不同，此处根据不同版本做兼容自定义
-	 */
 	private Handler jettyHandler;
 
 	/**
@@ -112,7 +109,7 @@ public class JettyEngine extends AbstractServerEngine {
 		final Server server = new Server(threadPool);
 		server.addConnector(createConnector(server));
 		server.setHandler(ObjUtil.defaultIfNull(this.jettyHandler,
-			() -> new Jetty9Handler(this.handler)));
+			() -> new JettyHandler(this.handler)));
 		this.server = server;
 	}
 
