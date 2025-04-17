@@ -36,6 +36,10 @@
 		<Automatic-Module-Name>cn.hutool.v7.json</Automatic-Module-Name>
 		<!-- versions -->
 		<jjwt.version>0.12.6</jjwt.version>
+		<jackson.version>2.18.1</jackson.version>
+		<fastjson2.version>2.0.53</fastjson2.version>
+		<gson.version>2.13.0</gson.version>
+		<moshi.version>1.15.2</moshi.version>
 	</properties>
 
 	<dependencies>
@@ -79,7 +83,7 @@
 		<dependency>
 			<groupId>com.squareup.moshi</groupId>
 			<artifactId>moshi</artifactId>
-			<version>1.15.1</version>
+			<version>${moshi.version}</version>
 			<optional>true</optional>
 		</dependency>
 
