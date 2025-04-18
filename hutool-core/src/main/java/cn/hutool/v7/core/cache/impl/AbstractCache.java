@@ -21,11 +21,12 @@ import cn.hutool.v7.core.cache.CacheListener;
 import cn.hutool.v7.core.func.SerSupplier;
 import cn.hutool.v7.core.lang.mutable.Mutable;
 import cn.hutool.v7.core.lang.mutable.MutableObj;
-import cn.hutool.v7.core.map.concurrent.SafeConcurrentHashMap;
 
+import java.io.Serial;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.LongAdder;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -44,6 +45,7 @@ import java.util.stream.Collectors;
  * @author Looly, jodd
  */
 public abstract class AbstractCache<K, V> implements Cache<K, V> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -54,7 +56,7 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
 	/**
 	 * 写的时候每个key一把锁，降低锁的粒度
 	 */
-	protected final Map<K, Lock> keyLockMap = new SafeConcurrentHashMap<>();
+	protected final Map<K, Lock> keyLockMap = new ConcurrentHashMap<>();
 
 	/**
 	 * 返回缓存容量，{@code 0}表示无大小限制

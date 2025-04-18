@@ -23,14 +23,12 @@ import cn.hutool.v7.core.collection.iter.ArrayIter;
 import cn.hutool.v7.core.collection.iter.IterUtil;
 import cn.hutool.v7.core.func.SerConsumer3;
 import cn.hutool.v7.core.lang.Assert;
-import cn.hutool.v7.core.map.concurrent.SafeConcurrentHashMap;
 import cn.hutool.v7.core.reflect.ConstructorUtil;
 import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.core.util.ObjUtil;
 
 import java.util.*;
 import java.util.Map.Entry;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.*;
 import java.util.stream.Collectors;
 
@@ -194,45 +192,6 @@ public class MapUtil extends MapGetUtil {
 	 */
 	public static <K, V> Map<K, V> newIdentityMap(final int size) {
 		return new IdentityHashMap<>(size);
-	}
-
-	/**
-	 * 新建一个初始容量为{@link MapUtil#DEFAULT_INITIAL_CAPACITY} 的{@link SafeConcurrentHashMap}
-	 *
-	 * @param <K> key的类型
-	 * @param <V> value的类型
-	 * @return {@link SafeConcurrentHashMap}
-	 */
-	public static <K, V> ConcurrentHashMap<K, V> newSafeConcurrentHashMap() {
-		return new SafeConcurrentHashMap<>(DEFAULT_INITIAL_CAPACITY);
-	}
-
-	/**
-	 * 新建一个{@link SafeConcurrentHashMap}
-	 *
-	 * @param size 初始容量，当传入的容量小于等于0时，容量为{@link MapUtil#DEFAULT_INITIAL_CAPACITY}
-	 * @param <K>  key的类型
-	 * @param <V>  value的类型
-	 * @return {@link SafeConcurrentHashMap}
-	 */
-	public static <K, V> ConcurrentHashMap<K, V> newSafeConcurrentHashMap(final int size) {
-		final int initCapacity = size <= 0 ? DEFAULT_INITIAL_CAPACITY : size;
-		return new SafeConcurrentHashMap<>(initCapacity);
-	}
-
-	/**
-	 * 传入一个Map将其转化为{@link SafeConcurrentHashMap}类型
-	 *
-	 * @param map map
-	 * @param <K> key的类型
-	 * @param <V> value的类型
-	 * @return {@link SafeConcurrentHashMap}
-	 */
-	public static <K, V> ConcurrentHashMap<K, V> newSafeConcurrentHashMap(final Map<K, V> map) {
-		if (isEmpty(map)) {
-			return new ConcurrentHashMap<>(DEFAULT_INITIAL_CAPACITY);
-		}
-		return new SafeConcurrentHashMap<>(map);
 	}
 
 	/**
@@ -430,11 +389,9 @@ public class MapUtil extends MapGetUtil {
 		final HashMap<Object, Object> map = new HashMap<>((int) (array.length * 1.5));
 		for (int i = 0; i < array.length; i++) {
 			final Object object = array[i];
-			if (object instanceof Map.Entry) {
-				final Map.Entry entry = (Map.Entry) object;
+			if (object instanceof Map.Entry entry) {
 				map.put(entry.getKey(), entry.getValue());
-			} else if (object instanceof Object[]) {
-				final Object[] entry = (Object[]) object;
+			} else if (object instanceof Object[] entry) {
 				if (entry.length > 1) {
 					map.put(entry[0], entry[1]);
 				}
@@ -447,8 +404,7 @@ public class MapUtil extends MapGetUtil {
 						map.put(key, value);
 					}
 				}
-			} else if (object instanceof Iterator) {
-				final Iterator iter = ((Iterator) object);
+			} else if (object instanceof Iterator iter) {
 				if (iter.hasNext()) {
 					final Object key = iter.next();
 					if (iter.hasNext()) {
@@ -882,9 +838,8 @@ public class MapUtil extends MapGetUtil {
 			return null;
 		}
 
-		if (map instanceof TreeMap) {
+		if (map instanceof TreeMap<K, V> result) {
 			// 已经是可排序Map，此时只有比较器一致才返回原map
-			final TreeMap<K, V> result = (TreeMap<K, V>) map;
 			if (null == comparator || comparator.equals(result.comparator())) {
 				return result;
 			}
@@ -1356,43 +1311,6 @@ public class MapUtil extends MapGetUtil {
 			values.add(pair.getValue());
 		}
 		return map;
-	}
-
-	/**
-	 * 如果 key 对应的 value 不存在，则使用获取 mappingFunction 重新计算后的值，并保存为该 key 的 value，否则返回 value。<br>
-	 * 解决使用ConcurrentHashMap.computeIfAbsent导致的死循环问题。（issues#2349）<br>
-	 * A temporary workaround for Java 8 specific performance issue JDK-8161372 .<br>
-	 * This class should be removed once we drop Java 8 support.
-	 *
-	 * <p>
-	 * 注意此方法只能用于JDK8
-	 * </p>
-	 *
-	 * @param <K>             键类型
-	 * @param <V>             值类型
-	 * @param map             Map，一般用于线程安全的Map
-	 * @param key             键
-	 * @param mappingFunction 值计算函数
-	 * @return 值
-	 * @see <a href="https://bugs.openjdk.java.net/browse/JDK-8161372">https://bugs.openjdk.java.net/browse/JDK-8161372</a>
-	 */
-	public static <K, V> V computeIfAbsentForJdk8(final Map<K, V> map, final K key, final Function<? super K, ? extends V> mappingFunction) {
-		V value = map.get(key);
-		if (null == value) {
-			value = mappingFunction.apply(key);
-			final V res = map.putIfAbsent(key, value);
-			if (null != res) {
-				// issues#I6RVMY
-				// 如果旧值存在，说明其他线程已经赋值成功，putIfAbsent没有执行，返回旧值
-				return res;
-			}
-			// 如果旧值不存在，说明赋值成功，返回当前值
-
-			// Dubbo的解决方式，判空后调用依旧无法解决死循环问题
-			// 见：Issue2349Test
-			//value = map.computeIfAbsent(key, mappingFunction);
-		}
-		return value;
 	}
 
 	/**

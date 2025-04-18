@@ -16,18 +16,17 @@
 
 package cn.hutool.v7.core.map;
 
-import lombok.Builder;
-import lombok.Data;
 import cn.hutool.v7.core.convert.ConvertUtil;
 import cn.hutool.v7.core.lang.Opt;
 import cn.hutool.v7.core.reflect.TypeReference;
 import cn.hutool.v7.core.text.StrUtil;
+import lombok.Builder;
+import lombok.Data;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.Serial;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -94,7 +93,7 @@ public class MapUtilTest {
 		// 下单用户，Queue表示正在 .排队. 抢我抢不到的二次元周边！
 		final Queue<String> customers = new ArrayDeque<>(Arrays.asList("刑部尚书手工耿", "木瓜大盗大漠叔", "竹鼠发烧找华农", "朴实无华朱一旦"));
 		// 分组
-		final List<Group> groups = Stream.iterate(0L, i -> ++i).limit(4).map(i -> Group.builder().id(i).build()).collect(Collectors.toList());
+		final List<Group> groups = Stream.iterate(0L, i -> ++i).limit(4).map(i -> Group.builder().id(i).build()).toList();
 		// 如你所见，它是一个map，key由用户id，value由用户组成
 		final Map<Long, User> idUserMap = Stream.iterate(0L, i -> ++i).limit(4).map(i -> User.builder().id(i).name(customers.poll()).build()).collect(Collectors.toMap(User::getId, Function.identity()));
 		// 如你所见，它是一个map，key由分组id，value由用户ids组成，典型的多对多关系
@@ -260,18 +259,6 @@ public class MapUtilTest {
 	}
 
 	@Test
-	void computeIfAbsentForJdk8Test() {
-		// https://github.com/apache/dubbo/issues/11986
-		final ConcurrentHashMap<String, Integer> map = new ConcurrentHashMap<>();
-		// // map.computeIfAbsent("AaAa", key->map.computeIfAbsent("BBBB",key2->42));
-		MapUtil.computeIfAbsentForJdk8(map, "AaAa", key -> map.computeIfAbsent("BBBB", key2 -> 42));
-
-		Assertions.assertEquals(2, map.size());
-		Assertions.assertEquals(Integer.valueOf(42), map.get("AaAa"));
-		Assertions.assertEquals(Integer.valueOf(42), map.get("BBBB"));
-	}
-
-	@Test
 	void createMapTest() {
 		final Map<Object, Object> map = MapUtil.createMap(MapUtil.view(new HashMap<>()).getClass());
 		Assertions.assertEquals(HashMap.class, map.getClass());
@@ -365,7 +352,8 @@ public class MapUtilTest {
 
 	@Test
 	public void issue3162Test() {
-		final Map<String, Object> map = new HashMap<String, Object>() {
+		final Map<String, Object> map = new HashMap<>() {
+			@Serial
 			private static final long serialVersionUID = 1L;
 
 			{
@@ -456,122 +444,6 @@ public class MapUtilTest {
 		assertEquals(3, result.get(1).size());
 	}
 
-
-	// ---------MapUtil.computeIfAbsentForJdk8
-	@Test
-	public void computeIfAbsentForJdk8KeyExistsReturnsExistingValue() {
-		final Map<String, Integer> map = new HashMap<>();
-		map.put("key", 10);
-		final Integer result = MapUtil.computeIfAbsentForJdk8(map, "key", k -> 20);
-		assertEquals(10, result);
-	}
-
-	@Test
-	public void computeIfAbsentForJdk8KeyDoesNotExistComputesAndInsertsValue() {
-		final Map<String, Integer> map = new HashMap<>();
-		final Integer result = MapUtil.computeIfAbsentForJdk8(map, "key", k -> 20);
-		assertEquals(20, result);
-		assertEquals(20, map.get("key"));
-	}
-
-	@Test
-	public void computeIfAbsentForJdk8ConcurrentInsertReturnsOldValue() {
-		final ConcurrentHashMap<String, Integer> concurrentMap = new ConcurrentHashMap<>();
-		concurrentMap.put("key", 30);
-		final AtomicInteger counter = new AtomicInteger(0);
-
-		// 模拟并发插入
-		concurrentMap.computeIfAbsent("key", k -> {
-			counter.incrementAndGet();
-			return 40;
-		});
-
-		final Integer result = MapUtil.computeIfAbsentForJdk8(concurrentMap, "key", k -> 50);
-		assertEquals(30, result);
-		assertEquals(30, concurrentMap.get("key"));
-		assertEquals(0, counter.get());
-	}
-
-	@Test
-	public void computeIfAbsentForJdk8NullValueComputesAndInsertsValue() {
-		final Map<String, Integer> map = new HashMap<>();
-		map.put("key", null);
-		final Integer result = MapUtil.computeIfAbsentForJdk8(map, "key", k -> 20);
-		assertEquals(20, result);
-		assertEquals(20, map.get("key"));
-	}
-
-	//--------MapUtil.computeIfAbsent
-	@Test
-	public void computeIfAbsentKeyExistsReturnsExistingValue() {
-		final Map<String, Integer> map = new HashMap<>();
-		map.put("key", 10);
-		final Integer result = MapUtil.computeIfAbsentForJdk8(map, "key", k -> 20);
-		assertEquals(10, result);
-	}
-
-	@Test
-	public void computeIfAbsentKeyDoesNotExistComputesAndInsertsValue() {
-		final Map<String, Integer> map = new HashMap<>();
-		final Integer result = MapUtil.computeIfAbsentForJdk8(map, "key", k -> 20);
-		assertEquals(20, result);
-		assertEquals(20, map.get("key"));
-	}
-
-	@Test
-	public void computeIfAbsentConcurrentInsertReturnsOldValue() {
-		final ConcurrentHashMap<String, Integer> concurrentMap = new ConcurrentHashMap<>();
-		concurrentMap.put("key", 30);
-		final AtomicInteger counter = new AtomicInteger(0);
-
-		// 模拟并发插入
-		concurrentMap.computeIfAbsent("key", k -> {
-			counter.incrementAndGet();
-			return 40;
-		});
-
-		final Integer result = MapUtil.computeIfAbsentForJdk8(concurrentMap, "key", k -> 50);
-		assertEquals(30, result);
-		assertEquals(30, concurrentMap.get("key"));
-		assertEquals(0, counter.get());
-	}
-
-	@Test
-	public void computeIfAbsentNullValueComputesAndInsertsValue() {
-		final Map<String, Integer> map = new HashMap<>();
-		map.put("key", null);
-		final Integer result = MapUtil.computeIfAbsentForJdk8(map, "key", k -> 20);
-		assertEquals(20, result);
-		assertEquals(20, map.get("key"));
-	}
-
-	@Test
-	public void computeIfAbsentEmptyMapInsertsValue() {
-		final Map<String, Integer> map = new HashMap<>();
-		final Integer result = MapUtil.computeIfAbsentForJdk8(map, "newKey", k -> 100);
-		assertEquals(100, result);
-		assertEquals(100, map.get("newKey"));
-	}
-
-	@Test
-	public void computeIfAbsentJdk8KeyExistsReturnsExistingValue() {
-		final Map<String, Integer> map = new HashMap<>();
-		// 假设JdkUtil.ISJDK8为true
-		map.put("key", 10);
-		final Integer result = MapUtil.computeIfAbsentForJdk8(map, "key", k -> 20);
-		assertEquals(10, result);
-	}
-
-	@Test
-	public void computeIfAbsentJdk8KeyDoesNotExistComputesAndInsertsValue() {
-		final Map<String, Integer> map = new HashMap<>();
-		// 假设JdkUtil.ISJDK8为true
-		final Integer result = MapUtil.computeIfAbsentForJdk8(map, "key", k -> 20);
-		assertEquals(20, result);
-		assertEquals(20, map.get("key"));
-	}
-
-
 	//----------valuesOfKeys
 	@Test
 	public void valuesOfKeysEmptyIteratorReturnsEmptyList() {
@@ -591,6 +463,7 @@ public class MapUtilTest {
 		map.put("b", "2");
 		map.put("c", "3");
 		final Iterator<String> iterator = new ArrayList<String>() {
+			@Serial
 			private static final long serialVersionUID = -4593258366224032110L;
 
 			{
@@ -600,6 +473,7 @@ public class MapUtilTest {
 		}.iterator();
 		final ArrayList<String> result = MapUtil.valuesOfKeys(map, iterator);
 		assertEquals(new ArrayList<String>() {
+			@Serial
 			private static final long serialVersionUID = 7218152799308667271L;
 
 			{
@@ -616,6 +490,7 @@ public class MapUtilTest {
 		map.put("b", "2");
 		map.put("c", "3");
 		final Iterator<String> iterator = new ArrayList<String>() {
+			@Serial
 			private static final long serialVersionUID = -5479427021989481058L;
 
 			{
@@ -625,6 +500,7 @@ public class MapUtilTest {
 		}.iterator();
 		final ArrayList<String> result = MapUtil.valuesOfKeys(map, iterator);
 		assertEquals(new ArrayList<String>() {
+			@Serial
 			private static final long serialVersionUID = 4390715387901549136L;
 
 			{
@@ -641,6 +517,7 @@ public class MapUtilTest {
 		map.put("b", "2");
 		map.put("c", "3");
 		final Iterator<String> iterator = new ArrayList<String>() {
+			@Serial
 			private static final long serialVersionUID = 8510595063492828968L;
 
 			{
@@ -651,7 +528,9 @@ public class MapUtilTest {
 		}.iterator();
 		final ArrayList<String> result = MapUtil.valuesOfKeys(map, iterator);
 		assertEquals(new ArrayList<String>() {
+			@Serial
 			private static final long serialVersionUID = 6383576410597048337L;
+
 			{
 				add("1");
 				add(null);

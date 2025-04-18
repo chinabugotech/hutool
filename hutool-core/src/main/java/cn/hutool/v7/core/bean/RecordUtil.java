@@ -17,30 +17,20 @@
 package cn.hutool.v7.core.bean;
 
 import cn.hutool.v7.core.bean.copier.ValueProvider;
-import cn.hutool.v7.core.classloader.ClassLoaderUtil;
 import cn.hutool.v7.core.reflect.ConstructorUtil;
-import cn.hutool.v7.core.reflect.method.MethodUtil;
-import cn.hutool.v7.core.util.JdkUtil;
 
-import java.lang.reflect.Method;
+import java.lang.reflect.RecordComponent;
 import java.lang.reflect.Type;
 import java.util.AbstractMap;
 import java.util.Map;
 
 /**
- * java.lang.Record 相关工具类封装<br>
- * 来自于FastJSON2的BeanUtils
+ * java.lang.Record 相关工具类封装
  *
- * @author fastjson2, Looly
- * @since 6.0.0
+ * @author Looly
+ * @since 7.0.0
  */
 public class RecordUtil {
-
-	private static volatile Class<?> RECORD_CLASS;
-
-	private static volatile Method METHOD_GET_RECORD_COMPONENTS;
-	private static volatile Method METHOD_COMPONENT_GET_NAME;
-	private static volatile Method METHOD_COMPONENT_GET_GENERIC_TYPE;
 
 	/**
 	 * 判断给定类是否为Record类
@@ -49,27 +39,7 @@ public class RecordUtil {
 	 * @return 是否为Record类
 	 */
 	public static boolean isRecord(final Class<?> clazz) {
-		if (JdkUtil.JVM_VERSION < 14) {
-			// JDK14+支持Record类
-			return false;
-		}
-		final Class<?> superClass = clazz.getSuperclass();
-		if (superClass == null) {
-			return false;
-		}
-
-		if (RECORD_CLASS == null) {
-			// 此处不使用同步代码，重复赋值并不影响判断
-			final String superclassName = superClass.getName();
-			if ("java.lang.Record".equals(superclassName)) {
-				RECORD_CLASS = superClass;
-				return true;
-			} else {
-				return false;
-			}
-		}
-
-		return superClass == RECORD_CLASS;
+		return null != clazz && clazz.isRecord();
 	}
 
 	/**
@@ -80,31 +50,11 @@ public class RecordUtil {
 	 */
 	@SuppressWarnings("unchecked")
 	public static Map.Entry<String, Type>[] getRecordComponents(final Class<?> recordClass) {
-		if (JdkUtil.JVM_VERSION < 14) {
-			// JDK14+支持Record类
-			return new Map.Entry[0];
-		}
-		if (null == METHOD_GET_RECORD_COMPONENTS) {
-			METHOD_GET_RECORD_COMPONENTS = MethodUtil.getMethod(Class.class, "getRecordComponents");
-		}
-
-		final Class<Object> recordComponentClass = ClassLoaderUtil.loadClass("java.lang.reflect.RecordComponent");
-		if (METHOD_COMPONENT_GET_NAME == null) {
-			METHOD_COMPONENT_GET_NAME = MethodUtil.getMethod(recordComponentClass, "getName");
-		}
-		if (METHOD_COMPONENT_GET_GENERIC_TYPE == null) {
-			METHOD_COMPONENT_GET_GENERIC_TYPE = MethodUtil.getMethod(recordComponentClass, "getGenericType");
-		}
-
-		final Object[] components = MethodUtil.invoke(recordClass, METHOD_GET_RECORD_COMPONENTS);
+		final RecordComponent[] components = recordClass.getRecordComponents();
 		final Map.Entry<String, Type>[] entries = new Map.Entry[components.length];
 		for (int i = 0; i < components.length; i++) {
-			entries[i] = new AbstractMap.SimpleEntry<>(
-				MethodUtil.invoke(components[i], METHOD_COMPONENT_GET_NAME),
-				MethodUtil.invoke(components[i], METHOD_COMPONENT_GET_GENERIC_TYPE)
-			);
+			entries[i] = new AbstractMap.SimpleEntry<>(components[i].getName(), components[i].getGenericType());
 		}
-
 		return entries;
 	}
 

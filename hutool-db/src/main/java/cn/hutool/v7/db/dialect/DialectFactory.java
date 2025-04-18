@@ -16,7 +16,6 @@
 
 package cn.hutool.v7.db.dialect;
 
-import cn.hutool.v7.core.map.concurrent.SafeConcurrentHashMap;
 import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.db.config.DbConfig;
 import cn.hutool.v7.db.dialect.impl.*;
@@ -26,6 +25,7 @@ import cn.hutool.v7.log.LogUtil;
 
 import javax.sql.DataSource;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 方言工厂类
@@ -34,7 +34,7 @@ import java.util.Map;
  */
 public class DialectFactory {
 
-	private static final Map<DataSource, Dialect> DIALECT_POOL = new SafeConcurrentHashMap<>();
+	private static final Map<DataSource, Dialect> DIALECT_POOL = new ConcurrentHashMap<>();
 
 	private DialectFactory() {
 	}

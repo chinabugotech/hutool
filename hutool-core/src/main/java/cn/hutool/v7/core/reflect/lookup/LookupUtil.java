@@ -21,7 +21,6 @@ import cn.hutool.v7.core.lang.caller.CallerUtil;
 import cn.hutool.v7.core.reflect.ConstructorUtil;
 import cn.hutool.v7.core.reflect.ModifierUtil;
 import cn.hutool.v7.core.text.StrUtil;
-import cn.hutool.v7.core.util.JdkUtil;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
@@ -50,11 +49,7 @@ public class LookupUtil {
 	private static final LookupFactory factory;
 
 	static {
-		if (JdkUtil.IS_JDK8) {
-			factory = new ConstructorLookupFactory();
-		} else {
-			factory = new MethodLookupFactory();
-		}
+		factory = new MethodLookupFactory();
 	}
 
 	// region ----- lookup

@@ -16,9 +16,8 @@
 
 package cn.hutool.v7.ai.core;
 
-import cn.hutool.v7.core.map.concurrent.SafeConcurrentHashMap;
-
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Config基础类，定义模型配置的基本属性
@@ -35,7 +34,7 @@ public class BaseConfig implements AIConfig {
 	//具体模型
 	protected volatile String model;
 	//动态扩展字段
-	protected Map<String, Object> additionalConfig = new SafeConcurrentHashMap<>();
+	protected Map<String, Object> additionalConfig = new ConcurrentHashMap<>();
 
 	@Override
 	public void setApiKey(final String apiKey) {
@@ -79,7 +78,7 @@ public class BaseConfig implements AIConfig {
 
 	@Override
 	public Map<String, Object> getAdditionalConfigMap() {
-		return new SafeConcurrentHashMap<>(additionalConfig);
+		return new ConcurrentHashMap<>(additionalConfig);
 	}
 
 }

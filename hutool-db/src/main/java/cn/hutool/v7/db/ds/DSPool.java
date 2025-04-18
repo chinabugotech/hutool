@@ -19,7 +19,6 @@ package cn.hutool.v7.db.ds;
 import cn.hutool.v7.core.io.IoUtil;
 import cn.hutool.v7.core.lang.Singleton;
 import cn.hutool.v7.core.map.MapUtil;
-import cn.hutool.v7.core.map.concurrent.SafeConcurrentHashMap;
 import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.db.config.ConfigParser;
 import cn.hutool.v7.db.config.DbConfig;
@@ -29,6 +28,7 @@ import cn.hutool.v7.log.LogUtil;
 import java.io.Closeable;
 import java.util.Collection;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 数据源池，用于支持多数据源。<br>
@@ -84,7 +84,7 @@ public class DSPool implements Closeable {
 	public DSPool(final ConfigParser configParser, final DSFactory factory) {
 		this.configParser = null != configParser ? configParser : SettingConfigParser.of();
 		this.factory = null != factory ? factory : DSUtil.getDefaultDsFactory();
-		this.pool = new SafeConcurrentHashMap<>();
+		this.pool = new ConcurrentHashMap<>();
 	}
 
 	/**

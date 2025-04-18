@@ -20,14 +20,15 @@ import cn.hutool.v7.core.date.DateException;
 import cn.hutool.v7.core.date.format.FastDateFormat;
 import cn.hutool.v7.core.date.format.FastDatePrinter;
 import cn.hutool.v7.core.date.format.SimpleDateBasic;
-import cn.hutool.v7.core.map.concurrent.SafeConcurrentHashMap;
 import cn.hutool.v7.core.text.StrUtil;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.Serial;
 import java.text.DateFormatSymbols;
 import java.text.ParsePosition;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -40,6 +41,7 @@ import java.util.regex.Pattern;
  * @since 2.16.2
  */
 public class FastDateParser extends SimpleDateBasic implements PositionDateParser {
+	@Serial
 	private static final long serialVersionUID = -3199383897950947498L;
 
 	static final Locale JAPANESE_IMPERIAL = new Locale("ja", "JP", "JP");
@@ -221,6 +223,7 @@ public class FastDateParser extends SimpleDateBasic implements PositionDateParse
 	 * @throws IOException            if there is an IO issue.
 	 * @throws ClassNotFoundException if a class cannot be found.
 	 */
+	@Serial
 	private void readObject(final ObjectInputStream in) throws IOException, ClassNotFoundException {
 		in.defaultReadObject();
 
@@ -380,8 +383,6 @@ public class FastDateParser extends SimpleDateBasic implements PositionDateParse
 	 */
 	private Strategy getStrategy(final char f, final int width, final Calendar definingCalendar) {
 		switch (f) {
-			default:
-				throw new IllegalArgumentException("Format '" + f + "' not supported");
 			case 'D':
 				return DAY_OF_YEAR_STRATEGY;
 			case 'E':
@@ -428,6 +429,8 @@ public class FastDateParser extends SimpleDateBasic implements PositionDateParse
 				//$FALL-THROUGH$
 			case 'z':
 				return getLocaleSpecificStrategy(Calendar.ZONE_OFFSET, definingCalendar);
+			default:
+				throw new IllegalArgumentException("Format '" + f + "' not supported");
 		}
 	}
 
@@ -443,7 +446,7 @@ public class FastDateParser extends SimpleDateBasic implements PositionDateParse
 	private static ConcurrentMap<Locale, Strategy> getCache(final int field) {
 		synchronized (CACHES) {
 			if (CACHES[field] == null) {
-				CACHES[field] = new SafeConcurrentHashMap<>(3);
+				CACHES[field] = new ConcurrentHashMap<>(3);
 			}
 			return CACHES[field];
 		}
@@ -669,15 +672,14 @@ public class FastDateParser extends SimpleDateBasic implements PositionDateParse
 				final TzInfo standard = new TzInfo(tz, false);
 				TzInfo tzInfo = standard;
 				for (int i = 1; i < zoneNames.length; ++i) {
-					switch (i) {
-						case 3: // offset 3 is long daylight savings (or summertime) name
+					tzInfo = switch (i) {
+						case 3 -> // offset 3 is long daylight savings (or summertime) name
 							// offset 4 is the short summertime name
-							tzInfo = new TzInfo(tz, true);
-							break;
-						case 5: // offset 5 starts additional names, probably standard time
-							tzInfo = standard;
-							break;
-					}
+							new TzInfo(tz, true);
+						case 5 -> // offset 5 starts additional names, probably standard time
+							standard;
+						default -> tzInfo;
+					};
 					if (zoneNames[i] != null) {
 						final String key = zoneNames[i].toLowerCase(locale);
 						// ignore the data associated with duplicates supplied in
@@ -747,16 +749,12 @@ public class FastDateParser extends SimpleDateBasic implements PositionDateParse
 		 * @return a ISO8601TimeZoneStrategy that can format TimeZone String of length {@code tokenLen}. If no such strategy exists, an IllegalArgumentException will be thrown.
 		 */
 		static Strategy getStrategy(final int tokenLen) {
-			switch (tokenLen) {
-				case 1:
-					return ISO_8601_1_STRATEGY;
-				case 2:
-					return ISO_8601_2_STRATEGY;
-				case 3:
-					return ISO_8601_3_STRATEGY;
-				default:
-					throw new IllegalArgumentException("invalid number of X");
-			}
+			return switch (tokenLen) {
+				case 1 -> ISO_8601_1_STRATEGY;
+				case 2 -> ISO_8601_2_STRATEGY;
+				case 3 -> ISO_8601_3_STRATEGY;
+				default -> throw new IllegalArgumentException("invalid number of X");
+			};
 		}
 	}
 

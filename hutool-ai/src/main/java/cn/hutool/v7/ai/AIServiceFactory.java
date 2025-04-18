@@ -19,10 +19,10 @@ package cn.hutool.v7.ai;
 import cn.hutool.v7.ai.core.AIConfig;
 import cn.hutool.v7.ai.core.AIService;
 import cn.hutool.v7.ai.core.AIServiceProvider;
-import cn.hutool.v7.core.map.concurrent.SafeConcurrentHashMap;
 
 import java.util.Map;
 import java.util.ServiceLoader;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 创建AIModelService的工厂类
@@ -32,7 +32,7 @@ import java.util.ServiceLoader;
  */
 public class AIServiceFactory {
 
-	private static final Map<String, AIServiceProvider> providers = new SafeConcurrentHashMap<>();
+	private static final Map<String, AIServiceProvider> providers = new ConcurrentHashMap<>();
 
 	// 加载所有 AIModelProvider 实现类
 	static {

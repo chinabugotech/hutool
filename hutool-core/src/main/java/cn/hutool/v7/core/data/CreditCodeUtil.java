@@ -16,13 +16,13 @@
 
 package cn.hutool.v7.core.data;
 
-import cn.hutool.v7.core.map.concurrent.SafeConcurrentHashMap;
 import cn.hutool.v7.core.regex.PatternPool;
 import cn.hutool.v7.core.regex.ReUtil;
 import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.core.util.RandomUtil;
 
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 
 /**
@@ -62,7 +62,7 @@ public class CreditCodeUtil {
 	private static final Map<Character, Integer> CODE_INDEX_MAP;
 
 	static {
-		CODE_INDEX_MAP = new SafeConcurrentHashMap<>();
+		CODE_INDEX_MAP = new ConcurrentHashMap<>();
 		for (int i = 0; i < BASE_CODE_ARRAY.length; i++) {
 			CODE_INDEX_MAP.put(BASE_CODE_ARRAY[i], i);
 		}

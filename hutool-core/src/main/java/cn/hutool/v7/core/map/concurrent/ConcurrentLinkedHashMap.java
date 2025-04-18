@@ -23,6 +23,7 @@ import cn.hutool.v7.core.util.RuntimeUtil;
 
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -214,7 +215,7 @@ public final class ConcurrentLinkedHashMap<K, V> extends AbstractMap<K, V>
 		// The data store and its maximum capacity
 		concurrencyLevel = builder.concurrencyLevel;
 		capacity = new AtomicLong(Math.min(builder.capacity, MAXIMUM_CAPACITY));
-		data = new SafeConcurrentHashMap<>(builder.initialCapacity, 0.75f, concurrencyLevel);
+		data = new ConcurrentHashMap<>(builder.initialCapacity, 0.75f, concurrencyLevel);
 
 		// The eviction support
 		weigher = builder.weigher;
@@ -1139,7 +1140,6 @@ public final class ConcurrentLinkedHashMap<K, V> extends AbstractMap<K, V>
 	 * A node contains the key, the weighted value, and the linkage pointers on
 	 * the page-replacement algorithm's data structures.
 	 */
-	@SuppressWarnings("serial")
 	static final class Node<K, V> extends AtomicReference<WeightedValue<V>>
 		implements Linked<Node<K, V>> {
 		final K key;
@@ -1382,6 +1382,7 @@ public final class ConcurrentLinkedHashMap<K, V> extends AbstractMap<K, V>
 	 * An entry that allows updates to write through to the map.
 	 */
 	final class WriteThroughEntry extends SimpleEntry<K, V> {
+		@Serial
 		private static final long serialVersionUID = 1;
 
 		WriteThroughEntry(final Node<K, V> node) {
@@ -1394,6 +1395,7 @@ public final class ConcurrentLinkedHashMap<K, V> extends AbstractMap<K, V>
 			return super.setValue(value);
 		}
 
+		@Serial
 		Object writeReplace() {
 			return new SimpleEntry<>(this);
 		}
@@ -1402,13 +1404,12 @@ public final class ConcurrentLinkedHashMap<K, V> extends AbstractMap<K, V>
 	/**
 	 * A weigher that enforces that the selector falls within a valid range.
 	 */
-	static final class BoundedEntryWeigher<K, V> implements EntryWeigher<K, V>, Serializable {
+	record BoundedEntryWeigher<K, V>(EntryWeigher<? super K, ? super V> weigher) implements EntryWeigher<K, V>, Serializable {
+		@Serial
 		private static final long serialVersionUID = 1;
-		final EntryWeigher<? super K, ? super V> weigher;
 
-		BoundedEntryWeigher(final EntryWeigher<? super K, ? super V> weigher) {
+		BoundedEntryWeigher {
 			Assert.notNull(weigher);
-			this.weigher = weigher;
 		}
 
 		@Override
@@ -1418,6 +1419,7 @@ public final class ConcurrentLinkedHashMap<K, V> extends AbstractMap<K, V>
 			return weight;
 		}
 
+		@Serial
 		Object writeReplace() {
 			return weigher;
 		}
@@ -1436,12 +1438,15 @@ public final class ConcurrentLinkedHashMap<K, V> extends AbstractMap<K, V>
 
 	/* ---------------- Serialization Support -------------- */
 
+	@Serial
 	private static final long serialVersionUID = 1;
 
+	@Serial
 	Object writeReplace() {
 		return new SerializationProxy<>(this);
 	}
 
+	@Serial
 	private void readObject(final ObjectInputStream stream) throws InvalidObjectException {
 		throw new InvalidObjectException("Proxy required");
 	}
@@ -1468,6 +1473,7 @@ public final class ConcurrentLinkedHashMap<K, V> extends AbstractMap<K, V>
 			weigher = map.weigher;
 		}
 
+		@Serial
 		Object readResolve() {
 			final ConcurrentLinkedHashMap<K, V> map = new Builder<K, V>()
 				.concurrencyLevel(concurrencyLevel)
@@ -1479,6 +1485,7 @@ public final class ConcurrentLinkedHashMap<K, V> extends AbstractMap<K, V>
 			return map;
 		}
 
+		@Serial
 		private static final long serialVersionUID = 1;
 	}
 

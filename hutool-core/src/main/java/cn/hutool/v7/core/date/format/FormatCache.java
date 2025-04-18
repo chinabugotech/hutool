@@ -18,13 +18,13 @@ package cn.hutool.v7.core.date.format;
 
 import cn.hutool.v7.core.lang.Assert;
 import cn.hutool.v7.core.lang.tuple.Tuple;
-import cn.hutool.v7.core.map.concurrent.SafeConcurrentHashMap;
 
 import java.text.DateFormat;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.TimeZone;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 /**
@@ -40,9 +40,9 @@ abstract class FormatCache<F extends Format> {
 	 */
 	static final int NONE = -1;
 
-	private final ConcurrentMap<Tuple, F> cInstanceCache = new SafeConcurrentHashMap<>(7);
+	private final ConcurrentMap<Tuple, F> cInstanceCache = new ConcurrentHashMap<>(7);
 
-	private static final ConcurrentMap<Tuple, String> C_DATE_TIME_INSTANCE_CACHE = new SafeConcurrentHashMap<>(7);
+	private static final ConcurrentMap<Tuple, String> C_DATE_TIME_INSTANCE_CACHE = new ConcurrentHashMap<>(7);
 
 	/**
 	 * 使用默认的pattern、timezone和locale获得缓存中的实例

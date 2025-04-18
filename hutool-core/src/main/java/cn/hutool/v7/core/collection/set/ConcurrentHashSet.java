@@ -16,12 +16,12 @@
 
 package cn.hutool.v7.core.collection.set;
 
-import cn.hutool.v7.core.map.concurrent.SafeConcurrentHashMap;
-
+import java.io.Serial;
 import java.util.Collection;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * 通过{@link SafeConcurrentHashMap}实现的线程安全HashSet
+ * 通过{@link ConcurrentHashMap}实现的线程安全HashSet
  *
  * @author Looly
  *
@@ -29,6 +29,7 @@ import java.util.Collection;
  * @since 3.1.0
  */
 public class ConcurrentHashSet<E> extends SetFromMap<E> {
+	@Serial
 	private static final long serialVersionUID = 7997886765361607470L;
 
 	// ----------------------------------------------------------------------------------- Constructor start
@@ -37,7 +38,7 @@ public class ConcurrentHashSet<E> extends SetFromMap<E> {
 	 * 触发因子为默认的0.75
 	 */
 	public ConcurrentHashSet() {
-		super(new SafeConcurrentHashMap<>());
+		super(new ConcurrentHashMap<>());
 	}
 
 	/**
@@ -47,7 +48,7 @@ public class ConcurrentHashSet<E> extends SetFromMap<E> {
 	 * @param initialCapacity 初始大小
 	 */
 	public ConcurrentHashSet(final int initialCapacity) {
-		super(new SafeConcurrentHashMap<>(initialCapacity));
+		super(new ConcurrentHashMap<>(initialCapacity));
 	}
 
 	/**
@@ -57,7 +58,7 @@ public class ConcurrentHashSet<E> extends SetFromMap<E> {
 	 * @param loadFactor 加载因子。此参数决定数据增长时触发的百分比
 	 */
 	public ConcurrentHashSet(final int initialCapacity, final float loadFactor) {
-		super(new SafeConcurrentHashMap<>(initialCapacity, loadFactor));
+		super(new ConcurrentHashMap<>(initialCapacity, loadFactor));
 	}
 
 	/**
@@ -68,7 +69,7 @@ public class ConcurrentHashSet<E> extends SetFromMap<E> {
 	 * @param concurrencyLevel 线程并发度
 	 */
 	public ConcurrentHashSet(final int initialCapacity, final float loadFactor, final int concurrencyLevel) {
-		super(new SafeConcurrentHashMap<>(initialCapacity, loadFactor, concurrencyLevel));
+		super(new ConcurrentHashMap<>(initialCapacity, loadFactor, concurrencyLevel));
 	}
 
 	/**
@@ -76,7 +77,7 @@ public class ConcurrentHashSet<E> extends SetFromMap<E> {
 	 * @param iter {@link Iterable}
 	 */
 	public ConcurrentHashSet(final Iterable<E> iter) {
-		super(iter instanceof  Collection ? new SafeConcurrentHashMap<>(((Collection<E>)iter).size()) : new SafeConcurrentHashMap<>());
+		super(iter instanceof  Collection ? new ConcurrentHashMap<>(((Collection<E>)iter).size()) : new ConcurrentHashMap<>());
 		if(iter instanceof Collection) {
 			this.addAll((Collection<E>)iter);
 		}else {

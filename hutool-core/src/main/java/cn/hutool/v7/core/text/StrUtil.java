@@ -17,7 +17,6 @@
 package cn.hutool.v7.core.text;
 
 import cn.hutool.v7.core.array.ArrayUtil;
-import cn.hutool.v7.core.func.FunctionPool;
 import cn.hutool.v7.core.text.split.SplitUtil;
 import cn.hutool.v7.core.util.CharsetUtil;
 
@@ -102,7 +101,7 @@ public class StrUtil extends CharSequenceUtil implements StrPool {
 		if (null == obj) {
 			return true;
 		} else if (obj instanceof CharSequence) {
-			return 0 == ((CharSequence) obj).length();
+			return ((CharSequence) obj).isEmpty();
 		}
 		return false;
 	}
@@ -230,17 +229,6 @@ public class StrUtil extends CharSequenceUtil implements StrPool {
 			charset = Charset.defaultCharset();
 		}
 		return charset.decode(data).toString();
-	}
-
-	/**
-	 * JDK8中，通过{@code String(char[] value, boolean share)}这个内部构造创建String对象。<br>
-	 * 此函数通过传入char[]，实现zero-copy的String创建，效率很高。但是要求传入的char[]不可以在其他地方修改。
-	 *
-	 * @param value char[]值，注意这个数组不可修改！！
-	 * @return String
-	 */
-	public static String strFast(final char[] value) {
-		return FunctionPool.createString(value);
 	}
 	// endregion
 

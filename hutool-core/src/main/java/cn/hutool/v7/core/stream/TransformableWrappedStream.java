@@ -24,9 +24,9 @@ import cn.hutool.v7.core.lang.Console;
 import cn.hutool.v7.core.lang.mutable.MutableInt;
 import cn.hutool.v7.core.lang.mutable.MutableObj;
 import cn.hutool.v7.core.map.MapUtil;
-import cn.hutool.v7.core.map.concurrent.SafeConcurrentHashMap;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.*;
@@ -238,7 +238,7 @@ public interface TransformableWrappedStream<T, S extends TransformableWrappedStr
 	default <F> EasyStream<T> distinct(final Function<? super T, F> keyExtractor) {
 		Objects.requireNonNull(keyExtractor);
 		if (isParallel()) {
-			final SafeConcurrentHashMap<F, Boolean> exists = new SafeConcurrentHashMap<>();
+			final ConcurrentHashMap<F, Boolean> exists = new ConcurrentHashMap<>();
 			// 标记是否出现过null值，用于保留第一个出现的null
 			// 由于ConcurrentHashMap的key不能为null，所以用此变量来标记
 			final AtomicBoolean hasNull = new AtomicBoolean(false);
@@ -321,7 +321,7 @@ public interface TransformableWrappedStream<T, S extends TransformableWrappedStr
 	 * @param obj 元素
 	 * @return 流
 	 */
-	@SuppressWarnings({"SpellCheckingInspection", "unchecked"})
+	@SuppressWarnings({"unchecked"})
 	default S unshift(final T... obj) {
 		Stream<T> result = unwrap();
 		if (ArrayUtil.isNotEmpty(obj)) {

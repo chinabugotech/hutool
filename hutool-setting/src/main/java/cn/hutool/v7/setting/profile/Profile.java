@@ -17,13 +17,14 @@
 package cn.hutool.v7.setting.profile;
 
 import cn.hutool.v7.core.lang.Assert;
-import cn.hutool.v7.core.map.concurrent.SafeConcurrentHashMap;
 import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.setting.Setting;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.nio.charset.Charset;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Profile可以让我们定义一系列的配置信息，然后指定其激活条件。<br>
@@ -40,6 +41,7 @@ import java.util.Map;
  *
  */
 public class Profile implements Serializable {
+	@Serial
 	private static final long serialVersionUID = -4189955219454008744L;
 
 	/** 默认环境 */
@@ -52,7 +54,7 @@ public class Profile implements Serializable {
 	/** 是否使用变量 */
 	private boolean useVar;
 	/** 配置文件缓存 */
-	private final Map<String, Setting> settingMap = new SafeConcurrentHashMap<>();
+	private final Map<String, Setting> settingMap = new ConcurrentHashMap<>();
 
 	// -------------------------------------------------------------------------------- Constructor start
 	/**

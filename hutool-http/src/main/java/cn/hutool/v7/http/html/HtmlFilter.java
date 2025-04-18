@@ -17,14 +17,10 @@
 package cn.hutool.v7.http.html;
 
 import cn.hutool.v7.core.lang.Console;
-import cn.hutool.v7.core.map.concurrent.SafeConcurrentHashMap;
 import cn.hutool.v7.core.text.CharUtil;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -77,8 +73,8 @@ public final class HtmlFilter {
 	private static final Pattern P_BOTH_ARROWS = Pattern.compile("<>");
 
 	// @xxx could grow large... maybe use sesat's ReferenceMap
-	private static final ConcurrentMap<String, Pattern> P_REMOVE_PAIR_BLANKS = new SafeConcurrentHashMap<>();
-	private static final ConcurrentMap<String, Pattern> P_REMOVE_SELF_BLANKS = new SafeConcurrentHashMap<>();
+	private static final ConcurrentMap<String, Pattern> P_REMOVE_PAIR_BLANKS = new ConcurrentHashMap<>();
+	private static final ConcurrentMap<String, Pattern> P_REMOVE_SELF_BLANKS = new ConcurrentHashMap<>();
 
 	/**
 	 * set of allowed html elements, along with allowed attributes for each element
@@ -294,7 +290,7 @@ public final class HtmlFilter {
 
 	private String escapeComments(final String s) {
 		final Matcher m = P_COMMENTS.matcher(s);
-		final StringBuffer buf = new StringBuffer();
+		final StringBuilder buf = new StringBuilder();
 		if (m.find()) {
 			final String match = m.group(1); // (.*?)
 			m.appendReplacement(buf, Matcher.quoteReplacement("<!--" + htmlSpecialChars(match) + "-->"));
@@ -334,7 +330,7 @@ public final class HtmlFilter {
 	private String checkTags(String s) {
 		final Matcher m = P_TAGS.matcher(s);
 
-		final StringBuffer buf = new StringBuffer();
+		final StringBuilder buf = new StringBuilder();
 		while (m.find()) {
 			String replaceStr = m.group(1);
 			replaceStr = processTag(replaceStr);
@@ -477,7 +473,7 @@ public final class HtmlFilter {
 	}
 
 	private String decodeEntities(String s) {
-		StringBuffer buf = new StringBuffer();
+		StringBuilder buf = new StringBuilder();
 
 		Matcher m = P_ENTITY.matcher(s);
 		while (m.find()) {
@@ -488,7 +484,7 @@ public final class HtmlFilter {
 		m.appendTail(buf);
 		s = buf.toString();
 
-		buf = new StringBuffer();
+		buf = new StringBuilder();
 		m = P_ENTITY_UNICODE.matcher(s);
 		while (m.find()) {
 			final String match = m.group(1);
@@ -498,7 +494,7 @@ public final class HtmlFilter {
 		m.appendTail(buf);
 		s = buf.toString();
 
-		buf = new StringBuffer();
+		buf = new StringBuilder();
 		m = P_ENCODE.matcher(s);
 		while (m.find()) {
 			final String match = m.group(1);
@@ -513,7 +509,7 @@ public final class HtmlFilter {
 	}
 
 	private String validateEntities(final String s) {
-		final StringBuffer buf = new StringBuffer();
+		final StringBuilder buf = new StringBuilder();
 
 		// validate entities throughout the string
 		final Matcher m = P_VALID_ENTITIES.matcher(s);
@@ -529,7 +525,7 @@ public final class HtmlFilter {
 
 	private String encodeQuotes(final String s) {
 		if (encodeQuotes) {
-			final StringBuffer buf = new StringBuffer();
+			final StringBuilder buf = new StringBuilder();
 			final Matcher m = P_VALID_QUOTES.matcher(s);
 			while (m.find()) {
 				final String one = m.group(1); // (>|^)

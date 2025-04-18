@@ -30,11 +30,6 @@ public class JdkUtil {
 	 */
 	public static final int JVM_VERSION;
 	/**
-	 * 是否JDK8<br>
-	 * 由于Hutool基于JDK8编译，当使用JDK版本低于8时，不支持。
-	 */
-	public static final boolean IS_JDK8;
-	/**
 	 * 是否大于等于JDK17
 	 */
 	public static final boolean IS_AT_LEAST_JDK17;
@@ -56,7 +51,6 @@ public class JdkUtil {
 	static {
 		// JVM版本
 		JVM_VERSION = _getJvmVersion();
-		IS_JDK8 = 8 == JVM_VERSION;
 		IS_AT_LEAST_JDK17 = JVM_VERSION >= 17;
 
 		// JVM名称

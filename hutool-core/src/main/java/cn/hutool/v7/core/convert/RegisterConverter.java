@@ -22,11 +22,11 @@ import cn.hutool.v7.core.lang.Opt;
 import cn.hutool.v7.core.lang.tuple.Pair;
 import cn.hutool.v7.core.lang.tuple.Triple;
 import cn.hutool.v7.core.lang.tuple.Tuple;
-import cn.hutool.v7.core.map.concurrent.SafeConcurrentHashMap;
 import cn.hutool.v7.core.reflect.TypeUtil;
 import cn.hutool.v7.core.stream.StreamUtil;
 
 import javax.xml.datatype.XMLGregorianCalendar;
+import java.io.Serial;
 import java.io.Serializable;
 import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
@@ -38,6 +38,7 @@ import java.nio.file.Path;
 import java.time.*;
 import java.time.temporal.TemporalAccessor;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicIntegerArray;
 import java.util.concurrent.atomic.AtomicLongArray;
@@ -55,6 +56,7 @@ import java.util.concurrent.atomic.AtomicReference;
  * @since 6.0.0
  */
 public class RegisterConverter extends ConverterWithRoot implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -169,7 +171,7 @@ public class RegisterConverter extends ConverterWithRoot implements Serializable
 		if (null == customConverterMap) {
 			synchronized (this) {
 				if (null == customConverterMap) {
-					customConverterMap = new SafeConcurrentHashMap<>();
+					customConverterMap = new ConcurrentHashMap<>();
 				}
 			}
 		}
@@ -201,7 +203,7 @@ public class RegisterConverter extends ConverterWithRoot implements Serializable
 	 * @return 默认转换器
 	 */
 	private static Map<Class<?>, Converter> initDefault(final Converter rootConverter) {
-		final Map<Class<?>, Converter> converterMap = new SafeConcurrentHashMap<>(64);
+		final Map<Class<?>, Converter> converterMap = new ConcurrentHashMap<>(64);
 
 		// 包装类转换器
 		converterMap.put(Character.class, CharacterConverter.INSTANCE);

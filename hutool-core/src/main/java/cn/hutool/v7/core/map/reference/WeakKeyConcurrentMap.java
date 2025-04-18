@@ -19,9 +19,10 @@ package cn.hutool.v7.core.map.reference;
 import cn.hutool.v7.core.lang.ref.Ref;
 import cn.hutool.v7.core.lang.ref.StrongObj;
 import cn.hutool.v7.core.lang.ref.WeakObj;
-import cn.hutool.v7.core.map.concurrent.SafeConcurrentHashMap;
 
+import java.io.Serial;
 import java.lang.ref.ReferenceQueue;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 /**
@@ -34,13 +35,14 @@ import java.util.concurrent.ConcurrentMap;
  * @since 6.0.0
  */
 public class WeakKeyConcurrentMap<K, V> extends ReferenceConcurrentMap<K, V> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * 构造
 	 */
 	public WeakKeyConcurrentMap() {
-		this(new SafeConcurrentHashMap<>());
+		this(new ConcurrentHashMap<>());
 	}
 
 	/**

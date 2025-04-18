@@ -18,11 +18,11 @@ package cn.hutool.v7.core.date.format;
 
 import cn.hutool.v7.core.date.DateUtil;
 import cn.hutool.v7.core.lang.Assert;
-import cn.hutool.v7.core.map.concurrent.SafeConcurrentHashMap;
 
 import java.time.temporal.TemporalAccessor;
 import java.util.Date;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 
 /**
@@ -70,8 +70,8 @@ public class DateFormatManager {
 	 * 构造
 	 */
 	public DateFormatManager() {
-		formatterMap = new SafeConcurrentHashMap<>();
-		parserMap = new SafeConcurrentHashMap<>();
+		formatterMap = new ConcurrentHashMap<>();
+		parserMap = new ConcurrentHashMap<>();
 
 		// Hutool预设的几种自定义格式
 		registerFormatter(FORMAT_SECONDS, (date) -> String.valueOf(Math.floorDiv(date.getTime(), 1000L)));

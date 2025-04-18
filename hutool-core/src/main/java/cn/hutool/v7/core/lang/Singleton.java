@@ -18,11 +18,11 @@ package cn.hutool.v7.core.lang;
 
 import cn.hutool.v7.core.array.ArrayUtil;
 import cn.hutool.v7.core.func.SerSupplier;
-import cn.hutool.v7.core.map.concurrent.SafeConcurrentHashMap;
 import cn.hutool.v7.core.reflect.ConstructorUtil;
 import cn.hutool.v7.core.text.StrUtil;
 
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 /**
@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
  */
 public final class Singleton {
 
-	private static final SafeConcurrentHashMap<String, Object> POOL = new SafeConcurrentHashMap<>();
+	private static final ConcurrentHashMap<String, Object> POOL = new ConcurrentHashMap<>();
 
 	private Singleton() {
 	}

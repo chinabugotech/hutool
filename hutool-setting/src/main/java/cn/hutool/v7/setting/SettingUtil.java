@@ -18,10 +18,10 @@ package cn.hutool.v7.setting;
 
 import cn.hutool.v7.core.io.file.FileNameUtil;
 import cn.hutool.v7.core.io.resource.NoResourceException;
-import cn.hutool.v7.core.map.concurrent.SafeConcurrentHashMap;
 import cn.hutool.v7.core.text.StrUtil;
 
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Setting工具类<br>
@@ -33,7 +33,7 @@ public class SettingUtil {
 	/**
 	 * 配置文件缓存
 	 */
-	private static final Map<String, Setting> SETTING_MAP = new SafeConcurrentHashMap<>();
+	private static final Map<String, Setting> SETTING_MAP = new ConcurrentHashMap<>();
 
 	/**
 	 * 获取当前环境下的配置文件<br>

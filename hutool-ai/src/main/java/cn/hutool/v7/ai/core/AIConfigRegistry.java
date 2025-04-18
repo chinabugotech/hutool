@@ -16,10 +16,9 @@
 
 package cn.hutool.v7.ai.core;
 
-import cn.hutool.v7.core.map.concurrent.SafeConcurrentHashMap;
-
 import java.util.Map;
 import java.util.ServiceLoader;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * AIConfig实现类的加载器
@@ -29,7 +28,7 @@ import java.util.ServiceLoader;
  */
 public class AIConfigRegistry {
 
-	private static final Map<String, Class<? extends AIConfig>> configClasses = new SafeConcurrentHashMap<>();
+	private static final Map<String, Class<? extends AIConfig>> configClasses = new ConcurrentHashMap<>();
 
 	// 加载所有 AIConfig 实现类
 	static {
