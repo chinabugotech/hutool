@@ -16,13 +16,15 @@
 
 package cn.hutool.v7.log.engine.tinylog;
 
-import cn.hutool.v7.log.AbstractLog;
-import org.pmw.tinylog.Level;
-import org.pmw.tinylog.LogEntryForwarder;
-import org.pmw.tinylog.Logger;
-
 import cn.hutool.v7.core.array.ArrayUtil;
 import cn.hutool.v7.core.text.StrUtil;
+import cn.hutool.v7.log.AbstractLog;
+import org.tinylog.Level;
+import org.tinylog.configuration.Configuration;
+import org.tinylog.format.AdvancedMessageFormatter;
+import org.tinylog.format.MessageFormatter;
+import org.tinylog.provider.LoggingProvider;
+import org.tinylog.provider.ProviderRegistry;
 
 /**
  * <a href="http://www.tinylog.org/">tinylog</a> log.<br>
@@ -39,6 +41,12 @@ public class TinyLog extends AbstractLog {
 
 	private final int level;
 	private final String name;
+	private static final LoggingProvider provider = ProviderRegistry.getLoggingProvider();
+
+	private static final MessageFormatter formatter = new AdvancedMessageFormatter(
+		Configuration.getLocale(),
+		Configuration.isEscapingEnabled()
+	);
 
 	/**
 	 * 构造
@@ -57,7 +65,7 @@ public class TinyLog extends AbstractLog {
 	 */
 	public TinyLog(final String name) {
 		this.name = name;
-		this.level = Logger.getLevel(name).ordinal();
+		this.level = provider.getMinimumLevel().ordinal();
 	}
 
 	@Override
@@ -101,12 +109,12 @@ public class TinyLog extends AbstractLog {
 	// ------------------------------------------------------------------------- Warn
 	@Override
 	public boolean isWarnEnabled() {
-		return this.level <= org.pmw.tinylog.Level.WARNING.ordinal();
+		return this.level <= Level.WARN.ordinal();
 	}
 
 	@Override
 	public void warn(final String fqcn, final Throwable t, final String format, final Object... arguments) {
-		logIfEnabled(fqcn, Level.WARNING, t, format, arguments);
+		logIfEnabled(fqcn, Level.WARN, t, format, arguments);
 	}
 
 	// ------------------------------------------------------------------------- Error
@@ -145,7 +153,7 @@ public class TinyLog extends AbstractLog {
 		if (null == t) {
 			t = getLastArgumentIfThrowable(arguments);
 		}
-		LogEntryForwarder.forward(DEPTH, level, t, StrUtil.toString(format), arguments);
+		provider.log(DEPTH, null, level, t, formatter, StrUtil.toString(format), arguments);
 	}
 
 	/**
@@ -168,7 +176,7 @@ public class TinyLog extends AbstractLog {
 				tinyLevel = Level.INFO;
 				break;
 			case WARN:
-				tinyLevel = Level.WARNING;
+				tinyLevel = Level.WARN;
 				break;
 			case ERROR:
 				tinyLevel = Level.ERROR;

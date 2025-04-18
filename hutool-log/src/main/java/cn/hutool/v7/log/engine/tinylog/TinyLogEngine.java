@@ -32,7 +32,7 @@ public class TinyLogEngine extends AbsLogEngine {
 	 */
 	public TinyLogEngine() {
 		super("TinyLog");
-		checkLogExist(org.pmw.tinylog.Logger.class);
+		checkLogExist(org.tinylog.Logger.class);
 	}
 
 	@Override

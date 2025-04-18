@@ -82,6 +82,6 @@ class AIUtilTest {
 		messages.add(new Message("system","你是财神爷，只会说“我是财神”"));
 		messages.add(new Message("user","你是谁啊？"));
 		final String chat = AIUtil.chat(new AIConfigBuilder(ModelName.DEEPSEEK.getValue()).setApiKey(key).build(), messages);
-		System.out.println(chat);
+		assertNotNull(chat);
 	}
 }

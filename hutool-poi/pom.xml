@@ -37,6 +37,7 @@
 		<!-- versions -->
 		<poi.version>5.4.1</poi.version>
 		<log4j2.version>2.20.0</log4j2.version>
+		<hierynomus.version>0.39.0</hierynomus.version>
 	</properties>
 
 	<dependencies>
@@ -69,6 +70,14 @@
 					<artifactId>bcprov-jdk15on</artifactId>
 					<groupId>org.bouncycastle</groupId>
 				</exclusion>
+				<exclusion>
+					<groupId>org.apache.xmlgraphics</groupId>
+					<artifactId>xmlgraphics-commons</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.xmlgraphics</groupId>
+					<artifactId>batik-transcoder</artifactId>
+				</exclusion>
 			</exclusions>
 			<optional>true</optional>
 		</dependency>
@@ -77,6 +86,12 @@
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-core</artifactId>
 			<version>${log4j2.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.hierynomus</groupId>
+			<artifactId>sshj</artifactId>
+			<version>${hierynomus.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

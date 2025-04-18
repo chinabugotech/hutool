@@ -16,10 +16,9 @@
 
 package cn.hutool.v7.log.engine.commons;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.impl.Log4JLogger;
-
 import cn.hutool.v7.log.engine.log4j.Log4jLog;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Apache Commons Logging for Log4j
@@ -36,8 +35,8 @@ public class ApacheCommonsLog4JLog extends Log4jLog {
 	 *
 	 * @param logger Logger
 	 */
-	public ApacheCommonsLog4JLog(final Log logger) {
-		super(((Log4JLogger) logger).getLogger());
+	public ApacheCommonsLog4JLog(final Logger logger) {
+		super(logger);
 	}
 
 	/**
@@ -46,7 +45,7 @@ public class ApacheCommonsLog4JLog extends Log4jLog {
 	 * @param clazz 类
 	 */
 	public ApacheCommonsLog4JLog(final Class<?> clazz) {
-		super(clazz);
+		super(LogManager.getLogger(clazz));
 	}
 
 	/**
@@ -55,6 +54,6 @@ public class ApacheCommonsLog4JLog extends Log4jLog {
 	 * @param name 名称
 	 */
 	public ApacheCommonsLog4JLog(final String name) {
-		super(name);
+		super(LogManager.getLogger(name));
 	}
 }

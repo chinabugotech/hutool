@@ -268,6 +268,17 @@
 			<groupId>org.apache.sshd</groupId>
 			<artifactId>sshd-core</artifactId>
 			<version>${sshd.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.sshd</groupId>
+					<artifactId>sshd-common</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.sshd</groupId>
+			<artifactId>sshd-common</artifactId>
+			<version>${sshd.version}</version>
 		</dependency>
 		<!-- FTP工具 -->
 		<dependency>

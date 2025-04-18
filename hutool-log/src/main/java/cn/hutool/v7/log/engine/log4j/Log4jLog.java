@@ -16,11 +16,11 @@
 
 package cn.hutool.v7.log.engine.log4j;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
-
 import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.log.AbstractLog;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * <a href="http://logging.apache.org/log4j/1.2/index.html">Apache Log4J</a> log.<br>
@@ -49,7 +49,7 @@ public class Log4jLog extends AbstractLog {
 	 * @param name 日志标识
 	 */
 	public Log4jLog(final String name) {
-		this(Logger.getLogger(name));
+		this(LogManager.getLogger(name));
 	}
 
 	/**
@@ -101,7 +101,7 @@ public class Log4jLog extends AbstractLog {
 	// ------------------------------------------------------------------------- Warn
 	@Override
 	public boolean isWarnEnabled() {
-		return logger.isEnabledFor(Level.WARN);
+		return logger.isEnabled(Level.WARN);
 	}
 
 	@Override
@@ -112,7 +112,7 @@ public class Log4jLog extends AbstractLog {
 	// ------------------------------------------------------------------------- Error
 	@Override
 	public boolean isErrorEnabled() {
-		return logger.isEnabledFor(Level.ERROR);
+		return logger.isEnabled(Level.ERROR);
 	}
 
 	@Override
@@ -144,8 +144,9 @@ public class Log4jLog extends AbstractLog {
 				throw new Error(StrUtil.format("Can not identify level: {}", level));
 		}
 
-		if(logger.isEnabledFor(log4jLevel)) {
-			logger.log(fqcn, log4jLevel, StrUtil.format(format, arguments), t);
+		if(logger.isEnabled(log4jLevel)) {
+			//Log4j2的API设计已内置类名自动获取能力
+			logger.log(log4jLevel, StrUtil.format(format, arguments), t);
 		}
 	}
 }

@@ -18,6 +18,11 @@
 
 	<properties>
 		<Automatic-Module-Name>cn.hutool.v7.ai</Automatic-Module-Name>
+		<moshi.version>1.15.2</moshi.version>
+		<jackson.version>2.18.1</jackson.version>
+		<fastjson2.version>2.0.53</fastjson2.version>
+		<gson.version>2.13.0</gson.version>
+
 	</properties>
 
 	<dependencies>
@@ -45,9 +50,46 @@
 		</dependency>
 		<dependency>
 			<groupId>cn.hutool.v7</groupId>
+			<artifactId>hutool-crypto</artifactId>
+			<version>${project.parent.version}</version>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>cn.hutool.v7</groupId>
 			<artifactId>hutool-swing</artifactId>
 			<version>${project.parent.version}</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.squareup.moshi</groupId>
+			<artifactId>moshi</artifactId>
+			<version>${moshi.version}</version>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jackson.version}</version>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>com.alibaba.fastjson2</groupId>
+			<artifactId>fastjson2</artifactId>
+			<version>${fastjson2.version}</version>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>${gson.version}</version>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.bouncycastle</groupId>
+			<artifactId>bcpkix-jdk18on</artifactId>
+			<version>${bouncycastle.version}</version>
+			<scope>compile</scope>
+			<optional>true</optional>
 		</dependency>
 	</dependencies>
 
