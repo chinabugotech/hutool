@@ -19,9 +19,10 @@ package cn.hutool.v7.ai;
 import cn.hutool.v7.ai.core.AIConfig;
 import cn.hutool.v7.ai.core.AIService;
 import cn.hutool.v7.ai.core.AIServiceProvider;
+import cn.hutool.v7.core.spi.ServiceLoader;
+import cn.hutool.v7.core.spi.SpiUtil;
 
 import java.util.Map;
-import java.util.ServiceLoader;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -36,7 +37,7 @@ public class AIServiceFactory {
 
 	// 加载所有 AIModelProvider 实现类
 	static {
-		final ServiceLoader<AIServiceProvider> loader = ServiceLoader.load(AIServiceProvider.class);
+		final ServiceLoader<AIServiceProvider> loader = SpiUtil.loadList(AIServiceProvider.class);
 		for (final AIServiceProvider provider : loader) {
 			providers.put(provider.getServiceName().toLowerCase(), provider);
 		}
