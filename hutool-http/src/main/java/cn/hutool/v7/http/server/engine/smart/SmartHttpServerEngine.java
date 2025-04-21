@@ -21,10 +21,10 @@ import cn.hutool.v7.http.HttpException;
 import cn.hutool.v7.http.server.ServerConfig;
 import cn.hutool.v7.http.server.engine.AbstractServerEngine;
 import org.smartboot.http.server.*;
-import org.smartboot.http.server.impl.Request;
-import org.smartboot.socket.extension.plugins.SslPlugin;
 
 import javax.net.ssl.SSLContext;
+import java.lang.reflect.Method;
+import java.util.function.Supplier;
 
 /**
  * smart-http-server引擎
@@ -79,13 +79,16 @@ public class SmartHttpServerEngine extends AbstractServerEngine {
 		// SSL
 		final SSLContext sslContext = config.getSslContext();
 		if(null != sslContext){
-			final SslPlugin<Request> sslPlugin;
 			try {
-				sslPlugin = new SslPlugin<>(() -> sslContext);
+				// 使用反射创建SslPlugin
+				Class<?> sslPluginClass = Class.forName("org.smartboot.socket.extension.plugins.SslPlugin");
+				Object sslPlugin = sslPluginClass.getConstructor(Supplier.class).newInstance((Supplier<SSLContext>) () -> sslContext);
+				// 使用反射调用addPlugin方法
+				Method addPlugin = configuration.getClass().getMethod("addPlugin", Object.class);
+				addPlugin.invoke(configuration, sslPlugin);
 			} catch (final Exception e) {
 				throw new HttpException(e);
 			}
-			configuration.addPlugin(sslPlugin);
 		}
 
 		// 选项

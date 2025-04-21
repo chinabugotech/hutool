@@ -348,10 +348,9 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
-			<groupId>com.janeluo</groupId>
-			<artifactId>ikanalyzer</artifactId>
-			<version>2012_u6</version>
-			<optional>true</optional>
+			<groupId>com.jianggujin</groupId>
+			<artifactId>IKAnalyzer-lucene</artifactId>
+			<version>8.0.0</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.apache.lucene</groupId>

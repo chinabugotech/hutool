@@ -44,11 +44,31 @@ module hutool.extra {
 	requires spring.beans;
 	requires ganymed.ssh2;
 	requires com.jcraft.jsch;
-	requires static org.apache.sshd.core;
-	requires static org.apache.sshd.common;
+	requires org.apache.sshd.core;
+	requires org.apache.sshd.common;
 	requires mmseg4j.core;
 	requires lucene.core;
 	requires lucene.analyzers.smartcn;
+	requires IKAnalyzer.lucene;
+	requires jieba.analysis;
+	requires jcseg.core;
+	requires word;
+	requires hanlp.portable;
+	requires ansj.seg;
+	requires mynlp;
+	requires io.pebbletemplates;
+	requires enjoy;
+	requires wit.core;
+	requires freemarker;
+	requires thymeleaf;
+	requires velocity.engine.core;
+	requires gg.jte.runtime;
+	requires gg.jte;
+	requires jetbrick.template;
+	requires jetbrick.commons;
+	requires rythm.engine;
+	requires beetl.core;
+	requires jakarta.xml.bind;
 
 
 }

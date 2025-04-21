@@ -19,6 +19,10 @@
  * @author choweli
  */
 module hutool.http {
+	exports cn.hutool.v7.http.meta;
+	exports cn.hutool.v7.http.client;
+	exports cn.hutool.v7.http;
+
 	requires jdk.httpserver;
 	requires hutool.log;
 	requires org.apache.httpcomponents.httpclient;
@@ -36,6 +40,11 @@ module hutool.http {
 	requires org.apache.tomcat.embed.core;
 
 	requires aio.pro;
-//	requires aio.core;
+
+	opens cn.hutool.v7.http.client.engine;
+	opens cn.hutool.v7.http.client.engine.httpclient5;
+	opens cn.hutool.v7.http.client.engine.httpclient4;
+	opens cn.hutool.v7.http.client.engine.okhttp;
+	opens cn.hutool.v7.http.client.engine.jdk;
 
 }
