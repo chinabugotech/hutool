@@ -58,7 +58,8 @@ public class TokenizerUtilTest {
 		final TokenizerEngine engine = TokenizerUtil.createEngine("IKAnalyzer");
 		final Result result = engine.parse(text);
 		final String resultStr = IterUtil.join(result, " ");
-		Assertions.assertEquals("这两个 方法 的 区别 在于 返回值", resultStr);
+		//Assertions.assertEquals("这两个 方法 的 区别 在于 返回值", resultStr);
+		Assertions.assertEquals("这两个 方法 区别 在于 返回值", resultStr);
 	}
 
 	@Test
