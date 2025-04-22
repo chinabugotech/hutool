@@ -19,5 +19,6 @@
  * @author choweli
  */
 module hutool.all {
+	requires hutool.core;
 
 }
