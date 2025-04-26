@@ -128,6 +128,15 @@ public interface Ftp extends Closeable {
 	List<String> ls(String path);
 
 	/**
+	 * 重命名文件
+	 *
+	 * @param oldPath 旧文件名（或路径）
+	 * @param newPath 新文件名（或路径）
+	 * @return 是否重命名成功
+	 */
+	boolean rename(String oldPath, String newPath);
+
+	/**
 	 * 删除指定目录下的指定文件
 	 *
 	 * @param path 目录路径

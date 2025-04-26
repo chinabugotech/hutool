@@ -404,6 +404,15 @@ public class CommonsFtp extends AbstractFtp {
 	}
 
 	@Override
+	public boolean rename(String oldPath, String newPath) {
+		try {
+			return this.client.rename(oldPath, newPath);
+		} catch (final IOException e) {
+			throw new IORuntimeException(e);
+		}
+	}
+
+	@Override
 	public boolean mkdir(final String dir) throws IORuntimeException {
 		try {
 			return this.client.makeDirectory(dir);

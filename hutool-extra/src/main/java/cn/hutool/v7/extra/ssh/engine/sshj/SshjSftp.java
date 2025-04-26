@@ -189,6 +189,16 @@ public class SshjSftp extends AbstractFtp {
 	}
 
 	@Override
+	public boolean rename(String oldPath, String newPath) {
+		try {
+			sftp.rename(oldPath, newPath);
+			return containsFile(newPath);
+		} catch (final IOException e) {
+			throw new FtpException(e);
+		}
+	}
+
+	@Override
 	public boolean delFile(final String path) {
 		try {
 			sftp.rm(path);

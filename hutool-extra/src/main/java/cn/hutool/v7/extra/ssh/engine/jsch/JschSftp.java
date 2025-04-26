@@ -329,6 +329,16 @@ public class JschSftp extends AbstractFtp {
 	}
 
 	@Override
+	public boolean rename(String oldPath, String newPath) {
+		try {
+			getClient().rename(oldPath, newPath);
+		} catch (final SftpException e) {
+			throw new SshException(e);
+		}
+		return true;
+	}
+
+	@Override
 	public boolean mkdir(final String dir) {
 		if (isDir(dir)) {
 			// 目录已经存在，创建直接返回
