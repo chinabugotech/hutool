@@ -136,7 +136,10 @@ public class VelocityEngine implements TemplateEngine {
 		final String charsetStr = config.getCharset().toString();
 		ve.setProperty(Velocity.INPUT_ENCODING, charsetStr);
 		// ve.setProperty(Velocity.OUTPUT_ENCODING, charsetStr);
-		ve.setProperty(Velocity.FILE_RESOURCE_LOADER_CACHE, true); // 使用缓存
+		if(config.isUseCache()){
+			// issue#IC3JRY 可定制是否使用缓存
+			ve.setProperty(Velocity.FILE_RESOURCE_LOADER_CACHE, true); // 使用缓存
+		}
 
 		// loader
 		switch (config.getResourceMode()) {

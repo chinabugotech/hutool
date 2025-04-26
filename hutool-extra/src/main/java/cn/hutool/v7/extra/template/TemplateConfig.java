@@ -16,12 +16,13 @@
 
 package cn.hutool.v7.extra.template;
 
+import cn.hutool.v7.core.util.CharsetUtil;
+import cn.hutool.v7.extra.template.engine.TemplateEngine;
+
+import java.io.Serial;
 import java.io.Serializable;
 import java.nio.charset.Charset;
 import java.util.Objects;
-
-import cn.hutool.v7.core.util.CharsetUtil;
-import cn.hutool.v7.extra.template.engine.TemplateEngine;
 
 /**
  * 模板配置
@@ -30,6 +31,7 @@ import cn.hutool.v7.extra.template.engine.TemplateEngine;
  * @since 4.1.0
  */
 public class TemplateConfig implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 2933113779920339523L;
 
 	/**
@@ -53,6 +55,10 @@ public class TemplateConfig implements Serializable {
 	 * 自定义引擎，当多个jar包引入时，可以自定使用的默认引擎
 	 */
 	private Class<? extends TemplateEngine> customEngine;
+	/**
+	 * 是否使用缓存
+	 */
+	private boolean useCache = true;
 
 	/**
 	 * 默认构造，使用UTF8编码，默认从ClassPath获取模板
@@ -119,9 +125,11 @@ public class TemplateConfig implements Serializable {
 	 * 设置编码
 	 *
 	 * @param charset 编码
+	 * @return this
 	 */
-	public void setCharset(final Charset charset) {
+	public TemplateConfig setCharset(final Charset charset) {
 		this.charset = charset;
+		return this;
 	}
 
 	/**
@@ -137,9 +145,11 @@ public class TemplateConfig implements Serializable {
 	 * 设置模板路径，如果ClassPath或者WebRoot模式，则表示相对路径
 	 *
 	 * @param path 模板路径
+	 * @return this
 	 */
-	public void setPath(final String path) {
+	public TemplateConfig setPath(final String path) {
 		this.path = path;
+		return this;
 	}
 
 	/**
@@ -155,9 +165,11 @@ public class TemplateConfig implements Serializable {
 	 * 设置模板资源加载方式
 	 *
 	 * @param resourceMode 模板资源加载方式
+	 * @return this
 	 */
-	public void setResourceMode(final ResourceMode resourceMode) {
+	public TemplateConfig setResourceMode(final ResourceMode resourceMode) {
 		this.resourceMode = resourceMode;
+		return this;
 	}
 
 	/**
@@ -180,6 +192,28 @@ public class TemplateConfig implements Serializable {
 	 */
 	public TemplateConfig setCustomEngine(final Class<? extends TemplateEngine> customEngine) {
 		this.customEngine = customEngine;
+		return this;
+	}
+
+	/**
+	 * 是否使用缓存
+	 *
+	 * @return 是否使用缓存
+	 * @since 5.8.38
+	 */
+	public boolean isUseCache() {
+		return useCache;
+	}
+
+	/**
+	 * 设置是否使用缓存
+	 *
+	 * @param useCache 是否使用缓存
+	 * @return this
+	 * @since 5.8.38
+	 */
+	public TemplateConfig setUseCache(boolean useCache) {
+		this.useCache = useCache;
 		return this;
 	}
 

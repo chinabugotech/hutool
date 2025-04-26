@@ -126,6 +126,7 @@ public class ThymeleafEngine implements TemplateEngine {
 				classLoaderResolver.setCharacterEncoding(config.getCharsetStr());
 				classLoaderResolver.setTemplateMode(TemplateMode.HTML);
 				classLoaderResolver.setPrefix(StrUtil.addSuffixIfNot(config.getPath(), "/"));
+				classLoaderResolver.setCacheable(config.isUseCache());
 				resolver = classLoaderResolver;
 				break;
 			case FILE:
@@ -133,6 +134,7 @@ public class ThymeleafEngine implements TemplateEngine {
 				fileResolver.setCharacterEncoding(config.getCharsetStr());
 				fileResolver.setTemplateMode(TemplateMode.HTML);
 				fileResolver.setPrefix(StrUtil.addSuffixIfNot(config.getPath(), "/"));
+				fileResolver.setCacheable(config.isUseCache());
 				resolver = fileResolver;
 				break;
 			case WEB_ROOT:
@@ -140,6 +142,7 @@ public class ThymeleafEngine implements TemplateEngine {
 				webRootResolver.setCharacterEncoding(config.getCharsetStr());
 				webRootResolver.setTemplateMode(TemplateMode.HTML);
 				webRootResolver.setPrefix(StrUtil.addSuffixIfNot(FileUtil.getAbsolutePath(FileUtil.file(FileUtil.getWebRoot(), config.getPath())), "/"));
+				webRootResolver.setCacheable(config.isUseCache());
 				resolver = webRootResolver;
 				break;
 			case STRING:
