@@ -56,6 +56,10 @@ public class UrlUtil {
 	 */
 	public static final String CLASSPATH_URL_PREFIX = "classpath:";
 	/**
+	 * 针对project路径的伪协议前缀: "project:"
+	 */
+	public static final String PROJECT_URL_PREFIX = "project:";
+	/**
 	 * URL 前缀表示文件: "file:"
 	 */
 	public static final String FILE_URL_PREFIX = "file:";

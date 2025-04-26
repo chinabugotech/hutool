@@ -243,7 +243,7 @@ public class ResourceUtil {
 	 */
 	public static Resource getResource(final String path) {
 		if (StrUtil.isNotBlank(path)) {
-			if (path.startsWith(UrlUtil.FILE_URL_PREFIX) || FileUtil.isAbsolutePath(path)) {
+			if (StrUtil.startWithAny(path, UrlUtil.FILE_URL_PREFIX, UrlUtil.PROJECT_URL_PREFIX) || FileUtil.isAbsolutePath(path)) {
 				return new FileResource(path);
 			}
 		}

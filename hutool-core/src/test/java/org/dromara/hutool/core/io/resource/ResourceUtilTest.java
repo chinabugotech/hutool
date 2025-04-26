@@ -59,6 +59,6 @@ public class ResourceUtilTest {
 	@Test
 	void getResourceTest2() {
 		// project:开头表示基于项目的相对路径，此处无文件报错
-		Assertions.assertThrows(NoResourceException.class, () -> ResourceUtil.getResource("project:test.xml"));
+		Assertions.assertThrows(NoResourceException.class, () -> ResourceUtil.getResource("project:test.xml").getStream());
 	}
 }
