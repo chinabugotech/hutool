@@ -167,7 +167,7 @@ public class CollectorUtilTest {
 		Assertions.assertEquals(list.size(),tripleList.getMiddle().size());
 		Assertions.assertEquals(list.size(),tripleList.getRight().size());
 
-		Triple<Integer, List<Long>, String> tripleMixed = list.stream()
+		final Triple<Integer, List<Long>, String> tripleMixed = list.stream()
 			.collect(CollectorUtil.toTriple(Triple::getLeft, Triple::getMiddle, Triple::getRight,
 				Collectors.summingInt(s->s), Collectors.toList(), Collectors.joining()));
 
