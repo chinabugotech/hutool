@@ -22,6 +22,7 @@ import cn.hutool.v7.core.reflect.method.MethodNameUtil;
 import cn.hutool.v7.core.reflect.method.MethodUtil;
 import cn.hutool.v7.core.util.BooleanUtil;
 
+import java.io.Serial;
 import java.lang.reflect.Method;
 import java.util.Map;
 
@@ -37,6 +38,7 @@ import java.util.Map;
  * @since 6.0.0
  */
 public class SimpleBeanDesc extends AbstractBeanDesc {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

@@ -24,6 +24,7 @@ import cn.hutool.v7.core.net.url.UrlUtil;
 import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.core.util.ObjUtil;
 
+import java.io.Serial;
 import java.net.URL;
 
 /**
@@ -35,6 +36,7 @@ import java.net.URL;
  *
  */
 public class ClassPathResource extends UrlResource {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private final String path;

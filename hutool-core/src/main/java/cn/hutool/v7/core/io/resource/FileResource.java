@@ -23,6 +23,7 @@ import cn.hutool.v7.core.util.ObjUtil;
 
 import java.io.File;
 import java.io.InputStream;
+import java.io.Serial;
 import java.io.Serializable;
 import java.net.URL;
 import java.nio.file.Path;
@@ -33,6 +34,7 @@ import java.nio.file.Path;
  * @author Looly
  */
 public class FileResource implements Resource, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private final File file;

@@ -55,6 +55,11 @@ public class PropDesc {
 	 */
 	protected Invoker setter;
 
+	private Boolean hasTransientForGetter;
+	private Boolean hasTransientForSetter;
+	private Boolean isReadable;
+	private Boolean isWritable;
+
 	/**
 	 * 构造<br>
 	 * Getter和Setter方法设置为默认可访问
@@ -181,27 +186,12 @@ public class PropDesc {
 	 * @since 5.4.2
 	 */
 	public boolean isReadable(final boolean checkTransient) {
-		Field field = null;
-		if (this.fieldInvoker instanceof FieldInvoker) {
-			field = ((FieldInvoker) this.fieldInvoker).getField();
-		}
-		Method getterMethod = null;
-		if (this.getter instanceof MethodInvoker) {
-			getterMethod = ((MethodInvoker) this.getter).getMethod();
-		}
+		cacheReadable();
 
-		// 检查transient关键字和@Transient注解
-		if (checkTransient && isTransientForGet(field, getterMethod)) {
+		if(checkTransient && this.hasTransientForGetter){
 			return false;
 		}
-
-		// 检查@PropIgnore注解
-		if (isIgnoreGet(field, getterMethod)) {
-			return false;
-		}
-
-		// 检查是否有getter方法或是否为public修饰
-		return null != getterMethod || ModifierUtil.isPublic(field);
+		return this.isReadable;
 	}
 
 	/**
@@ -260,27 +250,12 @@ public class PropDesc {
 	 * @since 5.4.2
 	 */
 	public boolean isWritable(final boolean checkTransient) {
-		Field field = null;
-		if (this.fieldInvoker instanceof FieldInvoker) {
-			field = ((FieldInvoker) this.fieldInvoker).getField();
-		}
-		Method setterMethod = null;
-		if (this.setter instanceof MethodInvoker) {
-			setterMethod = ((MethodInvoker) this.setter).getMethod();
-		}
+		cacheWritable();
 
-		// 检查transient关键字和@Transient注解
-		if (checkTransient && isTransientForSet(field, setterMethod)) {
+		if(checkTransient && this.hasTransientForSetter){
 			return false;
 		}
-
-		// 检查@PropIgnore注解
-		if(isIgnoreSet(field, setterMethod)){
-			return false;
-		}
-
-		// 检查是否有setter方法或是否为public修饰
-		return null != setterMethod || ModifierUtil.isPublic(field);
+		return this.isWritable;
 	}
 
 	/**
@@ -372,6 +347,66 @@ public class PropDesc {
 	}
 
 	// region ----- private methods
+
+	/**
+	 * 缓存读取属性的可读性，如果已经检查过，直接返回true
+	 */
+	private void cacheReadable(){
+		if(null != this.isReadable){
+			return;
+		}
+
+		Field field = null;
+		if (this.fieldInvoker instanceof FieldInvoker) {
+			field = ((FieldInvoker) this.fieldInvoker).getField();
+		}
+		Method getterMethod = null;
+		if (this.getter instanceof MethodInvoker) {
+			getterMethod = ((MethodInvoker) this.getter).getMethod();
+		}
+
+		// 检查transient关键字和@Transient注解
+		this.hasTransientForGetter = isTransientForGet(field, getterMethod);
+
+		// 检查@PropIgnore注解
+		if (isIgnoreGet(field, getterMethod)) {
+			this.isReadable = false;
+			return;
+		}
+
+		// 检查是否有getter方法或是否为public修饰
+		this.isReadable = null != getterMethod || ModifierUtil.isPublic(field);
+	}
+
+	/**
+	 * 缓存写入属性的可写性，如果已经检查过，直接返回true
+	 */
+	private void cacheWritable(){
+		if(null != this.isWritable){
+			return;
+		}
+
+		Field field = null;
+		if (this.fieldInvoker instanceof FieldInvoker) {
+			field = ((FieldInvoker) this.fieldInvoker).getField();
+		}
+		Method setterMethod = null;
+		if (this.setter instanceof MethodInvoker) {
+			setterMethod = ((MethodInvoker) this.setter).getMethod();
+		}
+
+		// 检查transient关键字和@Transient注解
+		this.hasTransientForSetter = isTransientForSet(field, setterMethod);
+
+		// 检查@PropIgnore注解
+		if(isIgnoreSet(field, setterMethod)){
+			this.isWritable = false;
+			return;
+		}
+
+		// 检查是否有setter方法或是否为public修饰
+		this.isWritable = null != setterMethod || ModifierUtil.isPublic(field);
+	}
 
 	/**
 	 * 通过Getter和Setter方法中找到属性类型

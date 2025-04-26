@@ -21,6 +21,7 @@ import cn.hutool.v7.core.bean.PropDesc;
 import cn.hutool.v7.core.lang.Assert;
 import cn.hutool.v7.core.map.CaseInsensitiveMap;
 
+import java.io.Serial;
 import java.lang.reflect.Field;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -32,6 +33,7 @@ import java.util.Map;
  * @since 6.0.0
  */
 public abstract class AbstractBeanDesc implements BeanDesc {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
