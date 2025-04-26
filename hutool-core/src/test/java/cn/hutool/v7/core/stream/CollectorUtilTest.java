@@ -147,8 +147,8 @@ public class CollectorUtilTest {
 		Assertions.assertEquals(pairList.getLeft().size(),list.size());
 		Assertions.assertEquals(pairList.getRight().size(),list.size());
 
-		final Pair<HashSet<Integer>, ArrayList<String>> pairMixed = list.stream()
-				.collect(CollectorUtil.toPairCollection(Pair::getLeft, Pair::getRight, HashSet::new, ArrayList::new));
+		final Pair<Set<Integer>, List<String>> pairMixed = list.stream()
+				.collect(CollectorUtil.toPair(Pair::getLeft, Pair::getRight, Collectors.toSet(), Collectors.toList()));
 
 		Assertions.assertEquals(pairMixed.getLeft().size(),list.size());
 		Assertions.assertEquals(pairMixed.getRight().size(),list.size());
@@ -167,12 +167,13 @@ public class CollectorUtilTest {
 		Assertions.assertEquals(tripleList.getMiddle().size(),list.size());
 		Assertions.assertEquals(tripleList.getRight().size(),list.size());
 
-		final Triple<HashSet<Integer>, HashSet<Long>, ArrayList<String>> tripleMixed = list.stream()
-				.collect(CollectorUtil.toTripleCollection(Triple::getLeft, Triple::getMiddle, Triple::getRight, HashSet::new, HashSet::new, ArrayList::new));
+		final Triple<Integer, List<Long>, String> tripleMixed = list.stream()
+			.collect(CollectorUtil.toTriple(Triple::getLeft, Triple::getMiddle, Triple::getRight,
+				Collectors.summingInt(s->s), Collectors.toList(), Collectors.joining()));
 
-		Assertions.assertEquals(tripleMixed.getLeft().size(),list.size());
-		Assertions.assertEquals(tripleMixed.getMiddle().size(),list.size());
-		Assertions.assertEquals(tripleMixed.getRight().size(),list.size());
+		Assertions.assertEquals(3,tripleMixed.getLeft());
+		Assertions.assertEquals(list.size(),tripleMixed.getMiddle().size());
+		Assertions.assertEquals(6,tripleMixed.getRight().length());
 
 	}
 

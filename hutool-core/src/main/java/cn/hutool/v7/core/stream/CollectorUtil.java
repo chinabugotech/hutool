@@ -472,7 +472,7 @@ public class CollectorUtil {
 	}
 
 	/**
-	 * 将一个{@code Collection<T>}两个属性分流至两个ArrayList,并使用Pair收集。
+	 * 将一个{@code Collection<T>}两个属性分流至两个List,并使用Pair收集。
 	 *
 	 * @param lMapper 左属性收集方法
 	 * @param rMapper 右属性收集方法
@@ -482,53 +482,69 @@ public class CollectorUtil {
 	 * @return {@code Pair<List<L>,List<R>>} Pair收集的两个List
 	 * @author Tanglt
 	 */
-	public static <T, L, R> Collector<T, Pair<List<L>, List<R>>, Pair<List<L>, List<R>>> toPairList(final Function<T, L> lMapper,
-																									final Function<T, R> rMapper) {
-		return toPairCollection(lMapper, rMapper, ArrayList::new, ArrayList::new);
-
+	public static <T, L, R> Collector<T, ?, Pair<List<L>, List<R>>> toPairList(final Function<? super T, ? extends L> lMapper,
+																			   final Function<? super T, ? extends R> rMapper) {
+		return toPair(lMapper, rMapper, Collectors.toList(), Collectors.toList());
 	}
 
 	/**
-	 * 将一个{@code Collection<T>}两个属性分流至两个Collection,并使用Pair收集。需要指定Collection类型
+	 * 将一个{@code Collection<T>}两个属性分流至两个Collection,并使用Pair收集。
 	 *
-	 * @param lMapper        左属性收集方法
-	 * @param rMapper        右属性收集方法
-	 * @param newCollectionL 左属性Collection创建方法
-	 * @param newCollectionR 右属性Collection创建方法
-	 * @param <T>            元素类型
-	 * @param <L>            左属性类型
-	 * @param <R>            右属性类型
-	 * @param <LC>           左分流Collection类型
-	 * @param <RC>           右分流Collection类型
-	 * @return {@code Pair<C<L>,C<R>>} Pair收集的两个List
+	 * @param lMapper     左属性收集方法
+	 * @param rMapper     右属性收集方法
+	 * @param lDownstream 左属性下游操作
+	 * @param rDownstream 右属性下游操作
+	 * @param <T>         元素类型
+	 * @param <LU>        左属性类型
+	 * @param <LA>        左属性收集类型
+	 * @param <LR>        左属性收集最终类型
+	 * @param <RU>        左属性类型
+	 * @param <RA>        左属性收集类型
+	 * @param <RR>        左属性收集最终类型
+	 * @return {@code Pair<LR,RR>} Pair收集的结果
 	 * @author Tanglt
 	 */
-	public static <T, L, R, LC extends Collection<L>, RC extends Collection<R>>
-	Collector<T, Pair<LC, RC>, Pair<LC, RC>> toPairCollection(final Function<T, L> lMapper,
-															  final Function<T, R> rMapper,
-															  final Supplier<LC> newCollectionL,
-															  final Supplier<RC> newCollectionR) {
-		return new SimpleCollector<>(() -> Pair.of(newCollectionL.get(), newCollectionR.get()),
+	@SuppressWarnings("unchecked")
+	public static <T, LU, LA, LR, RU, RA, RR>
+	Collector<T, ?, Pair<LR, RR>> toPair(final Function<? super T, ? extends LU> lMapper,
+										 final Function<? super T, ? extends RU> rMapper,
+										 final Collector<? super LU, LA, LR> lDownstream,
+										 final Collector<? super RU, RA, RR> rDownstream
+	) {
+		return new SimpleCollector<>(
+			() -> Pair.of(lDownstream.supplier().get(), rDownstream.supplier().get()),
+
 			(listPair, element) -> {
-				final L lValue = lMapper.apply(element);
-				if (lValue != null) {
-					listPair.getLeft().add(lValue);
-				}
-				final R rValue = rMapper.apply(element);
-				if (rValue != null) {
-					listPair.getRight().add(rValue);
-				}
+				lDownstream.accumulator().accept(listPair.getLeft(), lMapper.apply(element));
+				rDownstream.accumulator().accept(listPair.getRight(), rMapper.apply(element));
 			},
-			(listPair1, listPair2) -> {
-				listPair1.getLeft().addAll(listPair2.getLeft());
-				listPair1.getRight().addAll(listPair2.getRight());
-				return listPair1;
+
+			(listPair1, listPair2) ->
+				Pair.of(lDownstream.combiner().apply(listPair1.getLeft(), listPair2.getLeft()),
+					rDownstream.combiner().apply(listPair1.getRight(), listPair2.getRight())),
+
+			finisherPair -> {
+				final LR finisherLeftValue;
+				if (lDownstream.characteristics().contains(Collector.Characteristics.IDENTITY_FINISH)) {
+					finisherLeftValue = (LR) finisherPair.getLeft();
+				} else {
+					finisherLeftValue = lDownstream.finisher().apply(finisherPair.getLeft());
+				}
+
+				final RR finisherRightValue;
+				if (lDownstream.characteristics().contains(Collector.Characteristics.IDENTITY_FINISH)) {
+					finisherRightValue = (RR) finisherPair.getRight();
+				} else {
+					finisherRightValue = rDownstream.finisher().apply(finisherPair.getRight());
+				}
+
+				return Pair.of(finisherLeftValue, finisherRightValue);
 			},
-			CH_ID);
+			CH_NOID);
 	}
 
 	/**
-	 * 将一个{@code Collection<T>}三个属性分流至三个ArrayList,并使用Triple收集。
+	 * 将一个{@code Collection<T>}三个属性分流至三个List,并使用Triple收集。
 	 *
 	 * @param lMapper 左属性收集方法
 	 * @param mMapper 中属性收集方法
@@ -541,64 +557,82 @@ public class CollectorUtil {
 	 * @author Tanglt
 	 */
 	public static <T, L, M, R>
-	Collector<T, Triple<List<L>, List<M>, List<R>>, Triple<List<L>, List<M>, List<R>>> toTripleList(final Function<T, L> lMapper,
-																									final Function<T, M> mMapper,
-																									final Function<T, R> rMapper) {
-		return toTripleCollection(lMapper, mMapper, rMapper, ArrayList::new, ArrayList::new, ArrayList::new);
+	Collector<T, ?, Triple<List<L>, List<M>, List<R>>> toTripleList(final Function<? super T, ? extends L> lMapper,
+																	final Function<? super T, ? extends M> mMapper,
+																	final Function<? super T, ? extends R> rMapper) {
+		return toTriple(lMapper, mMapper, rMapper, Collectors.toList(), Collectors.toList(), Collectors.toList());
 	}
+
 
 	/**
-	 * 将一个{@code Collection<T>}两个属性分流至两个Collection,并使用Triple收集。需要指定Collection类型
+	 * 将一个{@code Collection<T>}两个属性分流至两个Collection,并使用Pair收集。
 	 *
-	 * @param lMapper        左属性收集方法
-	 * @param mMapper        中属性收集方法
-	 * @param rMapper        右属性收集方法
-	 * @param newCollectionL 左属性Collection创建方法
-	 * @param newCollectionM 中属性Collection创建方法
-	 * @param newCollectionR 右属性Collection创建方法
-	 * @param <T>            元素类型
-	 * @param <L>            左属性类型
-	 * @param <M>            中属性类型
-	 * @param <R>            右属性类型
-	 * @param <LC>           左分流Collection类型
-	 * @param <MC>           中分流Collection类型
-	 * @param <RC>           右分流Collection类型
-	 * @return {@code Triple<LC<L>,MC<M>,RC<R>>} Triple收集的三个List
+	 * @param lMapper     左元素收集方法
+	 * @param mMapper     中元素收集方法
+	 * @param rMapper     右元素收集方法
+	 * @param lDownstream 左元素下游操作
+	 * @param mDownstream 中元素下游操作
+	 * @param rDownstream 右元素下游操作
+	 * @param <T>         元素类型
+	 * @param <LU>        左属性类型
+	 * @param <LA>        左属性收集类型
+	 * @param <LR>        左属性收集最终类型
+	 * @param <MU>        中属性类型
+	 * @param <MA>        中属性收集类型
+	 * @param <MR>        中属性收集最终类型
+	 * @param <RU>        左属性类型
+	 * @param <RA>        左属性收集类型
+	 * @param <RR>        左属性收集最终类型
+	 * @return {@code Triple<LR,MR,RR>} Triple收集的结果
 	 * @author Tanglt
 	 */
-	public static <T, L, M, R,
-		LC extends Collection<L>,
-		MC extends Collection<M>,
-		RC extends Collection<R>>
-	Collector<T, Triple<LC, MC, RC>, Triple<LC, MC, RC>> toTripleCollection(final Function<T, L> lMapper,
-																			final Function<T, M> mMapper,
-																			final Function<T, R> rMapper,
-																			final Supplier<LC> newCollectionL,
-																			final Supplier<MC> newCollectionM,
-																			final Supplier<RC> newCollectionR) {
+	@SuppressWarnings("unchecked")
+	public static <T, LU, LA, LR, MU, MA, MR, RU, RA, RR>
+	Collector<T, ?, Triple<LR, MR, RR>> toTriple(final Function<? super T, ? extends LU> lMapper,
+												 final Function<? super T, ? extends MU> mMapper,
+												 final Function<? super T, ? extends RU> rMapper,
+												 final Collector<? super LU, LA, LR> lDownstream,
+												 final Collector<? super MU, MA, MR> mDownstream,
+												 final Collector<? super RU, RA, RR> rDownstream
+	) {
 		return new SimpleCollector<>(
-			() -> Triple.of(newCollectionL.get(), newCollectionM.get(), newCollectionR.get()),
-			(listTriple, element) -> {
-				final L lValue = lMapper.apply(element);
-				if (lValue != null) {
-					listTriple.getLeft().add(lValue);
-				}
-				final M mValue = mMapper.apply(element);
-				if (mValue != null) {
-					listTriple.getMiddle().add(mValue);
-				}
-				final R rValue = rMapper.apply(element);
-				if (rValue != null) {
-					listTriple.getRight().add(rValue);
-				}
-			},
-			(listTriple1, listTriple2) -> {
-				listTriple1.getLeft().addAll(listTriple2.getLeft());
-				listTriple1.getMiddle().addAll(listTriple2.getMiddle());
-				listTriple1.getRight().addAll(listTriple2.getRight());
-				return listTriple1;
-			},
-			CH_ID);
-	}
+			() -> Triple.of(lDownstream.supplier().get(), mDownstream.supplier().get(), rDownstream.supplier().get()),
 
+			(listTriple, element) -> {
+				lDownstream.accumulator().accept(listTriple.getLeft(), lMapper.apply(element));
+				mDownstream.accumulator().accept(listTriple.getMiddle(), mMapper.apply(element));
+				rDownstream.accumulator().accept(listTriple.getRight(), rMapper.apply(element));
+			},
+
+			(listTriple1, listTriple2) ->
+				Triple.of(lDownstream.combiner().apply(listTriple1.getLeft(), listTriple2.getLeft()),
+					mDownstream.combiner().apply(listTriple1.getMiddle(), listTriple2.getMiddle()),
+					rDownstream.combiner().apply(listTriple1.getRight(), listTriple2.getRight())),
+
+			finisherTriple -> {
+				final LR finisherLeftValue;
+				if (lDownstream.characteristics().contains(Collector.Characteristics.IDENTITY_FINISH)) {
+					finisherLeftValue = (LR) finisherTriple.getLeft();
+				} else {
+					finisherLeftValue = lDownstream.finisher().apply(finisherTriple.getLeft());
+				}
+
+				final MR finisherMiddleValue;
+				if (mDownstream.characteristics().contains(Collector.Characteristics.IDENTITY_FINISH)) {
+					finisherMiddleValue = (MR) finisherTriple.getMiddle();
+				} else {
+					finisherMiddleValue = mDownstream.finisher().apply(finisherTriple.getMiddle());
+				}
+
+				final RR finisherRightValue;
+				if (lDownstream.characteristics().contains(Collector.Characteristics.IDENTITY_FINISH)) {
+					finisherRightValue = (RR) finisherTriple.getRight();
+				} else {
+					finisherRightValue = rDownstream.finisher().apply(finisherTriple.getRight());
+				}
+
+				return Triple.of(finisherLeftValue, finisherMiddleValue, finisherRightValue);
+			},
+			CH_NOID);
+	}
 }
