@@ -77,7 +77,7 @@ public class FileResource implements Resource, Serializable {
 	 * @param fileName 文件名，带扩展名，如果为null获取文件本身的文件名
 	 */
 	public FileResource(final File file, final String fileName) {
-		this.file = Assert.notNull(file, "File must be not null !");;
+		this.file = Assert.notNull(file, "File must be not null !");
 		this.lastModified = file.lastModified();
 		this.name = ObjUtil.defaultIfNull(fileName, file::getName);
 	}

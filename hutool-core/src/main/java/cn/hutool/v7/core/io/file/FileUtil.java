@@ -315,7 +315,7 @@ public class FileUtil {
 
 		// 如果用户需要相对项目路径，则使用project:前缀
 		if (path.startsWith(UrlUtil.PROJECT_URL_PREFIX)) {
-			return new File(path);
+			return new File(StrUtil.subSuf(path, UrlUtil.PROJECT_URL_PREFIX.length()));
 		}
 
 		return new File(getAbsolutePath(path));
