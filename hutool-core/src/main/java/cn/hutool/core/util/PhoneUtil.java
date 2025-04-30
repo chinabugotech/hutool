@@ -3,6 +3,8 @@ package cn.hutool.core.util;
 import cn.hutool.core.lang.PatternPool;
 import cn.hutool.core.lang.Validator;
 
+import java.util.function.Predicate;
+
 
 /**
  * 电话号码工具类，包括：
@@ -185,4 +187,50 @@ public class PhoneUtil {
 	{
 		return ReUtil.get(PatternPool.TEL, value, 2);
 	}
+
+    /**
+     * 生成测试手机号
+     *
+     * @return 随机生成的手机号
+     */
+    public static String generateTestMobile() {
+        return generateTestMobile(num -> true); // 无过滤条件时默认生成任意有效号码
+    }
+
+    /**
+     * 生成测试手机号
+     *
+     * @param filter 控制生成范围
+     *                例如：generateTestMobile(n -> n.startsWith("199"))
+     * @return 随机生成的手机号(可控制号码范围)
+     */
+    public static String generateTestMobile(Predicate<String> filter) {
+        String num;
+        do {
+            // 首位固定为1，第二位随机取3-9（覆盖所有运营商及虚拟号段），后面9位随机数字
+            num = "1" + RandomUtil.randomInt(3,10) + RandomUtil.randomNumbers(9);
+        } while (!filter.test(num));
+        return num;
+    }
+
+    /**
+     * 判断两个号码是否等价
+     *
+     * @param num1 号码1
+     * @param num2 号码2
+     * @return
+     */
+    public static boolean isSameNumber(String num1, String num2) {
+        return cleanNumber(num1).equals(cleanNumber(num2));
+    }
+
+    /**
+     * 清除号码中的特殊字符
+     *
+     * @param num
+     * @return
+     */
+    public static String cleanNumber(String num) {
+        return num.replaceAll("[+\\-()\\s]", "");
+    }
 }
