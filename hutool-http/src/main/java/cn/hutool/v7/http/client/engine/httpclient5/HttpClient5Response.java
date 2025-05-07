@@ -96,7 +96,7 @@ public class HttpClient5Response extends SimpleWrapper<ClassicHttpResponse> impl
 
 	@Override
 	public long contentLength() {
-		return this.entity.getContentLength();
+		return null == this.entity ? -1 : this.entity.getContentLength();
 	}
 
 	@Override
@@ -106,6 +106,9 @@ public class HttpClient5Response extends SimpleWrapper<ClassicHttpResponse> impl
 
 	@Override
 	public InputStream bodyStream() {
+		if(null == this.entity){
+			return null;
+		}
 		try {
 			return this.entity.getContent();
 		} catch (final IOException e) {
@@ -130,6 +133,9 @@ public class HttpClient5Response extends SimpleWrapper<ClassicHttpResponse> impl
 
 	@Override
 	public String bodyStr() throws HttpException {
+		if(null == this.entity){
+			return null;
+		}
 		try {
 			return EntityUtils.toString(this.entity, charset());
 		} catch (final IOException e) {
