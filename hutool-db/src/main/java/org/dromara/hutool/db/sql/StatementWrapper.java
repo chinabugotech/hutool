@@ -643,7 +643,9 @@ public class StatementWrapper extends SimpleWrapper<PreparedStatement> implement
 		final ParameterMetaData pmd;
 		try {
 			pmd = this.raw.getParameterMetaData();
-			sqlType = pmd.getParameterType(paramIndex);
+			if(null != pmd){
+				sqlType = pmd.getParameterType(paramIndex);
+			}
 		} catch (final SQLException ignore) {
 			// ignore
 			// log.warn("Null param of index [{}] type get failed, by: {}", paramIndex, e.getMessage());
