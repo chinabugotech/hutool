@@ -16,20 +16,21 @@
 
 package cn.hutool.v7.extra.ssh.engine.sshj;
 
+import cn.hutool.v7.core.collection.CollUtil;
+import cn.hutool.v7.core.io.IORuntimeException;
+import cn.hutool.v7.core.io.IoUtil;
+import cn.hutool.v7.core.io.file.FileUtil;
+import cn.hutool.v7.core.text.StrUtil;
+import cn.hutool.v7.extra.ftp.AbstractFtp;
+import cn.hutool.v7.extra.ftp.FtpConfig;
+import cn.hutool.v7.extra.ftp.FtpException;
+import cn.hutool.v7.extra.ssh.Connector;
 import net.schmizz.sshj.SSHClient;
 import net.schmizz.sshj.connection.channel.direct.Session;
 import net.schmizz.sshj.sftp.RemoteFile;
 import net.schmizz.sshj.sftp.RemoteResourceInfo;
 import net.schmizz.sshj.sftp.SFTPClient;
 import net.schmizz.sshj.xfer.FileSystemFile;
-import cn.hutool.v7.core.collection.CollUtil;
-import cn.hutool.v7.core.io.IORuntimeException;
-import cn.hutool.v7.core.io.IoUtil;
-import cn.hutool.v7.core.text.StrUtil;
-import cn.hutool.v7.extra.ftp.AbstractFtp;
-import cn.hutool.v7.extra.ftp.FtpConfig;
-import cn.hutool.v7.extra.ftp.FtpException;
-import cn.hutool.v7.extra.ssh.Connector;
 
 import java.io.File;
 import java.io.IOException;
@@ -51,6 +52,7 @@ import java.util.List;
 public class SshjSftp extends AbstractFtp {
 
 	// region ----- of
+
 	/**
 	 * 构造
 	 *
@@ -94,6 +96,7 @@ public class SshjSftp extends AbstractFtp {
 	private SSHClient ssh;
 	private SFTPClient sftp;
 	private Session session;
+	private String workingDir;
 
 	/**
 	 * 构造
@@ -125,7 +128,7 @@ public class SshjSftp extends AbstractFtp {
 	 * @since 5.7.18
 	 */
 	public void init() {
-		if(null == this.ssh){
+		if (null == this.ssh) {
 			this.ssh = SshjUtil.openClient(this.ftpConfig.getConnector());
 		}
 
@@ -153,32 +156,41 @@ public class SshjSftp extends AbstractFtp {
 
 	@Override
 	public boolean cd(final String directory) {
-		final String exec = String.format("cd %s", directory);
-		command(exec);
-		final String pwd = pwd();
-		return pwd.equals(directory);
+//		final String exec = String.format("cd %s", directory);
+//		command(exec);
+//		final String pwd = pwd();
+//		return pwd.equals(directory);
+		String newPath = getPath(directory);
+		try {
+			sftp.ls(newPath);
+			this.workingDir = newPath;
+			return true;
+		} catch (IOException e) {
+			throw new FtpException(e);
+		}
 	}
 
 	@Override
 	public String pwd() {
-		return command("pwd");
+//		return command("pwd");
+		return getPath(null);
 	}
 
 	@Override
 	public boolean mkdir(final String dir) {
 		try {
-			sftp.mkdir(dir);
+			sftp.mkdir(getPath(dir));
 		} catch (final IOException e) {
 			throw new FtpException(e);
 		}
-		return containsFile(dir);
+		return containsFile(getPath(dir));
 	}
 
 	@Override
 	public List<String> ls(final String path) {
 		final List<RemoteResourceInfo> infoList;
 		try {
-			infoList = sftp.ls(path);
+			infoList = sftp.ls(getPath(path));
 		} catch (final IOException e) {
 			throw new FtpException(e);
 		}
@@ -201,8 +213,8 @@ public class SshjSftp extends AbstractFtp {
 	@Override
 	public boolean delFile(final String path) {
 		try {
-			sftp.rm(path);
-			return !containsFile(path);
+			sftp.rm(getPath(path));
+			return !containsFile(getPath(path));
 		} catch (final IOException e) {
 			throw new FtpException(e);
 		}
@@ -211,18 +223,21 @@ public class SshjSftp extends AbstractFtp {
 	@Override
 	public boolean delDir(final String dirPath) {
 		try {
-			sftp.rmdir(dirPath);
-			return !containsFile(dirPath);
+			sftp.rmdir(getPath(dirPath));
+			return !containsFile(getPath(dirPath));
 		} catch (final IOException e) {
 			throw new FtpException(e);
 		}
 	}
 
 	@Override
-	public boolean uploadFile(final String destPath, final File file) {
+	public boolean uploadFile(String destPath, final File file) {
 		try {
-			sftp.put(new FileSystemFile(file), destPath);
-			return containsFile(destPath);
+			if (StrUtil.endWith(destPath, StrUtil.SLASH)) {
+				destPath += file.getName();
+			}
+			sftp.put(new FileSystemFile(file), getPath(destPath));
+			return containsFile(getPath(destPath));
 		} catch (final IOException e) {
 			throw new FtpException(e);
 		}
@@ -231,17 +246,25 @@ public class SshjSftp extends AbstractFtp {
 	@Override
 	public void download(final String path, final File outFile) {
 		try {
-			sftp.get(path, new FileSystemFile(outFile));
+			sftp.get(getPath(path), new FileSystemFile(outFile));
 		} catch (final IOException e) {
 			throw new FtpException(e);
 		}
 	}
 
 	@Override
-	public void recursiveDownloadFolder(final String sourcePath, final File destDir) {
-		final List<String> files = ls(sourcePath);
-		if (files != null && !files.isEmpty()) {
-			files.forEach(path -> download(sourcePath + "/" + path, destDir));
+	public void recursiveDownloadFolder(final String sourcePath, final File targetDir) {
+		if (!targetDir.exists()) {
+			if (!targetDir.mkdirs()) {
+				throw new FtpException("Dir {} create failed!", targetDir.getAbsolutePath());
+			}
+		}else if(!targetDir.isDirectory()){
+			throw new FtpException("Target is not a directory!");
+		}
+
+		List<String> files = ls(getPath(sourcePath));
+		if (CollUtil.isNotEmpty(files)) {
+			files.forEach(file -> download(sourcePath + StrUtil.SLASH + file, FileUtil.file(targetDir, file)));
 		}
 	}
 
@@ -280,7 +303,7 @@ public class SshjSftp extends AbstractFtp {
 	 */
 	public boolean containsFile(final String fileDir) {
 		try {
-			sftp.lstat(fileDir);
+			sftp.lstat(getPath(fileDir));
 			return true;
 		} catch (final IOException e) {
 			return false;
@@ -328,5 +351,34 @@ public class SshjSftp extends AbstractFtp {
 			this.session = session;
 		}
 		return session;
+	}
+
+	/**
+	 * 获取对应路径的绝对路径<br>
+	 * 如果提供的为绝对路径，直接返回，否则拼接当前路径
+	 *
+	 * @param path 路径
+	 * @return 绝对路径
+	 */
+	private String getPath(final String path) {
+		if (StrUtil.isBlank(this.workingDir)) {
+			try {
+				this.workingDir = sftp.canonicalize(StrUtil.EMPTY);
+			} catch (IOException e) {
+				throw new FtpException(e);
+			}
+		}
+
+		if (StrUtil.isBlank(path)) {
+			return this.workingDir;
+		}
+
+		// 如果是绝对路径，则返回
+		if (StrUtil.startWith(path, StrUtil.SLASH)) {
+			return path;
+		}
+
+		final String tmp = StrUtil.removeSuffix(this.workingDir, StrUtil.SLASH);
+		return StrUtil.format("{}/{}", tmp, path);
 	}
 }

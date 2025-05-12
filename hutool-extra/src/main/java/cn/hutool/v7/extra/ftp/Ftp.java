@@ -174,10 +174,10 @@ public interface Ftp extends Closeable {
 	 * 递归下载FTP服务器上文件到本地(文件目录和服务器同步), 服务器上有新文件会覆盖本地文件
 	 *
 	 * @param sourcePath ftp服务器目录
-	 * @param destDir    本地目录
+	 * @param targetDir    本地目录
 	 * @since 5.3.5
 	 */
-	void recursiveDownloadFolder(String sourcePath, File destDir);
+	void recursiveDownloadFolder(String sourcePath, File targetDir);
 
 	/**
 	 * 读取FTP服务器上的文件为输入流

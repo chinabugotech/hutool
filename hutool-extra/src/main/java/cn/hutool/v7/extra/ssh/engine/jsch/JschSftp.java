@@ -593,17 +593,17 @@ public class JschSftp extends AbstractFtp {
 	 * 递归下载FTP服务器上文件到本地(文件目录和服务器同步)
 	 *
 	 * @param sourcePath ftp服务器目录，必须为目录
-	 * @param destDir    本地目录
+	 * @param targetDir    本地目录
 	 */
 	@Override
-	public void recursiveDownloadFolder(final String sourcePath, final File destDir) throws SshException {
+	public void recursiveDownloadFolder(final String sourcePath, final File targetDir) throws SshException {
 		String fileName;
 		String srcFile;
 		File destFile;
 		for (final LsEntry item : lsEntries(sourcePath)) {
 			fileName = item.getFilename();
 			srcFile = StrUtil.format("{}/{}", sourcePath, fileName);
-			destFile = FileUtil.file(destDir, fileName);
+			destFile = FileUtil.file(targetDir, fileName);
 
 			if (!item.getAttrs().isDir()) {
 				// 本地不存在文件或者ftp上文件有修改则下载
