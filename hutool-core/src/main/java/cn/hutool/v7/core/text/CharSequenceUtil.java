@@ -3672,8 +3672,8 @@ public class CharSequenceUtil extends StrValidator {
 	 * @see String#toLowerCase()
 	 * @since 5.8.38
 	 */
-	public static String toLoweCase(final CharSequence str) {
-		return toLoweCase(str, Locale.getDefault());
+	public static String toLowerCase(final CharSequence str) {
+		return toLowerCase(str, Locale.getDefault());
 	}
 
 	/**
@@ -3685,11 +3685,11 @@ public class CharSequenceUtil extends StrValidator {
 	 * @see String#toLowerCase()
 	 * @since 6.0.0
 	 */
-	public static String toLoweCase(final CharSequence str, final Locale locale) {
+	public static String toLowerCase(final CharSequence str, final Locale locale) {
 		if (null == str) {
 			return null;
 		}
-		if(0 == str.length()){
+		if(str.isEmpty()){
 			return EMPTY;
 		}
 		return str.toString().toLowerCase(locale);
