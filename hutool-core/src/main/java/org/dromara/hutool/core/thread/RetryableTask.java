@@ -236,7 +236,10 @@ public class RetryableTask<T> {
 				break;
 			}
 
-			ThreadUtil.sleep(delay.toMillis());
+			// 避免最后一次任务执行时的线程睡眠
+			if (this.maxAttempts > 0) {
+				ThreadUtil.sleep(delay.toMillis());
+			}
 		}
 
 		this.throwable = th;
