@@ -19,6 +19,7 @@ package cn.hutool.v7.core.math;
 import cn.hutool.v7.core.text.StrUtil;
 
 import java.io.File;
+import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -63,6 +64,7 @@ import java.util.Currency;
  */
 
 public class Money implements Serializable, Comparable<Money> {
+	@Serial
 	private static final long serialVersionUID = -1004117971993390293L;
 
 	/**
@@ -742,7 +744,7 @@ public class Money implements Serializable, Comparable<Money> {
 		final Money lowResult = newMoneyWithSameCurrency(cent / targets);
 		final Money highResult = newMoneyWithSameCurrency(lowResult.cent + 1);
 
-		final int remainder = (int) cent % targets;
+		final int remainder = (int) (cent % targets);
 
 		for (int i = 0; i < remainder; i++) {
 			results[i] = highResult;
