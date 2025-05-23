@@ -742,7 +742,7 @@ public class Money implements Serializable, Comparable<Money> {
 		final Money lowResult = newMoneyWithSameCurrency(cent / targets);
 		final Money highResult = newMoneyWithSameCurrency(lowResult.cent + 1);
 
-		final int remainder = (int) cent % targets;
+		final int remainder = (int) (cent % targets);
 
 		for (int i = 0; i < remainder; i++) {
 			results[i] = highResult;
