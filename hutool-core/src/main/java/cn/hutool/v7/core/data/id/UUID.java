@@ -21,6 +21,7 @@ import cn.hutool.v7.core.util.ByteUtil;
 import cn.hutool.v7.core.util.RandomUtil;
 import cn.hutool.v7.core.text.StrUtil;
 
+import java.io.Serial;
 import java.nio.ByteOrder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -73,7 +74,8 @@ import java.util.concurrent.atomic.AtomicLong;
  *
  * @since 4.1.11
  */
-public class UUID implements java.io.Serializable, Comparable<UUID> {
+public final class UUID implements java.io.Serializable, Comparable<UUID> {
+	@Serial
 	private static final long serialVersionUID = -1185015143654744140L;
 
 	/**
