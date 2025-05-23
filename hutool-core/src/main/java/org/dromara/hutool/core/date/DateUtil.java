@@ -46,7 +46,7 @@ import java.util.stream.Collectors;
  * 日期时间工具类
  *
  * @author Looly
- * @see TimeUtil java8日志工具类
+ * @see TimeUtil java8日期工具类
  * @see DateFormatPool 日期常用格式工具类
  */
 public class DateUtil {
