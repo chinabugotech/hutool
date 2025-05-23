@@ -33,10 +33,7 @@ import java.util.Map;
 @SuppressWarnings("rawtypes")
 public class BeanToMapCopier extends AbsCopier<Object, Map> {
 
-	/**
-	 * 目标的Map类型（用于泛型类注入）
-	 */
-	private final Type targetType;
+	private final Type[] targetTypeArguments;
 
 	/**
 	 * 构造
@@ -48,7 +45,7 @@ public class BeanToMapCopier extends AbsCopier<Object, Map> {
 	 */
 	public BeanToMapCopier(final Object source, final Map target, final Type targetType, final CopyOptions copyOptions) {
 		super(source, target, copyOptions);
-		this.targetType = targetType;
+		targetTypeArguments = TypeUtil.getTypeArguments(targetType);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -62,9 +59,6 @@ public class BeanToMapCopier extends AbsCopier<Object, Map> {
 					"Source class [{}] not assignable to Editable class [{}]", actualEditable.getName(), copyOptions.editable.getName());
 			actualEditable = copyOptions.editable;
 		}
-
-		// 提前获取目标值真实类型
-		final Type[] typeArguments = TypeUtil.getTypeArguments(this.targetType);
 
 		final Map<String, PropDesc> sourcePropDescMap = getBeanDesc(actualEditable).getPropMap(copyOptions.ignoreCase);
 		sourcePropDescMap.forEach((sFieldName, sDesc) -> {
@@ -93,9 +87,9 @@ public class BeanToMapCopier extends AbsCopier<Object, Map> {
 
 			// 获取目标值真实类型并转换源值
 			// 尝试转换源值
-			if(null != typeArguments && typeArguments.length > 1){
+			if(null != targetTypeArguments && targetTypeArguments.length > 1){
 				//sValue = Convert.convertWithCheck(typeArguments[1], sValue, null, this.copyOptions.ignoreError);
-				sValue = copyOptions.convertField(typeArguments[1], sValue);
+				sValue = copyOptions.convertField(targetTypeArguments[1], sValue);
 			}
 
 			// 目标赋值
