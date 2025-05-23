@@ -63,6 +63,9 @@ public class BeanToMapCopier extends AbsCopier<Object, Map> {
 			actualEditable = copyOptions.editable;
 		}
 
+		// 提前获取目标值真实类型
+		final Type[] typeArguments = TypeUtil.getTypeArguments(this.targetType);
+
 		final Map<String, PropDesc> sourcePropDescMap = getBeanDesc(actualEditable).getPropMap(copyOptions.ignoreCase);
 		sourcePropDescMap.forEach((sFieldName, sDesc) -> {
 			if (null == sFieldName || !sDesc.isReadable(copyOptions.transientSupport)) {
@@ -89,7 +92,7 @@ public class BeanToMapCopier extends AbsCopier<Object, Map> {
 			sValue = entry.getValue();
 
 			// 获取目标值真实类型并转换源值
-			final Type[] typeArguments = TypeUtil.getTypeArguments(this.targetType);
+			// 尝试转换源值
 			if(null != typeArguments && typeArguments.length > 1){
 				//sValue = Convert.convertWithCheck(typeArguments[1], sValue, null, this.copyOptions.ignoreError);
 				sValue = copyOptions.convertField(typeArguments[1], sValue);

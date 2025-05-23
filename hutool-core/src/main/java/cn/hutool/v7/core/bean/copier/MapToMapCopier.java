@@ -50,6 +50,8 @@ public class MapToMapCopier extends AbsCopier<Map, Map> {
 
 	@Override
 	public Map copy() {
+		final Type[] typeArguments = TypeUtil.getTypeArguments(this.targetType);
+
 		this.source.forEach((sKey, sValue) -> {
 			if (null == sKey) {
 				return;
@@ -74,7 +76,6 @@ public class MapToMapCopier extends AbsCopier<Map, Map> {
 			}
 
 			// 获取目标值真实类型并转换源值
-			final Type[] typeArguments = TypeUtil.getTypeArguments(this.targetType);
 			if(null != typeArguments){
 				sValue = this.copyOptions.convertField(typeArguments[1], sValue);
 			}
