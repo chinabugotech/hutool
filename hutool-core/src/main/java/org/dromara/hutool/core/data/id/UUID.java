@@ -73,7 +73,7 @@ import java.util.concurrent.atomic.AtomicLong;
  *
  * @since 4.1.11
  */
-public class UUID implements java.io.Serializable, Comparable<UUID> {
+public final class UUID implements java.io.Serializable, Comparable<UUID> {
 	private static final long serialVersionUID = -1185015143654744140L;
 
 	/**

@@ -48,7 +48,7 @@ import java.util.Map;
  * </ul>
  *
  * <p>
- * 详细介绍见；<a href="https://www.jianshu.com/p/576dbf44b2ae">https://www.jianshu.com/p/576dbf44b2ae</a>
+ * 详细介绍见：<a href="https://www.jianshu.com/p/576dbf44b2ae">https://www.jianshu.com/p/576dbf44b2ae</a>
  * </p>
  *
  * @author Looly
