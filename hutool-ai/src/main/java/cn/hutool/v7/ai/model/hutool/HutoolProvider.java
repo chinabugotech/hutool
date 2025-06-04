@@ -14,48 +14,26 @@
  * limitations under the License.
  */
 
-package cn.hutool.v7.ai;
+package cn.hutool.v7.ai.model.hutool;
 
-/**
- * 模型厂商的名称（不指具体的模型）
+import cn.hutool.v7.ai.core.AIConfig;
+import cn.hutool.v7.ai.core.AIServiceProvider;
+
+/**r
+ * 创建Hutool服务实现类
  *
  * @author elichow
  * @since 6.0.0
  */
-public enum ModelName {
-	/**
-	 * hutool
-	 */
-	HUTOOL("hutool"),
-	/**
-	 * deepSeek
-	 */
-	DEEPSEEK("deepSeek"),
-	/**
-	 * openai
-	 */
-	OPENAI("openai"),
-	/**
-	 * doubao
-	 */
-	DOUBAO("doubao"),
-	/**
-	 * grok
-	 */
-	GROK("grok");
+public class HutoolProvider implements AIServiceProvider {
 
-	private final String value;
-
-	ModelName(final String value) {
-		this.value = value;
+	@Override
+	public String getServiceName() {
+		return "hutool";
 	}
 
-	/**
-	 * 获取值
-	 *
-	 * @return 值
-	 */
-	public String getValue() {
-		return value;
+	@Override
+	public HutoolService create(final AIConfig config) {
+		return new HutoolServiceImpl(config);
 	}
 }

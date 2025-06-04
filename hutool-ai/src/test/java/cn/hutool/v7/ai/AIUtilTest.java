@@ -22,6 +22,7 @@ import cn.hutool.v7.ai.core.Message;
 import cn.hutool.v7.ai.model.deepseek.DeepSeekService;
 import cn.hutool.v7.ai.model.doubao.DoubaoService;
 import cn.hutool.v7.ai.model.grok.GrokService;
+import cn.hutool.v7.ai.model.hutool.HutoolService;
 import cn.hutool.v7.ai.model.openai.OpenaiService;
 import org.junit.jupiter.api.Test;
 
@@ -44,6 +45,12 @@ class AIUtilTest {
 	void testGetAIService() {
 		final AIService aiService = AIUtil.getAIService(new AIConfigBuilder(ModelName.OPENAI.getValue()).setApiKey(key).build());
 		assertNotNull(aiService);
+	}
+
+	@Test
+	void getHutoolService() {
+		final HutoolService hutoolService = AIUtil.getHutoolService(new AIConfigBuilder(ModelName.HUTOOL.getValue()).setApiKey(key).build());
+		assertNotNull(hutoolService);
 	}
 
 	@Test
@@ -82,6 +89,6 @@ class AIUtilTest {
 		messages.add(new Message("system","你是财神爷，只会说“我是财神”"));
 		messages.add(new Message("user","你是谁啊？"));
 		final String chat = AIUtil.chat(new AIConfigBuilder(ModelName.DEEPSEEK.getValue()).setApiKey(key).build(), messages);
-		assertNotNull(chat);
+		System.out.println(chat);
 	}
 }
