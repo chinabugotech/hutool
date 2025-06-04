@@ -21,7 +21,9 @@ import cn.hutool.v7.ai.core.Message;
 
 import java.io.File;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * openai支持的扩展接口
@@ -43,6 +45,17 @@ public interface OpenaiService extends AIService {
 	String chatVision(String prompt, final List<String> images, String detail);
 
 	/**
+	 * 图像理解-SSE流式输出
+	 *
+	 * @param prompt 题词
+	 * @param images 图片列表/或者图片Base64编码图片列表(URI形式)
+	 * @param detail 手动设置图片的质量，取值范围high、low、auto,默认为auto
+	 * @param callback 流式数据回调函数
+	 * @since 6.0.0
+	 */
+	void chatVision(String prompt, final List<String> images, String detail,final Consumer<String> callback);
+
+	/**
 	 * 图像理解：模型会依据传入的图片信息以及问题，给出回复。
 	 *
 	 * @param prompt 题词
@@ -52,6 +65,18 @@ public interface OpenaiService extends AIService {
 	 */
 	default String chatVision(String prompt, final List<String> images) {
 		return chatVision(prompt, images, OpenaiCommon.OpenaiVision.AUTO.getDetail());
+	}
+
+	/**
+	 * 图像理解-SSE流式输出
+	 *
+	 * @param prompt 题词
+	 * @param images 传入的图片列表地址/或者图片Base64编码图片列表(URI形式)
+	 * @param callback 流式数据回调函数
+	 * @since 6.0.0
+	 */
+	default void chatVision(String prompt, final List<String> images, final Consumer<String> callback){
+		chatVision(prompt, images, OpenaiCommon.OpenaiVision.AUTO.getDetail(), callback);
 	}
 
 	/**
@@ -166,7 +191,28 @@ public interface OpenaiService extends AIService {
 	 * @return AI回答
 	 * @since 6.0.0
 	 */
-	String chatReasoning(String prompt, String reasoningEffort);
+	default String chatReasoning(String prompt, String reasoningEffort){
+		final List<Message> messages = new ArrayList<>();
+		messages.add(new Message("system", "You are a helpful assistant"));
+		messages.add(new Message("user", prompt));
+		return chatReasoning(messages, reasoningEffort);
+	}
+
+	/**
+	 * 推理chat-SSE流式输出
+	 * 支持o3-mini和o1
+	 *
+	 * @param prompt          对话题词
+	 * @param reasoningEffort 推理程度
+	 * @param callback 流式数据回调函数
+	 * @since 6.0.0
+	 */
+	default void chatReasoning(String prompt, String reasoningEffort, final Consumer<String> callback){
+		final List<Message> messages = new ArrayList<>();
+		messages.add(new Message("system", "You are a helpful assistant"));
+		messages.add(new Message("user", prompt));
+		chatReasoning(messages, reasoningEffort, callback);
+	}
 
 	/**
 	 * 推理chat
@@ -181,6 +227,18 @@ public interface OpenaiService extends AIService {
 	}
 
 	/**
+	 * 推理chat-SSE流式输出
+	 * 支持o3-mini和o1
+	 *
+	 * @param prompt 对话题词
+	 * @param callback 流式数据回调函数
+	 * @since 6.0.0
+	 */
+	default void chatReasoning(String prompt, final Consumer<String> callback) {
+		chatReasoning(prompt, OpenaiCommon.OpenaiReasoning.MEDIUM.getEffort(), callback);
+	}
+
+	/**
 	 * 推理chat
 	 * 支持o3-mini和o1
 	 *
@@ -192,6 +250,17 @@ public interface OpenaiService extends AIService {
 	String chatReasoning(final List<Message> messages, String reasoningEffort);
 
 	/**
+	 * 推理chat-SSE流式输出
+	 * 支持o3-mini和o1
+	 *
+	 * @param messages        消息列表
+	 * @param reasoningEffort 推理程度
+	 * @param callback 流式数据回调函数
+	 * @since 6.0.0
+	 */
+	void chatReasoning(final List<Message> messages, String reasoningEffort, final Consumer<String> callback);
+
+	/**
 	 * 推理chat
 	 * 支持o3-mini和o1
 	 *
@@ -201,6 +270,18 @@ public interface OpenaiService extends AIService {
 	 */
 	default String chatReasoning(final List<Message> messages) {
 		return chatReasoning(messages, OpenaiCommon.OpenaiReasoning.MEDIUM.getEffort());
+	}
+
+	/**
+	 * 推理chat-SSE流式输出
+	 * 支持o3-mini和o1
+	 *
+	 * @param messages 消息列表
+	 * @param callback 流式数据回调函数
+	 * @since 6.0.0
+	 */
+	default void chatReasoning(final List<Message> messages, final Consumer<String> callback) {
+		chatReasoning(messages, OpenaiCommon.OpenaiReasoning.MEDIUM.getEffort(), callback);
 	}
 
 }

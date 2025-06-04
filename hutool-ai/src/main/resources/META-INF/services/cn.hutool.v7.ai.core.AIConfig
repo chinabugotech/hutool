@@ -1,3 +1,4 @@
+cn.hutool.v7.ai.model.hutool.HutoolConfig
 cn.hutool.v7.ai.model.deepseek.DeepSeekConfig
 cn.hutool.v7.ai.model.openai.OpenaiConfig
 cn.hutool.v7.ai.model.doubao.DoubaoConfig

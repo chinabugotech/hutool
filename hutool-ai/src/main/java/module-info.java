@@ -21,6 +21,7 @@
 module hutool.ai {
 	exports cn.hutool.v7.ai;
 	exports cn.hutool.v7.ai.core;
+	exports cn.hutool.v7.ai.model.hutool;
 	exports cn.hutool.v7.ai.model.deepseek;
 	exports cn.hutool.v7.ai.model.doubao;
 	exports cn.hutool.v7.ai.model.grok;

@@ -107,6 +107,34 @@ public class AIConfigBuilder {
 	}
 
 	/**
+	 * 设置连接超时时间，不设置为默认值
+	 *
+	 * @param timeout 超时时间
+	 * @return config
+	 * @since 6.0.0
+	 */
+	public synchronized AIConfigBuilder setTimout(final int timeout) {
+		if (timeout > 0) {
+			config.setTimeout(timeout);
+		}
+		return this;
+	}
+
+	/**
+	 * 设置读取超时时间，不设置为默认值
+	 *
+	 * @param readTimout 取超时时间
+	 * @return config
+	 * @since 6.0.0
+	 */
+	public synchronized AIConfigBuilder setReadTimout(final int readTimout) {
+		if (readTimout > 0) {
+			config.setReadTimeout(readTimout);
+		}
+		return this;
+	}
+
+	/**
 	 * 返回config实例
 	 *
 	 * @return config

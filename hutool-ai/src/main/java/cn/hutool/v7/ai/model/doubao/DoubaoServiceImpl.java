@@ -20,6 +20,7 @@ import cn.hutool.v7.ai.core.AIConfig;
 import cn.hutool.v7.ai.core.BaseAIService;
 import cn.hutool.v7.ai.core.Message;
 import cn.hutool.v7.core.text.StrUtil;
+import cn.hutool.v7.core.thread.ThreadUtil;
 import cn.hutool.v7.http.client.Response;
 import cn.hutool.v7.json.JSONUtil;
 
@@ -27,6 +28,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 /**
  * Doubao服务，AI具体功能的实现
@@ -54,19 +56,12 @@ public class DoubaoServiceImpl extends BaseAIService implements DoubaoService {
 	private final String CHAT_CONTEXT = "/context/chat/completions";
 	//创建视频生成任务
 	private final String CREATE_VIDEO = "/contents/generations/tasks";
+	//文生图
+	private final String IMAGES_GENERATIONS = "/images/generations";
 
 	public DoubaoServiceImpl(final AIConfig config) {
 		//初始化doubao客户端
 		super(config);
-	}
-
-	@Override
-	public String chat(String prompt) {
-		// 定义消息结构
-		final List<Message> messages = new ArrayList<>();
-		messages.add(new Message("system", "You are a helpful assistant"));
-		messages.add(new Message("user", prompt));
-		return chat(messages);
 	}
 
 	@Override
@@ -77,10 +72,22 @@ public class DoubaoServiceImpl extends BaseAIService implements DoubaoService {
 	}
 
 	@Override
+	public void chat(List<Message> messages, Consumer<String> callback) {
+		Map<String, Object> paramMap = buildChatStreamRequestBody(messages);
+		ThreadUtil.newThread(() -> sendPostStream(CHAT_ENDPOINT, paramMap, callback::accept), "doubao-chat-sse").start();
+	}
+
+	@Override
 	public String chatVision(String prompt, final List<String> images, String detail) {
 		String paramJson = buildChatVisionRequestBody(prompt, images, detail);
 		Response response = sendPost(CHAT_ENDPOINT, paramJson);
 		return response.bodyStr();
+	}
+
+	@Override
+	public void chatVision(String prompt, List<String> images, String detail, Consumer<String> callback) {
+		Map<String, Object> paramMap = buildChatVisionStreamRequestBody(prompt, images, detail);
+		ThreadUtil.newThread(() -> sendPostStream(CHAT_ENDPOINT, paramMap, callback::accept), "doubao-chatVision-sse").start();
 	}
 
 	@Override
@@ -119,19 +126,16 @@ public class DoubaoServiceImpl extends BaseAIService implements DoubaoService {
 	}
 
 	@Override
+	public void botsChat(List<Message> messages, Consumer<String> callback) {
+		Map<String, Object> paramMap = buildBotsChatStreamRequestBody(messages);
+		ThreadUtil.newThread(() -> sendPostStream(BOTS_CHAT, paramMap, callback::accept), "doubao-botsChat-sse").start();
+	}
+
+	@Override
 	public String tokenization(String[] text) {
 		String paramJson = buildTokenizationRequestBody(text);
 		Response response = sendPost(TOKENIZATION, paramJson);
 		return response.bodyStr();
-	}
-
-	@Override
-	public String batchChat(String prompt) {
-		// 定义消息结构
-		final List<Message> messages = new ArrayList<>();
-		messages.add(new Message("system", "You are a helpful assistant"));
-		messages.add(new Message("user", prompt));
-		return batchChat(messages);
 	}
 
 	@Override
@@ -149,17 +153,22 @@ public class DoubaoServiceImpl extends BaseAIService implements DoubaoService {
 	}
 
 	@Override
-	public String chatContext(String prompt, String contextId) {
-		// 定义消息结构
-		final List<Message> messages = new ArrayList<>();
-		messages.add(new Message("user", prompt));
-		return chatContext(messages, contextId);
-	}
-
-	@Override
 	public String chatContext(final List<Message> messages, String contextId) {
 		String paramJson = buildChatContentRequestBody(messages, contextId);
 		Response response = sendPost(CHAT_CONTEXT, paramJson);
+		return response.bodyStr();
+	}
+
+	@Override
+	public void chatContext(List<Message> messages, String contextId, Consumer<String> callback) {
+		Map<String, Object> paramMap = buildChatContentStreamRequestBody(messages, contextId);
+		ThreadUtil.newThread(() -> sendPostStream(CHAT_CONTEXT, paramMap, callback::accept), "doubao-chatContext-sse").start();
+	}
+
+	@Override
+	public String imagesGenerations(String prompt) {
+		String paramJson = buildImagesGenerationsRequestBody(prompt);
+		Response response = sendPost(IMAGES_GENERATIONS, paramJson);
 		return response.bodyStr();
 	}
 
@@ -173,6 +182,19 @@ public class DoubaoServiceImpl extends BaseAIService implements DoubaoService {
 		paramMap.putAll(config.getAdditionalConfigMap());
 
 		return JSONUtil.toJsonStr(paramMap);
+	}
+
+	// 构建chatStream请求体
+	private Map<String, Object> buildChatStreamRequestBody(final List<Message> messages) {
+		//使用JSON工具
+		final Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("stream", true);
+		paramMap.put("model", config.getModel());
+		paramMap.put("messages", messages);
+		//合并其他参数
+		paramMap.putAll(config.getAdditionalConfigMap());
+
+		return paramMap;
 	}
 
 	//构建chatVision请求体
@@ -204,6 +226,37 @@ public class DoubaoServiceImpl extends BaseAIService implements DoubaoService {
 		//合并其他参数
 		paramMap.putAll(config.getAdditionalConfigMap());
 		return JSONUtil.toJsonStr(paramMap);
+	}
+
+	private Map<String, Object> buildChatVisionStreamRequestBody(String prompt, final List<String> images, String detail) {
+		// 定义消息结构
+		final List<Message> messages = new ArrayList<>();
+		final List<Object> content = new ArrayList<>();
+
+		final Map<String, String> contentMap = new HashMap<>();
+		contentMap.put("type", "text");
+		contentMap.put("text", prompt);
+		content.add(contentMap);
+		for (String img : images) {
+			HashMap<String, Object> imgUrlMap = new HashMap<>();
+			imgUrlMap.put("type", "image_url");
+			HashMap<String, String> urlMap = new HashMap<>();
+			urlMap.put("url", img);
+			urlMap.put("detail", detail);
+			imgUrlMap.put("image_url", urlMap);
+			content.add(imgUrlMap);
+		}
+
+		messages.add(new Message("user", content));
+
+		//使用JSON工具
+		final Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("stream", true);
+		paramMap.put("model", config.getModel());
+		paramMap.put("messages", messages);
+		//合并其他参数
+		paramMap.putAll(config.getAdditionalConfigMap());
+		return paramMap;
 	}
 
 	//构建文本向量化请求体
@@ -253,6 +306,10 @@ public class DoubaoServiceImpl extends BaseAIService implements DoubaoService {
 		return buildChatRequestBody(messages);
 	}
 
+	private Map<String, Object> buildBotsChatStreamRequestBody(final List<Message> messages) {
+		return buildChatStreamRequestBody(messages);
+	}
+
 	//构建分词请求体
 	private String buildTokenizationRequestBody(String[] text) {
 		final Map<String, Object> paramMap = new HashMap<>();
@@ -264,6 +321,10 @@ public class DoubaoServiceImpl extends BaseAIService implements DoubaoService {
 	//构建批量推理chat请求体
 	private String buildBatchChatRequestBody(final List<Message> messages) {
 		return buildChatRequestBody(messages);
+	}
+
+	private Map<String, Object> buildBatchChatStreamRequestBody(final List<Message> messages) {
+		return buildChatStreamRequestBody(messages);
 	}
 
 	//构建创建上下文缓存请求体
@@ -291,6 +352,19 @@ public class DoubaoServiceImpl extends BaseAIService implements DoubaoService {
 		return JSONUtil.toJsonStr(paramMap);
 	}
 
+	private Map<String, Object> buildChatContentStreamRequestBody(final List<Message> messages, String contextId) {
+		//使用JSON工具
+		final Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("stream", true);
+		paramMap.put("model", config.getModel());
+		paramMap.put("messages", messages);
+		paramMap.put("context_id", contextId);
+		//合并其他参数
+		paramMap.putAll(config.getAdditionalConfigMap());
+
+		return paramMap;
+	}
+
 	//构建创建视频任务请求体
 	private String buildGenerationsTasksRequestBody(String text, String image, final List<DoubaoCommon.DoubaoVideo> videoParams) {
 		//使用JSON工具
@@ -306,7 +380,7 @@ public class DoubaoServiceImpl extends BaseAIService implements DoubaoService {
 			content.add(textMap);
 		}
 		//添加图片参数
-		if (!StrUtil.isNotBlank(image)) {
+		if (!StrUtil.isBlank(image)) {
 			final Map<String, Object> imgUrlMap = new HashMap<>();
 			imgUrlMap.put("type", "image_url");
 			final Map<String, String> urlMap = new HashMap<>();
@@ -345,6 +419,17 @@ public class DoubaoServiceImpl extends BaseAIService implements DoubaoService {
 		}
 
 		paramMap.put("content", content);
+		//合并其他参数
+		paramMap.putAll(config.getAdditionalConfigMap());
+
+		return JSONUtil.toJsonStr(paramMap);
+	}
+
+	//构建文生图请求体
+	private String buildImagesGenerationsRequestBody(String prompt) {
+		final Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("model", config.getModel());
+		paramMap.put("prompt", prompt);
 		//合并其他参数
 		paramMap.putAll(config.getAdditionalConfigMap());
 
