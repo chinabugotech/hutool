@@ -36,6 +36,10 @@ public class BaseConfig implements AIConfig {
 	protected volatile String model;
 	//动态扩展字段
 	protected Map<String, Object> additionalConfig = new SafeConcurrentHashMap<>();
+	//连接超时时间
+	protected volatile int timeout = 180000;
+	//读取超时时间
+	protected volatile int readTimeout = 300000;
 
 	@Override
 	public void setApiKey(final String apiKey) {
@@ -82,4 +86,23 @@ public class BaseConfig implements AIConfig {
 		return new SafeConcurrentHashMap<>(additionalConfig);
 	}
 
+	@Override
+	public int getTimeout() {
+		return timeout;
+	}
+
+	@Override
+	public void setTimeout(final int timeout) {
+		this.timeout = timeout;
+	}
+
+	@Override
+	public int getReadTimeout() {
+		return readTimeout;
+	}
+
+	@Override
+	public void setReadTimeout(final int readTimeout) {
+		this.readTimeout = readTimeout;
+	}
 }

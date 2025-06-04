@@ -110,4 +110,36 @@ public interface AIConfig {
 	 */
 	Map<String, Object> getAdditionalConfigMap();
 
+	/**
+	 * 设置连接超时时间
+	 *
+	 * @param timeout 连接超时时间
+	 * @since 6.0.0
+	 */
+	void setTimeout(int timeout);
+
+	/**
+	 * 获取连接超时时间
+	 *
+	 * @return timeout
+	 * @since 6.0.0
+	 */
+	int getTimeout();
+
+	/**
+	 * 设置读取超时时间
+	 *
+	 * @param readTimeout 连接超时时间
+	 * @since 6.0.0
+	 */
+	void setReadTimeout(int readTimeout);
+
+	/**
+	 * 获取读取超时时间
+	 *
+	 * @return readTimeout
+	 * @since 6.0.0
+	 */
+	int getReadTimeout();
+
 }

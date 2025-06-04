@@ -24,6 +24,21 @@ package org.dromara.hutool.ai;
  */
 public class Models {
 
+	// Hutool的模型
+	public enum Hutool {
+		HUTOOL("hutool");
+
+		private final String model;
+
+		Hutool(String model) {
+			this.model = model;
+		}
+
+		public String getModel() {
+			return model;
+		}
+	}
+
 	// DeepSeek的模型
 	public enum DeepSeek {
 		DEEPSEEK_CHAT("deepseek-chat"),
@@ -123,7 +138,12 @@ public class Models {
 		DOUBAO_VISION_LITE_32K("doubao-vision-lite-32k-241015"),
 		DOUBAO_EMBEDDING_LARGE("doubao-embedding-large-text-240915"),
 		DOUBAO_EMBEDDING_TEXT_240715("doubao-embedding-text-240715"),
-		DOUBAO_EMBEDDING_VISION("doubao-embedding-vision-241215");
+		DOUBAO_EMBEDDING_VISION("doubao-embedding-vision-241215"),
+		DOUBAO_SEEDREAM_3_0_T2I("doubao-seedream-3-0-t2i-250415"),
+		Doubao_Seedance_1_0_lite_t2v("doubao-seedance-1-0-lite-t2v-250428"),
+		Doubao_Seedance_1_0_lite_i2v("doubao-seedance-1-0-lite-i2v-250428"),
+		Wan2_1_14B_t2v("wan2-1-14b-t2v-250225"),
+		Wan2_1_14B_i2v("wan2-1-14b-i2v-250225");
 
 		private final String model;
 
@@ -138,6 +158,23 @@ public class Models {
 
 	// Grok的模型
 	public enum Grok {
+		GROK_3_BETA_LATEST("grok-3-beta"),
+		GROK_3_BETA("grok-3-beta"),
+		GROK_3("grok-3-beta"),
+		GROK_3_MINI_FAST_LATEST("grok-3-mini-fast-beta"),
+		GROK_3_MINI_FAST_BETA("grok-3-mini-fast-beta"),
+		GROK_3_MINI_FAST("grok-3-mini-fast-beta"),
+		GROK_3_FAST_LATEST("grok-3-fast-beta"),
+		GROK_3_FAST_BETA("grok-3-fast-beta"),
+		GROK_3_FAST("grok-3-fast-beta"),
+		GROK_3_MINI_LATEST("grok-3-mini-beta"),
+		GROK_3_MINI_BETA("grok-3-mini-beta"),
+		GROK_3_MINI("grok-3-mini-beta"),
+		GROK_2_IMAGE_LATEST("grok-2-image-1212"),
+		GROK_2_IMAGE("grok-2-image-1212"),
+		GROK_2_IMAGE_1212("grok-2-image-1212"),
+		grok_2_latest("grok-2-1212"),
+		GROK_2("grok-2-1212"),
 		GROK_2_1212("grok-2-1212"),
 		GROK_2_VISION_1212("grok-2-vision-1212"),
 		GROK_BETA("grok-beta"),

@@ -17,8 +17,11 @@
 package org.dromara.hutool.ai.model.grok;
 
 import org.dromara.hutool.ai.core.AIService;
+import org.dromara.hutool.ai.core.Message;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * grok支持的扩展接口
@@ -36,7 +39,48 @@ public interface GrokService extends AIService {
 	 * @return AI回答
 	 * @since 6.0.0
 	 */
-	String message(String prompt, int maxToken);
+	default String message(String prompt, int maxToken){
+		// 定义消息结构
+		final List<Message> messages = new ArrayList<>();
+		messages.add(new Message("system", "You are a helpful assistant"));
+		messages.add(new Message("user", prompt));
+		return message(messages, maxToken);
+	}
+
+	/**
+	 * 创建消息回复-SSE流式输出
+	 *
+	 * @param prompt   题词
+	 * @param maxToken 最大token
+	 * @param callback 流式数据回调函数
+	 * @since 6.0.0
+	 */
+	default void message(String prompt, int maxToken, final Consumer<String> callback){
+		final List<Message> messages = new ArrayList<>();
+		messages.add(new Message("system", "You are a helpful assistant"));
+		messages.add(new Message("user", prompt));
+		message(messages, maxToken, callback);
+	}
+
+	/**
+	 * 创建消息回复
+	 *
+	 * @param messages messages 由对话组成的消息列表。如系统人设，背景信息等，用户自定义的信息
+	 * @param maxToken 最大token
+	 * @return AI回答
+	 * @since 6.0.0
+	 */
+	String message(List<Message> messages, int maxToken);
+
+	/**
+	 * 创建消息回复-SSE流式输出
+	 *
+	 * @param messages messages 由对话组成的消息列表。如系统人设，背景信息等，用户自定义的信息
+	 * @param maxToken 最大token
+	 * @param callback 流式数据回调函数
+	 * @since 6.0.0
+	 */
+	void message(List<Message> messages, int maxToken, final Consumer<String> callback);
 
 	/**
 	 * 图像理解：模型会依据传入的图片信息以及问题，给出回复。
@@ -50,6 +94,17 @@ public interface GrokService extends AIService {
 	String chatVision(String prompt, final List<String> images, String detail);
 
 	/**
+	 * 图像理解-SSE流式输出
+	 *
+	 * @param prompt 题词
+	 * @param images 图片列表/或者图片Base64编码图片列表(URI形式)
+	 * @param detail 手动设置图片的质量，取值范围high、low、auto,默认为auto
+	 * @param callback 流式数据回调函数
+	 * @since 6.0.0
+	 */
+	void chatVision(String prompt, final List<String> images, String detail,final Consumer<String> callback);
+
+	/**
 	 * 图像理解：模型会依据传入的图片信息以及问题，给出回复。
 	 *
 	 * @param prompt 题词
@@ -59,6 +114,18 @@ public interface GrokService extends AIService {
 	 */
 	default String chatVision(String prompt, final List<String> images) {
 		return chatVision(prompt, images, GrokCommon.GrokVision.AUTO.getDetail());
+	}
+
+	/**
+	 * 图像理解：模型会依据传入的图片信息以及问题，给出回复。
+	 *
+	 * @param prompt 题词
+	 * @param images 传入｜的图片列表地址/或者图片Base64编码图片列表(URI形式)
+	 * @param callback 流式数据回调函数
+	 * @since 6.0.0
+	 */
+	default void chatVision(String prompt, final List<String> images, final Consumer<String> callback){
+		chatVision(prompt, images, GrokCommon.GrokVision.AUTO.getDetail(), callback);
 	}
 
 	/**
@@ -112,4 +179,14 @@ public interface GrokService extends AIService {
 	 * @since 6.0.0
 	 */
 	String deferredCompletion(String requestId);
+
+	/**
+	 * 文生图
+	 * 请设置config中model为支持图片功能的模型，目前支持GROK_2_IMAGE
+	 *
+	 * @param prompt 题词
+	 * @return 包含生成图片的url
+	 * @since 6.0.0
+	 */
+	String imagesGenerations(String prompt);
 }
