@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package org.dromara.hutool.ai.model.openai;
+package org.dromara.hutool.ai.model.hutool;
 
+import org.dromara.hutool.ai.AIException;
 import org.dromara.hutool.ai.core.AIConfig;
 import org.dromara.hutool.ai.core.BaseAIService;
 import org.dromara.hutool.ai.core.Message;
@@ -33,32 +34,30 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 /**
- * openai服务，AI具体功能的实现
+ * Hutool服务，AI具体功能的实现
  *
  * @author elichow
  * @since 6.0.0
  */
-public class OpenaiServiceImpl extends BaseAIService implements OpenaiService {
+public class HutoolServiceImpl extends BaseAIService implements HutoolService {
 
-	//对话
+	//对话补全
 	private final String CHAT_ENDPOINT = "/chat/completions";
+	//分词
+	private final String TOKENIZE_TEXT = "/tokenize/text";
 	//文生图
 	private final String IMAGES_GENERATIONS = "/images/generations";
-	//图片编辑
-	private final String IMAGES_EDITS = "/images/edits";
-	//图片变形
-	private final String IMAGES_VARIATIONS = "/images/variations";
+	//图文向量化
+	private final String EMBEDDING_VISION = "/embeddings/multimodal";
 	//文本转语音
-	private final String TTS = "/audio/speech";
+	private final String TTS = "/audio/tts";
 	//语音转文本
-	private final String STT = "/audio/transcriptions";
-	//文本向量化
-	private final String EMBEDDINGS = "/embeddings";
-	//检查文本或图片
-	private final String MODERATIONS = "/moderations";
+	private final String STT = "/audio/stt";
+	//创建视频生成任务
+	private final String CREATE_VIDEO = "/video/generations";
 
-	public OpenaiServiceImpl(final AIConfig config) {
-		//初始化Openai客户端
+	public HutoolServiceImpl(final AIConfig config) {
+		//初始化hutool客户端
 		super(config);
 	}
 
@@ -70,9 +69,9 @@ public class OpenaiServiceImpl extends BaseAIService implements OpenaiService {
 	}
 
 	@Override
-	public void chat(List<Message> messages, Consumer<String> callback) {
+	public void chat(List<Message> messages,Consumer<String> callback) {
 		Map<String, Object> paramMap = buildChatStreamRequestBody(messages);
-		ThreadUtil.newThread(() -> sendPostStream(CHAT_ENDPOINT, paramMap, callback::accept), "openai-chat-sse").start();
+		ThreadUtil.newThread(() -> sendPostStream(CHAT_ENDPOINT, paramMap, callback::accept), "hutool-chat-sse").start();
 	}
 
 	@Override
@@ -85,7 +84,15 @@ public class OpenaiServiceImpl extends BaseAIService implements OpenaiService {
 	@Override
 	public void chatVision(String prompt, List<String> images, String detail, Consumer<String> callback) {
 		Map<String, Object> paramMap = buildChatVisionStreamRequestBody(prompt, images, detail);
-		ThreadUtil.newThread(() -> sendPostStream(CHAT_ENDPOINT, paramMap, callback::accept), "openai-chatVision-sse").start();
+		System.out.println(JSONUtil.toJsonStr(paramMap));
+		ThreadUtil.newThread(() -> sendPostStream(CHAT_ENDPOINT, paramMap, callback::accept), "hutool-chatVision-sse").start();
+	}
+
+	@Override
+	public String tokenizeText(String text) {
+		String paramJson = buildTokenizeRequestBody(text);
+		Response response = sendPost(TOKENIZE_TEXT, paramJson);
+		return response.bodyStr();
 	}
 
 	@Override
@@ -95,60 +102,55 @@ public class OpenaiServiceImpl extends BaseAIService implements OpenaiService {
 		return response.bodyStr();
 	}
 
+
 	@Override
-	public String imagesEdits(String prompt, final File image, final File mask) {
-		final Map<String, Object> paramMap = buildImagesEditsRequestBody(prompt, image, mask);
-		Response response = sendFormData(IMAGES_EDITS, paramMap);
+	public String embeddingVision(String text, String image) {
+		String paramJson = buildEmbeddingVisionRequestBody(text, image);
+		Response response = sendPost(EMBEDDING_VISION, paramJson);
 		return response.bodyStr();
 	}
 
 	@Override
-	public String imagesVariations(final File image) {
-		final Map<String, Object> paramMap = buildImagesVariationsRequestBody(image);
-		Response response = sendFormData(IMAGES_VARIATIONS, paramMap);
-		return response.bodyStr();
+	public InputStream tts(String input, final HutoolCommon.HutoolSpeech voice) {
+		try {
+			String paramJson = buildTTSRequestBody(input, voice.getVoice());
+			Response response = sendPost(TTS, paramJson);
+
+			// 检查响应内容类型
+			String contentType = response.header("Content-Type");
+			if (contentType != null && contentType.startsWith("application/json")) {
+				// 如果是JSON响应，说明有错误
+				String errorBody = response.bodyStr();
+				throw new AIException("TTS请求失败: " + errorBody);
+			}
+			// 默认返回音频流
+			return response.bodyStream();
+		} catch (Exception e) {
+			throw new AIException("TTS处理失败: " + e.getMessage(), e);
+		}
 	}
 
 	@Override
-	public InputStream textToSpeech(String input, final OpenaiCommon.OpenaiSpeech voice) {
-		String paramJson = buildTTSRequestBody(input, voice.getVoice());
-		Response response = sendPost(TTS, paramJson);
-		return response.bodyStream();
-	}
-
-	@Override
-	public String speechToText(final File file) {
+	public String stt(final File file) {
 		final Map<String, Object> paramMap = buildSTTRequestBody(file);
 		Response response = sendFormData(STT, paramMap);
 		return response.bodyStr();
 	}
 
+
 	@Override
-	public String embeddingText(String input) {
-		String paramJson = buildEmbeddingTextRequestBody(input);
-		Response response = sendPost(EMBEDDINGS, paramJson);
+	public String videoTasks(String text, String image, final List<HutoolCommon.HutoolVideo> videoParams) {
+		String paramJson = buildGenerationsTasksRequestBody(text, image, videoParams);
+		Response response = sendPost(CREATE_VIDEO, paramJson);
 		return response.bodyStr();
 	}
 
 	@Override
-	public String moderations(String text, String imgUrl) {
-		String paramJson = buileModerationsRequestBody(text, imgUrl);
-		Response response = sendPost(MODERATIONS, paramJson);
+	public String getVideoTasksInfo(String taskId) {
+		Response response = sendGet(CREATE_VIDEO + "/" + taskId);
 		return response.bodyStr();
 	}
 
-	@Override
-	public String chatReasoning(final List<Message> messages, String reasoningEffort) {
-		String paramJson = buildChatReasoningRequestBody(messages, reasoningEffort);
-		Response response = sendPost(CHAT_ENDPOINT, paramJson);
-		return response.bodyStr();
-	}
-
-	@Override
-	public void chatReasoning(List<Message> messages, String reasoningEffort, Consumer<String> callback) {
-		Map<String, Object> paramMap = buildChatReasoningStreamRequestBody(messages, reasoningEffort);
-		ThreadUtil.newThread(() -> sendPostStream(CHAT_ENDPOINT, paramMap, callback::accept), "openai-chatReasoning-sse").start();
-	}
 
 	// 构建chat请求体
 	private String buildChatRequestBody(final List<Message> messages) {
@@ -185,9 +187,9 @@ public class OpenaiServiceImpl extends BaseAIService implements OpenaiService {
 		contentMap.put("text", prompt);
 		content.add(contentMap);
 		for (String img : images) {
-			final Map<String, Object> imgUrlMap = new HashMap<>();
+			HashMap<String, Object> imgUrlMap = new HashMap<>();
 			imgUrlMap.put("type", "image_url");
-			final Map<String, String> urlMap = new HashMap<>();
+			HashMap<String, String> urlMap = new HashMap<>();
 			urlMap.put("url", img);
 			urlMap.put("detail", detail);
 			imgUrlMap.put("image_url", urlMap);
@@ -236,6 +238,19 @@ public class OpenaiServiceImpl extends BaseAIService implements OpenaiService {
 		return paramMap;
 	}
 
+
+	//构建分词请求体
+	private String buildTokenizeRequestBody(String text) {
+		//使用JSON工具
+		final Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("model", config.getModel());
+		paramMap.put("text", text);
+		//合并其他参数
+		paramMap.putAll(config.getAdditionalConfigMap());
+
+		return JSONUtil.toJsonStr(paramMap);
+	}
+
 	//构建文生图请求体
 	private String buildImagesGenerationsRequestBody(String prompt) {
 		final Map<String, Object> paramMap = new HashMap<>();
@@ -247,31 +262,37 @@ public class OpenaiServiceImpl extends BaseAIService implements OpenaiService {
 		return JSONUtil.toJsonStr(paramMap);
 	}
 
-	//构建图片编辑请求体
-	private Map<String, Object> buildImagesEditsRequestBody(String prompt, final File image, final File mask) {
+	//构建图文向量化请求体
+	private String buildEmbeddingVisionRequestBody(String text, String image) {
+		//使用JSON工具
 		final Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("model", config.getModel());
-		paramMap.put("prompt", prompt);
-		paramMap.put("image", image);
-		if (mask != null) {
-			paramMap.put("mask", mask);
+
+		final List<Object> input = new ArrayList<>();
+		//添加文本参数
+		if (!StrUtil.isBlank(text)) {
+			final Map<String, String> textMap = new HashMap<>();
+			textMap.put("type", "text");
+			textMap.put("text", text);
+			input.add(textMap);
 		}
+		//添加图片参数
+		if (!StrUtil.isBlank(image)) {
+			final Map<String, Object> imgUrlMap = new HashMap<>();
+			imgUrlMap.put("type", "image_url");
+			final Map<String, String> urlMap = new HashMap<>();
+			urlMap.put("url", image);
+			imgUrlMap.put("image_url", urlMap);
+			input.add(imgUrlMap);
+		}
+
+		paramMap.put("input", input);
 		//合并其他参数
 		paramMap.putAll(config.getAdditionalConfigMap());
-
-		return paramMap;
+		System.out.println(JSONUtil.toJsonStr(paramMap));
+		return JSONUtil.toJsonStr(paramMap);
 	}
 
-	//构建图片变形请求体
-	private Map<String, Object> buildImagesVariationsRequestBody(final File image) {
-		final Map<String, Object> paramMap = new HashMap<>();
-		paramMap.put("model", config.getModel());
-		paramMap.put("image", image);
-		//合并其他参数
-		paramMap.putAll(config.getAdditionalConfigMap());
-
-		return paramMap;
-	}
 
 	//构建TTS请求体
 	private String buildTTSRequestBody(String input, String voice) {
@@ -296,70 +317,64 @@ public class OpenaiServiceImpl extends BaseAIService implements OpenaiService {
 		return paramMap;
 	}
 
-	//构建文本向量化请求体
-	private String buildEmbeddingTextRequestBody(String input) {
-		//使用JSON工具
-		final Map<String, Object> paramMap = new HashMap<>();
-		paramMap.put("model", config.getModel());
-		paramMap.put("input", input);
-		//合并其他参数
-		paramMap.putAll(config.getAdditionalConfigMap());
-		return JSONUtil.toJsonStr(paramMap);
-	}
-
-	//构建检查图片或文字请求体
-	private String buileModerationsRequestBody(String text, String imgUrl) {
+	//构建创建视频任务请求体
+	private String buildGenerationsTasksRequestBody(String text, String image, final List<HutoolCommon.HutoolVideo> videoParams) {
 		//使用JSON工具
 		final Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("model", config.getModel());
 
-		final List<Object> input = new ArrayList<>();
+		final List<Object> content = new ArrayList<>();
 		//添加文本参数
+		final Map<String, String> textMap = new HashMap<>();
 		if (!StrUtil.isBlank(text)) {
-			final Map<String, String> textMap = new HashMap<>();
 			textMap.put("type", "text");
 			textMap.put("text", text);
-			input.add(textMap);
+			content.add(textMap);
 		}
 		//添加图片参数
-		if (!StrUtil.isBlank(imgUrl)) {
+		if (!StrUtil.isBlank(image)) {
 			final Map<String, Object> imgUrlMap = new HashMap<>();
 			imgUrlMap.put("type", "image_url");
 			final Map<String, String> urlMap = new HashMap<>();
-			urlMap.put("url", imgUrl);
+			urlMap.put("url", image);
 			imgUrlMap.put("image_url", urlMap);
-			input.add(imgUrlMap);
+			content.add(imgUrlMap);
 		}
 
-		paramMap.put("input", input);
+		//添加视频参数
+		if (videoParams != null && !videoParams.isEmpty()) {
+			//如果有文本参数就加在后面
+			if (textMap != null && !textMap.isEmpty()) {
+				int textIndex = content.indexOf(textMap);
+				StringBuilder textBuilder = new StringBuilder(text);
+				for (HutoolCommon.HutoolVideo videoParam : videoParams) {
+					textBuilder.append(" ").append(videoParam.getType()).append(" ").append(videoParam.getValue());
+				}
+				textMap.put("type", "text");
+				textMap.put("text", textBuilder.toString());
+
+				if (textIndex != -1) {
+					content.set(textIndex, textMap);
+				} else {
+					content.add(textMap);
+				}
+			} else {
+				//如果没有文本参数就重新增加
+				StringBuilder textBuilder = new StringBuilder();
+				for (HutoolCommon.HutoolVideo videoParam : videoParams) {
+					textBuilder.append(videoParam.getType()).append(videoParam.getValue()).append(" ");
+				}
+				textMap.put("type", "text");
+				textMap.put("text", textBuilder.toString());
+				content.add(textMap);
+			}
+		}
+
+		paramMap.put("content", content);
 		//合并其他参数
 		paramMap.putAll(config.getAdditionalConfigMap());
-
+		System.out.println(JSONUtil.toJsonStr(paramMap));
 		return JSONUtil.toJsonStr(paramMap);
-	}
-
-	//构建推理请求体
-	private String buildChatReasoningRequestBody(final List<Message> messages, String reasoningEffort) {
-		final Map<String, Object> paramMap = new HashMap<>();
-		paramMap.put("model", config.getModel());
-		paramMap.put("messages", messages);
-		paramMap.put("reasoning_effort", reasoningEffort);
-		//合并其他参数
-		paramMap.putAll(config.getAdditionalConfigMap());
-
-		return JSONUtil.toJsonStr(paramMap);
-	}
-
-	private Map<String, Object> buildChatReasoningStreamRequestBody(final List<Message> messages, String reasoningEffort) {
-		final Map<String, Object> paramMap = new HashMap<>();
-		paramMap.put("stream", true);
-		paramMap.put("model", config.getModel());
-		paramMap.put("messages", messages);
-		paramMap.put("reasoning_effort", reasoningEffort);
-		//合并其他参数
-		paramMap.putAll(config.getAdditionalConfigMap());
-
-		return paramMap;
 	}
 
 }

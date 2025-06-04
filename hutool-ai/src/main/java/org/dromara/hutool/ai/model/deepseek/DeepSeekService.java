@@ -18,6 +18,8 @@ package org.dromara.hutool.ai.model.deepseek;
 
 import org.dromara.hutool.ai.core.AIService;
 
+import java.util.function.Consumer;
+
 /**
  * deepSeek支持的扩展接口
  *
@@ -34,6 +36,14 @@ public interface DeepSeekService extends AIService {
 	 * @since 6.0.0
 	 */
 	String beta(String prompt);
+
+	/**
+	 * 模型beta功能-SSE流式输出
+	 * @param prompt 题词
+	 * @param callback 流式数据回调函数
+	 * @since 6.0.0
+	 */
+	void beta(String prompt, final Consumer<String> callback);
 
 	/**
 	 * 列出所有模型列表

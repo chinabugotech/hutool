@@ -1,3 +1,4 @@
+org.dromara.hutool.ai.model.hutool.HutoolConfig
 org.dromara.hutool.ai.model.deepseek.DeepSeekConfig
 org.dromara.hutool.ai.model.openai.OpenaiConfig
 org.dromara.hutool.ai.model.doubao.DoubaoConfig

@@ -20,11 +20,15 @@ import org.dromara.hutool.ai.AIServiceFactory;
 import org.dromara.hutool.ai.ModelName;
 import org.dromara.hutool.ai.core.AIConfigBuilder;
 import org.dromara.hutool.ai.core.Message;
+import org.dromara.hutool.core.thread.ThreadUtil;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class DeepSeekServiceTest {
 
@@ -35,7 +39,30 @@ class DeepSeekServiceTest {
 	@Disabled
 	void chat(){
 		final String chat = deepSeekService.chat("写一个疯狂星期四广告词");
-		System.out.println(chat);
+		assertNotNull(chat);
+	}
+
+	@Test
+	@Disabled
+	void chatStream() {
+		String prompt = "写一个疯狂星期四广告词";
+		// 使用AtomicBoolean作为结束标志
+		AtomicBoolean isDone = new AtomicBoolean(false);
+
+		deepSeekService.chat(prompt, data -> {
+			assertNotNull(data);
+			if (data.contains("[DONE]")) {
+				// 设置结束标志
+				isDone.set(true);
+			} else if (data.contains("\"error\"")) {
+				isDone.set(true);
+			}
+
+		});
+		// 轮询检查结束标志
+		while (!isDone.get()) {
+			ThreadUtil.sleep(100);
+		}
 	}
 
 	@Test
@@ -45,27 +72,50 @@ class DeepSeekServiceTest {
 		messages.add(new Message("system","你是个抽象大师，会说很抽象的话，最擅长说抽象的笑话"));
 		messages.add(new Message("user","给我说一个笑话"));
 		final String chat = deepSeekService.chat(messages);
-		System.out.println(chat);
+		assertNotNull(chat);
 	}
 
 	@Test
 	@Disabled
 	void beta() {
 		final String beta = deepSeekService.beta("写一个疯狂星期四广告词");
-		System.out.println(beta);
+		assertNotNull(beta);
+	}
+
+	@Test
+	@Disabled
+	void betaStream() {
+		String beta = "写一个疯狂星期四广告词";
+		// 使用AtomicBoolean作为结束标志
+		AtomicBoolean isDone = new AtomicBoolean(false);
+
+		deepSeekService.beta(beta, data -> {
+			assertNotNull(data);
+			if (data.contains("[DONE]")) {
+				// 设置结束标志
+				isDone.set(true);
+			} else if (data.contains("\"error\"")) {
+				isDone.set(true);
+			}
+
+		});
+		// 轮询检查结束标志
+		while (!isDone.get()) {
+			ThreadUtil.sleep(100);
+		}
 	}
 
 	@Test
 	@Disabled
 	void models() {
 		final String models = deepSeekService.models();
-		System.out.println(models);
+		assertNotNull(models);
 	}
 
 	@Test
 	@Disabled
 	void balance() {
 		final String balance = deepSeekService.balance();
-		System.out.println(balance);
+		assertNotNull(balance);
 	}
 }

@@ -22,6 +22,7 @@ import org.dromara.hutool.ai.core.Message;
 import org.dromara.hutool.ai.model.deepseek.DeepSeekService;
 import org.dromara.hutool.ai.model.doubao.DoubaoService;
 import org.dromara.hutool.ai.model.grok.GrokService;
+import org.dromara.hutool.ai.model.hutool.HutoolService;
 import org.dromara.hutool.ai.model.openai.OpenaiService;
 
 import java.util.List;
@@ -56,6 +57,17 @@ public class AIUtil {
 	 */
 	public static AIService getAIService(final AIConfig config) {
 		return getAIService(config, AIService.class);
+	}
+
+	/**
+	 * 获取Hutool-AI服务
+	 *
+	 * @param config 创建的AI服务模型的配置
+	 * @return HutoolService
+	 * @since 6.0.0
+	 */
+	public static HutoolService getHutoolService(final AIConfig config) {
+		return getAIService(config, HutoolService.class);
 	}
 
 	/**

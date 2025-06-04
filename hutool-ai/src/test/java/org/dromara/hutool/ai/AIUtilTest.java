@@ -22,6 +22,7 @@ import org.dromara.hutool.ai.core.Message;
 import org.dromara.hutool.ai.model.deepseek.DeepSeekService;
 import org.dromara.hutool.ai.model.doubao.DoubaoService;
 import org.dromara.hutool.ai.model.grok.GrokService;
+import org.dromara.hutool.ai.model.hutool.HutoolService;
 import org.dromara.hutool.ai.model.openai.OpenaiService;
 import org.junit.jupiter.api.Test;
 
@@ -44,6 +45,12 @@ class AIUtilTest {
 	void testGetAIService() {
 		final AIService aiService = AIUtil.getAIService(new AIConfigBuilder(ModelName.OPENAI.getValue()).setApiKey(key).build());
 		assertNotNull(aiService);
+	}
+
+	@Test
+	void getHutoolService() {
+		final HutoolService hutoolService = AIUtil.getHutoolService(new AIConfigBuilder(ModelName.HUTOOL.getValue()).setApiKey(key).build());
+		assertNotNull(hutoolService);
 	}
 
 	@Test
