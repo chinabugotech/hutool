@@ -14,299 +14,283 @@ import java.util.regex.Pattern;
  */
 public class RichTextMaskingProcessor {
 
-    /**
-     * 脱敏规则列表
-     */
-    private final List<RichTextMaskingRule> rules = new ArrayList<>();
+	/**
+	 * 脱敏规则列表
+	 */
+	private final List<RichTextMaskingRule> rules = new ArrayList<>();
 
-    /**
-     * 是否保留HTML标签
-     */
-    private boolean preserveHtmlTags = true;
+	/**
+	 * 是否保留HTML标签
+	 */
+	private boolean preserveHtmlTags = true;
 
-    /**
-     * 默认的脱敏字符
-     */
-    private char defaultMaskChar = '*';
+	/**
+	 * 构造函数
+	 */
+	public RichTextMaskingProcessor() {
+	}
 
-    /**
-     * 构造函数
-     */
-    public RichTextMaskingProcessor() {
-    }
+	/**
+	 * 构造函数
+	 *
+	 * @param preserveHtmlTags 是否保留HTML标签
+	 */
+	public RichTextMaskingProcessor(final boolean preserveHtmlTags) {
+		this.preserveHtmlTags = preserveHtmlTags;
+	}
 
-    /**
-     * 构造函数
-     *
-     * @param preserveHtmlTags 是否保留HTML标签
-     */
-    public RichTextMaskingProcessor(boolean preserveHtmlTags) {
-        this.preserveHtmlTags = preserveHtmlTags;
-    }
+	/**
+	 * 添加脱敏规则
+	 *
+	 * @param rule 脱敏规则
+	 * @return this
+	 */
+	public RichTextMaskingProcessor addRule(final RichTextMaskingRule rule) {
+		this.rules.add(rule);
+		return this;
+	}
 
-    /**
-     * 添加脱敏规则
-     *
-     * @param rule 脱敏规则
-     * @return this
-     */
-    public RichTextMaskingProcessor addRule(RichTextMaskingRule rule) {
-        this.rules.add(rule);
-        return this;
-    }
+	/**
+	 * 对文本内容进行脱敏处理
+	 *
+	 * @param text 文本内容
+	 * @return 脱敏后的文本
+	 */
+	public String mask(final String text) {
+		if (StrUtil.isBlank(text)) {
+			return text;
+		}
 
-    /**
-     * 设置默认的脱敏字符
-     *
-     * @param defaultMaskChar 默认的脱敏字符
-     * @return this
-     */
-    public RichTextMaskingProcessor setDefaultMaskChar(char defaultMaskChar) {
-        this.defaultMaskChar = defaultMaskChar;
-        return this;
-    }
+		// 如果是HTML内容，则需要特殊处理
+		if (preserveHtmlTags && isHtmlContent(text)) {
+			return maskHtmlContent(text);
+		} else {
+			// 普通文本直接处理
+			return maskPlainText(text);
+		}
+	}
 
-    /**
-     * 对文本内容进行脱敏处理
-     *
-     * @param text 文本内容
-     * @return 脱敏后的文本
-     */
-    public String mask(String text) {
-        if (StrUtil.isBlank(text)) {
-            return text;
-        }
+	/**
+	 * 判断是否为HTML内容
+	 *
+	 * @param text 文本内容
+	 * @return 是否为HTML内容
+	 */
+	private boolean isHtmlContent(final String text) {
+		// 简单判断是否包含HTML标签
+		return text.contains("<") && text.contains(">") &&
+			(text.contains("</") || text.contains("/>"));
+	}
 
-        // 如果是HTML内容，则需要特殊处理
-        if (preserveHtmlTags && isHtmlContent(text)) {
-            return maskHtmlContent(text);
-        } else {
-            // 普通文本直接处理
-            return maskPlainText(text);
-        }
-    }
+	/**
+	 * 对HTML内容进行脱敏处理
+	 *
+	 * @param html HTML内容
+	 * @return 脱敏后的HTML
+	 */
+	private String maskHtmlContent(final String html) {
+		final StringBuilder result = new StringBuilder();
+		int lastIndex = 0;
+		boolean inTag = false;
+		String currentTag = null;
 
-    /**
-     * 判断是否为HTML内容
-     *
-     * @param text 文本内容
-     * @return 是否为HTML内容
-     */
-    private boolean isHtmlContent(String text) {
-        // 简单判断是否包含HTML标签
-        return text.contains("<") && text.contains(">") &&
-               (text.contains("</") || text.contains("/>"));
-    }
+		for (int i = 0; i < html.length(); i++) {
+			final char c = html.charAt(i);
 
-    /**
-     * 对HTML内容进行脱敏处理
-     *
-     * @param html HTML内容
-     * @return 脱敏后的HTML
-     */
-    private String maskHtmlContent(String html) {
-        StringBuilder result = new StringBuilder();
-        int lastIndex = 0;
-        boolean inTag = false;
-        String currentTag = null;
+			if (c == '<') {
+				// 处理标签前的文本内容
+				if (!inTag && i > lastIndex) {
+					final String textContent = html.substring(lastIndex, i);
+					result.append(processTextContentWithContext(textContent, currentTag));
+				}
 
-        for (int i = 0; i < html.length(); i++) {
-            char c = html.charAt(i);
+				inTag = true;
+				lastIndex = i;
 
-            if (c == '<') {
-                // 处理标签前的文本内容
-                if (!inTag && i > lastIndex) {
-                    String textContent = html.substring(lastIndex, i);
-                    result.append(processTextContentWithContext(textContent, currentTag));
-                }
+				// 尝试获取当前标签名
+				int tagNameStart = i + 1;
+				if (tagNameStart < html.length()) {
+					// 跳过结束标签的斜杠
+					if (html.charAt(tagNameStart) == '/') {
+						tagNameStart++;
+					}
 
-                inTag = true;
-                lastIndex = i;
+					// 查找标签名结束位置
+					int tagNameEnd = html.indexOf(' ', tagNameStart);
+					if (tagNameEnd == -1) {
+						tagNameEnd = html.indexOf('>', tagNameStart);
+					}
 
-                // 尝试获取当前标签名
-                int tagNameStart = i + 1;
-                if (tagNameStart < html.length()) {
-                    // 跳过结束标签的斜杠
-                    if (html.charAt(tagNameStart) == '/') {
-                        tagNameStart++;
-                    }
+					if (tagNameEnd > tagNameStart) {
+						currentTag = html.substring(tagNameStart, tagNameEnd).toLowerCase();
+					}
+				}
+			} else if (c == '>' && inTag) {
+				inTag = false;
+				result.append(html, lastIndex, i + 1); // 保留标签
+				lastIndex = i + 1;
+			}
+		}
 
-                    // 查找标签名结束位置
-                    int tagNameEnd = html.indexOf(' ', tagNameStart);
-                    if (tagNameEnd == -1) {
-                        tagNameEnd = html.indexOf('>', tagNameStart);
-                    }
+		// 处理最后一部分
+		if (lastIndex < html.length()) {
+			if (inTag) {
+				// 如果还在标签内，直接添加剩余部分
+				result.append(html.substring(lastIndex));
+			} else {
+				// 处理最后的文本内容
+				final String textContent = html.substring(lastIndex);
+				result.append(processTextContentWithContext(textContent, currentTag));
+			}
+		}
 
-                    if (tagNameEnd > tagNameStart) {
-                        currentTag = html.substring(tagNameStart, tagNameEnd).toLowerCase();
-                    }
-                }
-            } else if (c == '>' && inTag) {
-                inTag = false;
-                result.append(html, lastIndex, i + 1); // 保留标签
-                lastIndex = i + 1;
-            }
-        }
+		return result.toString();
+	}
 
-        // 处理最后一部分
-        if (lastIndex < html.length()) {
-            if (inTag) {
-                // 如果还在标签内，直接添加剩余部分
-                result.append(html.substring(lastIndex));
-            } else {
-                // 处理最后的文本内容
-                String textContent = html.substring(lastIndex);
-                result.append(processTextContentWithContext(textContent, currentTag));
-            }
-        }
+	/**
+	 * 根据上下文处理文本内容
+	 *
+	 * @param text    文本内容
+	 * @param tagName 当前所在的标签名
+	 * @return 处理后的文本
+	 */
+	private String processTextContentWithContext(final String text, final String tagName) {
+		if (StrUtil.isBlank(text)) {
+			return text;
+		}
 
-        return result.toString();
-    }
+		String result = text;
 
-    /**
-     * 根据上下文处理文本内容
-     *
-     * @param text 文本内容
-     * @param tagName 当前所在的标签名
-     * @return 处理后的文本
-     */
-    private String processTextContentWithContext(String text, String tagName) {
-        if (StrUtil.isBlank(text)) {
-            return text;
-        }
+		for (final RichTextMaskingRule rule : rules) {
+			// 检查是否需要根据标签进行过滤
+			if (tagName != null) {
+				// 如果设置了只包含特定标签且当前标签不在列表中，则跳过
+				if (!rule.getIncludeTags().isEmpty() && !rule.getIncludeTags().contains(tagName)) {
+					continue;
+				}
 
-        String result = text;
+				// 如果当前标签在排除列表中，则跳过
+				if (rule.getExcludeTags().contains(tagName)) {
+					continue;
+				}
+			}
 
-        for (RichTextMaskingRule rule : rules) {
-            // 检查是否需要根据标签进行过滤
-            if (tagName != null) {
-                // 如果设置了只包含特定标签且当前标签不在列表中，则跳过
-                if (!rule.getIncludeTags().isEmpty() && !rule.getIncludeTags().contains(tagName)) {
-                    continue;
-                }
+			// 应用脱敏规则
+			result = applyMaskingRule(result, rule);
+		}
 
-                // 如果当前标签在排除列表中，则跳过
-                if (rule.getExcludeTags().contains(tagName)) {
-                    continue;
-                }
-            }
+		return result;
+	}
 
-            // 应用脱敏规则
-            result = applyMaskingRule(result, rule);
-        }
+	/**
+	 * 对普通文本进行脱敏处理
+	 *
+	 * @param text 文本内容
+	 * @return 脱敏后的文本
+	 */
+	private String maskPlainText(final String text) {
+		String result = text;
 
-        return result;
-    }
+		for (final RichTextMaskingRule rule : rules) {
+			result = applyMaskingRule(result, rule);
+		}
 
-    /**
-     * 对普通文本进行脱敏处理
-     *
-     * @param text 文本内容
-     * @return 脱敏后的文本
-     */
-    private String maskPlainText(String text) {
-        String result = text;
+		return result;
+	}
 
-        for (RichTextMaskingRule rule : rules) {
-            result = applyMaskingRule(result, rule);
-        }
+	/**
+	 * 应用脱敏规则
+	 *
+	 * @param text 文本内容
+	 * @param rule 脱敏规则
+	 * @return 脱敏后的文本
+	 */
+	private String applyMaskingRule(final String text, final RichTextMaskingRule rule) {
+		if (StrUtil.isBlank(text) || StrUtil.isBlank(rule.getPattern())) {
+			return text;
+		}
 
-        return result;
-    }
+		final Pattern pattern = Pattern.compile(rule.getPattern());
+		final Matcher matcher = pattern.matcher(text);
 
-    /**
-     * 应用脱敏规则
-     *
-     * @param text 文本内容
-     * @param rule 脱敏规则
-     * @return 脱敏后的文本
-     */
-    private String applyMaskingRule(String text, RichTextMaskingRule rule) {
-        if (StrUtil.isBlank(text) || StrUtil.isBlank(rule.getPattern())) {
-            return text;
-        }
+		final StringBuffer sb = new StringBuffer();
 
-        Pattern pattern = Pattern.compile(rule.getPattern());
-        Matcher matcher = pattern.matcher(text);
+		while (matcher.find()) {
+			final String matched = matcher.group();
+			final String replacement;
 
-        StringBuffer sb = new StringBuffer();
+			switch (rule.getMaskType()) {
+				case FULL:
+					// 完全脱敏，用脱敏字符替换整个匹配内容
+					replacement = StrUtil.repeat(rule.getMaskChar(), matched.length());
+					break;
 
-        while (matcher.find()) {
-            String matched = matcher.group();
-            String replacement;
+				case PARTIAL:
+					// 部分脱敏，保留部分原始内容
+					replacement = partialMask(matched, rule.getPreserveLeft(), rule.getPreserveRight(), rule.getMaskChar());
+					break;
 
-            switch (rule.getMaskType()) {
-                case FULL:
-                    // 完全脱敏，用脱敏字符替换整个匹配内容
-                    replacement = StrUtil.repeat(rule.getMaskChar(), matched.length());
-                    break;
+				case REPLACE:
+					// 替换脱敏，用指定文本替换
+					replacement = rule.getReplacement();
+					break;
 
-                case PARTIAL:
-                    // 部分脱敏，保留部分原始内容
-                    replacement = partialMask(matched, rule.getPreserveLeft(), rule.getPreserveRight(), rule.getMaskChar());
-                    break;
+				default:
+					replacement = matched;
+					break;
+			}
 
-                case REPLACE:
-                    // 替换脱敏，用指定文本替换
-                    replacement = rule.getReplacement();
-                    break;
+			// 处理正则表达式中的特殊字符
+			matcher.appendReplacement(sb, Matcher.quoteReplacement(replacement));
+		}
 
-                default:
-                    replacement = matched;
-                    break;
-            }
+		matcher.appendTail(sb);
 
-            // 处理正则表达式中的特殊字符
-            matcher.appendReplacement(sb, Matcher.quoteReplacement(replacement));
-        }
+		return sb.toString();
+	}
 
-        matcher.appendTail(sb);
+	/**
+	 * 部分脱敏，保留部分原始内容
+	 *
+	 * @param text          原文本
+	 * @param preserveLeft  保留左侧字符数
+	 * @param preserveRight 保留右侧字符数
+	 * @param maskChar      脱敏字符
+	 * @return 脱敏后的文本
+	 */
+	private String partialMask(final String text, int preserveLeft, int preserveRight, final char maskChar) {
+		if (StrUtil.isBlank(text)) {
+			return text;
+		}
 
-        return sb.toString();
-    }
+		final int length = text.length();
 
-    /**
-     * 部分脱敏，保留部分原始内容
-     *
-     * @param text 原文本
-     * @param preserveLeft 保留左侧字符数
-     * @param preserveRight 保留右侧字符数
-     * @param maskChar 脱敏字符
-     * @return 脱敏后的文本
-     */
-    private String partialMask(String text, int preserveLeft, int preserveRight, char maskChar) {
-        if (StrUtil.isBlank(text)) {
-            return text;
-        }
+		// 调整保留字符数，确保不超过文本长度
+		preserveLeft = Math.min(preserveLeft, length);
+		preserveRight = Math.min(preserveRight, length - preserveLeft);
 
-        int length = text.length();
+		// 计算需要脱敏的字符数
+		final int maskLength = length - preserveLeft - preserveRight;
 
-        // 调整保留字符数，确保不超过文本长度
-        preserveLeft = Math.min(preserveLeft, length);
-        preserveRight = Math.min(preserveRight, length - preserveLeft);
+		if (maskLength <= 0) {
+			return text;
+		}
 
-        // 计算需要脱敏的字符数
-        int maskLength = length - preserveLeft - preserveRight;
+		final StringBuilder sb = new StringBuilder(length);
 
-        if (maskLength <= 0) {
-            return text;
-        }
+		// 添加左侧保留的字符
+		if (preserveLeft > 0) {
+			sb.append(text, 0, preserveLeft);
+		}
 
-        StringBuilder sb = new StringBuilder(length);
+		// 添加脱敏字符
+		sb.append(StrUtil.repeat(maskChar, maskLength));
 
-        // 添加左侧保留的字符
-        if (preserveLeft > 0) {
-            sb.append(text, 0, preserveLeft);
-        }
+		// 添加右侧保留的字符
+		if (preserveRight > 0) {
+			sb.append(text, length - preserveRight, length);
+		}
 
-        // 添加脱敏字符
-        sb.append(StrUtil.repeat(maskChar, maskLength));
-
-        // 添加右侧保留的字符
-        if (preserveRight > 0) {
-            sb.append(text, length - preserveRight, length);
-        }
-
-        return sb.toString();
-    }
+		return sb.toString();
+	}
 }
