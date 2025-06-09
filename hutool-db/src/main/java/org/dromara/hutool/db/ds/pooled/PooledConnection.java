@@ -100,6 +100,16 @@ public class PooledConnection extends ConnectionWrapper {
 	}
 
 	/**
+	 * 打开连接
+	 *
+	 * @return this
+	 */
+	PooledConnection open() {
+		this.isClosed = false;
+		return this;
+	}
+
+	/**
 	 * 销毁连接，即彻底关闭并丢弃连接
 	 */
 	public void destroy() {
