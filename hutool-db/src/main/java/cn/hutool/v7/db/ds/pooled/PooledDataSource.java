@@ -86,7 +86,7 @@ public class PooledDataSource extends AbstractDataSource {
 
 	@Override
 	public PooledConnection getConnection() throws SQLException {
-		return connPool.borrowObject();
+		return connPool.borrowObject().open();
 	}
 
 	@Override

@@ -35,6 +35,9 @@ import java.util.Properties;
 public class PooledConnection extends ConnectionWrapper {
 
 	private final PooledDataSource dataSource;
+	/**
+	 * 仅用于记录连接在池中的状态，如归还到池中为close状态，从池中拿出需调用{@link #open()}变为可用状态
+	 */
 	private boolean isClosed = false;
 
 	/**
@@ -97,6 +100,17 @@ public class PooledConnection extends ConnectionWrapper {
 	@Override
 	public boolean isClosed() {
 		return this.isClosed;
+	}
+
+	/**
+	 * 打开连接<br>
+	 * 仅用于从连接池中拿出时调用，使链接变为可用。
+	 *
+	 * @return this
+	 */
+	PooledConnection open() {
+		this.isClosed = false;
+		return this;
 	}
 
 	/**
