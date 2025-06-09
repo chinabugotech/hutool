@@ -18,6 +18,7 @@ package cn.hutool.v7.core.data;
 
 import cn.hutool.v7.core.data.masking.MaskingManager;
 import cn.hutool.v7.core.data.masking.MaskingType;
+import cn.hutool.v7.core.data.masking.MaskingUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

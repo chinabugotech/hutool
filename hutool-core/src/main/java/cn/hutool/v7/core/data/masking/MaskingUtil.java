@@ -14,10 +14,8 @@
  * limitations under the License.
  */
 
-package cn.hutool.v7.core.data;
+package cn.hutool.v7.core.data.masking;
 
-import cn.hutool.v7.core.data.masking.MaskingManager;
-import cn.hutool.v7.core.data.masking.MaskingType;
 import cn.hutool.v7.core.text.StrUtil;
 
 /**
