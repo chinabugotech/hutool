@@ -750,11 +750,12 @@ public class BeanUtil {
 	}
 
 	/**
-	 * 判断是否为Bean对象<br>
-	 * 判定方法是否存在只有无参数的getXXX方法或者isXXX方法
+	 * 判断是否存在getXXX或者isXXX方法<br>
+	 * 判定方法是否存在只有无参数的getXXX方法或者isXXX方法<br>
+	 * 需要注意String对象有isEmpty方法，此处返回true
 	 *
 	 * @param clazz 待测试类
-	 * @return 是否为Bean对象
+	 * @return 判断是否存在getXXX或者isXXX方法
 	 * @since 4.2.2
 	 */
 	public static boolean hasGetter(final Class<?> clazz) {
