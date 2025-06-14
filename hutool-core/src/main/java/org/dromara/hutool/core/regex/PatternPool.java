@@ -105,8 +105,6 @@ public class PatternPool {
 	public final static Pattern TEL = Pattern.compile(RegexPool.TEL);
 	/**
 	 * 座机号码+400+800电话
-	 *
-	 * @see <a href="https://baike.baidu.com/item/800">800</a>
 	 */
 	public final static Pattern TEL_400_800 = Pattern.compile(RegexPool.TEL_400_800);
 	/**
