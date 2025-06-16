@@ -74,6 +74,19 @@ public class DatePattern {
 	public static final DateTimeFormatter NORM_DATE_FORMATTER = createFormatter(NORM_DATE_PATTERN);
 
 	/**
+	 * 简单时分格式： HH:mm
+	 */
+	public static final String SIMPLE_HOUR_MINUTE_PATTERN = "HH:mm";
+	/**
+	 * 简单时分格式 {@link FastDateFormat}：HH:mm
+	 */
+	public static final FastDateFormat SIMPLE_HOUR_MINUTE_FORMAT = FastDateFormat.getInstance(SIMPLE_HOUR_MINUTE_PATTERN);
+	/**
+	 * 简单时分格式 {@link FastDateFormat}：HH:mm
+	 */
+	public static final DateTimeFormatter SIMPLE_HOUR_MINUTE_FORMATTER = createFormatter(SIMPLE_HOUR_MINUTE_PATTERN);
+
+	/**
 	 * 标准时间格式：HH:mm:ss
 	 */
 	public static final String NORM_TIME_PATTERN = "HH:mm:ss";
