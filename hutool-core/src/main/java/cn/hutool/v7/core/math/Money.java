@@ -312,7 +312,7 @@ public class Money implements Serializable, Comparable<Money> {
 	 */
 	public void setAmount(final BigDecimal amount) {
 		if (amount != null) {
-			cent = rounding(amount.movePointRight(2), DEFAULT_ROUNDING_MODE);
+			cent = rounding(amount.movePointRight(currency.getDefaultFractionDigits()), DEFAULT_ROUNDING_MODE);
 		}
 	}
 

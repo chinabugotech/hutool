@@ -16,11 +16,22 @@
 
 package cn.hutool.v7.core.reflect;
 
+import cn.hutool.v7.core.collection.CollUtil;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.FieldNameConstants;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class FieldUtilTest {
 	@Test
@@ -33,15 +44,22 @@ public class FieldUtilTest {
 	@Test
 	public void getFieldsTest() {
 		// 能够获取到父类字段
-		final Field[] fields = FieldUtil.getFields(ReflectTestBeans.TestSubClass.class);
-		Assertions.assertEquals(4, fields.length);
+		Field[] fields = FieldUtil.getFields(ReflectTestBeans.TestSubClass.class);
+		assertEquals(4, fields.length);
+
+		// 如果子类与父类中存在同名字段，则这两个字段同时存在，子类字段在前，父类字段在后。
+		fields = FieldUtil.getFields(TestSubUser.class);
+		assertEquals(4, fields.length);
+		List<Field> idFieldList = Arrays.stream(fields).filter(f -> Objects.equals(f.getName(), TestSubUser.Fields.id)).collect(Collectors.toList());
+		Field firstIdField = CollUtil.getFirst(idFieldList);
+		assertEquals(Objects.requireNonNull(firstIdField).getDeclaringClass().getName(), TestSubUser.class.getName());
 	}
 
 	@Test
 	public void setFieldTest() {
 		final ReflectTestBeans.AClass testClass = new ReflectTestBeans.AClass();
 		FieldUtil.setFieldValue(testClass, "a", "111");
-		Assertions.assertEquals(111, testClass.getA());
+		assertEquals(111, testClass.getA());
 	}
 
 	@Test
@@ -64,9 +82,9 @@ public class FieldUtilTest {
 		testBean.setB(1);
 
 		final Object[] fieldsValue = FieldUtil.getFieldsValue(testBean);
-		Assertions.assertEquals(2, fieldsValue.length);
-		Assertions.assertEquals("A", fieldsValue[0]);
-		Assertions.assertEquals(1, fieldsValue[1]);
+		assertEquals(2, fieldsValue.length);
+		assertEquals("A", fieldsValue[0]);
+		assertEquals(1, fieldsValue[1]);
 	}
 
 	@Test
@@ -76,13 +94,35 @@ public class FieldUtilTest {
 		testBean.setB(1);
 
 		final Object[] fieldsValue = FieldUtil.getFieldsValue(testBean, (field ->  field.getName().equals("a")));
-		Assertions.assertEquals(1, fieldsValue.length);
-		Assertions.assertEquals("A", fieldsValue[0]);
+		assertEquals(1, fieldsValue.length);
+		assertEquals("A", fieldsValue[0]);
+	}
+
+	@Test
+	public void getFieldMapTest() {
+		// 获取指定类中字段名和字段对应的有序Map，包括其父类中的字段
+		// 如果子类与父类中存在同名字段，则后者覆盖前者。
+		Map<String, Field> fieldMap = FieldUtil.getFieldMap(TestSubUser.class);
+		assertEquals(3, fieldMap.size());
 	}
 
 	@Data
 	static class TestBean{
 		private String a;
 		private int b;
+	}
+
+	@Data
+	static class TestBaseEntity {
+		private Long id;
+		private String remark;
+	}
+
+	@Data
+	@FieldNameConstants
+	@EqualsAndHashCode(callSuper = true)
+	static class TestSubUser extends TestBaseEntity {
+		private Long id;
+		private String name;
 	}
 }
