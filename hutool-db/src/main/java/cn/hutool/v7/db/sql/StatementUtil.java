@@ -101,13 +101,28 @@ public class StatementUtil {
 	 */
 	public static PreparedStatement prepareStatementForBatch(final DbConfig config, final Connection conn, final String sql,
 															 final Iterable<Object[]> paramsBatch) {
-		return StatementBuilder.of()
+		PreparedStatement statement = StatementBuilder.of()
 			.setConnection(conn)
 			.setReturnGeneratedKey(false)
 			.setSqlFilter(Opt.ofNullable(config).map(DbConfig::getSqlFilters).getOrNull())
 			.setSql(sql)
 			.setParamList(StreamUtil.of(paramsBatch).collect(Collectors.toList()))
 			.buildForBatch();
+
+		try{
+			final Integer fetchSize = config.getFetchSize();
+			if (null != fetchSize) {
+				statement.setFetchSize(fetchSize);
+			}
+			final FetchDirection fetchDirection = config.getFetchDirection();
+			if (null != fetchDirection) {
+				statement.setFetchDirection(fetchDirection.getValue());
+			}
+		} catch (SQLException e){
+			throw new DbException(e);
+		}
+
+		return statement;
 	}
 
 	/**
