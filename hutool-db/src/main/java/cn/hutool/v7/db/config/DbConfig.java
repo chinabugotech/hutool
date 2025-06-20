@@ -16,9 +16,11 @@
 
 package cn.hutool.v7.db.config;
 
+import cn.hutool.v7.db.Db;
 import cn.hutool.v7.db.dialect.Dialect;
 import cn.hutool.v7.db.driver.DriverUtil;
 import cn.hutool.v7.db.ds.DSFactory;
+import cn.hutool.v7.db.sql.FetchDirection;
 import cn.hutool.v7.db.sql.filter.SqlFilter;
 import cn.hutool.v7.db.sql.filter.SqlFilterChain;
 
@@ -79,6 +81,15 @@ public class DbConfig extends ConnectionConfig<DbConfig> {
 	 * 自定义数据库方言
 	 */
 	private Dialect dialect;
+
+	/**
+	 * 结果集的一次取出数据的数量，0或null表示默认值
+	 */
+	private Integer fetchSize;
+	/**
+	 * 结果集的游标方向
+	 */
+	private FetchDirection fetchDirection;
 
 	/**
 	 * 构造
@@ -167,6 +178,43 @@ public class DbConfig extends ConnectionConfig<DbConfig> {
 	 */
 	public DbConfig setDialect(final Dialect dialect) {
 		this.dialect = dialect;
+		return this;
+	}
+
+
+	/**
+	 * 获取一次取出数据的数量，0或null表示默认值
+	 * @return 一次取出数据的数量，0或null表示默认值
+	 */
+	public Integer getFetchSize() {
+		return fetchSize;
+	}
+
+	/**
+	 * 设置一次取出数据的数量，0或null表示默认值
+	 * @param fetchSize 一次取出数据的数量，0或null表示默认值
+	 * @return this
+	 */
+	public DbConfig setFetchSize(final Integer fetchSize) {
+		this.fetchSize = fetchSize;
+		return this;
+	}
+
+	/**
+	 * 获取结果集的游标方向
+	 * @return 结果集的游标方向
+	 */
+	public FetchDirection getFetchDirection() {
+		return fetchDirection;
+	}
+
+	/**
+	 * 设置结果集的游标方向
+	 * @param fetchDirection 结果集的游标方向
+	 * @return this
+	 */
+	public DbConfig setFetchDirection(final FetchDirection fetchDirection) {
+		this.fetchDirection = fetchDirection;
 		return this;
 	}
 }

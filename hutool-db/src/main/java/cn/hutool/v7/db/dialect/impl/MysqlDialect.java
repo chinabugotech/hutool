@@ -25,6 +25,7 @@ import cn.hutool.v7.db.dialect.DialectName;
 import cn.hutool.v7.db.sql.QuoteWrapper;
 import cn.hutool.v7.db.sql.SqlBuilder;
 
+import java.io.Serial;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
@@ -34,6 +35,7 @@ import java.sql.PreparedStatement;
  * @author loolly
  */
 public class MysqlDialect extends AnsiSqlDialect {
+	@Serial
 	private static final long serialVersionUID = -3734718212043823636L;
 
 	/**
@@ -81,7 +83,7 @@ public class MysqlDialect extends AnsiSqlDialect {
 		// 构建字段部分和参数占位符部分
 		entity.forEach((field, value) -> {
 			if (StrUtil.isNotBlank(field)) {
-				if (fieldsPart.length() > 0) {
+				if (!fieldsPart.isEmpty()) {
 					// 非第一个参数，追加逗号
 					fieldsPart.append(", ");
 					placeHolder.append(", ");

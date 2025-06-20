@@ -51,13 +51,28 @@ public class StatementUtil {
 	 * @since 5.8.19
 	 */
 	public static PreparedStatement prepareStatement(final boolean returnGeneratedKey, final DbConfig config, final Connection conn, final String sql, final Object... params) {
-		return StatementBuilder.of()
+		PreparedStatement statement = StatementBuilder.of()
 			.setConnection(conn)
 			.setReturnGeneratedKey(returnGeneratedKey)
 			.setSqlFilter(Opt.ofNullable(config).map(DbConfig::getSqlFilters).getOrNull())
 			.setSql(sql)
 			.setParams(params)
 			.build();
+
+		try{
+			final Integer fetchSize = config.getFetchSize();
+			if (null != fetchSize) {
+				statement.setFetchSize(fetchSize);
+			}
+			final FetchDirection fetchDirection = config.getFetchDirection();
+			if (null != fetchDirection) {
+				statement.setFetchDirection(fetchDirection.getValue());
+			}
+		} catch (SQLException e){
+			throw new DbException(e);
+		}
+
+		return statement;
 	}
 
 	/**

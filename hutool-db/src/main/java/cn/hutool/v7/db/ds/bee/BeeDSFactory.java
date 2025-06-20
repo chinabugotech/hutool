@@ -24,6 +24,7 @@ import org.stone.beecp.BeeDataSource;
 import org.stone.beecp.BeeDataSourceConfig;
 
 import javax.sql.DataSource;
+import java.io.Serial;
 import java.util.Properties;
 
 /**
@@ -32,6 +33,7 @@ import java.util.Properties;
  * @author Looly
  */
 public class BeeDSFactory extends AbstractDSFactory {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

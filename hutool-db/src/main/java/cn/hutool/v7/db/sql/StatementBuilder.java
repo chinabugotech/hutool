@@ -28,6 +28,7 @@ import cn.hutool.v7.db.DbException;
 import cn.hutool.v7.db.Entity;
 import cn.hutool.v7.db.sql.filter.SqlFilter;
 
+import java.io.Serial;
 import java.sql.*;
 import java.util.HashMap;
 import java.util.List;
@@ -41,6 +42,7 @@ import java.util.Set;
  * @since 6.0.0
  */
 public class StatementBuilder implements Builder<StatementWrapper> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -163,8 +165,7 @@ public class StatementBuilder implements Builder<StatementWrapper> {
 				}
 				if (ArrayUtil.isArray(params)) {
 					ps.fillParams(new ArrayIter<>(params), nullTypeMap);
-				} else if (params instanceof Entity) {
-					final Entity entity = (Entity) params;
+				} else if (params instanceof Entity entity) {
 					// 对于多Entity批量插入的情况，为防止数据不对齐，故按照首行提供键值对筛选。
 					if(null == keys){
 						keys = entity.keySet();

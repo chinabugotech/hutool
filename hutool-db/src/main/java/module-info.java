@@ -22,6 +22,10 @@ module hutool.db {
 
 	exports cn.hutool.v7.db;
 	exports cn.hutool.v7.db.config;
+	exports cn.hutool.v7.db.handler;
+	exports cn.hutool.v7.db.dialect;
+	exports cn.hutool.v7.db.sql;
+	exports cn.hutool.v7.db.sql.filter;
 	exports cn.hutool.v7.db.ds;
 	exports cn.hutool.v7.db.ds.bee;
 	exports cn.hutool.v7.db.ds.c3p0;
