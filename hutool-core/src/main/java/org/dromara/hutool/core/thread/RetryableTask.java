@@ -109,11 +109,11 @@ public class RetryableTask<T> {
 	 */
 	private T result;
 	/**
-	 * 执行法方法
+	 * 执行方法
 	 */
 	private final Supplier<T> sup;
 	/**
-	 * 重试策略
+	 * 重试策略, 返回true时表示重试
 	 */
 	private final BiPredicate<T, Throwable> predicate;
 	/**
@@ -150,8 +150,6 @@ public class RetryableTask<T> {
 	 * @return 当前对象
 	 */
 	public RetryableTask<T> maxAttempts(final long maxAttempts) {
-		Assert.isTrue(this.maxAttempts > 0, "maxAttempts must be greater than 0");
-
 		this.maxAttempts = maxAttempts;
 		return this;
 	}
@@ -223,7 +221,8 @@ public class RetryableTask<T> {
 	private RetryableTask<T> doExecute() {
 		Throwable th = null;
 
-		while (--this.maxAttempts >= 0) {
+		// 任务至少被执行一次
+		do {
 			try {
 				this.result = this.sup.get();
 			} catch (final Throwable t) {
@@ -236,8 +235,11 @@ public class RetryableTask<T> {
 				break;
 			}
 
-			ThreadUtil.sleep(delay.toMillis());
-		}
+			// 避免最后一次任务执行时的线程睡眠
+			if (this.maxAttempts > 0) {
+				ThreadUtil.sleep(delay.toMillis());
+			}
+		} while (--this.maxAttempts >= 0);
 
 		this.throwable = th;
 		return this;

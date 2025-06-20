@@ -37,7 +37,7 @@ public class RetryUtil {
 	 * 没有返回值，重试执行方法
 	 *
 	 * @param run         执行方法
-	 * @param maxAttempts 最大的重试次数
+	 * @param maxAttempts 最大的重试次数, 小于1不会重试, 但任务至少会被执行1次
 	 * @param delay       重试间隔
 	 * @param recover     达到最大重试次数后执行的备用方法
 	 * @param exs         指定的异常类型需要重试
@@ -63,7 +63,7 @@ public class RetryUtil {
 	 * 有返回值，重试执行方法
 	 *
 	 * @param sup         执行方法
-	 * @param maxAttempts 最大的重试次数
+	 * @param maxAttempts 最大的重试次数, 小于1不会重试, 但任务至少会被执行1次
 	 * @param delay       重试间隔
 	 * @param recover     达到最大重试次数后执行的备用方法
 	 * @param exs         指定的异常类型需要重试
@@ -88,10 +88,10 @@ public class RetryUtil {
 	 * 没有返回值，重试执行方法
 	 *
 	 * @param run         执行方法
-	 * @param maxAttempts 最大的重试次数
+	 * @param maxAttempts 最大的重试次数, 小于1不会重试, 但任务至少会被执行1次
 	 * @param delay       重试间隔
 	 * @param recover     达到最大重试次数后执行的备用方法
-	 * @param predicate   自定义重试条件
+	 * @param predicate   自定义重试条件, 返回true时表示重试
 	 */
 	public static void ofPredicate(final Runnable run, final long maxAttempts, final Duration delay,
 								   final Supplier<Void> recover, final BiPredicate<Void, Throwable> predicate) {
@@ -105,14 +105,14 @@ public class RetryUtil {
 
 
 	/**
-	 * 根据异常信息进行重试
+	 * 根据自定义结果进行重试
 	 * 有返回值，重试执行方法
 	 *
 	 * @param sup         执行方法
-	 * @param maxAttempts 最大的重试次数
+	 * @param maxAttempts 最大的重试次数, 小于1不会重试, 但任务至少会被执行1次
 	 * @param delay       重试间隔
 	 * @param recover     达到最大重试次数后执行的备用方法
-	 * @param predicate   自定义重试条件
+	 * @param predicate   自定义重试条件, 返回true时表示重试
 	 * @param <T>         结果类型
 	 * @return 执行结果
 	 */
