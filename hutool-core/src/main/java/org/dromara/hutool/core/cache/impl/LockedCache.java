@@ -17,8 +17,11 @@
 package org.dromara.hutool.core.cache.impl;
 
 import org.dromara.hutool.core.collection.iter.CopiedIter;
+import org.dromara.hutool.core.collection.set.SetUtil;
+import org.dromara.hutool.core.lang.mutable.Mutable;
 
 import java.util.Iterator;
+import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -98,7 +101,14 @@ public abstract class LockedCache<K, V> extends AbstractCache<K, V> {
 	public void clear() {
 		lock.lock();
 		try {
-			cacheMap.clear();
+			// 获取所有键的副本
+			final Set<Mutable<K>> keys = SetUtil.of(cacheMap.keySet());
+			for (final Mutable<K> key : keys) {
+				final CacheObj<K, V> co = removeWithoutLock(key.get());
+				if (co != null) {
+					onRemove(co.key, co.obj); // 触发资源释放
+				}
+			}
 		} finally {
 			lock.unlock();
 		}

@@ -164,4 +164,22 @@ public class CacheTest {
 		assertFalse(ALARM_CACHE.containsKey(1));
 		assertEquals(1, counter.get());
 	}
+
+	/**
+	 * ReentrantCache类clear()方法、AbstractCache.putWithoutLock方法可能导致资源泄露
+	 * https://github.com/chinabugotech/hutool/issues/3957
+	 */
+	@Test
+	public void reentrantCache_clear_Method_Test() {
+		final AtomicInteger removeCount = new AtomicInteger();
+		final Cache<String, String> lruCache = CacheUtil.newLRUCache(4);
+		lruCache.setListener((key, cachedObject) -> removeCount.getAndIncrement());
+		lruCache.put("key1","String1");
+		lruCache.put("key2","String2");
+		lruCache.put("key3","String3");
+		lruCache.put("key1","String4");//key已经存在，原始putWithoutLock方法存在资源泄露
+		lruCache.put("key4","String5");
+		lruCache.clear();//ReentrantCache类clear()方法存在资源泄露
+		Assertions.assertEquals(5, removeCount.get());
+	}
 }
