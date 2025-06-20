@@ -17,8 +17,12 @@
 package cn.hutool.v7.core.cache.impl;
 
 import cn.hutool.v7.core.collection.iter.CopiedIter;
+import cn.hutool.v7.core.collection.set.SetUtil;
+import cn.hutool.v7.core.lang.mutable.Mutable;
 
+import java.io.Serial;
 import java.util.Iterator;
+import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -31,6 +35,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * @author Looly
  */
 public abstract class LockedCache<K, V> extends AbstractCache<K, V> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -98,7 +103,15 @@ public abstract class LockedCache<K, V> extends AbstractCache<K, V> {
 	public void clear() {
 		lock.lock();
 		try {
-			cacheMap.clear();
+			// 获取所有键的副本
+			final Set<Mutable<K>> keys = SetUtil.of(cacheMap.keySet());
+			CacheObj<K, V> co;
+			for (final Mutable<K> key : keys) {
+				co = removeWithoutLock(key.get());
+				if (null != co) {
+					onRemove(co.key, co.obj); // 触发资源释放
+				}
+			}
 		} finally {
 			lock.unlock();
 		}

@@ -19,6 +19,7 @@ package cn.hutool.v7.core.cache.impl;
 import cn.hutool.v7.core.cache.GlobalPruneTimer;
 import cn.hutool.v7.core.lang.mutable.Mutable;
 
+import java.io.Serial;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -34,6 +35,7 @@ import java.util.concurrent.ScheduledFuture;
  * @param <V> 值类型
  */
 public class TimedReentrantCache<K, V> extends LockedCache<K, V> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/** 正在执行的定时任务 */
