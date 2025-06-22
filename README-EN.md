@@ -128,18 +128,18 @@ Each module can be introduced individually, or all modules can be introduced by 
 <dependency>
     <groupId>org.dromara.hutool</groupId>
     <artifactId>hutool-all</artifactId>
-    <version>6.0.0-M22</version>
+    <version>6.0.0-M23</version>
 </dependency>
 ```
 
 ### 🍐Gradle
 ```
-implementation 'org.dromara.hutool:hutool-all:6.0.0-M22'
+implementation 'org.dromara.hutool:hutool-all:6.0.0-M23'
 ```
 
 ## 📥Download
 
-- [Maven Repo](https://repo1.maven.org/maven2/cn/hutool/hutool-all/6.0.0-M22/)
+- [Maven Repo](https://repo1.maven.org/maven2/cn/hutool/hutool-all/6.0.0-M23/)
 
 > 🔔️note:
 > Hutool 5.x supports JDK8+ and is not tested on Android platforms, and cannot guarantee that all tool classes or tool methods are available.
