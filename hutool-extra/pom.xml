@@ -53,13 +53,13 @@
 
 		<!-- ssh versions -->
 		<jsch.version>0.2.21</jsch.version>
-		<sshj.version>0.39.0</sshj.version>
+		<sshj.version>0.40.0</sshj.version>
 		<sshd.version>2.15.0</sshd.version>
 		<ganymed-ssh2.version>262</ganymed-ssh2.version>
 
 		<net.version>3.11.1</net.version>
 		<emoji-java.version>5.1.1</emoji-java.version>
-		<spring-boot.version>2.7.18</spring-boot.version>
+		<spring-boot.version>3.5.3</spring-boot.version>
 		<oshi.version>6.8.1</oshi.version>
 		<byte-buddy.version>1.17.5</byte-buddy.version>
 		<commons-compress.version>1.27.1</commons-compress.version>
@@ -69,7 +69,7 @@
 		<!-- mq client versions -->
 		<kafka.version>4.0.0</kafka.version>
 		<rabbitmq.version>5.25.0</rabbitmq.version>
-		<rocketmq.version>5.3.2</rocketmq.version>
+		<rocketmq.version>5.3.3</rocketmq.version>
 	</properties>
 
 	<dependencies>
@@ -291,7 +291,7 @@
 		<dependency>
 			<groupId>org.apache.ftpserver</groupId>
 			<artifactId>ftpserver-core</artifactId>
-			<version>1.2.0</version>
+			<version>1.2.1</version>
 			<scope>compile</scope>
 			<exclusions>
 				<exclusion>
@@ -421,21 +421,13 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
 			<version>${spring-boot.version}</version>
+			<optional>true</optional>
 			<exclusions>
 				<exclusion>
-					<artifactId>snakeyaml</artifactId>
-					<groupId>org.yaml</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>log4j-to-slf4j</artifactId>
-					<groupId>org.apache.logging.log4j</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>jul-to-slf4j</artifactId>
-					<groupId>org.slf4j</groupId>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-logging</artifactId>
 				</exclusion>
 			</exclusions>
-			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>io.github.biezhi</groupId>
@@ -512,28 +504,6 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<version>${spring-boot.version}</version>
 			<scope>test</scope>
-			<exclusions>
-				<exclusion>
-					<artifactId>jakarta.activation-api</artifactId>
-					<groupId>jakarta.activation</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>junit-jupiter</artifactId>
-					<groupId>org.junit.jupiter</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>json-path</artifactId>
-					<groupId>com.jayway.jsonpath</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>byte-buddy</artifactId>
-					<groupId>net.bytebuddy</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>junit-jupiter-api</artifactId>
-					<groupId>org.junit.jupiter</groupId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>

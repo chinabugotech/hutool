@@ -205,6 +205,9 @@
 						</goals>
 					</execution>
 				</executions>
+				<configuration>
+					<source>${compile.version}</source>
+				</configuration>
 			</plugin>
 			<!-- 统一更新pom版本 -->
 			<plugin>

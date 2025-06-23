@@ -18,6 +18,7 @@ package cn.hutool.v7.extra.spring;
 
 import cn.hutool.v7.core.map.MapUtil;
 import cn.hutool.v7.core.reflect.TypeReference;
+import jakarta.annotation.Resource;
 import lombok.Data;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -30,7 +31,6 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -67,7 +67,7 @@ public class SpringUtilTest {
 		try {
 			SpringUtil.getBean("testAutoWired");
 		} catch (final NoSuchBeanDefinitionException e) {
-			Assertions.assertEquals(e.getClass(), NoSuchBeanDefinitionException.class);
+			Assertions.assertEquals(NoSuchBeanDefinitionException.class, e.getClass());
 		}
 	}
 
