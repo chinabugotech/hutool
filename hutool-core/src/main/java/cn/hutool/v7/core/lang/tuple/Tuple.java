@@ -21,6 +21,7 @@ import cn.hutool.v7.core.collection.iter.ArrayIter;
 import cn.hutool.v7.core.exception.CloneException;
 import cn.hutool.v7.core.array.ArrayUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -37,6 +38,7 @@ import java.util.stream.StreamSupport;
  * @author Looly
  */
 public class Tuple implements Iterable<Object>, Serializable, Cloneable {
+	@Serial
 	private static final long serialVersionUID = -7689304393482182157L;
 
 	/**
@@ -50,8 +52,17 @@ public class Tuple implements Iterable<Object>, Serializable, Cloneable {
 		return new Tuple(members);
 	}
 
+	/**
+	 * 成员
+	 */
 	private final Object[] members;
+	/**
+	 * hash值缓存
+	 */
 	private int hashCode;
+	/**
+	 * 是否缓存hash值，当为true时，此对象的hash值只被计算一次，常用于Tuple中的值不变时使用。
+	 */
 	private boolean cacheHash;
 
 	/**
