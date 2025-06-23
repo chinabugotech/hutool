@@ -16,10 +16,9 @@
 
 package cn.hutool.v7.core.tree;
 
-import lombok.Data;
 import cn.hutool.v7.core.collection.ListUtil;
-import cn.hutool.v7.core.lang.Console;
 import cn.hutool.v7.core.tree.parser.DefaultNodeParser;
+import lombok.Data;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -84,7 +83,7 @@ public class TreeTest {
 				tree.putExtra("other", new Object());
 			});
 
-		Assertions.assertEquals(treeNodes.size(), 2);
+		Assertions.assertEquals(2, treeNodes.size());
 	}
 
 	@Test
@@ -100,7 +99,7 @@ public class TreeTest {
 	public void walkBroadFirstTest() {
 		final List<String> ids = new ArrayList<>();
 		final MapTree<String> tree = TreeUtil.buildSingle(nodeList, "0");
-		Console.log(tree);
+		//Console.log(tree);
 		tree.walk((tr) -> ids.add(tr.getId()), true);
 
 		Assertions.assertEquals(7, ids.size());
@@ -166,11 +165,11 @@ public class TreeTest {
 		treeNodeConfig.setDeep(3);
 
 		final List<MapTree<String>> treeNodes = TreeUtil.build(nodeList, "0", treeNodeConfig, new DefaultNodeParser<>());
-		Assertions.assertEquals(treeNodes.size(), 2);
+		Assertions.assertEquals(2, treeNodes.size());
 		final MapTree<String> treeNode1 = treeNodes.get(1);
 		Assertions.assertNotNull(treeNode1);
 		Assertions.assertNotNull(treeNode1.getConfig());
-		Assertions.assertEquals(treeNode1.getChildren().size(), 1);
+		Assertions.assertEquals(1, treeNode1.getChildren().size());
 	}
 
 	/**

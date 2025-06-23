@@ -216,8 +216,6 @@ public class UrlQueryUtil {
 			return MapUtil.empty();
 		}
 
-		Console.log(queryMap);
-
 		final Map<String, List<String>> params = new LinkedHashMap<>();
 		queryMap.forEach((key, value) -> {
 			if(null != key){

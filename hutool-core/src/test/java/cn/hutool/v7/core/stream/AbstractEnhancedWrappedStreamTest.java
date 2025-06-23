@@ -23,6 +23,7 @@ import lombok.Setter;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.Serial;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Function;
@@ -79,6 +80,7 @@ public class AbstractEnhancedWrappedStreamTest {
 		final List<Integer> list = asList(1, 2, 3);
 		final Map<String, Integer> identityMap = wrap(list).toMap(String::valueOf);
 		Assertions.assertEquals(new HashMap<String, Integer>() {
+			@Serial
 			private static final long serialVersionUID = 1L;
 
 			{
@@ -103,6 +105,7 @@ public class AbstractEnhancedWrappedStreamTest {
 		final List<String> list = asList("bugotech", "hutool", "sweet");
 		final Map<Integer, String> toZip = wrap(orders).toZip(list);
 		Assertions.assertEquals(new HashMap<Integer, String>() {
+			@Serial
 			private static final long serialVersionUID = 1L;
 
 			{
@@ -169,6 +172,7 @@ public class AbstractEnhancedWrappedStreamTest {
 	public void testGrouping() {
 		final List<Integer> list = asList(1, 2, 3);
 		final Map<String, List<Integer>> map = new HashMap<String, List<Integer>>() {
+			@Serial
 			private static final long serialVersionUID = 1L;
 
 			{
@@ -190,6 +194,7 @@ public class AbstractEnhancedWrappedStreamTest {
 	public void testPartitioning() {
 		final List<Integer> list = asList(1, 2, 3);
 		final Map<Boolean, List<Integer>> map = new HashMap<Boolean, List<Integer>>() {
+			@Serial
 			private static final long serialVersionUID = 1L;
 
 			{
@@ -632,6 +637,7 @@ public class AbstractEnhancedWrappedStreamTest {
 	@Test
 	public void testToEntries() {
 		final Map<Integer, Integer> expect = new HashMap<Integer, Integer>() {
+			@Serial
 			private static final long serialVersionUID = 1L;
 
 			{
@@ -730,7 +736,7 @@ public class AbstractEnhancedWrappedStreamTest {
 	void test() {
 		final List<List<List<String>>> list = Arrays.asList(
 			Arrays.asList(
-				Arrays.asList("a"),
+				List.of("a"),
 				Arrays.asList("b", "c"),
 				Arrays.asList("d", "e", "f")
 			),
