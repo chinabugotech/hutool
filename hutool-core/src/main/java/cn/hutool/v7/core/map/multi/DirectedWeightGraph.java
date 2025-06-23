@@ -18,6 +18,7 @@ package cn.hutool.v7.core.map.multi;
 
 import cn.hutool.v7.core.exception.HutoolException;
 
+import java.io.Serial;
 import java.util.*;
 
 /**
@@ -224,11 +225,17 @@ public class DirectedWeightGraph<T> {
 	 * @param <T> 点类型
 	 */
 	public static class Edge<T> {
-		// 起始点
+		/**
+		 * 起始点
+		 */
 		protected T fromPoint;
-		// 目标点
+		/**
+		 * 目标点
+		 */
 		protected T toPoint;
-		// 权重
+		/**
+		 * 权重
+		 */
 		protected long weight;
 
 		/**
@@ -337,6 +344,7 @@ public class DirectedWeightGraph<T> {
 	 * 负环异常
 	 */
 	public static class NegativeRingException extends HutoolException {
+		@Serial
 		private static final long serialVersionUID = 1L;
 
 		/**

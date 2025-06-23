@@ -27,6 +27,9 @@ import cn.hutool.v7.core.lang.Assert;
  */
 public abstract class ConverterWithRoot implements Converter {
 
+	/**
+	 * 根转换器
+	 */
 	protected final Converter rootConverter;
 
 	/**

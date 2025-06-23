@@ -21,6 +21,7 @@ import cn.hutool.v7.core.codec.Encoder;
 import cn.hutool.v7.core.exception.HutoolException;
 import cn.hutool.v7.core.text.StrUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -32,6 +33,7 @@ import java.io.Serializable;
  * @since 5.7.23
  */
 public class Base16Codec implements Encoder<byte[], char[]>, Decoder<CharSequence, byte[]>, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

@@ -77,6 +77,11 @@ public class IdUtil {
 		return UUID.fastUUID().toString(true);
 	}
 
+	/**
+	 * 获取随机UUID7
+	 *
+	 * @return 随机UUID7
+	 */
 	public static String randomUUID7() {
 		return UUID.randomUUID7().toString();
 	}
@@ -263,7 +268,7 @@ public class IdUtil {
 		}
 		if (null != mac) {
 			id = ((0x000000FF & (long) mac[mac.length - 2])
-					| (0x0000FF00 & (((long) mac[mac.length - 1]) << 8))) >> 6;
+				| (0x0000FF00 & (((long) mac[mac.length - 1]) << 8))) >> 6;
 			id = id % (maxDatacenterId + 1);
 		}
 

@@ -30,10 +30,17 @@ import java.util.concurrent.Semaphore;
  */
 public abstract class SemaphoreRateLimiter implements RateLimiter {
 
+	/**
+	 * 限流配置
+	 */
 	protected final RateLimiterConfig config;
+	/**
+	 * 限流许可
+	 */
 	protected final Semaphore semaphore;
 
 	// region ----- Constructor
+
 	/**
 	 * 构造
 	 *

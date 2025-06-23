@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.core.cache.impl;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -30,9 +31,16 @@ import java.util.NoSuchElementException;
  * @since 4.0.10
  */
 public class CacheObjIterator<K, V> implements Iterator<CacheObj<K, V>>, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * 迭代器
+	 */
 	private final Iterator<CacheObj<K, V>> iterator;
+	/**
+	 * 下一个值
+	 */
 	private CacheObj<K, V> nextValue;
 
 	/**

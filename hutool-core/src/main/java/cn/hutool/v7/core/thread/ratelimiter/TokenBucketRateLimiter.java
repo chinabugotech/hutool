@@ -42,6 +42,9 @@ import java.util.concurrent.TimeUnit;
  */
 public class TokenBucketRateLimiter extends SemaphoreRateLimiter implements Closeable {
 
+	/**
+	 * 定时器
+	 */
 	protected final ScheduledExecutorService scheduler;
 
 	/**

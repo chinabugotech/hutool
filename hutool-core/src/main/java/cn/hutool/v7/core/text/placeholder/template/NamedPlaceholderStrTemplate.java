@@ -60,6 +60,17 @@ public class NamedPlaceholderStrTemplate extends StrTemplate {
 	 */
 	protected int indexedSegmentMaxIdx = 0;
 
+	/**
+	 * 创建一个有前缀和后缀的模板
+	 *
+	 * @param template            模板字符串
+	 * @param prefix              占位符前缀，默认为: {@link #DEFAULT_PREFIX}
+	 * @param suffix              占位符后缀，默认为: {@link #DEFAULT_SUFFIX}
+	 * @param escape              转义符
+	 * @param defaultValue        默认值
+	 * @param defaultValueHandler 默认值处理器
+	 * @param features            模板特性
+	 */
 	protected NamedPlaceholderStrTemplate(final String template, final int features, final String prefix,
 										  final String suffix, final char escape, final String defaultValue,
 										  final UnaryOperator<String> defaultValueHandler) {
@@ -576,6 +587,7 @@ public class NamedPlaceholderStrTemplate extends StrTemplate {
 
 		/**
 		 * 构造
+		 *
 		 * @param template 模板
 		 */
 		protected Builder(final String template) {

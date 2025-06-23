@@ -19,6 +19,7 @@ package cn.hutool.v7.core.bean.copier;
 import cn.hutool.v7.core.lang.Assert;
 import cn.hutool.v7.core.lang.copier.Copier;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.Map;
@@ -38,8 +39,12 @@ import java.util.Map;
  * @since 3.2.3
  */
 public class BeanCopier<T> implements Copier<T>, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * 拷贝器
+	 */
 	private final Copier<T> copier;
 
 	/**

@@ -30,6 +30,9 @@ import java.io.InputStream;
  */
 public class LimitedInputStream extends FilterInputStream {
 
+	/**
+	 * 限制最大读取量，单位byte
+	 */
 	protected long limit;
 	private final boolean throwWhenReachLimit;
 

@@ -30,6 +30,14 @@ import java.util.function.Predicate;
  */
 public class TakeWhileSpliterator<T> implements Spliterator<T> {
 
+	/**
+	 * 创建TakeWhileSpliterator
+	 *
+	 * @param source    源Spliterator
+	 * @param predicate 断言
+	 * @param <T>       元素类型
+	 * @return TakeWhileSpliterator
+	 */
 	public static <T> TakeWhileSpliterator<T> create(final Spliterator<T> source, final Predicate<? super T> predicate) {
 		return new TakeWhileSpliterator<>(source, predicate);
 	}

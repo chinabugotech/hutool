@@ -48,6 +48,16 @@ public class SinglePlaceholderStrTemplate extends StrTemplate {
 	 */
 	protected String placeholder;
 
+	/**
+	 * 构造
+	 *
+	 * @param template            模板
+	 * @param features            策略值
+	 * @param placeholder         占位符
+	 * @param escape              转义符
+	 * @param defaultValue        默认值
+	 * @param defaultValueHandler 默认值处理器
+	 */
 	protected SinglePlaceholderStrTemplate(final String template, final int features, final String placeholder, final char escape,
 										   final String defaultValue, final UnaryOperator<String> defaultValueHandler) {
 		super(template, escape, defaultValue, defaultValueHandler, features);

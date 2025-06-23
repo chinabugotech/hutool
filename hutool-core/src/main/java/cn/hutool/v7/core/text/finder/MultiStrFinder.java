@@ -37,11 +37,17 @@ public class MultiStrFinder {
 		return new MultiStrFinder(source);
 	}
 
-	// 字符索引
+	/**
+	 * 字符索引
+	 */
 	protected final Map<Character, Integer> charIndexMap = new HashMap<>();
-	// 全部字符数量
+	/**
+	 * 全部字符数量
+	 */
 	protected final int allCharSize;
-	// 根节点
+	/**
+	 * 根节点
+	 */
 	protected final Node root;
 	// 全部节点数量
 	int nodeSize;

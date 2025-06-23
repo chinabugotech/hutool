@@ -40,6 +40,11 @@ public class IndexedPlaceholderSegment extends NamedPlaceholderSegment {
 		this.index = Integer.parseInt(idxStr);
 	}
 
+	/**
+	 * 获取下标
+	 *
+	 * @return 下标
+	 */
 	public int getIndex() {
 		return index;
 	}
