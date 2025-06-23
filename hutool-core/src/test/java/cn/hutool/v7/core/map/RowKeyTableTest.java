@@ -31,7 +31,7 @@ public class RowKeyTableTest {
 		table.put(1, 2, 3);
 		table.put(1, 6, 4);
 
-		Assertions.assertEquals(new Integer(3), table.get(1, 2));
+		Assertions.assertEquals(Integer.valueOf(3), table.get(1, 2));
 		Assertions.assertNull(table.get(1, 3));
 
 		//判断row和column确定的二维点是否存在

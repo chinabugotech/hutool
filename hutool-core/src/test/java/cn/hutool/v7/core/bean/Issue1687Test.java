@@ -39,7 +39,7 @@ public class Issue1687Test {
 		final SysUser sysUser = BeanUtil.toBean(sysUserFb, SysUser.class);
 		// 别名错位导致找不到字段
 		Assertions.assertNull(sysUser.getDepart());
-		Assertions.assertEquals(new Long(456L), sysUser.getOrgId());
+		Assertions.assertEquals(Long.valueOf(456L), sysUser.getOrgId());
 	}
 
 	@Test
@@ -54,8 +54,8 @@ public class Issue1687Test {
 		);
 		final SysUser sysUser = BeanUtil.toBean(sysUserFb, SysUser.class, copyOptions);
 
-		Assertions.assertEquals(new Long(123L), sysUser.getDepart());
-		Assertions.assertEquals(new Long(456L), sysUser.getOrgId());
+		Assertions.assertEquals(Long.valueOf(123L), sysUser.getDepart());
+		Assertions.assertEquals(Long.valueOf(456L), sysUser.getOrgId());
 	}
 
 	@Data

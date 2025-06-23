@@ -35,7 +35,7 @@ public class MapProxyTest {
 
 		final MapProxy mapProxy = new MapProxy(map);
 		final Integer b = mapProxy.getInt("b");
-		Assertions.assertEquals(new Integer(2), b);
+		Assertions.assertEquals(Integer.valueOf(2), b);
 
 		final Set<Object> keys = mapProxy.keySet();
 		Assertions.assertFalse(keys.isEmpty());

@@ -129,11 +129,11 @@ public class ConvertToArrayTest {
 		final Character[] array = ConvertUtil.toCharArray(testStr);
 
 		//包装类型数组
-		Assertions.assertEquals(new Character('a'), array[0]);
-		Assertions.assertEquals(new Character('b'), array[1]);
-		Assertions.assertEquals(new Character('c'), array[2]);
-		Assertions.assertEquals(new Character('d'), array[3]);
-		Assertions.assertEquals(new Character('e'), array[4]);
+		Assertions.assertEquals(Character.valueOf('a'), array[0]);
+		Assertions.assertEquals(Character.valueOf('b'), array[1]);
+		Assertions.assertEquals(Character.valueOf('c'), array[2]);
+		Assertions.assertEquals(Character.valueOf('d'), array[3]);
+		Assertions.assertEquals(Character.valueOf('e'), array[4]);
 
 		//原始类型数组
 		final char[] array2 = ConvertUtil.convert(char[].class, testStr);

@@ -27,8 +27,8 @@ public class TableMapTest {
 		tableMap.put("aaa", 111);
 		tableMap.put("bbb", 222);
 
-		Assertions.assertEquals(new Integer(111), tableMap.get("aaa"));
-		Assertions.assertEquals(new Integer(222), tableMap.get("bbb"));
+		Assertions.assertEquals(Integer.valueOf(111), tableMap.get("aaa"));
+		Assertions.assertEquals(Integer.valueOf(222), tableMap.get("bbb"));
 
 		Assertions.assertEquals("aaa", tableMap.getKey(111));
 		Assertions.assertEquals("bbb", tableMap.getKey(222));

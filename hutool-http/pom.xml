@@ -34,12 +34,12 @@
 
 	<properties>
 		<Automatic-Module-Name>cn.hutool.v7.http</Automatic-Module-Name>
-		<httpclient5.version>5.4.3</httpclient5.version>
+		<httpclient5.version>5.5</httpclient5.version>
 		<httpclient4.version>4.5.14</httpclient4.version>
 		<okhttp.version>5.0.0-alpha.14</okhttp.version>
 		<undertow.version>2.3.18.Final</undertow.version>
 		<jetty.version>12.0.19</jetty.version>
-		<tomcat.version>11.0.6</tomcat.version>
+		<tomcat.version>11.0.8</tomcat.version>
 		<smartboot.version>1.4.3</smartboot.version>
 		<jakarta.servlet-api.version>6.1.0</jakarta.servlet-api.version>
 		<jakarta.xml.soap-api.version>3.0.2</jakarta.xml.soap-api.version>
@@ -50,7 +50,7 @@
 		<log4j2.version>2.20.0</log4j2.version>
 		<tinylog.version>1.3.6</tinylog.version>
 		<tinylog2.version>2.7.0</tinylog2.version>
-		<commons-logging.version>1.3.4</commons-logging.version>
+		<commons-logging.version>1.3.5</commons-logging.version>
 	</properties>
 
 	<dependencies>
