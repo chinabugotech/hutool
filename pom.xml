@@ -160,6 +160,7 @@
 				<version>3.13.0</version>
 				<configuration>
 					<fork>true</fork>
+					<encoding>UTF-8</encoding>
 					<source>${compile.version}</source>
 					<target>${compile.version}</target>
 					<!-- 编译时启用警告位置 -->
