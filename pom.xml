@@ -207,6 +207,8 @@
 				</executions>
 				<configuration>
 					<source>${compile.version}</source>
+					<release>${compile.version}</release>
+					<failOnError>false</failOnError>
 				</configuration>
 			</plugin>
 			<!-- 统一更新pom版本 -->

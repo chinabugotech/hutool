@@ -18,6 +18,7 @@ package cn.hutool.v7.core.text.replacer;
 
 import cn.hutool.v7.core.text.finder.MultiStrFinder;
 
+import java.io.Serial;
 import java.util.*;
 
 /**
@@ -32,6 +33,7 @@ import java.util.*;
  * @author newshiJ
  */
 public class HighMultiReplacerV2 extends StrReplacer {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private final AhoCorasickAutomaton ahoCorasickAutomaton;
@@ -79,7 +81,7 @@ public class HighMultiReplacerV2 extends StrReplacer {
 				// 下一个字符在候选转换字符串中都不存在 ch字符一定不会被替换
 				if(index == null || index < 0){
 					// 临时缓存空间中的数据写入到输出的 StringBuilder
-					if(temp.length() > 0){
+					if(!temp.isEmpty()){
 						stringBuilder.append(temp);
 						// 数据写入后清空临时空间
 						temp.delete(0, temp.length());
@@ -96,7 +98,7 @@ public class HighMultiReplacerV2 extends StrReplacer {
 
 				// 当前是root节点表示匹配中断 清理临时空间 写入到输出
 				if(currentNode.nodeIndex == 0){
-					if(temp.length() > 0){
+					if(!temp.isEmpty()){
 						stringBuilder.append(temp);
 						// 数据写入后清空临时空间
 						temp.delete(0, temp.length());
@@ -111,7 +113,7 @@ public class HighMultiReplacerV2 extends StrReplacer {
 					final int length = currentNode.tagetString.length() - 1;
 					// 先清理匹配到的字符 最后一个字符未加入临时空间
 					temp.delete(temp.length() - length,temp.length());
-					if(temp.length() > 0){
+					if(!temp.isEmpty()){
 						stringBuilder.append(temp);
 					}
 					// 写入被替换的字符串
