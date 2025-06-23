@@ -136,7 +136,7 @@
 		<dependency>
 			<groupId>com.mysql</groupId>
 			<artifactId>mysql-connector-j</artifactId>
-			<version>9.1.0</version>
+			<version>9.3.0</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -150,12 +150,6 @@
 			<groupId>com.dameng</groupId>
 			<artifactId>DmJdbcDriver18</artifactId>
 			<version>8.1.3.140</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
-			<version>2.0.9</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
