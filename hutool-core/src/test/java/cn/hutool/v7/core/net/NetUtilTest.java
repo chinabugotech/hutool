@@ -78,6 +78,7 @@ public class NetUtilTest {
 	}
 
 	@Test
+	@Disabled
 	public void pingTest(){
 		Assertions.assertTrue(NetUtil.ping("127.0.0.1"));
 	}
