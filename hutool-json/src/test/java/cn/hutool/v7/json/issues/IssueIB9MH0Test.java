@@ -38,8 +38,8 @@ public class IssueIB9MH0Test {
 		_01("tab_people_home","首页"),
 		_02("tab_people_hospital","医院");
 
-		private String code;
-		private String title;
+		private final String code;
+		private final String title;
 
 		TabTypeEnum(final String code, final String title) {
 			this.code = code;

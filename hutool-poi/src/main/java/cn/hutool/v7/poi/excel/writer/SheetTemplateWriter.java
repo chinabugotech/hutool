@@ -17,7 +17,6 @@
 package cn.hutool.v7.poi.excel.writer;
 
 import org.apache.poi.ss.usermodel.Sheet;
-import cn.hutool.v7.core.map.BeanMap;
 
 import java.util.Map;
 

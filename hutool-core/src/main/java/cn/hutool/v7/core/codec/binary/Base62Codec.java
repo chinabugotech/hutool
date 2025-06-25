@@ -21,6 +21,7 @@ import cn.hutool.v7.core.codec.Encoder;
 import cn.hutool.v7.core.array.ArrayUtil;
 
 import java.io.ByteArrayOutputStream;
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -31,6 +32,7 @@ import java.io.Serializable;
  * @since 4.5.9
  */
 public class Base62Codec implements Encoder<byte[], byte[]>, Decoder<byte[], byte[]>, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private static final int STANDARD_BASE = 256;
@@ -39,7 +41,7 @@ public class Base62Codec implements Encoder<byte[], byte[]>, Decoder<byte[], byt
 	/**
 	 * 单例
 	 */
-	public static Base62Codec INSTANCE = new Base62Codec();
+	public static final Base62Codec INSTANCE = new Base62Codec();
 
 	/**
 	 * 编码指定消息bytes为Base62格式的bytes
@@ -124,11 +126,11 @@ public class Base62Codec implements Encoder<byte[], byte[]>, Decoder<byte[], byt
 		/**
 		 * GMP风格编码器
 		 */
-		public static Base62Encoder GMP_ENCODER = new Base62Encoder(GMP);
+		public static final Base62Encoder GMP_ENCODER = new Base62Encoder(GMP);
 		/**
 		 * 反转风格，即将GMP风格中的大小写做转换编码器
 		 */
-		public static Base62Encoder INVERTED_ENCODER = new Base62Encoder(INVERTED);
+		public static final Base62Encoder INVERTED_ENCODER = new Base62Encoder(INVERTED);
 
 		private final byte[] alphabet;
 
@@ -158,11 +160,11 @@ public class Base62Codec implements Encoder<byte[], byte[]>, Decoder<byte[], byt
 		/**
 		 * GMP风格解码器
 		 */
-		public static Base62Decoder GMP_DECODER = new Base62Decoder(Base62Encoder.GMP);
+		public static final Base62Decoder GMP_DECODER = new Base62Decoder(Base62Encoder.GMP);
 		/**
 		 * 反转风格，即将GMP风格中的大小写做转换解码器
 		 */
-		public static Base62Decoder INVERTED_DECODER = new Base62Decoder(Base62Encoder.INVERTED);
+		public static final Base62Decoder INVERTED_DECODER = new Base62Decoder(Base62Encoder.INVERTED);
 
 		private final byte[] lookupTable;
 

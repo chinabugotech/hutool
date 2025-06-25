@@ -20,6 +20,7 @@ import cn.hutool.v7.core.convert.AbstractConverter;
 import cn.hutool.v7.core.classloader.ClassLoaderUtil;
 import cn.hutool.v7.core.convert.MatcherConverter;
 
+import java.io.Serial;
 import java.lang.reflect.Type;
 
 /**
@@ -29,12 +30,13 @@ import java.lang.reflect.Type;
  * @author Looly
  */
 public class ClassConverter extends AbstractConverter implements MatcherConverter {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * 单例
 	 */
-	public static ClassConverter INSTANCE = new ClassConverter();
+	public static final ClassConverter INSTANCE = new ClassConverter();
 
 	private final boolean isInitialized;
 

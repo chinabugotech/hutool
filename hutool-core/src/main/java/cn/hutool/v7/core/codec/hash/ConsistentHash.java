@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.core.codec.hash;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.SortedMap;
@@ -30,6 +31,7 @@ import java.util.TreeMap;
  * @author Looly
  */
 public class ConsistentHash<T> implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

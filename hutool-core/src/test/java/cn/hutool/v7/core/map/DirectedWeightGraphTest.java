@@ -17,6 +17,7 @@
 package cn.hutool.v7.core.map;
 
 import cn.hutool.v7.core.map.multi.DirectedWeightGraph;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -56,16 +57,8 @@ public class DirectedWeightGraphTest {
 
 		graph.removePoint("X");
 
-		System.out.println(graph);
-		Map<String, DirectedWeightGraph.Path<String>> map = null;
-		try {
-			map = graph.bestPathMap("A");
-			map.forEach((k, v) -> {
-				System.out.println(v);
-			});
-		} catch (final DirectedWeightGraph.NegativeRingException e) {
-			e.printStackTrace();
-		}
-
+		Assertions.assertThrows(DirectedWeightGraph.NegativeRingException.class, ()->{
+			graph.bestPathMap("A");
+		});
 	}
 }

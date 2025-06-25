@@ -21,10 +21,7 @@ import cn.hutool.v7.core.io.IoUtil;
 import cn.hutool.v7.extra.template.Template;
 import cn.hutool.v7.extra.template.TemplateException;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.Serializable;
-import java.io.Writer;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.util.Map;
 
@@ -34,6 +31,7 @@ import java.util.Map;
  * @author Looly
  */
 public class FreemarkerTemplate implements Template, Serializable{
+	@Serial
 	private static final long serialVersionUID = -8157926902932567280L;
 
 	freemarker.template.Template rawTemplate;

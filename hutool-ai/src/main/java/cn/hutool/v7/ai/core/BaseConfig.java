@@ -34,7 +34,7 @@ public class BaseConfig implements AIConfig {
 	//具体模型
 	protected volatile String model;
 	//动态扩展字段
-	protected Map<String, Object> additionalConfig = new ConcurrentHashMap<>();
+	protected final Map<String, Object> additionalConfig = new ConcurrentHashMap<>();
 	//连接超时时间
 	protected volatile int timeout = 180000;
 	//读取超时时间

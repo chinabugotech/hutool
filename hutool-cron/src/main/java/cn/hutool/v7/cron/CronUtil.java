@@ -217,6 +217,7 @@ public class CronUtil {
 	 * 验证是否为合法的Cron表达式
 	 *
 	 * @param expression 表达式
+	 * @return 是否为合法Cron表达式
 	 */
 	public static boolean isValidExpression(final String expression) {
 		if (expression == null) {

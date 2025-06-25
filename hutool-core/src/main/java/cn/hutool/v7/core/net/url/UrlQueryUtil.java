@@ -17,7 +17,6 @@
 package cn.hutool.v7.core.net.url;
 
 import cn.hutool.v7.core.convert.ConvertUtil;
-import cn.hutool.v7.core.lang.Console;
 import cn.hutool.v7.core.map.MapUtil;
 import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.core.util.CharsetUtil;

@@ -32,7 +32,7 @@ public class DefaultRegexDateParser implements PredicateDateParser {
 	/**
 	 * 默认实例
 	 */
-	public static DefaultRegexDateParser INSTANCE = new DefaultRegexDateParser();
+	public static final DefaultRegexDateParser INSTANCE = new DefaultRegexDateParser();
 
 	private final RegexDateParser parser;
 

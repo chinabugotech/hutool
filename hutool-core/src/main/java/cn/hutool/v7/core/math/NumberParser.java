@@ -17,7 +17,6 @@
 package cn.hutool.v7.core.math;
 
 import cn.hutool.v7.core.array.ArrayUtil;
-import cn.hutool.v7.core.lang.Console;
 import cn.hutool.v7.core.text.CharUtil;
 import cn.hutool.v7.core.text.StrUtil;
 

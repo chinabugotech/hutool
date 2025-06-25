@@ -563,7 +563,7 @@ public class BeanUtilTest {
 			this.openid = openid;
 		}
 
-		public String name;
+		public final String name;
 		public int age;
 		public String openid;
 	}

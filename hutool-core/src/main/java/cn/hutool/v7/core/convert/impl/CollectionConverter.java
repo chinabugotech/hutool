@@ -21,6 +21,7 @@ import cn.hutool.v7.core.convert.MatcherConverter;
 import cn.hutool.v7.core.reflect.TypeReference;
 import cn.hutool.v7.core.reflect.TypeUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.Collection;
@@ -32,12 +33,13 @@ import java.util.Collection;
  * @since 3.0.8
  */
 public class CollectionConverter implements MatcherConverter, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * 单例实体
 	 */
-	public static CollectionConverter INSTANCE = new CollectionConverter();
+	public static final CollectionConverter INSTANCE = new CollectionConverter();
 
 	@Override
 	public boolean match(final Type targetType, final Class<?> rawType, final Object value) {

@@ -16,14 +16,14 @@
 
 package cn.hutool.v7.core.func;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.SneakyThrows;
 import cn.hutool.v7.core.collection.ListUtil;
 import cn.hutool.v7.core.exception.ExceptionUtil;
 import cn.hutool.v7.core.reflect.ConstructorUtil;
 import cn.hutool.v7.core.reflect.lookup.LookupUtil;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.SneakyThrows;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -73,7 +73,7 @@ public class LambdaFactoryTest {
 		final BiConsumer<Something, String> set = LambdaFactory.build(BiConsumer.class, Something.class, "setName", String.class);
 		set.accept(something, name);
 
-		Assertions.assertEquals(something.getName(), name);
+		Assertions.assertEquals(name, something.getName());
 	}
 
 	@Data
@@ -87,7 +87,6 @@ public class LambdaFactoryTest {
 	 *
 	 * @author nasodaengineer
 	 */
-	@Disabled
 	public static class PerformanceTest {
 
 		public int count;

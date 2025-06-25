@@ -34,7 +34,7 @@ public class DelVisitor extends SimpleFileVisitor<Path> {
 	/**
 	 * 单例对象
 	 */
-	public static DelVisitor INSTANCE = new DelVisitor();
+	public static final DelVisitor INSTANCE = new DelVisitor();
 
 	@Override
 	public FileVisitResult visitFile(final Path file, final BasicFileAttributes attrs) throws IOException {

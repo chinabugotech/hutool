@@ -35,7 +35,7 @@ public class BlobStringer implements Function<Object, String> {
 	/**
 	 * 单例
 	 */
-	public static ClobStringer INSTANCE = new ClobStringer();
+	public static final ClobStringer INSTANCE = new ClobStringer();
 
 
 	@Override

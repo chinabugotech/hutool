@@ -107,68 +107,164 @@ public class CpuInfo {
 		this.cpuModel = cpuModel;
 	}
 
+	/**
+	 * 获取CPU核心数
+	 *
+	 * @return CPU核心数
+	 */
 	public Integer getCpuNum() {
 		return cpuNum;
 	}
 
-	public void setCpuNum(final Integer cpuNum) {
+	/**
+	 * 设置CPU核心数
+	 *
+	 * @param cpuNum CPU核心数
+	 * @return this
+	 */
+	public CpuInfo setCpuNum(final Integer cpuNum) {
 		this.cpuNum = cpuNum;
+		return this;
 	}
 
+	/**
+	 * 获取CPU总使用率
+	 *
+	 * @return CPU总使用率
+	 */
 	public double getToTal() {
 		return toTal;
 	}
 
-	public void setToTal(final double toTal) {
+	/**
+	 * 设置CPU总使用率
+	 *
+	 * @param toTal CPU总使用率
+	 * @return this
+	 */
+	public CpuInfo setToTal(final double toTal) {
 		this.toTal = toTal;
+		return this;
 	}
 
+	/**
+	 * 获取CPU系统使用率
+	 *
+	 * @return CPU系统使用率
+	 */
 	public double getSys() {
 		return sys;
 	}
 
-	public void setSys(final double sys) {
+	/**
+	 * 设置CPU系统使用率
+	 *
+	 * @param sys CPU系统使用率
+	 * @return this
+	 */
+	public CpuInfo setSys(final double sys) {
 		this.sys = sys;
+		return this;
 	}
 
+	/**
+	 * 获取CPU用户使用率
+	 *
+	 * @return CPU用户使用率
+	 */
 	public double getUser() {
 		return user;
 	}
 
-	public void setUser(final double user) {
+	/**
+	 * 设置CPU用户使用率
+	 *
+	 * @param user CPU用户使用率
+	 * @return this
+	 */
+	public CpuInfo setUser(final double user) {
 		this.user = user;
+		return this;
 	}
 
+	/**
+	 * 获取CPU当前等待率
+	 *
+	 * @return CPU当前等待率
+	 */
 	public double getWait() {
 		return wait;
 	}
 
-	public void setWait(final double wait) {
+	/**
+	 * 设置CPU当前等待率
+	 *
+	 * @param wait CPU当前等待率
+	 * @return this
+	 */
+	public CpuInfo setWait(final double wait) {
 		this.wait = wait;
+		return this;
 	}
 
+	/**
+	 * 获取CPU当前空闲率
+	 *
+	 * @return CPU当前空闲率
+	 */
 	public double getFree() {
 		return free;
 	}
 
-	public void setFree(final double free) {
+	/**
+	 * 设置CPU当前空闲率
+	 *
+	 * @param free CPU当前空闲率
+	 * @return this
+	 */
+	public CpuInfo setFree(final double free) {
 		this.free = free;
+		return this;
 	}
 
+	/**
+	 * 获取CPU型号信息
+	 *
+	 * @return CPU型号信息
+	 */
 	public String getCpuModel() {
 		return cpuModel;
 	}
 
-	public void setCpuModel(final String cpuModel) {
+	/**
+	 * 设置CPU型号信息
+	 *
+	 * @param cpuModel CPU型号信息
+	 * @return this
+	 */
+	public CpuInfo setCpuModel(final String cpuModel) {
 		this.cpuModel = cpuModel;
+		return this;
 	}
 
+	/**
+	 * 获取CPU ticks
+	 *
+	 * @return CPU ticks
+	 */
 	public CpuTicks getTicks() {
 		return ticks;
 	}
 
-	public void setTicks(final CpuTicks ticks) {
+	/**
+	 * 设置CPU ticks
+	 *
+	 * @param ticks CPU ticks
+	 * @return this
+	 */
+	public CpuInfo setTicks(final CpuTicks ticks) {
 		this.ticks = ticks;
+		return this;
 	}
 
 	/**
@@ -183,15 +279,15 @@ public class CpuInfo {
 	@Override
 	public String toString() {
 		return "CpuInfo{" +
-				"CPU核心数=" + cpuNum +
-				", CPU总的使用率=" + toTal +
-				", CPU系统使用率=" + sys +
-				", CPU用户使用率=" + user +
-				", CPU当前等待率=" + wait +
-				", CPU当前空闲率=" + free +
-				", CPU利用率=" + getUsed() +
-				", CPU型号信息='" + cpuModel + '\'' +
-				'}';
+			"CPU核心数=" + cpuNum +
+			", CPU总的使用率=" + toTal +
+			", CPU系统使用率=" + sys +
+			", CPU用户使用率=" + user +
+			", CPU当前等待率=" + wait +
+			", CPU当前空闲率=" + free +
+			", CPU利用率=" + getUsed() +
+			", CPU型号信息='" + cpuModel + '\'' +
+			'}';
 	}
 
 	/**

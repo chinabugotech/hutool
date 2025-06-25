@@ -18,6 +18,7 @@ package cn.hutool.v7.db.meta;
 
 import cn.hutool.v7.db.DbException;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -29,6 +30,7 @@ import java.sql.SQLException;
  * @since 5.7.23
  */
 public class ColumnIndex implements Serializable, Cloneable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -67,20 +69,44 @@ public class ColumnIndex implements Serializable, Cloneable {
 		this.ascOrDesc = ascOrDesc;
 	}
 
+	/**
+	 * 获取索引列名
+	 *
+	 * @return 索引列名
+	 */
 	public String getColumnName() {
 		return columnName;
 	}
 
-	public void setColumnName(final String columnName) {
+	/**
+	 * 设置索引列名
+	 *
+	 * @param columnName 索引列名
+	 * @return this
+	 */
+	public ColumnIndex setColumnName(final String columnName) {
 		this.columnName = columnName;
+		return this;
 	}
 
+	/**
+	 * 获取索引列排序顺序
+	 *
+	 * @return 索引列排序顺序
+	 */
 	public String getAscOrDesc() {
 		return ascOrDesc;
 	}
 
-	public void setAscOrDesc(final String ascOrDesc) {
+	/**
+	 * 设置索引列排序顺序
+	 *
+	 * @param ascOrDesc 索引列排序顺序
+	 * @return this
+	 */
+	public ColumnIndex setAscOrDesc(final String ascOrDesc) {
 		this.ascOrDesc = ascOrDesc;
+		return this;
 	}
 
 	@Override

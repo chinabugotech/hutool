@@ -48,7 +48,7 @@ public class CacheObj<K, V> implements Serializable {
 	/**
 	 * 访问次数
 	 */
-	protected AtomicLong accessCount = new AtomicLong();
+	protected final AtomicLong accessCount = new AtomicLong();
 	/**
 	 * 对象存活时长，0表示永久存活
 	 */

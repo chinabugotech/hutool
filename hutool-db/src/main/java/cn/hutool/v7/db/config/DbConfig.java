@@ -16,7 +16,6 @@
 
 package cn.hutool.v7.db.config;
 
-import cn.hutool.v7.db.Db;
 import cn.hutool.v7.db.dialect.Dialect;
 import cn.hutool.v7.db.driver.DriverUtil;
 import cn.hutool.v7.db.ds.DSFactory;

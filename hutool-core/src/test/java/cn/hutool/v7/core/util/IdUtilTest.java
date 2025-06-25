@@ -17,13 +17,12 @@
 package cn.hutool.v7.core.util;
 
 import cn.hutool.v7.core.collection.set.ConcurrentHashSet;
-import cn.hutool.v7.core.data.id.UUID;
+import cn.hutool.v7.core.data.id.IdUtil;
+import cn.hutool.v7.core.data.id.Snowflake;
 import cn.hutool.v7.core.date.DateUtil;
 import cn.hutool.v7.core.date.StopWatch;
 import cn.hutool.v7.core.exception.HutoolException;
 import cn.hutool.v7.core.lang.Console;
-import cn.hutool.v7.core.data.id.IdUtil;
-import cn.hutool.v7.core.data.id.Snowflake;
 import cn.hutool.v7.core.thread.ThreadUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
@@ -35,7 +34,6 @@ import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * {@link IdUtil} 单元测试
@@ -47,19 +45,19 @@ public class IdUtilTest {
 	@Test
 	public void randomUUIDTest() {
 		final String simpleUUID = IdUtil.simpleUUID();
-		Assertions.assertEquals(32, simpleUUID.length());
+		assertEquals(32, simpleUUID.length());
 
 		final String randomUUID = IdUtil.randomUUID();
-		Assertions.assertEquals(36, randomUUID.length());
+		assertEquals(36, randomUUID.length());
 	}
 
 	@Test
 	public void fastUUIDTest() {
 		final String simpleUUID = IdUtil.fastSimpleUUID();
-		Assertions.assertEquals(32, simpleUUID.length());
+		assertEquals(32, simpleUUID.length());
 
 		final String randomUUID = IdUtil.fastUUID();
-		Assertions.assertEquals(36, randomUUID.length());
+		assertEquals(36, randomUUID.length());
 	}
 
 	/**
@@ -88,14 +86,14 @@ public class IdUtilTest {
 	@Test
 	public void objectIdTest() {
 		final String id = IdUtil.objectId();
-		Assertions.assertEquals(24, id.length());
+		assertEquals(24, id.length());
 	}
 
 	@Test
 	public void getSnowflakeTest() {
 		final Snowflake snowflake = IdUtil.getSnowflake(1, 1);
 		final long id = snowflake.next();
-		Assertions.assertTrue(id > 0);
+		assertTrue(id > 0);
 	}
 
 	@Test
@@ -126,7 +124,7 @@ public class IdUtilTest {
 		} catch (final InterruptedException e) {
 			throw new HutoolException(e);
 		}
-		Assertions.assertEquals(threadCount * idCountPerThread, set.size());
+		assertEquals(threadCount * idCountPerThread, set.size());
 	}
 
 	@Test
@@ -156,14 +154,14 @@ public class IdUtilTest {
 		} catch (final InterruptedException e) {
 			throw new HutoolException(e);
 		}
-		Assertions.assertEquals(threadCount * idCountPerThread, set.size());
+		assertEquals(threadCount * idCountPerThread, set.size());
 	}
 
 	@Test
 	public void getDataCenterIdTest() {
 		//按照mac地址算法拼接的算法，maxDatacenterId应该是0xffffffffL>>6-1此处暂时按照0x7fffffffffffffffL-1，防止最后取模溢出
 		final long dataCenterId = IdUtil.getDataCenterId(Long.MAX_VALUE);
-		Assertions.assertTrue(dataCenterId >= 0);
+		assertTrue(dataCenterId >= 0);
 	}
 
 

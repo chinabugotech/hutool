@@ -36,7 +36,7 @@ public class CityHash implements Hash32<byte[]>, Hash64<byte[]>, Hash128<byte[]>
 	/**
 	 * 单例
 	 */
-	public static CityHash INSTANCE = new CityHash();
+	public static final CityHash INSTANCE = new CityHash();
 
 	// Some primes between 2^63 and 2^64 for various uses.
 	private static final long k0 = 0xc3a5c85c97cb3127L;

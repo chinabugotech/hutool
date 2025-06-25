@@ -35,6 +35,7 @@ import java.util.Map;
  * @since 5.7.23
  */
 public class AnnotationProxy<T extends Annotation> implements Annotation, InvocationHandler, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

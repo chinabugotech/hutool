@@ -17,10 +17,10 @@
 package cn.hutool.v7.cron;
 
 import cn.hutool.v7.core.date.DateUnit;
-import cn.hutool.v7.core.lang.Console;
 import cn.hutool.v7.core.thread.ThreadUtil;
 import cn.hutool.v7.log.Log;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -30,6 +30,7 @@ import java.io.Serializable;
  *
  */
 public class CronTimer extends Thread implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private static final Log log = Log.get();

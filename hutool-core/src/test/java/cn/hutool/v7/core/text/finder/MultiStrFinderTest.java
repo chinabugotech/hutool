@@ -16,7 +16,6 @@
 
 package cn.hutool.v7.core.text.finder;
 
-import cn.hutool.v7.core.lang.Console;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

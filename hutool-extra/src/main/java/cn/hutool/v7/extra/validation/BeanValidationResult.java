@@ -112,37 +112,73 @@ public class BeanValidationResult {
 		 */
 		private Object value;
 
+		/**
+		 * 获取属性字段名称
+		 *
+		 * @return 属性字段名称
+		 */
 		public String getPropertyName() {
 			return propertyName;
 		}
 
-		public void setPropertyName(final String propertyName) {
+		/**
+		 * 设置属性字段名称
+		 *
+		 * @param propertyName 属性字段名称
+		 * @return this
+		 */
+		public ErrorMessage setPropertyName(final String propertyName) {
 			this.propertyName = propertyName;
+			return this;
 		}
 
+		/**
+		 * 获取错误信息
+		 *
+		 * @return 错误信息
+		 */
 		public String getMessage() {
 			return message;
 		}
 
-		public void setMessage(final String message) {
+		/**
+		 * 设置错误信息
+		 *
+		 * @param message 错误信息
+		 * @return this
+		 */
+		public ErrorMessage setMessage(final String message) {
 			this.message = message;
+			return this;
 		}
 
+		/**
+		 * 获取错误值
+		 *
+		 * @return 错误值
+		 */
 		public Object getValue() {
 			return value;
 		}
 
-		public void setValue(final Object value) {
+		/**
+		 * 设置错误值
+		 *
+		 * @param value 错误值
+		 * @return this
+		 */
+		public ErrorMessage setValue(final Object value) {
 			this.value = value;
+			return this;
 		}
 
 		@Override
 		public String toString() {
 			return "ErrorMessage{" +
-					"propertyName='" + propertyName + '\'' +
-					", message='" + message + '\'' +
-					", value=" + value +
-					'}';
+				"propertyName='" + propertyName + '\'' +
+				", message='" + message + '\'' +
+				", value=" + value +
+				'}';
 		}
 	}
 }

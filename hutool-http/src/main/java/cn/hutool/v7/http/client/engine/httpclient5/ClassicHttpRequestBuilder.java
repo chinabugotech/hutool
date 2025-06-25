@@ -44,7 +44,7 @@ public class ClassicHttpRequestBuilder implements EngineRequestBuilder<ClassicHt
 	/**
 	 * 单例
 	 */
-	public static ClassicHttpRequestBuilder INSTANCE = new ClassicHttpRequestBuilder();
+	public static final ClassicHttpRequestBuilder INSTANCE = new ClassicHttpRequestBuilder();
 
 	@Override
 	public ClassicHttpRequest build(final Request message) {

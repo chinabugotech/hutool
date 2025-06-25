@@ -29,6 +29,7 @@ import cn.hutool.v7.core.reflect.ConstructorUtil;
 import cn.hutool.v7.core.reflect.TypeUtil;
 import cn.hutool.v7.core.text.StrUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.Map;
@@ -45,12 +46,13 @@ import java.util.Map;
  * @since 4.0.2
  */
 public class BeanConverter implements Converter, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * 单例对象
 	 */
-	public static BeanConverter INSTANCE = new BeanConverter();
+	public static final BeanConverter INSTANCE = new BeanConverter();
 
 	private final CopyOptions copyOptions;
 

@@ -38,7 +38,7 @@ public class DriverIdentifier implements DriverNames {
 	/**
 	 * 单例驱动识别器
 	 */
-	public static DriverIdentifier INSTANCE = new DriverIdentifier(null);
+	public static final DriverIdentifier INSTANCE = new DriverIdentifier(null);
 
 	private final List<DriverMatcher> matcherList;
 

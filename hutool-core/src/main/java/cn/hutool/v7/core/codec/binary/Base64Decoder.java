@@ -20,6 +20,7 @@ import cn.hutool.v7.core.codec.Decoder;
 import cn.hutool.v7.core.lang.mutable.MutableInt;
 import cn.hutool.v7.core.array.ArrayUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -31,12 +32,13 @@ import java.io.Serializable;
  *
  */
 public class Base64Decoder implements Decoder<byte[], byte[]>, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * 单例对象
 	 */
-	public static Base64Decoder INSTANCE = new Base64Decoder();
+	public static final Base64Decoder INSTANCE = new Base64Decoder();
 
 	private static final byte PADDING = -2;
 

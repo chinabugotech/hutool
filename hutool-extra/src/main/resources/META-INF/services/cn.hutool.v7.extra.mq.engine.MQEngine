@@ -16,4 +16,4 @@
 
 cn.hutool.v7.extra.mq.engine.kafka.KafkaEngine
 cn.hutool.v7.extra.mq.engine.rabbitmq.RabbitMQEngine
-cn.hutool.v7.extra.mq.engine.activemq.ActiveMQ5Engine
+cn.hutool.v7.extra.mq.engine.rocketmq.RocketMQEngine
