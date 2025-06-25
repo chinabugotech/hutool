@@ -26,27 +26,35 @@ import org.tinylog.format.MessageFormatter;
 import org.tinylog.provider.LoggingProvider;
 import org.tinylog.provider.ProviderRegistry;
 
+import java.io.Serial;
+
 /**
  * <a href="http://www.tinylog.org/">tinylog</a> log.<br>
  *
  * @author Looly
  */
 public class TinyLog extends AbstractLog {
+	@Serial
 	private static final long serialVersionUID = -4848042277045993735L;
 
 	/**
 	 * 堆栈增加层数，因为封装因此多了两层，此值用于正确获取当前类名
 	 */
 	private static final int DEPTH = 4;
-
-	private final int level;
-	private final String name;
 	private static final LoggingProvider provider = ProviderRegistry.getLoggingProvider();
-
 	private static final MessageFormatter formatter = new AdvancedMessageFormatter(
 		Configuration.getLocale(),
 		Configuration.isEscapingEnabled()
 	);
+
+	/**
+	 * 日志级别
+	 */
+	private final int level;
+	/**
+	 * 日志名
+	 */
+	private final String name;
 
 	/**
 	 * 构造

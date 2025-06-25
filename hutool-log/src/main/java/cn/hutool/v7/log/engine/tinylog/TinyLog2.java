@@ -26,28 +26,35 @@ import org.tinylog.format.MessageFormatter;
 import org.tinylog.provider.LoggingProvider;
 import org.tinylog.provider.ProviderRegistry;
 
+import java.io.Serial;
+
 /**
  * <a href="http://www.tinylog.org/">tinylog</a> log.<br>
  *
  * @author Looly
  */
 public class TinyLog2 extends AbstractLog {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * 堆栈增加层数，因为封装因此多了两层，此值用于正确获取当前类名
 	 */
 	private static final int DEPTH = 5;
-
-	private final int level;
-	private final String name;
 	private static final LoggingProvider provider = ProviderRegistry.getLoggingProvider();
-	// ------------------------------------------------------------------------- Constructor
-
 	private static final MessageFormatter formatter = new AdvancedMessageFormatter(
-			Configuration.getLocale(),
-			Configuration.isEscapingEnabled()
+		Configuration.getLocale(),
+		Configuration.isEscapingEnabled()
 	);
+
+	/**
+	 * 日志级别
+	 */
+	private final int level;
+	/**
+	 * 日志名称
+	 */
+	private final String name;
 
 	/**
 	 * 构造
@@ -165,30 +172,15 @@ public class TinyLog2 extends AbstractLog {
 	 * @since 4.0.3
 	 */
 	private Level toTinyLevel(final cn.hutool.v7.log.level.Level level) {
-		final Level tinyLevel;
-		switch (level) {
-			case TRACE:
-				tinyLevel = Level.TRACE;
-				break;
-			case DEBUG:
-				tinyLevel = Level.DEBUG;
-				break;
-			case INFO:
-				tinyLevel = Level.INFO;
-				break;
-			case WARN:
-				tinyLevel = Level.WARN;
-				break;
-			case ERROR:
-				tinyLevel = Level.ERROR;
-				break;
-			case OFF:
-				tinyLevel = Level.OFF;
-				break;
-			default:
-				throw new Error(StrUtil.format("Can not identify level: {}", level));
-		}
-		return tinyLevel;
+		return switch (level) {
+			case TRACE -> Level.TRACE;
+			case DEBUG -> Level.DEBUG;
+			case INFO -> Level.INFO;
+			case WARN -> Level.WARN;
+			case ERROR -> Level.ERROR;
+			case OFF -> Level.OFF;
+			default -> throw new Error(StrUtil.format("Can not identify level: {}", level));
+		};
 	}
 
 	/**

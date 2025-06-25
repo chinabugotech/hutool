@@ -33,6 +33,6 @@ public class IssueI676ITTest {
 		final JSONObject jsonObject = JSONUtil.parseObj(ResourceUtil.readUtf8Str("issueI676IT.json"));
 		final String xmlStr = JSONXMLSerializer.toXml(jsonObject, null, (String) null);
 		final String content = String.valueOf(XPathUtil.getByXPath("/page/orderItems[1]/content", XmlUtil.readXml(xmlStr), XPathConstants.STRING));
-		Assertions.assertEquals(content, "bar1");
+		Assertions.assertEquals("bar1", content);
 	}
 }

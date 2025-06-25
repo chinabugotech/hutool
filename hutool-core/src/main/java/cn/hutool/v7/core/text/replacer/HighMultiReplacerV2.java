@@ -65,12 +65,21 @@ public class HighMultiReplacerV2 extends StrReplacer {
 	 * AC 自动机
 	 */
 	protected static class AhoCorasickAutomaton extends MultiStrFinder{
+		/**
+		 * 替换的字符串Map
+		 */
 		protected final Map<String,String> replaceMap;
 
 		public AhoCorasickAutomaton(final Map<String,String> replaceMap){
 			super(replaceMap.keySet());
 			this.replaceMap = replaceMap;
 		}
+
+		/**
+		 * 替换
+		 * @param text 文本
+		 * @param stringBuilder {@link StringBuilder}
+		 */
 		public void replace(final CharSequence text, final StringBuilder stringBuilder){
 			Node currentNode = root;
 			// 临时字符串存储空间

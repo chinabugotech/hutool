@@ -23,15 +23,24 @@ import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.log.AbstractLog;
 import cn.hutool.v7.log.level.Level;
 
+import java.io.Serial;
+
 /**
  * Apache Commons Logging
  *
  * @author Looly
  */
 public class ApacheCommonsLog extends AbstractLog {
+	@Serial
 	private static final long serialVersionUID = -6843151523380063975L;
 
+	/**
+	 * logger
+	 */
 	private final transient Log logger;
+	/**
+	 * 名称
+	 */
 	private final String name;
 
 	// ------------------------------------------------------------------------- Constructor

@@ -16,36 +16,54 @@
 
 package cn.hutool.v7.log.engine.jdk;
 
+import cn.hutool.v7.core.text.StrUtil;
+import cn.hutool.v7.log.AbstractLog;
+
+import java.io.Serial;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
-
-import cn.hutool.v7.core.text.StrUtil;
-import cn.hutool.v7.log.AbstractLog;
 
 /**
  * <a href="http://java.sun.com/javase/6/docs/technotes/guides/logging/index.html">java.util.logging</a> log.
  *
  * @author Looly
- *
  */
 public class JdkLog extends AbstractLog {
+	@Serial
 	private static final long serialVersionUID = -6843151523380063975L;
 
 	private final transient Logger logger;
 
 	// ------------------------------------------------------------------------- Constructor
+
+	/**
+	 * 构造函数，初始化JdkLog对象
+	 *
+	 * @param logger 日志记录器对象，用于记录日志信息
+	 */
 	public JdkLog(final Logger logger) {
 		this.logger = logger;
 	}
 
+	/**
+	 * 构造函数，通过类对象初始化JdkLog对象
+	 *
+	 * @param clazz 类对象，用于创建日志记录器
+	 */
 	public JdkLog(final Class<?> clazz) {
 		this((null == clazz) ? StrUtil.NULL : clazz.getName());
 	}
 
+	/**
+	 * 构造函数，通过日志记录器名称初始化JdkLog对象
+	 *
+	 * @param name 日志记录器的名称，用于创建日志记录器
+	 */
 	public JdkLog(final String name) {
 		this(Logger.getLogger(name));
 	}
+
 
 	@Override
 	public String getName() {
@@ -110,41 +128,30 @@ public class JdkLog extends AbstractLog {
 	// ------------------------------------------------------------------------- Log
 	@Override
 	public void log(final String fqcn, final cn.hutool.v7.log.level.Level level, final Throwable t, final String format, final Object... arguments) {
-		final Level jdkLevel;
-		switch (level) {
-			case TRACE:
-				jdkLevel = Level.FINEST;
-				break;
-			case DEBUG:
-				jdkLevel = Level.FINE;
-				break;
-			case INFO:
-				jdkLevel = Level.INFO;
-				break;
-			case WARN:
-				jdkLevel = Level.WARNING;
-				break;
-			case ERROR:
-				jdkLevel = Level.SEVERE;
-				break;
-			default:
-				throw new Error(StrUtil.format("Can not identify level: {}", level));
-		}
+		final Level jdkLevel = switch (level) {
+			case TRACE -> Level.FINEST;
+			case DEBUG -> Level.FINE;
+			case INFO -> Level.INFO;
+			case WARN -> Level.WARNING;
+			case ERROR -> Level.SEVERE;
+			default -> throw new Error(StrUtil.format("Can not identify level: {}", level));
+		};
 		logIfEnabled(fqcn, jdkLevel, t, format, arguments);
 	}
 
 	// ------------------------------------------------------------------------- Private method
+
 	/**
 	 * 打印对应等级的日志
 	 *
 	 * @param callerFQCN 调用者的完全限定类名(Fully Qualified Class Name)
-	 * @param level 等级
-	 * @param throwable 异常对象
-	 * @param format 消息模板
-	 * @param arguments 参数
+	 * @param level      等级
+	 * @param throwable  异常对象
+	 * @param format     消息模板
+	 * @param arguments  参数
 	 */
-	private void logIfEnabled(final String callerFQCN, final Level level, final Throwable throwable, final String format, final Object[] arguments){
-		if(logger.isLoggable(level)){
+	private void logIfEnabled(final String callerFQCN, final Level level, final Throwable throwable, final String format, final Object[] arguments) {
+		if (logger.isLoggable(level)) {
 			final LogRecord record = new LogRecord(level, StrUtil.format(format, arguments));
 			record.setLoggerName(getName());
 			record.setThrown(throwable);
@@ -155,15 +162,16 @@ public class JdkLog extends AbstractLog {
 
 	/**
 	 * 传入调用日志类的信息
+	 *
 	 * @param callerFQCN 调用者全限定类名
-	 * @param record The record to update
+	 * @param record     The record to update
 	 */
 	private static void fillCallerData(final String callerFQCN, final LogRecord record) {
 		final StackTraceElement[] steArray = Thread.currentThread().getStackTrace();
 
 		int found = -1;
 		String className;
-		for (int i = steArray.length -2; i > -1; i--) {
+		for (int i = steArray.length - 2; i > -1; i--) {
 			// 此处初始值为length-2，表示从倒数第二个堆栈开始检查，如果是倒数第一个，那调用者就获取不到
 			className = steArray[i].getClassName();
 			if (callerFQCN.equals(className)) {
@@ -173,7 +181,7 @@ public class JdkLog extends AbstractLog {
 		}
 
 		if (found > -1) {
-			final StackTraceElement ste = steArray[found+1];
+			final StackTraceElement ste = steArray[found + 1];
 			record.setSourceClassName(ste.getClassName());
 			record.setSourceMethodName(ste.getMethodName());
 		}

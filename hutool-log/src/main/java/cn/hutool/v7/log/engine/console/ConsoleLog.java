@@ -24,17 +24,23 @@ import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.log.AbstractLog;
 import cn.hutool.v7.log.level.Level;
 
+import java.io.Serial;
+
 /**
  * 利用System.out.println()打印日志
  *
  * @author Looly
  */
 public class ConsoleLog extends AbstractLog {
+	@Serial
 	private static final long serialVersionUID = -6843151523380063975L;
 
 	private static final String logFormat = "[{date}] [{level}] {name}: {msg}";
 	private static Level currentLevel = Level.DEBUG;
 
+	/**
+	 * 日志名
+	 */
 	private final String name;
 
 	//------------------------------------------------------------------------- Constructor

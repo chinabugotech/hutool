@@ -22,6 +22,8 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.Serial;
+
 /**
  * <a href="http://logging.apache.org/log4j/1.2/index.html">Apache Log4J</a> log.<br>
  *
@@ -29,8 +31,12 @@ import org.apache.logging.log4j.Logger;
  *
  */
 public class Log4jLog extends AbstractLog {
+	@Serial
 	private static final long serialVersionUID = -6843151523380063975L;
 
+	/**
+	 * Log4j的日志实现
+	 */
 	private final Logger logger;
 
 	// ------------------------------------------------------------------------- Constructor
