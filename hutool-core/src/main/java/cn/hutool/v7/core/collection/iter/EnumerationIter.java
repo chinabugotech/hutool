@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.core.collection.iter;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Enumeration;
 import java.util.Iterator;
@@ -28,8 +29,12 @@ import java.util.Iterator;
  * @since 4.1.1
  */
 public class EnumerationIter<E> implements IterableIter<E>, Serializable{
+	@Serial
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * {@link Enumeration}
+	 */
 	private final Enumeration<E> e;
 
 	/**

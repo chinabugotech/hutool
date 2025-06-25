@@ -24,10 +24,7 @@ import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.core.array.ArrayUtil;
 import cn.hutool.v7.core.text.CharUtil;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.Serializable;
+import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.util.BitSet;
@@ -52,6 +49,7 @@ import java.util.BitSet;
  * @since 5.7.16
  */
 public class PercentCodec implements Encoder<byte[], byte[]>, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private static final char DEFAULT_SIZE = 256;
@@ -185,6 +183,7 @@ public class PercentCodec implements Encoder<byte[], byte[]>, Serializable {
 	 * @since 6.0.0
 	 */
 	public static class Builder implements cn.hutool.v7.core.lang.builder.Builder<PercentCodec> {
+		@Serial
 		private static final long serialVersionUID = 1L;
 
 		/**
@@ -213,8 +212,15 @@ public class PercentCodec implements Encoder<byte[], byte[]>, Serializable {
 			return builder;
 		}
 
+		/**
+		 * 编码器
+		 */
 		private final PercentCodec codec;
 
+		/**
+		 * 构造
+		 * @param codec 编码器
+		 */
 		private Builder(final PercentCodec codec) {
 			this.codec = codec;
 		}

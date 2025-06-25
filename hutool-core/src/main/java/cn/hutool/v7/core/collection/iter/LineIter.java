@@ -20,12 +20,7 @@ import cn.hutool.v7.core.io.IORuntimeException;
 import cn.hutool.v7.core.io.IoUtil;
 import cn.hutool.v7.core.lang.Assert;
 
-import java.io.BufferedReader;
-import java.io.Closeable;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Reader;
-import java.io.Serializable;
+import java.io.*;
 import java.nio.charset.Charset;
 
 /**
@@ -51,8 +46,12 @@ import java.nio.charset.Charset;
  * @since 4.1.1
  */
 public class LineIter extends ComputeIter<String> implements IterableIter<String>, Closeable, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * {@link BufferedReader}
+	 */
 	private final BufferedReader bufferedReader;
 
 	/**

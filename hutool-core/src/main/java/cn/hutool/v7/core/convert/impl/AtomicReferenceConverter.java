@@ -20,6 +20,7 @@ import cn.hutool.v7.core.convert.AbstractConverter;
 import cn.hutool.v7.core.convert.Converter;
 import cn.hutool.v7.core.reflect.TypeUtil;
 
+import java.io.Serial;
 import java.lang.reflect.Type;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -30,8 +31,12 @@ import java.util.concurrent.atomic.AtomicReference;
  * @since 3.0.8
  */
 public class AtomicReferenceConverter extends AbstractConverter {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * 转换器
+	 */
 	private final Converter converter;
 
 	/**

@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.core.cache.impl;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Iterator;
 
@@ -26,8 +27,12 @@ import java.util.Iterator;
  * @param <V> 迭代对象类型
  */
 public class CacheValuesIterator<V> implements Iterator<V>, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * 缓存对象迭代器
+	 */
 	private final CacheObjIterator<?, V> cacheObjIter;
 
 	/**

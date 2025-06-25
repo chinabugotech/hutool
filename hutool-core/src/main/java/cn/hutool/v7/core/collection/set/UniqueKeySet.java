@@ -19,6 +19,7 @@ package cn.hutool.v7.core.collection.set;
 import cn.hutool.v7.core.map.MapBuilder;
 import cn.hutool.v7.core.util.ObjUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.AbstractSet;
 import java.util.Collection;
@@ -42,9 +43,16 @@ import java.util.function.Function;
  * @since 5.7.23
  */
 public class UniqueKeySet<K, V> extends AbstractSet<V> implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * map
+	 */
 	private Map<K, V> map;
+	/**
+	 * 唯一键生成规则函数，用于生成对象对应的唯一键
+	 */
 	private final Function<V, K> uniqueGenerator;
 
 	//region 构造

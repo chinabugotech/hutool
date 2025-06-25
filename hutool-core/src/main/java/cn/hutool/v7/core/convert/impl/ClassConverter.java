@@ -38,6 +38,9 @@ public class ClassConverter extends AbstractConverter implements MatcherConverte
 	 */
 	public static final ClassConverter INSTANCE = new ClassConverter();
 
+	/**
+	 * 是否初始化这个类（执行static块）
+	 */
 	private final boolean isInitialized;
 
 	/**

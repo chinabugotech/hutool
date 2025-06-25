@@ -49,7 +49,9 @@ public class MultiStrFinder {
 	 * 根节点
 	 */
 	protected final Node root;
-	// 全部节点数量
+	/**
+	 * 全部节点数量
+	 */
 	int nodeSize;
 
 	/**
@@ -188,15 +190,18 @@ public class MultiStrFinder {
 	 * AC 自动机节点
 	 */
 	protected static class Node {
-		// 是否是字符串 尾节点
+		/**
+		 * 是否是字符串 尾节点
+		 */
 		public boolean isEnd = false;
-
-		// 如果当前节点是尾节点 那么表示 匹配到的字符串 	其他情况下 null
+		/**
+		 * 如果当前节点是尾节点 那么表示 匹配到的字符串 	其他情况下 null
+		 */
 		public String tagetString;
-
-		//失效节点
+		/**
+		 * 失效节点
+		 */
 		public Node fail;
-
 		/**
 		 * 直接路由表
 		 * 减少挑 fail过程 使用数组 + charIndex 希望库减少 hash复杂度和内存空间
@@ -204,16 +209,22 @@ public class MultiStrFinder {
 		 * directRouter 大小为 全部字符数量
 		 */
 		public Node[] directRouter;
-
-		// 节点编号 root 为 0
+		/**
+		 * 节点编号 root 为 0
+		 */
 		public int nodeIndex;
-
-		// 值
+		/**
+		 * 值
+		 */
 		public char value;
-
-		// fail指针来源
+		/**
+		 * fail指针来源
+		 */
 		public List<Node> failPre = new ArrayList<>();
 
+		/**
+		 * 构造
+		 */
 		public Node() {
 		}
 

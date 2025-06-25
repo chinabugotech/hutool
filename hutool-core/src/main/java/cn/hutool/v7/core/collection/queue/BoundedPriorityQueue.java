@@ -18,6 +18,7 @@ package cn.hutool.v7.core.collection.queue;
 
 import cn.hutool.v7.core.collection.BoundedCollection;
 
+import java.io.Serial;
 import java.util.*;
 
 /**
@@ -28,10 +29,16 @@ import java.util.*;
  * @param <E> 成员类型
  */
 public class BoundedPriorityQueue<E> extends PriorityQueue<E> implements BoundedCollection<E> {
+	@Serial
 	private static final long serialVersionUID = 3794348988671694820L;
 
-	//容量
+	/**
+	 * 容量
+	 */
 	private final int capacity;
+	/**
+	 * 比较器
+	 */
 	private final Comparator<? super E> comparator;
 
 	/**

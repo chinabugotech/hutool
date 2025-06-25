@@ -23,6 +23,7 @@ import cn.hutool.v7.core.reflect.TypeReference;
 import cn.hutool.v7.core.reflect.TypeUtil;
 import cn.hutool.v7.core.util.ObjUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.Optional;
@@ -38,6 +39,7 @@ import java.util.Optional;
  * @author Looly
  */
 public class CompositeConverter implements Converter, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -64,7 +66,13 @@ public class CompositeConverter implements Converter, Serializable {
 		return SingletonHolder.INSTANCE;
 	}
 
+	/**
+	 * 注册转换器
+	 */
 	private RegisterConverter registerConverter;
+	/**
+	 * 特殊转换器
+	 */
 	private SpecialConverter specialConverter;
 
 	/**

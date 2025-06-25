@@ -22,6 +22,7 @@ import cn.hutool.v7.core.lang.Assert;
 import cn.hutool.v7.core.reflect.TypeUtil;
 import cn.hutool.v7.core.text.StrUtil;
 
+import java.io.Serial;
 import java.lang.ref.Reference;
 import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
@@ -35,8 +36,12 @@ import java.lang.reflect.Type;
  */
 @SuppressWarnings("rawtypes")
 public class ReferenceConverter extends AbstractConverter {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * 构造
+	 */
 	private final Converter rootConverter;
 
 	/**
@@ -55,16 +60,16 @@ public class ReferenceConverter extends AbstractConverter {
 		//尝试将值转换为Reference泛型的类型
 		Object targetValue = null;
 		final Type paramType = TypeUtil.getTypeArgument(targetClass);
-		if(!TypeUtil.isUnknown(paramType)){
+		if (!TypeUtil.isUnknown(paramType)) {
 			targetValue = rootConverter.convert(paramType, value);
 		}
-		if(null == targetValue){
+		if (null == targetValue) {
 			targetValue = value;
 		}
 
-		if(targetClass == WeakReference.class){
+		if (targetClass == WeakReference.class) {
 			return new WeakReference(targetValue);
-		}else if(targetClass == SoftReference.class){
+		} else if (targetClass == SoftReference.class) {
 			return new SoftReference(targetValue);
 		}
 

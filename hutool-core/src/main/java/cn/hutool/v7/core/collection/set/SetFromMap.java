@@ -17,13 +17,9 @@
 package cn.hutool.v7.core.collection.set;
 
 import java.io.IOException;
+import java.io.Serial;
 import java.io.Serializable;
-import java.util.AbstractSet;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-import java.util.Spliterator;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
@@ -35,10 +31,17 @@ import java.util.stream.Stream;
  * @author guava
  */
 public class SetFromMap<E> extends AbstractSet<E> implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
-	private final Map<E, Boolean> m;  // The backing map
-	private transient Set<E> s;       // Its keySet
+	/**
+	 * The backing map
+	 */
+	private final Map<E, Boolean> m;
+	/**
+	 * Its keySet
+	 */
+	private transient Set<E> s;
 
 	/**
 	 * 构造
@@ -152,6 +155,14 @@ public class SetFromMap<E> extends AbstractSet<E> implements Serializable {
 		return s.parallelStream();
 	}
 
+	/**
+	 * 读取对象
+	 *
+	 * @param stream 输入流
+	 * @throws IOException            IO异常
+	 * @throws ClassNotFoundException 类无法找到
+	 */
+	@Serial
 	private void readObject(final java.io.ObjectInputStream stream) throws IOException, ClassNotFoundException {
 		stream.defaultReadObject();
 		s = m.keySet();

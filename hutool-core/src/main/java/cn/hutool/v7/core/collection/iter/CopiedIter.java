@@ -19,6 +19,7 @@ package cn.hutool.v7.core.collection.iter;
 import cn.hutool.v7.core.collection.ListUtil;
 import cn.hutool.v7.core.util.ObjUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.Iterator;
@@ -41,8 +42,12 @@ import java.util.List;
  * @since 3.0.7
  */
 public class CopiedIter<E> implements IterableIter<E>, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * 迭代器
+	 */
 	private final Iterator<E> listIterator;
 
 	/**

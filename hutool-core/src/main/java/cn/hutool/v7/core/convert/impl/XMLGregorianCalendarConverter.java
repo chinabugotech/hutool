@@ -25,6 +25,7 @@ import cn.hutool.v7.core.text.StrUtil;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
+import java.io.Serial;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -33,19 +34,24 @@ import java.util.GregorianCalendar;
  * 日期转换器
  *
  * @author Looly
- *
  */
 public class XMLGregorianCalendarConverter extends AbstractConverter {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
-	/** 日期格式化 */
+	/**
+	 * 日期格式化
+	 */
 	private String format;
+	/**
+	 * {@link DatatypeFactory}
+	 */
 	private final DatatypeFactory datatypeFactory;
 
 	/**
 	 * 构造
 	 */
-	public XMLGregorianCalendarConverter(){
+	public XMLGregorianCalendarConverter() {
 		try {
 			datatypeFactory = DatatypeFactory.newInstance();
 		} catch (final DatatypeConfigurationException e) {
@@ -73,7 +79,7 @@ public class XMLGregorianCalendarConverter extends AbstractConverter {
 
 	@Override
 	protected XMLGregorianCalendar convertInternal(final Class<?> targetClass, final Object value) {
-		if(value instanceof GregorianCalendar){
+		if (value instanceof GregorianCalendar) {
 			return datatypeFactory.newXMLGregorianCalendar((GregorianCalendar) value);
 		}
 
@@ -81,18 +87,18 @@ public class XMLGregorianCalendarConverter extends AbstractConverter {
 		// Handle Date
 		if (value instanceof Date) {
 			gregorianCalendar.setTime((Date) value);
-		} else if(value instanceof Calendar){
+		} else if (value instanceof Calendar) {
 			final Calendar calendar = (Calendar) value;
 			gregorianCalendar.setTimeZone(calendar.getTimeZone());
 			gregorianCalendar.setFirstDayOfWeek(calendar.getFirstDayOfWeek());
 			gregorianCalendar.setLenient(calendar.isLenient());
 			gregorianCalendar.setTimeInMillis(calendar.getTimeInMillis());
-		}else if (value instanceof Long) {
+		} else if (value instanceof Long) {
 			gregorianCalendar.setTimeInMillis((Long) value);
-		} else{
+		} else {
 			final String valueStr = convertToStr(value);
 			final Date date = StrUtil.isBlank(format) ? DateUtil.parse(valueStr) : DateUtil.parse(valueStr, format);
-			if(null == date){
+			if (null == date) {
 				throw new ConvertException("Unsupported date value: " + value);
 			}
 			gregorianCalendar.setTime(date);

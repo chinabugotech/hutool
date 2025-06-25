@@ -22,6 +22,7 @@ import cn.hutool.v7.core.convert.impl.stringer.ClobStringer;
 import cn.hutool.v7.core.map.MapUtil;
 import cn.hutool.v7.core.xml.XmlUtil;
 
+import java.io.Serial;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,8 +35,12 @@ import java.util.function.Function;
  * @author Looly
  */
 public class StringConverter extends AbstractConverter {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * 创建StringConverter
+	 */
 	private Map<Class<?>, Function<Object, String>> stringer;
 
 	/**

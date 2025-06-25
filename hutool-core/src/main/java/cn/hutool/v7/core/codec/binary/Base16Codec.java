@@ -45,6 +45,9 @@ public class Base16Codec implements Encoder<byte[], char[]>, Decoder<CharSequenc
 	 */
 	public static final Base16Codec CODEC_UPPER = new Base16Codec(false);
 
+	/**
+	 * 创建Base16编码器
+	 */
 	private final char[] alphabets;
 
 	/**

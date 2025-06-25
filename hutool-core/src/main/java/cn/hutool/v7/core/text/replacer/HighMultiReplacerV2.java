@@ -70,6 +70,11 @@ public class HighMultiReplacerV2 extends StrReplacer {
 		 */
 		protected final Map<String,String> replaceMap;
 
+		/**
+		 * 构造
+		 *
+		 * @param replaceMap 替换的Map
+		 */
 		public AhoCorasickAutomaton(final Map<String,String> replaceMap){
 			super(replaceMap.keySet());
 			this.replaceMap = replaceMap;

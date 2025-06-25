@@ -54,6 +54,9 @@ public class BeanConverter implements Converter, Serializable {
 	 */
 	public static final BeanConverter INSTANCE = new BeanConverter();
 
+	/**
+	 * 默认转换选项
+	 */
 	private final CopyOptions copyOptions;
 
 	/**
