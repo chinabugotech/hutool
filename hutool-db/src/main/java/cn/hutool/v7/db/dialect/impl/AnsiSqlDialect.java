@@ -30,6 +30,7 @@ import cn.hutool.v7.db.sql.Query;
 import cn.hutool.v7.db.sql.QuoteWrapper;
 import cn.hutool.v7.db.sql.SqlBuilder;
 
+import java.io.Serial;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
@@ -39,9 +40,16 @@ import java.sql.PreparedStatement;
  * @author loolly
  */
 public class AnsiSqlDialect implements Dialect {
+	@Serial
 	private static final long serialVersionUID = 2088101129774974580L;
 
+	/**
+	 * ANSI SQL 方言
+	 */
 	protected DbConfig dbConfig;
+	/**
+	 * 默认的QuoteWrapper
+	 */
 	protected QuoteWrapper quoteWrapper = new QuoteWrapper();
 
 	/**

@@ -27,14 +27,46 @@ import oshi.util.Util;
  */
 public class CpuTicks {
 
+	/**
+	 * 空闲时间，表示CPU没有执行任何任务的时间
+	 */
 	long idle;
+
+	/**
+	 * 优先级较低的进程时间，表示CPU在执行优先级较低的进程时所花费的时间
+	 */
 	long nice;
+
+	/**
+	 * 中断请求时间，表示CPU处理中断请求所花费的时间
+	 */
 	long irq;
+
+	/**
+	 * 软中断请求时间，表示CPU处理软中断请求所花费的时间
+	 */
 	long softIrq;
+
+	/**
+	 * 被虚拟机偷走的时间，表示在虚拟化环境中，CPU被其他虚拟机使用的时间
+	 */
 	long steal;
+
+	/**
+	 * 系统时间，表示CPU在执行操作系统内核指令时所花费的时间
+	 */
 	long cSys;
+
+	/**
+	 * 用户时间，表示CPU在执行用户进程时所花费的时间
+	 */
 	long user;
+
+	/**
+	 * I/O等待时间，表示CPU等待I/O操作完成所花费的时间
+	 */
 	long ioWait;
+
 
 	/**
 	 * 构造，等待时间为用于计算在一定时长内的CPU负载情况，如传入1000表示最近1秒的负载情况
@@ -59,69 +91,166 @@ public class CpuTicks {
 		this.ioWait = tick(prevTicks, ticks, CentralProcessor.TickType.IOWAIT);
 	}
 
+	/**
+	 * 获取CPU空闲时间
+	 *
+	 * @return CPU空闲时间
+	 */
 	public long getIdle() {
 		return idle;
 	}
 
-	public void setIdle(final long idle) {
+	/**
+	 * 设置CPU空闲时间
+	 *
+	 * @param idle CPU空闲时间
+	 * @return 当前对象实例，用于链式调用
+	 */
+	public CpuTicks setIdle(final long idle) {
 		this.idle = idle;
+		return this;
 	}
 
+	/**
+	 * 获取CPU在nice模式下花费的时间
+	 *
+	 * @return CPU在nice模式下花费的时间
+	 */
 	public long getNice() {
 		return nice;
 	}
 
-	public void setNice(final long nice) {
+	/**
+	 * 设置CPU在nice模式下花费的时间
+	 *
+	 * @param nice CPU在nice模式下花费的时间
+	 * @return 当前对象实例，用于链式调用
+	 */
+	public CpuTicks setNice(final long nice) {
 		this.nice = nice;
+		return this;
 	}
 
+	/**
+	 * 获取CPU在处理中断请求上花费的时间
+	 *
+	 * @return CPU在处理中断请求上花费的时间
+	 */
 	public long getIrq() {
 		return irq;
 	}
 
-	public void setIrq(final long irq) {
+	/**
+	 * 设置CPU在处理中断请求上花费的时间
+	 *
+	 * @param irq CPU在处理中断请求上花费的时间
+	 * @return 当前对象实例，用于链式调用
+	 */
+	public CpuTicks setIrq(final long irq) {
 		this.irq = irq;
+		return this;
 	}
 
+	/**
+	 * 获取CPU在处理软中断上花费的时间
+	 *
+	 * @return CPU在处理软中断上花费的时间
+	 */
 	public long getSoftIrq() {
 		return softIrq;
 	}
 
-	public void setSoftIrq(final long softIrq) {
+	/**
+	 * 设置CPU在处理软中断上花费的时间
+	 *
+	 * @param softIrq CPU在处理软中断上花费的时间
+	 * @return 当前对象实例，用于链式调用
+	 */
+	public CpuTicks setSoftIrq(final long softIrq) {
 		this.softIrq = softIrq;
+		return this;
 	}
 
+	/**
+	 * 获取CPU被其他虚拟处理器占用的时间
+	 *
+	 * @return CPU被其他虚拟处理器占用的时间
+	 */
 	public long getSteal() {
 		return steal;
 	}
 
-	public void setSteal(final long steal) {
+	/**
+	 * 设置CPU被其他虚拟处理器占用的时间
+	 *
+	 * @param steal CPU被其他虚拟处理器占用的时间
+	 * @return 当前对象实例，用于链式调用
+	 */
+	public CpuTicks setSteal(final long steal) {
 		this.steal = steal;
+		return this;
 	}
 
+	/**
+	 * 获取CPU在系统模式下花费的时间
+	 *
+	 * @return CPU在系统模式下花费的时间
+	 */
 	public long getcSys() {
 		return cSys;
 	}
 
-	public void setcSys(final long cSys) {
+	/**
+	 * 设置CPU在系统模式下花费的时间
+	 *
+	 * @param cSys CPU在系统模式下花费的时间
+	 * @return 当前对象实例，用于链式调用
+	 */
+	public CpuTicks setcSys(final long cSys) {
 		this.cSys = cSys;
+		return this;
 	}
 
+	/**
+	 * 获取CPU在用户模式下花费的时间
+	 *
+	 * @return CPU在用户模式下花费的时间
+	 */
 	public long getUser() {
 		return user;
 	}
 
-	public void setUser(final long user) {
+	/**
+	 * 设置CPU在用户模式下花费的时间
+	 *
+	 * @param user CPU在用户模式下花费的时间
+	 * @return 当前对象实例，用于链式调用
+	 */
+	public CpuTicks setUser(final long user) {
 		this.user = user;
+		return this;
 	}
 
+	/**
+	 * 获取CPU在等待I/O完成上花费的时间
+	 *
+	 * @return CPU在等待I/O完成上花费的时间
+	 */
 	public long getIoWait() {
 		return ioWait;
 	}
 
-	public void setIoWait(final long ioWait) {
+	/**
+	 * 设置CPU在等待I/O完成上花费的时间
+	 *
+	 * @param ioWait CPU在等待I/O完成上花费的时间
+	 * @return 当前对象实例，用于链式调用
+	 */
+	public CpuTicks setIoWait(final long ioWait) {
 		this.ioWait = ioWait;
+		return this;
 	}
+
 
 	/**
 	 * 获取CPU总的使用率
@@ -135,15 +264,15 @@ public class CpuTicks {
 	@Override
 	public String toString() {
 		return "CpuTicks{" +
-				"idle=" + idle +
-				", nice=" + nice +
-				", irq=" + irq +
-				", softIrq=" + softIrq +
-				", steal=" + steal +
-				", cSys=" + cSys +
-				", user=" + user +
-				", ioWait=" + ioWait +
-				'}';
+			"idle=" + idle +
+			", nice=" + nice +
+			", irq=" + irq +
+			", softIrq=" + softIrq +
+			", steal=" + steal +
+			", cSys=" + cSys +
+			", user=" + user +
+			", ioWait=" + ioWait +
+			'}';
 	}
 
 	/**

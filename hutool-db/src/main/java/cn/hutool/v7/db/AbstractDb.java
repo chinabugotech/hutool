@@ -25,6 +25,7 @@ import cn.hutool.v7.db.sql.*;
 import cn.hutool.v7.db.sql.Condition.LikeType;
 
 import javax.sql.DataSource;
+import java.io.Serial;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -43,13 +44,20 @@ import java.util.Map;
  * @author Looly
  */
 public abstract class AbstractDb<R extends AbstractDb<R>> extends DefaultConnectionHolder implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 3858951941916349062L;
 
 	/**
 	 * 是否支持事务
 	 */
 	protected Boolean isSupportTransaction = null;
+	/**
+	 * 数据库执行器
+	 */
 	protected DialectRunner runner;
+	/**
+	 * 数据库配置
+	 */
 	protected DbConfig dbConfig;
 	/**
 	 * 是否大小写不敏感（默认大小写不敏感）

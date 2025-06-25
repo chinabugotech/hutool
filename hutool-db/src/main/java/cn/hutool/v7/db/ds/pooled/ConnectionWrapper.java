@@ -18,32 +18,21 @@ package cn.hutool.v7.db.ds.pooled;
 
 import cn.hutool.v7.core.lang.wrapper.Wrapper;
 
-import java.sql.Array;
-import java.sql.Blob;
-import java.sql.CallableStatement;
-import java.sql.Clob;
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.NClob;
-import java.sql.PreparedStatement;
-import java.sql.SQLClientInfoException;
-import java.sql.SQLException;
-import java.sql.SQLWarning;
-import java.sql.SQLXML;
-import java.sql.Savepoint;
-import java.sql.Statement;
-import java.sql.Struct;
+import java.sql.*;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Executor;
 
 /**
  * 连接包装，用于丰富功能
- * @author Looly
  *
+ * @author Looly
  */
 public abstract class ConnectionWrapper implements Connection, Wrapper<Connection> {
 
+	/**
+	 * 原始的连接
+	 */
 	protected Connection raw;//真正的连接
 
 	@Override
@@ -307,7 +296,7 @@ public abstract class ConnectionWrapper implements Connection, Wrapper<Connectio
 	}
 
 	@Override
-	public Connection getRaw(){
+	public Connection getRaw() {
 		return this.raw;
 	}
 }

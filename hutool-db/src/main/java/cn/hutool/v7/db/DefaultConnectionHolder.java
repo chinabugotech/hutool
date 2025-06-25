@@ -27,6 +27,9 @@ import java.sql.SQLException;
  */
 public class DefaultConnectionHolder implements ConnectionHolder {
 
+	/**
+	 * 数据源
+	 */
 	protected final DataSource ds;
 
 	/**

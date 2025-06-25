@@ -27,17 +27,29 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class BaseConfig implements AIConfig {
 
-	//apiKey
+	/**
+	 * API Key
+	 */
 	protected volatile String apiKey;
-	//API请求地址
+	/**
+	 * API请求地址
+	 */
 	protected volatile String apiUrl;
-	//具体模型
+	/**
+	 * 模型名称
+	 */
 	protected volatile String model;
-	//动态扩展字段
+	/**
+	 * 额外的配置
+	 */
 	protected final Map<String, Object> additionalConfig = new ConcurrentHashMap<>();
-	//连接超时时间
+	/**
+	 * 请求超时
+	 */
 	protected volatile int timeout = 180000;
-	//读取超时时间
+	/**
+	 * 读取超时
+	 */
 	protected volatile int readTimeout = 300000;
 
 	@Override

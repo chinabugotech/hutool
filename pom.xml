@@ -210,7 +210,7 @@
 					<encoding>UTF-8</encoding>
 					<source>${compile.version}</source>
 					<release>${compile.version}</release>
-					<failOnError>false</failOnError>
+					<failOnError>true</failOnError>
 				</configuration>
 			</plugin>
 			<!-- 统一更新pom版本 -->

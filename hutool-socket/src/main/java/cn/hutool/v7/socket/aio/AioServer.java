@@ -42,7 +42,13 @@ public class AioServer implements Closeable {
 
 	private AsynchronousChannelGroup group;
 	private AsynchronousServerSocketChannel channel;
+	/**
+	 * IO处理
+	 */
 	protected IoAction<ByteBuffer> ioAction;
+	/**
+	 * 配置
+	 */
 	protected final SocketConfig config;
 
 

@@ -29,9 +29,15 @@ import cn.hutool.v7.http.client.cookie.CookieStoreSpi;
  * @author Looly
  * @since 6.0.0
  */
-public abstract class AbstractClientEngine implements ClientEngine{
+public abstract class AbstractClientEngine implements ClientEngine {
 
+	/**
+	 * 配置
+	 */
 	protected ClientConfig config;
+	/**
+	 * Cookie存储器
+	 */
 	protected CookieStoreSpi cookieStore;
 
 	/**

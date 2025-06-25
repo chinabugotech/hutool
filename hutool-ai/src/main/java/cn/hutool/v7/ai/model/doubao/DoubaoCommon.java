@@ -24,70 +24,139 @@ package cn.hutool.v7.ai.model.doubao;
  */
 public class DoubaoCommon {
 
-	//doubao上下文缓存参数
+	/**
+	 * doubao上下文缓存参数
+	 */
 	public enum DoubaoContext {
 
+		/**
+		 * session
+		 */
 		SESSION("session"),
+		/**
+		 * common_prefix
+		 */
 		COMMON_PREFIX("common_prefix");
 
 		private final String mode;
 
-		DoubaoContext(String mode) {
+		DoubaoContext(final String mode) {
 			this.mode = mode;
 		}
 
+		/**
+		 * 获取参数
+		 *
+		 * @return 参数
+		 */
 		public String getMode() {
 			return mode;
 		}
 	}
 
-	//doubao视觉参数
+	/**
+	 * doubao视觉参数
+	 */
 	public enum DoubaoVision {
 
+		/**
+		 * 自动
+		 */
 		AUTO("auto"),
+		/**
+		 * 低
+		 */
 		LOW("low"),
+		/**
+		 * 高
+		 */
 		HIGH("high");
 
 		private final String detail;
 
-		DoubaoVision(String detail) {
+		DoubaoVision(final String detail) {
 			this.detail = detail;
 		}
 
+		/**
+		 * 获取参数
+		 *
+		 * @return 参数
+		 */
 		public String getDetail() {
 			return detail;
 		}
 	}
 
-	//doubao视频生成参数
+	/**
+	 * doubao视频生成参数
+	 */
 	public enum DoubaoVideo {
 
 		//宽高比例
+		/**
+		 * 视频比例16:9，适用于横向宽屏显示，常用作标准视频比例
+		 */
 		RATIO_16_9("--rt", "16:9"),//[1280, 720]
+
+		/**
+		 * 视频比例4:3，传统电视屏幕比例，适用于标准清晰度的视频内容
+		 */
 		RATIO_4_3("--rt", "4:3"),//[960, 720]
+
+		/**
+		 * 视频比例1:1，正方形画面，适用于社交媒体平台上的短视频内容
+		 */
 		RATIO_1_1("--rt", "1:1"),//[720, 720]
+
+		/**
+		 * 视频比例3:4，竖向视频比例，适用于手机端的视频播放场景
+		 */
 		RATIO_3_4("--rt", "3:4"),//[720, 960]
+
+		/**
+		 * 视频比例9:16，常见的竖屏视频比例，广泛用于短视频应用
+		 */
 		RATIO_9_16("--rt", "9:16"),//[720, 1280]
+
+		/**
+		 * 视频比例21:9，超宽屏幕比例，提供更广阔的视野，适合电影和游戏体验
+		 */
 		RATIO_21_9("--rt", "21:9"),//[1280, 544]
 
 		//生成视频时长
-		DURATION_5("--dur", 5),//文生视频，图生视频
-		DURATION_10("--dur", 10),//文生视频
+		/**
+		 * 文生视频，图生视频
+		 */
+		DURATION_5("--dur", 5),
+		/**
+		 * 文生视频
+		 */
+		DURATION_10("--dur", 10),
 
-		//帧率，即一秒时间内视频画面数量
+		/**
+		 * 帧率，即一秒时间内视频画面数量
+		 */
 		FPS_5("--fps", 24),
 
-		//视频分辨率
+		/**
+		 * 视频分辨率
+		 */
 		RESOLUTION_5("--rs", "720p"),
 
-		//生成视频是否包含水印
+		/**
+		 * 生成视频包含水印
+		 */
 		WATERMARK_TRUE("--wm", true),
+		/**
+		 * 生成视频不包含水印
+		 */
 		WATERMARK_FALSE("--wm", false);
 
 		private final String type;
 		private final Object value;
 
-		DoubaoVideo(String type, Object value) {
+		DoubaoVideo(final String type, final Object value) {
 			this.type = type;
 			this.value = value;
 		}

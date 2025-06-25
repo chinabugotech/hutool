@@ -25,12 +25,66 @@ import cn.hutool.v7.core.text.StrUtil;
  * @author Looly
  */
 public enum DialectName {
-	ANSI, MYSQL, ORACLE, POSTGRESQL, SQLITE3, H2, SQLSERVER, SQLSERVER2012, PHOENIX, DM, HANA;
+	/**
+	 * ANSI标准SQL数据库类型，代表使用ANSI SQL标准的数据库系统
+	 */
+	ANSI,
+
+	/**
+	 * MySQL数据库类型，代表MySQL数据库系统
+	 */
+	MYSQL,
+
+	/**
+	 * Oracle数据库类型，代表Oracle数据库系统
+	 */
+	ORACLE,
+
+	/**
+	 * PostgreSQL数据库类型，代表PostgreSQL数据库系统
+	 */
+	POSTGRESQL,
+
+	/**
+	 * SQLite3数据库类型，代表SQLite 3.x版本的轻量级嵌入式数据库
+	 */
+	SQLITE3,
+
+	/**
+	 * H2数据库类型，代表H2内存或磁盘数据库系统
+	 */
+	H2,
+
+	/**
+	 * SQL Server数据库类型，代表Microsoft SQL Server数据库系统
+	 */
+	SQLSERVER,
+
+	/**
+	 * SQL Server 2012数据库类型，代表Microsoft SQL Server 2012版本的数据库系统
+	 */
+	SQLSERVER2012,
+
+	/**
+	 * Phoenix数据库类型，代表Apache Phoenix数据库系统（基于HBase）
+	 */
+	PHOENIX,
+
+	/**
+	 * 达梦数据库类型，代表国产达梦（DM）数据库系统
+	 */
+	DM,
+
+	/**
+	 * SAP HANA数据库类型，代表SAP HANA实时内存数据库系统
+	 */
+	HANA;
+
 
 	/**
 	 * 是否为指定数据库方言，检查时不分区大小写
 	 *
-	 * @param dialectName     方言名
+	 * @param dialectName 方言名
 	 * @return 是否时Oracle数据库
 	 * @since 5.7.2
 	 */

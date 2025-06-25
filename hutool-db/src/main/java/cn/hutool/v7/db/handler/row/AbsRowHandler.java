@@ -28,7 +28,13 @@ import java.sql.SQLException;
  */
 public abstract class AbsRowHandler<R> implements RowHandler<R> {
 
+	/**
+	 * {@link ResultSetMetaData}
+	 */
 	protected final ResultSetMetaData meta;
+	/**
+	 * 列数
+	 */
 	protected final int columnCount;
 
 	/**

@@ -40,6 +40,9 @@ import java.util.function.Consumer;
  */
 public class BaseAIService {
 
+	/**
+	 * AI配置
+	 */
 	protected final AIConfig config;
 
 	/**
@@ -122,11 +125,11 @@ public class BaseAIService {
 	 * @param paramMap 请求参数
 	 * @param callback 流式数据回调函数
 	 */
-	protected void sendPostStream(final String endpoint, final Map<String, Object> paramMap, Consumer<String> callback) {
+	protected void sendPostStream(final String endpoint, final Map<String, Object> paramMap, final Consumer<String> callback) {
 		HttpURLConnection connection = null;
 		try {
 			// 创建连接
-			URL apiUrl = new URL(config.getApiUrl() + endpoint);
+			final URL apiUrl = new URL(config.getApiUrl() + endpoint);
 			connection = (HttpURLConnection) apiUrl.openConnection();
 			connection.setRequestMethod(Method.POST.name());
 			connection.setRequestProperty(HeaderName.CONTENT_TYPE.getValue(), "application/json");
@@ -137,21 +140,21 @@ public class BaseAIService {
 			//设置连接超时
 			connection.setConnectTimeout(config.getTimeout());
 			// 发送请求体
-			try (OutputStream os = connection.getOutputStream()) {
-				String jsonInputString = JSONUtil.toJsonStr(paramMap);
+			try (final OutputStream os = connection.getOutputStream()) {
+				final String jsonInputString = JSONUtil.toJsonStr(paramMap);
 				os.write(jsonInputString.getBytes());
 				os.flush();
 			}
 
 			// 读取流式响应
-			try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+			try (final BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
 				String line;
 				while ((line = reader.readLine()) != null) {
 					// 调用回调函数处理每一行数据
 					callback.accept(line);
 				}
 			}
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			callback.accept("{\"error\": \"" + e.getMessage() + "\"}");
 		} finally {
 			// 关闭连接

@@ -27,19 +27,32 @@ import cn.hutool.v7.ai.core.BaseConfig;
  */
 public class DoubaoConfig extends BaseConfig {
 
-	private final String API_URL = "https://ark.cn-beijing.volces.com/api/v3";
+	// 定义API的基础URL，用于和服务器通信
+	private static final String API_URL = "https://ark.cn-beijing.volces.com/api/v3";
 
-	private final String DEFAULT_MODEL = Models.Doubao.DOUBAO_1_5_LITE_32K.getModel();
+	// 定义默认的模型配置，用于初始化配置对象时设定
+	private static final String DEFAULT_MODEL = Models.Doubao.DOUBAO_1_5_LITE_32K.getModel();
 
+	/**
+	 * 无参构造函数，用于创建DoubaoConfig对象
+	 * 初始化时会设置API_URL和DEFAULT_MODEL
+	 */
 	public DoubaoConfig() {
 		setApiUrl(API_URL);
 		setModel(DEFAULT_MODEL);
 	}
 
-	public DoubaoConfig(String apiKey) {
-		this();
-		setApiKey(apiKey);
+	/**
+	 * 带有apiKey参数的构造函数，用于创建DoubaoConfig对象并设置API密钥
+	 * 初始化时会设置API_URL、DEFAULT_MODEL以及传入的apiKey
+	 *
+	 * @param apiKey 用户的API密钥，用于验证用户身份
+	 */
+	public DoubaoConfig(final String apiKey) {
+		this(); // 先调用无参构造函数初始化API_URL和DEFAULT_MODEL
+		setApiKey(apiKey); // 设置用户的API密钥
 	}
+
 
 	@Override
 	public String getModelName() {

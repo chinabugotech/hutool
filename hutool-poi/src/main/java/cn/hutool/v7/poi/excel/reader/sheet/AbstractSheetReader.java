@@ -29,6 +29,9 @@ import cn.hutool.v7.poi.excel.reader.ExcelReadConfig;
  */
 public abstract class AbstractSheetReader<T> implements SheetReader<T> {
 
+	/**
+	 * 读取范围
+	 */
 	protected final CellRangeAddress cellRangeAddress;
 	/**
 	 * Excel配置

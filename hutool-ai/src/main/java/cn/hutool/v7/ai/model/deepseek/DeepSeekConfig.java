@@ -27,19 +27,36 @@ import cn.hutool.v7.ai.core.BaseConfig;
  */
 public class DeepSeekConfig extends BaseConfig {
 
-	private final String API_URL = "https://api.deepseek.com";
+	/**
+	 * 定义API的基础URL，用于后续的所有API请求
+	 */
+	public final String API_URL = "https://api.deepseek.com";
 
-	private final String DEFAULT_MODEL = Models.DeepSeek.DEEPSEEK_CHAT.getModel();
+	/**
+	 * 定义默认的模型名称，用于在没有指定模型时使用
+	 */
+	public final String DEFAULT_MODEL = Models.DeepSeek.DEEPSEEK_CHAT.getModel();
 
+	/**
+	 * 默认构造函数，用于初始化DeepSeek配置对象
+	 * 设置API的基础URL和默认的模型名称
+	 */
 	public DeepSeekConfig() {
 		setApiUrl(API_URL);
 		setModel(DEFAULT_MODEL);
 	}
 
-	public DeepSeekConfig(String apiKey) {
-		this();
+	/**
+	 * 带API密钥参数的构造函数
+	 * 用于初始化DeepSeek配置对象，并设置API密钥
+	 *
+	 * @param apiKey 用户的API密钥，用于认证和授权
+	 */
+	public DeepSeekConfig(final String apiKey) {
+		this(); // 调用默认构造函数初始化API_URL和DEFAULT_MODEL
 		setApiKey(apiKey);
 	}
+
 
 	@Override
 	public String getModelName() {

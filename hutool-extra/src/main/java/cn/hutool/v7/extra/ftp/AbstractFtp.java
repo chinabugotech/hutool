@@ -33,6 +33,9 @@ import java.util.List;
  */
 public abstract class AbstractFtp implements Ftp {
 
+	/**
+	 * FTP配置
+	 */
 	protected FtpConfig ftpConfig;
 
 	@Override

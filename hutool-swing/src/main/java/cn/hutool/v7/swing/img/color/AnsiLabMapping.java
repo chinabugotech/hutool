@@ -27,6 +27,10 @@ import java.util.Map;
  * @author Tom Xin
  */
 public abstract class AnsiLabMapping {
+
+	/**
+	 * ANSI颜色和Lab颜色对应表
+	 */
 	protected Map<AnsiElement, LabColor> ansiLabMap;
 
 	/**

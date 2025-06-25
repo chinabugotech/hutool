@@ -34,6 +34,9 @@ public class BoolArrayMatcher implements PartMatcher {
 	 * 用户定义此字段的最小值
 	 */
 	protected final int minValue;
+	/**
+	 * 匹配值列表
+	 */
 	protected final boolean[] bValues;
 
 	/**

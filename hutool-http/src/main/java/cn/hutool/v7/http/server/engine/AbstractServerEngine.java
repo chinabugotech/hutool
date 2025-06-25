@@ -26,7 +26,13 @@ import cn.hutool.v7.http.server.handler.HttpHandler;
  */
 public abstract class AbstractServerEngine implements ServerEngine {
 
+	/**
+	 * 配置
+	 */
 	protected ServerConfig config;
+	/**
+	 * 处理器
+	 */
 	protected HttpHandler handler;
 
 	@Override
