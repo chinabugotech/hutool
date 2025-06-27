@@ -18,35 +18,9 @@
 
 	<properties>
 		<Automatic-Module-Name>cn.hutool.v7.ai</Automatic-Module-Name>
-		<moshi.version>1.15.2</moshi.version>
-		<jackson.version>2.19.1</jackson.version>
-		<fastjson2.version>2.0.53</fastjson2.version>
-		<gson.version>2.13.1</gson.version>
-
-		<jetty.version>12.0.19</jetty.version>
-		<jakarta.xml.soap-api.version>3.0.2</jakarta.xml.soap-api.version>
-		<httpclient5.version>5.5</httpclient5.version>
-		<httpclient4.version>4.5.14</httpclient4.version>
-		<okhttp.version>5.0.0-alpha.14</okhttp.version>
-		<undertow.version>2.3.18.Final</undertow.version>
-		<tomcat.version>11.0.8</tomcat.version>
-		<smartboot.version>1.4.3</smartboot.version>
-
-		<slf4j.version>2.0.9</slf4j.version>
-		<log4j.version>1.2.17</log4j.version>
-		<log4j2.version>2.20.0</log4j2.version>
-		<tinylog.version>1.3.6</tinylog.version>
-		<tinylog2.version>2.7.0</tinylog2.version>
-		<commons-logging.version>1.3.4</commons-logging.version>
-
 	</properties>
 
 	<dependencies>
-		<dependency>
-			<groupId>cn.hutool.v7</groupId>
-			<artifactId>hutool-core</artifactId>
-			<version>${project.parent.version}</version>
-		</dependency>
 		<dependency>
 			<groupId>cn.hutool.v7</groupId>
 			<artifactId>hutool-http</artifactId>
@@ -66,151 +40,9 @@
 		</dependency>
 		<dependency>
 			<groupId>cn.hutool.v7</groupId>
-			<artifactId>hutool-crypto</artifactId>
-			<version>${project.parent.version}</version>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>cn.hutool.v7</groupId>
 			<artifactId>hutool-swing</artifactId>
 			<version>${project.parent.version}</version>
 			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.squareup.moshi</groupId>
-			<artifactId>moshi</artifactId>
-			<version>${moshi.version}</version>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-			<version>${jackson.version}</version>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>com.alibaba.fastjson2</groupId>
-			<artifactId>fastjson2</artifactId>
-			<version>${fastjson2.version}</version>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
-			<version>${gson.version}</version>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>org.bouncycastle</groupId>
-			<artifactId>bcpkix-jdk18on</artifactId>
-			<version>${bouncycastle.version}</version>
-			<scope>compile</scope>
-			<optional>true</optional>
-		</dependency>
-
-		<dependency>
-			<groupId>org.eclipse.jetty</groupId>
-			<artifactId>jetty-server</artifactId>
-			<version>${jetty.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>jakarta.xml.soap</groupId>
-			<artifactId>jakarta.xml.soap-api</artifactId>
-			<version>${jakarta.xml.soap-api.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.smartboot.http</groupId>
-			<artifactId>smart-http-server</artifactId>
-			<version>${smartboot.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.smartboot.socket</groupId>
-			<artifactId>aio-core</artifactId>
-			<version>1.6.6</version>
-		</dependency>
-		<dependency>
-			<groupId>org.smartboot.socket</groupId>
-			<artifactId>aio-pro</artifactId>
-			<version>1.6.6</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.httpcomponents.client5</groupId>
-			<artifactId>httpclient5</artifactId>
-			<version>${httpclient5.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient</artifactId>
-			<version>${httpclient4.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.squareup.okhttp3</groupId>
-			<artifactId>okhttp</artifactId>
-			<version>${okhttp.version}</version>
-			<scope>provided</scope>
-		</dependency>
-
-		<!-- 第三方HTTP服务器库 -->
-		<dependency>
-			<groupId>io.undertow</groupId>
-			<artifactId>undertow-core</artifactId>
-			<version>${undertow.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.tomcat.embed</groupId>
-			<artifactId>tomcat-embed-core</artifactId>
-			<version>${tomcat.version}</version>
-			<scope>provided</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-core</artifactId>
-			<version>${log4j2.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
-			<version>${slf4j.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>${log4j.version}</version>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-api</artifactId>
-			<version>${log4j2.version}</version>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>org.tinylog</groupId>
-			<artifactId>tinylog</artifactId>
-			<version>${tinylog.version}</version>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>org.tinylog</groupId>
-			<artifactId>tinylog-api</artifactId>
-			<version>${tinylog2.version}</version>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>commons-logging</groupId>
-			<artifactId>commons-logging</artifactId>
-			<version>${commons-logging.version}</version>
-			<optional>true</optional>
 		</dependency>
 	</dependencies>
 

@@ -36,8 +36,6 @@
 		<Automatic-Module-Name>cn.hutool.v7.poi</Automatic-Module-Name>
 		<!-- versions -->
 		<poi.version>5.4.1</poi.version>
-		<log4j2.version>2.20.0</log4j2.version>
-		<hierynomus.version>0.39.0</hierynomus.version>
 	</properties>
 
 	<dependencies>
@@ -80,19 +78,6 @@
 				</exclusion>
 			</exclusions>
 			<optional>true</optional>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-core</artifactId>
-			<version>${log4j2.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.hierynomus</groupId>
-			<artifactId>sshj</artifactId>
-			<version>${hierynomus.version}</version>
-			<scope>test</scope>
 		</dependency>
 	</dependencies>
 </project>
