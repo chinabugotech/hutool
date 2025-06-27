@@ -19,6 +19,7 @@ package cn.hutool.v7.core.data.id;
 import cn.hutool.v7.core.lang.generator.Generator;
 import cn.hutool.v7.core.text.StrUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicLong;
@@ -41,27 +42,41 @@ import java.util.concurrent.atomic.AtomicLong;
  * @author funkye，selfishlover
  */
 public class SeataSnowflake implements Generator<Long>, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * 默认的起始时间，为2020-05-03
 	 */
 	public static final long DEFAULT_TWEPOCH = 1588435200000L;
-
-	// 节点ID长度
+	/**
+	 * 节点ID长度
+	 */
 	private static final int NODE_ID_BITS = 10;
 	/**
 	 * 节点ID的最大值，1023
 	 */
 	protected static final int MAX_NODE_ID = ~(-1 << NODE_ID_BITS);
-	// 时间戳长度
+	/**
+	 * 时间戳长度
+	 */
 	private static final int TIMESTAMP_BITS = 41;
-	// 序列号12位（表示只允许序号的范围为：0-4095）
+	/**
+	 * 序列号12位（表示只允许序号的范围为：0-4095）
+	 */
 	private static final int SEQUENCE_BITS = 12;
-	// 时间戳+序号的最大值
+	/**
+	 * // 时间戳+序号的最大值
+	 */
 	private static final long timestampAndSequenceMask = ~(-1L << (TIMESTAMP_BITS + SEQUENCE_BITS));
 
+	/**
+	 * 节点ID
+	 */
 	private long nodeId;
+	/**
+	 * 时间戳+序号
+	 */
 	private final AtomicLong timestampAndSequence;
 
 	/**

@@ -22,6 +22,7 @@ import cn.hutool.v7.core.lang.generator.Generator;
 import cn.hutool.v7.core.lang.tuple.Pair;
 import cn.hutool.v7.core.util.RandomUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -50,39 +51,65 @@ import java.util.Date;
  * @since 3.0.1
  */
 public class Snowflake implements Generator<Long>, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * 默认的起始时间，为Thu, 04 Nov 2010 01:42:54 GMT
 	 */
 	public static final long DEFAULT_TWEPOCH = 1288834974657L;
+	/**
+	 * 机器ID位数
+	 */
 	private static final long WORKER_ID_BITS = 5L;
 	/**
 	 * 最大支持机器节点数0~31，一共32个
 	 */
 	protected static final long MAX_WORKER_ID = ~(-1L << WORKER_ID_BITS);
+	/**
+	 * 数据中心ID位数
+	 */
 	private static final long DATA_CENTER_ID_BITS = 5L;
 	/**
 	 * 最大支持数据中心节点数0~31，一共32个
 	 */
 	protected static final long MAX_DATA_CENTER_ID = ~(-1L << DATA_CENTER_ID_BITS);
-	// 序列号12位（表示只允许序号的范围为：0-4095）
+	/**
+	 * 序列号12位（表示只允许序号的范围为：0-4095）
+	 */
 	private static final long SEQUENCE_BITS = 12L;
-	// 机器节点左移12位
+	/**
+	 * 机器节点左移12位
+	 */
 	private static final long WORKER_ID_SHIFT = SEQUENCE_BITS;
-	// 数据中心节点左移17位
+	/**
+	 * 数据中心节点左移17位
+	 */
 	private static final long DATA_CENTER_ID_SHIFT = SEQUENCE_BITS + WORKER_ID_BITS;
-	// 时间毫秒数左移22位
+	/**
+	 * 时间毫秒数左移22位
+	 */
 	private static final long TIMESTAMP_LEFT_SHIFT = SEQUENCE_BITS + WORKER_ID_BITS + DATA_CENTER_ID_BITS;
-	// 序列掩码，用于限定序列最大值不能超过4095
+	/**
+	 * 序列掩码，用于限定序列最大值不能超过4095
+	 */
 	private static final long SEQUENCE_MASK = ~(-1L << SEQUENCE_BITS);// 4095
 
 	/**
 	 * 初始化时间点
 	 */
 	private final long twepoch;
+	/**
+	 * 工作节点ID
+	 */
 	private final long workerId;
+	/**
+	 * 数据中心ID
+	 */
 	private final long dataCenterId;
+	/**
+	 * 是否使用{@link SystemClock} 获取当前
+	 */
 	private final boolean useSystemClock;
 	/**
 	 * 当在低频模式下时，序号始终为0，导致生成ID始终为偶数<br>
@@ -96,6 +123,9 @@ public class Snowflake implements Generator<Long>, Serializable {
 	 * 自增序号，当高频模式下时，同一毫秒内生成N个ID，则这个序号在同一毫秒下，自增以避免ID重复。
 	 */
 	private long sequence = 0L;
+	/**
+	 * 上次生成ID的时间戳
+	 */
 	private long lastTimestamp = -1L;
 
 	/**

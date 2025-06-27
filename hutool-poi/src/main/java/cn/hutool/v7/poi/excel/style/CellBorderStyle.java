@@ -16,11 +16,12 @@
 
 package cn.hutool.v7.poi.excel.style;
 
+import cn.hutool.v7.core.util.ObjUtil;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.IndexedColors;
-import cn.hutool.v7.core.util.ObjUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -30,6 +31,7 @@ import java.io.Serializable;
  * @since 6.0.0
  */
 public class CellBorderStyle implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -69,14 +71,46 @@ public class CellBorderStyle implements Serializable {
 			.setLeftColor(colorIndex.getIndex());
 	}
 
+	/**
+	 * 顶部边框样式定义，如细线、粗线、虚线等
+	 */
 	private BorderStyle topStyle;
+
+	/**
+	 * 顶部边框颜色索引值，用于指定颜色主题或调色板中的颜色
+	 */
 	private Short topColor;
+
+	/**
+	 * 右侧边框样式定义，如细线、粗线、虚线等
+	 */
 	private BorderStyle rightStyle;
+
+	/**
+	 * 右侧边框颜色索引值，用于指定颜色主题或调色板中的颜色
+	 */
 	private Short rightColor;
+
+	/**
+	 * 底部边框样式定义，如细线、粗线、虚线等
+	 */
 	private BorderStyle bottomStyle;
+
+	/**
+	 * 底部边框颜色索引值，用于指定颜色主题或调色板中的颜色
+	 */
 	private Short bottomColor;
+
+	/**
+	 * 左侧边框样式定义，如细线、粗线、虚线等
+	 */
 	private BorderStyle leftStyle;
+
+	/**
+	 * 左侧边框颜色索引值，用于指定颜色主题或调色板中的颜色
+	 */
 	private Short leftColor;
+
 
 	/**
 	 * 获取上边框的样式。

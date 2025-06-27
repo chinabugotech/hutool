@@ -25,6 +25,7 @@ import cn.hutool.v7.core.io.file.PathUtil;
 import java.io.Closeable;
 import java.io.File;
 import java.io.Reader;
+import java.io.Serial;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.util.Iterator;
@@ -38,8 +39,12 @@ import java.util.stream.StreamSupport;
  * @since 4.0.1
  */
 public class CsvReader extends CsvBaseReader implements Iterable<CsvRow>, Closeable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * {@link Reader}
+	 */
 	private final Reader reader;
 
 	//--------------------------------------------------------------------------------------------- Constructor start

@@ -19,6 +19,7 @@ package cn.hutool.v7.poi.excel;
 import org.apache.poi.ss.usermodel.CellStyle;
 import cn.hutool.v7.core.collection.CollUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
@@ -32,6 +33,7 @@ import java.util.List;
  * @since 6.0.0
  */
 public class RowGroup implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -44,8 +46,17 @@ public class RowGroup implements Serializable {
 		return new RowGroup(name);
 	}
 
+	/**
+	 * 分组名称
+	 */
 	private String name;
+	/**
+	 * 样式
+	 */
 	private CellStyle style;
+	/**
+	 * 子分组
+	 */
 	private List<RowGroup> children;
 
 	/**

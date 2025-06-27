@@ -45,44 +45,78 @@ public class SheetDataSaxHandler extends DefaultHandler {
 	 * 行处理器
 	 */
 	protected RowHandler rowHandler;
-	// 配置项：是否对齐数据，即在行尾补充null cell
+	/**
+	 */
 	private final boolean padCellAtEndOfRow;
 
-	// 单元格的格式表，对应style.xml
+	/**
+	 * 单元格的格式表，对应style.xml
+	 */
 	protected StylesTable stylesTable;
-	// excel 2007 的共享字符串表,对应sharedString.xml
+	/**
+	 *  excel 2007 的共享字符串表,对应sharedString.xml
+	 */
 	protected SharedStrings sharedStrings;
-	// sheet的索引，从0开始
+	/**
+	 * sheet索引，从0开始
+	 */
 	protected int sheetIndex;
-
-	// 当前非空行
+	/**
+	 * 当前非空行索引，从0开始
+	 */
 	protected int index;
-	// 当前列
+	/**
+	 * 当前列坐标
+	 */
 	private int curCell;
-	// 单元数据类型
+	/**
+	 * 单元格数据类型
+	 */
 	private CellDataType cellDataType;
-	// 当前行号，从0开始
+	/**
+	 * 当前行号，从0开始
+	 */
 	private long rowNumber;
-	// 当前列坐标， 如A1，B5
+	/**
+	 *  当前列坐标， 如A1，B5
+	 */
 	private String curCoordinate;
-	// 当前节点名称
+	/**
+	 * 当前节点名称
+	 */
 	private ElementName curElementName;
-	// 前一个列的坐标
+	/**
+	 * 前一个列的坐标
+	 */
 	private String preCoordinate;
-	// 行的最大列坐标
+	/**
+	 * 行的最大列坐标
+	 */
 	private String maxCellCoordinate;
-	// 单元格样式
+	/**
+	 * 单元格样式
+	 */
 	private XSSFCellStyle xssfCellStyle;
-	// 单元格存储的格式化字符串，nmtFmt的formatCode属性的值
+	/**
+	 * 单元格存储的格式化字符串，nmtFmt的formatCode属性的值
+	 */
 	private String numFmtString;
-	// 是否处于sheetData标签内，sax只解析此标签内的内容，其它标签忽略
+	/**
+	 * 是否处于sheetData标签内，sax只解析此标签内的内容，其它标签忽略
+	 */
 	private boolean isInSheetData;
 
-	// 上一次的内容
+	/**
+	 * 上一次的内容
+	 */
 	private final StringBuilder lastContent = new StringBuilder();
-	// 上一次的内容
+	/**
+	 * 上一次的公式
+	 */
 	private final StringBuilder lastFormula = new StringBuilder();
-	// 存储每行的列元素
+	/**
+	 * 存储每行的列元素
+	 */
 	private List<Object> rowCellList = new ArrayList<>();
 
 	/**

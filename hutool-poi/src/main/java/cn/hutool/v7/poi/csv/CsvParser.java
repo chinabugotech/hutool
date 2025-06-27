@@ -24,10 +24,7 @@ import cn.hutool.v7.core.text.StrTrimer;
 import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.core.util.ObjUtil;
 
-import java.io.Closeable;
-import java.io.IOException;
-import java.io.Reader;
-import java.io.Serializable;
+import java.io.*;
 import java.util.*;
 
 /**
@@ -36,11 +33,18 @@ import java.util.*;
  * @author Looly
  */
 public final class CsvParser extends ComputeIter<CsvRow> implements Closeable, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private static final int DEFAULT_ROW_CAPACITY = 10;
 
+	/**
+	 * 读取配置
+	 */
 	private final CsvReadConfig config;
+	/**
+	 * Tokener
+	 */
 	private final CsvTokener tokener;
 	/**
 	 * 前一个特殊分界字符

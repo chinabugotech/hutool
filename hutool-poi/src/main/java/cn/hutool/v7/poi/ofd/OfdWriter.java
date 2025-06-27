@@ -27,11 +27,7 @@ import org.ofdrw.layout.element.Img;
 import org.ofdrw.layout.element.Paragraph;
 import org.ofdrw.reader.OFDReader;
 
-import java.io.Closeable;
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.Serializable;
+import java.io.*;
 import java.nio.file.Path;
 
 /**
@@ -41,8 +37,12 @@ import java.nio.file.Path;
  * @since 5.5.3
  */
 public class OfdWriter implements Serializable, Closeable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * OFD文档
+	 */
 	private final OFDDoc doc;
 
 	/**

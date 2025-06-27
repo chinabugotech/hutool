@@ -18,6 +18,7 @@ package cn.hutool.v7.poi.csv;
 
 import cn.hutool.v7.core.collection.ListUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
@@ -28,9 +29,16 @@ import java.util.List;
  * @author Looly
  */
 public class CsvData implements Iterable<CsvRow>, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * 头信息
+	 */
 	private final List<String> header;
+	/**
+	 * 行数据
+	 */
 	private final List<CsvRow> rows;
 
 	/**

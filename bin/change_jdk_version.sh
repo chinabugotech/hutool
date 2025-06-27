@@ -16,5 +16,5 @@
 # limitations under the License.
 #
 
-export JAVA_HOME="/cygdrive/d/java/jdk-17.0.11"
+export JAVA_HOME="/cygdrive/d/java/jdk-17.0.15"
 export PATH="$JAVA_HOME/bin:$PATH"

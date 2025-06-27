@@ -24,10 +24,7 @@ import cn.hutool.v7.core.lang.Assert;
 import cn.hutool.v7.core.util.CharsetUtil;
 import cn.hutool.v7.core.util.ObjUtil;
 
-import java.io.File;
-import java.io.Reader;
-import java.io.Serializable;
-import java.io.StringReader;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -42,13 +39,16 @@ import java.util.Objects;
  * @since 5.0.4
  */
 public class CsvBaseReader implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * 默认编码
 	 */
 	protected static final Charset DEFAULT_CHARSET = CharsetUtil.UTF_8;
-
+	/**
+	 * 读取配置
+	 */
 	private final CsvReadConfig config;
 
 	//--------------------------------------------------------------------------------------------- Constructor start
