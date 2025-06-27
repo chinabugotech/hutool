@@ -20,6 +20,7 @@ import cn.hutool.v7.core.collection.ListUtil;
 import cn.hutool.v7.core.lang.Assert;
 import cn.hutool.v7.core.lang.tuple.Triple;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,10 +37,20 @@ import java.util.List;
  * @since 6.0.0
  */
 public class TripleTable<L, M, R> implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * 左列表
+	 */
 	private final List<L> lefts;
+	/**
+	 * 中列表
+	 */
 	private final List<M> middles;
+	/**
+	 * 右列表
+	 */
 	private final List<R> rights;
 
 	/**

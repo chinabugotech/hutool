@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.core.map;
 
+import java.io.Serial;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -28,8 +29,12 @@ import java.util.function.Function;
  * @since 5.6.0
  */
 public class FuncKeyMap<K, V> extends CustomKeyMap<K, V> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * 自定义KEY的函数
+	 */
 	private final Function<Object, K> keyFunc;
 
 	// ------------------------------------------------------------------------- Constructor start

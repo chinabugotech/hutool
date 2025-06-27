@@ -16,15 +16,20 @@
 
 package cn.hutool.v7.core.exception;
 
+import java.io.Serial;
+
 /**
  * 带有状态码的异常
  *
  * @author Looly
  */
 public class StatefulException extends HutoolException {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
-	// 异常状态码
+	/**
+	 * 异常状态码
+	 */
 	private int status;
 
 	/**

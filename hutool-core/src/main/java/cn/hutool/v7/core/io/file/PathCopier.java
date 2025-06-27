@@ -23,6 +23,7 @@ import cn.hutool.v7.core.lang.copier.SrcToTargetCopier;
 import cn.hutool.v7.core.util.ObjUtil;
 
 import java.io.IOException;
+import java.io.Serial;
 import java.nio.file.*;
 
 /**
@@ -32,6 +33,7 @@ import java.nio.file.*;
  * @since 6.0.0
  */
 public class PathCopier extends SrcToTargetCopier<Path, PathCopier> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -58,6 +60,9 @@ public class PathCopier extends SrcToTargetCopier<Path, PathCopier> {
 		return new PathCopier(src, target, options);
 	}
 
+	/**
+	 * 复制参数
+	 */
 	private final CopyOption[] options;
 
 	/**
@@ -65,7 +70,7 @@ public class PathCopier extends SrcToTargetCopier<Path, PathCopier> {
 	 *
 	 * @param src     源文件或目录，不能为{@code null}且必须存在
 	 * @param target  目标文件或目录
-	 * @param options 移动参数
+	 * @param options 复制参数
 	 */
 	public PathCopier(final Path src, final Path target, final CopyOption[] options) {
 		Assert.notNull(target, "Src path must be not null !");

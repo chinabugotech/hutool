@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.core.map;
 
+import java.io.Serial;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -29,9 +30,16 @@ import java.util.function.Supplier;
  * @since 5.8.0
  */
 public class FuncMap<K, V> extends TransMap<K, V> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * 自定义KEY的函数
+	 */
 	private final Function<Object, K> keyFunc;
+	/**
+	 * 自定义value函数
+	 */
 	private final Function<Object, V> valueFunc;
 
 	// ------------------------------------------------------------------------- Constructor start

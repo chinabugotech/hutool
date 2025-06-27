@@ -23,6 +23,7 @@ import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.core.array.ArrayUtil;
 import cn.hutool.v7.core.util.BooleanUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -38,8 +39,12 @@ import java.util.Set;
  * @since 3.2.0
  */
 public class MapProxy implements Map<Object, Object>, TypeGetter<Object>, InvocationHandler, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 *  Map
+	 */
 	@SuppressWarnings("rawtypes")
 	Map map;
 

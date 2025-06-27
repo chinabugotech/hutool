@@ -20,10 +20,7 @@ import cn.hutool.v7.core.lang.Assert;
 import cn.hutool.v7.core.lang.wrapper.Wrapper;
 import cn.hutool.v7.core.util.ObjUtil;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import java.io.*;
 import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
@@ -39,6 +36,7 @@ import java.util.function.Supplier;
  * @since 4.3.3
  */
 public class MapWrapper<K, V> implements Map<K, V>, Iterable<Map.Entry<K, V>>, Wrapper<Map<K, V>>, Serializable, Cloneable {
+	@Serial
 	private static final long serialVersionUID = -7524578042008586382L;
 
 	/**
@@ -241,11 +239,25 @@ public class MapWrapper<K, V> implements Map<K, V>, Iterable<Map.Entry<K, V>>, W
 	//---------------------------------------------------------------------------- Override default methods end
 
 	// region 序列化与反序列化重写
+
+	/**
+	 * 写对象
+	 * @param out 输出流
+	 * @throws IOException IO异常
+	 */
+	@Serial
 	private void writeObject(final ObjectOutputStream out) throws IOException {
 		out.defaultWriteObject();
 		out.writeObject(this.raw);
 	}
 
+	/**
+	 * 读对象
+	 * @param in 输入流
+	 * @throws IOException IO异常
+	 * @throws ClassNotFoundException 类未找到异常
+	 */
+	@Serial
 	@SuppressWarnings("unchecked")
 	private void readObject(final ObjectInputStream in) throws IOException, ClassNotFoundException {
 		in.defaultReadObject();

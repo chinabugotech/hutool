@@ -50,9 +50,15 @@ public class FastDateParser extends SimpleDateBasic implements PositionDateParse
 	 * 世纪：2000年前为19， 之后为20
 	 */
 	private final int century;
+	/**
+	 * 起始年份
+	 */
 	private final int startYear;
 
 	// derived fields
+	/**
+	 * 缓存的解析策略
+	 */
 	private transient List<StrategyAndWidth> patterns;
 
 	// comparator used to sort regex alternatives

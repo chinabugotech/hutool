@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.core.lang.selector;
 
+import java.io.Serial;
 import java.util.ArrayList;
 
 /**
@@ -26,8 +27,12 @@ import java.util.ArrayList;
  * @since 6.0.0
  */
 public class IncrementSelector<T> extends ArrayList<T> implements Selector<T> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * 值索引
+	 */
 	private int position;
 
 	// region ----- Constructors

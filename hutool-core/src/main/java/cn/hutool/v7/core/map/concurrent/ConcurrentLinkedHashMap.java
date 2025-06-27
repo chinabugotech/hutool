@@ -187,7 +187,13 @@ public final class ConcurrentLinkedHashMap<K, V> extends AbstractMap<K, V>
 	final long[] readBufferReadCount;
 	final LinkedDeque<Node<K, V>> evictionDeque;
 
+	/**
+	 * The number of weighted entries in the map.
+	 */
 	final AtomicLong weightedSize;
+	/**
+	 * Map容量
+	 */
 	final AtomicLong capacity;
 
 	final Lock evictionLock;
@@ -1441,11 +1447,20 @@ public final class ConcurrentLinkedHashMap<K, V> extends AbstractMap<K, V>
 	@Serial
 	private static final long serialVersionUID = 1;
 
+	/**
+	 * 序列化对象
+	 * @return 缓存对象
+	 */
 	@Serial
 	Object writeReplace() {
 		return new SerializationProxy<>(this);
 	}
 
+	/**
+	 * 反序列化对象
+	 * @param stream 对象流
+	 * @throws InvalidObjectException 无效对象异常
+	 */
 	@Serial
 	private void readObject(final ObjectInputStream stream) throws InvalidObjectException {
 		throw new InvalidObjectException("Proxy required");

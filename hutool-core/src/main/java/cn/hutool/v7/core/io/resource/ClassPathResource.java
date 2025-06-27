@@ -39,8 +39,17 @@ public class ClassPathResource extends UrlResource {
 	@Serial
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * 路径
+	 */
 	private final String path;
+	/**
+	 * 类加载器
+	 */
 	private final ClassLoader classLoader;
+	/**
+	 *  基于的类
+	 */
 	private final Class<?> clazz;
 
 	// -------------------------------------------------------------------------------------- Constructor start

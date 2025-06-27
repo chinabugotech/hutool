@@ -20,6 +20,7 @@ import cn.hutool.v7.core.lang.ref.Ref;
 import cn.hutool.v7.core.lang.ref.ReferenceUtil;
 import cn.hutool.v7.core.map.MapUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
@@ -37,10 +38,20 @@ import java.util.function.Function;
  * @author Looly
  */
 public abstract class ReferenceConcurrentMap<K, V> implements ConcurrentMap<K, V>, Iterable<Map.Entry<K, V>>, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * 键值对引用
+	 */
 	final ConcurrentMap<Ref<K>, Ref<V>> raw;
+	/**
+	 * 键队列
+	 */
 	private final ReferenceQueue<K> lastKeyQueue;
+	/**
+	 * 值队列
+	 */
 	private final ReferenceQueue<V> lastValueQueue;
 	/**
 	 * 回收监听

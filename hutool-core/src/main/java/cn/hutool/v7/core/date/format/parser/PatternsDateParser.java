@@ -20,6 +20,7 @@ import cn.hutool.v7.core.date.CalendarUtil;
 import cn.hutool.v7.core.date.DateException;
 import cn.hutool.v7.core.date.DateTime;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Locale;
@@ -32,6 +33,7 @@ import java.util.Locale;
  * @since 6.0.0
  */
 public class PatternsDateParser implements DateParser, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -44,7 +46,13 @@ public class PatternsDateParser implements DateParser, Serializable {
 		return new PatternsDateParser(parsePatterns);
 	}
 
+	/**
+	 * 解析格式
+	 */
 	private String[] parsePatterns;
+	/**
+	 * 地区
+	 */
 	private Locale locale;
 
 	/**

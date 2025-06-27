@@ -19,6 +19,7 @@ package cn.hutool.v7.core.date.format;
 import cn.hutool.v7.core.date.format.parser.FastDateParser;
 import cn.hutool.v7.core.text.StrUtil;
 
+import java.io.Serial;
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -29,8 +30,12 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * @see FastDateParser
  */
 public class FastDatePrinter extends SimpleDateBasic implements DatePrinter {
+	@Serial
 	private static final long serialVersionUID = -6305750172255764887L;
 
+	/**
+	 * 日期模式
+	 */
 	private final DatePattern datePattern;
 	/**
 	 * 缓存的Calendar对象，用于减少对象创建。参考tomcat的ConcurrentDateFormat

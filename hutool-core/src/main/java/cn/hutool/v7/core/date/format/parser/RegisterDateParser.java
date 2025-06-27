@@ -19,6 +19,7 @@ package cn.hutool.v7.core.date.format.parser;
 import cn.hutool.v7.core.collection.ListUtil;
 import cn.hutool.v7.core.date.DateException;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -31,6 +32,7 @@ import java.util.List;
  * @since 6.0.0
  */
 public class RegisterDateParser implements DateParser, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -38,6 +40,9 @@ public class RegisterDateParser implements DateParser, Serializable {
 	 */
 	public static final RegisterDateParser INSTANCE = new RegisterDateParser();
 
+	/**
+	 * 日期解析器列表
+	 */
 	private final List<PredicateDateParser> parserList;
 
 	/**

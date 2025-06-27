@@ -21,6 +21,7 @@ import cn.hutool.v7.core.text.StrUtil;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.io.Serial;
 import java.io.Serializable;
 import java.net.URL;
 import java.nio.charset.Charset;
@@ -33,9 +34,16 @@ import java.nio.charset.Charset;
  * @since 4.0.9
  */
 public class BytesResource implements Resource, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * 字节数据
+	 */
 	private final byte[] bytes;
+	/**
+	 * 资源名称
+	 */
 	private final String name;
 
 	/**

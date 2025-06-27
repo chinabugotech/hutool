@@ -29,10 +29,7 @@ import cn.hutool.v7.core.lang.Console;
 import cn.hutool.v7.core.text.CharUtil;
 import cn.hutool.v7.core.util.CharsetUtil;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.RandomAccessFile;
-import java.io.Serializable;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.file.WatchEvent;
 import java.nio.file.WatchKey;
@@ -46,6 +43,7 @@ import java.util.concurrent.*;
  * @since 4.5.2
  */
 public class Tailer implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -53,26 +51,48 @@ public class Tailer implements Serializable {
 	 */
 	public static final SerConsumer<String> CONSOLE_HANDLER = new ConsoleLineHandler();
 
-	/** 编码 */
+	/**
+	 * 编码
+	 */
 	private final Charset charset;
-	/** 行处理器 */
+	/**
+	 * 行处理器
+	 */
 	private final SerConsumer<String> lineHandler;
-	/** 初始读取的行数 */
+	/**
+	 * 初始读取的行数
+	 */
 	private final int initReadLine;
-	/** 定时任务检查间隔时长 */
+	/**
+	 * 定时任务检查间隔时长
+	 */
 	private final long period;
 
+	/**
+	 * 文件路径
+	 */
 	private final String filePath;
+	/**
+	 * 随机访问文件
+	 */
 	private final RandomAccessFile randomAccessFile;
+	/**
+	 * 定时任务执行器
+	 */
 	private final ScheduledExecutorService executorService;
+	/**
+	 * 文件删除监听器
+	 */
 	private WatchMonitor fileDeleteWatchMonitor;
-
+	/**
+	 * 删除文件后是否退出并抛出异常
+	 */
 	private boolean stopOnDelete;
 
 	/**
 	 * 构造，默认UTF-8编码
 	 *
-	 * @param file 文件
+	 * @param file        文件
 	 * @param lineHandler 行处理器
 	 */
 	public Tailer(final File file, final SerConsumer<String> lineHandler) {
@@ -82,8 +102,8 @@ public class Tailer implements Serializable {
 	/**
 	 * 构造，默认UTF-8编码
 	 *
-	 * @param file 文件
-	 * @param lineHandler 行处理器
+	 * @param file         文件
+	 * @param lineHandler  行处理器
 	 * @param initReadLine 启动时预读取的行数，1表示一行
 	 */
 	public Tailer(final File file, final SerConsumer<String> lineHandler, final int initReadLine) {
@@ -93,8 +113,8 @@ public class Tailer implements Serializable {
 	/**
 	 * 构造
 	 *
-	 * @param file 文件
-	 * @param charset 编码
+	 * @param file        文件
+	 * @param charset     编码
 	 * @param lineHandler 行处理器
 	 */
 	public Tailer(final File file, final Charset charset, final SerConsumer<String> lineHandler) {
@@ -104,11 +124,11 @@ public class Tailer implements Serializable {
 	/**
 	 * 构造
 	 *
-	 * @param file 文件
-	 * @param charset 编码
-	 * @param lineHandler 行处理器
+	 * @param file         文件
+	 * @param charset      编码
+	 * @param lineHandler  行处理器
 	 * @param initReadLine 启动时预读取的行数，1表示一行
-	 * @param period 检查间隔
+	 * @param period       检查间隔
 	 */
 	public Tailer(final File file, final Charset charset, final SerConsumer<String> lineHandler, final int initReadLine, final long period) {
 		checkFile(file);
@@ -152,15 +172,16 @@ public class Tailer implements Serializable {
 
 		final LineReadWatcher lineReadWatcher = new LineReadWatcher(this.randomAccessFile, this.charset, this.lineHandler);
 		final ScheduledFuture<?> scheduledFuture = this.executorService.scheduleAtFixedRate(//
-				lineReadWatcher, //
-				0, //
-				this.period, TimeUnit.MILLISECONDS//
+			lineReadWatcher, //
+			0, //
+			this.period, TimeUnit.MILLISECONDS//
 		);
 
 		// 监听删除
-		if(stopOnDelete){
+		if (stopOnDelete) {
 			fileDeleteWatchMonitor = WatchUtil.of(this.filePath, WatchKind.DELETE.getValue());
-			fileDeleteWatchMonitor.setWatcher(new SimpleWatcher(){
+			fileDeleteWatchMonitor.setWatcher(new SimpleWatcher() {
+				@Serial
 				private static final long serialVersionUID = 4497160994840060329L;
 
 				@Override
@@ -187,8 +208,8 @@ public class Tailer implements Serializable {
 	/**
 	 * 结束，此方法需在异步模式或
 	 */
-	public void stop(){
-		try{
+	public void stop() {
+		try {
 			this.executorService.shutdown();
 		} finally {
 			IoUtil.closeQuietly(this.randomAccessFile);
@@ -197,6 +218,7 @@ public class Tailer implements Serializable {
 	}
 
 	// ---------------------------------------------------------------------------------------- Private method start
+
 	/**
 	 * 预读取行
 	 *
@@ -225,7 +247,7 @@ public class Tailer implements Serializable {
 				if (c == CharUtil.LF || c == CharUtil.CR) {
 					// FileUtil.readLine(this.randomAccessFile, this.charset, this.lineHandler);
 					final String line = FileUtil.readLine(this.randomAccessFile, this.charset);
-					if(null != line) {
+					if (null != line) {
 						stack.push(line);
 					}
 					currentLine++;
@@ -237,7 +259,7 @@ public class Tailer implements Serializable {
 					// 当文件指针退至文件开始处，输出第一行
 					// FileUtil.readLine(this.randomAccessFile, this.charset, this.lineHandler);
 					final String line = FileUtil.readLine(this.randomAccessFile, this.charset);
-					if(null != line) {
+					if (null != line) {
 						stack.push(line);
 					}
 					break;
@@ -280,7 +302,9 @@ public class Tailer implements Serializable {
 	 * @since 4.5.2
 	 */
 	public static class ConsoleLineHandler implements SerConsumer<String> {
+		@Serial
 		private static final long serialVersionUID = 1L;
+
 		@Override
 		public void accepting(final String line) {
 			Console.log(line);

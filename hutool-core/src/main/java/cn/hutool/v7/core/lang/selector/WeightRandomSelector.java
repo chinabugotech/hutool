@@ -18,6 +18,7 @@ package cn.hutool.v7.core.lang.selector;
 
 import cn.hutool.v7.core.collection.CollUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -41,6 +42,7 @@ import java.util.TreeMap;
  * @since 3.3.0
  */
 public class WeightRandomSelector<T> implements Selector<T>, Serializable {
+	@Serial
 	private static final long serialVersionUID = -8244697995702786499L;
 
 	/**
@@ -53,6 +55,9 @@ public class WeightRandomSelector<T> implements Selector<T>, Serializable {
 		return new WeightRandomSelector<>();
 	}
 
+	/**
+	 * 权重对象
+	 */
 	private final TreeMap<Integer, T> weightMap;
 
 	// region ----- Constructors

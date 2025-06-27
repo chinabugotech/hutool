@@ -18,6 +18,7 @@ package cn.hutool.v7.core.lang.mutable;
 
 import cn.hutool.v7.core.util.ObjUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -28,6 +29,7 @@ import java.util.Objects;
  * @since 3.0.1
  */
 public class MutableObj<T> implements Mutable<T>, Serializable{
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -41,6 +43,9 @@ public class MutableObj<T> implements Mutable<T>, Serializable{
 		return new MutableObj<>(value);
 	}
 
+	/**
+	 * 值
+	 */
 	private T value;
 
 	/**

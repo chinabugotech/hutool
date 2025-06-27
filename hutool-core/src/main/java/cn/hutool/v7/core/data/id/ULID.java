@@ -22,6 +22,7 @@ import cn.hutool.v7.core.lang.Assert;
 import cn.hutool.v7.core.util.ByteUtil;
 import cn.hutool.v7.core.util.RandomUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.nio.ByteOrder;
 import java.util.Objects;
@@ -52,6 +53,7 @@ import java.util.Random;
  * @since 6.0.0
  */
 public class ULID implements Comparable<ULID>, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -174,6 +176,9 @@ public class ULID implements Comparable<ULID>, Serializable {
 
 	// endregion
 
+	/**
+	 * 16位ID值
+	 */
 	private final Number128 idValue;
 
 	/**

@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.core.map;
 
+import java.io.Serial;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -28,8 +29,12 @@ import java.util.Objects;
  * @author pantao, Looly
  */
 public class TolerantMap<K, V> extends MapWrapper<K, V> {
+	@Serial
 	private static final long serialVersionUID = -4158133823263496197L;
 
+	/**
+	 * 默认值
+	 */
 	private final V defaultValue;
 
 	/**

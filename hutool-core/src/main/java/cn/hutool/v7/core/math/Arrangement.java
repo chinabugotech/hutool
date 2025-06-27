@@ -18,6 +18,7 @@ package cn.hutool.v7.core.math;
 
 import cn.hutool.v7.core.array.ArrayUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,8 +32,12 @@ import java.util.List;
  * @since 4.0.7
  */
 public class Arrangement implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * 用于排列的数据
+	 */
 	private final String[] datas;
 
 	/**

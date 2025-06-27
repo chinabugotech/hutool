@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.core.map;
 
+import java.io.Serial;
 import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -31,8 +32,12 @@ import java.util.function.Function;
  * @since 5.2.6
  */
 public class BiMap<K, V> extends MapWrapper<K, V> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * 反向Map
+	 */
 	private Map<V, K> inverse;
 
 	/**

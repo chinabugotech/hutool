@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.core.lang.mutable;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -25,8 +26,12 @@ import java.io.Serializable;
  * @since 3.0.1
  */
 public class MutableBool implements Comparable<MutableBool>, Mutable<Boolean>, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * 值
+	 */
 	private boolean value;
 
 	/**

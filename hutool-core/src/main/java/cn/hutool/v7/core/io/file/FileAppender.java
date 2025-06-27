@@ -22,6 +22,7 @@ import cn.hutool.v7.core.util.ObjUtil;
 
 import java.io.File;
 import java.io.PrintWriter;
+import java.io.Serial;
 import java.io.Serializable;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -38,8 +39,12 @@ import java.util.concurrent.locks.Lock;
  * @since 3.1.2
  */
 public class FileAppender implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * 文件写入器
+	 */
 	private final FileWriter writer;
 	/**
 	 * 内存中持有的字符串数

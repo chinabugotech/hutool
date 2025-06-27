@@ -28,6 +28,7 @@ import cn.hutool.v7.core.text.CharUtil;
 import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.core.text.dfa.WordTree;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
@@ -45,6 +46,7 @@ import java.util.regex.Pattern;
  * @author Looly
  */
 public class RegexDateParser implements DateParser, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private static final int[] NSS = {100000000, 10000000, 1000000, 100000, 10000, 1000, 100, 10, 1};
@@ -75,7 +77,13 @@ public class RegexDateParser implements DateParser, Serializable {
 		return new RegexDateParser(ListUtil.of(patterns));
 	}
 
+	/**
+	 * 格式列表
+	 */
 	private final List<Pattern> patterns;
+	/**
+	 * {@code true}默认为mm/dd，否则dd/mm
+	 */
 	private boolean preferMonthFirst;
 
 	/**
@@ -296,15 +304,14 @@ public class RegexDateParser implements DateParser, Serializable {
 
 	private static int parseYear(final String year) {
 		final int length = year.length();
-		switch (length) {
-			case 4:
-				return Integer.parseInt(year);
-			case 2:
+		return switch (length) {
+			case 4 -> Integer.parseInt(year);
+			case 2 -> {
 				final int num = Integer.parseInt(year);
-				return (num > 50 ? 1900 : 2000) + num;
-			default:
-				throw new DateException("Invalid year: [{}]", year);
-		}
+				yield (num > 50 ? 1900 : 2000) + num;
+			}
+			default -> throw new DateException("Invalid year: [{}]", year);
+		};
 	}
 
 	/**

@@ -20,6 +20,7 @@ import cn.hutool.v7.core.collection.ListUtil;
 import cn.hutool.v7.core.comparator.CompareUtil;
 import cn.hutool.v7.core.text.CharUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +32,7 @@ import java.util.List;
  * @author Looly
  */
 public class Version implements Comparable<Version>, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -44,10 +46,22 @@ public class Version implements Comparable<Version>, Serializable {
 		return new Version(v);
 	}
 
+	/**
+	 * 版本
+	 */
 	private final String version;
 
+	/**
+	 * 主版本号
+	 */
 	private final List<Object> sequence;
+	/**
+	 * 次版本号
+	 */
 	private final List<Object> pre;
+	/**
+	 * 构建版本
+	 */
 	private final List<Object> build;
 
 	/**

@@ -18,6 +18,7 @@ package cn.hutool.v7.core.func;
 
 import cn.hutool.v7.core.lang.Assert;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.function.Function;
 
@@ -31,6 +32,7 @@ import java.util.function.Function;
  * @since 6.0.0
  */
 public class ComposeFunction<A, B, C> implements Function<A, C>, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -47,7 +49,13 @@ public class ComposeFunction<A, B, C> implements Function<A, C>, Serializable {
 		return new ComposeFunction<>(g, f);
 	}
 
+	/**
+	 * 函数1
+	 */
 	private final Function<B, C> g;
+	/**
+	 * 函数2
+	 */
 	private final Function<A, ? extends B> f;
 
 	/**

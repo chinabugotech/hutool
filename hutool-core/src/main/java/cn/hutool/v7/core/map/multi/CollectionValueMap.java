@@ -18,6 +18,7 @@ package cn.hutool.v7.core.map.multi;
 
 import cn.hutool.v7.core.func.SerSupplier;
 
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -35,9 +36,12 @@ import java.util.function.Supplier;
  * @since 4.3.3
  */
 public class CollectionValueMap<K, V> extends AbsCollValueMap<K, V> {
-
+	@Serial
 	private static final long serialVersionUID = 9012989578038102983L;
 
+	/**
+	 * 值集合工厂方法
+	 */
 	private final SerSupplier<Collection<V>> collFactory;
 
 	// ------------------------------------------------------------------------- Constructor start

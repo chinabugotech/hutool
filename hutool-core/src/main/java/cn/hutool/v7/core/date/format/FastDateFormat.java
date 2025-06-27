@@ -21,6 +21,7 @@ import cn.hutool.v7.core.date.DateFormatPool;
 import cn.hutool.v7.core.date.format.parser.FastDateParser;
 import cn.hutool.v7.core.date.format.parser.PositionDateParser;
 
+import java.io.Serial;
 import java.text.DateFormat;
 import java.text.FieldPosition;
 import java.text.Format;
@@ -49,6 +50,7 @@ import java.util.TimeZone;
  *
  */
 public class FastDateFormat extends Format implements PositionDateParser, DatePrinter {
+	@Serial
 	private static final long serialVersionUID = 8097890768636183236L;
 
 	/**
@@ -75,7 +77,13 @@ public class FastDateFormat extends Format implements PositionDateParser, DatePr
 		}
 	};
 
+	/**
+	 * {@link FastDatePrinter}日期格式生成器
+	 */
 	private final FastDatePrinter printer;
+	/**
+	 * {@link FastDateParser}日期格式解析器
+	 */
 	private final FastDateParser parser;
 
 	// -----------------------------------------------------------------------

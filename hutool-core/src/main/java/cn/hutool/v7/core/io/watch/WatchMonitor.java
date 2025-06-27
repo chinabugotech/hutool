@@ -22,6 +22,7 @@ import cn.hutool.v7.core.text.CharUtil;
 import cn.hutool.v7.core.text.StrUtil;
 
 import java.io.Closeable;
+import java.io.Serial;
 import java.io.Serializable;
 import java.nio.file.Path;
 import java.nio.file.WatchEvent;
@@ -37,8 +38,12 @@ import java.nio.file.WatchEvent;
  * @author Looly
  */
 public class WatchMonitor extends Thread implements Closeable, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * 监听服务
+	 */
 	private final WatchServiceWrapper watchService;
 
 	/**

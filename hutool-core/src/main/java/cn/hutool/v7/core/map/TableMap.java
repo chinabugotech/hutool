@@ -20,6 +20,7 @@ import cn.hutool.v7.core.collection.CollUtil;
 import cn.hutool.v7.core.collection.ListUtil;
 import cn.hutool.v7.core.util.ObjUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -43,11 +44,21 @@ import java.util.function.BiFunction;
  * @author Looly
  */
 public class TableMap<K, V> implements Map<K, V>, Iterable<Map.Entry<K, V>>, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * 默认初始大小
+	 */
 	private static final int DEFAULT_CAPACITY = 10;
 
+	/**
+	 * 键列表
+	 */
 	private final List<K> keys;
+	/**
+	 * 值列表
+	 */
 	private final List<V> values;
 
 	/**

@@ -37,8 +37,17 @@ public class FileResource implements Resource, Serializable {
 	@Serial
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 *  文件
+	 */
 	private final File file;
+	/**
+	 * 文件最后修改时间
+	 */
 	private final long lastModified;
+	/**
+	 * 文件名
+	 */
 	private final String name;
 
 	// ----------------------------------------------------------------------- Constructor start

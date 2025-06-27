@@ -19,10 +19,7 @@ package cn.hutool.v7.core.io.resource;
 import cn.hutool.v7.core.io.IORuntimeException;
 import cn.hutool.v7.core.io.stream.ReaderInputStream;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Reader;
-import java.io.Serializable;
+import java.io.*;
 import java.net.URL;
 import java.nio.charset.Charset;
 
@@ -34,9 +31,16 @@ import java.nio.charset.Charset;
  * @since 4.0.9
  */
 public class InputStreamResource implements Resource, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * {@link InputStream}
+	 */
 	private final InputStream in;
+	/**
+	 * 资源名称
+	 */
 	private final String name;
 
 	/**

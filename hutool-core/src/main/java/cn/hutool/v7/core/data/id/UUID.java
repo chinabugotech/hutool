@@ -90,6 +90,9 @@ public final class UUID implements java.io.Serializable, Comparable<UUID> {
 	private static final AtomicLong lastV7time = new AtomicLong(0);
 	private static final long NANOS_PER_MILLI = 1_000_000;
 
+	/**
+	 * 16位ID值
+	 */
 	private final Number128 idValue;
 
 	/**

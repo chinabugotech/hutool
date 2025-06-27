@@ -20,6 +20,7 @@ import cn.hutool.v7.core.lang.Assert;
 import cn.hutool.v7.core.array.ArrayUtil;
 import cn.hutool.v7.core.util.CharsetUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.function.Predicate;
@@ -40,6 +41,7 @@ import java.util.function.Predicate;
  * @author Apache-commons-io
  */
 public class ByteOrderMark implements Predicate<byte[]>, Comparable<ByteOrderMark>, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	// region ----- BOMs
@@ -85,7 +87,13 @@ public class ByteOrderMark implements Predicate<byte[]>, Comparable<ByteOrderMar
 	};
 	// endregion
 
+	/**
+	 * BOM头
+	 */
 	private final String charsetName;
+	/**
+	 * BOM bytes
+	 */
 	private final byte[] bytes;
 
 	/**
@@ -163,10 +171,9 @@ public class ByteOrderMark implements Predicate<byte[]>, Comparable<ByteOrderMar
 
 	@Override
 	public boolean equals(final Object obj) {
-		if (!(obj instanceof ByteOrderMark)) {
+		if (!(obj instanceof final ByteOrderMark bom)) {
 			return false;
 		}
-		final ByteOrderMark bom = (ByteOrderMark) obj;
 		return Arrays.equals(this.bytes, bom.bytes);
 	}
 

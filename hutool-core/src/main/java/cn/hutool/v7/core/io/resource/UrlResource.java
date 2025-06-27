@@ -24,6 +24,7 @@ import cn.hutool.v7.core.util.ObjUtil;
 
 import java.io.File;
 import java.io.InputStream;
+import java.io.Serial;
 import java.io.Serializable;
 import java.net.URI;
 import java.net.URL;
@@ -34,6 +35,7 @@ import java.net.URL;
  * @author Looly
  */
 public class UrlResource implements Resource, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -44,6 +46,9 @@ public class UrlResource implements Resource, Serializable {
 	 * 资源名称
 	 */
 	protected String name;
+	/**
+	 * 最后修改时间
+	 */
 	private long lastModified = 0;
 
 	//-------------------------------------------------------------------------------------- Constructor start

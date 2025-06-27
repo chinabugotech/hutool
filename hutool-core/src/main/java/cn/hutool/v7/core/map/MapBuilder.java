@@ -19,6 +19,7 @@ package cn.hutool.v7.core.map;
 
 import cn.hutool.v7.core.lang.builder.Builder;
 
+import java.io.Serial;
 import java.util.Map;
 import java.util.function.Supplier;
 
@@ -30,8 +31,12 @@ import java.util.function.Supplier;
  * @since 3.1.1
  */
 public class MapBuilder<K, V> implements Builder<Map<K, V>> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Map
+	 */
 	private final Map<K, V> map;
 
 	// region ----- of

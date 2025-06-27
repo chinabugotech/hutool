@@ -34,8 +34,17 @@ import java.nio.file.WatchKey;
  */
 public class LineReadWatcher extends SimpleWatcher implements Runnable {
 
+	/**
+	 * 随机访问文件
+	 */
 	private final RandomAccessFile randomAccessFile;
+	/**
+	 * 编码
+	 */
 	private final Charset charset;
+	/**
+	 * 行处理器{@link SerConsumer}实现
+	 */
 	private final SerConsumer<String> lineHandler;
 
 	/**

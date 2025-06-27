@@ -19,6 +19,7 @@ package cn.hutool.v7.core.io.resource;
 import cn.hutool.v7.core.lang.Assert;
 
 import java.io.InputStream;
+import java.io.Serial;
 import java.io.Serializable;
 import java.net.URL;
 
@@ -29,9 +30,16 @@ import java.net.URL;
  * @since 5.7.17
  */
 public class HttpResource implements Resource, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * 资源
+	 */
 	private final Resource resource;
+	/**
+	 * Content-Type类型
+	 */
 	private final String contentType;
 
 	/**

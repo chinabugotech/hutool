@@ -21,6 +21,7 @@ import cn.hutool.v7.core.io.IORuntimeException;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
+import java.io.Serial;
 import java.io.Serializable;
 import java.net.URL;
 import java.nio.charset.Charset;
@@ -37,9 +38,16 @@ import java.util.List;
  * @since 4.1.0
  */
 public class MultiResource implements Resource, Iterable<Resource>, Iterator<Resource>, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * 资源列表
+	 */
 	private final List<Resource> resources;
+	/**
+	 * 游标
+	 */
 	private int cursor;
 
 	/**

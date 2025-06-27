@@ -16,14 +16,15 @@
 
 package cn.hutool.v7.core.net.ssl;
 
-import cn.hutool.v7.core.lang.builder.Builder;
-import cn.hutool.v7.core.io.IORuntimeException;
 import cn.hutool.v7.core.array.ArrayUtil;
+import cn.hutool.v7.core.io.IORuntimeException;
+import cn.hutool.v7.core.lang.builder.Builder;
 import cn.hutool.v7.core.text.StrUtil;
 
 import javax.net.ssl.KeyManager;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
+import java.io.Serial;
 import java.security.*;
 
 
@@ -42,12 +43,38 @@ import java.security.*;
  * @since 5.5.2
  */
 public class SSLContextBuilder implements SSLProtocols, Builder<SSLContext> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
+	//SSL/TLS 协议配置参数
+
+	/**
+	 * 使用的 SSL/TLS 协议版本，默认为 TLS
+	 */
 	private String protocol = TLS;
+
+	/**
+	 * 密钥管理器数组，用于管理本地密钥材料（如客户端证书和私钥）
+	 * 在建立安全连接时提供本地身份验证所需的密钥
+	 */
 	private KeyManager[] keyManagers;
+
+	/**
+	 * 信任管理器数组，用于管理受信任的 CA 证书
+	 * 决定哪些远程证书被视为可信（如服务器证书验证）
+	 */
 	private TrustManager[] trustManagers;
+
+	/**
+	 * 安全随机数生成器，用于生成加密操作所需的高质量随机数
+	 * 影响密钥生成、握手过程等安全性关键环节
+	 */
 	private SecureRandom secureRandom;
+
+	/**
+	 * 安全提供者，指定底层加密算法的实现提供者
+	 * 如 Bouncy Castle、SunJSSE 等，影响可用算法和性能
+	 */
 	private Provider provider;
 
 

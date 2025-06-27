@@ -18,6 +18,8 @@ package cn.hutool.v7.core.lang.mutable;
 
 import cn.hutool.v7.core.comparator.CompareUtil;
 
+import java.io.Serial;
+
 /**
  * 可变 {@code float} 类型
  *
@@ -25,8 +27,12 @@ import cn.hutool.v7.core.comparator.CompareUtil;
  * @since 3.0.1
  */
 public class MutableFloat extends Number implements Comparable<MutableFloat>, Mutable<Number> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * 值
+	 */
 	private float value;
 
 	/**
