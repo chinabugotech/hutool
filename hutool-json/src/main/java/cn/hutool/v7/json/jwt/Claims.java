@@ -24,6 +24,7 @@ import cn.hutool.v7.json.JSONConfig;
 import cn.hutool.v7.json.JSONObject;
 import cn.hutool.v7.json.JSONUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.nio.charset.Charset;
 import java.util.Map;
@@ -35,11 +36,17 @@ import java.util.Map;
  * @since 5.7.0
  */
 public class Claims implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
-	// 时间使用秒级时间戳表示
+	/**
+	 * 时间使用秒级时间戳表示
+	 */
 	private final JSONConfig CONFIG = JSONConfig.of().setDateFormat(DateFormatManager.FORMAT_SECONDS);
 
+	/**
+	 * 初始化Claims
+	 */
 	private JSONObject claimJSON;
 
 	/**

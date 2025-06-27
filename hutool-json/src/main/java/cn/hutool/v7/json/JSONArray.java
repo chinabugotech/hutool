@@ -24,6 +24,7 @@ import cn.hutool.v7.json.serializer.impl.ArrayTypeAdapter;
 import cn.hutool.v7.json.serializer.impl.IterTypeAdapter;
 import cn.hutool.v7.json.writer.JSONWriter;
 
+import java.io.Serial;
 import java.util.*;
 
 /**
@@ -38,13 +39,16 @@ import java.util.*;
  * @author Looly
  */
 public class JSONArray extends ListWrapper<JSON> implements JSON, JSONGetter<Integer>, RandomAccess {
+	@Serial
 	private static final long serialVersionUID = 2664900568717612292L;
 
 	/**
 	 * 默认初始大小
 	 */
 	public static final int DEFAULT_CAPACITY = 10;
-
+	/**
+	 * JSON工厂
+	 */
 	private final JSONFactory factory;
 
 	// region ----- Constructors

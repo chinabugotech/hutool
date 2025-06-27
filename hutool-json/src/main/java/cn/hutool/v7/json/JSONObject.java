@@ -29,6 +29,7 @@ import cn.hutool.v7.core.util.ObjUtil;
 import cn.hutool.v7.json.support.InternalJSONUtil;
 import cn.hutool.v7.json.writer.JSONWriter;
 
+import java.io.Serial;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -43,6 +44,7 @@ import java.util.Map;
  * @author Looly
  */
 public class JSONObject extends MapWrapper<String, JSON> implements JSON, JSONGetter<String> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -50,6 +52,9 @@ public class JSONObject extends MapWrapper<String, JSON> implements JSON, JSONGe
 	 */
 	public static final int DEFAULT_CAPACITY = MapUtil.DEFAULT_INITIAL_CAPACITY;
 
+	/**
+	 * JSON工厂类
+	 */
 	private final JSONFactory factory;
 
 	// region ----- 构造

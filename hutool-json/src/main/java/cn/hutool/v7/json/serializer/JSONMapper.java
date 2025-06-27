@@ -26,6 +26,7 @@ import cn.hutool.v7.json.*;
 import cn.hutool.v7.json.serializer.impl.CharSequenceTypeAdapter;
 import cn.hutool.v7.json.serializer.impl.DefaultDeserializer;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.Optional;
@@ -44,7 +45,7 @@ import java.util.Optional;
  * @since 6.0.0
  */
 public class JSONMapper implements Serializable {
-
+	@Serial
 	private static final long serialVersionUID = -6714488573738940582L;
 
 	/**
@@ -57,7 +58,13 @@ public class JSONMapper implements Serializable {
 		return new JSONMapper(factory);
 	}
 
+	/**
+	 * JSON工厂
+	 */
 	private final JSONFactory factory;
+	/**
+	 * 类型转换器管理器
+	 */
 	private Loader<TypeAdapterManager> typeAdapterManagerLoader;
 
 	/**

@@ -21,6 +21,7 @@ import cn.hutool.v7.core.lang.wrapper.Wrapper;
 import cn.hutool.v7.core.reflect.ClassUtil;
 import cn.hutool.v7.json.writer.JSONWriter;
 
+import java.io.Serial;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
@@ -36,6 +37,7 @@ import java.math.BigInteger;
  * @since 6.0.0
  */
 public class JSONPrimitive implements Wrapper<Object>, JSON {
+	@Serial
 	private static final long serialVersionUID = -2026215279191790345L;
 
 	/**
@@ -63,7 +65,13 @@ public class JSONPrimitive implements Wrapper<Object>, JSON {
 			|| String.class == type;
 	}
 
+	/**
+	 * JSON工厂类
+	 */
 	private final JSONFactory factory;
+	/**
+	 * 值
+	 */
 	private Object value;
 
 	/**

@@ -24,6 +24,7 @@ import cn.hutool.v7.core.date.TimeUtil;
 import cn.hutool.v7.core.text.StrUtil;
 
 import java.io.IOException;
+import java.io.Serial;
 import java.time.temporal.TemporalAccessor;
 
 /**
@@ -32,9 +33,16 @@ import java.time.temporal.TemporalAccessor;
  * @author Looly
  */
 public class JacksonTemporalDeserializer extends StdDeserializer<TemporalAccessor> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * 时间类型
+	 */
 	private final Class<? extends TemporalAccessor> type;
+	/**
+	 * 日期格式
+	 */
 	private final String dateFormat;
 
 	/**

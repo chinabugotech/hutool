@@ -26,9 +26,16 @@ import cn.hutool.v7.core.text.StrUtil;
  */
 public class NoneJWTSigner implements JWTSigner {
 
+	/**
+	 * 定义一个常量ID_NONE，表示没有ID的情况
+	 */
 	public static final String ID_NONE = "none";
 
+	/**
+	 * 创建一个NoneJWTSigner实例，用于处理没有签名的JWT
+	 */
 	public static NoneJWTSigner NONE = new NoneJWTSigner();
+
 
 	@Override
 	public String sign(final String headerBase64, final String payloadBase64) {

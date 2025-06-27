@@ -26,6 +26,7 @@ import cn.hutool.v7.json.JSONObject;
 import cn.hutool.v7.json.JSONPrimitive;
 
 import java.io.IOException;
+import java.io.Serial;
 
 /**
  * Hutool JSON序列化器
@@ -34,8 +35,12 @@ import java.io.IOException;
  * @since 6.0.0
  */
 public class HutoolJSONSerializer extends StdSerializer<JSON> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * 构造
+	 */
 	protected HutoolJSONSerializer() {
 		super(JSON.class);
 	}
