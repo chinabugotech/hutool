@@ -16,7 +16,9 @@
 
 package cn.hutool.v7.swing.captcha;
 
+import cn.hutool.v7.core.math.Calculator;
 import cn.hutool.v7.swing.captcha.generator.MathGenerator;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class GeneratorTest {
@@ -26,6 +28,12 @@ public class GeneratorTest {
 		final MathGenerator mathGenerator = new MathGenerator();
 		for (int i = 0; i < 1000; i++) {
 			mathGenerator.verify(mathGenerator.generate(), "0");
+		}
+
+		final MathGenerator mathGenerator1 = new MathGenerator(2, false);
+		for (int i = 0; i < 1000; i++) {
+			final String generate = mathGenerator1.generate();
+			Assertions.assertTrue(Calculator.conversion(generate) >= 0);
 		}
 	}
 }

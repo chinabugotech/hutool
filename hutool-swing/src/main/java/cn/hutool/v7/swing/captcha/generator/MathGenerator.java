@@ -18,8 +18,10 @@ package cn.hutool.v7.swing.captcha.generator;
 
 import cn.hutool.v7.core.math.Calculator;
 import cn.hutool.v7.core.text.CharUtil;
-import cn.hutool.v7.core.util.RandomUtil;
 import cn.hutool.v7.core.text.StrUtil;
+import cn.hutool.v7.core.util.RandomUtil;
+
+import java.io.Serial;
 
 /**
  * 数字计算验证码生成器
@@ -28,42 +30,63 @@ import cn.hutool.v7.core.text.StrUtil;
  * @since 4.1.2
  */
 public class MathGenerator implements CodeGenerator {
+	@Serial
 	private static final long serialVersionUID = -5514819971774091076L;
 
 	private static final String operators = "+-*";
 
-	/** 参与计算数字最大长度 */
+	/**
+	 * 参与计算数字最大长度
+	 */
 	private final int numberLength;
+	/**
+	 * 计算结果是否允许负数
+	 */
+	private final boolean resultHasNegativeNumber;
 
 	/**
 	 * 构造
 	 */
 	public MathGenerator() {
-		this(2);
+		this(2, false);
 	}
 
 	/**
 	 * 构造
 	 *
-	 * @param numberLength 参与计算最大数字位数
+	 * @param numberLength            参与计算最大数字位数
+	 * @param resultHasNegativeNumber 结果是否允许负数
 	 */
-	public MathGenerator(final int numberLength) {
+	public MathGenerator(final int numberLength, final boolean resultHasNegativeNumber) {
 		this.numberLength = numberLength;
+		this.resultHasNegativeNumber = resultHasNegativeNumber;
 	}
 
 	@Override
 	public String generate() {
 		final int limit = getLimit();
-		String number1 = Integer.toString(RandomUtil.randomInt(limit));
-		String number2 = Integer.toString(RandomUtil.randomInt(limit));
+		final char operator = RandomUtil.randomChar(operators);
+		final int numberInt1;
+		final int numberInt2;
+		numberInt1 = RandomUtil.randomInt(limit);
+		// 如果禁止了结果有负数，且计算方式正好计算为减法，需要第二个数小于第一个数
+		if (!resultHasNegativeNumber && CharUtil.equals('-',operator,false)) {
+			//如果第一个数为0，第二个数必须为0，随机[0,0)的数字会报错
+			numberInt2 = numberInt1 == 0 ? 0 : RandomUtil.randomInt(0, numberInt1);
+		} else {
+			numberInt2 = RandomUtil.randomInt(limit);
+		}
+		String number1 = Integer.toString(numberInt1);
+		String number2 = Integer.toString(numberInt2);
+
 		number1 = StrUtil.padAfter(number1, this.numberLength, CharUtil.SPACE);
 		number2 = StrUtil.padAfter(number2, this.numberLength, CharUtil.SPACE);
 
 		return StrUtil.builder()//
-				.append(number1)//
-				.append(RandomUtil.randomChar(operators))//
-				.append(number2)//
-				.append('=').toString();
+			.append(number1)//
+			.append(operator)//
+			.append(number2)//
+			.append('=').toString();
 	}
 
 	@Override
