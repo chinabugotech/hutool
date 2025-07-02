@@ -25,6 +25,7 @@ import cn.hutool.v7.core.convert.AbstractConverter;
 import cn.hutool.v7.core.convert.ConvertException;
 import cn.hutool.v7.core.convert.MatcherConverter;
 
+import java.io.Serial;
 import java.lang.reflect.Type;
 import java.util.Map;
 
@@ -37,6 +38,7 @@ import java.util.Map;
  * </pre>
  */
 public class RecordConverter extends AbstractConverter implements MatcherConverter {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
