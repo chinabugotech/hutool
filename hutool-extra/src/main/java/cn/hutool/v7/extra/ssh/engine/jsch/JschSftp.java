@@ -187,7 +187,7 @@ public class JschSftp extends AbstractFtp {
 	public JschSftp reconnectIfTimeout() {
 		try {
 			this.cd(StrUtil.SLASH);
-		} catch (final FtpException e) {
+		} catch (final Exception e) {
 			close();
 			init();
 		}
