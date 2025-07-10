@@ -345,7 +345,7 @@ public class ChineseDate {
 	 * @return 获得农历节日
 	 */
 	public String getFestivals() {
-		return StrUtil.join(",", LunarFestival.getFestivals(this.year, this.month, day));
+		return StrUtil.join(",", LunarFestival.getFestivals(this.year, this.isLeapMonth ? this.month - 1 : this.month, day));
 	}
 
 	/**
@@ -411,7 +411,7 @@ public class ChineseDate {
 	 * @since 6.0.0
 	 */
 	public String toString(ChineseDateFormat format) {
-		if(null == format){
+		if (null == format) {
 			format = ChineseDateFormat.MIX;
 		}
 
@@ -420,12 +420,12 @@ public class ChineseDate {
 		String normalizedYear = GanZhi.getGanzhiOfYear(year);
 		String normalizedMonth = getChineseMonth();
 		String normalizedDay = getChineseDay();
-		switch (format){
+		switch (format) {
 			case GXSS:
 				dateTemplate = "农历{}" + getChineseZodiac() + "年{}{}";
 				normalizedMonth = getChineseMonthName();
 				break;
-			case XSS :
+			case XSS:
 				normalizedYear = getChineseZodiac();
 				break;
 			case GSG:
@@ -439,7 +439,7 @@ public class ChineseDate {
 				break;
 			case MIX:
 				//根据选择的格式返回不同标准化日期输出，默认为Mix
-				dateTemplate = "公元"+ this.year +"年农历{}年{}{}";
+				dateTemplate = "公元" + this.year + "年农历{}年{}{}";
 			case GSS:
 				break;
 			default:
