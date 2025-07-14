@@ -14,52 +14,26 @@
  * limitations under the License.
  */
 
-package cn.hutool.v7.ai;
+package cn.hutool.v7.ai.model.ollama;
+
+import cn.hutool.v7.ai.core.AIConfig;
+import cn.hutool.v7.ai.core.AIServiceProvider;
 
 /**
- * 模型厂商的名称（不指具体的模型）
+ * 创建Ollama服务实现类
  *
- * @author elichow
- * @since 6.0.0
+ * @author yangruoyu-yumeisoft
+ * @since 5.8.40
  */
-public enum ModelName {
-	/**
-	 * hutool
-	 */
-	HUTOOL("hutool"),
-	/**
-	 * deepSeek
-	 */
-	DEEPSEEK("deepSeek"),
-	/**
-	 * openai
-	 */
-	OPENAI("openai"),
-	/**
-	 * doubao
-	 */
-	DOUBAO("doubao"),
-	/**
-	 * grok
-	 */
-	GROK("grok"),
-	/**
-	 * ollama
-	 */
-	OLLAMA("ollama");
+public class OllamaProvider implements AIServiceProvider {
 
-	private final String value;
-
-	ModelName(final String value) {
-		this.value = value;
+	@Override
+	public String getServiceName() {
+		return "ollama";
 	}
 
-	/**
-	 * 获取值
-	 *
-	 * @return 值
-	 */
-	public String getValue() {
-		return value;
+	@Override
+	public OllamaService create(final AIConfig config) {
+		return new OllamaServiceImpl(config);
 	}
 }

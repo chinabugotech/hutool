@@ -30,7 +30,7 @@ public class Models {
 
 		private final String model;
 
-		Hutool(String model) {
+		Hutool(final String model) {
 			this.model = model;
 		}
 
@@ -46,7 +46,7 @@ public class Models {
 
 		private final String model;
 
-		DeepSeek(String model) {
+		DeepSeek(final String model) {
 			this.model = model;
 		}
 
@@ -94,7 +94,7 @@ public class Models {
 
 		private final String model;
 
-		Openai(String model) {
+		Openai(final String model) {
 			this.model = model;
 		}
 
@@ -147,7 +147,7 @@ public class Models {
 
 		private final String model;
 
-		Doubao(String model) {
+		Doubao(final String model) {
 			this.model = model;
 		}
 
@@ -182,7 +182,7 @@ public class Models {
 
 		private final String model;
 
-		Grok(String model) {
+		Grok(final String model) {
 			this.model = model;
 		}
 
@@ -191,4 +191,18 @@ public class Models {
 		}
 	}
 
+	// Ollama的模型
+	public enum Ollama {
+		QWEN3_32B("qwen3:32b");
+
+		private final String model;
+
+		Ollama(final String model) {
+			this.model = model;
+		}
+
+		public String getModel() {
+			return model;
+		}
+	}
 }
