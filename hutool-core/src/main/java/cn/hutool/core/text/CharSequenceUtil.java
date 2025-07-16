@@ -2482,7 +2482,7 @@ public class CharSequenceUtil {
 	/**
 	 * 截取指定字符串中间部分，不包括标识字符串<br>
 	 * <p>
-	 * 栗子：
+	 * 例子：
 	 *
 	 * <pre>
 	 * CharSequenceUtil.subBetween("wx[b]yz", "[", "]") = "b"
@@ -2525,7 +2525,7 @@ public class CharSequenceUtil {
 	/**
 	 * 截取指定字符串中间部分，不包括标识字符串<br>
 	 * <p>
-	 * 栗子：
+	 * 例子：
 	 *
 	 * <pre>
 	 * CharSequenceUtil.subBetween(null, *)            = null
@@ -2548,7 +2548,7 @@ public class CharSequenceUtil {
 	/**
 	 * 截取指定字符串多段中间部分，不包括标识字符串<br>
 	 * <p>
-	 * 栗子：
+	 * 例子：
 	 *
 	 * <pre>
 	 * CharSequenceUtil.subBetweenAll("wx[b]y[z]", "[", "]") 		= ["b","z"]
@@ -2603,7 +2603,7 @@ public class CharSequenceUtil {
 	/**
 	 * 截取指定字符串多段中间部分，不包括标识字符串<br>
 	 * <p>
-	 * 栗子：
+	 * 例子：
 	 *
 	 * <pre>
 	 * CharSequenceUtil.subBetweenAll(null, *)          			= []

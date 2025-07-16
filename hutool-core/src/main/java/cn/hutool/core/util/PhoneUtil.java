@@ -97,7 +97,7 @@ public class PhoneUtil {
 
 	/**
 	 * 隐藏手机号前7位  替换字符为"*"
-	 * 栗子
+	 * 例子
 	 *
 	 * @param phone 手机号码
 	 * @return 替换后的字符串

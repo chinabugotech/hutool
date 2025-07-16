@@ -31,7 +31,7 @@ public interface JSON extends Cloneable, Serializable, IJSONTypeConverter {
 	 * <li>[]表达式，可以获取集合等对象中对应index的值</li>
 	 * </ol>
 	 * <p>
-	 * 表达式栗子：
+	 * 表达式例子：
 	 *
 	 * <pre>
 	 * persion
@@ -56,7 +56,7 @@ public interface JSON extends Cloneable, Serializable, IJSONTypeConverter {
 	 * <li>[]表达式，可以获取集合等对象中对应index的值</li>
 	 * </ol>
 	 * <p>
-	 * 表达式栗子：
+	 * 表达式例子：
 	 *
 	 * <pre>
 	 * persion
@@ -77,7 +77,7 @@ public interface JSON extends Cloneable, Serializable, IJSONTypeConverter {
 	 * <li>[]表达式，可以获取集合等对象中对应index的值</li>
 	 * </ol>
 	 * <p>
-	 * 表达式栗子：
+	 * 表达式例子：
 	 *
 	 * <pre>
 	 * persion
@@ -104,7 +104,7 @@ public interface JSON extends Cloneable, Serializable, IJSONTypeConverter {
 	 * <li>[]表达式，可以获取集合等对象中对应index的值</li>
 	 * </ol>
 	 * <p>
-	 * 表达式栗子：
+	 * 表达式例子：
 	 *
 	 * <pre>
 	 * persion

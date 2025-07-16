@@ -1665,7 +1665,7 @@ public class FileUtil extends PathUtil {
 	 * <li>4. .. 和 . 转换为绝对路径，当..多于已有路径时，直接返回根路径</li>
 	 * </ol>
 	 * <p>
-	 * 栗子：
+	 * 例子：
 	 *
 	 * <pre>
 	 * "/foo//" =》 "/foo/"
@@ -1775,7 +1775,7 @@ public class FileUtil extends PathUtil {
 	/**
 	 * 获得相对子路径
 	 * <p>
-	 * 栗子：
+	 * 例子：
 	 *
 	 * <pre>
 	 * dirPath: d:/aaa/bbb    filePath: d:/aaa/bbb/ccc     =》    ccc
@@ -1797,7 +1797,7 @@ public class FileUtil extends PathUtil {
 	/**
 	 * 获得相对子路径，忽略大小写
 	 * <p>
-	 * 栗子：
+	 * 例子：
 	 *
 	 * <pre>
 	 * dirPath: d:/aaa/bbb    filePath: d:/aaa/bbb/ccc     =》    ccc
