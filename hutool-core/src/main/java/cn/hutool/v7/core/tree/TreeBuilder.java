@@ -23,6 +23,7 @@ import cn.hutool.v7.core.map.MapUtil;
 import cn.hutool.v7.core.tree.parser.NodeParser;
 import cn.hutool.v7.core.util.ObjUtil;
 
+import java.io.Serial;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -34,6 +35,7 @@ import java.util.Map;
  * @param <E> ID类型
  */
 public class TreeBuilder<E> implements Builder<MapTree<E>> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private MapTree<E> root;
@@ -172,7 +174,7 @@ public class TreeBuilder<E> implements Builder<MapTree<E>> {
 
 		final TreeNodeConfig config = this.root.getConfig();
 		final Iterator<T> iterator = list.iterator();
-		return append(new Iterator<MapTree<E>>() {
+		return append(new Iterator<>() {
 			@Override
 			public boolean hasNext() {
 				return iterator.hasNext();
@@ -183,7 +185,7 @@ public class TreeBuilder<E> implements Builder<MapTree<E>> {
 				final MapTree<E> node = new MapTree<>(config);
 				nodeParser.parse(iterator.next(), node);
 
-				if(ObjUtil.equals(node.getId(), root.getId())){
+				if (ObjUtil.equals(node.getId(), root.getId())) {
 					// issue#IAUSHR 如果指定根节点存在，直接复用
 					TreeBuilder.this.root = node;
 					return null;
