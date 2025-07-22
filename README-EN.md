@@ -128,18 +128,18 @@ Each module can be introduced individually, or all modules can be introduced by 
 <dependency>
 	<groupId>cn.hutool.v7</groupId>
 	<artifactId>hutool-all</artifactId>
-	<version>7.0.0-M1</version>
+	<version>7.0.0-M2</version>
 </dependency>
 ```
 
 ### 🍐Gradle
 ```
-implementation 'cn.hutool.v7:hutool-all:7.0.0-M1'
+implementation 'cn.hutool.v7:hutool-all:7.0.0-M2'
 ```
 
 ## 📥Download
 
-- [Maven Repo](https://repo1.maven.org/maven2/cn/hutool/v7/hutool-all/7.0.0-M1/)
+- [Maven Repo](https://repo1.maven.org/maven2/cn/hutool/v7/hutool-all/7.0.0-M2/)
 
 > 🔔️note:
 > Hutool 7.x supports JDK17 and is not tested on Android platforms, and cannot guarantee that all tool classes or tool methods are available.

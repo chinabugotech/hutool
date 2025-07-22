@@ -131,21 +131,21 @@ Hutool目前主要版本4.x、5.x、6.x、7.x，选择如下：
 <dependency>
     <groupId>cn.hutool.v7</groupId>
     <artifactId>hutool-all</artifactId>
-    <version>7.0.0-M1</version>
+    <version>7.0.0-M2</version>
 </dependency>
 ```
 
 ### 🍐Gradle
 
 ```
-implementation 'cn.hutool.v7:hutool-all:7.0.0-M1'
+implementation 'cn.hutool.v7:hutool-all:7.0.0-M2'
 ```
 
 ### 📥下载jar
 
 点击以下链接，下载`hutool-all-X.X.X.jar`即可：
 
-- [Maven中央库](https://repo1.maven.org/maven2/cn/hutool/v7/hutool-all/7.0.0-M1/)
+- [Maven中央库](https://repo1.maven.org/maven2/cn/hutool/v7/hutool-all/7.0.0-M2/)
 
 > 🔔️注意
 > Hutool 7.x支持JDK17，对Android平台没有测试，不能保证所有工具类或工具方法可用。
