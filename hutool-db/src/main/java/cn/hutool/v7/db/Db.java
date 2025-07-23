@@ -26,6 +26,7 @@ import cn.hutool.v7.db.transaction.TransactionLevel;
 import cn.hutool.v7.log.LogUtil;
 
 import javax.sql.DataSource;
+import java.io.Serial;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -37,6 +38,7 @@ import java.sql.SQLException;
  * @since 4.1.2
  */
 public class Db extends AbstractDb<Db> {
+	@Serial
 	private static final long serialVersionUID = -3378415769645309514L;
 
 	// region ----- of
