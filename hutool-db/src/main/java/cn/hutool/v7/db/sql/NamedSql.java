@@ -114,7 +114,7 @@ public class NamedSql extends BoundSql {
 		}
 
 		// 收尾，如果SQL末尾存在变量，处理之
-		if (name.length() > 0) {
+		if (!name.isEmpty()) {
 			replaceVar(nameStartChar, name, sqlBuilder, paramMap);
 		}
 
@@ -130,7 +130,7 @@ public class NamedSql extends BoundSql {
 	 * @param paramMap      变量map（非空）
 	 */
 	private void replaceVar(final Character nameStartChar, final StringBuilder name, final StringBuilder sqlBuilder, final Map<String, Object> paramMap) {
-		if (name.length() == 0) {
+		if (name.isEmpty()) {
 			if (null != nameStartChar) {
 				// 类似于:的情况，需要补上:
 				sqlBuilder.append(nameStartChar);
