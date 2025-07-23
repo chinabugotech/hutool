@@ -18,6 +18,7 @@ package cn.hutool.v7.extra.mq;
 
 import cn.hutool.v7.extra.mq.engine.MQEngine;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Properties;
 
@@ -28,6 +29,7 @@ import java.util.Properties;
  * @since 6.0.0
  */
 public class MQConfig implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

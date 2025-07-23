@@ -14,36 +14,10 @@
  * limitations under the License.
  */
 
-package cn.hutool.v7.extra.mq;
-
-import cn.hutool.v7.core.thread.ThreadUtil;
-
-import java.io.Closeable;
-
 /**
- * 消息消费者接口
+ * JMS(Java Message Service)消息队列引擎
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
-public interface Consumer extends Closeable {
-	/**
-	 * 单次订阅消息
-	 *
-	 * @param messageHandler 消息处理器
-	 */
-	void subscribe(MessageHandler messageHandler);
-
-	/**
-	 * 持续订阅消息
-	 *
-	 * @param messageHandler 消息处理器
-	 */
-	default void listen(final MessageHandler messageHandler) {
-		ThreadUtil.execAsync(() -> {
-			for(;;) {
-				this.subscribe(messageHandler);
-			}
-		});
-	}
-}
+package cn.hutool.v7.extra.mq.engine.jms;

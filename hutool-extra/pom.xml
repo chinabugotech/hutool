@@ -70,6 +70,7 @@
 		<kafka.version>4.0.0</kafka.version>
 		<rabbitmq.version>5.25.0</rabbitmq.version>
 		<rocketmq.version>5.3.3</rocketmq.version>
+		<activemq.version>6.1.7</activemq.version>
 	</properties>
 
 	<dependencies>
@@ -552,6 +553,12 @@
 			<groupId>org.apache.rocketmq</groupId>
 			<artifactId>rocketmq-client</artifactId>
 			<version>${rocketmq.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.activemq</groupId>
+			<artifactId>activemq-client</artifactId>
+			<version>${activemq.version}</version>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
