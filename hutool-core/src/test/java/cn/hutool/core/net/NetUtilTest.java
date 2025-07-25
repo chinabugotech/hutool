@@ -136,4 +136,15 @@ public class NetUtilTest {
 		String ipv6Address = NetUtil.bigIntegerToIPv6(bigInteger);
 		Assertions.assertEquals("0:115:85f1:5eb3:c74d:a870:11c6:7eea", ipv6Address);
 	}
+
+	@Test
+	void ipv6ToBigIntegerTest() {
+		BigInteger bigInteger = new BigInteger("21987654321098765432109876543210", 10);
+		BigInteger ipv6Address = NetUtil.ipv6ToBigInteger("0:115:85f1:5eb3:c74d:a870:11c6:7eea");
+		Assertions.assertEquals(bigInteger, ipv6Address);
+
+		bigInteger = new BigInteger("2886729738", 10);
+		ipv6Address = NetUtil.ipv6ToBigInteger("::ffff:ac10:000a");
+		Assertions.assertEquals(bigInteger, ipv6Address);
+	}
 }

@@ -95,6 +95,9 @@ public class NetUtil {
 			if (address instanceof Inet6Address) {
 				return new BigInteger(1, address.getAddress());
 			}
+			if (address instanceof Inet4Address) {
+				return new BigInteger(1, address.getAddress());
+			}
 		} catch (UnknownHostException ignore) {
 		}
 		return null;
