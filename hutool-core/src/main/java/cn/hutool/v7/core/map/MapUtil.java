@@ -389,9 +389,9 @@ public class MapUtil extends MapGetUtil {
 		final HashMap<Object, Object> map = new HashMap<>((int) (array.length * 1.5));
 		for (int i = 0; i < array.length; i++) {
 			final Object object = array[i];
-			if (object instanceof Map.Entry entry) {
+			if (object instanceof final Map.Entry entry) {
 				map.put(entry.getKey(), entry.getValue());
-			} else if (object instanceof Object[] entry) {
+			} else if (object instanceof final Object[] entry) {
 				if (entry.length > 1) {
 					map.put(entry[0], entry[1]);
 				}
@@ -404,7 +404,7 @@ public class MapUtil extends MapGetUtil {
 						map.put(key, value);
 					}
 				}
-			} else if (object instanceof Iterator iter) {
+			} else if (object instanceof final Iterator iter) {
 				if (iter.hasNext()) {
 					final Object key = iter.next();
 					if (iter.hasNext()) {
@@ -838,7 +838,7 @@ public class MapUtil extends MapGetUtil {
 			return null;
 		}
 
-		if (map instanceof TreeMap<K, V> result) {
+		if (map instanceof final TreeMap<K, V> result) {
 			// 已经是可排序Map，此时只有比较器一致才返回原map
 			if (null == comparator || comparator.equals(result.comparator())) {
 				return result;
@@ -1398,5 +1398,46 @@ public class MapUtil extends MapGetUtil {
 			kvConsumer.accept(index, entry.getKey(), entry.getValue());
 			index++;
 		}
+	}
+
+	/**
+	 * 将多层级Map处理为一个层级Map类型
+	 *
+	 * @param map 入参Map
+	 * @return 单层级Map返回值
+	 * @param <K>  键类型
+	 * @param <V>  值类型
+	 */
+	public static <K, V> Map<K, V> flatten(final Map<K, V> map) {
+		return flatten(map, new HashMap<>());
+	}
+
+	/**
+	 * 递归调用将多层级Map处理为一个层级Map类型
+	 *
+	 * @param map     入参Map
+	 * @param flatMap 单层级Map返回值
+	 * @param <K>     键类型
+	 * @param <V>     值类型
+	 * @return 单层级Map返回值
+	 */
+	@SuppressWarnings("unchecked")
+	public static <K, V> Map<K, V> flatten(final Map<K, V> map, Map<K, V> flatMap) {
+		Assert.notNull(map);
+		if(null == flatMap){
+			flatMap = new HashMap<>();
+		}
+
+		final Map<K, V> finalFlatMap = flatMap;
+		map.forEach((k, v) -> {
+			// 避免嵌套循环
+			if (v instanceof Map && v != map) {
+				flatten((Map<K, V>) v, finalFlatMap);
+			} else {
+				finalFlatMap.put(k, v);
+			}
+		});
+
+		return flatMap;
 	}
 }

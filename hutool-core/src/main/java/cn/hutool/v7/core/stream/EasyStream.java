@@ -22,6 +22,7 @@ import cn.hutool.v7.core.lang.Opt;
 import cn.hutool.v7.core.math.NumberUtil;
 import cn.hutool.v7.core.util.ObjUtil;
 
+import java.io.Serial;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Collection;
@@ -100,6 +101,7 @@ public class EasyStream<T> extends AbstractEnhancedWrappedStream<T, EasyStream<T
 	 */
 	public static <T> Builder<T> builder() {
 		return new Builder<T>() {
+			@Serial
 			private static final long serialVersionUID = 1L;
 			private final Stream.Builder<T> streamBuilder = Stream.builder();
 
