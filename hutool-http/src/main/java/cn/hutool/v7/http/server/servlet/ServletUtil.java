@@ -211,7 +211,7 @@ public class ServletUtil {
 	public static String getClientIP(final HttpServletRequest request, final String... otherHeaderNames) {
 		String[] headers = {"X-Forwarded-For", "X-Real-IP", "Proxy-Client-IP", "WL-Proxy-Client-IP", "HTTP_CLIENT_IP", "HTTP_X_FORWARDED_FOR"};
 		if (ArrayUtil.isNotEmpty(otherHeaderNames)) {
-			headers = ArrayUtil.addAll(headers, otherHeaderNames);
+			headers = ArrayUtil.addAll(otherHeaderNames, headers);
 		}
 
 		return getClientIPByHeader(request, headers);
