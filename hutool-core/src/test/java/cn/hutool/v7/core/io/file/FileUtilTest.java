@@ -30,8 +30,7 @@ import java.io.File;
 import java.nio.file.Paths;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * {@link FileUtil} 单元测试类
@@ -156,7 +155,7 @@ public class FileUtilTest {
 		final File destFile1 = FileUtil.file("d:/hutool.jpg");
 
 		final boolean notEquals = FileUtil.equals(srcFile1, destFile1);
-		Assertions.assertFalse(notEquals);
+		assertFalse(notEquals);
 	}
 
 	@Test
@@ -434,7 +433,7 @@ public class FileUtilTest {
 	public void isSubTest() {
 		final File file = new File("d:/test");
 		final File file2 = new File("d:/test2/aaa");
-		Assertions.assertFalse(FileUtil.isSub(file, file2));
+		assertFalse(FileUtil.isSub(file, file2));
 	}
 
 	@Test
@@ -507,7 +506,7 @@ public class FileUtilTest {
 		assertTrue(FileUtil.isAbsolutePath(path));
 
 		path = "test\\aaa.txt";
-		Assertions.assertFalse(FileUtil.isAbsolutePath(path));
+		assertFalse(FileUtil.isAbsolutePath(path));
 	}
 
 	@Test
@@ -534,6 +533,44 @@ public class FileUtilTest {
 	void checkSlipTest() {
 		Assertions.assertThrows(IllegalArgumentException.class, () -> {
 			FileUtil.checkSlip(FileUtil.file("test/a"), FileUtil.file("test/../a"));
+		});
+	}
+
+	@Test
+	public void isSub_SubIsAncestorOfParentTest() {
+		final File parent = new File("d:/home/user/docs/notes");
+		final File sub = new File("d:/home/user/docs");
+		assertFalse(FileUtil.isSub(parent, sub));
+	}
+
+	@Test
+	public void isSub_SamePathTest() {
+		final File parent = new File("d:/home/user/docs");
+		final File sub = new File("d:/home/user/docs");
+		assertTrue(FileUtil.isSub(parent, sub));
+	}
+
+	@Test
+	public void isSub_NonexistentPathsTest() {
+		final File parent = new File("d:/unlikely/to/exist/parent");
+		final File sub = new File("d:/unlikely/to/exist/parent/child/file.txt");
+		assertTrue(FileUtil.isSub(parent, sub));
+
+		final File nonchild = new File("d:/also/unlikely/path.txt");
+		assertFalse(FileUtil.isSub(parent, nonchild));
+	}
+
+	@Test
+	public void isSub_NullParentTest() {
+		assertThrows(IllegalArgumentException.class, () -> {
+			FileUtil.isSub(null, new java.io.File("d:/any/path"));
+		});
+	}
+
+	@Test
+	public void isSub_NullSubTest() {
+		assertThrows(IllegalArgumentException.class, () -> {
+			FileUtil.isSub(new java.io.File("d:/any/path"), null);
 		});
 	}
 }

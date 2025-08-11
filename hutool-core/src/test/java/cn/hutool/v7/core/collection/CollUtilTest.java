@@ -1300,4 +1300,64 @@ public class CollUtilTest {
 		assertTrue(subtract.contains(2));
 		assertTrue(subtract.contains(3));
 	}
+
+	@Test
+	public void testPadLeft_NegativeMinLen_ShouldNotModifyList() {
+		final List<String> list = ListUtil.of("a", "b", "c");
+		final List<String> original = ListUtil.of("a", "b", "c");
+
+		CollUtil.padLeft(list, -5, "x");
+
+		assertEquals(original, list, "List should remain unchanged when minLen is negative");
+	}
+
+	@Test
+	public void testPadLeft_EmptyList_MinLenZero() {
+		final List<String> list = ListUtil.of();
+
+		CollUtil.padLeft(list, 0, "x");
+
+		assertTrue(list.isEmpty(), "List should remain empty when minLen is 0");
+	}
+
+	@Test
+	public void testSubtractWithDuplicates() {
+		final Collection<String> coll1 = new ArrayList<>(Arrays.asList("a", "b", "b", "c"));
+		final Collection<String> coll2 = Collections.singletonList("b");
+		final Collection<String> result = CollUtil.subtract(coll1, coll2);
+
+		final List<String> expected = Arrays.asList("a", "c");
+		final List<String> resultList = new ArrayList<>(result);
+		Collections.sort(resultList);
+		Collections.sort(expected);
+		assertEquals(expected, resultList);
+	}
+
+	@Test
+	public void lastIndexOf_NoMatchExists() {
+		final List<String> list = ListUtil.of("a", "b", "c");
+		final int idx = CollUtil.lastIndexOf(list, item -> item.equals("z"));
+		assertEquals(-1, idx);
+	}
+
+	@Test
+	public void lastIndexOf_MatcherIsNull_MatchAll() {
+		final List<String> list = ListUtil.of("x", "y", "z");
+		final int idx = CollUtil.lastIndexOf(list, null);
+		assertEquals(2, idx);
+	}
+
+	@Test
+	public void lastIndexOf_EmptyCollection() {
+		final List<String> list = ListUtil.of();
+		final int idx = CollUtil.lastIndexOf(list, Objects::nonNull);
+		assertEquals(-1, idx);
+	}
+
+	@Test
+	public void lastIndexOf_SingletonCollection_Match() {
+		final List<String> list = ListUtil.of("foo");
+		final int idx = CollUtil.lastIndexOf(list, item -> item.equals("foo"));
+		assertEquals(0, idx);
+	}
 }
