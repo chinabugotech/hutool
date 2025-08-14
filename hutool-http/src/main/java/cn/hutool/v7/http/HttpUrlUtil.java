@@ -22,7 +22,14 @@ import cn.hutool.v7.core.text.split.SplitUtil;
 
 import java.util.List;
 
+/**
+ * HTTP URL工具类
+ *
+ * @author looly
+ * @since 7.0.0
+ */
 public class HttpUrlUtil {
+
 	/**
 	 * 获取转发的新的URL
 	 *
