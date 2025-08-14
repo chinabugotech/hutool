@@ -49,7 +49,7 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
 	/**
 	 * 每个对象是否有单独的失效时长，用于决定清理过期对象是否有必要。
 	 */
-	protected boolean existCustomTimeout;
+	protected volatile  boolean  existCustomTimeout;
 
 	/**
 	 * 命中数，即命中缓存计数
