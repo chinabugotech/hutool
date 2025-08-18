@@ -14,34 +14,10 @@
  * limitations under the License.
  */
 
-package cn.hutool.v7.core.lang.wrapper;
-
 /**
- * 简单包装对象<br>
- * 通过继承此类，可以直接使用被包装的对象，用于简化和统一封装。
+ * 基于JDK17+的HttpClient 封装的HTTP客户端
  *
- * @param <T> 被包装对象类型
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
-public class SimpleWrapper<T> implements Wrapper<T> {
-
-	/**
-	 * 原始对象
-	 */
-	protected T raw;
-
-	/**
-	 * 构造
-	 *
-	 * @param raw 原始对象
-	 */
-	public SimpleWrapper(final T raw) {
-		this.raw = raw;
-	}
-
-	@Override
-	public T getRaw() {
-		return this.raw;
-	}
-}
+package cn.hutool.v7.http.client.engine.jdk11;

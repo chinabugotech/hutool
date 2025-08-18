@@ -24,6 +24,8 @@ import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import cn.hutool.v7.core.lang.builder.Builder;
 import cn.hutool.v7.http.ssl.SSLInfo;
 
+import java.io.Serial;
+
 /**
  * HttpClient4连接工厂注册器构建器
  *
@@ -31,6 +33,7 @@ import cn.hutool.v7.http.ssl.SSLInfo;
  * @since 6.0.0
  */
 public class ConnectionSocketFactoryRegistryBuilder implements Builder<Registry<ConnectionSocketFactory>> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

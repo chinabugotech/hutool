@@ -66,7 +66,7 @@ public class ClientEngineFactory {
 	/**
 	 * 创建自定义引擎
 	 *
-	 * @param engineName 引擎名称，忽略大小写，如`HttpClient4`、`HttpClient5`、`OkHttp`、`JdkClient`
+	 * @param engineName 引擎名称，忽略大小写，如`HttpClient4`、`HttpClient5`、`OkHttp`、`JdkClient`、`Jdk11Client`
 	 * @return 引擎
 	 * @throws HttpException 无对应名称的引擎
 	 */

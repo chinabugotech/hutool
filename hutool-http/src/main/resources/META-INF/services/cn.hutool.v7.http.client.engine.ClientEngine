@@ -18,3 +18,4 @@ cn.hutool.v7.http.client.engine.httpclient5.HttpClient5Engine
 cn.hutool.v7.http.client.engine.httpclient4.HttpClient4Engine
 cn.hutool.v7.http.client.engine.okhttp.OkHttpEngine
 cn.hutool.v7.http.client.engine.jdk.JdkClientEngine
+cn.hutool.v7.http.client.engine.jdk11.Jdk11ClientEngine

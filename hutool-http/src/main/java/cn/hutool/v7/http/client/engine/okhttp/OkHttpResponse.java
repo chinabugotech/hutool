@@ -78,10 +78,6 @@ public class OkHttpResponse implements Response {
 	@Override
 	public InputStream bodyStream() {
 		final okhttp3.ResponseBody body = rawRes.body();
-		if(null == body){
-			return EmptyInputStream.INSTANCE;
-		}
-
 		return GlobalCompressStreamRegister.INSTANCE.wrapStream(body.byteStream(),
 			this.rawRes.header(HeaderName.CONTENT_ENCODING.getValue()));
 	}
