@@ -24,6 +24,7 @@ import cn.hutool.v7.db.dialect.DialectName;
 import cn.hutool.v7.db.sql.SqlBuilder;
 import cn.hutool.v7.db.sql.StatementUtil;
 
+import java.io.Serial;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.Arrays;
@@ -35,6 +36,7 @@ import java.util.List;
  * @author wb04307201
  */
 public class DmDialect extends AnsiSqlDialect {
+	@Serial
 	private static final long serialVersionUID = 3415348435502927423L;
 
 	/**
@@ -78,7 +80,7 @@ public class DmDialect extends AnsiSqlDialect {
 		// 构建字段部分和参数占位符部分
 		entity.forEach((field, value) -> {
 			if (StrUtil.isNotBlank(field) && keyList.contains(field)) {
-				if (keyFieldsPart.length() > 0) {
+				if (!keyFieldsPart.isEmpty()) {
 					keyFieldsPart.append(" and ");
 				}
 				keyFieldsPart.append(field).append("= ?");
@@ -88,7 +90,7 @@ public class DmDialect extends AnsiSqlDialect {
 
 		entity.forEach((field, value) -> {
 			if (StrUtil.isNotBlank(field) && !keyList.contains(field)) {
-				if (updateFieldsPart.length() > 0) {
+				if (!updateFieldsPart.isEmpty()) {
 					// 非第一个参数，追加逗号
 					updateFieldsPart.append(", ");
 				}
@@ -99,7 +101,7 @@ public class DmDialect extends AnsiSqlDialect {
 
 		entity.forEach((field, value) -> {
 			if (StrUtil.isNotBlank(field)) {
-				if (insertFieldsPart.length() > 0) {
+				if (!insertFieldsPart.isEmpty()) {
 					// 非第一个参数，追加逗号
 					insertFieldsPart.append(", ");
 					insertPlaceHolder.append(", ");

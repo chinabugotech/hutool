@@ -23,12 +23,15 @@ import cn.hutool.v7.db.dialect.DialectName;
 import cn.hutool.v7.db.sql.SqlBuilder;
 import cn.hutool.v7.db.sql.QuoteWrapper;
 
+import java.io.Serial;
+
 /**
  * SQLServer2012 方言
  *
  * @author Looly
  */
 public class SqlServer2012Dialect extends AnsiSqlDialect {
+	@Serial
 	private static final long serialVersionUID = -37598166015777797L;
 
 	/**

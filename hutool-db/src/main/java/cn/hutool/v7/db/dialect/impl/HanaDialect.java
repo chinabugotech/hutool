@@ -25,6 +25,7 @@ import cn.hutool.v7.db.sql.QuoteWrapper;
 import cn.hutool.v7.db.sql.SqlBuilder;
 import cn.hutool.v7.db.sql.StatementUtil;
 
+import java.io.Serial;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ import java.util.List;
  * @author daoyou.dev
  */
 public class HanaDialect extends AnsiSqlDialect {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

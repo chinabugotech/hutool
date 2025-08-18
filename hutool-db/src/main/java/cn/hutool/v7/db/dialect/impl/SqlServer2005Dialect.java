@@ -24,6 +24,8 @@ import cn.hutool.v7.db.dialect.DialectName;
 import cn.hutool.v7.db.sql.QuoteWrapper;
 import cn.hutool.v7.db.sql.SqlBuilder;
 
+import java.io.Serial;
+
 /**
  * SQLServer2005-2008方言实现<br>
  * 参考：jdbc-plus
@@ -31,6 +33,7 @@ import cn.hutool.v7.db.sql.SqlBuilder;
  * @author niliwei, Looly
  */
 public class SqlServer2005Dialect extends AnsiSqlDialect {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private static final String DEFAULT_TABLE_ALIAS = "table_alias_";

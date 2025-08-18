@@ -22,6 +22,7 @@ import cn.hutool.v7.db.config.DbConfig;
 import cn.hutool.v7.db.dialect.DialectName;
 import cn.hutool.v7.db.sql.Query;
 
+import java.io.Serial;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
@@ -32,6 +33,7 @@ import java.sql.PreparedStatement;
  * @since 5.7.2
  */
 public class PhoenixDialect extends AnsiSqlDialect {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

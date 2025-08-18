@@ -23,12 +23,15 @@ import cn.hutool.v7.db.config.DbConfig;
 import cn.hutool.v7.db.dialect.DialectName;
 import cn.hutool.v7.db.sql.SqlBuilder;
 
+import java.io.Serial;
+
 /**
  * Oracle 方言
  *
  * @author loolly
  */
 public class OracleDialect extends AnsiSqlDialect {
+	@Serial
 	private static final long serialVersionUID = 6122761762247483015L;
 
 	private static final String DEFAULT_TABLE_ALIAS = "table_alias_";

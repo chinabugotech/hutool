@@ -20,12 +20,15 @@ import cn.hutool.v7.db.config.DbConfig;
 import cn.hutool.v7.db.dialect.DialectName;
 import cn.hutool.v7.db.sql.QuoteWrapper;
 
+import java.io.Serial;
+
 /**
  * SqlLite3方言
  *
  * @author Looly
  */
 public class Sqlite3Dialect extends AnsiSqlDialect {
+	@Serial
 	private static final long serialVersionUID = -3527642408849291634L;
 
 	/**
