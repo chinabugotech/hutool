@@ -108,6 +108,8 @@ public class DriverIdentifier implements DriverNames {
 			new StartsWithDriverMatcher(DRIVER_KINGBASE8, "jdbc:kingbase8:"),
 			// 南大通用
 			new StartsWithDriverMatcher(DRIVER_GBASE, "jdbc:gbase:"),
+			// 南大通用8s
+			new StartsWithDriverMatcher(DRIVER_GBASE8S, "jdbc:gbasedbt-sqli:"),
 			// 虚谷
 			new StartsWithDriverMatcher(DRIVER_XUGU, "jdbc:xugu:"),
 			// 神通

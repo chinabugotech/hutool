@@ -129,6 +129,11 @@ public interface DriverNames {
 	 */
 	String DRIVER_GBASE = "com.gbase.jdbc.Driver";
 	/**
+	 * JDBC 驱动 南大通用8S<br>
+	 * 见：https://www.gbase.cn/community/post/4029
+	 */
+	String DRIVER_GBASE8S = "com.gbasedbt.jdbc.Driver";
+	/**
 	 * JDBC 驱动 神州数据库
 	 */
 	String DRIVER_OSCAR = "com.oscar.Driver";
