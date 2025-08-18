@@ -17,6 +17,7 @@
 package cn.hutool.v7.http;
 
 import cn.hutool.v7.core.net.url.UrlBuilder;
+import cn.hutool.v7.core.text.CharUtil;
 import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.core.text.split.SplitUtil;
 
@@ -42,8 +43,11 @@ public class HttpUrlUtil {
 		if (!HttpUtil.isHttp(location) && !HttpUtil.isHttps(location)) {
 			// issue#I5TPSY
 			// location可能为相对路径
-			if (!location.startsWith("/")) {
-				location = StrUtil.addSuffixIfNot(parentUrl.getPathStr(), "/") + location;
+			if (!location.startsWith(StrUtil.SLASH)) {
+				// issue#ICSG7D 如果当前路径以/结尾，直接拼接，否则去除最后一个节点
+				String pathStr = parentUrl.getPathStr();
+				pathStr = StrUtil.subBefore(pathStr, CharUtil.SLASH, true);
+				location = pathStr + StrUtil.SLASH + location;
 			}
 
 			// issue#3265, 相对路径中可能存在参数，单独处理参数
