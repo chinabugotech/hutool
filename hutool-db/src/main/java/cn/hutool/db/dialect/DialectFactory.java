@@ -152,9 +152,6 @@ public class DialectFactory implements DriverNamePool {
 		} else if (nameContainsProductInfo.contains("zenith")) {
 			// 华为高斯
 			driver = DRIVER_GAUSS;
-		} else if (nameContainsProductInfo.contains("gbase")) {
-			// 南大通用数据库
-			driver = DRIVER_GBASE;
 		} else if (nameContainsProductInfo.contains("oscar")) {
 			// 神州数据库
 			driver = DRIVER_OSCAR;
@@ -174,10 +171,15 @@ public class DialectFactory implements DriverNamePool {
 			// sap hana
 			driver = DRIVER_HANA;
 		} else if (nameContainsProductInfo.contains("gbasedbt-sqli")) {
-			// Gbase8s，见：https://www.gbase.cn/community/post/4029
+			// GBase 8s，见：https://www.gbase.cn/community/post/4029
 			driver = DRIVER_GBASE8S;
+		}else if (nameContainsProductInfo.contains("gbase8c")) {
+			// GBase 8c，见：https://www.gbase.cn/download/gbase-8c?category=DRIVER_PACKAGE 页面 GBase8c_JDBC.zip 中的《JDBC 使用手册_V1.0_20230818.pdf》p14
+			driver = DRIVER_GBASE8C;
+		}else if (nameContainsProductInfo.contains("gbase")) {
+			// 南大通用数据库 GBase 8a
+			driver = DRIVER_GBASE8A;
 		}
-
 		return driver;
 	}
 
