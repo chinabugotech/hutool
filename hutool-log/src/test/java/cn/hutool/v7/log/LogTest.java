@@ -20,6 +20,11 @@ import cn.hutool.v7.log.level.Level;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * 日志门面单元测试
  * @author Looly
@@ -87,5 +92,18 @@ public class LogTest {
 		log.info("Message with unicode: {}", "特殊字符©®™✓✗★☆");
 		log.info("多语言混排: 中文, English, 日本語, 한글");
 		log.info("Emoji测试: 😀🚀🌏");
+	}
+
+	@Test
+	public void complexObjectTest() {
+		final Log log = Log.get();
+		// 复杂对象参数测试
+		final List<String> list = Arrays.asList("item1", "item2");
+		final Map<String, Object> map = new HashMap<>();
+		map.put("key", "value");
+
+		log.info("List: {}", list);
+		log.info("Map: {}", map);
+		log.info("Null object: {}", (Object)null);
 	}
 }
