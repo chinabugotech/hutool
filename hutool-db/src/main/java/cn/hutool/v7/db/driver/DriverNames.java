@@ -125,14 +125,19 @@ public interface DriverNames {
 	 */
 	String DRIVER_PHOENIX = "org.apache.phoenix.jdbc.PhoenixDriver";
 	/**
-	 * JDBC 驱动 南大通用
+	 * JDBC 驱动 南大通用 GBase 8a
 	 */
 	String DRIVER_GBASE = "com.gbase.jdbc.Driver";
 	/**
-	 * JDBC 驱动 南大通用8S<br>
+	 * JDBC 驱动 南大通用 GBase 8s<br>
 	 * 见：https://www.gbase.cn/community/post/4029
 	 */
 	String DRIVER_GBASE8S = "com.gbasedbt.jdbc.Driver";
+	/**
+	 * JDBC 驱动 南大通用 GBase 8c<br>
+	 * 见：https://www.gbase.cn/download/gbase-8c?category=DRIVER_PACKAGE 页面 GBase8c_JDBC.zip 中的《JDBC 使用手册_V1.0_20230818.pdf》p14
+	 */
+	String DRIVER_GBASE8C = "cn.gbase8c.Driver";
 	/**
 	 * JDBC 驱动 神州数据库
 	 */

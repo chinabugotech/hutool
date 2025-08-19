@@ -106,8 +106,10 @@ public class DriverIdentifier implements DriverNames {
 			new StartsWithDriverMatcher(DRIVER_KINGBASE, "jdbc:kingbase:"),
 			// 人大金仓8
 			new StartsWithDriverMatcher(DRIVER_KINGBASE8, "jdbc:kingbase8:"),
-			// 南大通用
+			// 南大通用数据库 GBase 8a
 			new StartsWithDriverMatcher(DRIVER_GBASE, "jdbc:gbase:"),
+			// 南大通用数据库 GBase 8c
+			new StartsWithDriverMatcher(DRIVER_GBASE8C, "jdbc:gbase8c:"),
 			// 南大通用8s
 			new StartsWithDriverMatcher(DRIVER_GBASE8S, "jdbc:gbasedbt-sqli:"),
 			// 虚谷
