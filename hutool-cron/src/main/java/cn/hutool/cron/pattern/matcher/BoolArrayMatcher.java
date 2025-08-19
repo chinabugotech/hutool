@@ -18,6 +18,10 @@ public class BoolArrayMatcher implements PartMatcher {
 	 * 用户定义此字段的最小值
 	 */
 	private final int minValue;
+	/**
+	 * 用户定义此字段的最大值
+	 */
+	private final int maxValue;
 	private final boolean[] bValues;
 
 	/**
@@ -29,11 +33,14 @@ public class BoolArrayMatcher implements PartMatcher {
 		Assert.isTrue(CollUtil.isNotEmpty(intValueList), "Values must be not empty!");
 		bValues = new boolean[Collections.max(intValueList) + 1];
 		int min = Integer.MAX_VALUE;
+		int max = Integer.MIN_VALUE;
 		for (Integer value : intValueList) {
 			min = Math.min(min, value);
+			max = Math.max(max, value);
 			bValues[value] = true;
 		}
 		this.minValue = min;
+		this.maxValue = max;
 	}
 
 	@Override
@@ -68,6 +75,14 @@ public class BoolArrayMatcher implements PartMatcher {
 	 */
 	public int getMinValue() {
 		return this.minValue;
+	}
+	/**
+	 * 获取表达式定义的最大值
+	 *
+	 * @return 最大值
+	 */
+	public int getMaxValue() {
+		return this.maxValue;
 	}
 
 	@Override

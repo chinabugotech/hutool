@@ -192,7 +192,7 @@ public class PatternMatcher {
 			// pr#1189
 			if (i == Part.DAY_OF_MONTH.ordinal()
 				&& matchers[i] instanceof DayOfMonthMatcher
-				&& ((DayOfMonthMatcher) matchers[i]).isLast()) {
+				&& ((DayOfMonthMatcher) matchers[i]).isLastDay(values[i])) {
 				int newMonth = newValues[Part.MONTH.ordinal()];
 				int newYear = newValues[Part.YEAR.ordinal()];
 				nextValue = getLastDay(newMonth, newYear);
@@ -226,7 +226,7 @@ public class PatternMatcher {
 					continue;
 				} else if (i == Part.DAY_OF_MONTH.ordinal()
 					&& matchers[i] instanceof DayOfMonthMatcher
-					&& ((DayOfMonthMatcher) matchers[i]).isLast()) {
+					&& ((DayOfMonthMatcher) matchers[i]).isLastDay(values[i])) {
 					int newMonth = newValues[Part.MONTH.ordinal()];
 					int newYear = newValues[Part.YEAR.ordinal()];
 					nextValue = getLastDay(newMonth, newYear);
@@ -259,7 +259,7 @@ public class PatternMatcher {
 			part = Part.of(i);
 			if (part == Part.DAY_OF_MONTH
 				&& get(part) instanceof DayOfMonthMatcher
-				&& ((DayOfMonthMatcher) get(part)).isLast()) {
+				&& ((DayOfMonthMatcher) get(part)).isLastDay(values[i])) {
 				int newMonth = values[Part.MONTH.ordinal()];
 				int newYear = values[Part.YEAR.ordinal()];
 				values[i] = getLastDay(newMonth, newYear);
