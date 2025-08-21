@@ -381,26 +381,25 @@ public class NumberChineseFormatter {
 			return "零";
 		}
 
-		//将数字以万为单位分为多份
+		// 将数字以万为单位分为多份
 		int[] parts = new int[4];
 		for (int i = 0; amount != 0; i++) {
 			parts[i] = (int) (amount % 10000);
 			amount = amount / 10000;
 		}
 
-		final StringBuilder chineseStr = new StringBuilder();
+		// 使用逆序拼接提升性能
+		final StringBuilder reversedChinese = new StringBuilder();
 		int partValue;
 		String partChinese;
 
-		// 千
+		// 千 (从低位到高位处理，逆序拼接)
 		partValue = parts[0];
 		if (partValue > 0) {
 			partChinese = thousandToChinese(partValue, isUseTraditional);
-			chineseStr.insert(0, partChinese);
-
+			reversedChinese.append(new StringBuilder(partChinese).reverse());
 			if (partValue < 1000) {
-				// 和万位之间空0，则补零，如一万零三百
-				addPreZero(chineseStr);
+				addPostZero(reversedChinese);
 			}
 		}
 
@@ -408,54 +407,51 @@ public class NumberChineseFormatter {
 		partValue = parts[1];
 		if (partValue > 0) {
 			if ((partValue % 10 == 0 && parts[0] > 0)) {
-				// 如果"万"的个位是0，则补零，如十万零八千
-				addPreZero(chineseStr);
+				addPostZero(reversedChinese);
 			}
-			partChinese = thousandToChinese(partValue, isUseTraditional);
-			chineseStr.insert(0, partChinese + "万");
-
+			partChinese = thousandToChinese(partValue, isUseTraditional) + "万";
+			reversedChinese.append(new StringBuilder(partChinese).reverse());
 			if (partValue < 1000) {
-				// 和亿位之间空0，则补零，如一亿零三百万
-				addPreZero(chineseStr);
+				addPostZero(reversedChinese);
 			}
 		} else {
-			addPreZero(chineseStr);
+			addPostZero(reversedChinese);
 		}
 
 		// 亿
 		partValue = parts[2];
 		if (partValue > 0) {
 			if ((partValue % 10 == 0 && parts[1] > 0)) {
-				// 如果"万"的个位是0，则补零，如十万零八千
-				addPreZero(chineseStr);
+				addPostZero(reversedChinese);
 			}
-
-			partChinese = thousandToChinese(partValue, isUseTraditional);
-			chineseStr.insert(0, partChinese + "亿");
-
+			partChinese = thousandToChinese(partValue, isUseTraditional) + "亿";
+			reversedChinese.append(new StringBuilder(partChinese).reverse());
 			if (partValue < 1000) {
-				// 和万亿位之间空0，则补零，如一万亿零三百亿
-				addPreZero(chineseStr);
+				addPostZero(reversedChinese);
 			}
 		} else {
-			addPreZero(chineseStr);
+			addPostZero(reversedChinese);
 		}
 
 		// 万亿
 		partValue = parts[3];
 		if (partValue > 0) {
 			if (parts[2] == 0) {
-				chineseStr.insert(0, "亿");
+				reversedChinese.append('亿'); // 亿字反转后会到正确位置
 			}
-			partChinese = thousandToChinese(partValue, isUseTraditional);
-			chineseStr.insert(0, partChinese + "万");
+			partChinese = thousandToChinese(partValue, isUseTraditional) + "万";
+			reversedChinese.append(new StringBuilder(partChinese).reverse());
 		}
 
+		// 反转得到正确顺序
+		String chineseStr = reversedChinese.reverse().toString();
+
+		// 移除可能的前导零
 		if (StrUtil.isNotEmpty(chineseStr) && '零' == chineseStr.charAt(0)) {
 			return chineseStr.substring(1);
 		}
 
-		return chineseStr.toString();
+		return chineseStr;
 	}
 
 	/**
@@ -473,23 +469,28 @@ public class NumberChineseFormatter {
 
 		int temp = amountPart;
 
-		StringBuilder chineseStr = new StringBuilder();
-		boolean lastIsZero = true; // 在从低位往高位循环时，记录上一位数字是不是 0
+		// 逆序拼接
+		StringBuilder reversedChinese = new StringBuilder();
+		boolean lastIsZero = true; // 记录上一位数字是不是 0
+
 		for (int i = 0; temp > 0; i++) {
 			int digit = temp % 10;
 			if (digit == 0) { // 取到的数字为 0
-				if (false == lastIsZero) {
-					// 前一个数字不是 0，则在当前汉字串前加“零”字;
-					chineseStr.insert(0, "零");
+				if (!lastIsZero) {
+					reversedChinese.append("零");
 				}
 				lastIsZero = true;
 			} else { // 取到的数字不是 0
-				chineseStr.insert(0, numberToChinese(digit, isUseTraditional) + getUnitName(i, isUseTraditional));
+				// 先加单位再加数字（因为是逆序）
+				reversedChinese.append(getUnitName(i, isUseTraditional));
+				reversedChinese.append(numberToChinese(digit, isUseTraditional));
 				lastIsZero = false;
 			}
 			temp = temp / 10;
 		}
-		return chineseStr.toString();
+
+		// 反转得到正确顺序
+		return reversedChinese.reverse().toString();
 	}
 
 	/**
@@ -660,13 +661,18 @@ public class NumberChineseFormatter {
 		}
 	}
 
-	private static void addPreZero(StringBuilder chineseStr) {
-		if (StrUtil.isEmpty(chineseStr)) {
+	/**
+	 * 在逆序字符串末尾添加零
+	 *
+	 * @param reversedChinese 逆序拼接的字符串构建器
+	 */
+	private static void addPostZero(StringBuilder reversedChinese) {
+		if (StrUtil.isEmpty(reversedChinese)) {
 			return;
 		}
-		final char c = chineseStr.charAt(0);
+		final char c = reversedChinese.charAt(reversedChinese.length() - 1);
 		if ('零' != c) {
-			chineseStr.insert(0, '零');
+			reversedChinese.append('零');
 		}
 	}
 }
