@@ -154,7 +154,7 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
 		}
 		keyLock.lock();
 		try {
-			// 加锁成功：我是 key 的 owner
+			// 加锁成功：key被当前线程持有
 			ownerMap.put(key, current);
 			waitForMap.remove(current);
 			// 双重检查锁，防止在竞争锁的过程中已经有其它线程写入
