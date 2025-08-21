@@ -34,11 +34,10 @@
  * messageList.add(new Message("user","你能帮我做什么"));
  *
  * // 输出对话结果
- * System.out.println(aiService.chat(messageList));
+ * Console.log(aiService.chat(messageList));
  * }</pre>
  *
  * @author yangruoyu-yumeisoft
  * @since 5.8.40
  */
-
 package cn.hutool.v7.ai.model.ollama;
