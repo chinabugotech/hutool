@@ -192,7 +192,7 @@ public class PatternMatcher {
 			// pr#1189
 			if (i == Part.DAY_OF_MONTH.ordinal()
 				&& matchers[i] instanceof DayOfMonthMatcher
-				&& ((DayOfMonthMatcher) matchers[i]).isLastDay(values[i],values[i+1],isLeapYear(values[Part.YEAR.ordinal()]))) {
+				&& ((DayOfMonthMatcher) matchers[i]).isLastDay(values[i],values[i+1],DateUtil.isLeapYear(values[Part.YEAR.ordinal()]))) {
 				int newMonth = newValues[Part.MONTH.ordinal()];
 				int newYear = newValues[Part.YEAR.ordinal()];
 				nextValue = getLastDay(newMonth, newYear);
@@ -226,7 +226,7 @@ public class PatternMatcher {
 					continue;
 				} else if (i == Part.DAY_OF_MONTH.ordinal()
 					&& matchers[i] instanceof DayOfMonthMatcher
-					&& ((DayOfMonthMatcher) matchers[i]).isLastDay(values[i],values[i+1],isLeapYear(values[Part.YEAR.ordinal()]))) {
+					&& ((DayOfMonthMatcher) matchers[i]).isLastDay(values[i],values[i+1],DateUtil.isLeapYear(values[Part.YEAR.ordinal()]))) {
 					int newMonth = newValues[Part.MONTH.ordinal()];
 					int newYear = newValues[Part.YEAR.ordinal()];
 					nextValue = getLastDay(newMonth, newYear);
@@ -247,14 +247,6 @@ public class PatternMatcher {
 		return newValues;
 	}
 
-	/**
-	 * 判断年份是否是闰年
-	 * @param year
-	 * @return 返回boolean表示是否是闰年
-	 */
-	private static boolean isLeapYear(int year) {
-		return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
-	}
 	/**
 	 * 设置从{@link Part#SECOND}到指定部分，全部设置为最小值
 	 *
