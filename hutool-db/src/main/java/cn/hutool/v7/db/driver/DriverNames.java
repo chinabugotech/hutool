@@ -270,4 +270,24 @@ public interface DriverNames {
 	 * JDBC 驱动 Sap Hana
 	 */
 	String DRIVER_HANA = "com.sap.db.jdbc.Driver";
+	/**
+	 * JDBC 驱动 腾讯 TDSQL PostgreSQL 版本<br>
+	 * 见：https://cloud.tencent.com/document/product/1129/116487
+	 */
+	String DRIVER_TDSQL_POSTGRESQL = "com.tencentcloud.tdsql.pg.jdbc.Driver";
+	/**
+	 * JDBC 驱动 腾讯 TDSQL-H LibraDB<br>
+	 * 见：https://cloud.tencent.com/document/product/1488/79810
+	 */
+	String DRIVER_TDSQL_H_LIBRADB = "ru.yandex.clickhouse.ClickHouseDriver";
+	/**
+	 * JDBC 驱动 Snowflake<br>
+	 * 见：https://docs.snowflake.cn/zh/developer-guide/jdbc/jdbc-configure#label-jdbc-connection-string
+	 */
+	String DRIVER_SNOWFLAKE = "net.snowflake.client.jdbc.SnowflakeDriver";
+	/**
+	 * JDBC 驱动 Teradata<br>
+	 * 见：https://teradata-docs.s3.amazonaws.com/doc/connectivity/jdbc/reference/current/frameset.html 页面 JDBC Interfaces A-L 部分
+	 */
+	String DRIVER_TERADATA = "com.teradata.jdbc.TeraDriver";
 }

@@ -137,7 +137,13 @@ public class DriverIdentifier implements DriverNames {
 			// 中兴GoldenDB
 			new StartsWithDriverMatcher(DRIVER_GOLDENDB, "jdbc:goldendb:"),
 			// SAP HANA
-			new StartsWithDriverMatcher(DRIVER_HANA, "jdbc:sap:")
+			new StartsWithDriverMatcher(DRIVER_HANA, "jdbc:sap:"),
+			// 腾讯数据库 TDSQL PostgreSQL 版本，见：https://cloud.tencent.com/document/product/1129/116487
+			new StartsWithDriverMatcher(DRIVER_TDSQL_POSTGRESQL, "jdbc:tdsql-pg:"),
+			// Snowflake，见：https://docs.snowflake.cn/zh/developer-guide/jdbc/jdbc-configure#label-jdbc-connection-string
+			new StartsWithDriverMatcher(DRIVER_SNOWFLAKE, "jdbc:snowflake:"),
+			// Teradata，见：https://teradata-docs.s3.amazonaws.com/doc/connectivity/jdbc/reference/current/frameset.html 页面 JDBC Interfaces A-L 部分
+			new StartsWithDriverMatcher(DRIVER_TERADATA, "jdbc:teradata:")
 		);
 	}
 
