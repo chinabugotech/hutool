@@ -23,7 +23,6 @@ import cn.hutool.v7.core.lang.mutable.Mutable;
 import cn.hutool.v7.core.lang.mutable.MutableObj;
 
 import java.io.Serial;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -141,24 +140,9 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
 	}
 
 	@Override
-	public V get(final K key, final boolean isUpdateLastAccess, final SerSupplier<V> supplier) {
-		return get(key, isUpdateLastAccess, this.timeout, supplier);
-	}
-
-	/**
-	 * 相同线程key缓存，用于检查key循环引用导致的死锁
-	 */
-	private final ThreadLocal<Set<K>> loadingKeys = ThreadLocal.withInitial(HashSet::new);
-	@Override
-	public V get(final K key, final boolean isUpdateLastAccess, final long timeout, final SerSupplier<V> supplier) {
+	public V get(final K key, final boolean isUpdateLastAccess, final long timeout, final SerSupplier<V> valueFactory) {
 		V v = get(key, isUpdateLastAccess);
-		if (null == v && null != supplier) {
-			// 在尝试加锁前，检查当前线程是否已经在加载这个 key，见：issue#4022
-			// 如果是，则说明发生了循环依赖。
-			if (loadingKeys.get().contains(key)) {
-				throw new IllegalStateException("Circular dependency detected for key: " + key);
-			}
-
+		if (null == v && null != valueFactory) {
 			//每个key单独获取一把锁，降低锁的粒度提高并发能力，see pr#1385@Github
 			final Lock keyLock = keyLockMap.computeIfAbsent(key, k -> new ReentrantLock());
 			keyLock.lock();
@@ -168,15 +152,9 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
 				// 因此此处需要使用带全局锁的get获取值
 				v = get(key, isUpdateLastAccess);
 				if (null == v) {
-					loadingKeys.get().add(key);
 					// supplier的创建是一个耗时过程，此处创建与全局锁无关，而与key锁相关，这样就保证每个key只创建一个value，且互斥
-					try {
-						v = supplier.get();
-						put(key, v, timeout);
-					} finally {
-						// 无论 supplier 执行成功还是失败，都必须在 finally 块中移除标记
-						loadingKeys.get().remove(key);
-					}
+					v = valueFactory.get();
+					put(key, v, timeout);
 				}
 			} finally {
 				keyLock.unlock();
@@ -226,7 +204,7 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
 	 */
 	@Override
 	public long timeout() {
-		return timeout;
+		return this.timeout;
 	}
 
 	/**

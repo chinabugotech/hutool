@@ -19,6 +19,8 @@ package cn.hutool.v7.core.cache;
 import cn.hutool.v7.core.cache.impl.FIFOCache;
 import cn.hutool.v7.core.cache.impl.LRUCache;
 import cn.hutool.v7.core.cache.impl.WeakCache;
+import cn.hutool.v7.core.exception.HutoolException;
+import cn.hutool.v7.core.func.SerSupplier;
 import cn.hutool.v7.core.lang.Console;
 import cn.hutool.v7.core.thread.ConcurrencyTester;
 import cn.hutool.v7.core.thread.ThreadUtil;
@@ -26,6 +28,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -120,5 +126,44 @@ public class CacheConcurrentTest {
 		final long interval = concurrencyTester.getInterval();
 		// 总耗时应与单次操作耗时在同一个数量级
 		Assertions.assertTrue(interval < delay * 2);
+	}
+
+	@Test
+	void issue4022Test() throws InterruptedException {
+		final Cache<String, String> cache = new LRUCache<>(100);
+
+		final String key1 = "key1";
+		final String key2 = "key2";
+
+		final CountDownLatch latch = new CountDownLatch(2);
+		// 线程1：key1 -> key2
+		ThreadUtil.execute(() -> {
+			try {
+				final String result = cache.get(key1, () -> {
+					Thread.sleep(100);
+					return cache.get(key2, () -> "value2") + "-nested";
+				});
+			}
+			finally {
+				latch.countDown();
+			}
+		});
+
+		// 线程2：key2 -> key1
+		ThreadUtil.execute(() -> {
+			try {
+				final String result = cache.get(key2, () -> {
+					Thread.sleep(100);
+					return cache.get(key1, () -> "value1") + "-nested";
+				});
+			} finally {
+				latch.countDown();
+			}
+		});
+
+		// 设置超时检测死锁
+		if (!latch.await(5, TimeUnit.SECONDS)) {
+			throw new HutoolException("检测到可能的死锁!");
+		}
 	}
 }

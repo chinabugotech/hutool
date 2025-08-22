@@ -85,11 +85,11 @@ public interface Cache<K, V> extends Iterable<V>, Serializable {
 	 * 每次调用此方法会刷新最后访问时间，也就是说会重新计算超时时间。
 	 *
 	 * @param key      键
-	 * @param supplier 如果不存在回调方法，用于生产值对象
+	 * @param valueFactory 如果不存在回调方法，用于生产值对象
 	 * @return 值对象
 	 */
-	default V get(final K key, final SerSupplier<V> supplier) {
-		return get(key, true, supplier);
+	default V get(final K key, final SerSupplier<V> valueFactory) {
+		return get(key, true, valueFactory);
 	}
 
 	/**
@@ -99,10 +99,12 @@ public interface Cache<K, V> extends Iterable<V>, Serializable {
 	 *
 	 * @param key                键
 	 * @param isUpdateLastAccess 是否更新最后访问时间，即重新计算超时时间。
-	 * @param supplier           如果不存在回调方法，用于生产值对象
+	 * @param valueFactory       如果不存在回调方法，用于生产值对象
 	 * @return 值对象
 	 */
-	V get(K key, boolean isUpdateLastAccess, SerSupplier<V> supplier);
+	default V get(final K key, final boolean isUpdateLastAccess, final SerSupplier<V> valueFactory) {
+		return get(key, isUpdateLastAccess, timeout(), valueFactory);
+	}
 
 	/**
 	 * 从缓存中获得对象，当对象不在缓存中或已经过期（与当前时间差值大于超时时间）返回SerSupplier回调产生的对象，否则返回值。
@@ -112,10 +114,10 @@ public interface Cache<K, V> extends Iterable<V>, Serializable {
 	 * @param key                键
 	 * @param isUpdateLastAccess 是否更新最后访问时间，即重新计算超时时间。
 	 * @param timeout            自定义超时时间
-	 * @param supplier           如果不存在回调方法，用于生产值对象
+	 * @param valueFactory       如果不存在回调方法，用于生产值对象
 	 * @return 值对象
 	 */
-	V get(K key, boolean isUpdateLastAccess, final long timeout, SerSupplier<V> supplier);
+	V get(K key, boolean isUpdateLastAccess, final long timeout, SerSupplier<V> valueFactory);
 
 	/**
 	 * 从缓存中获得对象，当对象不在缓存中或已经过期（与当前时间差值大于超时时间）返回{@code null}，否则返回值。

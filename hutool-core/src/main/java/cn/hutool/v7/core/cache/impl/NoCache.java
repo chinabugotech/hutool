@@ -19,6 +19,7 @@ package cn.hutool.v7.core.cache.impl;
 import cn.hutool.v7.core.cache.Cache;
 import cn.hutool.v7.core.func.SerSupplier;
 
+import java.io.Serial;
 import java.util.Iterator;
 
 /**
@@ -29,6 +30,7 @@ import java.util.Iterator;
  * @author Looly, jodd, VampireAchao
  */
 public class NoCache<K, V> implements Cache<K, V> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	@Override
@@ -67,18 +69,8 @@ public class NoCache<K, V> implements Cache<K, V> {
 	}
 
 	@Override
-	public V get(final K key, final SerSupplier<V> supplier) {
-		return get(key, true, supplier);
-	}
-
-	@Override
-	public V get(final K key, final boolean isUpdateLastAccess, final SerSupplier<V> supplier) {
-		return get(key, isUpdateLastAccess, 0, supplier);
-	}
-
-	@Override
-	public V get(final K key, final boolean isUpdateLastAccess, final long timeout, final SerSupplier<V> supplier) {
-		return (null == supplier) ? null : supplier.get();
+	public V get(final K key, final boolean isUpdateLastAccess, final long timeout, final SerSupplier<V> valueFactory) {
+		return (null == valueFactory) ? null : valueFactory.get();
 	}
 
 	@Override
