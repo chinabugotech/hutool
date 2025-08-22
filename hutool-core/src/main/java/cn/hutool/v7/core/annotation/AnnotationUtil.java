@@ -57,17 +57,6 @@ public class AnnotationUtil {
 	private static final Map<AnnotatedElement, Annotation[]> DECLARED_ANNOTATIONS_CACHE = new WeakConcurrentMap<>();
 
 	/**
-	 * 获取直接声明的注解，若已有缓存则从缓存中获取
-	 *
-	 * @param element {@link AnnotatedElement}
-	 * @return 注解
-	 * @since 6.0.0
-	 */
-	public static Annotation[] getDeclaredAnnotations(final AnnotatedElement element) {
-		return DECLARED_ANNOTATIONS_CACHE.computeIfAbsent(element, AnnotatedElement::getDeclaredAnnotations);
-	}
-
-	/**
 	 * 将指定的被注解的元素转换为组合注解元素
 	 *
 	 * @param annotationEle 注解元素
@@ -78,6 +67,18 @@ public class AnnotationUtil {
 			return (CombinationAnnotatedElement) annotationEle;
 		}
 		return new CombinationAnnotatedElement(annotationEle);
+	}
+
+	// region ----- getAnnotation
+	/**
+	 * 获取直接声明的注解，若已有缓存则从缓存中获取
+	 *
+	 * @param element {@link AnnotatedElement}
+	 * @return 注解
+	 * @since 6.0.0
+	 */
+	public static Annotation[] getDeclaredAnnotations(final AnnotatedElement element) {
+		return DECLARED_ANNOTATIONS_CACHE.computeIfAbsent(element, AnnotatedElement::getDeclaredAnnotations);
 	}
 
 	/**
@@ -165,6 +166,7 @@ public class AnnotationUtil {
 	public static <A extends Annotation> A getAnnotation(final AnnotatedElement annotationEle, final Class<A> annotationType) {
 		return (null == annotationEle) ? null : toCombination(annotationEle).getAnnotation(annotationType);
 	}
+	// endregion
 
 	/**
 	 * 检查是否包含指定注解<br>
@@ -202,6 +204,7 @@ public class AnnotationUtil {
 		return null != getAnnotation(annotationEle, annotationType);
 	}
 
+	// region ----- getAnnotationValue
 	/**
 	 * 获取指定注解默认值<br>
 	 * 如果无指定的属性方法返回null
@@ -295,7 +298,9 @@ public class AnnotationUtil {
 		}
 		return result;
 	}
+	// endregion
 
+	// region ----- 元注解相关
 	/**
 	 * 获取注解类的保留时间，可选值 SOURCE（源码时），CLASS（编译时），RUNTIME（运行时），默认为 CLASS
 	 *
@@ -344,6 +349,7 @@ public class AnnotationUtil {
 	public static boolean isInherited(final Class<? extends Annotation> annotationType) {
 		return annotationType.isAnnotationPresent(Inherited.class);
 	}
+	// endregion
 
 	/**
 	 * 设置新的注解的属性（字段）值<br>
@@ -355,12 +361,11 @@ public class AnnotationUtil {
 	 * @since 5.5.2
 	 */
 	@SuppressWarnings("unchecked")
-	public static void setValue(
-		final Annotation annotation, final String annotationField, final Object value) {
+	public static void setValue(final Annotation annotation, final String annotationField, final Object value) {
 		final InvocationHandler invocationHandler = Proxy.getInvocationHandler(annotation);
 		String memberAttributeName = JDK_MEMBER_ATTRIBUTE;
 		// Spring合成注解
-		if (CharSequenceUtil.contains(invocationHandler.getClass().getName(), SPRING_INVOCATION_HANDLER)) {
+		if (StrUtil.contains(invocationHandler.getClass().getName(), SPRING_INVOCATION_HANDLER)) {
 			memberAttributeName = SPRING_MEMBER_ATTRIBUTE;
 		}
 		// Hutool合成注解

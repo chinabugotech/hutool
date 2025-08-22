@@ -1109,7 +1109,7 @@ public class CharSequenceUtil extends StrValidator {
 		if (str == null || searchStr == null || ordinal <= 0) {
 			return INDEX_NOT_FOUND;
 		}
-		if (searchStr.length() == 0) {
+		if (searchStr.isEmpty()) {
 			return 0;
 		}
 		int found = 0;
@@ -3720,7 +3720,7 @@ public class CharSequenceUtil extends StrValidator {
 		if (null == str) {
 			return null;
 		}
-		if(0 == str.length()){
+		if(str.isEmpty()){
 			return EMPTY;
 		}
 		return str.toString().toUpperCase();
