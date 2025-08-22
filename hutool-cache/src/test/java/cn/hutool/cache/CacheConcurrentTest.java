@@ -11,7 +11,11 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.atomic.AtomicInteger;
-
+import cn.hutool.core.lang.func.Func0;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 /**
  * 缓存单元测试
  *
@@ -103,5 +107,59 @@ public class CacheConcurrentTest {
 		long interval = concurrencyTester.getInterval();
 		// 总耗时应与单次操作耗时在同一个数量级
 		assertTrue(interval < delay * 2);
+	}
+	/**
+	 * 测试嵌套get调用可能导致的死锁：https://github.com/chinabugotech/hutool/issues/4022
+	 */
+	@Test
+	public  void nestedGetDeadlockTest() throws Exception {
+		final Cache<String, String> cache = new LRUCache<>(100);
+
+		final String key1 = "key1";
+		final String key2 = "key2";
+
+		ExecutorService executor = Executors.newFixedThreadPool(2);
+		CountDownLatch latch = new CountDownLatch(2);
+		// 线程1：key1 -> key2
+		executor.submit(() -> {
+			try {
+				String result = cache.get(key1, new Func0<String>() {
+					@Override
+					public String call() throws Exception {
+						Thread.sleep(100);
+						return cache.get(key2, () -> "value2") + "-nested";
+					}
+				});
+			} catch (Exception e) {
+				System.err.println("线程1异常: " + e);
+			}
+			finally {
+				latch.countDown();
+			}
+		});
+
+		// 线程2：key2 -> key1
+		executor.submit(() -> {
+			try {
+				String result = cache.get(key2, new Func0<String>() {
+					@Override
+					public String call() throws Exception {
+						Thread.sleep(100);
+						return cache.get(key1, () -> "value1") + "-nested";
+					}
+				});
+			} catch (Exception e) {
+				System.err.println("线程2异常: " + e);
+			} finally {
+				latch.countDown();
+			}
+		});
+
+		// 设置超时检测死锁
+		if (!latch.await(5, TimeUnit.SECONDS)) {
+			System.out.println("检测到可能的死锁!");
+		}
+		executor.shutdown();
+
 	}
 }

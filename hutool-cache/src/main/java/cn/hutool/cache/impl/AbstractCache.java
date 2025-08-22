@@ -11,6 +11,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.LongAdder;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -37,6 +38,16 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
 	 * 写的时候每个key一把锁，降低锁的粒度
 	 */
 	protected final SafeConcurrentHashMap<K, Lock> keyLockMap = new SafeConcurrentHashMap<>();
+
+	/**
+	 * 记录 key 当前的持有线程
+	 */
+	private final ConcurrentHashMap<K, Thread> ownerMap = new ConcurrentHashMap<>();
+
+	/**
+	 * 记录等待关系：thread -> 被哪个线程阻塞
+	 */
+	private final ConcurrentHashMap<Thread, Thread> waitForMap = new ConcurrentHashMap<>();
 
 	/**
 	 * 返回缓存容量，{@code 0}表示无大小限制
@@ -131,38 +142,63 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
 	@Override
 	public V get(K key, boolean isUpdateLastAccess, long timeout, Func0<V> supplier) {
 		V v = get(key, isUpdateLastAccess);
-		if (null == v && null != supplier) {
-			// 在尝试加锁前，检查当前线程是否已经在加载这个 key，见：issue#4022
-			// 如果是，则说明发生了循环依赖。
-			if (loadingKeys.get().contains(key)) {
-				throw new IllegalStateException("Circular dependency detected for key: " + key);
-			}
-
-			//每个key单独获取一把锁，降低锁的粒度提高并发能力，see pr#1385@Github
-			final Lock keyLock = keyLockMap.computeIfAbsent(key, k -> new ReentrantLock());
-			keyLock.lock();
-			try {
-				// 双重检查锁，防止在竞争锁的过程中已经有其它线程写入
-				// issue#3686 由于这个方法内的加锁是get独立锁，不和put锁互斥，而put和pruneCache会修改cacheMap，导致在pruneCache过程中get会有并发问题
-				// 因此此处需要使用带全局锁的get获取值
-				v = get(key, isUpdateLastAccess);
-				if (null == v) {
-					loadingKeys.get().add(key);
-					// supplier的创建是一个耗时过程，此处创建与全局锁无关，而与key锁相关，这样就保证每个key只创建一个value，且互斥
-					try {
-						v = supplier.callWithRuntimeException();
-						put(key, v, timeout);
-					} finally {
-						// 无论 supplier 执行成功还是失败，都必须在 finally 块中移除标记
-						loadingKeys.get().remove(key);
-					}
-				}
-			} finally {
-				keyLock.unlock();
-				keyLockMap.remove(key);
+		if (v != null || supplier == null) {
+			return v;
+		}
+		//每个key单独获取一把锁，降低锁的粒度提高并发能力，see pr#1385@Github
+		final Lock keyLock = keyLockMap.computeIfAbsent(key, k -> new ReentrantLock());
+		Thread current = Thread.currentThread();
+		Thread owner = ownerMap.get(key);
+		// 如果 key 已经被其他线程持有，先登记等待关系并检测是否形成环
+		if (owner != null && owner != current) {
+			waitForMap.put(current, owner);
+			if (detectCycle(current)) {
+				waitForMap.remove(current);
+				String msg = "Detected potential deadlock: thread=" + current.getName() + " is waiting for key=" + key;
+				throw new IllegalStateException(msg);
 			}
 		}
+		keyLock.lock();
+		try {
+			// 加锁成功：key被当前线程持有
+			ownerMap.put(key, current);
+			waitForMap.remove(current);
+			// 双重检查锁，防止在竞争锁的过程中已经有其它线程写入
+			// issue#3686 由于这个方法内的加锁是get独立锁，不和put锁互斥，而put和pruneCache会修改cacheMap，导致在pruneCache过程中get会有并发问题
+			// 因此此处需要使用带全局锁的get获取值
+			v = get(key, isUpdateLastAccess);
+			if (v == null) {
+				// supplier的创建是一个耗时过程，此处创建与全局锁无关，而与key锁相关，这样就保证每个key只创建一个value，且互斥
+				v = supplier.callWithRuntimeException();
+				put(key, v, timeout);
+			}
+		} finally {
+			ownerMap.remove(key);
+			keyLock.unlock();
+			keyLockMap.remove(key);
+		}
 		return v;
+	}
+
+	/**
+	 * 检测是否形成等待环（死锁）
+	 * @param start 等待环开启的线程
+	 * @return boolean
+	 * @since 5.8.40
+	 */
+	protected boolean detectCycle(Thread start) {
+		Thread slow = start;
+		Thread fast = waitForMap.get(start);
+
+		while (fast != null) {
+			if (fast == slow) {
+				return true; // 检测到环
+			}
+			// 判圈算法：慢指针走一步，快指针走两步
+			slow = waitForMap.get(slow);
+			fast = waitForMap.get(waitForMap.get(fast));
+		}
+		return false;
 	}
 
 	/**
