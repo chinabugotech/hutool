@@ -7,6 +7,7 @@ import cn.hutool.core.lang.mutable.Mutable;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
@@ -26,15 +27,18 @@ public abstract class ReentrantCache<K, V> extends AbstractCache<K, V> {
 	protected final ReentrantLock lock = new ReentrantLock();
 
 	private boolean useKeyLock = true;
-
+	private final AtomicBoolean useKeyLockSet = new AtomicBoolean(false);
 	/**
-	 * 设置是否使用key锁，默认为true
+	 * 设置是否使用key锁，默认为true，仅限在刚new创建cache对象时候调用一次
 	 *
 	 * @param useKeyLock 是否使用key锁
 	 * @return this
 	 * @since 5.8.40
 	 */
 	public ReentrantCache<K, V> setUseKeyLock(boolean useKeyLock) {
+		if (!useKeyLockSet.compareAndSet(false, true)) {//cas操作允许useKeyLock只被赋值一次
+			throw new IllegalStateException("useKeyLock has already been set!");
+		}
 		this.useKeyLock = useKeyLock;
 		return this;
 	}
