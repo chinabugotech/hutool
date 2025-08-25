@@ -26,7 +26,7 @@ public abstract class ReentrantCache<K, V> extends AbstractCache<K, V> {
 	// TODO 最优的解决方案是使用Guava的ConcurrentLinkedHashMap，此处使用简化的互斥锁
 	protected final ReentrantLock lock = new ReentrantLock();
 
-	private boolean useKeyLock = true;
+	private volatile boolean useKeyLock = true;
 	private final AtomicBoolean useKeyLockSet = new AtomicBoolean(false);
 	/**
 	 * 设置是否使用key锁，默认为true，仅限在刚new创建cache对象时候调用一次
