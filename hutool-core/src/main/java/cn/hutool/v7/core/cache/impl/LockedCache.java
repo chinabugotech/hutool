@@ -18,6 +18,7 @@ package cn.hutool.v7.core.cache.impl;
 
 import cn.hutool.v7.core.collection.iter.CopiedIter;
 import cn.hutool.v7.core.collection.set.SetUtil;
+import cn.hutool.v7.core.func.SerSupplier;
 import cn.hutool.v7.core.lang.mutable.Mutable;
 
 import java.io.Serial;
@@ -61,6 +62,31 @@ public abstract class LockedCache<K, V> extends AbstractCache<K, V> {
 	@Override
 	public V get(final K key, final boolean isUpdateLastAccess) {
 		return getOrRemoveExpired(key, isUpdateLastAccess, true);
+	}
+
+	@Override
+	public V get(final K key, final boolean isUpdateLastAccess, final long timeout, final SerSupplier<V> valueFactory) {
+		V v = get(key, isUpdateLastAccess);
+
+		// 对象不存在，则加锁创建
+		if (null == v && null != valueFactory) {
+			// 按照pr#1385提议，使用key锁可以避免对象创建等待问题，但是会带来循环锁问题，见：issue#4022
+			// 因此此处依旧采用全局锁，在对象创建过程中，全局等待，避免循环锁依赖
+			// 这样避免了循环锁，但是会存在一个缺点，即对象创建过程中，其它线程无法获得锁，从而无法使用缓存，因此需要考虑对象创建的耗时问题
+			lock.lock();
+			try {
+				// 双重检查锁，防止在竞争锁的过程中已经有其它线程写入
+				final CacheObj<K, V> co = getOrRemoveExpiredWithoutLock(key);
+				if (null == co) {
+					// supplier的创建是一个耗时过程，此处创建与全局锁无关，而与key锁相关，这样就保证每个key只创建一个value，且互斥
+					v = valueFactory.get();
+					put(key, v, timeout);
+				}
+			} finally {
+				lock.unlock();
+			}
+		}
+		return v;
 	}
 
 	@Override
@@ -129,35 +155,30 @@ public abstract class LockedCache<K, V> extends AbstractCache<K, V> {
 
 	/**
 	 * 获得值或清除过期值
-	 * @param key 键
+	 *
+	 * @param key                键
 	 * @param isUpdateLastAccess 是否更新最后访问时间
-	 * @param isUpdateCount 是否更新计数器
+	 * @param isUpdateCount      是否更新计数器
 	 * @return 值或null
 	 */
 	private V getOrRemoveExpired(final K key, final boolean isUpdateLastAccess, final boolean isUpdateCount) {
 		CacheObj<K, V> co;
 		lock.lock();
 		try {
-			co = getWithoutLock(key);
-			if(null != co && co.isExpired()){
-				//过期移除
-				removeWithoutLock(key);
-				onRemove(co.key, co.obj);
-				co = null;
-			}
+			co = getOrRemoveExpiredWithoutLock(key);
 		} finally {
 			lock.unlock();
 		}
 
 		// 未命中
 		if (null == co) {
-			if(isUpdateCount){
+			if (isUpdateCount) {
 				missCount.increment();
 			}
 			return null;
 		}
 
-		if(isUpdateCount){
+		if (isUpdateCount) {
 			hitCount.increment();
 		}
 		return co.get(isUpdateLastAccess);

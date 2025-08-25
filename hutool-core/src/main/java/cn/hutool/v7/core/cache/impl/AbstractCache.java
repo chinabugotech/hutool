@@ -54,11 +54,6 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
 	protected Map<Mutable<K>, CacheObj<K, V>> cacheMap;
 
 	/**
-	 * 写的时候每个key一把锁，降低锁的粒度
-	 */
-	protected final Map<K, Lock> keyLockMap = new ConcurrentHashMap<>();
-
-	/**
 	 * 返回缓存容量，{@code 0}表示无大小限制
 	 */
 	protected int capacity;
@@ -139,33 +134,8 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
 		return missCount.sum();
 	}
 
-	@Override
-	public V get(final K key, final boolean isUpdateLastAccess, final long timeout, final SerSupplier<V> valueFactory) {
-		V v = get(key, isUpdateLastAccess);
-		if (null == v && null != valueFactory) {
-			//每个key单独获取一把锁，降低锁的粒度提高并发能力，see pr#1385@Github
-			final Lock keyLock = keyLockMap.computeIfAbsent(key, k -> new ReentrantLock());
-			keyLock.lock();
-			try {
-				// 双重检查锁，防止在竞争锁的过程中已经有其它线程写入
-				// issue#3686 由于这个方法内的加锁是get独立锁，不和put锁互斥，而put和pruneCache会修改cacheMap，导致在pruneCache过程中get会有并发问题
-				// 因此此处需要使用带全局锁的get获取值
-				v = get(key, isUpdateLastAccess);
-				if (null == v) {
-					// supplier的创建是一个耗时过程，此处创建与全局锁无关，而与key锁相关，这样就保证每个key只创建一个value，且互斥
-					v = valueFactory.get();
-					put(key, v, timeout);
-				}
-			} finally {
-				keyLock.unlock();
-				keyLockMap.remove(key);
-			}
-		}
-		return v;
-	}
-
 	/**
-	 * 获取键对应的{@link CacheObj}
+	 * 获取键对应的{@link CacheObj}，不判断是否过期
 	 *
 	 * @param key 键，实际使用时会被包装为{@link MutableObj}
 	 * @return {@link CacheObj}
@@ -173,6 +143,23 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
 	 */
 	protected CacheObj<K, V> getWithoutLock(final K key) {
 		return this.cacheMap.get(MutableObj.of(key));
+	}
+
+	/**
+	 * 获得CacheObj或清除过期CacheObj，不加锁
+	 *
+	 * @param key                键
+	 * @return 值或null
+	 */
+	protected CacheObj<K, V> getOrRemoveExpiredWithoutLock(final K key) {
+		CacheObj<K, V> co = getWithoutLock(key);
+		if (null != co && co.isExpired()) {
+			//过期移除
+			removeWithoutLock(key);
+			onRemove(co.key, co.obj);
+			co = null;
+		}
+		return co;
 	}
 	// ---------------------------------------------------------------- get end
 
