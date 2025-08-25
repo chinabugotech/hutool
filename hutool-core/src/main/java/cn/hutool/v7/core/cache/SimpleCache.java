@@ -23,6 +23,7 @@ import cn.hutool.v7.core.lang.mutable.Mutable;
 import cn.hutool.v7.core.lang.mutable.MutableObj;
 import cn.hutool.v7.core.map.reference.WeakConcurrentMap;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
@@ -44,6 +45,7 @@ import java.util.stream.Collectors;
  * @author Looly, VampireAchao
  */
 public class SimpleCache<K, V> implements Iterable<Map.Entry<K, V>>, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

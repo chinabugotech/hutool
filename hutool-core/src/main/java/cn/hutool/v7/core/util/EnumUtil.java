@@ -28,6 +28,7 @@ import cn.hutool.v7.core.text.StrUtil;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -38,6 +39,15 @@ import java.util.function.Predicate;
  * @since 3.3.0
  */
 public class EnumUtil {
+
+	private static final Map<Class<?>, Enum<?>[]> CACHE = new ConcurrentHashMap<>();
+
+	/**
+	 * 清空缓存，重新加载枚举类
+	 */
+	public static void clearCache() {
+		CACHE.clear();
+	}
 
 	/**
 	 * 指定类是否为Enum类
@@ -83,7 +93,7 @@ public class EnumUtil {
 		if (null == enumClass) {
 			return null;
 		}
-		final E[] enumConstants = enumClass.getEnumConstants();
+		final E[] enumConstants = getEnums(enumClass);
 		if (index < 0) {
 			index = enumConstants.length + index;
 		}
@@ -148,7 +158,6 @@ public class EnumUtil {
 	 * @param value     值
 	 * @return 匹配到的枚举对象，未匹配到返回null
 	 */
-	@SuppressWarnings("unchecked")
 	public static <E extends Enum<E>> E likeValueOf(final Class<E> enumClass, Object value) {
 		if (null == enumClass || null == value) {
 			return null;
@@ -158,7 +167,7 @@ public class EnumUtil {
 		}
 
 		final Field[] fields = FieldUtil.getFields(enumClass);
-		final Enum<?>[] enums = enumClass.getEnumConstants();
+		final E[] enums = getEnums(enumClass);
 		String fieldName;
 		for (final Field field : fields) {
 			fieldName = field.getName();
@@ -166,9 +175,9 @@ public class EnumUtil {
 				// 跳过一些特殊字段
 				continue;
 			}
-			for (final Enum<?> enumObj : enums) {
+			for (final E enumObj : enums) {
 				if (ObjUtil.equals(value, FieldUtil.getFieldValue(enumObj, field))) {
-					return (E) enumObj;
+					return enumObj;
 				}
 			}
 		}
@@ -178,19 +187,20 @@ public class EnumUtil {
 	/**
 	 * 枚举类中所有枚举对象的name列表
 	 *
-	 * @param clazz 枚举类
+	 * @param enumClass 枚举类
 	 * @return name列表
+	 * @param <E> 枚举类型
 	 */
-	public static List<String> getNames(final Class<? extends Enum<?>> clazz) {
-		if (null == clazz) {
+	public static <E extends Enum<E>> List<String> getNames(final Class<E> enumClass) {
+		if (null == enumClass) {
 			return null;
 		}
-		final Enum<?>[] enums = clazz.getEnumConstants();
+		final E[] enums = getEnums(enumClass);
 		if (null == enums) {
 			return null;
 		}
 		final List<String> list = new ArrayList<>(enums.length);
-		for (final Enum<?> e : enums) {
+		for (final E e : enums) {
 			list.add(e.name());
 		}
 		return list;
@@ -199,20 +209,21 @@ public class EnumUtil {
 	/**
 	 * 获得枚举类中各枚举对象下指定字段的值
 	 *
-	 * @param clazz     枚举类
+	 * @param enumClass     枚举类
 	 * @param fieldName 字段名，最终调用getXXX方法
 	 * @return 字段值列表
+	 * @param <E> 枚举类型
 	 */
-	public static List<Object> getFieldValues(final Class<? extends Enum<?>> clazz, final String fieldName) {
-		if (null == clazz || StrUtil.isBlank(fieldName)) {
+	public static <E extends Enum<E>> List<Object> getFieldValues(final Class<E> enumClass, final String fieldName) {
+		if (null == enumClass || StrUtil.isBlank(fieldName)) {
 			return null;
 		}
-		final Enum<?>[] enums = clazz.getEnumConstants();
+		final E[] enums = getEnums(enumClass);
 		if (null == enums) {
 			return null;
 		}
 		final List<Object> list = new ArrayList<>(enums.length);
-		for (final Enum<?> e : enums) {
+		for (final E e : enums) {
 			list.add(FieldUtil.getFieldValue(e, fieldName));
 		}
 		return list;
@@ -333,7 +344,7 @@ public class EnumUtil {
 		if (null == enumClass || null == predicate) {
 			return null;
 		}
-		return Arrays.stream(enumClass.getEnumConstants())
+		return Arrays.stream(getEnums(enumClass))
 			.filter(predicate).findAny().orElse(defaultEnum);
 	}
 
@@ -358,7 +369,7 @@ public class EnumUtil {
 		if (Enum.class.equals(implClass)) {
 			implClass = LambdaUtil.getRealClass(field);
 		}
-		return Arrays.stream(implClass.getEnumConstants())
+		return Arrays.stream(getEnums(implClass))
 			// 过滤
 			.filter(constant -> ObjUtil.equals(condition.apply(constant), value))
 			// 获取第一个并转换为结果
@@ -381,7 +392,7 @@ public class EnumUtil {
 			return null;
 		}
 		final LinkedHashMap<String, E> map = new LinkedHashMap<>();
-		for (final E e : enumClass.getEnumConstants()) {
+		for (final E e : getEnums(enumClass)) {
 			map.put(e.name(), e);
 		}
 		return map;
@@ -391,18 +402,19 @@ public class EnumUtil {
 	 * 获得枚举名对应指定字段值的Map<br>
 	 * 键为枚举名，值为字段值
 	 *
-	 * @param clazz     枚举类
+	 * @param enumClass     枚举类
 	 * @param fieldName 字段名，最终调用getXXX方法
 	 * @return 枚举名对应指定字段值的Map
+	 * @param <E> 枚举类型
 	 */
-	public static Map<String, Object> getNameFieldMap(final Class<? extends Enum<?>> clazz, final String fieldName) {
-		if (null == clazz || StrUtil.isBlank(fieldName)) {
+	public static <E extends Enum<E>> Map<String, Object> getNameFieldMap(final Class<E> enumClass, final String fieldName) {
+		if (null == enumClass || StrUtil.isBlank(fieldName)) {
 			return null;
 		}
-		final Enum<?>[] enums = clazz.getEnumConstants();
-		Assert.notNull(enums, "Class [{}] is not an Enum type!", clazz);
+		final E[] enums =getEnums(enumClass);
+		Assert.notNull(enums, "Class [{}] is not an Enum type!", enumClass);
 		final Map<String, Object> map = MapUtil.newHashMap(enums.length, true);
-		for (final Enum<?> e : enums) {
+		for (final E e : enums) {
 			map.put(e.name(), FieldUtil.getFieldValue(e, fieldName));
 		}
 		return map;
@@ -456,5 +468,20 @@ public class EnumUtil {
 	 */
 	public static boolean equals(final Enum<?> e, final String val) {
 		return StrUtil.equals(toString(e), val);
+	}
+
+	/**
+	 * 获取枚举类中的枚举值，调用过的枚举值会缓存，下次调用会从缓存中获取
+	 *
+	 * @param <E>       枚举类型
+	 * @param enumClass 枚举类
+	 * @return 枚举类中的枚举值
+	 */
+	@SuppressWarnings("unchecked")
+	private static <E extends Enum<E>> E[] getEnums(final Class<E> enumClass) {
+		if (null == enumClass) {
+			return null;
+		}
+		return (E[]) CACHE.computeIfAbsent(enumClass, (k) -> enumClass.getEnumConstants());
 	}
 }
