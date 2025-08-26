@@ -30,10 +30,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 
 /**
  * 抽象验证码<br>
@@ -43,6 +40,7 @@ import java.io.OutputStream;
  * @author Looly
  */
 public abstract class AbstractCaptcha implements ICaptcha {
+	@Serial
 	private static final long serialVersionUID = 3180820918087507254L;
 
 	/**

@@ -80,7 +80,7 @@ public abstract class LockedCache<K, V> extends AbstractCache<K, V> {
 				if (null == co) {
 					// supplier的创建是一个耗时过程，此处创建与全局锁无关，而与key锁相关，这样就保证每个key只创建一个value，且互斥
 					v = valueFactory.get();
-					put(key, v, timeout);
+					putWithoutLock(key, v, timeout);
 				}
 			} finally {
 				lock.unlock();

@@ -56,4 +56,52 @@ public class NumberWordFormatTest {
 		final String s = EnglishNumberFormatter.formatSimple(1000);
 		Assertions.assertEquals("1k", s);
 	}
+
+	@Test
+	public void issue4033Test(){
+		String s = EnglishNumberFormatter.formatSimple(1_000, false);
+		Assertions.assertEquals("1k", s);
+
+		s = EnglishNumberFormatter.formatSimple(10_000, false);
+		Assertions.assertEquals("10k", s);
+
+		s = EnglishNumberFormatter.formatSimple(100_000, false);
+		Assertions.assertEquals("100k", s);
+
+		s = EnglishNumberFormatter.formatSimple(1_000_000, false);
+		Assertions.assertEquals("1m", s);
+
+		s = EnglishNumberFormatter.formatSimple(10_000_000, false);
+		Assertions.assertEquals("10m", s);
+
+		s = EnglishNumberFormatter.formatSimple(100_000_000, false);
+		Assertions.assertEquals("100m", s);
+
+		s = EnglishNumberFormatter.formatSimple(1_000_000_000, false);
+		Assertions.assertEquals("1b", s);
+	}
+
+	@Test
+	public void issue4033Test2(){
+		String s = EnglishNumberFormatter.formatSimple(1_000, true);
+		Assertions.assertEquals("1k", s);
+
+		s = EnglishNumberFormatter.formatSimple(10_000, true);
+		Assertions.assertEquals("1w", s);
+
+		s = EnglishNumberFormatter.formatSimple(100_000, true);
+		Assertions.assertEquals("10w", s);
+
+		s = EnglishNumberFormatter.formatSimple(1_000_000, true);
+		Assertions.assertEquals("100w", s);
+
+		s = EnglishNumberFormatter.formatSimple(10_000_000, true);
+		Assertions.assertEquals("1000w", s);
+
+		s = EnglishNumberFormatter.formatSimple(100_000_000, true);
+		Assertions.assertEquals("10000w", s);
+
+		s = EnglishNumberFormatter.formatSimple(1_000_000_000, true);
+		Assertions.assertEquals("1b", s);
+	}
 }

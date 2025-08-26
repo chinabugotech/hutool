@@ -18,7 +18,6 @@ package cn.hutool.v7.core.cache.impl;
 
 import cn.hutool.v7.core.cache.Cache;
 import cn.hutool.v7.core.cache.CacheListener;
-import cn.hutool.v7.core.func.SerSupplier;
 import cn.hutool.v7.core.lang.mutable.Mutable;
 import cn.hutool.v7.core.lang.mutable.MutableObj;
 
@@ -26,10 +25,7 @@ import java.io.Serial;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.LongAdder;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 
 /**

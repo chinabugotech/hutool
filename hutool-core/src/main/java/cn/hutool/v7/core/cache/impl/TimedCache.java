@@ -21,6 +21,7 @@ import cn.hutool.v7.core.lang.Assert;
 import cn.hutool.v7.core.lang.mutable.Mutable;
 import cn.hutool.v7.core.thread.lock.NoLock;
 
+import java.io.Serial;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -40,6 +41,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * @param <V> 值类型
  */
 public class TimedCache<K, V> extends LockedCache<K, V> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/** 正在执行的定时任务 */

@@ -22,6 +22,8 @@ import cn.hutool.v7.core.lang.mutable.Mutable;
 import cn.hutool.v7.core.lang.ref.Ref;
 import cn.hutool.v7.core.map.reference.WeakConcurrentMap;
 
+import java.io.Serial;
+
 /**
  * 弱引用缓存<br>
  * 对于一个给定的键，其映射的存在并不阻止垃圾回收器对该键的丢弃，这就使该键成为可终止的，被终止，然后被回收。<br>
@@ -35,6 +37,7 @@ import cn.hutool.v7.core.map.reference.WeakConcurrentMap;
  * @since 3.0.7
  */
 public class WeakCache<K, V> extends TimedCache<K, V>{
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

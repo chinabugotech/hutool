@@ -148,7 +148,7 @@ public class CacheTest {
 	 * https://gitee.com/chinabugotech/hutool/issues/IBP752
 	 */
 	@Test
-	public void whenContainsKeyTimeout_shouldCallOnRemove() {
+	public void whenContainsKeyTimeoutShouldCallOnRemove() {
 		final int timeout = 50;
 		final TimedCache<Integer, String> ALARM_CACHE = new TimedCache<>(timeout);
 
@@ -170,9 +170,9 @@ public class CacheTest {
 	 * https://github.com/chinabugotech/hutool/issues/3957
 	 */
 	@Test
-	public void reentrantCache_clear_Method_Test() {
-		AtomicInteger removeCount = new AtomicInteger();
-		Cache<String, String> lruCache = CacheUtil.newLRUCache(4);
+	public void reentrantCacheClearMethodTest() {
+		final AtomicInteger removeCount = new AtomicInteger();
+		final Cache<String, String> lruCache = CacheUtil.newLRUCache(4);
 		lruCache.setListener((key, cachedObject) -> removeCount.getAndIncrement());
 		lruCache.put("key1","String1");
 		lruCache.put("key2","String2");

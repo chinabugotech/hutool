@@ -35,7 +35,10 @@ public class EnglishNumberFormatter {
 			"SEVENTY", "EIGHTY", "NINETY"};
 	private static final String[] NUMBER_MORE = new String[]{"", "THOUSAND", "MILLION", "BILLION", "TRILLION"};
 
-	private static final String[] NUMBER_SUFFIX = new String[]{"k", "w", "", "m", "", "", "b", "", "", "t", "", "", "p", "", "", "e"};
+//	private static final String[] NUMBER_SUFFIX = new String[]{"k", "w", "", "m", "", "", "b", "", "", "t", "", "", "p", "", "", "e"};
+	private static final String[] NUMBER_SUFFIX = new String[] { "k", "w", "m", "b", "t", "p", "e" };
+	// 标准单位序列(k, m, b, t, p, e)在NUMBER_SUFFIX中的索引
+	private static final int[] STANDARD_UNIT_INDICES = { 0, 2, 3, 4, 5, 6 };
 
 	/**
 	 * 将阿拉伯数字转为英文表达式
@@ -64,30 +67,53 @@ public class EnglishNumberFormatter {
 	}
 
 	/**
-	 * 将阿拉伯数字转化为简介计数单位，例如 2100 =》 2.1k
+	 * 将数字转换为简写形式，格式单位简写为：k(千), m(百万), b(十亿), t(万亿)，如果中文单位，为w(万)
+	 * <ul>
+	 *     <li>1000 =》 1k</li>
+	 *     <li>10000 =》 10k，如果是中文单位，则为1w</li>
+	 *     <li>100000 =》 100k，如果是中文单位，则为10w</li>
+	 * </ul>
 	 *
-	 * @param value 对应数字的值
-	 * @param isTwo 控制是否为只为k、w，例如当为{@code false}时返回4.38m，{@code true}返回438.43w
-	 * @return 格式化后的数字
-	 * @since 5.5.9
+	 * @param number 要转换的数字
+	 * @param useChineseUnit 是否使用中文单位（w等）
+	 * @return 简写形式的字符串
 	 */
-	public static String formatSimple(final long value, final boolean isTwo) {
-		if (value < 1000) {
-			return String.valueOf(value);
+	public static String formatSimple(final long number, final boolean useChineseUnit) {
+		if (number < 1_000) {
+			return String.valueOf(number);
 		}
-		int index = -1;
-		double res = value;
-		while (res > 10 && (!isTwo || index < 1)) {
-			if (res >= 1000) {
-				res = res / 1000;
-				index++;
-			}
-			if (res > 10) {
-				res = res / 10;
-				index++;
+
+		double value;
+		String suffix;
+
+		// 使用国际单位系统：k(千), m(百万), b(十亿), t(万亿)
+		if (number < 1_000_000) {
+			value = number / 1_000.0;
+			suffix = "k";
+		} else if (number < 1_000_000_000) {
+			value = number / 1_000_000.0;
+			suffix = "m";
+		} else if (number < 1_000_000_000_000L) {
+			value = number / 1_000_000_000.0;
+			suffix = "b";
+		} else {
+			value = number / 1_000_000_000_000.0;
+			suffix = "t";
+		}
+
+		// 兼容中文简写形式，如10k->1w
+		if (useChineseUnit) {
+			if("m".equals(suffix)){
+				suffix = "w";
+				value *= 100;
+			} else if("k".equals(suffix) && value >= 10){
+				suffix = "w";
+				value /= 10;
 			}
 		}
-		return String.format("%s%s", NumberUtil.format("#.##", res), NUMBER_SUFFIX[index]);
+
+		// 格式化数字，最多保留2位小数，去除尾部的0
+		return NumberUtil.format("#.##", value) + suffix;
 	}
 
 	/**
@@ -97,9 +123,9 @@ public class EnglishNumberFormatter {
 	 * @return 英文表达式
 	 */
 	private static String format(final String x) {
-		final int z = x.indexOf("."); // 取小数点位置
+		final int z = x.indexOf(StrUtil.DOT); // 取小数点位置
 		final String lstr;
-		String rstr = "";
+		String rstr = StrUtil.EMPTY;
 		if (z > -1) { // 看是否有小数，如果有，则分别取左边和右边
 			lstr = x.substring(0, z);
 			rstr = x.substring(z + 1);
@@ -125,7 +151,7 @@ public class EnglishNumberFormatter {
 			if (!"000".equals(a[i])) { // 用来避免这种情况：1000000 = one million
 				// thousand only
 				if (i != 0) {
-					lm.insert(0, transThree(a[i]) + " " + parseMore(i) + " "); // 加:
+					lm.insert(0, transThree(a[i]) + StrUtil.SPACE + parseMore(i) + StrUtil.SPACE); // 加:
 					// thousand、million、billion
 				} else {
 					// 防止i=0时， 在多加两个空格.
@@ -136,9 +162,9 @@ public class EnglishNumberFormatter {
 			}
 		}
 
-		String xs = lm.length() == 0 ? "ZERO " : " "; // 用来存放转换后小数部分
+		String xs = lm.isEmpty() ? "ZERO " : StrUtil.SPACE; // 用来存放转换后小数部分
 		if (z > -1) {
-			xs += "AND CENTS " + transTwo(rstr) + " "; // 小数部分存在时转换小数
+			xs += "AND CENTS " + transTwo(rstr) + StrUtil.SPACE; // 小数部分存在时转换小数
 		}
 
 		return lm.toString().trim() + xs + "ONLY";
