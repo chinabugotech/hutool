@@ -1183,8 +1183,20 @@ public class CollUtilTest {
 
 	@Test
 	public void maxTest() {
-		final List<Integer> list = Arrays.asList(1, 2, 3, 4, 5, 6);
+		List<Integer> list = Arrays.asList(1, 2, 3, 4, 5, 6);
 		assertEquals((Integer) 6, CollUtil.max(list));
+
+		list = Arrays.asList(1, 2, 3, null, 5, 6);
+		assertEquals((Integer) 6, CollUtil.max(list));
+	}
+
+	@Test
+	public void minTest() {
+		List<Integer> list = Arrays.asList(1, 2, 3, 4, 5, 6);
+		assertEquals((Integer) 1, CollUtil.min(list));
+
+		list = Arrays.asList(1, 2, 3, null, 5, 6);
+		assertEquals((Integer) 1, CollUtil.min(list));
 	}
 
 	@SuppressWarnings({"rawtypes", "unchecked"})
@@ -1196,6 +1208,11 @@ public class CollUtilTest {
 
 	@Test
 	public void minNullTest() {
+		Assertions.assertNull(CollUtil.min(null));
+	}
+
+	@Test
+	public void maxNullTest() {
 		Assertions.assertNull(CollUtil.max(null));
 	}
 

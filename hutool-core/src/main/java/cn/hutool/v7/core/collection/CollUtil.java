@@ -415,7 +415,7 @@ public class CollUtil {
 				result.addAll(coll1);
 			}
 			result.removeAll(coll2);
-		} catch (UnsupportedOperationException e) {
+		} catch (final UnsupportedOperationException e) {
 			// 针对 coll1 为只读集合的补偿
 			result = CollUtil.create(AbstractCollection.class);
 			result.addAll(coll1);
@@ -588,6 +588,7 @@ public class CollUtil {
 	}
 
 	// region ----- join
+
 	/**
 	 * 以 conjunction 为分隔符将集合转换为字符串
 	 *
@@ -819,6 +820,7 @@ public class CollUtil {
 	}
 
 	// region ----- sub
+
 	/**
 	 * 截取列表的部分
 	 *
@@ -969,6 +971,7 @@ public class CollUtil {
 	}
 
 	// region ----- remove
+
 	/**
 	 * 去掉集合中的多个元素，此方法直接修改原集合
 	 *
@@ -1133,6 +1136,7 @@ public class CollUtil {
 	}
 
 	// region ----- getFieldValues
+
 	/**
 	 * 获取给定Bean列表中指定字段名对应字段值的列表<br>
 	 * 列表元素支持Bean与Map
@@ -1503,6 +1507,7 @@ public class CollUtil {
 	}
 
 	// region ----- addAll
+
 	/**
 	 * 将指定对象全部加入到集合中<br>
 	 * 提供的对象如果为集合类型，会自动转换为目标元素类型<br>
@@ -1642,6 +1647,7 @@ public class CollUtil {
 	// endregion
 
 	// region ----- get
+
 	/**
 	 * 获取集合的第一个元素，如果集合为空（null或者空集合），返回{@code null}
 	 *
@@ -1650,8 +1656,7 @@ public class CollUtil {
 	 * @return 第一个元素，为空返回{@code null}
 	 */
 	public static <T> T getFirst(final Iterable<T> iterable) {
-		if (iterable instanceof List) {
-			final List<T> list = (List<T>) iterable;
+		if (iterable instanceof final List<T> list) {
 			return CollUtil.isEmpty(list) ? null : list.get(0);
 		}
 		return IterUtil.getFirst(IterUtil.getIter(iterable));
@@ -1697,8 +1702,7 @@ public class CollUtil {
 	 */
 	public static <T> T getFirstByField(final Iterable<T> collection, final String fieldName, final Object fieldValue) {
 		return getFirst(collection, t -> {
-			if (t instanceof Map) {
-				final Map<?, ?> map = (Map<?, ?>) t;
+			if (t instanceof final Map<?, ?> map) {
 				final Object value = map.get(fieldName);
 				return ObjUtil.equals(value, fieldValue);
 			}
@@ -1749,8 +1753,7 @@ public class CollUtil {
 			return null;
 		}
 
-		if (collection instanceof List) {
-			final List<T> list = ((List<T>) collection);
+		if (collection instanceof final List<T> list) {
 			return list.get(index);
 		} else {
 			return IterUtil.get(collection.iterator(), index);
@@ -1773,8 +1776,7 @@ public class CollUtil {
 		}
 		final int size = collection.size();
 		final List<T> result = new ArrayList<>(indexes.length);
-		if (collection instanceof List) {
-			final List<T> list = ((List<T>) collection);
+		if (collection instanceof final List<T> list) {
 			for (int index : indexes) {
 				if (index < 0) {
 					index += size;
@@ -2033,6 +2035,7 @@ public class CollUtil {
 	// endregion
 
 	// region ----- group
+
 	/**
 	 * 分组，按照{@link Hash32}接口定义的hash算法，集合中的元素放入hash值对应的子列表中
 	 *
@@ -2167,29 +2170,61 @@ public class CollUtil {
 	}
 
 	/**
-	 * 取最大值
+	 * 取最大值，情况如下：
+	 * <ul>
+	 *     <li>集合为空，返回null</li>
+	 *     <li>集合元素全部为null，返回null</li>
+	 *     <li>集合中如果有非null元素，始终返回非null</li>
+	 * </ul>
 	 *
 	 * @param <T>  元素类型
 	 * @param coll 集合
-	 * @return 最大值
+	 * @return 最大值，如果集合为空或者元素全部为null，返回null，否则始终返回非null元素
 	 * @see Collections#max(Collection)
 	 * @since 4.6.5
 	 */
 	public static <T extends Comparable<? super T>> T max(final Collection<T> coll) {
-		return isEmpty(coll) ? null : Collections.max(coll);
+		if (isEmpty(coll)) {
+			return null;
+		}
+
+		final Iterator<? extends T> i = coll.iterator();
+		T candidate = i.next();
+
+		while (i.hasNext()) {
+			candidate = CompareUtil.max(candidate, i.next());
+		}
+		return candidate;
 	}
 
 	/**
-	 * 取最小值
+	 * 取最小值，情况如下：
+	 * <ul>
+	 *     <li>集合为空，返回null</li>
+	 *     <li>集合元素全部为null，返回null</li>
+	 *     <li>集合中如果有非null元素，始终返回非null</li>
+	 * </ul>
 	 *
 	 * @param <T>  元素类型
 	 * @param coll 集合
-	 * @return 最小值
+	 * @return 最小值，如果集合为空或者元素全部为null，返回null，否则始终返回非null元素
 	 * @see Collections#min(Collection)
 	 * @since 4.6.5
 	 */
 	public static <T extends Comparable<? super T>> T min(final Collection<T> coll) {
-		return isEmpty(coll) ? null : Collections.min(coll);
+		if (isEmpty(coll)) {
+			return null;
+		}
+
+		final Iterator<? extends T> i = coll.iterator();
+		T candidate = i.next();
+
+		T next;
+		while (i.hasNext()) {
+			next = i.next();
+			candidate = CompareUtil.compare(candidate, next, true) < 0 ? candidate : next;
+		}
+		return candidate;
 	}
 
 	/**
@@ -2326,9 +2361,8 @@ public class CollUtil {
 			return IterUtil.size((Iterable<?>) object);
 		} else if (object instanceof Iterator<?>) {
 			return IterUtil.size((Iterator<?>) object);
-		} else if (object instanceof Enumeration<?>) {
+		} else if (object instanceof final Enumeration<?> it) {
 			int total = 0;
-			final Enumeration<?> it = (Enumeration<?>) object;
 			while (it.hasMoreElements()) {
 				total++;
 				it.nextElement();
