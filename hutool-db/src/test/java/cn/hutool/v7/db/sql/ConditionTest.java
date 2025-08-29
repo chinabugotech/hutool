@@ -21,60 +21,71 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class ConditionTest {
 
 	@Test
 	public void toStringTest() {
 		final Condition conditionNull = new Condition("user", null);
-		Assertions.assertEquals("user IS NULL", conditionNull.toString());
+		assertEquals("user IS NULL", conditionNull.toString());
+
+		final Condition conditionNull2 = new Condition("user", "=", (String) null);
+		assertEquals("user IS NULL", conditionNull2.toString());
 
 		final Condition conditionNotNull = new Condition("user", "!= null");
-		Assertions.assertEquals("user IS NOT NULL", conditionNotNull.toString());
+		assertEquals("user IS NOT NULL", conditionNotNull.toString());
+
+		final Condition conditionNotNull2 = new Condition("user", "!=", (String) null);
+		assertEquals("user IS NOT NULL", conditionNotNull2.toString());
+
+		final Condition conditionNotNull3 = new Condition("user", "<>", (String) null);
+		assertEquals("user IS NOT NULL", conditionNotNull3.toString());
 
 		final Condition condition2 = new Condition("user", "= zhangsan");
-		Assertions.assertEquals("user = ?", condition2.toString());
+		assertEquals("user = ?", condition2.toString());
 
 		final Condition conditionLike = new Condition("user", "like %aaa");
-		Assertions.assertEquals("user LIKE ?", conditionLike.toString());
+		assertEquals("user LIKE ?", conditionLike.toString());
 
 		final Condition conditionIn = new Condition("user", "in 1,2,3");
-		Assertions.assertEquals("user IN (?,?,?)", conditionIn.toString());
+		assertEquals("user IN (?,?,?)", conditionIn.toString());
 
 		final Condition conditionBetween = new Condition("user", "between 12 and 13");
-		Assertions.assertEquals("user BETWEEN ? AND ?", conditionBetween.toString());
+		assertEquals("user BETWEEN ? AND ?", conditionBetween.toString());
 	}
 
 	@Test
 	public void toStringNoPlaceHolderTest() {
 		final Condition conditionNull = new Condition("user", null);
 		conditionNull.setPlaceHolder(false);
-		Assertions.assertEquals("user IS NULL", conditionNull.toString());
+		assertEquals("user IS NULL", conditionNull.toString());
 
 		final Condition conditionNotNull = new Condition("user", "!= null");
 		conditionNotNull.setPlaceHolder(false);
-		Assertions.assertEquals("user IS NOT NULL", conditionNotNull.toString());
+		assertEquals("user IS NOT NULL", conditionNotNull.toString());
 
 		final Condition conditionEquals = new Condition("user", "= zhangsan");
 		conditionEquals.setPlaceHolder(false);
-		Assertions.assertEquals("user = zhangsan", conditionEquals.toString());
+		assertEquals("user = zhangsan", conditionEquals.toString());
 
 		final Condition conditionLike = new Condition("user", "like %aaa");
 		conditionLike.setPlaceHolder(false);
-		Assertions.assertEquals("user LIKE '%aaa'", conditionLike.toString());
+		assertEquals("user LIKE '%aaa'", conditionLike.toString());
 
 		final Condition conditionIn = new Condition("user", "in 1,2,3");
 		conditionIn.setPlaceHolder(false);
-		Assertions.assertEquals("user IN (1,2,3)", conditionIn.toString());
+		assertEquals("user IN (1,2,3)", conditionIn.toString());
 
 		final Condition conditionBetween = new Condition("user", "between 12 and 13");
 		conditionBetween.setPlaceHolder(false);
-		Assertions.assertEquals("user BETWEEN 12 AND 13", conditionBetween.toString());
+		assertEquals("user BETWEEN 12 AND 13", conditionBetween.toString());
 	}
 
 	@Test
 	public void parseTest(){
 		final Condition age = Condition.parse("age", "< 10");
-		Assertions.assertEquals("age < ?", age.toString());
+		assertEquals("age < ?", age.toString());
 		// issue I38LTM
 		Assertions.assertSame(BigDecimal.class, age.getValue().getClass());
 	}
@@ -82,12 +93,12 @@ public class ConditionTest {
 	@Test
 	public void parseInTest(){
 		final Condition age = Condition.parse("age", "in 1,2,3");
-		Assertions.assertEquals("age IN (?,?,?)", age.toString());
+		assertEquals("age IN (?,?,?)", age.toString());
 	}
 
 	@Test
 	void notInTest() {
 		final Condition age = Condition.parse("age", "not in 1,2,3");
-		Assertions.assertEquals("age NOT IN (?,?,?)", age.toString());
+		assertEquals("age NOT IN (?,?,?)", age.toString());
 	}
 }

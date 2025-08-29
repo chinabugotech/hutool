@@ -286,6 +286,16 @@ public class Condition implements Cloneable, Serializable {
 	}
 
 	/**
+	 * 是否 IS NOT条件
+	 *
+	 * @return 是否IS NOT条件
+	 * @since 5.8.41
+	 */
+	public boolean isOperatorIsNot() {
+		return OPERATOR_IS_NOT.equalsIgnoreCase(this.operator);
+	}
+
+	/**
 	 * 是否LIKE条件
 	 *
 	 * @return 是否LIKE条件
@@ -296,13 +306,18 @@ public class Condition implements Cloneable, Serializable {
 	}
 
 	/**
-	 * 检查值是否为null，如果为null转换为 "IS NULL"形式
+	 * 检查值是否为null，如果为null转换为 "IS NULL"或"IS NOT NULL"形式
 	 *
 	 * @return this
 	 */
 	public Condition checkValueNull() {
 		if (null == this.value) {
-			this.operator = OPERATOR_IS;
+			// 检查是否为"不等于"操作符（包括!=和<>）
+			if ("!=".equalsIgnoreCase(this.operator) || "<>".equalsIgnoreCase(this.operator)) {
+				this.operator = OPERATOR_IS_NOT;
+			} else {
+				this.operator = OPERATOR_IS;
+			}
 			this.value = VALUE_NULL;
 		}
 		return this;
@@ -375,8 +390,8 @@ public class Condition implements Cloneable, Serializable {
 			// 类似：" (?,?,?)" 或者 " (1,2,3,4)"
 			buildValuePartForIN(conditionStrBuilder, paramValues);
 		} else {
-			if (isPlaceHolder() && !isOperatorIs()) {
-				// 使用条件表达式占位符，条件表达式并不适用于 IS NULL
+			if (isPlaceHolder() && !isOperatorIs() && !isOperatorIsNot()) {
+				// 使用条件表达式占位符，条件表达式并不适用于 IS NULL和 IS NOT NULL
 				conditionStrBuilder.append(" ?");
 				if (null != paramValues) {
 					paramValues.add(this.value);
