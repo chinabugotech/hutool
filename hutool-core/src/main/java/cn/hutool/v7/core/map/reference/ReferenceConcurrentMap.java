@@ -46,11 +46,11 @@ public abstract class ReferenceConcurrentMap<K, V> implements ConcurrentMap<K, V
 	 */
 	final ConcurrentMap<Ref<K>, Ref<V>> raw;
 	/**
-	 * 键队列
+	 * 因无强链接而清除的键队列
 	 */
 	private final ReferenceQueue<K> lastKeyQueue;
 	/**
-	 * 值队列
+	 * 因无强链接而清除的值队列
 	 */
 	private final ReferenceQueue<V> lastValueQueue;
 	/**
@@ -272,7 +272,7 @@ public abstract class ReferenceConcurrentMap<K, V> implements ConcurrentMap<K, V
 			@Override
 			public Iterator<Entry<K, V>> iterator() {
 				final Iterator<Entry<Ref<K>, Ref<V>>> referenceIter = referenceEntrySet.iterator();
-				return new Iterator<Entry<K, V>>() {
+				return new Iterator<>() {
 					@Override
 					public boolean hasNext() {
 						return referenceIter.hasNext();
