@@ -24,6 +24,7 @@ import cn.hutool.v7.core.text.CharUtil;
 import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.core.text.split.SplitUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
@@ -35,6 +36,7 @@ import java.util.List;
  * @author Looly
  */
 public class Condition implements Cloneable, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -146,7 +148,12 @@ public class Condition implements Cloneable, Serializable {
 	}
 
 	/**
-	 * 构造
+	 * 构造LIKE value条件，支持：
+	 * <ul>
+	 *     <li>{@link LikeType#StartWith}：LIKE value%</li>
+	 *     <li>{@link LikeType#EndWith}：LIKE %value</li>
+	 *     <li>{@link LikeType#Contains}：LIKE %value%</li>
+	 * </ul>
 	 *
 	 * @param field    字段
 	 * @param value    值
@@ -156,6 +163,21 @@ public class Condition implements Cloneable, Serializable {
 		this.field = field;
 		this.operator = OPERATOR_LIKE;
 		this.value = SqlUtil.buildLikeValue(value, likeType, false);
+	}
+
+	/**
+	 * 构造BETWEEN leftValue and rightValue条件
+	 *
+	 * @param field      字段
+	 * @param leftValue  左值
+	 * @param rightValue 右值
+	 * @since 5.8.41
+	 */
+	public Condition(final String field, final Object leftValue, final Object rightValue) {
+		this.field = field;
+		this.operator = OPERATOR_BETWEEN;
+		this.value = leftValue;
+		this.secondValue = rightValue;
 	}
 	// --------------------------------------------------------------- Constructor end
 
@@ -400,7 +422,7 @@ public class Condition implements Cloneable, Serializable {
 				// 直接使用条件值
 				final String valueStr = String.valueOf(this.value);
 				conditionStrBuilder.append(" ").append(isOperatorLike() ?
-						StrUtil.wrap(valueStr, "'") : valueStr);
+					StrUtil.wrap(valueStr, "'") : valueStr);
 			}
 		}
 
@@ -534,7 +556,7 @@ public class Condition implements Cloneable, Serializable {
 		}
 
 		// issue#I892T5 处理NOT IN
-		if(StrUtil.startWithIgnoreCase(valueStr, OPERATOR_NOT_IN)){
+		if (StrUtil.startWithIgnoreCase(valueStr, OPERATOR_NOT_IN)) {
 			this.operator = OPERATOR_NOT_IN;
 			this.value = StrUtil.trim(StrUtil.subSuf(valueStr, OPERATOR_NOT_IN.length()));
 			return;
@@ -567,7 +589,7 @@ public class Condition implements Cloneable, Serializable {
 		// 处理BETWEEN x AND y
 		if (OPERATOR_BETWEEN.equals(firstPart)) {
 			final List<String> betweenValueStrs = SplitUtil.split(strs.get(1), LogicalOperator.AND.toString(),
-					2, true, true, true);
+				2, true, true, true);
 			if (betweenValueStrs.size() < 2) {
 				// 必须满足a AND b格式，不满足被当作普通值
 				return;

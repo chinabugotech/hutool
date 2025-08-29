@@ -16,10 +16,14 @@
 
 package cn.hutool.v7.db.sql;
 
+import cn.hutool.v7.core.date.DateTime;
+import cn.hutool.v7.core.date.DateUtil;
+import cn.hutool.v7.core.lang.Console;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -100,5 +104,12 @@ public class ConditionTest {
 	void notInTest() {
 		final Condition age = Condition.parse("age", "not in 1,2,3");
 		assertEquals("age NOT IN (?,?,?)", age.toString());
+	}
+
+	@Test
+	void issue4041Test() {
+		final DateTime date = DateUtil.parse("2025-08-29");
+		final Condition createdDate = new Condition("createdDate", DateUtil.offsetDay(date, -3), DateUtil.offsetDay(date, -1));
+		assertEquals("createdDate BETWEEN ? AND ?", createdDate.toString());
 	}
 }
