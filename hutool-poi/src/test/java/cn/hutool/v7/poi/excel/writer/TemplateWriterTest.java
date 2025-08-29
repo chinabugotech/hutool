@@ -33,6 +33,7 @@ public class TemplateWriterTest {
 	 * 正常数据填充
 	 */
 	@Test
+	@Deprecated
 	void writeTest() {
 		final ExcelWriter writer = ExcelUtil.getWriter("template.xlsx");
 		writer.getConfig().setInsertRow(false);
@@ -55,6 +56,7 @@ public class TemplateWriterTest {
 	 * 带有页脚的数据填充，通过插入方式完成，页脚下移
 	 */
 	@Test
+	@Deprecated
 	void writeWithFooterTest() {
 		final ExcelWriter writer = ExcelUtil.getWriter("templateWithFooter.xlsx");
 		//writer.getConfig().setInsertRow(true);
@@ -77,6 +79,7 @@ public class TemplateWriterTest {
 	 * 错位数据，即变量不在一行上
 	 */
 	@Test
+	@Deprecated
 	void writeNoneOneLineTest() {
 		final ExcelWriter writer = ExcelUtil.getWriter("templateWithFooterNoneOneLine.xlsx");
 		//writer.getConfig().setInsertRow(true);
@@ -99,6 +102,7 @@ public class TemplateWriterTest {
 	 * 错位数据，即变量不在一行上
 	 */
 	@Test
+	@Deprecated
 	void writeBeanTest() {
 		final ExcelWriter writer = ExcelUtil.getWriter("templateWithFooterNoneOneLine.xlsx");
 		//writer.getConfig().setInsertRow(true);
