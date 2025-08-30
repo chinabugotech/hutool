@@ -1098,11 +1098,7 @@ public class IoUtil extends NioUtil {
 	 * @since 5.7.17
 	 */
 	public static String toStr(final ByteArrayOutputStream out, final Charset charset) {
-		try {
-			return out.toString(charset.name());
-		} catch (final UnsupportedEncodingException e) {
-			throw new IORuntimeException(e);
-		}
+		return out.toString(charset);
 	}
 
 	/**
