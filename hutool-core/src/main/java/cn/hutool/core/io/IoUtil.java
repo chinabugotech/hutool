@@ -1126,7 +1126,7 @@ public class IoUtil extends NioUtil {
 	 * @param obj 可关闭对象
 	 * @since 4.3.2
 	 */
-	public static void closeIfPosible(Object obj) {
+	public static void closeIfPossible(Object obj) {
 		if (obj instanceof AutoCloseable) {
 			close((AutoCloseable) obj);
 		}
