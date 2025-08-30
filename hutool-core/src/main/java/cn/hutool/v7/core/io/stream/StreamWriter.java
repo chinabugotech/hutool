@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.core.io.stream;
 
+import cn.hutool.v7.core.array.ArrayUtil;
 import cn.hutool.v7.core.io.IORuntimeException;
 import cn.hutool.v7.core.io.IoUtil;
 
@@ -85,6 +86,10 @@ public class StreamWriter {
 	public void writeObjs(final Object... contents) throws IORuntimeException {
 		ObjectOutputStream osw = null;
 		try {
+			if(ArrayUtil.isEmpty( contents)){
+				return;
+			}
+
 			osw = out instanceof ObjectOutputStream ? (ObjectOutputStream) out : new ObjectOutputStream(out);
 			for (final Object content : contents) {
 				if (content != null) {
