@@ -1072,9 +1072,11 @@ public class IoUtil extends NioUtil {
 		ObjectOutputStream osw = null;
 		try {
 			osw = out instanceof ObjectOutputStream ? (ObjectOutputStream) out : new ObjectOutputStream(out);
-			for (Object content : contents) {
-				if (content != null) {
-					osw.writeObject(content);
+			if (contents != null) {
+				for (Object content : contents) {
+					if (content != null) {
+						osw.writeObject(content);
+					}
 				}
 			}
 			osw.flush();
