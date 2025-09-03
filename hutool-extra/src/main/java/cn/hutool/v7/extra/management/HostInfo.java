@@ -18,6 +18,7 @@ package cn.hutool.v7.extra.management;
 
 import cn.hutool.v7.core.net.NetUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.net.InetAddress;
 
@@ -25,19 +26,23 @@ import java.net.InetAddress;
  * 代表当前主机的信息。
  */
 public class HostInfo implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
-	private final String HOST_NAME;
-	private final String HOST_ADDRESS;
+	private final String name;
+	private final String address;
 
+	/**
+	 * 构造当前主机信息。
+	 */
 	public HostInfo() {
 		final InetAddress localhost = NetUtil.getLocalhostV4();
 		if(null != localhost){
-			HOST_NAME = localhost.getHostName();
-			HOST_ADDRESS = localhost.getHostAddress();
+			name = localhost.getHostName();
+			address = localhost.getHostAddress();
 		} else{
-			HOST_NAME = null;
-			HOST_ADDRESS = null;
+			name = null;
+			address = null;
 		}
 	}
 
@@ -51,7 +56,7 @@ public class HostInfo implements Serializable {
 	 * @return 主机名
 	 */
 	public final String getName() {
-		return HOST_NAME;
+		return name;
 	}
 
 	/**
@@ -64,7 +69,7 @@ public class HostInfo implements Serializable {
 	 * @return 主机地址
 	 */
 	public final String getAddress() {
-		return HOST_ADDRESS;
+		return address;
 	}
 
 	/**

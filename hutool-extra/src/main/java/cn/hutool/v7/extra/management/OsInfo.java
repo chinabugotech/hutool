@@ -18,43 +18,82 @@ package cn.hutool.v7.extra.management;
 
 import cn.hutool.v7.core.util.SystemUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
  * 代表当前OS的信息。
  */
-public class OsInfo implements Serializable{
+public class OsInfo implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
-	private final String OS_VERSION = SystemUtil.get("os.version", false);
-	private final String OS_ARCH = SystemUtil.get("os.arch", false);
-	private final String OS_NAME = SystemUtil.get("os.name", false);
-	private final boolean IS_OS_AIX = getOSMatches("AIX");
-	private final boolean IS_OS_HP_UX = getOSMatches("HP-UX");
-	private final boolean IS_OS_IRIX = getOSMatches("Irix");
-	private final boolean IS_OS_LINUX = getOSMatches("Linux") || getOSMatches("LINUX");
-	private final boolean IS_OS_MAC = getOSMatches("Mac");
-	private final boolean IS_OS_MAC_OSX = getOSMatches("Mac OS X");
-	private final boolean IS_OS_OS2 = getOSMatches("OS/2");
-	private final boolean IS_OS_SOLARIS = getOSMatches("Solaris");
-	private final boolean IS_OS_SUN_OS = getOSMatches("SunOS");
-	private final boolean IS_OS_WINDOWS = getOSMatches("Windows");
-	private final boolean IS_OS_WINDOWS_2000 = getOSMatches("Windows", "5.0");
-	private final boolean IS_OS_WINDOWS_95 = getOSMatches("Windows 9", "4.0");
-	private final boolean IS_OS_WINDOWS_98 = getOSMatches("Windows 9", "4.1");
-	private final boolean IS_OS_WINDOWS_ME = getOSMatches("Windows", "4.9");
-	private final boolean IS_OS_WINDOWS_NT = getOSMatches("Windows NT");
-	private final boolean IS_OS_WINDOWS_XP = getOSMatches("Windows", "5.1");
-
-	private final boolean IS_OS_WINDOWS_7 = getOSMatches("Windows", "6.1");
-	private final boolean IS_OS_WINDOWS_8 = getOSMatches("Windows", "6.2");
-	private final boolean IS_OS_WINDOWS_8_1 = getOSMatches("Windows", "6.3");
-	private final boolean IS_OS_WINDOWS_10 = getOSMatches("Windows", "10.0");
+	private final String name;
+	private final String version;
+	private final String arch;
 
 	// 由于改变file.encoding属性并不会改变系统字符编码，为了保持一致，通过LocaleUtil取系统默认编码。
-	private final String FILE_SEPARATOR = SystemUtil.get(SystemPropsKeys.FILE_SEPARATOR, false);
-	private final String LINE_SEPARATOR = SystemUtil.get(SystemPropsKeys.LINE_SEPARATOR, false);
-	private final String PATH_SEPARATOR = SystemUtil.get(SystemPropsKeys.PATH_SEPARATOR, false);
+	private final String fileSeparator;
+	private final String lineSeparator;
+	private final String pathSeparator;
+
+	private final boolean IS_OS_AIX;
+	private final boolean IS_OS_HP_UX;
+	private final boolean IS_OS_IRIX;
+	private final boolean IS_OS_LINUX;
+	private final boolean IS_OS_MAC;
+	private final boolean IS_OS_MAC_OSX;
+	private final boolean IS_OS_OS2;
+	private final boolean IS_OS_SOLARIS;
+	private final boolean IS_OS_SUN_OS;
+	private final boolean IS_OS_WINDOWS;
+	private final boolean IS_OS_WINDOWS_2000;
+	private final boolean IS_OS_WINDOWS_95;
+	private final boolean IS_OS_WINDOWS_98;
+	private final boolean IS_OS_WINDOWS_ME;
+	private final boolean IS_OS_WINDOWS_NT;
+	private final boolean IS_OS_WINDOWS_XP;
+
+	private final boolean IS_OS_WINDOWS_7;
+	private final boolean IS_OS_WINDOWS_8;
+	private final boolean IS_OS_WINDOWS_8_1;
+	private final boolean IS_OS_WINDOWS_10;
+	private final boolean IS_OS_WINDOWS_11;
+
+	/**
+	 * 构造一个{@code OsInfo}对象，用于取得当前OS的信息。
+	 */
+	public OsInfo() {
+		this.name = SystemUtil.get("os.name", false);
+		this.version = SystemUtil.get("os.version", false);
+		this.arch = SystemUtil.get("os.arch", false);
+
+		this.fileSeparator = SystemUtil.get(SystemPropsKeys.FILE_SEPARATOR, false);
+		this.lineSeparator = SystemUtil.get(SystemPropsKeys.LINE_SEPARATOR, false);
+		this.pathSeparator = SystemUtil.get(SystemPropsKeys.PATH_SEPARATOR, false);
+
+		this.IS_OS_AIX = getOSMatches("AIX");
+		this.IS_OS_HP_UX = getOSMatches("HP-UX");
+		this.IS_OS_IRIX = getOSMatches("Irix");
+		this.IS_OS_LINUX = getOSMatches("Linux") || getOSMatches("LINUX");
+		this.IS_OS_MAC = getOSMatches("Mac");
+		this.IS_OS_MAC_OSX = getOSMatches("Mac OS X");
+		this.IS_OS_OS2 = getOSMatches("OS/2");
+		this.IS_OS_SOLARIS = getOSMatches("Solaris");
+		this.IS_OS_SUN_OS = getOSMatches("SunOS");
+		this.IS_OS_WINDOWS = getOSMatches("Windows");
+		this.IS_OS_WINDOWS_2000 = getOSMatches("Windows", "5.0");
+		this.IS_OS_WINDOWS_95 = getOSMatches("Windows 9", "4.0");
+		this.IS_OS_WINDOWS_98 = getOSMatches("Windows 9", "4.1");
+		this.IS_OS_WINDOWS_ME = getOSMatches("Windows", "4.9");
+		this.IS_OS_WINDOWS_NT = getOSMatches("Windows NT");
+		this.IS_OS_WINDOWS_XP = getOSMatches("Windows", "5.1");
+		this.IS_OS_WINDOWS_7 = getOSMatches("Windows", "6.1");
+		this.IS_OS_WINDOWS_8 = getOSMatches("Windows", "6.2");
+		this.IS_OS_WINDOWS_8_1 = getOSMatches("Windows", "6.3");
+		this.IS_OS_WINDOWS_10 = getOSMatches("Windows", "10.0");
+		this.IS_OS_WINDOWS_11 = getOSMatches("Windows 11");
+	}
 
 	/**
 	 * 取得当前OS的架构（取自系统属性：{@code os.arch}）。
@@ -64,11 +103,10 @@ public class OsInfo implements Serializable{
 	 * </p>
 	 *
 	 * @return 属性值，如果不能取得（因为Java安全限制）或值不存在，则返回{@code null}。
-	 *
 	 * @since Java 1.1
 	 */
 	public final String getArch() {
-		return OS_ARCH;
+		return arch;
 	}
 
 	/**
@@ -79,11 +117,10 @@ public class OsInfo implements Serializable{
 	 * </p>
 	 *
 	 * @return 属性值，如果不能取得（因为Java安全限制）或值不存在，则返回{@code null}。
-	 *
 	 * @since Java 1.1
 	 */
 	public final String getName() {
-		return OS_NAME;
+		return name;
 	}
 
 	/**
@@ -94,11 +131,10 @@ public class OsInfo implements Serializable{
 	 * </p>
 	 *
 	 * @return 属性值，如果不能取得（因为Java安全限制）或值不存在，则返回{@code null}。
-	 *
 	 * @since Java 1.1
 	 */
 	public final String getVersion() {
-		return OS_VERSION;
+		return version;
 	}
 
 	/**
@@ -358,38 +394,20 @@ public class OsInfo implements Serializable{
 	 * @return 如果当前OS类型为Windows 10，则返回{@code true}
 	 */
 	public final boolean isWindows10() {
-		return IS_OS_WINDOWS_10;
+		return IS_OS_WINDOWS_10 && !IS_OS_WINDOWS_11;
 	}
 
 	/**
-	 * 匹配OS名称。
+	 * 判断当前OS的类型。
 	 *
-	 * @param osNamePrefix OS名称前缀
+	 * <p>
+	 * 如果不能取得系统属性{@code os.name}（因为Java安全限制），则总是返回{@code false}
+	 * </p>
 	 *
-	 * @return 如果匹配，则返回{@code true}
+	 * @return 如果当前OS类型为Windows 11，则返回{@code true}
 	 */
-	private boolean getOSMatches(final String osNamePrefix) {
-		if (OS_NAME == null) {
-			return false;
-		}
-
-		return OS_NAME.startsWith(osNamePrefix);
-	}
-
-	/**
-	 * 匹配OS名称。
-	 *
-	 * @param osNamePrefix OS名称前缀
-	 * @param osVersionPrefix OS版本前缀
-	 *
-	 * @return 如果匹配，则返回{@code true}
-	 */
-	private boolean getOSMatches(final String osNamePrefix, final String osVersionPrefix) {
-		if ((OS_NAME == null) || (OS_VERSION == null)) {
-			return false;
-		}
-
-		return OS_NAME.startsWith(osNamePrefix) && OS_VERSION.startsWith(osVersionPrefix);
+	public final boolean isWindows11() {
+		return IS_OS_WINDOWS_11;
 	}
 
 	/**
@@ -400,11 +418,10 @@ public class OsInfo implements Serializable{
 	 * </p>
 	 *
 	 * @return 属性值，如果不能取得（因为Java安全限制）或值不存在，则返回{@code null}。
-	 *
 	 * @since Java 1.1
 	 */
 	public final String getFileSeparator() {
-		return FILE_SEPARATOR;
+		return fileSeparator;
 	}
 
 	/**
@@ -415,11 +432,10 @@ public class OsInfo implements Serializable{
 	 * </p>
 	 *
 	 * @return 属性值，如果不能取得（因为Java安全限制）或值不存在，则返回{@code null}。
-	 *
 	 * @since Java 1.1
 	 */
 	public final String getLineSeparator() {
-		return LINE_SEPARATOR;
+		return lineSeparator;
 	}
 
 	/**
@@ -430,11 +446,39 @@ public class OsInfo implements Serializable{
 	 * </p>
 	 *
 	 * @return 属性值，如果不能取得（因为Java安全限制）或值不存在，则返回{@code null}。
-	 *
 	 * @since Java 1.1
 	 */
 	public final String getPathSeparator() {
-		return PATH_SEPARATOR;
+		return pathSeparator;
+	}
+
+	/**
+	 * 匹配OS名称。
+	 *
+	 * @param osNamePrefix OS名称前缀
+	 * @return 如果匹配，则返回{@code true}
+	 */
+	private boolean getOSMatches(final String osNamePrefix) {
+		if (name == null) {
+			return false;
+		}
+
+		return name.startsWith(osNamePrefix);
+	}
+
+	/**
+	 * 匹配OS名称。
+	 *
+	 * @param osNamePrefix    OS名称前缀
+	 * @param osVersionPrefix OS版本前缀
+	 * @return 如果匹配，则返回{@code true}
+	 */
+	private boolean getOSMatches(final String osNamePrefix, final String osVersionPrefix) {
+		if ((name == null) || (version == null)) {
+			return false;
+		}
+
+		return name.startsWith(osNamePrefix) && version.startsWith(osVersionPrefix);
 	}
 
 	/**

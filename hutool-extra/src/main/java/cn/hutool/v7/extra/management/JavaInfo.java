@@ -20,6 +20,7 @@ import cn.hutool.v7.core.regex.ReUtil;
 import cn.hutool.v7.core.array.ArrayUtil;
 import cn.hutool.v7.core.util.SystemUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -28,13 +29,14 @@ import java.io.Serializable;
  * @see ManagementUtil#getJavaInfo()  使用方式
  */
 public class JavaInfo implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
-	private static final String JAVA_VERSION = SystemUtil.get("java.version", false);
-	private final float JAVA_VERSION_FLOAT = getJavaVersionAsFloat();
-	private final int JAVA_VERSION_INT = getJavaVersionAsInt();
-	private final String JAVA_VENDOR = SystemUtil.get("java.vendor", false);
-	private final String JAVA_VENDOR_URL = SystemUtil.get("java.vendor.url", false);
+	private static final String version = SystemUtil.get("java.version", false);
+	private final float versionFloat = getJavaVersionAsFloat();
+	private final int versionInt = getJavaVersionAsInt();
+	private final String vendor = SystemUtil.get("java.vendor", false);
+	private final String vendorUrl = SystemUtil.get("java.vendor.url", false);
 
 	private final boolean IS_JAVA_1_8 = getJavaVersionMatches("1.8");
 	private final boolean IS_JAVA_9 = getJavaVersionMatches("9");
@@ -58,7 +60,7 @@ public class JavaInfo implements Serializable {
 	 * @since Java 1.1
 	 */
 	public final String getVersion() {
-		return JAVA_VERSION;
+		return version;
 	}
 
 	/**
@@ -75,7 +77,7 @@ public class JavaInfo implements Serializable {
 	 * @return 属性值，如果不能取得（因为Java安全限制）或值不存在，则返回{@code 0}。
 	 */
 	public final float getVersionFloat() {
-		return JAVA_VERSION_FLOAT;
+		return versionFloat;
 	}
 
 	/**
@@ -94,7 +96,7 @@ public class JavaInfo implements Serializable {
 	 * @since Java 1.1
 	 */
 	public final int getVersionInt() {
-		return JAVA_VERSION_INT;
+		return versionInt;
 	}
 
 	/**
@@ -113,13 +115,13 @@ public class JavaInfo implements Serializable {
 	 * @since 6.0.1
 	 */
 	public final int getVersionIntSimple() {
-		if (JAVA_VERSION == null) {
+		if (version == null) {
 			return 0;
 		}
-		if (JAVA_VERSION.startsWith("1.")) {
-			return Integer.parseInt(JAVA_VERSION.split("\\.")[1]);
+		if (version.startsWith("1.")) {
+			return Integer.parseInt(version.split("\\.")[1]);
 		}
-		return Integer.parseInt(JAVA_VERSION.split("\\.")[0]);
+		return Integer.parseInt(version.split("\\.")[0]);
 	}
 
 	/**
@@ -128,11 +130,11 @@ public class JavaInfo implements Serializable {
 	 * @return Java版本的<code>float</code>值或{@code 0}
 	 */
 	private float getJavaVersionAsFloat() {
-		if (JAVA_VERSION == null) {
+		if (version == null) {
 			return 0f;
 		}
 
-		String str = JAVA_VERSION;
+		String str = version;
 
 		str = ReUtil.get("^[0-9]{1,2}(\\.[0-9]{1,2})?", str, 0);
 
@@ -145,11 +147,11 @@ public class JavaInfo implements Serializable {
 	 * @return Java版本的<code>int</code>值或{@code 0}
 	 */
 	private int getJavaVersionAsInt() {
-		if (JAVA_VERSION == null) {
+		if (version == null) {
 			return 0;
 		}
 
-		final String javaVersion = ReUtil.get("^[0-9]{1,2}(\\.[0-9]{1,2}){0,2}", JAVA_VERSION, 0);
+		final String javaVersion = ReUtil.get("^[0-9]{1,2}(\\.[0-9]{1,2}){0,2}", version, 0);
 
 		final String[] split = javaVersion.split("\\.");
 		String result = ArrayUtil.join(split, "");
@@ -172,7 +174,7 @@ public class JavaInfo implements Serializable {
 	 * @since Java 1.1
 	 */
 	public final String getVendor() {
-		return JAVA_VENDOR;
+		return vendor;
 	}
 
 	/**
@@ -185,7 +187,7 @@ public class JavaInfo implements Serializable {
 	 * @since Java 1.1
 	 */
 	public final String getVendorURL() {
-		return JAVA_VENDOR_URL;
+		return vendorUrl;
 	}
 
 	/**
@@ -309,11 +311,11 @@ public class JavaInfo implements Serializable {
 	 * @return 如果版本匹配，则返回{@code true}
 	 */
 	private boolean getJavaVersionMatches(final String versionPrefix) {
-		if (JAVA_VERSION == null) {
+		if (version == null) {
 			return false;
 		}
 
-		return JAVA_VERSION.startsWith(versionPrefix);
+		return version.startsWith(versionPrefix);
 	}
 
 	/**

@@ -19,12 +19,14 @@ package cn.hutool.v7.extra.management;
 import cn.hutool.v7.core.text.split.SplitUtil;
 import cn.hutool.v7.core.util.SystemUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
  * 代表当前运行的JRE的信息。
  */
 public class JavaRuntimeInfo implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private final String JAVA_RUNTIME_NAME = SystemUtil.get("java.runtime.name", false);
