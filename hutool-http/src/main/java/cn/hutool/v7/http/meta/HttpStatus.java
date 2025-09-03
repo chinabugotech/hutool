@@ -375,4 +375,22 @@ public interface HttpStatus {
 				return false;
 		}
 	}
+
+	/**
+	 * 是否为重定后请求变更为GET方法，307、308方法消息主体都不发生变化，见：<br>
+	 * <ul>
+	 *     <li>https://www.rfc-editor.org/rfc/rfc7231#section-6.4.7</li>
+	 *     <li>https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Redirections</li>
+	 * </ul>
+	 *
+	 * @param responseCode 被检查的状态码
+	 * @return 是否为重定向状态码且需要使用GET方法
+	 * @since 7.0.0
+	 */
+	static boolean isRedirectToGet(final int responseCode) {
+		return switch (responseCode) {
+			case HTTP_TEMP_REDIRECT, HTTP_PERMANENT_REDIRECT -> false;
+			default -> true;
+		};
+	}
 }

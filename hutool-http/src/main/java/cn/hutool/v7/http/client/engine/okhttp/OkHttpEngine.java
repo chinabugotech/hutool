@@ -173,10 +173,7 @@ public class OkHttpEngine extends AbstractClientEngine {
 			if (HttpStatus.isRedirected(code)) {
 				message.locationTo(response.header(HeaderName.LOCATION.getValue()));
 			}
-			// https://www.rfc-editor.org/rfc/rfc7231#section-6.4.7
-			// https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Redirections
-			// 307方法和消息主体都不发生变化。
-			if (HttpStatus.HTTP_TEMP_REDIRECT != code) {
+			if (HttpStatus.isRedirectToGet( code)) {
 				// 重定向默认使用GET
 				message.method(Method.GET);
 			}
