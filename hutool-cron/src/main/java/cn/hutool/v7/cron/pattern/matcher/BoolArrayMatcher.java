@@ -33,7 +33,12 @@ public class BoolArrayMatcher implements PartMatcher {
 	/**
 	 * 用户定义此字段的最小值
 	 */
-	protected final int minValue;
+	private final int minValue;
+	/**
+	 * 用户定义此字段的最大值
+	 */
+	private final int maxValue;
+
 	/**
 	 * 匹配值列表
 	 */
@@ -48,29 +53,37 @@ public class BoolArrayMatcher implements PartMatcher {
 		Assert.isTrue(CollUtil.isNotEmpty(intValueList), "Values must be not empty!");
 		bValues = new boolean[Collections.max(intValueList) + 1];
 		int min = Integer.MAX_VALUE;
+		int max = 0;
 		for (final Integer value : intValueList) {
 			min = Math.min(min, value);
+			max = Math.max(max, value);
 			bValues[value] = true;
 		}
 		this.minValue = min;
+		this.maxValue = max;
 	}
 
 	@Override
 	public boolean test(final Integer value) {
-		final boolean[] bValues = this.bValues;
-		if (null == value || value >= bValues.length) {
-			return false;
+		if(null != value && value >= minValue && value <= maxValue){
+			return bValues[value];
 		}
-		return bValues[value];
+		return false;
 	}
 
 	@Override
 	public int nextAfter(int value) {
+		final int maxValue = this.maxValue;
+		if(value == maxValue){
+			return value;
+		}
 		final int minValue = this.minValue;
-		if(value > minValue){
+		if(value > minValue && value < maxValue){
 			final boolean[] bValues = this.bValues;
-			while(value < bValues.length){
-				if(bValues[value]){
+			// 最大值永远小于数组长度，只需判断最大值边界
+			while(value <= maxValue){
+				if(value == maxValue || bValues[value]){
+					// 达到最大值或达到第一个匹配值
 					return value;
 				}
 				value++;
@@ -90,6 +103,15 @@ public class BoolArrayMatcher implements PartMatcher {
 	 */
 	public int getMinValue() {
 		return this.minValue;
+	}
+
+	/**
+	 * 获取表达式定义的最大值
+	 *
+	 * @return 最大值
+	 */
+	public int getMaxValue() {
+		return this.maxValue;
 	}
 
 	@Override

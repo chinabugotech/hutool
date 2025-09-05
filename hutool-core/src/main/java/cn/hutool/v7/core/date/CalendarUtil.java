@@ -798,6 +798,28 @@ public class CalendarUtil {
 	// endregion
 
 	/**
+	 * 是否为本月第一天
+	 *
+	 * @param calendar {@link Calendar}
+	 * @return 是否为本月最后一天
+	 * @since 6.0.0
+	 */
+	public static boolean isFirstDayOfMonth(final Calendar calendar) {
+		return 1 == calendar.get(Calendar.DAY_OF_MONTH);
+	}
+
+	/**
+	 * 是否为本月最后一天
+	 *
+	 * @param calendar {@link Calendar}
+	 * @return 是否为本月最后一天
+	 * @since 5.8.27
+	 */
+	public static boolean isLastDayOfMonth(final Calendar calendar) {
+		return calendar.get(Calendar.DAY_OF_MONTH) == calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+	}
+
+	/**
 	 * 计算相对于dateToCompare的年龄（周岁），常用于计算指定生日在某年的年龄<br>
 	 * 按照《最高人民法院关于审理未成年人刑事案件具体应用法律若干问题的解释》第二条规定刑法第十七条规定的“周岁”，按照公历的年、月、日计算，从周岁生日的第二天起算。
 	 * <ul>
@@ -843,27 +865,5 @@ public class CalendarUtil {
 		}
 
 		return age;
-	}
-
-	/**
-	 * 是否为本月第一天
-	 *
-	 * @param calendar {@link Calendar}
-	 * @return 是否为本月最后一天
-	 * @since 6.0.0
-	 */
-	public static boolean isFirstDayOfMonth(final Calendar calendar) {
-		return 1 == calendar.get(Calendar.DAY_OF_MONTH);
-	}
-
-	/**
-	 * 是否为本月最后一天
-	 *
-	 * @param calendar {@link Calendar}
-	 * @return 是否为本月最后一天
-	 * @since 5.8.27
-	 */
-	public static boolean isLastDayOfMonth(final Calendar calendar) {
-		return calendar.get(Calendar.DAY_OF_MONTH) == calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
 	}
 }

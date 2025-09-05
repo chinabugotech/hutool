@@ -66,11 +66,19 @@ public class CronPatternUtilTest {
 	public void issue4056Test() {
 		// "*/5"和"1/5"意义相同，从1号开始，每5天一个匹配，则匹配的天为：
 		// 2025-02-01, 2025-02-06, 2025-02-11, 2025-02-16, 2025-02-21, 2025-02-26
-		// 2025-02-28不应该在匹配之列
+		// 2025-03-01, 2025-03-06, 2025-03-11, 2025-03-16, 2025-03-21, 2025-03-26, 2025-03-31
 		final String cron = "0 0 0 */5 * ? *";
 		final CronPattern cronPattern = new CronPattern(cron);
-		final boolean match = cronPattern.match(DateUtil.parse("2025-02-28 00:00:00").toCalendar(), true);
+
+		// 2025-02-28不应该在匹配之列
+		boolean match = cronPattern.match(DateUtil.parse("2025-02-28 00:00:00").toCalendar(), true);
 		Assertions.assertFalse( match);
+
+		match = cronPattern.match(DateUtil.parse("2025-03-01 00:00:00").toCalendar(), true);
+		Assertions.assertTrue( match);
+
+		match = cronPattern.match(DateUtil.parse("2025-03-31 00:00:00").toCalendar(), true);
+		Assertions.assertTrue( match);
 	}
 
 	@Test
@@ -82,6 +90,7 @@ public class CronPatternUtilTest {
 		final Date nextDate = CronPatternUtil.nextDateAfter(cronPattern, judgeTime);
 		// "*/5"和"1/5"意义相同，从1号开始，每5天一个匹配，则匹配的天为：
 		// 2025-02-01, 2025-02-06, 2025-02-11, 2025-02-16, 2025-02-21, 2025-02-26
+		// 2025-03-01, 2025-03-06, 2025-03-11, 2025-03-16, 2025-03-21, 2025-03-26, 2025-03-31
 		// 下一个匹配日期应为2025-03-01
 		Assertions.assertEquals("2025-03-01 00:00:00", nextDate.toString());
 	}

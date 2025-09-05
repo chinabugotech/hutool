@@ -1985,22 +1985,15 @@ public class DateUtil {
 	 * @since 5.7.16
 	 */
 	public static String getShortName(final TimeUnit unit) {
-		switch (unit) {
-			case NANOSECONDS:
-				return "ns";
-			case MICROSECONDS:
-				return "μs";
-			case MILLISECONDS:
-				return "ms";
-			case SECONDS:
-				return "s";
-			case MINUTES:
-				return "min";
-			case HOURS:
-				return "h";
-			default:
-				return unit.name().toLowerCase();
-		}
+		return switch (unit) {
+			case NANOSECONDS -> "ns";
+			case MICROSECONDS -> "μs";
+			case MILLISECONDS -> "ms";
+			case SECONDS -> "s";
+			case MINUTES -> "min";
+			case HOURS -> "h";
+			default -> unit.name().toLowerCase();
+		};
 	}
 
 	/**

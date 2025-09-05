@@ -49,9 +49,9 @@ public enum Part {
 	 */
 	HOUR(Calendar.HOUR_OF_DAY, 0, 23),
 	/**
-	 * 日[1-31]
+	 * 日[1-31]，32表示最后一天
 	 */
-	DAY_OF_MONTH(Calendar.DAY_OF_MONTH, 1, 31),
+	DAY_OF_MONTH(Calendar.DAY_OF_MONTH, 1, 32),
 	/**
 	 * 月[1-12]
 	 */

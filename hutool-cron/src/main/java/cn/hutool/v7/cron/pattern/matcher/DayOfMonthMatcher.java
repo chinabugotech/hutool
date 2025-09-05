@@ -29,6 +29,11 @@ import java.util.List;
 public class DayOfMonthMatcher extends BoolArrayMatcher {
 
 	/**
+	 * 最后一天
+	 */
+	private static final int LAST_DAY = 32;
+
+	/**
 	 * 构造
 	 *
 	 * @param intValueList 匹配的日值
@@ -38,45 +43,50 @@ public class DayOfMonthMatcher extends BoolArrayMatcher {
 	}
 
 	/**
-	 * 给定的日期是否匹配当前匹配器
+	 * 给定的日是否匹配当前匹配器，匹配分为两种情况：
+	 * <ul>
+	 *     <li>如果指定日在表达式中有定义，则直接返回。</li>
+	 *     <li>如果指定日不在表达式中，但是表达式包含最后一天，匹配当月最后一天。</li>
+	 * </ul>
 	 *
-	 * @param value      被检查的值，此处为日，从1开始
+	 * @param dayValue   被检查的值，此处为日，从1开始
 	 * @param month      实际的月份，从1开始
 	 * @param isLeapYear 是否闰年
 	 * @return 是否匹配
 	 */
-	public boolean match(final int value, final int month, final boolean isLeapYear) {
-		return (super.test(value) // 在约定日范围内的某一天
-			//匹配器中用户定义了最后一天（31表示最后一天）
-			|| matchLastDay(value, getLastDay(month, isLeapYear)));
+	public boolean match(final int dayValue, final int month, final boolean isLeapYear) {
+		return (super.test(dayValue) // 在约定日范围内的某一天
+			//匹配器中用户定义了最后一天（32表示最后一天）
+			|| matchLastDay(dayValue, month, isLeapYear));
 	}
 
 	/**
-	 * 获取指定值之后的匹配值，也可以是指定值本身<br>
+	 * 获取指定日之后的匹配值，也可以是其本身<br>
 	 * 如果表达式中存在最后一天（如使用"L"），则：
 	 * <ul>
 	 *     <li>4月、6月、9月、11月最多匹配到30日</li>
 	 *     <li>4月闰年匹配到29日，非闰年28日</li>
 	 * </ul>
 	 *
-	 * @param value      指定的值
+	 * @param dayValue   指定的天值
 	 * @param month      月份，从1开始
 	 * @param isLeapYear 是否为闰年
 	 * @return 匹配到的值或之后的值
 	 */
-	public int nextAfter(int value, final int month, final boolean isLeapYear) {
+	public int nextAfter(int dayValue, final int month, final boolean isLeapYear) {
+		final int maxValue = getMaxValue(month, isLeapYear);
 		final int minValue = getMinValue(month, isLeapYear);
-		if (value > minValue) {
+		if (dayValue > minValue) {
 			final boolean[] bValues = this.bValues;
-			while (value < bValues.length) {
-				if (bValues[value]) {
-					if(31 == value){
-						// value == lastDay
-						return getLastDay(month, isLeapYear);
-					}
-					return value;
+			// 最大值永远小于数组长度，只需判断最大值边界
+			while (dayValue <= maxValue) {
+				// 匹配到有效值
+				if (bValues[dayValue] ||
+					// 如果最大值不在有效值中，这个最大值表示最后一天，则在包含了最后一天的情况下返回最后一天
+					(dayValue == maxValue && test(LAST_DAY))) {
+					return dayValue;
 				}
-				value++;
+				dayValue++;
 			}
 		}
 
@@ -87,7 +97,7 @@ public class DayOfMonthMatcher extends BoolArrayMatcher {
 	}
 
 	/**
-	 * 获取匹配的最小值
+	 * 获取表达式定义中指定月的最小日的值
 	 *
 	 * @param month      月，base1
 	 * @param isLeapYear 是否闰年
@@ -95,11 +105,24 @@ public class DayOfMonthMatcher extends BoolArrayMatcher {
 	 */
 	public int getMinValue(final int month, final boolean isLeapYear) {
 		final int minValue = super.getMinValue();
-		if (31 == minValue) {
+		if (LAST_DAY == minValue) {
 			// 用户指定了 L 等表示最后一天
 			return getLastDay(month, isLeapYear);
 		}
 		return minValue;
+	}
+
+	/**
+	 * 获取表达式定义中指定月的最大日的值<br>
+	 * 首先获取表达式定义的最大值，如果这个值大于本月最后一天，则返回最后一天，否则返回用户定义的最大值<br>
+	 * 注意最后一天可能不是表达式中定义的有效值
+	 *
+	 * @param month      月，base1
+	 * @param isLeapYear 是否闰年
+	 * @return 匹配的最大值
+	 */
+	public int getMaxValue(final int month, final boolean isLeapYear) {
+		return Math.min(super.getMaxValue(), getLastDay(month, isLeapYear));
 	}
 
 	/**
@@ -110,12 +133,17 @@ public class DayOfMonthMatcher extends BoolArrayMatcher {
 	 * 3、表达式包含最后一天（使用31表示）
 	 * </pre>
 	 *
-	 * @param value   被检查的值
-	 * @param lastDay 月份的最后一天
+	 * @param value      被检查的值
+	 * @param month      月，base1
+	 * @param isLeapYear 是否闰年
 	 * @return 是否为本月最后一天
 	 */
-	private boolean matchLastDay(final int value, final int lastDay) {
-		return value > 27 && test(31) && value == lastDay;
+	private boolean matchLastDay(final int value, final int month, final boolean isLeapYear) {
+		return value > 27
+			// 表达式中定义包含了最后一天
+			&& test(LAST_DAY)
+			// 用户指定的日正好是最后一天
+			&& value == getLastDay(month, isLeapYear);
 	}
 
 	/**

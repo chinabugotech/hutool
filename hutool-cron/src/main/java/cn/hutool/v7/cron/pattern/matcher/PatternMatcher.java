@@ -178,14 +178,14 @@ public class PatternMatcher {
 	@Override
 	public String toString() {
 		return StrUtil.format("""
-			SECOND      : {}
-			MINUTE      : {}
-			HOUR        : {}
-			DAY_OF_MONTH: {}
-			MONTH       : {}
-			DAY_OF_WEEK : {}
-			YEAR        : {}
-		""", (Object[]) this.matchers);
+				SECOND      : {}
+				MINUTE      : {}
+				HOUR        : {}
+				DAY_OF_MONTH: {}
+				MONTH       : {}
+				DAY_OF_WEEK : {}
+				YEAR        : {}
+			""", (Object[]) this.matchers);
 	}
 
 	/**
@@ -269,10 +269,12 @@ public class PatternMatcher {
 	 *
 	 * @param newValues   时间字段值，{second, minute, hour, dayOfMonth, monthBase1, dayOfWeekBase0, year}
 	 * @param partOrdinal 序号
+	 * @param plusValue   获取的偏移值
 	 * @return 下一个值
 	 */
 	private int getNextMatch(final int[] newValues, final int partOrdinal, final int plusValue) {
 		if (partOrdinal == Part.DAY_OF_MONTH.ordinal() && matchers[partOrdinal] instanceof DayOfMonthMatcher) {
+			// 对于日需要考虑月份和闰年，单独处理
 			final boolean isLeapYear = DateUtil.isLeapYear(newValues[Part.YEAR.ordinal()]);
 			final int month = newValues[Part.MONTH.ordinal()];
 			return ((DayOfMonthMatcher) matchers[partOrdinal]).nextAfter(newValues[partOrdinal] + plusValue, month, isLeapYear);

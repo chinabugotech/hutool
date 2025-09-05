@@ -25,6 +25,7 @@ import cn.hutool.v7.core.lang.Assert;
 import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.core.util.ObjUtil;
 
+import java.io.Serial;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -51,6 +52,7 @@ import java.util.TimeZone;
  * @author Looly
  */
 public class DateTime extends Date {
+	@Serial
 	private static final long serialVersionUID = -5395712593979185936L;
 
 	private static boolean useJdkToStringStyle = false;
