@@ -342,8 +342,7 @@ public class HierarchicalAnnotatedElements implements AnnotatedElement, Iterable
 			scanHierarchy(mappings, (Class<?>)source, false, source);
 		}
 		// 原始元素是方法
-		else if (source instanceof Method) {
-			final Method methodSource = (Method)source;
+		else if (source instanceof final Method methodSource) {
 			// 静态、私有与被final关键字修饰方法无法被子类重写，因此不可能具有层级结构
 			if (Modifier.isPrivate(methodSource.getModifiers())
 				|| Modifier.isFinal(methodSource.getModifiers())

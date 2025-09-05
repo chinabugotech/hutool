@@ -276,14 +276,14 @@ public enum Month {
 	/**
 	 * 获得指定月的最后一天
 	 *
-	 * @param month      月份，从0开始
+	 * @param monthBase0      月份，从0开始
 	 * @param isLeapYear 是否为闰年，闰年只对二月有影响
 	 * @return 最后一天，可能为28,29,30,31
 	 * @since 5.4.7
 	 */
-	public static int getLastDay(final int month, final boolean isLeapYear) {
-		final Month of = of(month);
-		Assert.notNull(of, "Invalid Month base 0: " + month);
+	public static int getLastDay(final int monthBase0, final boolean isLeapYear) {
+		final Month of = of(monthBase0);
+		Assert.notNull(of, "Invalid Month base 0: " + monthBase0);
 		return of.getLastDay(isLeapYear);
 	}
 

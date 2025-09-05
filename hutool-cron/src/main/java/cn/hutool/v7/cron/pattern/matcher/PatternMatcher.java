@@ -17,10 +17,10 @@
 package cn.hutool.v7.cron.pattern.matcher;
 
 import cn.hutool.v7.core.date.DateUtil;
+import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.cron.pattern.Part;
 
 import java.time.Year;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.TimeZone;
 
@@ -177,9 +177,15 @@ public class PatternMatcher {
 
 	@Override
 	public String toString() {
-		return "PatternMatcher{" +
-			"matchers=" + Arrays.toString(matchers) +
-			'}';
+		return StrUtil.format("""
+			SECOND      : {}
+			MINUTE      : {}
+			HOUR        : {}
+			DAY_OF_MONTH: {}
+			MONTH       : {}
+			DAY_OF_WEEK : {}
+			YEAR        : {}
+		""", (Object[]) this.matchers);
 	}
 
 	/**

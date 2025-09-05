@@ -91,14 +91,11 @@ public class PartParser {
 			throw new CronException("Invalid part value: [{}]", value);
 		}
 
-		switch (this.part) {
-			case DAY_OF_MONTH:
-				return new DayOfMonthMatcher(values);
-			case YEAR:
-				return new YearValueMatcher(values);
-			default:
-				return new BoolArrayMatcher(values);
-		}
+		return switch (this.part) {
+			case DAY_OF_MONTH -> new DayOfMonthMatcher(values);
+			case YEAR -> new YearValueMatcher(values);
+			default -> new BoolArrayMatcher(values);
+		};
 	}
 
 	/**
@@ -163,6 +160,7 @@ public class PartParser {
 	 * <li>8-3</li>
 	 * <li>3-3</li>
 	 * </ul>
+	 * 其中"*"解析时按照min值处理
 	 *
 	 * @param value 范围表达式
 	 * @param step  步进
@@ -287,15 +285,15 @@ public class PartParser {
 			return part.getMax();
 		}
 
-		switch (this.part) {
-			case MONTH:
+		return switch (this.part) {
+			case MONTH ->
 				// 月份从1开始
-				return Month.of(name).getValueBaseOne();
-			case DAY_OF_WEEK:
+				Month.of(name).getValueBaseOne();
+			case DAY_OF_WEEK ->
 				// 周从0开始，0表示周日
-				return Week.of(name).ordinal();
-		}
+				Week.of(name).ordinal();
+			default -> throw new CronException("Invalid alias value: [{}]", name);
+		};
 
-		throw new CronException("Invalid alias value: [{}]", name);
 	}
 }

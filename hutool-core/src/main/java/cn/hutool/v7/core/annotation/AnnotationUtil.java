@@ -97,7 +97,12 @@ public class AnnotationUtil {
 	// region ----- getAnnotation
 
 	/**
-	 * 获取直接声明的注解，若已有缓存则从缓存中获取
+	 * 获取直接声明的注解，若已有缓存则从缓存中获取，主要为：
+	 * <ul>
+	 *     <li>只返回直接声明在该元素上的注解</li>
+	 *     <li>不包括从父类或接口继承来的注解</li>
+	 *     <li>只获取当前类/方法/字段等自身定义的注解</li>
+	 * </ul>
 	 *
 	 * @param element {@link AnnotatedElement}
 	 * @return 注解
@@ -108,7 +113,12 @@ public class AnnotationUtil {
 	}
 
 	/**
-	 * 获取指定注解
+	 * 获取指定注解，主要为:
+	 * <ul>
+	 *     <li>返回该元素上的所有注解</li>
+	 *     <li>包括从父类或接口继承来的注解</li>
+	 *     <li>获取当前元素以及继承自父类或接口的所有注解</li>
+	 * </ul>
 	 *
 	 * @param annotationEle   {@link AnnotatedElement}，可以是Class、Method、Field、Constructor、ReflectPermission
 	 * @param isToCombination 是否为转换为组合注解，组合注解可以递归获取注解的注解

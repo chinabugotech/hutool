@@ -29,6 +29,11 @@ public class YearValueMatcher implements PartMatcher {
 
 	private final LinkedHashSet<Integer> valueList;
 
+	/**
+	 * 构造
+	 *
+	 * @param intValueList 年数字列表
+	 */
 	public YearValueMatcher(final Collection<Integer> intValueList) {
 		this.valueList = new LinkedHashSet<>(intValueList);
 	}
@@ -48,5 +53,12 @@ public class YearValueMatcher implements PartMatcher {
 
 		// 年无效，此表达式整体无效
 		return -1;
+	}
+
+	@Override
+	public String toString() {
+		return "YearValueMatcher{" +
+			"valueList=" + valueList +
+			'}';
 	}
 }

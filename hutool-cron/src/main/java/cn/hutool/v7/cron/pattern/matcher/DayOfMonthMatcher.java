@@ -40,7 +40,7 @@ public class DayOfMonthMatcher extends BoolArrayMatcher {
 	/**
 	 * 给定的日期是否匹配当前匹配器
 	 *
-	 * @param value      被检查的值，此处为日
+	 * @param value      被检查的值，此处为日，从1开始
 	 * @param month      实际的月份，从1开始
 	 * @param isLeapYear 是否闰年
 	 * @return 是否匹配
