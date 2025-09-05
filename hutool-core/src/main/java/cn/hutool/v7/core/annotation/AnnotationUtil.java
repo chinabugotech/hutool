@@ -19,6 +19,7 @@ package cn.hutool.v7.core.annotation;
 import cn.hutool.v7.core.annotation.elements.CombinationAnnotatedElement;
 import cn.hutool.v7.core.array.ArrayUtil;
 import cn.hutool.v7.core.classloader.ClassLoaderUtil;
+import cn.hutool.v7.core.collection.set.SetUtil;
 import cn.hutool.v7.core.exception.HutoolException;
 import cn.hutool.v7.core.func.LambdaInfo;
 import cn.hutool.v7.core.func.LambdaUtil;
@@ -26,7 +27,6 @@ import cn.hutool.v7.core.func.SerFunction;
 import cn.hutool.v7.core.map.reference.WeakConcurrentMap;
 import cn.hutool.v7.core.reflect.FieldUtil;
 import cn.hutool.v7.core.reflect.method.MethodUtil;
-import cn.hutool.v7.core.text.CharSequenceUtil;
 import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.core.util.ObjUtil;
 
@@ -34,6 +34,7 @@ import java.lang.annotation.*;
 import java.lang.reflect.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
@@ -52,9 +53,33 @@ public class AnnotationUtil {
 	private static final String SPRING_INVOCATION_HANDLER = "SynthesizedMergedAnnotationInvocationHandler";
 
 	/**
+	 * 元注解
+	 */
+	private static final Set<Class<? extends Annotation>> META_ANNOTATIONS = SetUtil.of(
+		Target.class, //
+		Retention.class, //
+		Inherited.class, //
+		Documented.class, //
+		SuppressWarnings.class, //
+		Override.class, //
+		Deprecated.class//
+	);
+
+	/**
 	 * 直接声明的注解缓存
 	 */
 	private static final Map<AnnotatedElement, Annotation[]> DECLARED_ANNOTATIONS_CACHE = new WeakConcurrentMap<>();
+
+	/**
+	 * 判断注解是否为元注解
+	 *
+	 * @param annotationType 注解类型
+	 * @return 是否为元注解
+	 * @since 7.0.0
+	 */
+	public static boolean isMetaAnnotation(final Class<? extends Annotation> annotationType) {
+		return META_ANNOTATIONS.contains(annotationType);
+	}
 
 	/**
 	 * 将指定的被注解的元素转换为组合注解元素
@@ -70,6 +95,7 @@ public class AnnotationUtil {
 	}
 
 	// region ----- getAnnotation
+
 	/**
 	 * 获取直接声明的注解，若已有缓存则从缓存中获取
 	 *
@@ -118,7 +144,7 @@ public class AnnotationUtil {
 	@SuppressWarnings("unchecked")
 	public static <T> T[] getAnnotations(final AnnotatedElement annotationEle, final boolean isToCombination, final Class<T> annotationType) {
 		final Annotation[] annotations = getAnnotations(annotationEle, isToCombination,
-				(annotation -> null == annotationType || annotationType.isAssignableFrom(annotation.getClass())));
+			(annotation -> null == annotationType || annotationType.isAssignableFrom(annotation.getClass())));
 
 		final T[] result = ArrayUtil.newArray(annotationType, annotations.length);
 		for (int i = 0; i < annotations.length; i++) {
@@ -172,7 +198,7 @@ public class AnnotationUtil {
 	 * 检查是否包含指定注解<br>
 	 * 注解类传入全名，通过{@link Class#forName(String)}加载，避免不存在的注解导致的ClassNotFoundException
 	 *
-	 * @param annotationEle  {@link AnnotatedElement}，可以是Class、Method、Field、Constructor、ReflectPermission
+	 * @param annotationEle      {@link AnnotatedElement}，可以是Class、Method、Field、Constructor、ReflectPermission
 	 * @param annotationTypeName 注解类型完整类名
 	 * @return 是否包含指定注解
 	 * @since 6.0.0
@@ -186,7 +212,7 @@ public class AnnotationUtil {
 		} catch (final ClassNotFoundException e) {
 			// ignore
 		}
-		if(null != aClass){
+		if (null != aClass) {
 			return hasAnnotation(annotationEle, aClass);
 		}
 		return false;
@@ -205,6 +231,7 @@ public class AnnotationUtil {
 	}
 
 	// region ----- getAnnotationValue
+
 	/**
 	 * 获取指定注解默认值<br>
 	 * 如果无指定的属性方法返回null
@@ -223,21 +250,21 @@ public class AnnotationUtil {
 	 * 获取指定注解属性的值<br>
 	 * 如果无指定的属性方法返回null
 	 *
-	 * @param <A>            注解类型
-	 * @param <R>            注解类型值
-	 * @param annotationEle  {@link AnnotatedElement}，可以是Class、Method、Field、Constructor、ReflectPermission
-	 * @param propertyName   属性名，例如注解中定义了name()方法，则 此处传入name
+	 * @param <A>           注解类型
+	 * @param <R>           注解类型值
+	 * @param annotationEle {@link AnnotatedElement}，可以是Class、Method、Field、Constructor、ReflectPermission
+	 * @param propertyName  属性名，例如注解中定义了name()方法，则 此处传入name
 	 * @return 注解对象
 	 * @throws HutoolException 调用注解中的方法时执行异常
 	 */
-	public static <A extends Annotation, R> R getAnnotationValue(final AnnotatedElement annotationEle, final SerFunction<A, R> propertyName)  {
-		if(propertyName == null) {
+	public static <A extends Annotation, R> R getAnnotationValue(final AnnotatedElement annotationEle, final SerFunction<A, R> propertyName) {
+		if (propertyName == null) {
 			return null;
-		}else {
+		} else {
 			final LambdaInfo lambda = LambdaUtil.resolve(propertyName);
 			final String instantiatedMethodType = lambda.getLambda().getInstantiatedMethodType();
 			final Class<A> annotationClass = ClassLoaderUtil.loadClass(StrUtil.sub(instantiatedMethodType, 2, StrUtil.indexOf(instantiatedMethodType, ';')));
-			return getAnnotationValue(annotationEle,annotationClass, lambda.getLambda().getImplMethodName());
+			return getAnnotationValue(annotationEle, annotationClass, lambda.getLambda().getImplMethodName());
 		}
 	}
 
@@ -286,8 +313,8 @@ public class AnnotationUtil {
 				final String name = t.getName();
 				// 跳过自有的几个方法
 				return (!"hashCode".equals(name)) //
-						&& (!"toString".equals(name)) //
-						&& (!"annotationType".equals(name));
+					&& (!"toString".equals(name)) //
+					&& (!"annotationType".equals(name));
 			}
 			return false;
 		});
@@ -301,6 +328,7 @@ public class AnnotationUtil {
 	// endregion
 
 	// region ----- 元注解相关
+
 	/**
 	 * 获取注解类的保留时间，可选值 SOURCE（源码时），CLASS（编译时），RUNTIME（运行时），默认为 CLASS
 	 *

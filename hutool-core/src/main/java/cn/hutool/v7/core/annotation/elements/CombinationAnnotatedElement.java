@@ -21,6 +21,7 @@ import cn.hutool.v7.core.array.ArrayUtil;
 import cn.hutool.v7.core.collection.set.SetUtil;
 import cn.hutool.v7.core.map.TableMap;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.lang.annotation.*;
 import java.lang.reflect.AnnotatedElement;
@@ -38,6 +39,7 @@ import java.util.function.Predicate;
  **/
 
 public class CombinationAnnotatedElement implements AnnotatedElement, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -51,19 +53,6 @@ public class CombinationAnnotatedElement implements AnnotatedElement, Serializab
 	public static CombinationAnnotatedElement of(final AnnotatedElement element, final Predicate<Annotation> predicate) {
 		return new CombinationAnnotatedElement(element, predicate);
 	}
-
-	/**
-	 * 元注解
-	 */
-	private static final Set<Class<? extends Annotation>> META_ANNOTATIONS = SetUtil.of(
-		Target.class, //
-		Retention.class, //
-		Inherited.class, //
-		Documented.class, //
-		SuppressWarnings.class, //
-		Override.class, //
-		Deprecated.class//
-	);
 
 	/**
 	 * 注解类型与注解对象对应表
@@ -158,7 +147,7 @@ public class CombinationAnnotatedElement implements AnnotatedElement, Serializab
 		// 直接注解
 		for (final Annotation annotation : annotations) {
 			annotationType = annotation.annotationType();
-			if (!META_ANNOTATIONS.contains(annotationType)
+			if (!AnnotationUtil.isMetaAnnotation(annotationType)
 				// issue#I5FQGW@Gitee：跳过元注解和已经处理过的注解，防止递归调用
 				&& !declaredAnnotationMap.containsKey(annotationType)) {
 				if (test(annotation)) {
@@ -183,7 +172,7 @@ public class CombinationAnnotatedElement implements AnnotatedElement, Serializab
 		Class<? extends Annotation> annotationType;
 		for (final Annotation annotation : annotations) {
 			annotationType = annotation.annotationType();
-			if (!META_ANNOTATIONS.contains(annotationType)
+			if (!AnnotationUtil.isMetaAnnotation(annotationType)
 				// issue#I5FQGW@Gitee：跳过元注解和已经处理过的注解，防止递归调用
 				&& !annotationMap.containsKey(annotationType)) {
 				if (test(annotation)) {

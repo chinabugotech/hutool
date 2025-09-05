@@ -171,6 +171,12 @@ public class AnnotationUtilTest {
 		Assertions.assertTrue(ArrayUtil.equals(names, new String[]{"测试1", "测试2"}));
 	}
 
+	@Test
+	void isMetaAnnotationTest() {
+		Assertions.assertTrue(AnnotationUtil.isMetaAnnotation(Deprecated.class));
+		Assertions.assertFalse(AnnotationUtil.isMetaAnnotation(AnnotationForTest.class));
+	}
+
 	@Target(ElementType.TYPE_USE)
 	@Retention(RetentionPolicy.RUNTIME)
 	private @interface MetaAnnotationForTest{
