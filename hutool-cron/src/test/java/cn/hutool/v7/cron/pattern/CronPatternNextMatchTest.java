@@ -19,6 +19,7 @@ package cn.hutool.v7.cron.pattern;
 import cn.hutool.v7.core.date.DateField;
 import cn.hutool.v7.core.date.DateTime;
 import cn.hutool.v7.core.date.DateUtil;
+import cn.hutool.v7.core.lang.Console;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -210,6 +211,16 @@ public class CronPatternNextMatchTest {
 			final int lastDayOfMonth = DateUtil.getLastDayOfMonth(result);
 			result.setField(DateField.DAY_OF_MONTH, lastDayOfMonth);
 		}
+	}
+
+	@Test
+	public void testLastDayOfMonthForEveryYear3() {
+		final DateTime date = DateUtil.parse("2022-03-08 07:44:16");
+		final DateTime result = DateUtil.parse("2023-02-28 03:02:01");
+		// 匹配每一年2月的最后一天
+		final CronPattern pattern = new CronPattern("1 2 3 L 2 ?");
+		final Calendar calendar = pattern.nextMatchAfter(date.toCalendar());
+		Assertions.assertEquals(DateUtil.date( calendar), result);
 	}
 
 	@Test
