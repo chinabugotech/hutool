@@ -18,16 +18,14 @@ package cn.hutool.v7.core.annotation.elements;
 
 import cn.hutool.v7.core.annotation.AnnotationUtil;
 import cn.hutool.v7.core.array.ArrayUtil;
-import cn.hutool.v7.core.collection.set.SetUtil;
 import cn.hutool.v7.core.map.TableMap;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.lang.annotation.*;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.util.Collection;
 import java.util.Map;
-import java.util.Set;
 import java.util.function.Predicate;
 
 /**
