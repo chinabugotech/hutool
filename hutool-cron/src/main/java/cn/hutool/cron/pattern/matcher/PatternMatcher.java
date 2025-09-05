@@ -190,12 +190,24 @@ public class PatternMatcher {
 			}
 
 			// pr#1189
+			// 由于每月的最大值可能会因为闰年发生变化，这里需要额外判断
 			if (i == Part.DAY_OF_MONTH.ordinal()
-				&& matchers[i] instanceof DayOfMonthMatcher
-				&& ((DayOfMonthMatcher) matchers[i]).isLastDay(values[i],values[i+1],DateUtil.isLeapYear(values[Part.YEAR.ordinal()]))) {
+				&& matchers[i] instanceof DayOfMonthMatcher) {
 				int newMonth = newValues[Part.MONTH.ordinal()];
 				int newYear = newValues[Part.YEAR.ordinal()];
-				nextValue = getLastDay(newMonth, newYear);
+				// 获取该年、该月的最后一天
+				int lastDay = getLastDay(newMonth, newYear);
+				// 判断corn表达式中是否为L (最后一天)
+				if(((DayOfMonthMatcher)matchers[i]).isContainL){
+					// 如果是最后一天，那么下一个值则为最后一天
+					nextValue = lastDay;
+				// 如果下一个允许值大于最后一天，从头开始
+				} else if(matchers[i].nextAfter(values[i]) > lastDay){
+					nextValue = matchers[i].nextAfter(1);
+				}else{
+					// 如果在最后一天之前，则正常取下一个允许值
+					nextValue = matchers[i].nextAfter(values[i]);
+				}
 			} else {
 				nextValue = matchers[i].nextAfter(values[i]);
 			}
@@ -224,12 +236,22 @@ public class PatternMatcher {
 					// 周不参与计算
 					i++;
 					continue;
+				// 由于每月的最大值可能会因为闰年发生变化，这里需要额外判断
 				} else if (i == Part.DAY_OF_MONTH.ordinal()
-					&& matchers[i] instanceof DayOfMonthMatcher
-					&& ((DayOfMonthMatcher) matchers[i]).isLastDay(values[i],values[i+1],DateUtil.isLeapYear(values[Part.YEAR.ordinal()]))) {
+					&& matchers[i] instanceof DayOfMonthMatcher) {
 					int newMonth = newValues[Part.MONTH.ordinal()];
 					int newYear = newValues[Part.YEAR.ordinal()];
-					nextValue = getLastDay(newMonth, newYear);
+					int lastDay = getLastDay(newMonth, newYear);
+					// 判断corn表达式中是否为L (最后一天)
+					if(((DayOfMonthMatcher)matchers[i]).isContainL){
+						nextValue = lastDay;
+					// 如果新日期的下一个允许值大于最后一天，从头开始
+					}else if(matchers[i].nextAfter(values[i] + 1) > lastDay){
+						nextValue = matchers[i].nextAfter(1);
+					}else{
+						// 如果在最后一天之前，则正常取新日期的下一个允许值
+						nextValue = matchers[i].nextAfter(values[i] + 1);
+					}
 				} else {
 					nextValue = matchers[i].nextAfter(values[i] + 1);
 				}
@@ -258,11 +280,15 @@ public class PatternMatcher {
 		for (int i = 0; i <= toPart; i++) {
 			part = Part.of(i);
 			if (part == Part.DAY_OF_MONTH
-				&& get(part) instanceof DayOfMonthMatcher
-				&& ((DayOfMonthMatcher) get(part)).isLast()) {
+				&& get(part) instanceof DayOfMonthMatcher) {
 				int newMonth = values[Part.MONTH.ordinal()];
 				int newYear = values[Part.YEAR.ordinal()];
-				values[i] = getLastDay(newMonth, newYear);
+				int lastDay = getLastDay(newMonth, newYear);
+				if(((DayOfMonthMatcher)matchers[i]).isContainL){
+					values[i] = lastDay;
+				}else {
+					values[i] = getMin(part);
+				}
 			} else {
 				values[i] = getMin(part);
 			}

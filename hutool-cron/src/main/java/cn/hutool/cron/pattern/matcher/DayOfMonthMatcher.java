@@ -11,13 +11,17 @@ import java.util.List;
  * @author Looly
  */
 public class DayOfMonthMatcher extends BoolArrayMatcher {
+
+	// 判断是否为匹配每月最后一天（匹配表达式中日期项是否为L）
+	public boolean isContainL = false;
 	/**
 	 * 构造
 	 *
 	 * @param intValueList 匹配的日值
 	 */
-	public DayOfMonthMatcher(List<Integer> intValueList) {
+	public DayOfMonthMatcher(List<Integer> intValueList, boolean isContainL) {
 		super(intValueList);
+		this.isContainL = isContainL;
 	}
 
 	/**
@@ -30,8 +34,8 @@ public class DayOfMonthMatcher extends BoolArrayMatcher {
 	 */
 	public boolean match(int value, int month, boolean isLeapYear) {
 		return (super.match(value) // 在约定日范围内的某一天
-				//匹配器中用户定义了最后一天（31表示最后一天）
-				|| (value > 27 && match(31) && isLastDayOfMonth(value, month, isLeapYear)));
+			//匹配器中用户定义了最后一天（31表示最后一天）
+			|| (value > 27 && match(31) && isLastDayOfMonth(value, month, isLeapYear)));
 	}
 
 	/**
@@ -48,22 +52,6 @@ public class DayOfMonthMatcher extends BoolArrayMatcher {
 	 */
 	private static boolean isLastDayOfMonth(int value, int month, boolean isLeapYear) {
 		return value == Month.getLastDay(month - 1, isLeapYear);
-	}
-
-	public boolean isLast() {
-		return match(31);
-	}
-
-	/**
-	 * 检查value是这个月的最后一天
-	 * @param value 被检查的值
-	 * @return
-	 */
-	public boolean isLastDay(Integer value,Integer month, boolean isLeapYear) {
-		if(isLastDayOfMonth(value, month, isLeapYear)) {
-			return match(31);
-		}
-		return  false;
 	}
 
 }

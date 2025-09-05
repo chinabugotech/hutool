@@ -69,7 +69,10 @@ public class PartParser {
 			//兼容Quartz的"?"表达式，不会出现互斥情况，与"*"作用相同
 			return new AlwaysTrueMatcher();
 		}
-
+		boolean isContainL = false;
+		if("L".equals(value)) {
+			isContainL = true;
+		}
 		final List<Integer> values = parseArray(value);
 		if (values.isEmpty()) {
 			throw new CronException("Invalid part value: [{}]", value);
@@ -77,7 +80,7 @@ public class PartParser {
 
 		switch (this.part) {
 			case DAY_OF_MONTH:
-				return new DayOfMonthMatcher(values);
+				return new DayOfMonthMatcher(values, isContainL);
 			case YEAR:
 				return new YearValueMatcher(values);
 			default:
