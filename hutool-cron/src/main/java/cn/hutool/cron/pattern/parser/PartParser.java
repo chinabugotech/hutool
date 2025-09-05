@@ -69,10 +69,7 @@ public class PartParser {
 			//兼容Quartz的"?"表达式，不会出现互斥情况，与"*"作用相同
 			return new AlwaysTrueMatcher();
 		}
-		boolean isContainL = false;
-		if("L".equals(value)) {
-			isContainL = true;
-		}
+		boolean isContainL = "L".equals(value);
 		final List<Integer> values = parseArray(value);
 		if (values.isEmpty()) {
 			throw new CronException("Invalid part value: [{}]", value);

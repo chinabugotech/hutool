@@ -13,7 +13,7 @@ import java.util.List;
 public class DayOfMonthMatcher extends BoolArrayMatcher {
 
 	// 判断是否为匹配每月最后一天（匹配表达式中日期项是否为L）
-	public boolean isContainL = false;
+	public boolean isContainL;
 	/**
 	 * 构造
 	 *
