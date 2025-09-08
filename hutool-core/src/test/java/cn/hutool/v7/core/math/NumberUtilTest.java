@@ -713,6 +713,22 @@ public class NumberUtilTest {
 		assertFalse(NumberUtil.isPrime(296733));
 		assertFalse(NumberUtil.isPrime(20_4123_2399));
 	}
+	@Test
+	public void isPrimeTest2() {
+		assertTrue(NumberUtil.isPrime(2));
+		assertTrue(NumberUtil.isPrime(3));
+		assertFalse(NumberUtil.isPrime(4));
+		assertTrue(NumberUtil.isPrime(5));
+		assertTrue(NumberUtil.isPrime(7));
+		assertFalse(NumberUtil.isPrime(9));
+		assertTrue(NumberUtil.isPrime(13));
+		assertFalse(NumberUtil.isPrime(25));
+		assertFalse(NumberUtil.isPrime(49));
+		assertTrue(NumberUtil.isPrime(113));
+		assertFalse(NumberUtil.isPrime(121));
+		assertTrue(NumberUtil.isPrime(2147483647));
+		assertFalse(NumberUtil.isPrime(2147483646));
+	}
 
 	@Test
 	public void parseFloatTest() {
