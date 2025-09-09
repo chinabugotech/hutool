@@ -16,12 +16,6 @@
 
 package cn.hutool.v7.extra.compress;
 
-import org.apache.commons.compress.archivers.ArchiveStreamFactory;
-import org.apache.commons.compress.archivers.StreamingNotSupportedException;
-import org.apache.commons.compress.compressors.CompressorException;
-import org.apache.commons.compress.compressors.CompressorInputStream;
-import org.apache.commons.compress.compressors.CompressorOutputStream;
-import org.apache.commons.compress.compressors.CompressorStreamFactory;
 import cn.hutool.v7.core.io.IoUtil;
 import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.extra.compress.archiver.Archiver;
@@ -30,11 +24,18 @@ import cn.hutool.v7.extra.compress.archiver.StreamArchiver;
 import cn.hutool.v7.extra.compress.extractor.Extractor;
 import cn.hutool.v7.extra.compress.extractor.SevenZExtractor;
 import cn.hutool.v7.extra.compress.extractor.StreamExtractor;
+import org.apache.commons.compress.archivers.ArchiveStreamFactory;
+import org.apache.commons.compress.archivers.StreamingNotSupportedException;
+import org.apache.commons.compress.compressors.CompressorException;
+import org.apache.commons.compress.compressors.CompressorInputStream;
+import org.apache.commons.compress.compressors.CompressorOutputStream;
+import org.apache.commons.compress.compressors.CompressorStreamFactory;
 
 import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
+import java.util.function.Function;
 
 /**
  * 压缩工具类<br>
@@ -63,7 +64,7 @@ public class CompressUtil {
 	 * @param out            输出流，可以输出到内存、网络或文件
 	 * @return {@link CompressorOutputStream}
 	 */
-	public static CompressorOutputStream getOut(final String compressorName, final OutputStream out) {
+	public static CompressorOutputStream<?> getOut(final String compressorName, final OutputStream out) {
 		try {
 			return new CompressorStreamFactory().createCompressorOutputStream(compressorName, out);
 		} catch (final CompressorException e) {
@@ -86,13 +87,13 @@ public class CompressUtil {
 	 * </ul>
 	 *
 	 * @param compressorName 压缩名称，见：{@link CompressorStreamFactory}，null表示自动检测
-	 * @param in            输出流，可以输出到内存、网络或文件
+	 * @param in             输出流，可以输出到内存、网络或文件
 	 * @return {@link CompressorOutputStream}
 	 */
 	public static CompressorInputStream getIn(String compressorName, InputStream in) {
 		in = IoUtil.toMarkSupport(in);
 		try {
-			if(StrUtil.isBlank(compressorName)){
+			if (StrUtil.isBlank(compressorName)) {
 				compressorName = CompressorStreamFactory.detect(in);
 			}
 			return new CompressorStreamFactory().createCompressorInputStream(compressorName, in);
@@ -187,11 +188,11 @@ public class CompressUtil {
 			return new SevenZExtractor(file);
 		}
 
-		if(StrUtil.isBlank(archiverName)){
+		if (StrUtil.isBlank(archiverName)) {
 			final String name = file.getName().toLowerCase();
-			if(name.endsWith(".tgz")){
+			if (name.endsWith(".tgz")) {
 				archiverName = "tgz";
-			} else if(name.endsWith(".tar.gz")){
+			} else if (name.endsWith(".tar.gz")) {
 				archiverName = "tar.gz";
 			}
 		}
@@ -255,5 +256,24 @@ public class CompressUtil {
 			}
 			throw e;
 		}
+	}
+
+	/**
+	 * 获取归档条目名
+	 *
+	 * @param fileName       文件名，包括主名称和扩展名，不包括路径
+	 * @param path           路径
+	 * @param fileNameEditor 文件名编辑器
+	 * @return 归档条目名
+	 * @since 7.0.0
+	 */
+	public static String getEntryName(final String fileName, final String path, final Function<String, String> fileNameEditor) {
+		String entryName = (fileNameEditor == null) ? fileName : fileNameEditor.apply(fileName);
+		if (StrUtil.isNotEmpty(path)) {
+			// 非空拼接路径，格式为：path/name
+			entryName = StrUtil.addSuffixIfNot(path, StrUtil.SLASH) + entryName;
+		}
+
+		return entryName;
 	}
 }

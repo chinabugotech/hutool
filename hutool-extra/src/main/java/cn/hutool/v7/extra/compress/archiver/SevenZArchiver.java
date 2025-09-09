@@ -16,11 +16,12 @@
 
 package cn.hutool.v7.extra.compress.archiver;
 
-import cn.hutool.v7.core.io.file.FileUtil;
+import cn.hutool.v7.core.array.ArrayUtil;
 import cn.hutool.v7.core.io.IORuntimeException;
 import cn.hutool.v7.core.io.IoUtil;
-import cn.hutool.v7.core.text.StrUtil;
-import cn.hutool.v7.core.array.ArrayUtil;
+import cn.hutool.v7.core.io.file.FileUtil;
+import cn.hutool.v7.core.io.file.PathUtil;
+import cn.hutool.v7.extra.compress.CompressUtil;
 import org.apache.commons.compress.archivers.sevenz.SevenZOutputFile;
 import org.apache.commons.compress.utils.SeekableInMemoryByteChannel;
 
@@ -28,6 +29,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.channels.SeekableByteChannel;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -144,11 +147,7 @@ public class SevenZArchiver implements Archiver {
 		}
 		final SevenZOutputFile out = this.sevenZOutputFile;
 
-		String entryName = (null == fileNameEditor) ? file.getName() : fileNameEditor.apply(file.getName());
-		if (StrUtil.isNotEmpty(path)) {
-			// 非空拼接路径，格式为：path/name
-			entryName = StrUtil.addSuffixIfNot(path, StrUtil.SLASH) + entryName;
-		}
+		final String entryName = CompressUtil.getEntryName(file.getName(), path, fileNameEditor);
 		out.putArchiveEntry(out.createArchiveEntry(file, entryName));
 
 		if (file.isDirectory()) {

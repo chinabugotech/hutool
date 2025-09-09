@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.extra.compress.archiver;
 
+import cn.hutool.v7.extra.compress.CompressUtil;
 import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.ArchiveException;
 import org.apache.commons.compress.archivers.ArchiveOutputStream;
@@ -172,11 +173,7 @@ public class StreamArchiver implements Archiver {
 		}
 		final ArchiveOutputStream out = this.out;
 
-		String entryName = (fileNameEditor == null) ? file.getName() : fileNameEditor.apply(file.getName());
-		if (StrUtil.isNotEmpty(path)) {
-			// 非空拼接路径，格式为：path/name
-			entryName = StrUtil.addSuffixIfNot(path, StrUtil.SLASH) + entryName;
-		}
+		final String entryName = CompressUtil.getEntryName(file.getName(), path, fileNameEditor);
 		out.putArchiveEntry(out.createArchiveEntry(file, entryName));
 
 		if (file.isDirectory()) {

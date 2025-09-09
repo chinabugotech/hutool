@@ -17,6 +17,7 @@
 package cn.hutool.v7.core.io.file;
 
 import cn.hutool.v7.core.array.ArrayUtil;
+import cn.hutool.v7.core.func.PredicateUtil;
 import cn.hutool.v7.core.io.IORuntimeException;
 import cn.hutool.v7.core.io.IoUtil;
 import cn.hutool.v7.core.io.resource.FileResource;
@@ -33,6 +34,8 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 /**
  * NIO中Path对象操作封装
@@ -94,6 +97,26 @@ public class PathUtil {
 	}
 
 	// region ----- loop and walk
+
+	/**
+	 * 获取目录下所有文件和子目录，此方法不判断是否为目录
+	 *
+	 * @param dirPath 目录路径
+	 * @param filter  文件过滤规则，{@code null}表示接收全部文件
+	 * @return 文件列表
+	 * @since 7.0.0
+	 */
+	public static Path[] listFiles(final Path dirPath, Predicate<? super Path> filter) {
+		if (null == filter) {
+			filter = PredicateUtil.alwaysTrue();
+		}
+
+		try (final Stream<Path> list = Files.list(dirPath)) {
+			return list.filter(filter).toArray(Path[]::new);
+		} catch (final IOException e) {
+			throw new IORuntimeException(e);
+		}
+	}
 
 	/**
 	 * 递归遍历目录以及子目录中的所有文件<br>
