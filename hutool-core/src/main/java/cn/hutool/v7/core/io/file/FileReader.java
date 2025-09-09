@@ -37,6 +37,7 @@ import java.util.function.Predicate;
  * @author Looly
  */
 public class FileReader extends FileWrapper {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

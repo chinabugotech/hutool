@@ -16,8 +16,8 @@
 
 package cn.hutool.v7.core.io.file;
 
-import cn.hutool.v7.core.lang.wrapper.Wrapper;
 import cn.hutool.v7.core.lang.Assert;
+import cn.hutool.v7.core.lang.wrapper.Wrapper;
 import cn.hutool.v7.core.util.CharsetUtil;
 import cn.hutool.v7.core.util.ObjUtil;
 
@@ -25,7 +25,6 @@ import java.io.File;
 import java.io.Serial;
 import java.io.Serializable;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 
 /**
  * 文件包装器，扩展文件对象
@@ -48,7 +47,7 @@ public class FileWrapper implements Wrapper<File>, Serializable {
 	/**
 	 * 默认编码：UTF-8
 	 */
-	public static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
+	public static final Charset DEFAULT_CHARSET = CharsetUtil.UTF_8;
 
 	// ------------------------------------------------------- Constructor start
 
