@@ -16,15 +16,24 @@
 
 package cn.hutool.v7.core.io.file;
 
+import cn.hutool.v7.core.exception.HutoolException;
 import cn.hutool.v7.core.io.IORuntimeException;
+import cn.hutool.v7.core.io.resource.Resource;
+import cn.hutool.v7.core.lang.wrapper.SimpleWrapper;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URL;
+import java.nio.charset.Charset;
 import java.nio.file.*;
+import java.nio.file.FileSystem;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileAttribute;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Set;
+import java.util.function.Predicate;
 
 /**
  * 代理路径类，实现Path接口，用于代理一个实际的Path对象，并提供对Files类功能的访问
@@ -32,9 +41,7 @@ import java.util.NoSuchElementException;
  * @author Looly
  * @since 7.0.0
  */
-public class DelegatePath implements Path {
-
-	private final Path path;
+public class DelegatePath extends SimpleWrapper<Path> implements Path, Resource {
 
 	// region ----- Constructor
 
@@ -63,7 +70,7 @@ public class DelegatePath implements Path {
 	 * @param path 被代理的路径对象
 	 */
 	public DelegatePath(final Path path) {
-		this.path = path;
+		super(path);
 	}
 	// endregion
 
@@ -73,151 +80,151 @@ public class DelegatePath implements Path {
 	 * @return 被代理的路径对象
 	 */
 	public Path getRawPath() {
-		return this.path;
+		return this.raw;
 	}
 
 	@Override
 	public FileSystem getFileSystem() {
-		return path.getFileSystem();
+		return raw.getFileSystem();
 	}
 
 	@Override
 	public boolean isAbsolute() {
-		return path.isAbsolute();
+		return raw.isAbsolute();
 	}
 
 	@Override
 	public Path getRoot() {
-		final Path root = path.getRoot();
+		final Path root = raw.getRoot();
 		return root == null ? null : new DelegatePath(root);
 	}
 
 	@Override
 	public Path getFileName() {
-		final Path fileName = path.getFileName();
+		final Path fileName = raw.getFileName();
 		return fileName == null ? null : new DelegatePath(fileName);
 	}
 
 	@Override
 	public Path getParent() {
-		final Path parent = path.getParent();
+		final Path parent = raw.getParent();
 		return parent == null ? null : new DelegatePath(parent);
 	}
 
 	@Override
 	public int getNameCount() {
-		return path.getNameCount();
+		return raw.getNameCount();
 	}
 
 	@Override
 	public Path getName(final int index) {
-		return new DelegatePath(path.getName(index));
+		return new DelegatePath(raw.getName(index));
 	}
 
 	@Override
 	public Path subpath(final int beginIndex, final int endIndex) {
-		return new DelegatePath(path.subpath(beginIndex, endIndex));
+		return new DelegatePath(raw.subpath(beginIndex, endIndex));
 	}
 
 	@Override
 	public boolean startsWith(final Path other) {
 		if (other instanceof DelegatePath) {
-			return path.startsWith(((DelegatePath) other).path);
+			return raw.startsWith(((DelegatePath) other).raw);
 		}
-		return path.startsWith(other);
+		return raw.startsWith(other);
 	}
 
 	@Override
 	public boolean startsWith(final String other) {
-		return path.startsWith(other);
+		return raw.startsWith(other);
 	}
 
 	@Override
 	public boolean endsWith(final Path other) {
 		if (other instanceof DelegatePath) {
-			return path.endsWith(((DelegatePath) other).path);
+			return raw.endsWith(((DelegatePath) other).raw);
 		}
-		return path.endsWith(other);
+		return raw.endsWith(other);
 	}
 
 	@Override
 	public boolean endsWith(final String other) {
-		return path.endsWith(other);
+		return raw.endsWith(other);
 	}
 
 	@Override
 	public Path normalize() {
-		return new DelegatePath(path.normalize());
+		return new DelegatePath(raw.normalize());
 	}
 
 	@Override
 	public Path resolve(final Path other) {
 		if (other instanceof DelegatePath) {
-			return new DelegatePath(path.resolve(((DelegatePath) other).path));
+			return new DelegatePath(raw.resolve(((DelegatePath) other).raw));
 		}
-		return new DelegatePath(path.resolve(other));
+		return new DelegatePath(raw.resolve(other));
 	}
 
 	@Override
 	public Path resolve(final String other) {
-		return new DelegatePath(path.resolve(other));
+		return new DelegatePath(raw.resolve(other));
 	}
 
 	@Override
 	public Path resolveSibling(final Path other) {
 		if (other instanceof DelegatePath) {
-			return new DelegatePath(path.resolveSibling(((DelegatePath) other).path));
+			return new DelegatePath(raw.resolveSibling(((DelegatePath) other).raw));
 		}
-		return new DelegatePath(path.resolveSibling(other));
+		return new DelegatePath(raw.resolveSibling(other));
 	}
 
 	@Override
 	public Path resolveSibling(final String other) {
-		return new DelegatePath(path.resolveSibling(other));
+		return new DelegatePath(raw.resolveSibling(other));
 	}
 
 	@Override
 	public Path relativize(final Path other) {
 		if (other instanceof DelegatePath) {
-			return new DelegatePath(path.relativize(((DelegatePath) other).path));
+			return new DelegatePath(raw.relativize(((DelegatePath) other).raw));
 		}
-		return new DelegatePath(path.relativize(other));
+		return new DelegatePath(raw.relativize(other));
 	}
 
 	@Override
 	public URI toUri() {
-		return path.toUri();
+		return raw.toUri();
 	}
 
 	@Override
 	public Path toAbsolutePath() {
-		return new DelegatePath(path.toAbsolutePath());
+		return new DelegatePath(raw.toAbsolutePath());
 	}
 
 	@Override
 	public Path toRealPath(final LinkOption... options) throws IOException {
-		return new DelegatePath(path.toRealPath(options));
+		return new DelegatePath(raw.toRealPath(options));
 	}
 
 	@Override
 	public File toFile() {
-		return path.toFile();
+		return raw.toFile();
 	}
 
 	@Override
 	public WatchKey register(final WatchService watcher, final WatchEvent.Kind<?>[] events, final WatchEvent.Modifier... modifiers) throws IOException {
-		return path.register(watcher, events, modifiers);
+		return raw.register(watcher, events, modifiers);
 	}
 
 	@Override
 	public WatchKey register(final WatchService watcher, final WatchEvent.Kind<?>... events) throws IOException {
-		return path.register(watcher, events);
+		return raw.register(watcher, events);
 	}
 
 	@Override
 	public Iterator<Path> iterator() {
 		return new Iterator<>() {
-			private final Iterator<Path> itr = path.iterator();
+			private final Iterator<Path> itr = raw.iterator();
 
 			@Override
 			public boolean hasNext() {
@@ -237,9 +244,9 @@ public class DelegatePath implements Path {
 	@Override
 	public int compareTo(final Path other) {
 		if (other instanceof DelegatePath) {
-			return path.compareTo(((DelegatePath) other).path);
+			return raw.compareTo(((DelegatePath) other).raw);
 		}
-		return path.compareTo(other);
+		return raw.compareTo(other);
 	}
 
 	@Override
@@ -248,22 +255,22 @@ public class DelegatePath implements Path {
 			return true;
 		}
 		if (other instanceof DelegatePath) {
-			return path.equals(((DelegatePath) other).path);
+			return raw.equals(((DelegatePath) other).raw);
 		}
 		if (other instanceof Path) {
-			return path.equals(other);
+			return raw.equals(other);
 		}
 		return false;
 	}
 
 	@Override
 	public int hashCode() {
-		return path.hashCode();
+		return raw.hashCode();
 	}
 
 	@Override
 	public String toString() {
-		return path.toString();
+		return raw.toString();
 	}
 
 	// 添加对Files类功能的便捷访问方法
@@ -276,7 +283,17 @@ public class DelegatePath implements Path {
 	 * @see Files#exists(Path, LinkOption...)
 	 */
 	public boolean exists(final LinkOption... options) {
-		return Files.exists(path, options);
+		return Files.exists(raw, options);
+	}
+
+	/**
+	 * 检查文件是否为给定文件的子文件
+	 *
+	 * @param parent 父文件
+	 * @return 是否为子文件
+	 */
+	public boolean isSubOf(final Path parent) {
+		return PathUtil.isSub(parent, this.raw);
 	}
 
 	/**
@@ -287,7 +304,7 @@ public class DelegatePath implements Path {
 	 * @see Files#notExists(Path, LinkOption...)
 	 */
 	public boolean notExists(final LinkOption... options) {
-		return Files.notExists(path, options);
+		return Files.notExists(raw, options);
 	}
 
 	/**
@@ -298,7 +315,7 @@ public class DelegatePath implements Path {
 	 * @see Files#isDirectory(Path, LinkOption...)
 	 */
 	public boolean isDirectory(final LinkOption... options) {
-		return Files.isDirectory(path, options);
+		return Files.isDirectory(raw, options);
 	}
 
 	/**
@@ -309,7 +326,26 @@ public class DelegatePath implements Path {
 	 * @see Files#isRegularFile(Path, LinkOption...)
 	 */
 	public boolean isFile(final LinkOption... options) {
-		return Files.isRegularFile(path, options);
+		return Files.isRegularFile(raw, options);
+	}
+
+	/**
+	 * 检查文件是否为符号链接
+	 *
+	 * @return 是否为符号链接
+	 * @see Files#isSymbolicLink(Path)
+	 */
+	public boolean isSymbolicLink() {
+		return Files.isSymbolicLink(raw);
+	}
+
+	/**
+	 * 判断是否为其它类型文件，即非文件、非目录、非链接。
+	 *
+	 * @return 是否为其他类型
+	 */
+	public boolean isOther() {
+		return PathUtil.isOther(this.raw);
 	}
 
 	/**
@@ -319,7 +355,7 @@ public class DelegatePath implements Path {
 	 * @see Files#isExecutable(Path)
 	 */
 	public boolean isExecutable() {
-		return Files.isExecutable(path);
+		return Files.isExecutable(raw);
 	}
 
 	/**
@@ -329,7 +365,7 @@ public class DelegatePath implements Path {
 	 * @see Files#isReadable(Path)
 	 */
 	public boolean isReadable() {
-		return Files.isReadable(path);
+		return Files.isReadable(raw);
 	}
 
 	/**
@@ -339,7 +375,7 @@ public class DelegatePath implements Path {
 	 * @see Files#isWritable(Path)
 	 */
 	public boolean isWritable() {
-		return Files.isWritable(path);
+		return Files.isWritable(raw);
 	}
 
 	/**
@@ -349,12 +385,18 @@ public class DelegatePath implements Path {
 	 * @throws IORuntimeException IO异常
 	 * @see Files#size(Path)
 	 */
+	@Override
 	public long size() throws IORuntimeException {
 		try {
-			return Files.size(path);
+			return Files.size(raw);
 		} catch (final IOException e) {
 			throw new IORuntimeException(e);
 		}
+	}
+
+	@Override
+	public String getName() {
+		return PathUtil.getName(this.raw);
 	}
 
 	/**
@@ -365,7 +407,7 @@ public class DelegatePath implements Path {
 	 */
 	public void delete() throws IORuntimeException {
 		try {
-			Files.delete(path);
+			Files.delete(raw);
 		} catch (final IOException e) {
 			throw new IORuntimeException(e);
 		}
@@ -380,7 +422,7 @@ public class DelegatePath implements Path {
 	 */
 	public boolean deleteIfExists() throws IORuntimeException {
 		try {
-			return Files.deleteIfExists(path);
+			return Files.deleteIfExists(raw);
 		} catch (final IOException e) {
 			throw new IORuntimeException(e);
 		}
@@ -396,7 +438,7 @@ public class DelegatePath implements Path {
 	 */
 	public DelegatePath createDirectory(final FileAttribute<?>... attrs) throws IORuntimeException {
 		try {
-			return new DelegatePath(Files.createDirectory(path, attrs));
+			return new DelegatePath(Files.createDirectory(raw, attrs));
 		} catch (final IOException e) {
 			throw new IORuntimeException(e);
 		}
@@ -412,7 +454,7 @@ public class DelegatePath implements Path {
 	 */
 	public DelegatePath createDirectories(final FileAttribute<?>... attrs) throws IORuntimeException {
 		try {
-			return new DelegatePath(Files.createDirectories(path, attrs));
+			return new DelegatePath(Files.createDirectories(raw, attrs));
 		} catch (final IOException e) {
 			throw new IORuntimeException(e);
 		}
@@ -428,7 +470,7 @@ public class DelegatePath implements Path {
 	 */
 	public DelegatePath createFile(final FileAttribute<?>... attrs) throws IORuntimeException {
 		try {
-			return new DelegatePath(Files.createFile(path, attrs));
+			return new DelegatePath(Files.createFile(raw, attrs));
 		} catch (final IOException e) {
 			throw new IORuntimeException(e);
 		}
@@ -445,7 +487,7 @@ public class DelegatePath implements Path {
 	 */
 	public DelegatePath createTempDirectory(final String prefix, final FileAttribute<?>... attrs) throws IORuntimeException {
 		try {
-			return new DelegatePath(Files.createTempDirectory(path, prefix, attrs));
+			return new DelegatePath(Files.createTempDirectory(raw, prefix, attrs));
 		} catch (final IOException e) {
 			throw new IORuntimeException(e);
 		}
@@ -463,7 +505,7 @@ public class DelegatePath implements Path {
 	 */
 	public DelegatePath createTempFile(final String prefix, final String suffix, final FileAttribute<?>... attrs) throws IORuntimeException {
 		try {
-			return new DelegatePath(Files.createTempFile(path, prefix, suffix, attrs));
+			return new DelegatePath(Files.createTempFile(raw, prefix, suffix, attrs));
 		} catch (final IOException e) {
 			throw new IORuntimeException(e);
 		}
@@ -479,14 +521,16 @@ public class DelegatePath implements Path {
 	 * @see Files#copy(Path, Path, CopyOption...)
 	 */
 	public DelegatePath copyTo(final Path target, final CopyOption... options) throws IORuntimeException {
+		Path acturalTarget = target;
+		if (target instanceof DelegatePath) {
+			acturalTarget = ((DelegatePath) target).raw;
+		}
 		try {
-			if (target instanceof DelegatePath) {
-				return new DelegatePath(Files.copy(path, ((DelegatePath) target).path, options));
-			}
-			return new DelegatePath(Files.copy(path, target, options));
+			Files.copy(raw, acturalTarget, options);
 		} catch (final IOException e) {
 			throw new IORuntimeException(e);
 		}
+		return new DelegatePath(acturalTarget);
 	}
 
 	/**
@@ -499,14 +543,122 @@ public class DelegatePath implements Path {
 	 * @see Files#move(Path, Path, CopyOption...)
 	 */
 	public DelegatePath moveTo(final Path target, final CopyOption... options) throws IORuntimeException {
+		Path acturalTarget = target;
+		if (target instanceof DelegatePath) {
+			acturalTarget = ((DelegatePath) target).raw;
+		}
 		try {
-			if (target instanceof DelegatePath) {
-				return new DelegatePath(Files.move(path, ((DelegatePath) target).path, options));
-			}
-			return new DelegatePath(Files.move(path, target, options));
+			Files.move(raw, acturalTarget, options);
 		} catch (final IOException e) {
 			throw new IORuntimeException(e);
 		}
+		return new DelegatePath(acturalTarget);
+	}
+
+	/**
+	 * 判断文件是否为空目录
+	 *
+	 * @return 是否为空目录
+	 */
+	public boolean isDirEmpty() {
+		return PathUtil.isDirEmpty(this);
+	}
+
+	/**
+	 * 列出目录中的所有文件（不会递归子目录）
+	 *
+	 * @param filter 文件过滤器，null表示不过滤，返回所有文件
+	 * @return 文件列表（包含目录）
+	 */
+	public Path[] listFiles(final Predicate<? super Path> filter) {
+		return PathUtil.listFiles(this, filter);
+	}
+
+	/**
+	 * 便利目录中的所有文件（不会递归子目录）
+	 *
+	 * @param options  访问选项
+	 * @param maxDepth 最大深度
+	 * @param visitor  {@link FileVisitor} 接口，用于自定义在访问文件时，访问目录前后等节点做的操作
+	 */
+	public void walkFiles(final Set<FileVisitOption> options, final int maxDepth, final FileVisitor<? super Path> visitor) {
+		try {
+			Files.walkFileTree(this.raw, options, maxDepth, visitor);
+		} catch (final IOException e) {
+			throw new IORuntimeException(e);
+		}
+	}
+
+	/**
+	 * 获取文件属性
+	 *
+	 * @param options 链接选项
+	 * @return 文件属性
+	 */
+	public BasicFileAttributes getAttributes(final LinkOption... options) {
+		return PathUtil.getAttributes(this.raw, options);
+	}
+
+	/**
+	 * 获取文件输入流
+	 *
+	 * @param options 链接选项
+	 * @return 文件输入流
+	 * @throws IORuntimeException IO异常
+	 */
+	public BufferedInputStream getStream(final LinkOption... options) throws IORuntimeException {
+		return PathUtil.getInputStream(this, options);
+	}
+
+	@Override
+	public InputStream getStream() {
+		return getStream(new LinkOption[0]);
+	}
+
+	@Override
+	public URL getUrl() {
+		try {
+			return this.raw.toUri().toURL();
+		} catch (final MalformedURLException e) {
+			throw new HutoolException(e);
+		}
+	}
+
+	/**
+	 * 获取文件字符输入流
+	 *
+	 * @param charset 字符集
+	 * @param options 链接选项
+	 * @return 文件字符输入流
+	 * @throws IORuntimeException IO异常
+	 */
+	public Reader getReader(final Charset charset, final OpenOption... options) {
+		return PathUtil.getReader(this, charset, options);
+	}
+
+	@Override
+	public byte[] readBytes() throws IORuntimeException {
+		return PathUtil.readBytes(this);
+	}
+
+	/**
+	 * 获取文件输出流
+	 *
+	 * @param options 链接选项
+	 * @return 文件输出流
+	 * @throws IORuntimeException IO异常
+	 */
+	public BufferedOutputStream getOutputStream(final OpenOption... options) throws IORuntimeException {
+		return PathUtil.getOutputStream(this, options);
+	}
+
+	/**
+	 * 获取文件的MIME类型
+	 *
+	 * @return MIME类型
+	 */
+	public String getMimeType() {
+		return PathUtil.getMimeType(this);
 	}
 }
 
