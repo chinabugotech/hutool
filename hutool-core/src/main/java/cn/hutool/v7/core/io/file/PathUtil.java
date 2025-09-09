@@ -492,12 +492,24 @@ public class PathUtil {
 	 * @throws IORuntimeException IO异常
 	 */
 	public static BasicFileAttributes getAttributes(final Path path, final boolean isFollowLinks) throws IORuntimeException {
+		return getAttributes(path, getLinkOptions(isFollowLinks));
+	}
+
+	/**
+	 * 获取文件属性
+	 *
+	 * @param path    文件路径{@link Path}
+	 * @param options {@link LinkOption}
+	 * @return {@link BasicFileAttributes}
+	 * @throws IORuntimeException IO异常
+	 */
+	public static BasicFileAttributes getAttributes(final Path path, final LinkOption... options) throws IORuntimeException {
 		if (null == path) {
 			return null;
 		}
 
 		try {
-			return Files.readAttributes(path, BasicFileAttributes.class, getLinkOptions(isFollowLinks));
+			return Files.readAttributes(path, BasicFileAttributes.class, options);
 		} catch (final IOException e) {
 			throw new IORuntimeException(e);
 		}
@@ -506,15 +518,16 @@ public class PathUtil {
 	/**
 	 * 获得输入流
 	 *
-	 * @param path Path
+	 * @param path    Path
+	 * @param options {@link OpenOption}
 	 * @return 输入流
 	 * @throws IORuntimeException 文件未找到
 	 * @since 4.0.0
 	 */
-	public static BufferedInputStream getInputStream(final Path path) throws IORuntimeException {
+	public static BufferedInputStream getInputStream(final Path path, final OpenOption... options) throws IORuntimeException {
 		final InputStream in;
 		try {
-			in = Files.newInputStream(path);
+			in = Files.newInputStream(path, options);
 		} catch (final IOException e) {
 			throw new IORuntimeException(e);
 		}
@@ -524,13 +537,14 @@ public class PathUtil {
 	/**
 	 * 获得一个文件读取器
 	 *
-	 * @param path 文件Path
+	 * @param path    文件Path
+	 * @param options {@link OpenOption}
 	 * @return BufferedReader对象
 	 * @throws IORuntimeException IO异常
 	 * @since 4.0.0
 	 */
-	public static BufferedReader getUtf8Reader(final Path path) throws IORuntimeException {
-		return getReader(path, CharsetUtil.UTF_8);
+	public static BufferedReader getUtf8Reader(final Path path, final OpenOption... options) throws IORuntimeException {
+		return getReader(path, CharsetUtil.UTF_8, options);
 	}
 
 	/**
@@ -538,12 +552,13 @@ public class PathUtil {
 	 *
 	 * @param path    文件Path
 	 * @param charset 字符集
+	 * @param options {@link OpenOption}
 	 * @return BufferedReader对象
 	 * @throws IORuntimeException IO异常
 	 * @since 4.0.0
 	 */
-	public static BufferedReader getReader(final Path path, final Charset charset) throws IORuntimeException {
-		return IoUtil.toReader(getInputStream(path), charset);
+	public static BufferedReader getReader(final Path path, final Charset charset, final OpenOption... options) throws IORuntimeException {
+		return IoUtil.toReader(getInputStream(path, options), charset);
 	}
 
 	/**

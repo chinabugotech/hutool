@@ -18,6 +18,8 @@ package cn.hutool.v7.extra.compress.archiver;
 
 import java.io.Closeable;
 import java.io.File;
+import java.nio.file.LinkOption;
+import java.nio.file.Path;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -72,6 +74,21 @@ public interface Archiver extends Closeable {
 	 * @since 6.0.0
 	 */
 	Archiver add(File file, String path, Function<String, String> fileNameEditor, Predicate<File> filter);
+
+	/**
+	 * 将文件或目录加入归档包，目录采取递归读取方式按照层级加入
+	 *
+	 * @param file   文件或目录
+	 * @param path   文件或目录的初始路径，null表示位于根路径
+	 * @param fileNameEditor 文件名编辑器
+	 * @param filter 文件过滤器，指定哪些文件或目录可以加入，{@link Predicate#test(Object)}为{@code true}保留，null表示全部加入
+	 * @param options 链接选项
+	 * @return this
+	 * @since 7.0.0
+	 */
+	default Archiver add(final Path file, final String path, final Function<String, String> fileNameEditor, final Predicate<Path> filter, final LinkOption... options){
+		return add(file.toFile(), path, fileNameEditor, (f-> filter.test(f.toPath())));
+	}
 
 	/**
 	 * 结束已经增加的文件归档，此方法不会关闭归档流，可以继续添加文件

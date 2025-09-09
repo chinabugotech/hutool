@@ -25,11 +25,13 @@ import cn.hutool.v7.extra.compress.CompressUtil;
 import org.apache.commons.compress.archivers.sevenz.SevenZOutputFile;
 import org.apache.commons.compress.utils.SeekableInMemoryByteChannel;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.channels.SeekableByteChannel;
 import java.nio.file.Files;
+import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -107,6 +109,16 @@ public class SevenZArchiver implements Archiver {
 	}
 
 	@Override
+	public SevenZArchiver add(final Path file, final String path, final Function<String, String> fileNameEditor, final Predicate<Path> filter, final LinkOption... options) {
+		try {
+			addInternal(file, path, fileNameEditor, filter,  options);
+		} catch (final IOException e) {
+			throw new IORuntimeException(e);
+		}
+		return this;
+	}
+
+	@Override
 	public SevenZArchiver finish() {
 		try {
 			this.sevenZOutputFile.finish();
@@ -116,6 +128,7 @@ public class SevenZArchiver implements Archiver {
 		return this;
 	}
 
+	@SuppressWarnings("resource")
 	@Override
 	public void close() {
 		try {
@@ -161,7 +174,48 @@ public class SevenZArchiver implements Archiver {
 		} else {
 			if (file.isFile()) {
 				// 文件直接写入
-				out.write(FileUtil.readBytes(file));
+				try (final BufferedInputStream in = FileUtil.getInputStream(file)) {
+					out.write(in);
+				}
+				//out.write(FileUtil.readBytes(file));
+			}
+			out.closeArchiveEntry();
+		}
+	}
+
+	/**
+	 * 将文件或目录加入归档包，目录采取递归读取方式按照层级加入
+	 *
+	 * @param file           文件或目录
+	 * @param path           文件或目录的初始路径，null表示位于根路径
+	 * @param fileNameEditor 文件名编辑器
+	 * @param filter         文件过滤器，指定哪些文件或目录可以加入，当{@link Predicate#test(Object)}为{@code true}保留，null表示保留全部
+	 * @param options        链接选项
+	 */
+	private void addInternal(final Path file, final String path, final Function<String, String> fileNameEditor, final Predicate<Path> filter, final LinkOption... options) throws IOException {
+		if (null != filter && !filter.test(file)) {
+			return;
+		}
+		final SevenZOutputFile out = this.sevenZOutputFile;
+
+		final String entryName = CompressUtil.getEntryName(PathUtil.getName(file), path, fileNameEditor);
+		out.putArchiveEntry(out.createArchiveEntry(file, entryName));
+
+		if (PathUtil.isDirectory(file)) {
+			// 目录遍历写入
+			final Path[] files = PathUtil.listFiles(file, null);
+			if (ArrayUtil.isNotEmpty(files)) {
+				for (final Path childFile : files) {
+					addInternal(childFile, entryName, fileNameEditor, filter);
+				}
+			}
+		} else {
+			if (Files.isRegularFile(file, options)) {
+				// 文件直接写入
+				try (final BufferedInputStream in = PathUtil.getInputStream(file)) {
+					out.write(in);
+				}
+				//out.write(FileUtil.readBytes(file));
 			}
 			out.closeArchiveEntry();
 		}

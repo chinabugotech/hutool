@@ -16,12 +16,14 @@
 
 package cn.hutool.v7.extra.compress.archiver;
 
+import cn.hutool.v7.core.io.file.PathUtil;
 import cn.hutool.v7.extra.compress.CompressUtil;
 import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.ArchiveException;
 import org.apache.commons.compress.archivers.ArchiveOutputStream;
 import org.apache.commons.compress.archivers.ArchiveStreamFactory;
 import org.apache.commons.compress.archivers.ar.ArArchiveOutputStream;
+import org.apache.commons.compress.archivers.sevenz.SevenZOutputFile;
 import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorOutputStream;
 import cn.hutool.v7.core.array.ArrayUtil;
@@ -31,10 +33,14 @@ import cn.hutool.v7.core.io.file.FileUtil;
 import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.extra.compress.CompressException;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.LinkOption;
+import java.nio.file.Path;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -132,6 +138,16 @@ public class StreamArchiver implements Archiver {
 		return this;
 	}
 
+	@Override
+	public StreamArchiver add(final Path file, final String path, final Function<String, String> fileNameEditor, final Predicate<Path> filter, final LinkOption... options) {
+		try {
+			addInternal(file, path, fileNameEditor, filter,  options);
+		} catch (final IOException e) {
+			throw new IORuntimeException(e);
+		}
+		return this;
+	}
+
 	/**
 	 * 结束已经增加的文件归档，此方法不会关闭归档流，可以继续添加文件
 	 *
@@ -191,6 +207,42 @@ public class StreamArchiver implements Archiver {
 			if (file.isFile()) {
 				// 文件直接写入
 				FileUtil.copy(file, out);
+			}
+			out.closeArchiveEntry();
+		}
+	}
+
+	/**
+	 * 将文件或目录加入归档包，目录采取递归读取方式按照层级加入
+	 *
+	 * @param file           文件或目录
+	 * @param path           文件或目录的初始路径，null表示位于根路径
+	 * @param fileNameEditor 文件名编辑器
+	 * @param filter         文件过滤器，指定哪些文件或目录可以加入，当{@link Predicate#test(Object)}为{@code true}保留，null表示保留全部
+	 * @param options        链接选项
+	 */
+	@SuppressWarnings({"rawtypes", "unchecked"})
+	private void addInternal(final Path file, final String path, final Function<String, String> fileNameEditor, final Predicate<Path> filter, final LinkOption... options) throws IOException {
+		if (null != filter && !filter.test(file)) {
+			return;
+		}
+		final ArchiveOutputStream out = this.out;
+
+		final String entryName = CompressUtil.getEntryName(PathUtil.getName(file), path, fileNameEditor);
+		out.putArchiveEntry(out.createArchiveEntry(file, entryName));
+
+		if (PathUtil.isDirectory(file)) {
+			// 目录遍历写入
+			final Path[] files = PathUtil.listFiles(file, null);
+			if (ArrayUtil.isNotEmpty(files)) {
+				for (final Path childFile : files) {
+					addInternal(childFile, entryName, fileNameEditor, filter);
+				}
+			}
+		} else {
+			if (Files.isRegularFile(file, options)) {
+				// 文件直接写入
+				PathUtil.copy(file, out);
 			}
 			out.closeArchiveEntry();
 		}

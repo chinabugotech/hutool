@@ -22,6 +22,7 @@ import cn.hutool.v7.core.util.CharsetUtil;
 import cn.hutool.v7.core.util.ObjUtil;
 
 import java.io.File;
+import java.io.Serial;
 import java.io.Serializable;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -32,6 +33,7 @@ import java.nio.charset.StandardCharsets;
  * @author Looly
  */
 public class FileWrapper implements Wrapper<File>, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
