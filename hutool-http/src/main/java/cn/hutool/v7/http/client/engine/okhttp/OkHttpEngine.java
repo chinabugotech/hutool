@@ -16,8 +16,7 @@
 
 package cn.hutool.v7.http.client.engine.okhttp;
 
-import okhttp3.ConnectionPool;
-import okhttp3.OkHttpClient;
+import cn.hutool.v7.core.io.IoUtil;
 import cn.hutool.v7.core.lang.Assert;
 import cn.hutool.v7.core.util.ObjUtil;
 import cn.hutool.v7.http.HttpException;
@@ -32,6 +31,8 @@ import cn.hutool.v7.http.meta.HttpStatus;
 import cn.hutool.v7.http.meta.Method;
 import cn.hutool.v7.http.proxy.ProxyInfo;
 import cn.hutool.v7.http.ssl.SSLInfo;
+import okhttp3.ConnectionPool;
+import okhttp3.OkHttpClient;
 
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.X509TrustManager;
@@ -122,14 +123,14 @@ public class OkHttpEngine extends AbstractClientEngine {
 
 		// 连接池
 		int maxIdle = 0;
-		if(config instanceof OkHttpClientConfig){
+		if (config instanceof OkHttpClientConfig) {
 			maxIdle = ((OkHttpClientConfig) config).getMaxIdle();
 		}
-		if(maxIdle <= 0){
+		if (maxIdle <= 0) {
 			maxIdle = 5;
 		}
 		long timeToLive = config.getTimeToLive();
-		if(timeToLive <= 0){
+		if (timeToLive <= 0) {
 			timeToLive = TimeUnit.MINUTES.toMillis(5);
 		}
 		builder.connectionPool(new ConnectionPool(maxIdle, timeToLive, TimeUnit.MILLISECONDS));
@@ -168,17 +169,17 @@ public class OkHttpEngine extends AbstractClientEngine {
 
 		// 自定义重定向
 		final int maxRedirects = message.maxRedirects();
-		if(maxRedirects > 0 && context.getRedirectCount() < maxRedirects){
+		if (maxRedirects > 0 && context.getRedirectCount() < maxRedirects) {
 			final int code = response.code();
 			if (HttpStatus.isRedirected(code)) {
 				message.locationTo(response.header(HeaderName.LOCATION.getValue()));
 			}
-			if (HttpStatus.isRedirectToGet( code)) {
+			if (HttpStatus.isRedirectToGet(code)) {
 				// 重定向默认使用GET
 				message.method(Method.GET);
 			}
-			// 释放连接资源issue#4060@Github
-			response.body().close();
+			// issue#4060@Github，重定向前要释放当前连接
+			IoUtil.closeQuietly(response);
 			// 自增计数器
 			context.incrementRedirectCount();
 			return doSend(context);
@@ -197,7 +198,7 @@ public class OkHttpEngine extends AbstractClientEngine {
 		final ProxyInfo proxyInfo = config.getProxy();
 		if (null != proxyInfo) {
 			final ProxySelector proxySelector = proxyInfo.getProxySelector();
-			if(null != proxySelector){
+			if (null != proxySelector) {
 				builder.proxySelector(proxySelector);
 			}
 			final PasswordAuthentication auth = proxyInfo.getAuth();

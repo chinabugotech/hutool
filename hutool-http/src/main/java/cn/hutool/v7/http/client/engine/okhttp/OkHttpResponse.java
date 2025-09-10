@@ -17,7 +17,6 @@
 package cn.hutool.v7.http.client.engine.okhttp;
 
 import cn.hutool.v7.core.io.IoUtil;
-import cn.hutool.v7.core.io.stream.EmptyInputStream;
 import cn.hutool.v7.core.util.ObjUtil;
 import cn.hutool.v7.http.GlobalCompressStreamRegister;
 import cn.hutool.v7.http.HttpUtil;
