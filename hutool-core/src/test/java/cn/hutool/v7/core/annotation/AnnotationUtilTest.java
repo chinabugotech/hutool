@@ -18,6 +18,7 @@ package cn.hutool.v7.core.annotation;
 
 import cn.hutool.v7.core.annotation.elements.CombinationAnnotatedElement;
 import cn.hutool.v7.core.array.ArrayUtil;
+import cn.hutool.v7.core.reflect.method.MethodUtil;
 import cn.hutool.v7.core.util.ObjUtil;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Assertions;
@@ -28,6 +29,9 @@ import org.junit.jupiter.api.condition.JRE;
 import java.lang.annotation.*;
 import java.lang.reflect.Method;
 import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * test for {@link AnnotationUtil}
@@ -47,44 +51,74 @@ public class AnnotationUtilTest {
 	@Test
 	public void testToCombination() {
 		final CombinationAnnotatedElement element = AnnotationUtil.toCombination(ClassForTest.class);
-		Assertions.assertEquals(2, element.getAnnotations().length);
+		assertEquals(2, element.getAnnotations().length);
 	}
 
 	@Test
 	public void testGetAnnotations() {
 		Annotation[] annotations = AnnotationUtil.getAnnotations(ClassForTest.class, true);
-		Assertions.assertEquals(2, annotations.length);
+		assertEquals(2, annotations.length);
 		annotations = AnnotationUtil.getAnnotations(ClassForTest.class, false);
-		Assertions.assertEquals(1, annotations.length);
+		assertEquals(1, annotations.length);
+	}
+
+	@Test
+	void getMethodAnnotationsTest() {
+		final Method doSomeThing = MethodUtil.getMethodByName(ClassForTest.class, "doSomeThing");
+		assertNotNull(doSomeThing);
+
+		// doSomeThing方法定义了一个注解
+		final Annotation[] declaredAnnotations = AnnotationUtil.getDeclaredAnnotations(doSomeThing);
+		assertEquals(1, declaredAnnotations.length);
+
+		// ClassForTest.doSomeThing没有继承，因此与getDeclaredAnnotations结果相同
+		final Annotation[] annotations = AnnotationUtil.getAnnotations(doSomeThing, false);
+		assertEquals(1, annotations.length);
+
+		// ClassForTest.doSomeThing上的注解为AnnotationForTest，这个注解上也定义了一个AnnotationForTest，因此支持组合注解后，获取注解数量为2
+		final Annotation[] combinationAnnotations = AnnotationUtil.getAnnotations(doSomeThing, true);
+		assertEquals(2, combinationAnnotations.length);
+	}
+
+	@Test
+	void getMethodAnnotationsTest2() {
+		final Method doSomeThing = MethodUtil.getMethodByName(SubClassForTest.class, "doSomeThing");
+		assertNotNull(doSomeThing);
+
+		Annotation[] annotations = AnnotationUtil.getDeclaredAnnotations(doSomeThing);
+		assertEquals(0, annotations.length);
+
+		annotations = AnnotationUtil.getAnnotations(doSomeThing, false);
+		assertEquals(1, annotations.length);
 	}
 
 	@Test
 	public void testGetCombinationAnnotations() {
 		final MetaAnnotationForTest[] annotations = AnnotationUtil.getCombinationAnnotations(ClassForTest.class, MetaAnnotationForTest.class);
-		Assertions.assertEquals(1, annotations.length);
+		assertEquals(1, annotations.length);
 	}
 
 	@Test
 	public void testAnnotations() {
 		MetaAnnotationForTest[] annotations1 = AnnotationUtil.getAnnotations(ClassForTest.class, false, MetaAnnotationForTest.class);
-		Assertions.assertEquals(0, annotations1.length);
+		assertEquals(0, annotations1.length);
 		annotations1 = AnnotationUtil.getAnnotations(ClassForTest.class, true, MetaAnnotationForTest.class);
-		Assertions.assertEquals(1, annotations1.length);
+		assertEquals(1, annotations1.length);
 
 		Annotation[] annotations2 = AnnotationUtil.getAnnotations(
 			ClassForTest.class, false, t -> ObjUtil.equals(t.annotationType(), MetaAnnotationForTest.class)
 		);
-		Assertions.assertEquals(0, annotations2.length);
+		assertEquals(0, annotations2.length);
 		annotations2 = AnnotationUtil.getAnnotations(
 			ClassForTest.class, true, t -> ObjUtil.equals(t.annotationType(), MetaAnnotationForTest.class)
 		);
-		Assertions.assertEquals(1, annotations2.length);
+		assertEquals(1, annotations2.length);
 	}
 
 	@Test
 	public void testGetAnnotation() {
 		final MetaAnnotationForTest annotation = AnnotationUtil.getAnnotation(ClassForTest.class, MetaAnnotationForTest.class);
-		Assertions.assertNotNull(annotation);
+		assertNotNull(annotation);
 	}
 
 	@Test
@@ -95,8 +129,8 @@ public class AnnotationUtilTest {
 	@Test
 	public void testGetAnnotationValue() {
 		final AnnotationForTest annotation = ClassForTest.class.getAnnotation(AnnotationForTest.class);
-		Assertions.assertEquals(annotation.value(), AnnotationUtil.getAnnotationValue(ClassForTest.class, AnnotationForTest.class));
-		Assertions.assertEquals(annotation.value(), AnnotationUtil.getAnnotationValue(ClassForTest.class, AnnotationForTest.class, "value"));
+		assertEquals(annotation.value(), AnnotationUtil.getAnnotationValue(ClassForTest.class, AnnotationForTest.class));
+		assertEquals(annotation.value(), AnnotationUtil.getAnnotationValue(ClassForTest.class, AnnotationForTest.class, "value"));
 		Assertions.assertNull(AnnotationUtil.getAnnotationValue(ClassForTest.class, AnnotationForTest.class, "property"));
 	}
 
@@ -104,15 +138,15 @@ public class AnnotationUtilTest {
 	public void testGetAnnotationValueMap() {
 		final AnnotationForTest annotation = ClassForTest.class.getAnnotation(AnnotationForTest.class);
 		final Map<String, Object> valueMap = AnnotationUtil.getAnnotationValueMap(ClassForTest.class, AnnotationForTest.class);
-		Assertions.assertNotNull(valueMap);
-		Assertions.assertEquals(2, valueMap.size());
-		Assertions.assertEquals(annotation.value(), valueMap.get("value"));
+		assertNotNull(valueMap);
+		assertEquals(2, valueMap.size());
+		assertEquals(annotation.value(), valueMap.get("value"));
 	}
 
 	@Test
 	public void testGetRetentionPolicy() {
 		final RetentionPolicy policy = AnnotationForTest.class.getAnnotation(Retention.class).value();
-		Assertions.assertEquals(policy, AnnotationUtil.getRetentionPolicy(AnnotationForTest.class));
+		assertEquals(policy, AnnotationUtil.getRetentionPolicy(AnnotationForTest.class));
 	}
 
 	@Test
@@ -139,22 +173,22 @@ public class AnnotationUtilTest {
 		final String newValue = "is a new value";
 		Assertions.assertNotEquals(newValue, annotation.value());
 		AnnotationUtil.setValue(annotation, "value", newValue);
-		Assertions.assertEquals(newValue, annotation.value());
+		assertEquals(newValue, annotation.value());
 	}
 
 	@Test
 	public void testGetAnnotationAlias() {
 		final MetaAnnotationForTest annotation = AnnotationUtil.getAnnotationAlias(AnnotationForTest.class, MetaAnnotationForTest.class);
-		Assertions.assertNotNull(annotation);
-		Assertions.assertEquals(annotation.value(), annotation.alias());
-		Assertions.assertEquals(MetaAnnotationForTest.class, annotation.annotationType());
+		assertNotNull(annotation);
+		assertEquals(annotation.value(), annotation.alias());
+		assertEquals(MetaAnnotationForTest.class, annotation.annotationType());
 	}
 
 	@Test
 	public void testGetAnnotationAttributes() {
 		final Method[] methods = AnnotationUtil.getAnnotationAttributes(AnnotationForTest.class);
 		Assertions.assertArrayEquals(methods, AnnotationUtil.getAnnotationAttributes(AnnotationForTest.class));
-		Assertions.assertEquals(2, methods.length);
+		assertEquals(2, methods.length);
 		Assertions.assertArrayEquals(AnnotationForTest.class.getDeclaredMethods(), methods);
 	}
 
@@ -186,14 +220,26 @@ public class AnnotationUtilTest {
 	}
 
 	@MetaAnnotationForTest("foo")
-	@Target(ElementType.TYPE_USE)
+	@Target({ElementType.TYPE_USE, ElementType.METHOD})
 	@Retention(RetentionPolicy.RUNTIME)
+	@Inherited
 	private @interface AnnotationForTest{
 		String value() default "";
 		String[] names() default "";
 	}
 
 	@AnnotationForTest(value = "foo", names = {"测试1", "测试2"})
-	private static class ClassForTest{}
+	private static class ClassForTest{
+		@AnnotationForTest
+		public int doSomeThing(){
+			return 0;
+		}
+	}
 
+	private static class SubClassForTest extends ClassForTest{
+		@Override
+		public int doSomeThing() {
+			return super.doSomeThing();
+		}
+	}
 }
