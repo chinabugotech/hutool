@@ -63,4 +63,11 @@ public class FileNameUtilTest {
 	public void normalizeBlankTest() {
 		Assertions.assertEquals("C:/aaa ", FileNameUtil.normalize("C:\\aaa "));
 	}
+
+	@Test
+	void renameMainTest() {
+		Assertions.assertEquals("1.pdf", FileNameUtil.renameMain("a.b.pdf", "1"));
+		Assertions.assertEquals("a.pdf", FileNameUtil.renameMain(null, "a.pdf"));
+		Assertions.assertEquals("a.pdf", FileNameUtil.renameMain("", "a.pdf"));
+	}
 }
