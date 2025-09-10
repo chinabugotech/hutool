@@ -138,8 +138,8 @@ public class NamedSql {
 		if(paramMap.containsKey(nameStr)) {
 			// 有变量对应值（值可以为null），替换占位符为?，变量值放入相应index位置
 			final Object paramValue = paramMap.get(nameStr);
-			if(ArrayUtil.isArray(paramValue) && StrUtil.containsIgnoreCase(sqlBuilder, "in")){
-				// 可能为select in (xxx)语句，则拆分参数为多个参数，变成in (?,?,?)
+			if(ArrayUtil.isArray(paramValue) && isInClause(sqlBuilder)){
+				// 确定为 IN 子句，则拆分参数为多个参数，变成in (?,?,?)
 				final int length = ArrayUtil.length(paramValue);
 				for (int i = 0; i < length; i++) {
 					if(0 != i){
@@ -160,6 +160,74 @@ public class NamedSql {
 		//清空变量，表示此变量处理结束
 		name.clear();
 	}
+
+	/**
+	 * 判断当前上下文是否在 IN 子句中
+	 * 通过检查变量前的SQL文本，判断是否符合 IN 子句的模式
+	 *
+	 * @param sqlBuilder 当前已构建的SQL
+	 * @return 是否在 IN 子句中
+	 */
+	private boolean isInClause(StrBuilder sqlBuilder) {
+		String sql = sqlBuilder.toString().toLowerCase();
+		int varStartPos = sql.length();
+
+		// 从变量位置向前查找"in"关键字
+		for (int i = varStartPos - 1; i >= 2; i--) {
+			// 跳过空格
+			if (Character.isWhitespace(sql.charAt(i))) {
+				continue;
+			}
+
+			// 检查是否是"in"关键字
+			if (sql.startsWith("in", i - 1)) {
+				// 确保"in"前面是空格或其他非字母字符
+				if (!Character.isLetter(sql.charAt(i - 2))) {
+					// 检查"in"后面是否是左括号
+					int nextNonSpace = findNextNonSpace(sql, i + 1);
+					if (nextNonSpace < sql.length() && sql.charAt(nextNonSpace) == '(') {
+						return true;
+					}
+				}
+				break; // 找到in关键字后无需继续向前查找
+			}
+
+			if (isStopSeparator(sql.charAt(i))) {
+				break;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * 查找下一个非空格字符的位置
+	 *
+	 * @param sql SQL字符串
+	 * @param startPos 起始位置
+	 * @return 下一个非空格字符的位置，如果不存在返回字符串长度
+	 */
+	private int findNextNonSpace(String sql, int startPos) {
+		for (int i = startPos; i < sql.length(); i++) {
+			if (!Character.isWhitespace(sql.charAt(i))) {
+				return i;
+			}
+		}
+		return sql.length();
+	}
+
+	/**
+	 * 判断字符是否为搜索停止分隔符（不包括左括号和空格）
+	 *
+	 * @param c 字符
+	 * @return 是否为分隔符
+	 */
+	private boolean isStopSeparator(char c) {
+		return c == ',' || c == ')' || c == '=' ||
+			c == '<' || c == '>' || c == '!' || c == '+' ||
+			c == '-' || c == '*' || c == '/' || c == '%';
+	}
+
 
 	/**
 	 * 是否为标准的字符，包括大小写字母、下划线和数字
