@@ -177,6 +177,8 @@ public class OkHttpEngine extends AbstractClientEngine {
 				// 重定向默认使用GET
 				message.method(Method.GET);
 			}
+			// 释放连接资源issue#4060@Github
+			response.body().close();
 			// 自增计数器
 			context.incrementRedirectCount();
 			return doSend(context);
