@@ -14,6 +14,8 @@ import cn.hutool.db.sql.SqlBuilder;
 import cn.hutool.db.sql.SqlExecutor;
 import cn.hutool.db.sql.SqlUtil;
 import cn.hutool.db.sql.Wrapper;
+import cn.hutool.log.Log;
+import cn.hutool.log.LogFactory;
 
 import java.io.Serializable;
 import java.sql.Connection;
@@ -30,6 +32,7 @@ import java.util.regex.Pattern;
  */
 public class DialectRunner implements Serializable {
 	private static final long serialVersionUID = 1L;
+	private final static Log log = LogFactory.get();
 
 	private Dialect dialect;
 	/**
@@ -103,9 +106,9 @@ public class DialectRunner implements Serializable {
 	 */
 	public int upsert(Connection conn, Entity record, String... keys) throws SQLException {
 		PreparedStatement ps = null;
-		try{
+		try {
 			ps = getDialect().psForUpsert(conn, record, keys);
-		}catch (SQLException ignore){
+		} catch (SQLException ignore) {
 			// 方言不支持，使用默认
 		}
 		if (null != ps) {
@@ -278,16 +281,41 @@ public class DialectRunner implements Serializable {
 		String selectSql = sqlBuilder.build();
 
 		// 去除order by 子句
-		final Pattern pattern = PatternPool.get("(.*?)[\\s]order[\\s]by[\\s][^\\s]+\\s(asc|desc)?", Pattern.CASE_INSENSITIVE);
-		final Matcher matcher = pattern.matcher(selectSql);
-		if (matcher.matches()) {
-			selectSql = matcher.group(1);
-		}
+		selectSql = removeOuterOrderBy(selectSql);
 
 		return SqlExecutor.queryAndClosePs(dialect.psForCount(conn,
 				SqlBuilder.of(selectSql).addParams(sqlBuilder.getParamValueArray())),
-				new NumberHandler()).longValue();
+			new NumberHandler()).longValue();
 	}
+
+	/**
+	 * 移除 SQL中的 ORDER BY 子句
+	 *
+	 * @param sql 原始 SQL
+	 * @return 移除 ORDER BY 子句后的 SQL
+	 */
+	public String removeOuterOrderBy(String sql) {
+		if (StrUtil.isBlank(sql)) {
+			return sql;
+		}
+
+		try {
+			String upperSql = sql.toUpperCase();
+
+			// 确定ORDER BY的位置
+			int orderByPos = upperSql.lastIndexOf(" ORDER BY ");
+
+			if (orderByPos != -1) {
+				// 返回 ORDER BY 之前的部分
+				return sql.substring(0, orderByPos).trim();
+			}
+		} catch (Exception e) {
+			log.error(e);
+		}
+
+		return sql;
+	}
+
 
 	/**
 	 * 分页查询<br>
