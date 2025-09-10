@@ -185,11 +185,17 @@ public class JschSession implements Session {
 		channel.setInputStream(null);
 
 		channel.setErrStream(errStream);
+
+		String result;
 		InputStream in = null;
 		try {
 			channel.connect();
 			in = channel.getInputStream();
-			return IoUtil.read(in, charset);
+			result = IoUtil.read(in, charset);
+
+			if(channel.getExitStatus() != 0){
+				throw new SshException("Execute command [{}] error, exit status is [{}]", cmd, channel.getExitStatus());
+			}
 		} catch (final IOException e) {
 			throw new IORuntimeException(e);
 		} catch (final JSchException e) {
@@ -200,6 +206,8 @@ public class JschSession implements Session {
 				channel.disconnect();
 			}
 		}
+
+		return result;
 	}
 
 	/**
