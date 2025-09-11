@@ -140,4 +140,10 @@ public class Ipv4UtilTest {
 		final long ipOfLong2 = Ipv4Util.ipv4ToLong(strIP2, defaultValue2);
 		assertEquals(ipOfLong2, 4294967295L);
 	}
+
+	@Test
+	public void getIpV4Test(){
+		String ipV4 = Ipv4Util.getIpV4();
+		assertEquals("192.168.50.170",ipV4);
+	}
 }
