@@ -46,6 +46,10 @@ public class SqlUtil {
 	 * 创建SQL中的order by语句的正则
 	 */
 	private static final Pattern PATTERN_ORDER_BY = PatternPool.get("(.*)\\s+order\\s+by\\s+[^\\s]+", Pattern.CASE_INSENSITIVE);
+	/**
+	 * SQL中的in语句部分的正则
+	 */
+	private static final Pattern PATTERN_IN_CLAUSE = PatternPool.get("\\s+in\\s+[(]", Pattern.CASE_INSENSITIVE);
 
 	/**
 	 * 构件相等条件的where语句<br>
@@ -282,5 +286,16 @@ public class SqlUtil {
 	public static String removeOuterOrderBy(final String selectSql) {
 		// 去除order by 子句
 		return ReUtil.getGroup1(PATTERN_ORDER_BY, selectSql);
+	}
+
+	/**
+	 * 判断当前上下文是否在 IN 子句中
+	 * 通过检查变量前的SQL文本，判断是否符合 IN 子句的模式
+	 *
+	 * @param sql 当前已构建的SQL
+	 * @return 是否在 IN 子句中
+	 */
+	public static boolean isInClause(final CharSequence sql) {
+		return ReUtil.contains(PATTERN_IN_CLAUSE, sql);
 	}
 }

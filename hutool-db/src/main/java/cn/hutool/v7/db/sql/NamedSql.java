@@ -18,7 +18,6 @@ package cn.hutool.v7.db.sql;
 
 import cn.hutool.v7.core.array.ArrayUtil;
 import cn.hutool.v7.core.map.MapUtil;
-import cn.hutool.v7.core.text.StrUtil;
 
 import java.util.Collection;
 import java.util.Map;
@@ -144,7 +143,7 @@ public class NamedSql extends BoundSql {
 		if (paramMap.containsKey(nameStr)) {
 			// 有变量对应值（值可以为null），替换占位符为?，变量值放入相应index位置
 			Object paramValue = paramMap.get(nameStr);
-			if ((paramValue instanceof Collection || ArrayUtil.isArray(paramValue)) && StrUtil.containsIgnoreCase(sqlBuilder, "in")) {
+			if ((paramValue instanceof Collection || ArrayUtil.isArray(paramValue)) && SqlUtil.isInClause(sqlBuilder)) {
 				if (paramValue instanceof Collection) {
 					// 转为数组
 					paramValue = ((Collection<?>) paramValue).toArray();
