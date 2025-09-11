@@ -81,14 +81,13 @@ public class AnnotationUtilTest {
 	}
 
 	@Test
-	void getMethodAnnotationsTest2() {
-		final Method doSomeThing = MethodUtil.getMethodByName(SubClassForTest.class, "doSomeThing");
-		assertNotNull(doSomeThing);
-
-		Annotation[] annotations = AnnotationUtil.getDeclaredAnnotations(doSomeThing);
+	void getSubClassAnnotationsTest() {
+		// SubClassForTest类本身无注解
+		Annotation[] annotations = AnnotationUtil.getDeclaredAnnotations(SubClassForTest.class);
 		assertEquals(0, annotations.length);
 
-		annotations = AnnotationUtil.getAnnotations(doSomeThing, false);
+		// SubClassForTest类继承了ClassForTest类，因此继承了ClassForTest类上的注解，因此获取注解数量为1
+		annotations = AnnotationUtil.getAnnotations(SubClassForTest.class, false);
 		assertEquals(1, annotations.length);
 	}
 
