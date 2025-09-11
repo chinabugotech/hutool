@@ -9,7 +9,11 @@ import cn.hutool.core.util.CharUtil;
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
 
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
@@ -393,6 +397,43 @@ public class Ipv4Util {
 			}
 		}
 		return true;
+	}
+
+	/**
+	 *
+	 * @return 获取路由器分配的ipv4地址 192.168.xx.xx
+	 */
+	public static String getIpV4(){
+		try {
+			Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+
+			while (interfaces.hasMoreElements()) {
+				NetworkInterface networkInterface = interfaces.nextElement();
+
+				// 跳过回环、未启用和虚拟接口
+				if (networkInterface.isLoopback() ||
+					!networkInterface.isUp() ||
+					networkInterface.isVirtual()) {
+					continue;
+				}
+
+				Enumeration<InetAddress> addresses = networkInterface.getInetAddresses();
+				while (addresses.hasMoreElements()) {
+					InetAddress address = addresses.nextElement();
+					if (address.getAddress().length == 4) {
+						return address.getHostAddress();
+					}
+				}
+			}
+		} catch (SocketException e) {
+			throw new IllegalArgumentException("Failed to obtain local IP address: ",e);
+		}
+		return "127.0.0.1"; // 默认返回本地回环地址
+	}
+
+	public static void main(String[] args) {
+		String ipV4 = Ipv4Util.getIpV4();
+		System.out.println(ipV4);
 	}
 
 	//-------------------------------------------------------------------------------- Private method start
