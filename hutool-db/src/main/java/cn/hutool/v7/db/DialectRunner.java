@@ -20,7 +20,6 @@ import cn.hutool.v7.core.array.ArrayUtil;
 import cn.hutool.v7.core.io.IoUtil;
 import cn.hutool.v7.core.lang.Assert;
 import cn.hutool.v7.core.map.MapUtil;
-import cn.hutool.v7.core.regex.PatternPool;
 import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.db.config.DbConfig;
 import cn.hutool.v7.db.dialect.Dialect;
@@ -29,12 +28,11 @@ import cn.hutool.v7.db.handler.PageResultHandler;
 import cn.hutool.v7.db.handler.RsHandler;
 import cn.hutool.v7.db.sql.*;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * 提供基于方言的原始增删改查执行封装
@@ -43,6 +41,7 @@ import java.util.regex.Pattern;
  * @since 5.5.3
  */
 public class DialectRunner implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private final DbConfig config;
@@ -285,14 +284,9 @@ public class DialectRunner implements Serializable {
 	 */
 	public long count(final Connection conn, final SqlBuilder sqlBuilder) throws DbException {
 		checkConn(conn);
-		String selectSql = sqlBuilder.build();
 
 		// 去除order by 子句
-		final Pattern pattern = PatternPool.get("(.*?)[\\s]order[\\s]by[\\s][^\\s]+\\s(asc|desc)?", Pattern.CASE_INSENSITIVE);
-		final Matcher matcher = pattern.matcher(selectSql);
-		if (matcher.matches()) {
-			selectSql = matcher.group(1);
-		}
+		final String selectSql = SqlUtil.removeOuterOrderBy(sqlBuilder.build());
 
 		return StatementUtil.executeQuery(dialect.psForCount(conn,
 			SqlBuilder.of(selectSql).addParams(sqlBuilder.getParamValueArray())), NumberHandler.INSTANCE).longValue();

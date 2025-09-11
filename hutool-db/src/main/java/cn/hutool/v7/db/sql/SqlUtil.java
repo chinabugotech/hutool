@@ -17,8 +17,10 @@
 package cn.hutool.v7.db.sql;
 
 import cn.hutool.v7.core.io.IoUtil;
-import cn.hutool.v7.core.util.CharsetUtil;
+import cn.hutool.v7.core.regex.PatternPool;
+import cn.hutool.v7.core.regex.ReUtil;
 import cn.hutool.v7.core.text.StrUtil;
+import cn.hutool.v7.core.util.CharsetUtil;
 import cn.hutool.v7.db.DbException;
 import cn.hutool.v7.db.Entity;
 import cn.hutool.v7.db.sql.Condition.LikeType;
@@ -27,13 +29,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.nio.charset.Charset;
-import java.sql.Blob;
-import java.sql.Clob;
-import java.sql.Connection;
-import java.sql.RowId;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.regex.Pattern;
 
 /**
  * SQL相关工具类，包括相关SQL语句拼接等
@@ -42,6 +41,11 @@ import java.util.Map.Entry;
  * @since 4.0.10
  */
 public class SqlUtil {
+
+	/**
+	 * 创建SQL中的order by语句的正则
+	 */
+	private static final Pattern PATTERN_ORDER_BY = PatternPool.get("(.*)\\s+order\\s+by\\s+[^\\s]+", Pattern.CASE_INSENSITIVE);
 
 	/**
 	 * 构件相等条件的where语句<br>
@@ -267,5 +271,16 @@ public class SqlUtil {
 	 */
 	public static java.sql.Timestamp toSqlTimestamp(final java.util.Date date) {
 		return new java.sql.Timestamp(date.getTime());
+	}
+
+	/**
+	 * 移除 SQL中的 ORDER BY 子句
+	 *
+	 * @param selectSql 原始 SQL
+	 * @return 移除 ORDER BY 子句后的 SQL
+	 */
+	public static String removeOuterOrderBy(final String selectSql) {
+		// 去除order by 子句
+		return ReUtil.getGroup1(PATTERN_ORDER_BY, selectSql);
 	}
 }
