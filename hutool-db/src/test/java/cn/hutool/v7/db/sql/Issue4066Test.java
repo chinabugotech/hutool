@@ -1,6 +1,5 @@
-package cn.hutool.v7.db;
+package cn.hutool.v7.db.sql;
 
-import cn.hutool.v7.db.sql.SqlUtil;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
