@@ -41,20 +41,20 @@ public class FileNameUtil {
 	/**
 	 * .java文件扩展名
 	 */
-	public static final String EXT_JAVA = ".java" ;
+	public static final String EXT_JAVA = ".java";
 	/**
 	 * .class文件扩展名
 	 */
-	public static final String EXT_CLASS = ".class" ;
+	public static final String EXT_CLASS = ".class";
 	/**
 	 * .jar文件扩展名
 	 */
-	public static final String EXT_JAR = ".jar" ;
+	public static final String EXT_JAR = ".jar";
 
 	/**
 	 * 在Jar中的路径jar的扩展名形式
 	 */
-	public static final String EXT_JAR_PATH = ".jar!" ;
+	public static final String EXT_JAR_PATH = ".jar!";
 
 	/**
 	 * 类Unix路径分隔符
@@ -140,7 +140,7 @@ public class FileNameUtil {
 	 * @return 重命名后的文件名称
 	 */
 	public static String renameMain(final String filePath, final String newFileMainName) {
-		String fileName = getName(filePath);
+		final String fileName = getName(filePath);
 		if (StrUtil.isBlank(fileName)) {
 			return newFileMainName;
 		}
@@ -155,6 +155,7 @@ public class FileNameUtil {
 	}
 
 	// region ----- prefix and suffix
+
 	/**
 	 * 获取文件后缀名，扩展名不带“.”
 	 *
@@ -188,7 +189,7 @@ public class FileNameUtil {
 	 */
 	public static String addTempSuffix(final String fileName, String suffix) {
 		if (StrUtil.isBlank(suffix)) {
-			suffix = ".temp" ;
+			suffix = ".temp";
 		} else {
 			suffix = StrUtil.addPrefixIfNot(suffix, StrUtil.DOT);
 		}
@@ -222,6 +223,7 @@ public class FileNameUtil {
 	// endregion
 
 	// region ----- mainName and extName
+
 	/**
 	 * 返回主文件名
 	 *
@@ -417,7 +419,7 @@ public class FileNameUtil {
 		// 去除开头空白符，末尾空白符合法，不去除
 		pathToUse = StrUtil.trimPrefix(pathToUse);
 		// issue#IAB65V 去除尾部的换行符
-		pathToUse = StrUtil.trim(pathToUse, StrTrimer.TrimMode.SUFFIX, (c)->c == '\n' || c == '\r');
+		pathToUse = StrUtil.trim(pathToUse, StrTrimer.TrimMode.SUFFIX, (c) -> c == '\n' || c == '\r');
 
 		String prefix = StrUtil.EMPTY;
 		final int prefixIndex = pathToUse.indexOf(StrUtil.COLON);
