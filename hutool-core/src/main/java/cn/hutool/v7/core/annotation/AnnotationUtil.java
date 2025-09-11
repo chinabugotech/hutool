@@ -116,8 +116,7 @@ public class AnnotationUtil {
 	 * 获取指定注解，主要为:
 	 * <ul>
 	 *     <li>返回该元素上的所有注解</li>
-	 *     <li>包括从父类或接口继承来的注解</li>
-	 *     <li>获取当前元素以及继承自父类或接口的所有注解</li>
+	 *     <li>包括从父类或接口继承来的注解（注解需{@link Inherited}标记，且为类或接口上的注解）</li>
 	 * </ul>
 	 *
 	 * @param annotationEle   {@link AnnotatedElement}，可以是Class、Method、Field、Constructor、ReflectPermission
