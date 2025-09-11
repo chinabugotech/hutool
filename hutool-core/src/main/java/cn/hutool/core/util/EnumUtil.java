@@ -482,4 +482,35 @@ public class EnumUtil {
 		}
 		return CACHE.computeIfAbsent(enumClass, (k) -> enumClass.getEnumConstants());
 	}
+	 /**
+     * 获取指定枚举类的所有枚举常量。
+     *
+     * <p>该方法会调用 {@link Class#getEnumConstants()} 来获取枚举常量。
+     * 如果传入的 class 不是枚举类型，返回值为 {@code null}，这里为了安全返回一个空列表。</p>
+     *
+     * <p>示例：</p>
+     * <pre>{@code
+     * enum Color {
+     *     RED, GREEN, BLUE
+     * }
+     *
+     * List<Color> colors = EnumUtils.getAll(Color.class);
+     * System.out.println(colors); // 输出 [RED, GREEN, BLUE]
+     * }</pre>
+     *
+     * @param clazz 枚举类的 Class 对象，必须是 {@link Enum} 的子类，不能为 {@code null}
+     * @param <E>   枚举类型的泛型参数，例如 Color、DayOfWeek 等
+     * @return 包含所有枚举常量的不可修改列表，如果 clazz 为 {@code null} 或不是枚举类，则返回空列表
+     */
+    public static <E extends Enum<E>> List<E> getAll(Class<E> clazz) {
+        if (clazz == null) {
+            return Collections.emptyList();
+        }
+        E[] constants = clazz.getEnumConstants();
+        if (constants == null) {
+            // clazz 不是枚举类型时 getEnumConstants() 返回 null
+            return Collections.emptyList();
+        }
+        return Arrays.asList(constants);
+    }
 }
