@@ -21,6 +21,7 @@ import cn.hutool.v7.http.server.handler.ServerRequest;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -71,7 +72,7 @@ public class ServletRequest implements ServerRequest {
 	 *
 	 * @return 请求头Map
 	 */
-	public Map<String, List<String>> getHeadersMap(){
+	public Map<String, Collection<String>> getHeadersMap(){
 		return ServletUtil.getHeadersMap(this.request);
 	}
 

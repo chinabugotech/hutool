@@ -306,8 +306,8 @@ public class ServletUtil {
 	 * @return header值
 	 * @since 6.0.0
 	 */
-	public static Map<String, List<String>> getHeadersMap(final HttpServletRequest request) {
-		final Map<String, List<String>> headerMap = new LinkedHashMap<>();
+	public static Map<String, Collection<String>> getHeadersMap(final HttpServletRequest request) {
+		final Map<String, Collection<String>> headerMap = new LinkedHashMap<>();
 
 		final Enumeration<String> names = request.getHeaderNames();
 		String name;
