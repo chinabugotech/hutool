@@ -478,7 +478,7 @@ public class EnumUtil {
 	 * @return 枚举类中的枚举值
 	 */
 	@SuppressWarnings("unchecked")
-	private static <E extends Enum<E>> E[] getEnums(final Class<E> enumClass) {
+	public static <E extends Enum<E>> E[] getEnums(final Class<E> enumClass) {
 		if (null == enumClass) {
 			return null;
 		}
