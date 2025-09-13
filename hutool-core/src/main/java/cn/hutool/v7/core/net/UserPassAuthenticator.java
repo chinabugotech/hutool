@@ -47,7 +47,16 @@ public class UserPassAuthenticator extends Authenticator {
 	 * @param pass 密码
 	 */
 	public UserPassAuthenticator(final String user, final char[] pass) {
-		auth = new PasswordAuthentication(user, pass);
+		this(new PasswordAuthentication(user, pass));
+	}
+
+	/**
+	 * 构造
+	 *
+	 * @param auth 账号密码
+	 */
+	public UserPassAuthenticator(final PasswordAuthentication auth) {
+		this.auth = auth;
 	}
 
 	@Override

@@ -23,6 +23,7 @@ import cn.hutool.v7.core.util.ObjUtil;
 import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.setting.Setting;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.nio.charset.Charset;
 import java.util.HashMap;
@@ -35,6 +36,7 @@ import java.util.Properties;
  * @author Luxiaolei
  */
 public class MailAccount implements Serializable {
+	@Serial
 	private static final long serialVersionUID = -6937313421815719204L;
 
 	private static final String MAIL_PROTOCOL = "mail.transport.protocol";

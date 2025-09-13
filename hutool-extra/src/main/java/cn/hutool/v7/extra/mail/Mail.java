@@ -16,33 +16,20 @@
 
 package cn.hutool.v7.extra.mail;
 
-import cn.hutool.v7.core.lang.builder.Builder;
-import cn.hutool.v7.core.io.file.FileUtil;
+import cn.hutool.v7.core.array.ArrayUtil;
 import cn.hutool.v7.core.io.IORuntimeException;
 import cn.hutool.v7.core.io.IoUtil;
-import cn.hutool.v7.core.text.StrUtil;
-import cn.hutool.v7.core.array.ArrayUtil;
+import cn.hutool.v7.core.io.file.FileUtil;
+import cn.hutool.v7.core.lang.builder.Builder;
 import cn.hutool.v7.core.util.ObjUtil;
-
-import jakarta.activation.DataHandler;
 import jakarta.activation.DataSource;
 import jakarta.activation.FileDataSource;
 import jakarta.activation.FileTypeMap;
-import jakarta.mail.Address;
-import jakarta.mail.MessagingException;
-import jakarta.mail.Multipart;
-import jakarta.mail.SendFailedException;
-import jakarta.mail.Session;
-import jakarta.mail.Transport;
-import jakarta.mail.internet.MimeBodyPart;
 import jakarta.mail.internet.MimeMessage;
-import jakarta.mail.internet.MimeMultipart;
-import jakarta.mail.internet.MimeUtility;
 import jakarta.mail.util.ByteArrayDataSource;
 
 import java.io.*;
 import java.nio.charset.Charset;
-import java.util.Date;
 
 /**
  * 邮件发送客户端
@@ -87,9 +74,9 @@ public class Mail implements Builder<MimeMessage> {
 	 */
 	private boolean isHtml;
 	/**
-	 * 正文、附件和图片的混合部分
+	 * 附件或图片
 	 */
-	private final Multipart multipart = new MimeMultipart();
+	private DataSource[] attachments;
 	/**
 	 * 是否使用全局会话，默认为false
 	 */
@@ -251,7 +238,7 @@ public class Mail implements Builder<MimeMessage> {
 	 * @param files 附件文件列表
 	 * @return this
 	 */
-	public Mail setFiles(final File... files) {
+	public Mail addFiles(final File... files) {
 		if (ArrayUtil.isEmpty(files)) {
 			return this;
 		}
@@ -260,7 +247,7 @@ public class Mail implements Builder<MimeMessage> {
 		for (int i = 0; i < files.length; i++) {
 			attachments[i] = new FileDataSource(files[i]);
 		}
-		return setAttachments(attachments);
+		return addAttachments(attachments);
 	}
 
 	/**
@@ -292,7 +279,7 @@ public class Mail implements Builder<MimeMessage> {
 			throw new IORuntimeException(e);
 		}
 		imgSource.setName(cid);
-		return setAttachments(imgSource);
+		return addAttachments(imgSource);
 	}
 
 	/**
@@ -320,30 +307,12 @@ public class Mail implements Builder<MimeMessage> {
 	 * @return this
 	 * @since 4.0.9
 	 */
-	public Mail setAttachments(final DataSource... attachments) {
-		if (ArrayUtil.isNotEmpty(attachments)) {
-			final Charset charset = this.mailAccount.getCharset();
-			MimeBodyPart bodyPart;
-			String nameEncoded;
-			try {
-				for (final DataSource attachment : attachments) {
-					bodyPart = new MimeBodyPart();
-					bodyPart.setDataHandler(new DataHandler(attachment));
-					nameEncoded = attachment.getName();
-					if (this.mailAccount.isEncodefilename()) {
-						nameEncoded = InternalMailUtil.encodeText(nameEncoded, charset);
-					}
-					// 普通附件文件名
-					bodyPart.setFileName(nameEncoded);
-					if (StrUtil.startWith(attachment.getContentType(), "image/")) {
-						// 图片附件，用于正文中引用图片
-						bodyPart.setContentID(nameEncoded);
-						bodyPart.setDisposition(MimeBodyPart.INLINE);
-					}
-					this.multipart.addBodyPart(bodyPart);
-				}
-			} catch (final MessagingException e) {
-				throw new MailException(e);
+	public Mail addAttachments(final DataSource... attachments) {
+		if(ArrayUtil.isNotEmpty(attachments)){
+			if(null == this.attachments){
+				this.attachments = attachments;
+			}else{
+				this.attachments = ArrayUtil.addAll(this.attachments, attachments);
 			}
 		}
 		return this;
@@ -387,12 +356,20 @@ public class Mail implements Builder<MimeMessage> {
 	// --------------------------------------------------------------- Getters and Setters end
 
 	@Override
-	public MimeMessage build() {
-		try {
-			return buildMsg();
-		} catch (final MessagingException e) {
-			throw new MailException(e);
-		}
+	public SMTPMessage build() {
+		return SMTPMessage.of(this.mailAccount, this.useGlobalSession, this.debugOutput)
+			// 标题
+			.setTitle(this.title)
+			// 收件人
+			.setTos(this.tos)
+			// 抄送人
+			.setCcs(this.ccs)
+			// 密送人
+			.setBccs(this.bccs)
+			// 回复地址(reply-to)
+			.setReply(this.reply)
+			// 内容和附件
+			.setContent(this.content, this.isHtml);
 	}
 
 	/**
@@ -402,105 +379,6 @@ public class Mail implements Builder<MimeMessage> {
 	 * @throws MailException 邮件发送异常
 	 */
 	public String send() throws MailException {
-		try {
-			return doSend();
-		} catch (final MessagingException e) {
-			if (e instanceof SendFailedException) {
-				// 当地址无效时，显示更加详细的无效地址信息
-				final Address[] invalidAddresses = ((SendFailedException) e).getInvalidAddresses();
-				final String msg = StrUtil.format("Invalid Addresses: {}", ArrayUtil.toString(invalidAddresses));
-				throw new MailException(msg, e);
-			}
-			throw new MailException(e);
-		}
+		return build().send();
 	}
-
-	// --------------------------------------------------------------- Private method start
-
-	/**
-	 * 执行发送
-	 *
-	 * @return message-id
-	 * @throws MessagingException 发送异常
-	 */
-	private String doSend() throws MessagingException {
-		final MimeMessage mimeMessage = buildMsg();
-		Transport.send(mimeMessage);
-		return mimeMessage.getMessageID();
-	}
-
-	/**
-	 * 构建消息
-	 *
-	 * @return {@link MimeMessage}消息
-	 * @throws MessagingException 消息异常
-	 */
-	private MimeMessage buildMsg() throws MessagingException {
-		final Charset charset = this.mailAccount.getCharset();
-		final MimeMessage msg = new MimeMessage(getSession());
-		// 发件人
-		final String from = this.mailAccount.getFrom();
-		if (StrUtil.isEmpty(from)) {
-			// 用户未提供发送方，则从Session中自动获取
-			msg.setFrom();
-		} else {
-			msg.setFrom(InternalMailUtil.parseFirstAddress(from, charset));
-		}
-		// 标题
-		msg.setSubject(this.title, (null == charset) ? null : charset.name());
-		// 发送时间
-		msg.setSentDate(new Date());
-		// 内容和附件
-		msg.setContent(buildContent(charset));
-		// 收件人
-		msg.setRecipients(MimeMessage.RecipientType.TO, InternalMailUtil.parseAddressFromStrs(this.tos, charset));
-		// 抄送人
-		if (ArrayUtil.isNotEmpty(this.ccs)) {
-			msg.setRecipients(MimeMessage.RecipientType.CC, InternalMailUtil.parseAddressFromStrs(this.ccs, charset));
-		}
-		// 密送人
-		if (ArrayUtil.isNotEmpty(this.bccs)) {
-			msg.setRecipients(MimeMessage.RecipientType.BCC, InternalMailUtil.parseAddressFromStrs(this.bccs, charset));
-		}
-		// 回复地址(reply-to)
-		if (ArrayUtil.isNotEmpty(this.reply)) {
-			msg.setReplyTo(InternalMailUtil.parseAddressFromStrs(this.reply, charset));
-		}
-
-		return msg;
-	}
-
-	/**
-	 * 构建邮件信息主体
-	 *
-	 * @param charset 编码，{@code null}则使用{@link MimeUtility#getDefaultJavaCharset()}
-	 * @return 邮件信息主体
-	 * @throws MessagingException 消息异常
-	 */
-	private Multipart buildContent(final Charset charset) throws MessagingException {
-		final String charsetStr = null != charset ? charset.name() : MimeUtility.getDefaultJavaCharset();
-		// 正文
-		final MimeBodyPart body = new MimeBodyPart();
-		body.setContent(content, StrUtil.format("text/{}; charset={}", isHtml ? "html" : "plain", charsetStr));
-		this.multipart.addBodyPart(body, 0);
-
-		return this.multipart;
-	}
-
-	/**
-	 * 获取默认邮件会话<br>
-	 * 如果为全局单例的会话，则全局只允许一个邮件帐号，否则每次发送邮件会新建一个新的会话
-	 *
-	 * @return 邮件会话 {@link Session}
-	 */
-	private Session getSession() {
-		final Session session = MailUtil.getSession(this.mailAccount, this.useGlobalSession);
-
-		if (null != this.debugOutput) {
-			session.setDebugOut(debugOutput);
-		}
-
-		return session;
-	}
-	// --------------------------------------------------------------- Private method end
 }

@@ -16,16 +16,15 @@
 
 package cn.hutool.v7.extra.mail;
 
-import jakarta.mail.Authenticator;
-import jakarta.mail.PasswordAuthentication;
-import jakarta.mail.Session;
 import cn.hutool.v7.core.collection.CollUtil;
 import cn.hutool.v7.core.collection.ListUtil;
 import cn.hutool.v7.core.io.IoUtil;
 import cn.hutool.v7.core.map.MapUtil;
+import cn.hutool.v7.core.text.CharUtil;
 import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.core.text.split.SplitUtil;
-import cn.hutool.v7.core.text.CharUtil;
+import jakarta.mail.Authenticator;
+import jakarta.mail.Session;
 
 import java.io.File;
 import java.io.InputStream;
@@ -379,15 +378,7 @@ public class MailUtil {
 	public static Session getSession(final MailAccount mailAccount, final boolean isSingleton) {
 		Authenticator authenticator = null;
 		if (mailAccount.isAuth()) {
-			authenticator = new Authenticator() {
-				@Override
-				protected PasswordAuthentication getPasswordAuthentication() {
-					return new PasswordAuthentication(
-						mailAccount.getUser(),
-						String.valueOf(mailAccount.getPass())
-					);
-				}
-			};
+			authenticator = new UserPassMailAuthenticator(mailAccount);
 		}
 
 		return isSingleton ? Session.getDefaultInstance(mailAccount.getSmtpProps(), authenticator) //
@@ -429,7 +420,7 @@ public class MailUtil {
 		mail.setTitle(subject);
 		mail.setContent(content);
 		mail.setHtml(isHtml);
-		mail.setFiles(files);
+		mail.addFiles(files);
 
 		// 图片
 		if (MapUtil.isNotEmpty(imageMap)) {
