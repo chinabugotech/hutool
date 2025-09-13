@@ -39,10 +39,8 @@ import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.internet.MimeMultipart;
 import jakarta.mail.internet.MimeUtility;
 import jakarta.mail.util.ByteArrayDataSource;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintStream;
+
+import java.io.*;
 import java.nio.charset.Charset;
 import java.util.Date;
 
@@ -53,6 +51,7 @@ import java.util.Date;
  * @since 3.2.0
  */
 public class Mail implements Builder<MimeMessage> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -483,7 +482,7 @@ public class Mail implements Builder<MimeMessage> {
 		// 正文
 		final MimeBodyPart body = new MimeBodyPart();
 		body.setContent(content, StrUtil.format("text/{}; charset={}", isHtml ? "html" : "plain", charsetStr));
-		this.multipart.addBodyPart(body);
+		this.multipart.addBodyPart(body, 0);
 
 		return this.multipart;
 	}
