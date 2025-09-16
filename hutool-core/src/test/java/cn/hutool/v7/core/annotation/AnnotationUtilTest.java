@@ -18,6 +18,7 @@ package cn.hutool.v7.core.annotation;
 
 import cn.hutool.v7.core.annotation.elements.CombinationAnnotatedElement;
 import cn.hutool.v7.core.array.ArrayUtil;
+import cn.hutool.v7.core.reflect.FieldUtil;
 import cn.hutool.v7.core.reflect.method.MethodUtil;
 import cn.hutool.v7.core.util.ObjUtil;
 import lombok.SneakyThrows;
@@ -27,6 +28,7 @@ import org.junit.jupiter.api.condition.EnabledForJreRange;
 import org.junit.jupiter.api.condition.JRE;
 
 import java.lang.annotation.*;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Map;
 
@@ -89,6 +91,29 @@ public class AnnotationUtilTest {
 		// SubClassForTest类继承了ClassForTest类，因此继承了ClassForTest类上的注解，因此获取注解数量为1
 		annotations = AnnotationUtil.getAnnotations(SubClassForTest.class, false);
 		assertEquals(1, annotations.length);
+
+		final Method doSomeThing = MethodUtil.getMethodByName(SubClassForTest.class, "doSomeThing");
+		assertNotNull(doSomeThing);
+
+		// doSomeThing方法在子类中无注解，因此获取注解数量为0
+		annotations = AnnotationUtil.getDeclaredAnnotations(doSomeThing);
+		assertEquals(0, annotations.length);
+
+		// 方法上的注解不支持继承，因此获取注解数量为0
+		annotations = AnnotationUtil.getAnnotations(doSomeThing, false);
+		assertEquals(0, annotations.length);
+
+		final Field a = FieldUtil.getField(SubClassForTest.class, "a");
+		assertNotNull(doSomeThing);
+
+		// a字段在子类中无注解，因此获取注解数量为0
+		annotations = AnnotationUtil.getDeclaredAnnotations(a);
+		assertEquals(0, annotations.length);
+
+		// a字段上的注解不支持继承，因此获取注解数量为0
+		annotations = AnnotationUtil.getAnnotations(a, false);
+		assertNotNull(annotations);
+		assertEquals(0, annotations.length);
 	}
 
 	@Test
@@ -229,6 +254,10 @@ public class AnnotationUtilTest {
 
 	@AnnotationForTest(value = "foo", names = {"测试1", "测试2"})
 	private static class ClassForTest{
+
+		@AnnotationForTest
+		private int a;
+
 		@AnnotationForTest
 		public int doSomeThing(){
 			return 0;
@@ -236,6 +265,9 @@ public class AnnotationUtilTest {
 	}
 
 	private static class SubClassForTest extends ClassForTest{
+
+		private int a;
+
 		@Override
 		public int doSomeThing() {
 			return super.doSomeThing();
