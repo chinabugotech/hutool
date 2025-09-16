@@ -83,4 +83,10 @@ public class DataSizeUtilTest {
 		final long bytes = DataSize.parse(size).toBytes();
 		Assertions.assertEquals(10244587, bytes);
 	}
+
+	@Test
+	void issueICXXVFTest(){
+		final long parse = DataSizeUtil.parse("279.40GiB");
+		Assertions.assertEquals(300003465625L, parse);
+	}
 }
