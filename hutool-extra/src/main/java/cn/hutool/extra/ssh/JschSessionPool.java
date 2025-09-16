@@ -7,6 +7,7 @@ import com.jcraft.jsch.Session;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
+import java.util.concurrent.locks.Lock;
 
 /**
  * Jsch会话池
@@ -106,7 +107,12 @@ public enum JschSessionPool {
 	 * @since 4.1.15
 	 */
 	public void remove(Session session) {
-		if (null != session) {
+		if(null == session)  return;
+
+		// 使用 SimpleCache 的写锁保证迭代安全
+		Lock writeLock = this.cache.writeLock();
+		writeLock.lock();
+		try {
 			final Iterator<Entry<String, Session>> iterator = this.cache.iterator();
 			Entry<String, Session> entry;
 			while (iterator.hasNext()) {
@@ -116,6 +122,8 @@ public enum JschSessionPool {
 					break;
 				}
 			}
+		}finally {
+			writeLock.unlock();
 		}
 	}
 

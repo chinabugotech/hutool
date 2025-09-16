@@ -190,4 +190,22 @@ public class SimpleCache<K, V> implements Iterable<Map.Entry<K, V>>, Serializabl
 			}
 		});
 	}
+
+	// ===================== 新增方法 =====================
+
+	/**
+	 * 获取读锁
+	 * 外部可用于迭代时加锁，防止并发修改异常
+	 */
+	public Lock readLock() {
+		return this.lock.readLock();
+	}
+
+	/**
+	 * 获取写锁
+	 * 外部可用于迭代+修改时加锁
+	 */
+	public Lock writeLock() {
+		return this.lock.writeLock();
+	}
 }
