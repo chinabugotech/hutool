@@ -126,12 +126,12 @@ public class PinyinUtil {
 	/**
 	 * 将输入字符串转为拼音首字母，其它字符原样返回
 	 *
-	 * @param str       任意字符，汉字返回拼音，非汉字原样返回
+	 * @param str       任意字符，汉字返回拼音，非汉字原样返回，{@code null}返回{@code null}
 	 * @param separator 分隔符
-	 * @return 汉字返回拼音，非汉字原样返回
+	 * @return 汉字返回拼音，非汉字原样返回；str为{@code null}返回{@code null}
 	 */
 	public static String getFirstLetter(final String str, final String separator) {
-		return getEngine().getFirstLetter(str, separator);
+		return (str == null) ? null :getEngine().getFirstLetter(str, separator);
 	}
 
 	/**
