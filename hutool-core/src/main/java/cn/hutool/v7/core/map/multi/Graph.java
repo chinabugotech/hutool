@@ -18,6 +18,7 @@ package cn.hutool.v7.core.map.multi;
 
 import cn.hutool.v7.core.collection.CollUtil;
 
+import java.io.Serial;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Predicate;
@@ -30,6 +31,7 @@ import java.util.function.Predicate;
  * @since 6.0.0
  */
 public class Graph<T> extends SetValueMap<T, T> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

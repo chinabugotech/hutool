@@ -202,10 +202,14 @@ public class AnnotationUtilTest {
 
 	@Test
 	public void testGetAnnotationAlias() {
-		final MetaAnnotationForTest annotation = AnnotationUtil.getAnnotationAlias(AnnotationForTest.class, MetaAnnotationForTest.class);
-		assertNotNull(annotation);
-		assertEquals(annotation.value(), annotation.alias());
-		assertEquals(MetaAnnotationForTest.class, annotation.annotationType());
+		final MetaAnnotationForTest annotation = AnnotationUtil.getAnnotation(AnnotationForTest.class, MetaAnnotationForTest.class);
+		Assertions.assertEquals("foo", annotation.value());
+		final MetaAnnotationForTest annotationAlias = AnnotationUtil.getAnnotationAlias(AnnotationForTest.class, MetaAnnotationForTest.class);
+		assertNotNull(annotationAlias);
+		// value的别名是alias，因此获取value值时，实际返回的是alias的值
+		assertEquals("", annotationAlias.value());
+		assertEquals(annotationAlias.value(), annotationAlias.alias());
+		assertEquals(MetaAnnotationForTest.class, annotationAlias.annotationType());
 	}
 
 	@Test

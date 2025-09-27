@@ -111,7 +111,8 @@ public class GenericAnnotationMapping implements AnnotationMapping<Annotation> {
 	}
 
 	/**
-	 * 获取属性值
+	 * 获取指定属性的属性值<br>
+	 * 首先从属性方法中查找指定名称和属性类型一致的属性方法，然后调用属性方法获取返回值。
 	 *
 	 * @param attributeName 属性名称
 	 * @param attributeType 属性类型

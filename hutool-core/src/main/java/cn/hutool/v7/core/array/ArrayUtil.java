@@ -1327,26 +1327,17 @@ public class ArrayUtil extends PrimitiveArrayUtil {
 		if (isArray(obj)) {
 			try {
 				final String className = obj.getClass().getComponentType().getName();
-				switch (className) {
-					case "long":
-						return wrap((long[]) obj);
-					case "int":
-						return wrap((int[]) obj);
-					case "short":
-						return wrap((short[]) obj);
-					case "char":
-						return wrap((char[]) obj);
-					case "byte":
-						return wrap((byte[]) obj);
-					case "boolean":
-						return wrap((boolean[]) obj);
-					case "float":
-						return wrap((float[]) obj);
-					case "double":
-						return wrap((double[]) obj);
-					default:
-						return (Object[]) obj;
-				}
+				return switch (className) {
+					case "long" -> wrap((long[]) obj);
+					case "int" -> wrap((int[]) obj);
+					case "short" -> wrap((short[]) obj);
+					case "char" -> wrap((char[]) obj);
+					case "byte" -> wrap((byte[]) obj);
+					case "boolean" -> wrap((boolean[]) obj);
+					case "float" -> wrap((float[]) obj);
+					case "double" -> wrap((double[]) obj);
+					default -> (Object[]) obj;
+				};
 			} catch (final Exception e) {
 				throw ExceptionUtil.wrapRuntime(e);
 			}
