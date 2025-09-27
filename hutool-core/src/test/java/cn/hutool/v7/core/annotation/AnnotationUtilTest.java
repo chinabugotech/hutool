@@ -118,6 +118,7 @@ public class AnnotationUtilTest {
 
 	@Test
 	public void testGetCombinationAnnotations() {
+		// ClassForTest -> AnnotationForTest -> MetaAnnotationForTest
 		final MetaAnnotationForTest[] annotations = AnnotationUtil.getCombinationAnnotations(ClassForTest.class, MetaAnnotationForTest.class);
 		assertEquals(1, annotations.length);
 	}
