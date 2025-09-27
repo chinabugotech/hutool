@@ -329,7 +329,7 @@ public class JschSftp extends AbstractFtp {
 	}
 
 	@Override
-	public boolean rename(String oldPath, String newPath) {
+	public boolean rename(final String oldPath, final String newPath) {
 		try {
 			getClient().rename(oldPath, newPath);
 		} catch (final SftpException e) {
@@ -413,7 +413,6 @@ public class JschSftp extends AbstractFtp {
 	 * @return boolean 是否删除成功
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
 	public boolean delDir(final String dirPath) {
 		if (!cd(dirPath)) {
 			return false;
@@ -431,11 +430,15 @@ public class JschSftp extends AbstractFtp {
 		String fileName;
 		for (final LsEntry entry : list) {
 			fileName = entry.getFilename();
-			if (!".".equals(fileName) && !"..".equals(fileName)) {
+			if (!StrUtil.DOT.equals(fileName) && !StrUtil.DOUBLE_DOT.equals(fileName)) {
 				if (entry.getAttrs().isDir()) {
-					delDir(fileName);
+					// pr#1380Gitee 当目录名包含特殊字符（如 \u000b）时，会导致不断进入同一目录循环
+					// 此处强制使用绝对路径
+					delDir(dirPath + StrUtil.SLASH + fileName);
 				} else {
-					delFile(fileName);
+					// pr#1380Gitee 当目录名包含特殊字符（如 \u000b）时，会导致不断进入同一目录循环
+					// 此处强制使用绝对路径
+					delFile(dirPath + StrUtil.SLASH + fileName);
 				}
 			}
 		}

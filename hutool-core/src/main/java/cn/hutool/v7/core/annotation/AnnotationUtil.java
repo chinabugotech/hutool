@@ -56,13 +56,18 @@ public class AnnotationUtil {
 	 * 元注解
 	 */
 	private static final Set<Class<? extends Annotation>> META_ANNOTATIONS = SetUtil.of(
-		Target.class, //
-		Retention.class, //
-		Inherited.class, //
-		Documented.class, //
-		SuppressWarnings.class, //
-		Override.class, //
-		Deprecated.class//
+		Target.class,
+		Retention.class,
+		Inherited.class,
+		Documented.class,
+		SuppressWarnings.class,
+		Override.class,
+		Deprecated.class,
+		// since JDK8
+		Repeatable.class,
+		Native.class,
+		// since JDK9
+		FunctionalInterface.class
 	);
 
 	/**
