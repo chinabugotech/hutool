@@ -145,9 +145,8 @@ public class CombinationAnnotatedElement implements AnnotatedElement, Serializab
 		// 直接注解
 		for (final Annotation annotation : annotations) {
 			annotationType = annotation.annotationType();
-			if (!AnnotationUtil.isMetaAnnotation(annotationType)
-				// issue#I5FQGW@Gitee：跳过元注解和已经处理过的注解，防止递归调用
-				&& !declaredAnnotationMap.containsKey(annotationType)) {
+			// issue#I5FQGW@Gitee：跳过元注解和已经处理过的注解，防止递归调用
+			if (!AnnotationUtil.isMetaAnnotation(annotationType) && !declaredAnnotationMap.containsKey(annotationType)) {
 				if (test(annotation)) {
 					declaredAnnotationMap.put(annotationType, annotation);
 				}

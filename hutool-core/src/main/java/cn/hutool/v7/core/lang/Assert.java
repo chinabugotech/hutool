@@ -236,7 +236,8 @@ public class Assert {
 	}
 
 	/**
-	 * 断言对象是否不为{@code null} ，如果为{@code null} 抛出{@link IllegalArgumentException} 异常
+	 * 断言对象是否不为{@code null} ，如果为{@code null} 抛出{@link IllegalArgumentException} 异常，
+	 * 此方法与{@link java.util.Objects#requireNonNull(Object) }不同在于抛出异常类型不同。
 	 * <pre>{@code
 	 *   Assert.notNull(clazz);
 	 * }</pre>
@@ -245,6 +246,7 @@ public class Assert {
 	 * @param object 被检查对象
 	 * @return 非空对象
 	 * @throws IllegalArgumentException if the object is {@code null}
+	 * @see java.util.Objects#requireNonNull(Object)
 	 */
 	public static <T> T notNull(final T object) throws IllegalArgumentException {
 		if (null == object) {
@@ -875,8 +877,28 @@ public class Assert {
 	 * @throws IllegalArgumentException  如果size &lt; 0 抛出此异常
 	 * @throws IndexOutOfBoundsException 如果index &lt; 0或者 index &ge; size 抛出此异常
 	 * @since 4.1.9
+	 * @see java.util.Objects#checkIndex(int, int)
 	 */
 	public static int checkIndex(final int index, final int size) throws IllegalArgumentException, IndexOutOfBoundsException {
+		return checkIndex(index, size, "[Assertion failed]");
+	}
+
+	/**
+	 * 检查下标（数组、集合、字符串）是否符合要求，下标必须满足：
+	 *
+	 * <pre>
+	 * 0 &le; index &lt; size
+	 * </pre>
+	 *
+	 * @param index 下标
+	 * @param size  长度
+	 * @return 检查后的下标
+	 * @throws IllegalArgumentException  如果size &lt; 0 抛出此异常
+	 * @throws IndexOutOfBoundsException 如果index &lt; 0或者 index &ge; size 抛出此异常
+	 * @since 7.0.0
+	 * @see java.util.Objects#checkIndex(long, long)
+	 */
+	public static long checkIndex(final long index, final long size) throws IllegalArgumentException, IndexOutOfBoundsException {
 		return checkIndex(index, size, "[Assertion failed]");
 	}
 
@@ -897,6 +919,29 @@ public class Assert {
 	 * @since 4.1.9
 	 */
 	public static int checkIndex(final int index, final int size, final String errorMsgTemplate, final Object... params) throws IllegalArgumentException, IndexOutOfBoundsException {
+		if (index < 0 || index >= size) {
+			throw new IndexOutOfBoundsException(badIndexMsg(index, size, errorMsgTemplate, params));
+		}
+		return index;
+	}
+
+	/**
+	 * 检查下标（数组、集合、字符串）是否符合要求，下标必须满足：
+	 *
+	 * <pre>
+	 * 0 &le; index &lt; size
+	 * </pre>
+	 *
+	 * @param index            下标
+	 * @param size             长度
+	 * @param errorMsgTemplate 异常时的消息模板
+	 * @param params           参数列表
+	 * @return 检查后的下标
+	 * @throws IllegalArgumentException  如果size &lt; 0 抛出此异常
+	 * @throws IndexOutOfBoundsException 如果index &lt; 0或者 index &ge; size 抛出此异常
+	 * @since 7.0.0
+	 */
+	public static long checkIndex(final long index, final long size, final String errorMsgTemplate, final Object... params) throws IllegalArgumentException, IndexOutOfBoundsException {
 		if (index < 0 || index >= size) {
 			throw new IndexOutOfBoundsException(badIndexMsg(index, size, errorMsgTemplate, params));
 		}
@@ -1178,7 +1223,7 @@ public class Assert {
 	 * @param params 参数列表
 	 * @return 消息
 	 */
-	private static String badIndexMsg(final int index, final int size, final String desc, final Object... params) {
+	private static String badIndexMsg(final long index, final long size, final String desc, final Object... params) {
 		if (index < 0) {
 			return StrUtil.format("{} ({}) must not be negative", StrUtil.format(desc, params), index);
 		} else if (size < 0) {

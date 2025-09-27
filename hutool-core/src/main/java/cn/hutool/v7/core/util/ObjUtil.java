@@ -121,8 +121,7 @@ public class ObjUtil {
 		if (obj.getClass().isArray()) {
 			return Array.getLength(obj);
 		}
-		if (obj instanceof Enumeration) {
-			final Enumeration<?> enumeration = (Enumeration<?>) obj;
+		if (obj instanceof final Enumeration<?> enumeration) {
 			while (enumeration.hasMoreElements()) {
 				count++;
 				enumeration.nextElement();
@@ -177,8 +176,7 @@ public class ObjUtil {
 			}
 			return false;
 		}
-		if (obj instanceof Enumeration) {
-			final Enumeration<?> enumeration = (Enumeration<?>) obj;
+		if (obj instanceof final Enumeration<?> enumeration) {
 			while (enumeration.hasMoreElements()) {
 				final Object o = enumeration.nextElement();
 				if (equals(o, element)) {
@@ -204,6 +202,7 @@ public class ObjUtil {
 	 *
 	 * @param obj 对象
 	 * @return 是否为null
+	 * @see Objects#isNull(Object)
 	 */
 	public static boolean isNull(final Object obj) {
 		return null == obj;
@@ -214,6 +213,7 @@ public class ObjUtil {
 	 *
 	 * @param obj 对象
 	 * @return 是否不为null
+	 * @see Objects#nonNull(Object)
 	 */
 	public static boolean isNotNull(final Object obj) {
 		return null != obj;
@@ -294,6 +294,7 @@ public class ObjUtil {
 	 * @param defaultValue 被检查对象为{@code null}返回的默认值，可以为{@code null}
 	 * @return 被检查对象不为 {@code null} 返回原值，否则返回默认值
 	 * @since 3.0.7
+	 * @see Objects#requireNonNullElse(Object, Object)
 	 */
 	public static <T> T defaultIfNull(final T object, final T defaultValue) {
 		return isNull(object) ? defaultValue : object;
@@ -307,6 +308,7 @@ public class ObjUtil {
 	 * @param defaultSupplier 为空时的默认值提供者
 	 * @return 被检查对象不为 {@code null} 返回原值，否则返回 {@link Supplier#get()} 提供的默认值
 	 * @since 5.4.6
+	 * @see Objects#requireNonNullElseGet(Object, Supplier)
 	 */
 	public static <T> T defaultIfNull(final T object, final Supplier<? extends T> defaultSupplier) {
 		return isNull(object) ? defaultSupplier.get() : object;
@@ -371,6 +373,7 @@ public class ObjUtil {
 	}
 	// endregion
 
+	// region ----- clone
 	/**
 	 * <p>克隆对象
 	 * <ol>
@@ -427,6 +430,7 @@ public class ObjUtil {
 		}
 		return clone == null ? obj : clone;
 	}
+	// endregion
 
 	/**
 	 * 序列化后拷贝流的方式克隆<br>
