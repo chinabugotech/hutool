@@ -285,7 +285,8 @@ public class SqlUtil {
 	 */
 	public static String removeOuterOrderBy(final String selectSql) {
 		// 去除order by 子句
-		return ReUtil.getGroup1(PATTERN_ORDER_BY, selectSql);
+		final String sql = ReUtil.getGroup1(PATTERN_ORDER_BY, selectSql);
+		return sql == null ? selectSql : sql;
 	}
 
 	/**

@@ -28,4 +28,15 @@ public class Issue4066Test {
 
 		assertEquals("SELECT id, name, age FROM users WHERE status = 'active'", result);
 	}
+
+	/**
+	 * 测试不含Order by的语句
+	 */
+	@Test
+	public void removeOuterOrderByTest3() {
+		final String sql = "SELECT * FROM users";
+		final String result = SqlUtil.removeOuterOrderBy(sql);
+
+		assertEquals("SELECT * FROM users", result);
+	}
 }
