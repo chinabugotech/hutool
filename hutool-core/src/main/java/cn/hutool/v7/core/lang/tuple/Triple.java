@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.core.lang.tuple;
 
+import java.io.Serial;
 import java.util.Objects;
 
 /**
@@ -28,6 +29,7 @@ import java.util.Objects;
  * @since 6.0.0
  */
 public class Triple<L, M, R> extends Pair<L, R> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -80,8 +82,7 @@ public class Triple<L, M, R> extends Pair<L, R> {
 		if (this == o) {
 			return true;
 		}
-		if (o instanceof Triple) {
-			final Triple<?, ?, ?> triple = (Triple<?, ?, ?>) o;
+		if (o instanceof Triple<?, ?, ?> triple) {
 			return Objects.equals(getLeft(), triple.getLeft()) &&
 				Objects.equals(getMiddle(), triple.getMiddle()) &&
 				Objects.equals(getRight(), triple.getRight());

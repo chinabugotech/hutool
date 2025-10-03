@@ -19,6 +19,8 @@ package cn.hutool.v7.core.thread;
 import cn.hutool.v7.core.lang.builder.Builder;
 import cn.hutool.v7.core.util.ObjUtil;
 
+import java.io.Serial;
+import java.util.Objects;
 import java.util.concurrent.*;
 
 /**
@@ -35,6 +37,7 @@ import java.util.concurrent.*;
  * @since 4.1.9
  */
 public class ExecutorBuilder implements Builder<ThreadPoolExecutor> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -256,12 +259,9 @@ public class ExecutorBuilder implements Builder<ThreadPoolExecutor> {
 		final int maxPoolSize = builder.maxPoolSize;
 		final long keepAliveTime = builder.keepAliveTime;
 		final BlockingQueue<Runnable> workQueue;
-		if (null != builder.workQueue) {
-			workQueue = builder.workQueue;
-		} else {
-			// corePoolSize为0则要使用SynchronousQueue避免无限阻塞
-			workQueue = (corePoolSize <= 0) ? new SynchronousQueue<>() : new LinkedBlockingQueue<>(DEFAULT_QUEUE_CAPACITY);
-		}
+		// corePoolSize为0则要使用SynchronousQueue避免无限阻塞
+		workQueue = Objects.requireNonNullElseGet(builder.workQueue,
+			() -> (corePoolSize <= 0) ? new SynchronousQueue<>() : new LinkedBlockingQueue<>(DEFAULT_QUEUE_CAPACITY));
 		final ThreadFactory threadFactory = (null != builder.threadFactory) ? builder.threadFactory : Executors.defaultThreadFactory();
 		final RejectedExecutionHandler handler = ObjUtil.defaultIfNull(builder.handler, RejectPolicy.ABORT.getValue());
 

@@ -261,28 +261,28 @@ public class JSONParser {
 	 * @return JSONPrimitive或{@code null}
 	 */
 	private JSONPrimitive nextJSONPrimitive(final char firstChar) {
-		switch (firstChar) {
-			case CharUtil.DOUBLE_QUOTES:
-			case CharUtil.SINGLE_QUOTE:
+		return switch (firstChar) {
+			case CharUtil.DOUBLE_QUOTES, CharUtil.SINGLE_QUOTE ->
 				// 引号包围，表示字符串值
-				return factory.ofPrimitive(tokener.nextWrapString(firstChar));
-			case 't':
-			case 'T':
+				factory.ofPrimitive(tokener.nextWrapString(firstChar));
+			case 't', 'T' -> {
 				checkTrue(tokener.next(3));
-				return factory.ofPrimitive(true);
-			case 'f':
-			case 'F':
+				yield factory.ofPrimitive(true);
+			}
+			case 'f', 'F' -> {
 				checkFalse(tokener.next(4));
-				return factory.ofPrimitive(false);
-			case 'n':
-			case 'N':
+				yield factory.ofPrimitive(false);
+			}
+			case 'n', 'N' -> {
 				checkNull(tokener.next(3));
-				return null;
-			default:
+				yield null;
+			}
+			default -> {
 				final Object value = InternalJSONUtil.parseNumberOrString(tokener.nextUnwrapString(firstChar));
 				// 非引号包围，可能为数字、null等
-				return null == value ? null : factory.ofPrimitive(value);
-		}
+				yield null == value ? null : factory.ofPrimitive(value);
+			}
+		};
 	}
 
 	/**

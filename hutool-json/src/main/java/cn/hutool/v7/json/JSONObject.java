@@ -167,8 +167,7 @@ public class JSONObject extends MapWrapper<String, JSON> implements JSON, JSONGe
 			return putValue(key, 1);
 		}
 
-		if (json instanceof JSONPrimitive) {
-			final JSONPrimitive jsonPrimitive = (JSONPrimitive) json;
+		if (json instanceof JSONPrimitive jsonPrimitive) {
 			if (jsonPrimitive.isNumber()) {
 				jsonPrimitive.increment();
 				return this;
