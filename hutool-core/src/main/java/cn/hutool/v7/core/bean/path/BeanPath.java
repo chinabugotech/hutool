@@ -120,7 +120,7 @@ public class BeanPath<T> implements Iterator<BeanPath<T>> {
 					}
 					// 每一个边界符之前的表达式是一个完整的KEY，开始处理KEY
 				}
-				if (builder.length() > 0) {
+				if (!builder.isEmpty()) {
 					this.node = NodeFactory.createNode(builder.toString());
 					// 如果以[结束，表示后续还有表达式，需保留'['，如name[0]
 					this.child = StrUtil.nullIfEmpty(expression.substring(c == CharUtil.BRACKET_START ? i : i + 1));

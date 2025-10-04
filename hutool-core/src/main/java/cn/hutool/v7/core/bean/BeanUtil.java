@@ -183,6 +183,7 @@ public class BeanUtil {
 	}
 	// endregion
 
+	// region ----- beanPath
 	/**
 	 * 获取Bean中的属性值
 	 *
@@ -221,6 +222,7 @@ public class BeanUtil {
 	public static void setProperty(final Object bean, final String expression, final Object value) {
 		BeanPath.of(expression).setValue(bean, value);
 	}
+	// endregion
 
 	// region ----- toBean
 
@@ -728,9 +730,31 @@ public class BeanUtil {
 
 		return hasSetter(clazz) || hasPublicField(clazz);
 	}
-	// endregion
 
-	// region ----- hasXXX
+	/**
+	 * 检查Bean<br>
+	 * 遍历Bean的字段并断言检查字段，当某个字段：
+	 * 断言为{@code true} 时，返回{@code true}并不再检查后续字段；<br>
+	 * 断言为{@code false}时，继续检查后续字段
+	 *
+	 * @param bean      Bean
+	 * @param predicate 断言
+	 * @return 是否触发断言为真
+	 */
+	public static boolean checkBean(final Object bean, final Predicate<Field> predicate) {
+		if (null == bean) {
+			return true;
+		}
+		for (final Field field : FieldUtil.getFields(bean.getClass())) {
+			if (ModifierUtil.isStatic(field)) {
+				continue;
+			}
+			if (predicate.test(field)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	/**
 	 * 判断是否有Setter方法<br>
@@ -828,31 +852,6 @@ public class BeanUtil {
 		);
 	}
 	// endregion
-
-	/**
-	 * 检查Bean<br>
-	 * 遍历Bean的字段并断言检查字段，当某个字段：
-	 * 断言为{@code true} 时，返回{@code true}并不再检查后续字段；<br>
-	 * 断言为{@code false}时，继续检查后续字段
-	 *
-	 * @param bean      Bean
-	 * @param predicate 断言
-	 * @return 是否触发断言为真
-	 */
-	public static boolean checkBean(final Object bean, final Predicate<Field> predicate) {
-		if (null == bean) {
-			return true;
-		}
-		for (final Field field : FieldUtil.getFields(bean.getClass())) {
-			if (ModifierUtil.isStatic(field)) {
-				continue;
-			}
-			if (predicate.test(field)) {
-				return true;
-			}
-		}
-		return false;
-	}
 
 	/**
 	 * 获取Getter或Setter方法名对应的字段名称，规则如下：

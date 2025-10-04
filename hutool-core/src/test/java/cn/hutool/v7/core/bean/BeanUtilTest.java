@@ -1131,4 +1131,26 @@ public class BeanUtilTest {
 		final PropertyDescriptor nonExistingField = BeanUtil.getPropertyDescriptor(Person.class, "nonExistingField");
 		assertNull(nonExistingField);
 	}
+
+	@Test
+	void testBeanToMap_IgnoreNullValue() {
+		Person person = new Person();
+		person.setName(null);
+		person.setAge(25);
+
+		// 忽略空值
+		Map<String, Object> map = BeanUtil.beanToMap(person, false, true);
+		assertEquals(1, map.size());
+		assertEquals(25, map.get("age"));
+		assertFalse(map.containsKey("name"));
+
+		// 不忽略空值
+		map = BeanUtil.beanToMap(person, false, false);
+		assertEquals(3, map.size());
+		assertTrue(map.containsKey("name"));
+		assertNull(map.get("name"));
+		assertEquals(25, map.get("age"));
+		assertTrue(map.containsKey("openid"));
+		assertNull(map.get("openid"));
+	}
 }
