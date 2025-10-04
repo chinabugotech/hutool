@@ -16,11 +16,6 @@
 
 package cn.hutool.v7.core.bean;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import lombok.experimental.Accessors;
 import cn.hutool.v7.core.annotation.Alias;
 import cn.hutool.v7.core.array.ArrayUtil;
 import cn.hutool.v7.core.bean.copier.CopyOptions;
@@ -34,11 +29,18 @@ import cn.hutool.v7.core.map.MapUtil;
 import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.core.thread.ThreadUtil;
 import cn.hutool.v7.core.util.ObjUtil;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.Accessors;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.beans.PropertyDescriptor;
+import java.beans.PropertyEditor;
+import java.beans.PropertyEditorManager;
 import java.io.Serial;
 import java.io.Serializable;
 import java.lang.reflect.Field;
@@ -991,11 +993,13 @@ public class BeanUtilTest {
 		final Map<String, String> filedMap= new HashMap<>();
 		filedMap.put("name", "sourceId");
 		copyOptions.setFieldMapping(filedMap);
-		final TestPojo pojo = BeanUtil.fillBean(new TestPojo(), new ValueProvider<String>() {
+		final TestPojo pojo = BeanUtil.fillBean(new TestPojo(), new ValueProvider<>() {
 			final HashMap<String, Object> map = new HashMap<>();
+
 			{
 				map.put("sourceId", "123");
 			}
+
 			@Override
 			public Object value(final String key, final Type valueType) {
 				return map.get(key);
@@ -1039,4 +1043,92 @@ public class BeanUtilTest {
 		assertTrue(BeanUtil.checkBean(bean, predicate));
 	}
 
+	@Test
+	void findEditor_shouldReturnEditorForRegisteredType() {
+		// Given
+		Class<?> type = Integer.class;
+		// Register editor for Integer if not already registered (though usually it's pre-registered)
+		PropertyEditor expectedEditor = PropertyEditorManager.findEditor(type);
+
+		// When
+		PropertyEditor actualEditor = BeanUtil.findEditor(type);
+
+		// Then
+		assertNotNull(actualEditor);
+		assertEquals(expectedEditor.getClass(), actualEditor.getClass());
+	}
+
+	@Test
+	void findEditor_shouldReturnNullForUnregisteredType() {
+		// Given
+		class CustomUnregisteredType {}
+		Class<?> type = CustomUnregisteredType.class;
+
+		// When
+		PropertyEditor editor = BeanUtil.findEditor(type);
+
+		// Then
+		assertNull(editor);
+	}
+
+	@Test
+	void findEditor_shouldHandlePrimitiveTypes() {
+		// Given
+		Class<?> type = int.class;
+
+		// When
+		PropertyEditor editor = BeanUtil.findEditor(type);
+
+		// Then
+		assertNotNull(editor);
+	}
+
+	@Test
+	void descForEach_shouldProcessAllProperties() {
+		List<String> processedProperties = new ArrayList<>();
+
+		// 执行
+		BeanUtil.descForEach(Person.class, propDesc -> processedProperties.add(propDesc.getFieldName()));
+
+		// 验证
+		assertEquals(3, processedProperties.size());
+		assertTrue(processedProperties.contains("name"));
+		assertTrue(processedProperties.contains("age"));
+		assertTrue(processedProperties.contains("openid"));
+	}
+
+	@Test
+	public void testIsMatchName_SimpleMatch() {
+		String testObj = "test";
+		assertTrue(BeanUtil.isMatchName(testObj, "String", true));
+		assertTrue(BeanUtil.isMatchName(testObj, "string", true));
+
+		final Person person = new Person();
+		assertTrue(BeanUtil.isMatchName(person, "Person", true));
+		assertTrue(BeanUtil.isMatchName(person, "person", true));
+	}
+
+	@Test
+	public void testIsMatchName_FullMatch() {
+		Integer testObj = 123;
+		assertTrue(BeanUtil.isMatchName(testObj, "java.lang.Integer", false));
+		assertFalse(BeanUtil.isMatchName(testObj, "Integer", false));
+
+		final Person person = new Person();
+		assertTrue(BeanUtil.isMatchName(person, "cn.hutool.v7.core.bean.BeanUtilTest$Person", false));
+	}
+
+	@Test
+	void testGetPropertyDescriptor_ExistingField() {
+		PropertyDescriptor pd = BeanUtil.getPropertyDescriptor(Person.class, "name");
+		assertNotNull(pd);
+		assertEquals("name", pd.getName());
+		assertEquals(String.class, pd.getPropertyType());
+	}
+
+	@Test
+	void testGetPropertyDescriptor_NonExistingField() {
+		final PropertyDescriptor nonExistingField = BeanUtil.getPropertyDescriptor(Person.class, "nonExistingField");
+		assertNull(nonExistingField);
+	}
 }
