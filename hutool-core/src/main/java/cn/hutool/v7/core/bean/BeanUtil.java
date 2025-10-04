@@ -200,8 +200,7 @@ public class BeanUtil {
 		}
 
 		// 先尝试直接获取属性
-		if (bean instanceof Map) {
-			final Map<?, ?> map = (Map<?, ?>) bean;
+		if (bean instanceof Map<?, ?> map) {
 			if (map.containsKey(expression)) {
 				return (T) map.get(expression);
 			}
