@@ -69,7 +69,7 @@ public class BeanUtil {
 	 * @since 3.0.7
 	 */
 	public static DynaBean createDynaBean(final Object bean) {
-		return new DynaBean(bean);
+		return DynaBean.of(bean);
 	}
 
 	/**
@@ -578,31 +578,7 @@ public class BeanUtil {
 		return ClassUtil.getClassName(bean, isSimple).equals(isSimple ? StrUtil.upperFirst(beanClassName) : beanClassName);
 	}
 
-	/**
-	 * 编辑Bean的字段，static字段不会处理<br>
-	 * 例如需要对指定的字段做判空操作、null转""操作等等。
-	 *
-	 * @param bean   bean
-	 * @param editor 编辑器函数
-	 * @param <T>    被编辑的Bean类型
-	 * @return bean
-	 * @since 5.6.4
-	 */
-	public static <T> T edit(final T bean, final UnaryOperator<Field> editor) {
-		if (bean == null) {
-			return null;
-		}
-
-		final Field[] fields = FieldUtil.getFields(bean.getClass());
-		for (final Field field : fields) {
-			if (ModifierUtil.isStatic(field)) {
-				continue;
-			}
-			editor.apply(field);
-		}
-		return bean;
-	}
-
+	// region ----- edit
 	/**
 	 * 把Bean里面的String属性做trim操作。此方法直接对传入的Bean做修改。
 	 * <p>
@@ -634,6 +610,33 @@ public class BeanUtil {
 		});
 	}
 
+	/**
+	 * 编辑Bean的字段，static字段不会处理<br>
+	 * 例如需要对指定的字段做判空操作、null转""操作等等。
+	 *
+	 * @param bean   bean
+	 * @param editor 编辑器函数
+	 * @param <T>    被编辑的Bean类型
+	 * @return bean
+	 * @since 5.6.4
+	 */
+	public static <T> T edit(final T bean, final UnaryOperator<Field> editor) {
+		if (bean == null) {
+			return null;
+		}
+
+		final Field[] fields = FieldUtil.getFields(bean.getClass());
+		for (final Field field : fields) {
+			if (ModifierUtil.isStatic(field)) {
+				continue;
+			}
+			editor.apply(field);
+		}
+		return bean;
+	}
+	// endregion
+
+	// region ----- check
 	/**
 	 * 判断Bean是否为空对象，空对象表示本身为{@code null}或者所有属性都为{@code null}<br>
 	 * 此方法不判断static属性
@@ -725,6 +728,7 @@ public class BeanUtil {
 
 		return hasSetter(clazz) || hasPublicField(clazz);
 	}
+	// endregion
 
 	// region ----- hasXXX
 

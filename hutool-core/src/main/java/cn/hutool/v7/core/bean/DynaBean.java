@@ -26,6 +26,7 @@ import cn.hutool.v7.core.reflect.ClassUtil;
 import cn.hutool.v7.core.reflect.ConstructorUtil;
 import cn.hutool.v7.core.reflect.method.MethodUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
@@ -39,6 +40,7 @@ import java.util.Map;
  * @since 3.0.7
  */
 public class DynaBean implements Cloneable, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

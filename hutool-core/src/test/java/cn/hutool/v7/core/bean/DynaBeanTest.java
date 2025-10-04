@@ -20,12 +20,30 @@ import lombok.Data;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 /**
  * {@link DynaBean}单元测试
  *
  * @author Looly
  */
 public class DynaBeanTest {
+
+	@Test
+	void createDynaBean_withNullBean_shouldThrowException() {
+		assertThrows(IllegalArgumentException.class, () -> BeanUtil.createDynaBean(null));
+	}
+
+	@Test
+	void createDynaBean_withPlainObject_shouldReturnDynaBean() {
+		BeanUtilTest.Person bean = new BeanUtilTest.Person();
+		DynaBean dynaBean = BeanUtil.createDynaBean(bean);
+
+		assertNotNull(dynaBean);
+		assertEquals(bean, dynaBean.getBean());
+		assertEquals(BeanUtilTest.Person.class, dynaBean.getBeanClass());
+	}
 
 	@Test
 	public void beanTest() {

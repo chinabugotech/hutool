@@ -187,7 +187,8 @@ public class AnnotationUtilTest {
 
 	@Test
 	public void testIsInherited() {
-		Assertions.assertFalse(AnnotationUtil.isInherited(AnnotationForTest.class));
+		Assertions.assertTrue(AnnotationUtil.isInherited(AnnotationForTest.class));
+		Assertions.assertFalse(AnnotationUtil.isInherited(MetaAnnotationForTest.class));
 	}
 
 	@Test

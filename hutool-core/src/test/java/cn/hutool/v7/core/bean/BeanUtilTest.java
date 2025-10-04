@@ -39,11 +39,14 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.beans.PropertyDescriptor;
+import java.io.Serial;
 import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -71,17 +74,15 @@ public class BeanUtilTest {
 
 	@Test
 	public void fillBeanTest() {
-		final Person person = BeanUtil.fillBean(new Person(), new ValueProvider<String>() {
+		final Person person = BeanUtil.fillBean(new Person(), new ValueProvider<>() {
 
 			@Override
 			public Object value(final String key, final Type valueType) {
-				switch (key) {
-					case "name":
-						return "张三";
-					case "age":
-						return 18;
-				}
-				return null;
+				return switch (key) {
+					case "name" -> "张三";
+					case "age" -> 18;
+					default -> null;
+				};
 			}
 
 			@Override
@@ -686,6 +687,7 @@ public class BeanUtilTest {
 
 	@Data
 	public static class HllFoodEntity implements Serializable {
+		@Serial
 		private static final long serialVersionUID = 1L;
 
 		private String bookId;
@@ -791,6 +793,7 @@ public class BeanUtilTest {
 
 	@Data
 	public static class PrivilegeIClassification implements Serializable {
+		@Serial
 		private static final long serialVersionUID = 1L;
 
 		private String id;
@@ -891,6 +894,7 @@ public class BeanUtilTest {
 
 	@Data
 	public static class Student implements Serializable{
+		@Serial
 		private static final long serialVersionUID = 1L;
 
 		String name;
@@ -1011,4 +1015,28 @@ public class BeanUtilTest {
 		final boolean b = BeanUtil.hasGetter(Object.class);
 		assertFalse(b);
 	}
+
+	@Test
+	void checkBean_withNullBean_shouldReturnTrue() {
+		Predicate<Field> predicate = field -> true;
+		assertTrue(BeanUtil.checkBean(null, predicate));
+	}
+
+	@Test
+	void checkBean_withNoMatchingFields_shouldReturnFalse() {
+		Person bean = new Person();
+		Predicate<Field> predicate = field -> false;
+		assertFalse(BeanUtil.checkBean(bean, predicate));
+	}
+
+	@Test
+	void checkBean_withMatchingField_shouldReturnTrue() {
+		Person bean = new Person();
+		Predicate<Field> predicate = field -> "name".equals(field.getName());
+		assertTrue(BeanUtil.checkBean(bean, predicate));
+
+		predicate = field -> "age".equals(field.getName());
+		assertTrue(BeanUtil.checkBean(bean, predicate));
+	}
+
 }
