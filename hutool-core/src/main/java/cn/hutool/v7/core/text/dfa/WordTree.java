@@ -22,6 +22,7 @@ import cn.hutool.v7.core.map.MapUtil;
 import cn.hutool.v7.core.stream.EasyStream;
 import cn.hutool.v7.core.text.StrUtil;
 
+import java.io.Serial;
 import java.util.*;
 import java.util.function.Predicate;
 
@@ -43,6 +44,7 @@ import java.util.function.Predicate;
  * @author Looly
  */
 public class WordTree extends HashMap<Character, WordTree> {
+	@Serial
 	private static final long serialVersionUID = -4646423269465809276L;
 
 	/**
@@ -145,20 +147,23 @@ public class WordTree extends HashMap<Character, WordTree> {
 		WordTree parent = null;
 		WordTree current = this;
 		WordTree child;
-		char currentChar = 0;
-		final int length = word.length();
-		for (int i = 0; i < length; i++) {
-			currentChar = word.charAt(i);
+		Character lastAcceptedChar = null;
+
+		for (final char c : word.toCharArray()) {
 			//只处理合法字符
-			if (charFilter.test(currentChar)) {
+			if (charFilter.test(c)) {
 				//无子节点，新建一个子节点后存放下一个字符，子节点的同级节点不会有太多同级节点，默认1个
-				child = current.computeIfAbsent(currentChar, c -> new WordTree(1));
+				child = current.computeIfAbsent(c, character -> new WordTree(1));
 				parent = current;
 				current = child;
+				lastAcceptedChar = c;
 			}
 		}
+
+		// 仅当存在父节点且存在非停顿词时，才设置词尾标记
+		// 当 null != parent 条件成立时，lastAcceptedChar != null 必然成立，故也可以省去
 		if (null != parent) {
-			parent.setEnd(currentChar);
+			parent.setEnd(lastAcceptedChar);
 		}
 		return this;
 	}
@@ -302,7 +307,7 @@ public class WordTree extends HashMap<Character, WordTree> {
 			for (int j = i; j < length; j++) {
 				currentChar = text.charAt(j);
 				if (!charFilter.test(currentChar)) {
-					if (wordBuffer.length() > 0) {
+					if (!wordBuffer.isEmpty()) {
 						//做为关键词中间的停顿词被当作关键词的一部分被返回
 						wordBuffer.append(currentChar);
 					} else {

@@ -24,6 +24,8 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 /**
  * DFA单元测试
  *
@@ -44,7 +46,7 @@ public class DfaTest {
 		// 匹配到【大】，就不再继续匹配了，因此【大土豆】不匹配
 		// 匹配到【刚出锅】，就跳过这三个字了，因此【出锅】不匹配（由于刚首先被匹配，因此长的被匹配，最短匹配只针对第一个字相同选最短）
 		final List<String> matchAll = tree.matchAll(text, -1, false, false);
-		Assertions.assertEquals(matchAll, ListUtil.of("大", "土^豆", "刚出锅"));
+		assertEquals(matchAll, ListUtil.of("大", "土^豆", "刚出锅"));
 	}
 
 	/**
@@ -60,7 +62,7 @@ public class DfaTest {
 		// 【大】被匹配，最短匹配原则【大土豆】被跳过，【土豆继续被匹配】
 		// 【刚出锅】被匹配，由于不跳过已经匹配的词，【出锅】被匹配
 		final List<String> matchAll = tree.matchAll(text, -1, true, false);
-		Assertions.assertEquals(ListUtil.of("大", "土^豆", "刚出锅", "出锅"), matchAll);
+		assertEquals(ListUtil.of("大", "土^豆", "刚出锅", "出锅"), matchAll);
 	}
 
 	/**
@@ -78,7 +80,7 @@ public class DfaTest {
 		// 匹配到【大】和【大土豆】，最长匹配则保留【大土豆】，非密集匹配，【土豆】跳过。
 		// 由于【刚出锅】被匹配，由于非密集匹配，【出锅】被跳过
 		final List<String> matchAll = tree.matchAll(text, -1, false, true);
-		Assertions.assertEquals(ListUtil.of("大土^豆", "刚出锅"), matchAll);
+		assertEquals(ListUtil.of("大土^豆", "刚出锅"), matchAll);
 	}
 
 	/**
@@ -96,7 +98,7 @@ public class DfaTest {
 		// 匹配到【大】和【大土豆】，由于到最长匹配，因此【大土豆】保留，由于不跳过已经匹配的关键词，【土豆】继续被匹配
 		// 【刚出锅】被匹配，由于不跳过已经匹配的词，【出锅】被匹配
 		final List<String> matchAll = tree.matchAll(text, -1, true, true);
-		Assertions.assertEquals(ListUtil.of("大土^豆", "土^豆", "刚出锅", "出锅"), matchAll);
+		assertEquals(ListUtil.of("大土^豆", "土^豆", "刚出锅", "出锅"), matchAll);
 
 	}
 
@@ -111,11 +113,11 @@ public class DfaTest {
 		tree.addWord("赵阿三");
 
 		final List<FoundWord> result = tree.matchAllWords("赵阿三在做什么", -1, true, true);
-		Assertions.assertEquals(1, result.size());
+		assertEquals(1, result.size());
 
-		Assertions.assertEquals("赵阿三", result.get(0).getWord());
-		Assertions.assertEquals(0, result.get(0).getBeginIndex().intValue());
-		Assertions.assertEquals(2, result.get(0).getEndIndex().intValue());
+		assertEquals("赵阿三", result.get(0).getWord());
+		assertEquals(0, result.get(0).getBeginIndex().intValue());
+		assertEquals(2, result.get(0).getEndIndex().intValue());
 	}
 
 	/**
@@ -127,7 +129,7 @@ public class DfaTest {
 		tree.addWord("tio");
 
 		final List<String> all = tree.matchAll("AAAAAAAt-ioBBBBBBB");
-		Assertions.assertEquals(all, ListUtil.of("t-io"));
+		assertEquals(all, ListUtil.of("t-io"));
 	}
 
 	@Test
@@ -136,7 +138,7 @@ public class DfaTest {
 		tree.addWord("women");
 		final String text = "a WOMEN todo.".toLowerCase();
 		final List<String> matchAll = tree.matchAll(text, -1, false, false);
-		Assertions.assertEquals("[women]", matchAll.toString());
+		assertEquals("[women]", matchAll.toString());
 	}
 
 	@Test
@@ -188,7 +190,7 @@ public class DfaTest {
 
 		final String text = "This is test Service: UserServiceImpl UserServiceTest...";
 		final List<String> strings = wordTree.matchAll(text, -1, false, true);
-		Assertions.assertEquals("[UserServiceImpl, UserService]", strings.toString());
+		assertEquals("[UserServiceImpl, UserService]", strings.toString());
 	}
 
 	/**
@@ -201,19 +203,19 @@ public class DfaTest {
 
 		// 非密集，非贪婪
 		List<String> strings = wordTree.matchAll("abab", -1, false, false);
-		Assertions.assertEquals("[ab, ab]", strings.toString());
+		assertEquals("[ab, ab]", strings.toString());
 
 		// 密集，非贪婪
 		strings = wordTree.matchAll("abab", -1, true, false);
-		Assertions.assertEquals("[ab, b, ab, b]", strings.toString());
+		assertEquals("[ab, b, ab, b]", strings.toString());
 
 		// 非密集，贪婪
 		strings = wordTree.matchAll("abab", -1, false, true);
-		Assertions.assertEquals("[ab, ab]", strings.toString());
+		assertEquals("[ab, ab]", strings.toString());
 
 		// 密集，贪婪
 		strings = wordTree.matchAll("abab", -1, true, true);
-		Assertions.assertEquals("[ab, b, ab, b]", strings.toString());
+		assertEquals("[ab, b, ab, b]", strings.toString());
 	}
 
 	@Test
@@ -223,6 +225,34 @@ public class DfaTest {
 		wordTree.addWords(list);
 		final List<String> flattened = wordTree.flatten();
 		flattened.sort(Comparator.comparingInt(list::indexOf));
-		Assertions.assertEquals(list, flattened);
+		assertEquals(list, flattened);
+	}
+
+	/**
+	 * Github Issue #4091
+	 * 测试当关键词以停顿词结尾时，其合法前缀是否能被正确匹配
+	 */
+	@Test
+	public void addWordWithTrailingFilteredCharTest() {
+		final WordTree tree = new WordTree();
+		tree.addWord("hello("); // 以停顿词 '(' 结尾
+
+		final List<String> matches = tree.matchAll("hello", -1);
+		assertEquals(1, matches.size());
+		assertEquals("hello", matches.get(0));
+	}
+
+	/**
+	 * Github Issue #4091
+	 * 测试关键词中间包含停顿词的情况
+	 */
+	@Test
+	public void addWordWithMiddleFilteredCharTest() {
+		final WordTree tree = new WordTree();
+		tree.addWord("he(llo"); // 中间 '(' 被过滤
+
+		final List<String> matches = tree.matchAll("hello", -1);
+		assertEquals(1, matches.size());
+		assertEquals("hello", matches.get(0));
 	}
 }
