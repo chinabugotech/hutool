@@ -18,12 +18,15 @@ package cn.hutool.v7.cron;
 
 import cn.hutool.v7.core.exception.HutoolException;
 
+import java.io.Serial;
+
 /**
  * 定时任务异常
  *
  * @author Looly
  */
 public class CronException extends HutoolException {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

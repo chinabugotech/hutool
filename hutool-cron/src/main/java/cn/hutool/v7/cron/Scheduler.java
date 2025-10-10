@@ -86,14 +86,12 @@ public class Scheduler implements Serializable {
 	private CronTimer timer;
 	/** 定时任务表 */
 	protected TaskTable taskTable = new TaskTable();
-	/** 启动器管理器 */
-	protected TaskLauncherManager taskLauncherManager;
-	/** 执行器管理器 */
-	protected TaskExecutorManager taskExecutorManager;
-	/** 监听管理器列表 */
-	protected TaskListenerManager listenerManager = new TaskListenerManager();
 	/** 线程池，用于执行TaskLauncher和TaskExecutor */
 	protected ExecutorService threadExecutor;
+	/** 任务管理器 */
+	protected TaskManager taskManager;
+	/** 监听管理器列表 */
+	protected TaskListenerManager listenerManager = new TaskListenerManager();
 
 	// --------------------------------------------------------- Getters and Setters start
 	/**
@@ -208,7 +206,7 @@ public class Scheduler implements Serializable {
 	}
 	// --------------------------------------------------------- Getters and Setters end
 
-	// -------------------------------------------------------------------- shcedule start
+	// region ----- schedule
 	/**
 	 * 批量加入配置文件中的定时任务<br>
 	 * 配置文件格式为： xxx.xxx.xxx.Class.method = * * * * *
@@ -300,6 +298,7 @@ public class Scheduler implements Serializable {
 		descheduleWithStatus(id);
 		return this;
 	}
+	// endregion
 
 	/**
 	 * 移除Task，并返回是否移除成功
@@ -386,7 +385,6 @@ public class Scheduler implements Serializable {
 		this.taskTable = new TaskTable();
 		return this;
 	}
-	// -------------------------------------------------------------------- shcedule end
 
 	/**
 	 * @return 是否已经启动
@@ -422,8 +420,7 @@ public class Scheduler implements Serializable {
 						ThreadFactoryBuilder.of().setNamePrefix("hutool-cron-").setDaemon(this.daemon).build()//
 				).build();
 			}
-			this.taskLauncherManager = new TaskLauncherManager(this);
-			this.taskExecutorManager = new TaskExecutorManager(this);
+			this.taskManager = new TaskManager(this);
 
 			// Start CronTimer
 			timer = new CronTimer(this);

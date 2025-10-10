@@ -19,6 +19,7 @@ package cn.hutool.v7.cron.listener;
 import cn.hutool.v7.cron.TaskExecutor;
 import cn.hutool.v7.log.LogUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,7 @@ import java.util.List;
  *
  */
 public class TaskListenerManager implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private final List<TaskListener> listeners = new ArrayList<>();

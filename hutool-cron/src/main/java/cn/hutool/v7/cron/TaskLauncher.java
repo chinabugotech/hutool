@@ -22,22 +22,10 @@ package cn.hutool.v7.cron;
  * 检查完毕后启动器结束
  *
  * @author Looly
+ * @param scheduler 调度器
+ * @param millis 毫秒数
  */
-public class TaskLauncher implements Runnable {
-
-	private final Scheduler scheduler;
-	private final long millis;
-
-	/**
-	 * 构造
-	 *
-	 * @param scheduler {@link Scheduler}
-	 * @param millis    毫秒数
-	 */
-	public TaskLauncher(final Scheduler scheduler, final long millis) {
-		this.scheduler = scheduler;
-		this.millis = millis;
-	}
+public record TaskLauncher(Scheduler scheduler, long millis) implements Runnable {
 
 	@Override
 	public void run() {
@@ -45,6 +33,6 @@ public class TaskLauncher implements Runnable {
 		scheduler.taskTable.executeTaskIfMatch(this.scheduler, this.millis);
 
 		//结束通知
-		scheduler.taskLauncherManager.notifyLauncherCompleted(this);
+		scheduler.taskManager.notifyLauncherCompleted(this);
 	}
 }

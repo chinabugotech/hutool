@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013-2025 Hutool Team and hutool.cn
+ * Copyright (c) 2025 Hutool Team and hutool.cn
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,26 +19,31 @@ package cn.hutool.v7.cron;
 import cn.hutool.v7.cron.task.CronTask;
 import cn.hutool.v7.cron.task.Task;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 /**
- * 作业执行管理器<br>
- * 负责管理作业的启动、停止等
- *
- * <p>
- * 此类用于管理正在运行的作业情况，作业启动后加入任务列表，任务结束移除
- * </p>
+ * 任务管理器，提供：
+ * <ul>
+ *     <li>启动器管理</li>
+ *     <li>执行器管理</li>
+ * </ul>
  *
  * @author Looly
- * @since 3.0.1
+ * @since 7.0.0
  */
-public class TaskExecutorManager implements Serializable {
+public class TaskManager implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
-	protected Scheduler scheduler;
+	protected final Scheduler scheduler;
+	/**
+	 * 启动器列表
+	 */
+	protected final List<TaskLauncher> launchers = new ArrayList<>();
 	/**
 	 * 执行器列表
 	 */
@@ -46,13 +51,39 @@ public class TaskExecutorManager implements Serializable {
 
 	/**
 	 * 构造
-	 *
 	 * @param scheduler {@link Scheduler}
 	 */
-	public TaskExecutorManager(final Scheduler scheduler) {
+	public TaskManager(final Scheduler scheduler) {
 		this.scheduler = scheduler;
 	}
 
+	// region ----- TaskLauncher
+	/**
+	 * 启动 TaskLauncher
+	 * @param millis 触发事件的毫秒数
+	 * @return {@link TaskLauncher}
+	 */
+	protected TaskLauncher spawnLauncher(final long millis) {
+		final TaskLauncher launcher = new TaskLauncher(this.scheduler, millis);
+		synchronized (this.launchers) {
+			this.launchers.add(launcher);
+		}
+		this.scheduler.threadExecutor.execute(launcher);
+		return launcher;
+	}
+
+	/**
+	 * 启动器启动完毕，启动完毕后从执行器列表中移除
+	 * @param launcher 启动器 {@link TaskLauncher}
+	 */
+	protected void notifyLauncherCompleted(final TaskLauncher launcher) {
+		synchronized (launchers) {
+			launchers.remove(launcher);
+		}
+	}
+	// endregion
+
+	// region ----- TaskExecutor
 	/**
 	 * 获取所有正在执行的任务调度执行器
 	 *
@@ -82,12 +113,11 @@ public class TaskExecutorManager implements Serializable {
 	 * 执行器执行完毕调用此方法，将执行器从执行器列表移除，此方法由{@link TaskExecutor}对象调用，用于通知管理器自身已完成执行
 	 *
 	 * @param executor 执行器 {@link TaskExecutor}
-	 * @return this
 	 */
-	public TaskExecutorManager notifyExecutorCompleted(final TaskExecutor executor) {
+	public void notifyExecutorCompleted(final TaskExecutor executor) {
 		synchronized (executors) {
 			executors.remove(executor);
 		}
-		return this;
 	}
+	// endregion
 }

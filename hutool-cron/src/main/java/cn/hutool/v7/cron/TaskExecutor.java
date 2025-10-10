@@ -39,7 +39,7 @@ public record TaskExecutor(Scheduler scheduler, CronTask cronTask) implements Ru
 		} catch (final Exception e) {
 			scheduler.listenerManager.notifyTaskFailed(this, e);
 		} finally {
-			scheduler.taskExecutorManager.notifyExecutorCompleted(this);
+			scheduler.taskManager.notifyExecutorCompleted(this);
 		}
 	}
 }

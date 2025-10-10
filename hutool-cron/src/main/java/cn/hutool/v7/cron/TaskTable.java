@@ -22,6 +22,7 @@ import cn.hutool.v7.cron.pattern.CronPattern;
 import cn.hutool.v7.cron.task.CronTask;
 import cn.hutool.v7.cron.task.Task;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
@@ -36,6 +37,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * @author Looly
  */
 public class TaskTable implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -305,7 +307,7 @@ public class TaskTable implements Serializable {
 		final int size = size();
 		for (int i = 0; i < size; i++) {
 			if (this.table.getMiddle(i).match(scheduler.config.timezone, millis, scheduler.config.matchSecond)) {
-				scheduler.taskExecutorManager.spawnExecutor(
+				scheduler.taskManager.spawnExecutor(
 					new CronTask(this.table.getLeft(i), this.table.getMiddle(i), this.table.getRight(i)));
 			}
 		}
