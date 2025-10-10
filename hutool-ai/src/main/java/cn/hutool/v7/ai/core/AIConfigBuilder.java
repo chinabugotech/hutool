@@ -113,7 +113,7 @@ public class AIConfigBuilder {
 	 * @return config
 	 * @since 6.0.0
 	 */
-	public synchronized AIConfigBuilder setTimout(final int timeout) {
+	public synchronized AIConfigBuilder setTimeout(final int timeout) {
 		if (timeout > 0) {
 			config.setTimeout(timeout);
 		}
@@ -123,13 +123,13 @@ public class AIConfigBuilder {
 	/**
 	 * 设置读取超时时间，不设置为默认值
 	 *
-	 * @param readTimout 取超时时间
+	 * @param readTimeout 取超时时间
 	 * @return config
 	 * @since 6.0.0
 	 */
-	public synchronized AIConfigBuilder setReadTimout(final int readTimout) {
-		if (readTimout > 0) {
-			config.setReadTimeout(readTimout);
+	public synchronized AIConfigBuilder setReadTimeout(final int readTimeout) {
+		if (readTimeout > 0) {
+			config.setReadTimeout(readTimeout);
 		}
 		return this;
 	}
