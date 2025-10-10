@@ -153,31 +153,31 @@ public interface Ftp extends Closeable {
 	boolean delDir(String dirPath);
 
 	/**
-	 * 将本地文件上传到目标服务器，目标文件名为destPath，若destPath为目录，则目标文件名将与file文件名相同。
+	 * 将本地文件上传到目标服务器，目标文件名为remotePath，若remotePath为目录，则目标文件名将与file文件名相同。
 	 * 覆盖模式
 	 *
-	 * @param destPath 服务端路径，可以为{@code null} 或者相对路径或绝对路径
+	 * @param remotePath 服务端路径，可以为{@code null} 或者相对路径或绝对路径
 	 * @param file     需要上传的文件
 	 * @return 是否成功
 	 */
-	boolean uploadFile(String destPath, File file);
+	boolean uploadFile(String remotePath, File file);
 
 	/**
 	 * 下载文件
 	 *
-	 * @param path    文件路径
+	 * @param remotePath    文件路径
 	 * @param outFile 输出文件或目录
 	 */
-	void download(String path, File outFile);
+	void download(String remotePath, File outFile);
 
 	/**
 	 * 递归下载FTP服务器上文件到本地(文件目录和服务器同步), 服务器上有新文件会覆盖本地文件
 	 *
-	 * @param sourcePath ftp服务器目录
+	 * @param remotePath ftp服务器目录
 	 * @param targetDir    本地目录
 	 * @since 5.3.5
 	 */
-	void recursiveDownloadFolder(String sourcePath, File targetDir);
+	void recursiveDownloadFolder(String remotePath, File targetDir);
 
 	/**
 	 * 读取FTP服务器上的文件为输入流

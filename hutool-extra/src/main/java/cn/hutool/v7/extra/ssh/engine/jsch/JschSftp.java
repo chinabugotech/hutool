@@ -16,7 +16,6 @@
 
 package cn.hutool.v7.extra.ssh.engine.jsch;
 
-import com.jcraft.jsch.*;
 import cn.hutool.v7.core.collection.CollUtil;
 import cn.hutool.v7.core.collection.ListUtil;
 import cn.hutool.v7.core.io.file.FileUtil;
@@ -24,10 +23,11 @@ import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.extra.ftp.AbstractFtp;
 import cn.hutool.v7.extra.ftp.FtpConfig;
 import cn.hutool.v7.extra.ftp.FtpException;
-import com.jcraft.jsch.ChannelSftp.LsEntry;
-import com.jcraft.jsch.ChannelSftp.LsEntrySelector;
 import cn.hutool.v7.extra.ssh.Connector;
 import cn.hutool.v7.extra.ssh.SshException;
+import com.jcraft.jsch.*;
+import com.jcraft.jsch.ChannelSftp.LsEntry;
+import com.jcraft.jsch.ChannelSftp.LsEntrySelector;
 
 import java.io.File;
 import java.io.InputStream;
@@ -57,6 +57,7 @@ public class JschSftp extends AbstractFtp {
 	private ChannelSftp channel;
 
 	//region ----- of
+
 	/**
 	 * 构造
 	 *
@@ -85,6 +86,7 @@ public class JschSftp extends AbstractFtp {
 	}
 	// endregion
 
+	// region ----- Constructor
 	/**
 	 * 构造
 	 *
@@ -136,7 +138,7 @@ public class JschSftp extends AbstractFtp {
 		this.channel = channel;
 		init();
 	}
-	// ---------------------------------------------------------------------------------------- Constructor end
+	// endregion
 
 	/**
 	 * 初始化
@@ -456,6 +458,7 @@ public class JschSftp extends AbstractFtp {
 		}
 	}
 
+	// region ----- upload
 	/**
 	 * 将本地文件或者文件夹同步（覆盖）上传到远程路径
 	 *
@@ -487,12 +490,12 @@ public class JschSftp extends AbstractFtp {
 
 	@SuppressWarnings("resource")
 	@Override
-	public boolean uploadFile(final String destPath, final File file) {
+	public boolean uploadFile(final String remotePath, final File file) {
 		if (!FileUtil.isFile(file)) {
 			throw new FtpException("[{}] is not a file!", file);
 		}
-		this.mkDirs(destPath);
-		put(FileUtil.getAbsolutePath(file), destPath);
+		this.mkDirs(remotePath);
+		put(FileUtil.getAbsolutePath(file), remotePath);
 		return true;
 	}
 
@@ -505,52 +508,57 @@ public class JschSftp extends AbstractFtp {
 	 * 3. path为绝对路径则上传到此路径
 	 * </pre>
 	 *
-	 * @param destPath   服务端路径，可以为{@code null} 或者相对路径或绝对路径
+	 * @param remotePath 服务端路径，可以为{@code null} 或者相对路径或绝对路径
 	 * @param fileName   文件名
 	 * @param fileStream 文件流
 	 * @since 5.7.16
 	 */
-	public void uploadFile(String destPath, final String fileName, final InputStream fileStream) {
-		destPath = StrUtil.addSuffixIfNot(destPath, StrUtil.SLASH) + StrUtil.removePrefix(fileName, StrUtil.SLASH);
-		put(fileStream, destPath, null, Mode.OVERWRITE);
+	public void uploadFile(String remotePath, final String fileName, final InputStream fileStream) {
+		remotePath = StrUtil.addSuffixIfNot(remotePath, StrUtil.SLASH) + StrUtil.removePrefix(fileName, StrUtil.SLASH);
+		put(fileStream, remotePath, null, Mode.OVERWRITE);
 	}
+	// endregion
 
+	// region ----- put
 	/**
 	 * 将本地文件上传到目标服务器，目标文件名为destPath，若destPath为目录，则目标文件名将与srcFilePath文件名相同。覆盖模式
 	 *
 	 * @param srcFilePath 本地文件路径
-	 * @param destPath    目标路径，
+	 * @param remotePath  目标路径，{@code null}表示当前路径
 	 * @return this
 	 */
-	public JschSftp put(final String srcFilePath, final String destPath) {
-		return put(srcFilePath, destPath, Mode.OVERWRITE);
+	public JschSftp put(final String srcFilePath, final String remotePath) {
+		return put(srcFilePath, remotePath, Mode.OVERWRITE);
 	}
 
 	/**
-	 * 将本地文件上传到目标服务器，目标文件名为destPath，若destPath为目录，则目标文件名将与srcFilePath文件名相同。
+	 * 将本地文件上传到目标服务器，目标文件名为remotePath，若remotePath为目录，则目标文件名将与srcFilePath文件名相同。
 	 *
 	 * @param srcFilePath 本地文件路径
-	 * @param destPath    目标路径，
+	 * @param remotePath  目标路径，{@code null}表示当前路径
 	 * @param mode        {@link Mode} 模式
 	 * @return this
 	 */
-	public JschSftp put(final String srcFilePath, final String destPath, final Mode mode) {
-		return put(srcFilePath, destPath, null, mode);
+	public JschSftp put(final String srcFilePath, final String remotePath, final Mode mode) {
+		return put(srcFilePath, remotePath, null, mode);
 	}
 
 	/**
-	 * 将本地文件上传到目标服务器，目标文件名为destPath，若destPath为目录，则目标文件名将与srcFilePath文件名相同。
+	 * 将本地文件上传到目标服务器，目标文件名为remotePath，若remotePath为目录，则目标文件名将与srcFilePath文件名相同。
 	 *
 	 * @param srcFilePath 本地文件路径
-	 * @param destPath    目标路径，
+	 * @param remotePath    目标路径，{@code null}表示当前路径
 	 * @param monitor     上传进度监控，通过实现此接口完成进度显示
 	 * @param mode        {@link Mode} 模式
 	 * @return this
 	 * @since 4.6.5
 	 */
-	public JschSftp put(final String srcFilePath, final String destPath, final SftpProgressMonitor monitor, final Mode mode) {
+	public JschSftp put(final String srcFilePath, String remotePath, final SftpProgressMonitor monitor, final Mode mode) {
+		if(StrUtil.isEmpty(remotePath)){
+			remotePath = pwd();
+		}
 		try {
-			getClient().put(srcFilePath, destPath, monitor, mode.ordinal());
+			getClient().put(srcFilePath, remotePath, monitor, mode.ordinal());
 		} catch (final SftpException e) {
 			throw new SshException(e);
 		}
@@ -561,24 +569,29 @@ public class JschSftp extends AbstractFtp {
 	 * 将本地数据流上传到目标服务器，目标文件名为destPath，目标必须为文件
 	 *
 	 * @param srcStream 本地的数据流
-	 * @param destPath  目标路径，
+	 * @param remotePath  目标路径，{@code null}表示当前路径
 	 * @param monitor   上传进度监控，通过实现此接口完成进度显示
 	 * @param mode      {@link Mode} 模式
 	 * @return this
 	 * @since 5.7.16
 	 */
-	public JschSftp put(final InputStream srcStream, final String destPath, final SftpProgressMonitor monitor, final Mode mode) {
+	public JschSftp put(final InputStream srcStream, String remotePath, final SftpProgressMonitor monitor, final Mode mode) {
+		if(StrUtil.isEmpty(remotePath)){
+			remotePath = pwd();
+		}
 		try {
-			getClient().put(srcStream, destPath, monitor, mode.ordinal());
+			getClient().put(srcStream, remotePath, monitor, mode.ordinal());
 		} catch (final SftpException e) {
 			throw new SshException(e);
 		}
 		return this;
 	}
+	// endregion
 
+	// region ----- download
 	@Override
-	public void download(final String src, final File destFile) {
-		get(src, FileUtil.getAbsolutePath(destFile));
+	public void download(final String remotePath, final File destFile) {
+		get(remotePath, FileUtil.getAbsolutePath(destFile));
 	}
 
 	/**
@@ -595,17 +608,17 @@ public class JschSftp extends AbstractFtp {
 	/**
 	 * 递归下载FTP服务器上文件到本地(文件目录和服务器同步)
 	 *
-	 * @param sourcePath ftp服务器目录，必须为目录
-	 * @param targetDir    本地目录
+	 * @param remotePath ftp服务器目录，必须为目录
+	 * @param targetDir  本地目录
 	 */
 	@Override
-	public void recursiveDownloadFolder(final String sourcePath, final File targetDir) throws SshException {
+	public void recursiveDownloadFolder(final String remotePath, final File targetDir) throws SshException {
 		String fileName;
 		String srcFile;
 		File destFile;
-		for (final LsEntry item : lsEntries(sourcePath)) {
+		for (final LsEntry item : lsEntries(remotePath)) {
 			fileName = item.getFilename();
-			srcFile = StrUtil.format("{}/{}", sourcePath, fileName);
+			srcFile = StrUtil.format("{}/{}", remotePath, fileName);
 			destFile = FileUtil.file(targetDir, fileName);
 
 			if (!item.getAttrs().isDir()) {
@@ -620,9 +633,10 @@ public class JschSftp extends AbstractFtp {
 				recursiveDownloadFolder(srcFile, destFile);
 			}
 		}
-
 	}
+	// endregion
 
+	// region ----- get
 	/**
 	 * 获取远程文件
 	 *
@@ -664,6 +678,7 @@ public class JschSftp extends AbstractFtp {
 			throw new SshException(e);
 		}
 	}
+	// endregion
 
 	@Override
 	public void close() {

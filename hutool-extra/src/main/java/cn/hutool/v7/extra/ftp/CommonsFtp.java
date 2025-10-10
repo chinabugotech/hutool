@@ -634,30 +634,30 @@ public class CommonsFtp extends AbstractFtp {
 	/**
 	 * 下载文件
 	 *
-	 * @param path    文件路径，包含文件名
+	 * @param remotePath    文件路径，包含文件名
 	 * @param outFile 输出文件或目录，当为目录时，使用服务端的文件名
 	 */
 	@Override
-	public void download(final String path, final File outFile) {
-		final String fileName = FileNameUtil.getName(path);
-		final String dir = StrUtil.removeSuffix(path, fileName);
+	public void download(final String remotePath, final File outFile) {
+		final String fileName = FileNameUtil.getName(remotePath);
+		final String dir = StrUtil.removeSuffix(remotePath, fileName);
 		download(dir, fileName, outFile);
 	}
 
 	/**
 	 * 递归下载FTP服务器上文件到本地(文件目录和服务器同步)
 	 *
-	 * @param sourcePath ftp服务器目录
+	 * @param remotePath ftp服务器目录
 	 * @param targetDir    本地目录
 	 */
 	@Override
-	public void recursiveDownloadFolder(final String sourcePath, final File targetDir) {
+	public void recursiveDownloadFolder(final String remotePath, final File targetDir) {
 		String fileName;
 		String srcFile;
 		File destFile;
-		for (final FTPFile ftpFile : lsFiles(sourcePath, null)) {
+		for (final FTPFile ftpFile : lsFiles(remotePath, null)) {
 			fileName = ftpFile.getName();
-			srcFile = StrUtil.format("{}/{}", sourcePath, fileName);
+			srcFile = StrUtil.format("{}/{}", remotePath, fileName);
 			destFile = FileUtil.file(targetDir, fileName);
 
 			if (!ftpFile.isDirectory()) {

@@ -160,12 +160,12 @@ public class SshjSftp extends AbstractFtp {
 //		command(exec);
 //		final String pwd = pwd();
 //		return pwd.equals(directory);
-		String newPath = getPath(directory);
+		final String newPath = getPath(directory);
 		try {
 			sftp.ls(newPath);
 			this.workingDir = newPath;
 			return true;
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			throw new FtpException(e);
 		}
 	}
@@ -201,7 +201,7 @@ public class SshjSftp extends AbstractFtp {
 	}
 
 	@Override
-	public boolean rename(String oldPath, String newPath) {
+	public boolean rename(final String oldPath, final String newPath) {
 		try {
 			sftp.rename(oldPath, newPath);
 			return containsFile(newPath);
@@ -231,29 +231,32 @@ public class SshjSftp extends AbstractFtp {
 	}
 
 	@Override
-	public boolean uploadFile(String destPath, final File file) {
+	public boolean uploadFile(String remotePath, final File file) {
+		if(null == remotePath){
+			remotePath = pwd();
+		}
 		try {
-			if (StrUtil.endWith(destPath, StrUtil.SLASH)) {
-				destPath += file.getName();
+			if (StrUtil.endWith(remotePath, StrUtil.SLASH)) {
+				remotePath += file.getName();
 			}
-			sftp.put(new FileSystemFile(file), getPath(destPath));
-			return containsFile(getPath(destPath));
+			sftp.put(new FileSystemFile(file), getPath(remotePath));
+			return containsFile(getPath(remotePath));
 		} catch (final IOException e) {
 			throw new FtpException(e);
 		}
 	}
 
 	@Override
-	public void download(final String path, final File outFile) {
+	public void download(final String remotePath, final File outFile) {
 		try {
-			sftp.get(getPath(path), new FileSystemFile(outFile));
+			sftp.get(getPath(remotePath), new FileSystemFile(outFile));
 		} catch (final IOException e) {
 			throw new FtpException(e);
 		}
 	}
 
 	@Override
-	public void recursiveDownloadFolder(final String sourcePath, final File targetDir) {
+	public void recursiveDownloadFolder(final String remotePath, final File targetDir) {
 		if (!targetDir.exists()) {
 			if (!targetDir.mkdirs()) {
 				throw new FtpException("Dir {} create failed!", targetDir.getAbsolutePath());
@@ -262,9 +265,9 @@ public class SshjSftp extends AbstractFtp {
 			throw new FtpException("Target is not a directory!");
 		}
 
-		List<String> files = ls(getPath(sourcePath));
+		final List<String> files = ls(getPath(remotePath));
 		if (CollUtil.isNotEmpty(files)) {
-			files.forEach(file -> download(sourcePath + StrUtil.SLASH + file, FileUtil.file(targetDir, file)));
+			files.forEach(file -> download(remotePath + StrUtil.SLASH + file, FileUtil.file(targetDir, file)));
 		}
 	}
 
@@ -364,7 +367,7 @@ public class SshjSftp extends AbstractFtp {
 		if (StrUtil.isBlank(this.workingDir)) {
 			try {
 				this.workingDir = sftp.canonicalize(StrUtil.EMPTY);
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				throw new FtpException(e);
 			}
 		}
