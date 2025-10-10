@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.cron;
 
+import cn.hutool.v7.core.collection.ListUtil;
 import cn.hutool.v7.cron.task.CronTask;
 import cn.hutool.v7.cron.task.Task;
 
@@ -26,7 +27,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * 任务管理器，提供：
+ * 任务管理器，提供任务的全生命周期管理，提供：
  * <ul>
  *     <li>启动器管理</li>
  *     <li>执行器管理</li>
@@ -51,6 +52,7 @@ public class TaskManager implements Serializable {
 
 	/**
 	 * 构造
+	 *
 	 * @param scheduler {@link Scheduler}
 	 */
 	public TaskManager(final Scheduler scheduler) {
@@ -58,8 +60,19 @@ public class TaskManager implements Serializable {
 	}
 
 	// region ----- TaskLauncher
+
+	/**
+	 * 获取所有启动器列表，不可修改
+	 *
+	 * @return 启动器列表
+	 */
+	public List<TaskLauncher> getLaunchers() {
+		return ListUtil.view(this.launchers);
+	}
+
 	/**
 	 * 启动 TaskLauncher
+	 *
 	 * @param millis 触发事件的毫秒数
 	 * @return {@link TaskLauncher}
 	 */
@@ -74,6 +87,7 @@ public class TaskManager implements Serializable {
 
 	/**
 	 * 启动器启动完毕，启动完毕后从执行器列表中移除
+	 *
 	 * @param launcher 启动器 {@link TaskLauncher}
 	 */
 	protected void notifyLauncherCompleted(final TaskLauncher launcher) {
@@ -84,14 +98,15 @@ public class TaskManager implements Serializable {
 	// endregion
 
 	// region ----- TaskExecutor
+
 	/**
-	 * 获取所有正在执行的任务调度执行器
+	 * 获取所有正在执行的任务调度执行器，不可修改
 	 *
 	 * @return 任务执行器列表
 	 * @since 4.6.7
 	 */
 	public List<TaskExecutor> getExecutors() {
-		return Collections.unmodifiableList(this.executors);
+		return ListUtil.view(this.executors);
 	}
 
 	/**

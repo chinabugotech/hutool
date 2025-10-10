@@ -104,8 +104,7 @@ public class ListUtil {
 		if (null == iterable) {
 			return of(isLinked);
 		}
-		if (iterable instanceof Collection) {
-			final Collection<T> collection = (Collection<T>) iterable;
+		if (iterable instanceof final Collection<T> collection) {
 			return isLinked ? new LinkedList<>(collection) : new ArrayList<>(collection);
 		}
 		return of(isLinked, iterable.iterator());
@@ -117,12 +116,12 @@ public class ListUtil {
 	 *
 	 * @param <T>        集合元素类型
 	 * @param isLinked   是否新建LinkedList
-	 * @param enumration {@link Enumeration}
+	 * @param enumeration {@link Enumeration}
 	 * @return ArrayList对象
 	 * @since 3.0.8
 	 */
-	public static <T> List<T> of(final boolean isLinked, final Enumeration<T> enumration) {
-		return of(isLinked, (Iterator<T>) new EnumerationIter<>(enumration));
+	public static <T> List<T> of(final boolean isLinked, final Enumeration<T> enumeration) {
+		return of(isLinked, (Iterator<T>) new EnumerationIter<>(enumeration));
 	}
 
 	/**
