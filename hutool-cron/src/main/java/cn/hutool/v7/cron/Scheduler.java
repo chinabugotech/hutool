@@ -31,6 +31,7 @@ import cn.hutool.v7.cron.task.Task;
 import cn.hutool.v7.log.LogUtil;
 import cn.hutool.v7.setting.Setting;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
@@ -69,6 +70,7 @@ import java.util.concurrent.locks.ReentrantLock;
  *
  */
 public class Scheduler implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private final Lock lock = new ReentrantLock();

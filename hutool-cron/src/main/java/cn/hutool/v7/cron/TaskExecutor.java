@@ -25,47 +25,16 @@ import cn.hutool.v7.cron.task.Task;
  * 作业执行器唯一关联一个作业，负责管理作业的运行的生命周期。
  *
  * @author Looly
+ * @param scheduler 调度器
+ * @param cronTask 被执行的任务
  */
-public class TaskExecutor implements Runnable {
-
-	private final Scheduler scheduler;
-	private final CronTask task;
-
-	/**
-	 * 获得原始任务对象
-	 *
-	 * @return 任务对象
-	 */
-	public Task getTask() {
-		return this.task.getRaw();
-	}
-
-	/**
-	 * 获得原始任务对象
-	 *
-	 * @return 任务对象
-	 * @since 5.4.7
-	 */
-	public CronTask getCronTask() {
-		return this.task;
-	}
-
-	/**
-	 * 构造
-	 *
-	 * @param scheduler 调度器
-	 * @param task 被执行的任务
-	 */
-	public TaskExecutor(final Scheduler scheduler, final CronTask task) {
-		this.scheduler = scheduler;
-		this.task = task;
-	}
+public record TaskExecutor(Scheduler scheduler, CronTask cronTask) implements Runnable {
 
 	@Override
 	public void run() {
 		try {
 			scheduler.listenerManager.notifyTaskStart(this);
-			task.execute();
+			cronTask.execute();
 			scheduler.listenerManager.notifyTaskSucceeded(this);
 		} catch (final Exception e) {
 			scheduler.listenerManager.notifyTaskFailed(this, e);

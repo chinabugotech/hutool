@@ -61,17 +61,17 @@ public class CronTest {
 		CronUtil.getScheduler().addListener(new TaskListener() {
 			@Override
 			public void onStart(final TaskExecutor executor) {
-				Console.log("Found task:[{}] start!", executor.getCronTask().getId());
+				Console.log("Found task:[{}] start!", executor.cronTask().getId());
 			}
 
 			@Override
 			public void onSucceeded(final TaskExecutor executor) {
-				Console.log("Found task:[{}] success!", executor.getCronTask().getId());
+				Console.log("Found task:[{}] success!", executor.cronTask().getId());
 			}
 
 			@Override
 			public void onFailed(final TaskExecutor executor, final Throwable exception) {
-				Console.error("Found task:[{}] failed!", executor.getCronTask().getId());
+				Console.error("Found task:[{}] failed!", executor.cronTask().getId());
 			}
 		});
 
