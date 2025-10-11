@@ -36,7 +36,7 @@
 		<Automatic-Module-Name>cn.hutool.v7.http</Automatic-Module-Name>
 		<httpclient5.version>5.5.1</httpclient5.version>
 		<httpclient4.version>4.5.14</httpclient4.version>
-		<okhttp.version>5.2.1</okhttp.version>
+		<okhttp.version>5.0.0-alpha.14</okhttp.version>
 		<undertow.version>2.3.18.Final</undertow.version>
 		<jetty.version>12.1.2</jetty.version>
 		<tomcat.version>11.0.12</tomcat.version>
