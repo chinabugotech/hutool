@@ -49,11 +49,20 @@ public class JdkServiceLoaderUtil {
 	 */
 	public static <T> T loadFirstAvailable(final Class<T> clazz) {
 		final Iterator<T> iterator = load(clazz).iterator();
-		while (iterator.hasNext()) {
+		while (true) {
+			final T instance;
 			try {
-				return iterator.next();
-			} catch (final ServiceConfigurationError ignore) {
-				// ignore
+				// 注意：JDK 24+ 下 hasNext() 和 next() 均可能触发 NoClassDefFoundError
+				if (!iterator.hasNext()) {
+					break;
+				}
+				instance = iterator.next();
+			} catch (ServiceConfigurationError | NoClassDefFoundError e) {
+				// 安全忽略当前实现，尝试下一个
+				continue;
+			}
+			if (instance != null) {
+				return instance;
 			}
 		}
 		return null;
