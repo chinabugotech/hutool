@@ -16,17 +16,14 @@
 
 package cn.hutool.v7.extra.spring.cglib;
 
-import lombok.Data;
 import cn.hutool.v7.core.convert.ConvertUtil;
+import lombok.Data;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.condition.EnabledForJreRange;
-import org.junit.jupiter.api.condition.JRE;
 
 public class CglibUtilTest {
 
 	@Test
-	@EnabledForJreRange(max = JRE.JAVA_8)
 	public void copyTest() {
 		final SampleBean bean = new SampleBean();
 		OtherSampleBean otherBean = new OtherSampleBean();

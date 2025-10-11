@@ -38,7 +38,6 @@ public class SingletonTest {
 	 */
 	@SuppressWarnings("resource")
 	@Test
-	@DisabledOnJre(JRE.JAVA_8)
 	public void getTest(){
 		// 此测试中使用1000个线程获取单例对象，其间对象只被创建一次
 		ThreadUtil.concurrencyTest(1000, ()-> Singleton.get(TestBean.class));

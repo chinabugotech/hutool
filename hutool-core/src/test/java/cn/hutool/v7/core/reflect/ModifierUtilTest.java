@@ -18,9 +18,7 @@ package cn.hutool.v7.core.reflect;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.condition.EnabledForJreRange;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
@@ -78,32 +76,6 @@ public class ModifierUtilTest {
 	}
 
 	private static void ddd() {
-	}
-
-	@Test
-	@EnabledForJreRange(max = org.junit.jupiter.api.condition.JRE.JAVA_8)
-	void removeFinalModifyTest() {
-		final String fieldName = "DIALECTS";
-		final Field field = FieldUtil.getField(JdbcDialects.class, fieldName);
-		ModifierUtil.removeFinalModify(field);
-	}
-
-	@Test
-	@EnabledForJreRange(max = org.junit.jupiter.api.condition.JRE.JAVA_8)
-	public void setFinalFieldValueTest() {
-		final String fieldName = "DIALECTS";
-		final List<Number> dialects =
-			Arrays.asList(
-				1,
-				2,
-				3,
-				99
-			);
-		final Field field = FieldUtil.getField(JdbcDialects.class, fieldName);
-		ModifierUtil.removeFinalModify(field);
-		FieldUtil.setFieldValue(JdbcDialects.class, fieldName, dialects);
-
-		Assertions.assertEquals(dialects, FieldUtil.getFieldValue(JdbcDialects.class, fieldName));
 	}
 
 	@SuppressWarnings("unused")

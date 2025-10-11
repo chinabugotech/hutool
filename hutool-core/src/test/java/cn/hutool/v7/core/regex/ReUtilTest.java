@@ -21,11 +21,9 @@ import cn.hutool.v7.core.lang.Console;
 import cn.hutool.v7.core.text.StrUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.condition.EnabledForJreRange;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Pattern;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -211,17 +209,6 @@ public class ReUtilTest {
 		assertEquals("10", month);
 		final String day = ReUtil.get(regex, content, "day");
 		assertEquals("11", day);
-	}
-
-	@Test
-	@EnabledForJreRange(max = org.junit.jupiter.api.condition.JRE.JAVA_8)
-	public void getAllGroupNamesTest() {
-		final String content = "2021-10-11";
-		final String regex = "(?<year>\\d+)-(?<month>\\d+)-(?<day>\\d+)";
-		final Map<String, String> map = ReUtil.getAllGroupNames(PatternPool.get(regex, Pattern.DOTALL), content);
-		assertEquals(map.get("year"), "2021");
-		assertEquals(map.get("month"), "10");
-		assertEquals(map.get("day"), "11");
 	}
 
 	@Test

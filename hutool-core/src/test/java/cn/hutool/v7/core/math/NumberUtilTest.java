@@ -18,9 +18,8 @@ package cn.hutool.v7.core.math;
 
 import cn.hutool.v7.core.lang.Console;
 import cn.hutool.v7.core.text.StrUtil;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.condition.EnabledForJreRange;
-import org.junit.jupiter.api.condition.JRE;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -274,43 +273,43 @@ public class NumberUtilTest {
 	@Test
 	public void roundStrTest() {
 		final String roundStr = NumberUtil.roundStr(2.647, 2);
-		assertEquals(roundStr, "2.65");
+		assertEquals("2.65", roundStr);
 
 		final String roundStr1 = NumberUtil.roundStr(0, 10);
-		assertEquals(roundStr1, "0.0000000000");
+		assertEquals("0.0000000000", roundStr1);
 	}
 
 	@Test
 	public void roundHalfEvenTest() {
 		String roundStr = NumberUtil.roundHalfEven(4.245, 2).toString();
-		assertEquals(roundStr, "4.24");
+		assertEquals("4.24", roundStr);
 		roundStr = NumberUtil.roundHalfEven(4.2450, 2).toString();
-		assertEquals(roundStr, "4.24");
+		assertEquals("4.24", roundStr);
 		roundStr = NumberUtil.roundHalfEven(4.2451, 2).toString();
-		assertEquals(roundStr, "4.25");
+		assertEquals("4.25", roundStr);
 		roundStr = NumberUtil.roundHalfEven(4.2250, 2).toString();
-		assertEquals(roundStr, "4.22");
+		assertEquals("4.22", roundStr);
 
 		roundStr = NumberUtil.roundHalfEven(1.2050, 2).toString();
-		assertEquals(roundStr, "1.20");
+		assertEquals("1.20", roundStr);
 		roundStr = NumberUtil.roundHalfEven(1.2150, 2).toString();
-		assertEquals(roundStr, "1.22");
+		assertEquals("1.22", roundStr);
 		roundStr = NumberUtil.roundHalfEven(1.2250, 2).toString();
-		assertEquals(roundStr, "1.22");
+		assertEquals("1.22", roundStr);
 		roundStr = NumberUtil.roundHalfEven(1.2350, 2).toString();
-		assertEquals(roundStr, "1.24");
+		assertEquals("1.24", roundStr);
 		roundStr = NumberUtil.roundHalfEven(1.2450, 2).toString();
-		assertEquals(roundStr, "1.24");
+		assertEquals("1.24", roundStr);
 		roundStr = NumberUtil.roundHalfEven(1.2550, 2).toString();
-		assertEquals(roundStr, "1.26");
+		assertEquals("1.26", roundStr);
 		roundStr = NumberUtil.roundHalfEven(1.2650, 2).toString();
-		assertEquals(roundStr, "1.26");
+		assertEquals("1.26", roundStr);
 		roundStr = NumberUtil.roundHalfEven(1.2750, 2).toString();
-		assertEquals(roundStr, "1.28");
+		assertEquals("1.28", roundStr);
 		roundStr = NumberUtil.roundHalfEven(1.2850, 2).toString();
-		assertEquals(roundStr, "1.28");
+		assertEquals("1.28", roundStr);
 		roundStr = NumberUtil.roundHalfEven(1.2950, 2).toString();
-		assertEquals(roundStr, "1.30");
+		assertEquals("1.30", roundStr);
 	}
 
 	@Test
@@ -773,12 +772,9 @@ public class NumberUtilTest {
 	}
 
 	@Test
-	@EnabledForJreRange(max = JRE.JAVA_8)
-	void numberFormatTest() {
-		// JDK8下，NaN解析报错，JDK9+中返回0
-		assertThrows(ParseException.class, ()->{
-			NumberFormat.getInstance().parse("NaN");
-		});
+	void numberFormatTest() throws ParseException {
+		final Number naN = NumberFormat.getInstance().parse("NaN");
+		Assertions.assertEquals(0, naN.intValue());
 	}
 
 	@Test

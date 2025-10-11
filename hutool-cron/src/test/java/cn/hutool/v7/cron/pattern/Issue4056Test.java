@@ -2,6 +2,7 @@ package cn.hutool.v7.cron.pattern;
 
 import cn.hutool.v7.core.date.DateTime;
 import cn.hutool.v7.core.date.DateUtil;
+import cn.hutool.v7.core.text.StrUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.quartz.CronExpression;
@@ -123,9 +124,9 @@ public class Issue4056Test {
 			final CronPattern hutoolCorn = new CronPattern(cron);
 			final CronExpression quartzCorn = new CronExpression(cron);
 			for (final DateTime judgeTime : judgeTimes) {
-				final Date quartzDate = quartzCorn.getNextValidTimeAfter(judgeTime);
+				final Date quartzDate = DateUtil.date(quartzCorn.getNextValidTimeAfter(judgeTime));
 				final Date hutoolDate = CronPatternUtil.nextDateAfter(hutoolCorn, judgeTime);
-				Assertions.assertEquals(quartzDate, hutoolDate);
+				Assertions.assertEquals(quartzDate, hutoolDate, StrUtil.format("cron:{}, judgeTime:{}", cron, judgeTime.toString()));
 			}
 		}
 	}

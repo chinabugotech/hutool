@@ -56,10 +56,10 @@
 
 		<!-- versions -->
 		<compile.version>17</compile.version>
-		<junit.version>5.13.1</junit.version>
-		<lombok.version>1.18.38</lombok.version>
-		<kotlin-version>2.1.20</kotlin-version>
-		<bouncycastle.version>1.80</bouncycastle.version>
+		<junit.version>6.0.0</junit.version>
+		<lombok.version>1.18.42</lombok.version>
+		<kotlin-version>2.2.20</kotlin-version>
+		<bouncycastle.version>1.82</bouncycastle.version>
 	</properties>
 
 	<dependencies>

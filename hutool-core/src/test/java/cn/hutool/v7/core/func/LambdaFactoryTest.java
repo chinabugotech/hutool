@@ -18,7 +18,6 @@ package cn.hutool.v7.core.func;
 
 import cn.hutool.v7.core.collection.ListUtil;
 import cn.hutool.v7.core.exception.ExceptionUtil;
-import cn.hutool.v7.core.reflect.ConstructorUtil;
 import cn.hutool.v7.core.reflect.lookup.LookupUtil;
 import lombok.Data;
 import lombok.Getter;
@@ -26,8 +25,8 @@ import lombok.Setter;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.condition.EnabledForJreRange;
 
 import java.lang.invoke.*;
 import java.lang.reflect.Constructor;
@@ -37,7 +36,6 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.concurrent.TimeUnit;
 import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -46,6 +44,7 @@ import java.util.function.Supplier;
  */
 public class LambdaFactoryTest {
 
+	@SuppressWarnings("CatchMayIgnoreException")
 	@Test
 	public void testMethodNotMatch() {
 		try {
@@ -87,7 +86,8 @@ public class LambdaFactoryTest {
 	 *
 	 * @author nasodaengineer
 	 */
-	public static class PerformanceTest {
+	@Nested
+	class PerformanceTest {
 
 		public int count;
 
@@ -312,7 +312,7 @@ public class LambdaFactoryTest {
 
 			public String format() {
 				final TimeUnit timeUnit = TimeUnit.NANOSECONDS;
-				return String.format("%-10s 运行%d次耗时 %d %s", name, count, timeUnit.convert(cost, TimeUnit.NANOSECONDS), timeUnit.name());
+				return String.format("%-10s 运行%d次耗时 %d %s", name, count, cost, timeUnit.name());
 			}
 		}
 
@@ -329,18 +329,5 @@ public class LambdaFactoryTest {
 				throw ExceptionUtil.wrapRuntime(e);
 			}
 		}
-	}
-
-	@SuppressWarnings("unchecked")
-	@Test
-	@EnabledForJreRange(max = org.junit.jupiter.api.condition.JRE.JAVA_8)
-	public void buildStringTest() {
-		final char[] a = "1234".toCharArray();
-
-		// JDK8下无此构造方法
-		final Constructor<String> constructor = ConstructorUtil.getConstructor(String.class, char[].class, boolean.class);
-		final BiFunction<char[], Boolean, String> function = LambdaFactory.build(BiFunction.class, constructor);
-		final String apply = function.apply(a, true);
-		Assertions.assertEquals(apply, new String(a));
 	}
 }

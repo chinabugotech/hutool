@@ -35,10 +35,10 @@
 	<properties>
 		<Automatic-Module-Name>cn.hutool.v7.json</Automatic-Module-Name>
 		<!-- versions -->
-		<jjwt.version>0.12.6</jjwt.version>
-		<jackson.version>2.19.1</jackson.version>
-		<fastjson2.version>2.0.53</fastjson2.version>
-		<gson.version>2.13.1</gson.version>
+		<jjwt.version>0.13.0</jjwt.version>
+		<jackson.version>2.20.0</jackson.version>
+		<fastjson2.version>2.0.59</fastjson2.version>
+		<gson.version>2.13.2</gson.version>
 		<moshi.version>1.15.2</moshi.version>
 	</properties>
 

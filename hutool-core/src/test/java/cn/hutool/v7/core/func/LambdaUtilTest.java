@@ -16,16 +16,14 @@
 
 package cn.hutool.v7.core.func;
 
+import cn.hutool.v7.core.lang.tuple.Tuple;
+import cn.hutool.v7.core.reflect.method.MethodUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.FieldNameConstants;
-import cn.hutool.v7.core.lang.tuple.Tuple;
-import cn.hutool.v7.core.reflect.method.MethodUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.condition.EnabledForJreRange;
-import org.junit.jupiter.api.condition.JRE;
 
 import java.io.Serializable;
 import java.lang.reflect.Method;
@@ -191,19 +189,6 @@ public class LambdaUtilTest {
 
 		setId.accept(bean, 3L);
 		Assertions.assertEquals(3L, (long) bean.getId());
-	}
-
-	@Test
-	@EnabledForJreRange(max = JRE.JAVA_8)
-	void buildSetterWithPrimitiveTest() {
-		// 原始类型参数在jdk9+中构建setter异常
-		final Bean bean = new Bean();
-		bean.setId(2L);
-		bean.setFlag(false);
-
-		final BiConsumer<Bean, Object> setter = LambdaUtil.buildSetter(Bean.class, "flag");
-		setter.accept(bean, Boolean.TRUE);
-		Assertions.assertTrue(bean.isFlag());
 	}
 
 	@SuppressWarnings("unchecked")

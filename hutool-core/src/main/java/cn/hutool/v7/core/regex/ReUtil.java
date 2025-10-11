@@ -25,8 +25,6 @@ import cn.hutool.v7.core.lang.Assert;
 import cn.hutool.v7.core.lang.Validator;
 import cn.hutool.v7.core.lang.mutable.Mutable;
 import cn.hutool.v7.core.lang.mutable.MutableObj;
-import cn.hutool.v7.core.map.MapUtil;
-import cn.hutool.v7.core.reflect.method.MethodUtil;
 import cn.hutool.v7.core.text.StrUtil;
 
 import java.util.*;
@@ -241,37 +239,6 @@ public class ReUtil {
 			if (!findAll) {
 				break;
 			}
-		}
-		return result;
-	}
-
-	/**
-	 * 根据给定正则查找字符串中的匹配项，返回所有匹配的分组名对应分组值<br>
-	 * <pre>
-	 * pattern: (?&lt;year&gt;\\d+)-(?&lt;month&gt;\\d+)-(?&lt;day&gt;\\d+)
-	 * content: 2021-10-11
-	 * result : year: 2021, month: 10, day: 11
-	 * </pre>
-	 *
-	 * <p>jdk9+之后，此方法无效</p>
-	 *
-	 * @param pattern 匹配的正则
-	 * @param content 被匹配的内容
-	 * @return 命名捕获组，key为分组名，value为对应值
-	 * @since 5.7.15
-	 */
-	public static Map<String, String> getAllGroupNames(final Pattern pattern, final CharSequence content) {
-		if (null == content || null == pattern) {
-			return null;
-		}
-		final Matcher m = pattern.matcher(content);
-		final Map<String, String> result = MapUtil.newHashMap(m.groupCount());
-		if (m.find()) {
-			// 通过反射获取 namedGroups 方法
-			final Map<String, Integer> map =
-				//MethodHandleUtil.invokeSpecial(pattern, "namedGroups");
-				MethodUtil.invoke(pattern, "namedGroups");
-			map.forEach((key, value) -> result.put(key, m.group(value)));
 		}
 		return result;
 	}
@@ -943,7 +910,7 @@ public class ReUtil {
 		if (result) {
 			final Set<String> varNums = findAll(PatternPool.GROUP_VAR, replacementTemplate, 1,
 				new TreeSet<>(StrLengthComparator.INSTANCE.reversed()));
-			final StringBuffer sb = new StringBuffer();
+			final StringBuilder sb = new StringBuilder();
 			do {
 				String replacement = replacementTemplate;
 				for (final String var : varNums) {
@@ -1003,7 +970,7 @@ public class ReUtil {
 		}
 
 		final Matcher matcher = pattern.matcher(str);
-		final StringBuffer buffer = new StringBuffer();
+		final StringBuilder buffer = new StringBuilder();
 		while (matcher.find()) {
 			matcher.appendReplacement(buffer, replaceFun.apply(matcher));
 		}

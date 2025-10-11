@@ -23,8 +23,6 @@ import cn.hutool.v7.core.util.SystemUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.condition.EnabledForJreRange;
-import org.junit.jupiter.api.condition.JRE;
 
 import java.io.File;
 import java.nio.file.Paths;
@@ -221,20 +219,6 @@ public class FileUtilTest {
 	}
 
 	@Test
-	@EnabledForJreRange(max = JRE.JAVA_8)
-	public void listFileNamesTest() {
-		// JDK9+中，由于模块化问题，获取的classoath路径非项目下，而是junit下的。
-		List<String> names = FileUtil.listFileNames("classpath:");
-		assertTrue(names.contains("hutool.jpg"));
-
-		names = FileUtil.listFileNames("");
-		assertTrue(names.contains("hutool.jpg"));
-
-		names = FileUtil.listFileNames(".");
-		assertTrue(names.contains("hutool.jpg"));
-	}
-
-	@Test
 	@Disabled
 	public void listFileNamesInJarTest() {
 		final List<String> names = FileUtil.listFileNames("d:/test/hutool-core-5.1.0.jar!/cn/hutool/core/util ");
@@ -377,15 +361,6 @@ public class FileUtilTest {
 		path = FileUtil.isWindows() ? "d:\\aaa\\bbb\\cc\\fff.tar.xz" : "~/Desktop/hutool/fff.tar.xz";
 		mainName = FileNameUtil.extName(path);
 		Assertions.assertEquals("tar.xz", mainName);
-	}
-
-	@Test
-	@EnabledForJreRange(max = JRE.JAVA_8)
-	public void getWebRootTest() {
-		// JDK9+环境中，由于模块问题，junit获取的classpath路径和实际不同
-		final File webRoot = FileUtil.getWebRoot();
-		Assertions.assertNotNull(webRoot);
-		Assertions.assertEquals("hutool-core", webRoot.getName());
 	}
 
 	@Test

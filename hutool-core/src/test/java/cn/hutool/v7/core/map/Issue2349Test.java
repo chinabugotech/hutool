@@ -18,14 +18,12 @@ package cn.hutool.v7.core.map;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.condition.EnabledForJreRange;
 
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Issue2349Test {
 
 	@Test
-	@EnabledForJreRange(min = org.junit.jupiter.api.condition.JRE.JAVA_9)
 	public void issue11986ForJava17Test() {
 		// https://github.com/apache/dubbo/issues/11986
 		final ConcurrentHashMap<String, Integer> map = new ConcurrentHashMap<>();

@@ -24,8 +24,6 @@ import cn.hutool.v7.core.util.ObjUtil;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.condition.EnabledForJreRange;
-import org.junit.jupiter.api.condition.JRE;
 
 import java.lang.annotation.*;
 import java.lang.reflect.Field;
@@ -189,17 +187,6 @@ public class AnnotationUtilTest {
 	public void testIsInherited() {
 		Assertions.assertTrue(AnnotationUtil.isInherited(AnnotationForTest.class));
 		Assertions.assertFalse(AnnotationUtil.isInherited(MetaAnnotationForTest.class));
-	}
-
-	@Test
-	@EnabledForJreRange(max = JRE.JAVA_8)
-	public void testSetValue() {
-		// jdk9+中抛出异常，须添加`--add-opens=java.base/java.lang=ALL-UNNAMED`启动参数
-		final AnnotationForTest annotation = ClassForTest.class.getAnnotation(AnnotationForTest.class);
-		final String newValue = "is a new value";
-		Assertions.assertNotEquals(newValue, annotation.value());
-		AnnotationUtil.setValue(annotation, "value", newValue);
-		assertEquals(newValue, annotation.value());
 	}
 
 	@Test
