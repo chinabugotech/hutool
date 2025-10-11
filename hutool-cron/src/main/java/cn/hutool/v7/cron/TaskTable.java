@@ -45,8 +45,14 @@ public class TaskTable implements Serializable {
 	 */
 	public static final int DEFAULT_CAPACITY = 10;
 
+	/**
+	 * 读写锁，保证线程安全
+	 */
 	private final ReadWriteLock lock;
 
+	/**
+	 * 任务表，ID、表达式、任务一一对应。使用TripleTable存储，便于快速查找和更新<br>
+	 */
 	private final TripleTable<String, CronPattern, Task> table;
 
 	/**
@@ -273,7 +279,7 @@ public class TaskTable implements Serializable {
 	 * 如果时间匹配则执行相应的Task，带读锁
 	 *
 	 * @param scheduler {@link Scheduler}
-	 * @param millis 时间毫秒
+	 * @param millis    时间毫秒
 	 */
 	public void executeTaskIfMatch(final Scheduler scheduler, final long millis) {
 		final Lock readLock = lock.readLock();
@@ -291,7 +297,7 @@ public class TaskTable implements Serializable {
 		final StringBuilder builder = StrUtil.builder();
 		for (int i = 0; i < size; i++) {
 			builder.append(StrUtil.format("[{}] [{}] [{}]\n",
-					this.table.getLeft(i), this.table.getMiddle(i), this.table.getRight(i)));
+				this.table.getLeft(i), this.table.getMiddle(i), this.table.getRight(i)));
 		}
 		return builder.toString();
 	}
@@ -300,13 +306,13 @@ public class TaskTable implements Serializable {
 	 * 如果时间匹配则执行相应的Task，无锁
 	 *
 	 * @param scheduler {@link Scheduler}
-	 * @param millis 时间毫秒
+	 * @param millis    时间毫秒
 	 * @since 3.1.1
 	 */
 	private void executeTaskIfMatchInternal(final Scheduler scheduler, final long millis) {
 		final int size = size();
 		for (int i = 0; i < size; i++) {
-			if (this.table.getMiddle(i).match(scheduler.config.timezone, millis, scheduler.config.matchSecond)) {
+			if (this.table.getMiddle(i).match(scheduler.config.getTimeZone(), millis, scheduler.config.isMatchSecond())) {
 				scheduler.taskManager.spawnExecutor(
 					new CronTask(this.table.getLeft(i), this.table.getMiddle(i), this.table.getRight(i)));
 			}

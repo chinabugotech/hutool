@@ -47,8 +47,7 @@ public class CronTest {
 	public void cronTest() {
 		// 支持秒级别定时任务
 		CronUtil.setMatchSecond(true);
-		CronUtil.getScheduler().setDaemon(false);
-		CronUtil.start();
+		CronUtil.start(false);
 
 		ThreadUtil.waitForDie();
 		CronUtil.stop();

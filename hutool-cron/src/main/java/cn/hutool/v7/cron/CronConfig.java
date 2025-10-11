@@ -29,16 +29,20 @@ public class CronConfig {
 	/**
 	 * 时区
 	 */
-	protected TimeZone timezone = TimeZone.getDefault();
+	private TimeZone timezone = TimeZone.getDefault();
 	/**
 	 * 是否支持秒匹配
 	 */
-	protected boolean matchSecond;
+	private boolean matchSecond;
+	/**
+	 * 是否为守护线程
+	 */
+	private boolean daemon;
 
 	/**
 	 * 构造
 	 */
-	public CronConfig(){
+	public CronConfig() {
 	}
 
 	/**
@@ -78,6 +82,26 @@ public class CronConfig {
 	 */
 	public CronConfig setMatchSecond(final boolean isMatchSecond) {
 		this.matchSecond = isMatchSecond;
+		return this;
+	}
+
+	/**
+	 * 是否为守护线程
+	 *
+	 * @return {@code true}守护线程，{@code false}非守护线程
+	 */
+	public boolean isDaemon() {
+		return this.daemon;
+	}
+
+	/**
+	 * 设置是否为守护线程
+	 *
+	 * @param daemon {@code true}守护线程，{@code false}非守护线程
+	 * @return this
+	 */
+	public CronConfig setDaemon(final boolean daemon) {
+		this.daemon = daemon;
 		return this;
 	}
 }

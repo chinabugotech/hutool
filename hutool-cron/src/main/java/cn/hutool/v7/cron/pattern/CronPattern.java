@@ -18,8 +18,6 @@ package cn.hutool.v7.cron.pattern;
 
 import cn.hutool.v7.core.comparator.CompareUtil;
 import cn.hutool.v7.core.date.CalendarUtil;
-import cn.hutool.v7.core.date.DateUtil;
-import cn.hutool.v7.core.lang.Console;
 import cn.hutool.v7.cron.pattern.matcher.PatternMatcher;
 import cn.hutool.v7.cron.pattern.parser.PatternParser;
 

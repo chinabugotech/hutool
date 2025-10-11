@@ -54,7 +54,7 @@ public class CronTimer extends Thread implements Serializable {
 
 	@Override
 	public void run() {
-		final long timerUnit = this.scheduler.config.matchSecond ? TIMER_UNIT_SECOND : TIMER_UNIT_MINUTE;
+		final long timerUnit = this.scheduler.config.isMatchSecond() ? TIMER_UNIT_SECOND : TIMER_UNIT_MINUTE;
 		final long doubleTimeUnit = 2 * timerUnit;
 
 		long thisTime = System.currentTimeMillis();
