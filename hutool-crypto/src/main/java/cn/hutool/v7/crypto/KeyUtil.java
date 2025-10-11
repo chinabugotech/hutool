@@ -23,6 +23,7 @@ import cn.hutool.v7.core.lang.Assert;
 import cn.hutool.v7.core.text.CharUtil;
 import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.core.util.RandomUtil;
+import cn.hutool.v7.core.xml.XmlUtil;
 import cn.hutool.v7.crypto.asymmetric.AsymmetricAlgorithm;
 import cn.hutool.v7.crypto.bc.ECKeyUtil;
 import cn.hutool.v7.crypto.bc.SM2Constant;
@@ -235,6 +236,24 @@ public class KeyUtil {
 
 	// region ----- generatePrivateKey
 	/**
+	 * 生成RSA私钥，仅用于非对称加密
+	 * 算法见：<a href="https://docs.oracle.com/javase/7/docs/technotes/guides/security/StandardNames.html#KeyFactory">...</a>
+	 *
+	 * @param key 密钥，支持XML和Base64两种格式，XML为C#生成格式，见{@link SpecUtil#xmlToRSAPrivateCrtKeySpec(String)}
+	 * @return RSA私钥 {@link PrivateKey}
+	 * @since 7.0.0
+	 */
+	public static PrivateKey generateRSAPrivateKey(String key) {
+		Assert.notBlank(key, "Key is blank!");
+		key = StrUtil.trim(key);
+		if(StrUtil.startWith(key, XmlUtil.C_LT)){
+			return generateRSAPrivateKey(SpecUtil.xmlToRSAPrivateCrtKeySpec(key));
+		}
+
+		return generatePrivateKey(AsymmetricAlgorithm.RSA.getValue(), Base64.decode(key));
+	}
+
+	/**
 	 * 生成RSA私钥，仅用于非对称加密<br>
 	 * 采用PKCS#8规范，此规范定义了私钥信息语法和加密私钥语法<br>
 	 * 算法见：<a href="https://docs.oracle.com/javase/7/docs/technotes/guides/security/StandardNames.html#KeyFactory">...</a>
@@ -245,6 +264,18 @@ public class KeyUtil {
 	 */
 	public static PrivateKey generateRSAPrivateKey(final byte[] key) {
 		return generatePrivateKey(AsymmetricAlgorithm.RSA.getValue(), key);
+	}
+
+	/**
+	 * 生成RSA私钥，仅用于非对称加密<br>
+	 * 算法见：<a href="https://docs.oracle.com/javase/7/docs/technotes/guides/security/StandardNames.html#KeyFactory">...</a>
+	 *
+	 * @param keySpec {@link KeySpec}
+	 * @return RSA私钥 {@link PrivateKey}
+	 * @since 5.8.41
+	 */
+	public static PrivateKey generateRSAPrivateKey(final KeySpec keySpec) {
+		return generatePrivateKey(AsymmetricAlgorithm.RSA.getValue(), keySpec);
 	}
 
 	/**
@@ -362,8 +393,7 @@ public class KeyUtil {
 	 * @since 5.3.6
 	 */
 	public static PublicKey getRSAPublicKey(final PrivateKey privateKey) {
-		if (privateKey instanceof RSAPrivateCrtKey) {
-			final RSAPrivateCrtKey privk = (RSAPrivateCrtKey) privateKey;
+		if (privateKey instanceof final RSAPrivateCrtKey privk) {
 			return getRSAPublicKey(privk.getModulus(), privk.getPublicExponent());
 		}
 		return null;
