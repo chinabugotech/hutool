@@ -23,16 +23,18 @@ package cn.hutool.v7.cron;
  *
  * @author Looly
  * @param scheduler 调度器
- * @param millis 毫秒数
+ * @param millis 触发事件的时间戳
  */
 public record TaskLauncher(Scheduler scheduler, long millis) implements Runnable {
 
 	@Override
 	public void run() {
-		//匹配秒部分由用户定义决定，始终不匹配年
-		scheduler.taskTable.executeTaskIfMatch(this.scheduler, this.millis);
-
-		//结束通知
-		scheduler.taskManager.notifyLauncherCompleted(this);
+		try{
+			//匹配秒部分由用户定义决定，始终不匹配年
+			scheduler.taskTable.executeTaskIfMatch(this.scheduler, this.millis);
+		} finally {
+			//结束通知
+			scheduler.taskManager.notifyLauncherCompleted(this);
+		}
 	}
 }

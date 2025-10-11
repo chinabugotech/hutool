@@ -21,7 +21,6 @@ import cn.hutool.v7.core.thread.ThreadUtil;
 import cn.hutool.v7.cron.CronUtil;
 import cn.hutool.v7.cron.TaskExecutor;
 import cn.hutool.v7.cron.listener.TaskListener;
-import cn.hutool.v7.cron.task.Task;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -33,7 +32,7 @@ public class CronTest {
 	@Test
 	@Disabled
 	public void customCronTest() {
-		CronUtil.schedule("*/2 * * * * *", (Task) () -> Console.log("Task executed."));
+		CronUtil.schedule("*/2 * * * * *", () -> Console.log("Task executed."));
 
 		// 支持秒级别定时任务
 		CronUtil.setMatchSecond(true);

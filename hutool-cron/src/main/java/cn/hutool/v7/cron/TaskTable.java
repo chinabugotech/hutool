@@ -303,7 +303,7 @@ public class TaskTable implements Serializable {
 	 * @param millis 时间毫秒
 	 * @since 3.1.1
 	 */
-	protected void executeTaskIfMatchInternal(final Scheduler scheduler, final long millis) {
+	private void executeTaskIfMatchInternal(final Scheduler scheduler, final long millis) {
 		final int size = size();
 		for (int i = 0; i < size; i++) {
 			if (this.table.getMiddle(i).match(scheduler.config.timezone, millis, scheduler.config.matchSecond)) {

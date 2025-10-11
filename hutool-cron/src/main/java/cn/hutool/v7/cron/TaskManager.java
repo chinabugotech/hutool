@@ -17,20 +17,21 @@
 package cn.hutool.v7.cron;
 
 import cn.hutool.v7.core.collection.ListUtil;
+import cn.hutool.v7.core.date.DateUtil;
 import cn.hutool.v7.cron.task.CronTask;
 import cn.hutool.v7.cron.task.Task;
+import cn.hutool.v7.log.Log;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
  * 任务管理器，提供任务的全生命周期管理，提供：
  * <ul>
- *     <li>启动器管理</li>
- *     <li>执行器管理</li>
+ *     <li>启动器管理，由CronTimer按照固定周期（每分钟或每秒钟）调用，用于检查CronTable中的任务是否匹配。</li>
+ *     <li>执行器管理，由CronTable匹配后调用，用于启动具体的任务。</li>
  * </ul>
  *
  * @author Looly
@@ -73,7 +74,7 @@ public class TaskManager implements Serializable {
 	/**
 	 * 启动 TaskLauncher
 	 *
-	 * @param millis 触发事件的毫秒数
+	 * @param millis 触发事件的时间戳
 	 * @return {@link TaskLauncher}
 	 */
 	protected TaskLauncher spawnLauncher(final long millis) {
@@ -115,7 +116,7 @@ public class TaskManager implements Serializable {
 	 * @param task {@link Task}
 	 * @return {@link TaskExecutor}
 	 */
-	public TaskExecutor spawnExecutor(final CronTask task) {
+	protected TaskExecutor spawnExecutor(final CronTask task) {
 		final TaskExecutor executor = new TaskExecutor(this.scheduler, task);
 		synchronized (this.executors) {
 			this.executors.add(executor);
@@ -129,7 +130,7 @@ public class TaskManager implements Serializable {
 	 *
 	 * @param executor 执行器 {@link TaskExecutor}
 	 */
-	public void notifyExecutorCompleted(final TaskExecutor executor) {
+	protected void notifyExecutorCompleted(final TaskExecutor executor) {
 		synchronized (executors) {
 			executors.remove(executor);
 		}
