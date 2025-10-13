@@ -16,10 +16,9 @@
 
 package cn.hutool.v7.extra.validation;
 
-import jakarta.validation.*;
 import cn.hutool.v7.core.collection.CollUtil;
 import cn.hutool.v7.core.text.StrPool;
-import cn.hutool.v7.core.text.StrUtil;
+import jakarta.validation.*;
 
 import java.util.Set;
 
