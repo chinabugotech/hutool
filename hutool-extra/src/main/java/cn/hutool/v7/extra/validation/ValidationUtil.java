@@ -82,11 +82,8 @@ public class ValidationUtil {
 		final Set<ConstraintViolation<Object>> constraintViolations = validate(object, groups);
 		if (CollUtil.isNotEmpty(constraintViolations)) {
 			final ConstraintViolation<Object> constraint = constraintViolations.iterator().next();
-			if (StrUtil.contains(constraint.getMessageTemplate(), "jakarta.validation.constraints")) {
-				throw new ValidationException(constraint.getPropertyPath() + StrPool.SPACE + constraint.getMessage());
-			} else {
-				throw new ValidationException(constraint.getMessage());
-			}
+			// 属性名称和错序信息之间需要有间隔, 否则可能出现粘连的情况, 例如: namemust not be null
+			throw new ValidationException(constraint.getPropertyPath() + StrPool.SPACE + constraint.getMessage());
 		}
 	}
 
