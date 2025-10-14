@@ -16,21 +16,15 @@
 
 package cn.hutool.v7.core.util;
 
-import cn.hutool.v7.core.lang.Console;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class JdkUtilTest {
 	@Test
 	public void jvmVersionTest() {
 		final int jvmVersion = JdkUtil.JVM_VERSION;
-		Assertions.assertTrue(jvmVersion >= 8);
-	}
-
-	@Test
-	@Disabled
-	public void getJvmNameTest() {
-		Console.log(JdkUtil.IS_AT_LEAST_JDK17);
+		assertTrue(jvmVersion >= 17);
 	}
 }

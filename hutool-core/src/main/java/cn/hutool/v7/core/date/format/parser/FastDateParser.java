@@ -21,6 +21,7 @@ import cn.hutool.v7.core.date.format.FastDateFormat;
 import cn.hutool.v7.core.date.format.FastDatePrinter;
 import cn.hutool.v7.core.date.format.SimpleDateBasic;
 import cn.hutool.v7.core.text.StrUtil;
+import cn.hutool.v7.core.util.JdkUtil;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -669,7 +670,13 @@ public class FastDateParser extends SimpleDateBasic implements PositionDateParse
 			for (final String[] zoneNames : zones) {
 				// offset 0 is the time zone ID and is not localized
 				final String tzId = zoneNames[ID];
-				if ("GMT".equalsIgnoreCase(tzId)) {
+				if(JdkUtil.IS_AT_LEAST_JDK25){
+					// issue#4100 JDK25+所有三位简写失效
+					// 见：https://stackoverflow.com/questions/41672825/which-three-letter-time-zone-ids-are-not-deprecated
+					if(tzId.length() == 3){
+						continue;
+					}
+				}else if ("GMT".equalsIgnoreCase(tzId)) {
 					continue;
 				}
 				final TimeZone tz = TimeZone.getTimeZone(tzId);

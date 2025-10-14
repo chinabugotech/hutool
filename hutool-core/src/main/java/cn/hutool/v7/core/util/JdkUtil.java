@@ -30,9 +30,9 @@ public class JdkUtil {
 	 */
 	public static final int JVM_VERSION;
 	/**
-	 * 是否大于等于JDK17
+	 * 是否大于等于JDK25
 	 */
-	public static final boolean IS_AT_LEAST_JDK17;
+	public static final boolean IS_AT_LEAST_JDK25;
 
 	/**
 	 * 是否Android环境
@@ -51,7 +51,7 @@ public class JdkUtil {
 	static {
 		// JVM版本
 		JVM_VERSION = _getJvmVersion();
-		IS_AT_LEAST_JDK17 = JVM_VERSION >= 17;
+		IS_AT_LEAST_JDK25 = JVM_VERSION >= 25;
 
 		// JVM名称
 		final String jvmName = _getJvmName();
@@ -73,12 +73,12 @@ public class JdkUtil {
 
 	/**
 	 * 根据{@code java.specification.version}属性值，获取版本号<br>
-	 * 默认8
+	 * 默认17
 	 *
 	 * @return 版本号
 	 */
 	private static int _getJvmVersion() {
-		int jvmVersion = 8;
+		int jvmVersion = 17;
 
 		String javaSpecVer = SystemUtil.getQuietly("java.specification.version");
 		if (StrUtil.isNotBlank(javaSpecVer)) {
