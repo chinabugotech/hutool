@@ -18,10 +18,12 @@ package cn.hutool.v7.poi.excel.writer;
 
 import cn.hutool.v7.poi.excel.ExcelUtil;
 import cn.hutool.v7.poi.excel.SimpleClientAnchor;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class WriteCommentTest {
 	@Test
+	@Disabled
 	void writeCommentTest() {
 		final ExcelWriter writer = ExcelUtil.getWriter("d:/test/comments.xlsx");
 		final SimpleClientAnchor clientAnchor = new SimpleClientAnchor(0, 0, 1, 1);

@@ -21,6 +21,7 @@ import lombok.Data;
 import cn.hutool.v7.core.io.file.FileUtil;
 import cn.hutool.v7.core.map.MapUtil;
 import cn.hutool.v7.poi.excel.ExcelUtil;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
@@ -33,7 +34,7 @@ public class TemplateWriterTest {
 	 * 正常数据填充
 	 */
 	@Test
-	@Deprecated
+	@Disabled
 	void writeTest() {
 		final ExcelWriter writer = ExcelUtil.getWriter("template.xlsx");
 		writer.getConfig().setInsertRow(false);
@@ -56,7 +57,7 @@ public class TemplateWriterTest {
 	 * 带有页脚的数据填充，通过插入方式完成，页脚下移
 	 */
 	@Test
-	@Deprecated
+	@Disabled
 	void writeWithFooterTest() {
 		final ExcelWriter writer = ExcelUtil.getWriter("templateWithFooter.xlsx");
 		//writer.getConfig().setInsertRow(true);
@@ -79,7 +80,7 @@ public class TemplateWriterTest {
 	 * 错位数据，即变量不在一行上
 	 */
 	@Test
-	@Deprecated
+	@Disabled
 	void writeNoneOneLineTest() {
 		final ExcelWriter writer = ExcelUtil.getWriter("templateWithFooterNoneOneLine.xlsx");
 		//writer.getConfig().setInsertRow(true);
@@ -102,7 +103,7 @@ public class TemplateWriterTest {
 	 * 错位数据，即变量不在一行上
 	 */
 	@Test
-	@Deprecated
+	@Disabled
 	void writeBeanTest() {
 		final ExcelWriter writer = ExcelUtil.getWriter("templateWithFooterNoneOneLine.xlsx");
 		//writer.getConfig().setInsertRow(true);
