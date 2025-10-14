@@ -1,1 +1,1 @@
-var version = 'prepareM3'
+var version = '7.0.0-M3'
