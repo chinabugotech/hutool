@@ -16,8 +16,8 @@
 
 package cn.hutool.v7.extra.management;
 
-import cn.hutool.v7.core.regex.ReUtil;
 import cn.hutool.v7.core.array.ArrayUtil;
+import cn.hutool.v7.core.regex.ReUtil;
 import cn.hutool.v7.core.util.SystemUtil;
 
 import java.io.Serial;
@@ -38,17 +38,15 @@ public class JavaInfo implements Serializable {
 	private final String vendor = SystemUtil.get("java.vendor", false);
 	private final String vendorUrl = SystemUtil.get("java.vendor.url", false);
 
-	private final boolean IS_JAVA_1_8 = getJavaVersionMatches("1.8");
-	private final boolean IS_JAVA_9 = getJavaVersionMatches("9");
-	private final boolean IS_JAVA_10 = getJavaVersionMatches("10");
-	private final boolean IS_JAVA_11 = getJavaVersionMatches("11");
-	private final boolean IS_JAVA_12 = getJavaVersionMatches("12");
-	private final boolean IS_JAVA_13 = getJavaVersionMatches("13");
-	private final boolean IS_JAVA_14 = getJavaVersionMatches("14");
-	private final boolean IS_JAVA_15 = getJavaVersionMatches("15");
-	private final boolean IS_JAVA_16 = getJavaVersionMatches("16");
 	private final boolean IS_JAVA_17 = getJavaVersionMatches("17");
 	private final boolean IS_JAVA_18 = getJavaVersionMatches("18");
+	private final boolean IS_JAVA_19 = getJavaVersionMatches("19");
+	private final boolean IS_JAVA_20 = getJavaVersionMatches("20");
+	private final boolean IS_JAVA_21 = getJavaVersionMatches("21");
+	private final boolean IS_JAVA_22 = getJavaVersionMatches("22");
+	private final boolean IS_JAVA_23 = getJavaVersionMatches("23");
+	private final boolean IS_JAVA_24 = getJavaVersionMatches("24");
+	private final boolean IS_JAVA_25 = getJavaVersionMatches("25");
 
 	/**
 	 * 取得当前Java impl.的版本（取自系统属性：{@code java.version}）。
@@ -191,103 +189,7 @@ public class JavaInfo implements Serializable {
 	}
 
 	/**
-	 * 判断当前Java的版本。
-	 *
-	 * <p>
-	 * 如果不能取得系统属性{@code java.version}（因为Java安全限制），则总是返回 {@code false}
-	 *
-	 * @return 如果当前Java版本为1.8，则返回{@code true}
-	 */
-	public final boolean isJava1_8() {
-		return IS_JAVA_1_8;
-	}
-
-	/**
-	 * 判断当前Java的版本。
-	 *
-	 * <p>
-	 * 如果不能取得系统属性{@code java.version}（因为Java安全限制），则总是返回 {@code false}
-	 *
-	 * @return 如果当前Java版本为9，则返回{@code true}
-	 */
-	public final boolean isJava9() {
-		return IS_JAVA_9;
-	}
-
-	/**
-	 * 判断当前Java的版本。
-	 *
-	 * <p>
-	 * 如果不能取得系统属性{@code java.version}（因为Java安全限制），则总是返回 {@code false}
-	 *
-	 * @return 如果当前Java版本为10，则返回{@code true}
-	 */
-	public final boolean isJava10() {
-		return IS_JAVA_10;
-	}
-
-	/**
-	 * 判断当前Java的版本。
-	 *
-	 * <p>
-	 * 如果不能取得系统属性{@code java.version}（因为Java安全限制），则总是返回 {@code false}
-	 *
-	 * @return 如果当前Java版本为11，则返回{@code true}
-	 */
-	public final boolean isJava11() {
-		return IS_JAVA_11;
-	}
-
-	/**
-	 * 判断当前Java的版本。
-	 *
-	 * <p>
-	 * 如果不能取得系统属性{@code java.version}（因为Java安全限制），则总是返回 {@code false}
-	 *
-	 * @return 如果当前Java版本为12，则返回{@code true}
-	 */
-	public final boolean isJava12() {
-		return IS_JAVA_12;
-	}
-
-	/**
-	 * 是否是当前java的版本。
-	 *
-	 * @return 是否版本13
-	 */
-	public final boolean isJava13() {
-		return IS_JAVA_13;
-	}
-
-	/**
-	 * 是否是当前java的版本。
-	 *
-	 * @return 是否版本14
-	 */
-	public final boolean isJava14() {
-		return IS_JAVA_14;
-	}
-
-	/**
-	 * 是否是当前java的版本。
-	 *
-	 * @return 是否版本15
-	 */
-	public final boolean isJava15() {
-		return IS_JAVA_15;
-	}
-
-	/**
-	 * 是否是当前java的版本。
-	 *
-	 * @return 是否版本16
-	 */
-	public final boolean isJava16() {
-		return IS_JAVA_16;
-	}
-
-	/**
-	 * 是否是当前java的版本。
+	 * 当前java的版本是否为Java17。
 	 *
 	 * @return 是否版本17
 	 */
@@ -296,12 +198,75 @@ public class JavaInfo implements Serializable {
 	}
 
 	/**
-	 * 是否是当前java的版本。
+	 * 当前java的版本是否为Java18。
 	 *
 	 * @return 是否版本18
 	 */
 	public final boolean isJava18() {
 		return IS_JAVA_18;
+	}
+
+	/**
+	 * 当前java的版本是否为Java19。
+	 *
+	 * @return 是否版本19
+	 */
+	public final boolean isJava19() {
+		return IS_JAVA_19;
+	}
+
+	/**
+	 * 当前java的版本是否为Java20。
+	 *
+	 * @return 是否版本21
+	 */
+	public final boolean isJava20() {
+		return IS_JAVA_20;
+	}
+
+	/**
+	 * 当前java的版本是否为Java21。
+	 *
+	 * @return 是否版本21
+	 */
+	public final boolean isJava21() {
+		return IS_JAVA_21;
+	}
+
+	/**
+	 * 当前java的版本是否为Java22。
+	 *
+	 * @return 是否版本22
+	 */
+	public final boolean isJava22() {
+		return IS_JAVA_22;
+	}
+
+	/**
+	 * 当前java的版本是否为Java23。
+	 *
+	 * @return 是否版本23
+	 */
+	public final boolean isJava23() {
+		return IS_JAVA_23;
+	}
+
+	/**
+	 * 当前java的版本是否为Java24。
+	 *
+	 * @return 是否版本24
+	 */
+	public final boolean isJava24() {
+		return IS_JAVA_24;
+	}
+
+	/**
+	 * 当前java的版本是否为Java25。
+	 *
+	 * @return 是否版本25
+	 */
+	public final boolean isJava25() {
+		return IS_JAVA_25;
 	}
 
 	/**
