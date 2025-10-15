@@ -1140,6 +1140,22 @@ public class CollUtilTest {
 	}
 
 	@Test
+	void getFirstTestWithPredicateTest(){
+		Animal dog = new Animal("dog", 2);
+		Animal cat = new Animal("cat", 3);
+		Animal bear = new Animal("bear", 4);
+
+		List<Animal> list = new ArrayList<>();
+		list.add(dog);
+		list.add(cat);
+		list.add(bear);
+
+		final Animal cat1 = CollUtil.getFirst(list, (t) -> t.getName().equals("cat"));
+		assertNotNull(cat1);
+		assertEquals("cat", cat1.getName());
+	}
+
+	@Test
 	public void popPartTest() {
 		final Stack<Integer> stack = new Stack<>();
 		for (int i = 0; i < 10; i++) {
