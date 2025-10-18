@@ -994,6 +994,31 @@ public class CollUtilTest {
 	}
 
 	@Test
+	public void zipTest2() {
+		// 1. 正常情况测试
+		List<String> list1 = ListUtil.of("a", "b", "c");
+		List<Integer> list2 = ListUtil.of(1, 2, 3);
+		List<String> result = CollUtil.zip(list1, list2, (s, i) -> s + i);
+		assertEquals(ListUtil.of("a1", "b2", "c3"), result);
+
+		// 2. 空集合测试
+		List<String> emptyList = ListUtil.of();
+		List<String> emptyResult = CollUtil.zip(emptyList, list2, (s, i) -> s + i);
+		assertTrue(emptyResult.isEmpty());
+
+		// 3. 不同大小集合测试(以较小集合为准)
+		List<Integer> longerList = ListUtil.of(1, 2, 3, 4, 5);
+		List<String> sizedResult = CollUtil.zip(list1, longerList, (s, i) -> s + i);
+		assertEquals(3, sizedResult.size());
+		assertEquals("a1", sizedResult.get(0));
+
+		// 4. 自定义zipper函数测试
+		List<Double> list3 = ListUtil.of(1.1, 2.2, 3.3);
+		List<String> customResult = CollUtil.zip(list2, list3, (i, d) -> String.format("%d-%.1f", i, d));
+		assertEquals(ListUtil.of("1-1.1", "2-2.2", "3-3.3"), customResult);
+	}
+
+	@Test
 	public void createTest() {
 		final Collection<Object> collection = CollUtil.create(Collections.emptyList().getClass());
 		Console.log(collection.getClass());
