@@ -138,7 +138,7 @@ public class CronPattern {
 	 * @param isMatchSecond 是否匹配秒
 	 * @return 如果匹配返回 {@code true}, 否则返回 {@code false}
 	 */
-	public boolean match(final Calendar calendar, final boolean isMatchSecond) {
+		public boolean match(final Calendar calendar, final boolean isMatchSecond) {
 		return match(PatternUtil.getFields(calendar, isMatchSecond));
 	}
 

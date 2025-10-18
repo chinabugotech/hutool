@@ -1388,12 +1388,41 @@ public class CollUtil {
 
 		final Iterator<K> keyIterator = keys.iterator();
 		final Iterator<V> valueIterator = values.iterator();
-		while (entryCount > 0) {
+		while (entryCount-- > 0) {
 			map.put(keyIterator.next(), valueIterator.next());
-			entryCount--;
 		}
 
 		return map;
+	}
+
+	/**
+	 * 将两个列表的元素按照索引一一配对，通过指定的函数进行合并，返回一个新的结果列表。
+	 * 新列表的长度将以两个输入列表中较短的那个为准。
+	 *
+	 * @param <A>    第一个列表的元素类型
+	 * @param <B>    第二个列表的元素类型
+	 * @param <R>    结果列表的元素类型
+	 * @param collectionA  第一个列表
+	 * @param collectionB  第二个列表
+	 * @param zipper 合并函数，接收来自listA和listB的两个元素，返回一个结果元素
+	 * @return 合并后的新列表
+	 * @since 5.8.42
+	 */
+	public static <A, B, R> List<R> zip(Collection<A> collectionA, Collection<B> collectionB, BiFunction<A, B, R> zipper) {
+		if (CollUtil.isEmpty(collectionA) || CollUtil.isEmpty(collectionB)) {
+			return new ArrayList<>();
+		}
+		Assert.notNull(zipper, "Zipper function must not be null");
+
+		int size = Math.min(collectionA.size(), collectionB.size());
+		final List<R> result = new ArrayList<>(size);
+		final Iterator<A> aIterator = collectionA.iterator();
+		final Iterator<B> bIterator = collectionB.iterator();
+
+		while(size-- > 0) {
+			result.add(zipper.apply(aIterator.next(), bIterator.next()));
+		}
+		return result;
 	}
 	// endregion
 
