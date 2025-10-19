@@ -92,7 +92,7 @@ public class Scheduler implements Serializable {
 	/**
 	 * 定时任务表
 	 */
-	protected TaskTable taskTable;
+	private TaskTable taskTable;
 	/**
 	 * 线程池，用于执行TaskLauncher和TaskExecutor
 	 */
@@ -111,7 +111,7 @@ public class Scheduler implements Serializable {
 	 * 使用默认配置
 	 */
 	public Scheduler() {
-		this(new CronConfig());
+		this(CronConfig.of());
 	}
 
 	/**
@@ -122,8 +122,8 @@ public class Scheduler implements Serializable {
 	public Scheduler(final CronConfig config) {
 		this.config = config;
 		lock = new ReentrantLock();
-		this.taskTable = new TaskTable();
 		this.listenerManager = new TaskListenerManager();
+		clear();
 	}
 
 	/**
@@ -373,7 +373,7 @@ public class Scheduler implements Serializable {
 	 * @since 4.1.17
 	 */
 	public Scheduler clear() {
-		this.taskTable = new TaskTable();
+		this.taskTable = TaskTableFactory.create(this.config);
 		return this;
 	}
 
@@ -471,6 +471,15 @@ public class Scheduler implements Serializable {
 			lock.unlock();
 		}
 		return this;
+	}
+
+	/**
+	 * 执行任务表中匹配时间戳的定时任务
+	 *
+	 * @param millis 毫秒时间戳
+	 */
+	public void execute(final long millis){
+		this.taskTable.execute(this, millis);
 	}
 
 	/**

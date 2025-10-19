@@ -23,6 +23,7 @@ import cn.hutool.v7.core.lang.tuple.Triple;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -36,7 +37,7 @@ import java.util.List;
  * @author Looly
  * @since 6.0.0
  */
-public class TripleTable<L, M, R> implements Serializable {
+public class TripleTable<L, M, R> implements Iterable<Triple<L, M, R>>, Serializable {
 	@Serial
 	private static final long serialVersionUID = 1L;
 
@@ -52,6 +53,8 @@ public class TripleTable<L, M, R> implements Serializable {
 	 * 右列表
 	 */
 	private final List<R> rights;
+
+	// region ----- 构造
 
 	/**
 	 * 构造
@@ -92,6 +95,7 @@ public class TripleTable<L, M, R> implements Serializable {
 		this.middles = middles;
 		this.rights = rights;
 	}
+	// endregion
 
 	// region ----- getLeft
 
@@ -167,7 +171,7 @@ public class TripleTable<L, M, R> implements Serializable {
 	 * @param index 索引
 	 * @return 左值
 	 */
-	public L getLeft(final int index){
+	public L getLeft(final int index) {
 		return this.lefts.get(index);
 	}
 
@@ -177,7 +181,7 @@ public class TripleTable<L, M, R> implements Serializable {
 	 * @param index 索引
 	 * @return 中值
 	 */
-	public M getMiddle(final int index){
+	public M getMiddle(final int index) {
 		return this.middles.get(index);
 	}
 
@@ -187,7 +191,7 @@ public class TripleTable<L, M, R> implements Serializable {
 	 * @param index 索引
 	 * @return 右值
 	 */
-	public R getRight(final int index){
+	public R getRight(final int index) {
 		return this.rights.get(index);
 	}
 
@@ -466,5 +470,24 @@ public class TripleTable<L, M, R> implements Serializable {
 		this.middles.remove(index);
 		this.rights.remove(index);
 		return this;
+	}
+
+	@Override
+	public Iterator<Triple<L, M, R>> iterator() {
+		final int size = this.size();
+		return new Iterator<>() {
+			private int index = -1;
+
+			@Override
+			public boolean hasNext() {
+				return index + 1 < size;
+			}
+
+			@Override
+			public Triple<L, M, R> next() {
+				index++;
+				return new Triple<>(getLeft(index), getMiddle(index), getRight(index));
+			}
+		};
 	}
 }

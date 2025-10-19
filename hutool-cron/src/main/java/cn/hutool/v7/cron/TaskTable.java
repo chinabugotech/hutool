@@ -19,7 +19,6 @@ package cn.hutool.v7.cron;
 import cn.hutool.v7.core.map.TripleTable;
 import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.cron.pattern.CronPattern;
-import cn.hutool.v7.cron.task.CronTask;
 import cn.hutool.v7.cron.task.Task;
 
 import java.io.Serial;
@@ -31,29 +30,29 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * 定时任务表<br>
- * 任务表将ID、表达式、任务一一对应，定时任务执行过程中，会周期性检查定时任务表中的所有任务表达式匹配情况，从而执行其对应的任务<br>
+ * 任务表将ID、表达式、任务一一对应<br>
  * 任务的添加、移除使用读写锁保证线程安全性
  *
  * @author Looly
  */
-public class TaskTable implements Serializable {
+public abstract class TaskTable implements Serializable {
 	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * 默认任务表大小：10
+	 * 默认任务表大小：256
 	 */
-	public static final int DEFAULT_CAPACITY = 10;
+	public static final int DEFAULT_CAPACITY = 256;
 
 	/**
 	 * 读写锁，保证线程安全
 	 */
-	private final ReadWriteLock lock;
+	final ReadWriteLock lock;
 
 	/**
 	 * 任务表，ID、表达式、任务一一对应。使用TripleTable存储，便于快速查找和更新<br>
 	 */
-	private final TripleTable<String, CronPattern, Task> table;
+	final TripleTable<String, CronPattern, Task> table;
 
 	/**
 	 * 构造
@@ -69,9 +68,150 @@ public class TaskTable implements Serializable {
 	 */
 	public TaskTable(final int initialCapacity) {
 		lock = new ReentrantReadWriteLock();
-
 		this.table = new TripleTable<>(initialCapacity);
 	}
+
+	/**
+	 * 任务表大小，加入的任务数
+	 *
+	 * @return 任务表大小，加入的任务数
+	 * @since 4.0.2
+	 */
+	public int size() {
+		return this.table.size();
+	}
+
+	/**
+	 * 任务表是否为空
+	 *
+	 * @return true为空
+	 * @since 4.0.2
+	 */
+	public boolean isEmpty() {
+		return size() < 1;
+	}
+
+	/**
+	 * 获取所有ID，返回不可变列表，即列表不可修改
+	 *
+	 * @return ID列表
+	 * @since 4.6.7
+	 */
+	public List<String> getIds() {
+		final Lock readLock = lock.readLock();
+		readLock.lock();
+		try {
+			return this.table.getLefts();
+		} finally {
+			readLock.unlock();
+		}
+	}
+
+	// region ----- getTask
+
+	/**
+	 * 获取所有定时任务，返回不可变列表，即列表不可修改
+	 *
+	 * @return 定时任务列表
+	 * @since 4.6.7
+	 */
+	public List<Task> getTasks() {
+		final Lock readLock = lock.readLock();
+		readLock.lock();
+		try {
+			return this.table.getRights();
+		} finally {
+			readLock.unlock();
+		}
+	}
+
+	/**
+	 * 获得指定位置的{@link Task}
+	 *
+	 * @param index 位置
+	 * @return {@link Task}
+	 * @since 3.1.1
+	 */
+	public Task getTask(final int index) {
+		final Lock readLock = lock.readLock();
+		readLock.lock();
+		try {
+			return this.table.getRight(index);
+		} finally {
+			readLock.unlock();
+		}
+	}
+
+	/**
+	 * 获得指定id的{@link Task}
+	 *
+	 * @param id ID
+	 * @return {@link Task}
+	 * @since 3.1.1
+	 */
+	public Task getTask(final String id) {
+		final Lock readLock = lock.readLock();
+		readLock.lock();
+		try {
+			return table.getRightByLeft(id);
+		} finally {
+			readLock.unlock();
+		}
+	}
+	// endregion
+
+	// region ----- getPattern
+
+	/**
+	 * 获取所有定时任务表达式，返回不可变列表，即列表不可修改
+	 *
+	 * @return 定时任务表达式列表
+	 * @since 4.6.7
+	 */
+	public List<CronPattern> getPatterns() {
+		final Lock readLock = lock.readLock();
+		readLock.lock();
+		try {
+			return this.table.getMiddles();
+		} finally {
+			readLock.unlock();
+		}
+	}
+
+	/**
+	 * 获得指定id的{@link CronPattern}
+	 *
+	 * @param id ID
+	 * @return {@link CronPattern}
+	 * @since 3.1.1
+	 */
+	public CronPattern getPattern(final String id) {
+		final Lock readLock = lock.readLock();
+		readLock.lock();
+		try {
+			return table.getMiddleByLeft(id);
+		} finally {
+			readLock.unlock();
+		}
+	}
+
+	/**
+	 * 获得指定位置的{@link CronPattern}
+	 *
+	 * @param index 位置
+	 * @return {@link CronPattern}
+	 * @since 3.1.1
+	 */
+	public CronPattern getPattern(final int index) {
+		final Lock readLock = lock.readLock();
+		readLock.lock();
+		try {
+			return table.getMiddle(index);
+		} finally {
+			readLock.unlock();
+		}
+	}
+	// endregion
 
 	/**
 	 * 新增Task
@@ -93,54 +233,6 @@ public class TaskTable implements Serializable {
 			writeLock.unlock();
 		}
 		return this;
-	}
-
-	/**
-	 * 获取所有ID，返回不可变列表，即列表不可修改
-	 *
-	 * @return ID列表
-	 * @since 4.6.7
-	 */
-	public List<String> getIds() {
-		final Lock readLock = lock.readLock();
-		readLock.lock();
-		try {
-			return this.table.getLefts();
-		} finally {
-			readLock.unlock();
-		}
-	}
-
-	/**
-	 * 获取所有定时任务表达式，返回不可变列表，即列表不可修改
-	 *
-	 * @return 定时任务表达式列表
-	 * @since 4.6.7
-	 */
-	public List<CronPattern> getPatterns() {
-		final Lock readLock = lock.readLock();
-		readLock.lock();
-		try {
-			return this.table.getMiddles();
-		} finally {
-			readLock.unlock();
-		}
-	}
-
-	/**
-	 * 获取所有定时任务，返回不可变列表，即列表不可修改
-	 *
-	 * @return 定时任务列表
-	 * @since 4.6.7
-	 */
-	public List<Task> getTasks() {
-		final Lock readLock = lock.readLock();
-		readLock.lock();
-		try {
-			return this.table.getRights();
-		} finally {
-			readLock.unlock();
-		}
 	}
 
 	/**
@@ -187,110 +279,6 @@ public class TaskTable implements Serializable {
 		return false;
 	}
 
-	/**
-	 * 获得指定位置的{@link Task}
-	 *
-	 * @param index 位置
-	 * @return {@link Task}
-	 * @since 3.1.1
-	 */
-	public Task getTask(final int index) {
-		final Lock readLock = lock.readLock();
-		readLock.lock();
-		try {
-			return this.table.getRight(index);
-		} finally {
-			readLock.unlock();
-		}
-	}
-
-	/**
-	 * 获得指定id的{@link Task}
-	 *
-	 * @param id ID
-	 * @return {@link Task}
-	 * @since 3.1.1
-	 */
-	public Task getTask(final String id) {
-		final Lock readLock = lock.readLock();
-		readLock.lock();
-		try {
-			return table.getRightByLeft(id);
-		} finally {
-			readLock.unlock();
-		}
-	}
-
-	/**
-	 * 获得指定id的{@link CronPattern}
-	 *
-	 * @param id ID
-	 * @return {@link CronPattern}
-	 * @since 3.1.1
-	 */
-	public CronPattern getPattern(final String id) {
-		final Lock readLock = lock.readLock();
-		readLock.lock();
-		try {
-			return table.getMiddleByLeft(id);
-		} finally {
-			readLock.unlock();
-		}
-	}
-
-	/**
-	 * 获得指定位置的{@link CronPattern}
-	 *
-	 * @param index 位置
-	 * @return {@link CronPattern}
-	 * @since 3.1.1
-	 */
-	public CronPattern getPattern(final int index) {
-		final Lock readLock = lock.readLock();
-		readLock.lock();
-		try {
-			return table.getMiddle(index);
-		} finally {
-			readLock.unlock();
-		}
-	}
-
-	/**
-	 * 任务表大小，加入的任务数
-	 *
-	 * @return 任务表大小，加入的任务数
-	 * @since 4.0.2
-	 */
-	public int size() {
-		return this.table.size();
-	}
-
-	/**
-	 * 任务表是否为空
-	 *
-	 * @return true为空
-	 * @since 4.0.2
-	 */
-	public boolean isEmpty() {
-		return size() < 1;
-	}
-
-	/**
-	 * 如果时间匹配则执行相应的Task，带读锁
-	 *
-	 * @param scheduler {@link Scheduler}
-	 * @param millis    时间毫秒
-	 */
-	public void executeTaskIfMatch(final Scheduler scheduler, final long millis) {
-		final Lock readLock = lock.readLock();
-		readLock.lock();
-		try {
-			executeTaskIfMatchInternal(scheduler, millis);
-		} finally {
-			readLock.unlock();
-		}
-	}
-
 	@Override
 	public String toString() {
 		final int size = this.size();
@@ -303,19 +291,10 @@ public class TaskTable implements Serializable {
 	}
 
 	/**
-	 * 如果时间匹配则执行相应的Task，无锁
+	 * 根据给定的时间戳匹配任务，如果匹配成功则使用调度器执行相应的Task
 	 *
-	 * @param scheduler {@link Scheduler}
-	 * @param millis    时间毫秒
-	 * @since 3.1.1
+	 * @param scheduler 调度器
+	 * @param millis    时间戳
 	 */
-	private void executeTaskIfMatchInternal(final Scheduler scheduler, final long millis) {
-		final int size = size();
-		for (int i = 0; i < size; i++) {
-			if (this.table.getMiddle(i).match(scheduler.config.getTimeZone(), millis, scheduler.config.isMatchSecond())) {
-				scheduler.taskManager.spawnExecutor(
-					new CronTask(this.table.getLeft(i), this.table.getMiddle(i), this.table.getRight(i)));
-			}
-		}
-	}
+	public abstract void execute(final Scheduler scheduler, final long millis);
 }

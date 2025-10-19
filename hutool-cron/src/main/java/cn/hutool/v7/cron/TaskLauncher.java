@@ -31,10 +31,10 @@ public record TaskLauncher(Scheduler scheduler, long millis) implements Runnable
 	public void run() {
 		try{
 			//匹配秒部分由用户定义决定，始终不匹配年
-			scheduler.taskTable.executeTaskIfMatch(this.scheduler, this.millis);
+			this.scheduler.execute(this.millis);
 		} finally {
 			//结束通知
-			scheduler.taskManager.notifyLauncherCompleted(this);
+			this.scheduler.taskManager.notifyLauncherCompleted(this);
 		}
 	}
 }

@@ -28,7 +28,7 @@ public class TaskTableTest {
 
 	@Test
 	public void taskTableTest(){
-		final TaskTable taskTable = new TaskTable();
+		final TaskTable taskTable = new MatchTaskTable();
 		taskTable.add(IdUtil.fastUUID(), new CronPattern("*/10 * * * * *"), ()-> Console.log("Task 1"));
 		taskTable.add(IdUtil.fastUUID(), new CronPattern("*/20 * * * * *"), ()-> Console.log("Task 2"));
 		taskTable.add(IdUtil.fastUUID(), new CronPattern("*/30 * * * * *"), ()-> Console.log("Task 3"));

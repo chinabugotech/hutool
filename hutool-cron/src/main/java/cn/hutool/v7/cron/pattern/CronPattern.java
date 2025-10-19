@@ -106,6 +106,8 @@ public class CronPattern {
 		this.matchers = PatternParser.parse(pattern);
 	}
 
+	// region ----- match
+
 	/**
 	 * 给定时间是否匹配定时任务表达式
 	 *
@@ -138,7 +140,7 @@ public class CronPattern {
 	 * @param isMatchSecond 是否匹配秒
 	 * @return 如果匹配返回 {@code true}, 否则返回 {@code false}
 	 */
-		public boolean match(final Calendar calendar, final boolean isMatchSecond) {
+	public boolean match(final Calendar calendar, final boolean isMatchSecond) {
 		return match(PatternUtil.getFields(calendar, isMatchSecond));
 	}
 
@@ -153,6 +155,19 @@ public class CronPattern {
 	public boolean match(final LocalDateTime dateTime, final boolean isMatchSecond) {
 		return match(PatternUtil.getFields(dateTime, isMatchSecond));
 	}
+	// endregion
+
+	// region ----- nextMatch
+
+	/**
+	 * 从当前时间开始，返回匹配到的下一个时间，如果当前时间匹配，直接返回
+	 *
+	 * @return 匹配到的下一个时间时间戳
+	 * @since 7.0.0
+	 */
+	public long nextMatchFromNow() {
+		return nextMatch(Calendar.getInstance()).getTimeInMillis();
+	}
 
 	/**
 	 * 返回匹配到的下一个时间
@@ -162,13 +177,24 @@ public class CronPattern {
 	 */
 	public Calendar nextMatchAfter(Calendar calendar) {
 		// issue#I9FQUA，当提供的时间已经匹配表达式时，增加1秒以匹配下一个时间
-		if(match(calendar, true)){
+		if (match(calendar, true)) {
 			final Calendar newCalendar = Calendar.getInstance(calendar.getTimeZone());
 			newCalendar.setTimeInMillis(calendar.getTimeInMillis() + 1000);
 			calendar = newCalendar;
 		}
 
 		return nextMatch(calendar);
+	}
+
+	/**
+	 * 从指定时间戳开始，返回匹配到的下一个时间，如果当前时间匹配，直接返回
+	 *
+	 * @param millis 时间戳
+	 * @return 匹配到的下一个时间时间戳
+	 * @since 7.0.0
+	 */
+	public long nextMatch(long millis) {
+		return nextMatch(CalendarUtil.calendar(millis)).getTimeInMillis();
 	}
 
 	/**
@@ -183,10 +209,12 @@ public class CronPattern {
 			return next;
 		}
 
+		// 当定义周时，可能获取到的下一个日期的周并不匹配，因此天+1直到指定周匹配
 		next.set(Calendar.DAY_OF_MONTH, next.get(Calendar.DAY_OF_MONTH) + 1);
 		next = CalendarUtil.beginOfDay(next);
 		return nextMatch(next);
 	}
+	// endregion
 
 	@Override
 	public boolean equals(final Object o) {
@@ -235,9 +263,9 @@ public class CronPattern {
 	private Calendar nextMatchAfter(final int[] values, final TimeZone zone) {
 		Calendar minMatch = null;
 		for (final PatternMatcher matcher : matchers) {
-			if(null == minMatch){
+			if (null == minMatch) {
 				minMatch = matcher.nextMatchAfter(values, zone);
-			}else{
+			} else {
 				minMatch = CompareUtil.min(minMatch, matcher.nextMatchAfter(values, zone));
 			}
 		}

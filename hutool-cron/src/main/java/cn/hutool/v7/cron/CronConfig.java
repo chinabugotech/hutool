@@ -27,6 +27,15 @@ import java.util.TimeZone;
 public class CronConfig {
 
 	/**
+	 * 创建Cron配置
+	 *
+	 * @return Cron配置
+	 */
+	public static CronConfig of(){
+		return new CronConfig();
+	}
+
+	/**
 	 * 时区
 	 */
 	private TimeZone timezone = TimeZone.getDefault();
@@ -38,11 +47,24 @@ public class CronConfig {
 	 * 是否为守护线程
 	 */
 	private boolean daemon;
+	/**
+	 * 是否使用触发队列
+	 */
+	private boolean useTriggerQueue;
 
 	/**
 	 * 构造
 	 */
 	public CronConfig() {
+	}
+
+	/**
+	 * 获得时区，默认为 {@link TimeZone#getDefault()}
+	 *
+	 * @return 时区
+	 */
+	public TimeZone getTimeZone() {
+		return this.timezone;
 	}
 
 	/**
@@ -54,15 +76,6 @@ public class CronConfig {
 	public CronConfig setTimeZone(final TimeZone timezone) {
 		this.timezone = timezone;
 		return this;
-	}
-
-	/**
-	 * 获得时区，默认为 {@link TimeZone#getDefault()}
-	 *
-	 * @return 时区
-	 */
-	public TimeZone getTimeZone() {
-		return this.timezone;
 	}
 
 	/**
@@ -102,6 +115,28 @@ public class CronConfig {
 	 */
 	public CronConfig setDaemon(final boolean daemon) {
 		this.daemon = daemon;
+		return this;
+	}
+
+	/**
+	 * 是否使用触发队列
+	 *
+	 * @return {@code true}使用，{@code false}不使用
+	 */
+	public boolean isUseTriggerQueue() {
+		return this.useTriggerQueue;
+	}
+
+	/**
+	 * 设置是否使用触发队列<br>
+	 * {@code true}则使用对接方式触发，此时会预先将任务的下一次触发时间加入队列，队列中任务的触发时间小于当前时间时，则从队列中取出并执行。<br>
+	 * {@code false}则使用普通方式触发，此时会检查任务表，当任务表中的表达式匹配指定时间时，则执行相应的Task。
+	 *
+	 * @param useTriggerQueue {@code true}使用，{@code false}不使用
+	 * @return this
+	 */
+	public CronConfig setUseTriggerQueue(final boolean useTriggerQueue) {
+		this.useTriggerQueue = useTriggerQueue;
 		return this;
 	}
 }
