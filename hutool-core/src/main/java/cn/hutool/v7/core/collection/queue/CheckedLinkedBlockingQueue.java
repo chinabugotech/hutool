@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.core.collection.queue;
 
+import java.io.Serial;
 import java.util.Collection;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
@@ -30,6 +31,7 @@ import java.util.function.Predicate;
  * @since 6.0.0
  */
 public class CheckedLinkedBlockingQueue<E> extends LinkedBlockingQueue<E> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

@@ -1410,7 +1410,8 @@ public final class ConcurrentLinkedHashMap<K, V> extends AbstractMap<K, V>
 	/**
 	 * A weigher that enforces that the selector falls within a valid range.
 	 */
-	record BoundedEntryWeigher<K, V>(EntryWeigher<? super K, ? super V> weigher) implements EntryWeigher<K, V>, Serializable {
+	record BoundedEntryWeigher<K, V>(
+		EntryWeigher<? super K, ? super V> weigher) implements EntryWeigher<K, V>, Serializable {
 		@Serial
 		private static final long serialVersionUID = 1;
 
@@ -1449,6 +1450,7 @@ public final class ConcurrentLinkedHashMap<K, V> extends AbstractMap<K, V>
 
 	/**
 	 * 序列化对象
+	 *
 	 * @return 缓存对象
 	 */
 	@Serial
@@ -1458,6 +1460,7 @@ public final class ConcurrentLinkedHashMap<K, V> extends AbstractMap<K, V>
 
 	/**
 	 * 反序列化对象
+	 *
 	 * @param stream 对象流
 	 * @throws InvalidObjectException 无效对象异常
 	 */
@@ -1516,6 +1519,9 @@ public final class ConcurrentLinkedHashMap<K, V> extends AbstractMap<K, V>
 	 *     .weigher(Weighers.<Edge>set())
 	 *     .build();
 	 * }</pre>
+	 *
+	 * @param <K> 键类型
+	 * @param <V> 值类型
 	 */
 	public static final class Builder<K, V> {
 		static final int DEFAULT_CONCURRENCY_LEVEL = 16;

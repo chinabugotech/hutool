@@ -16,42 +16,40 @@
 
 package cn.hutool.v7.core.collection.queue;
 
-import java.util.Deque;
-
 /**
- * An element that is linked on the {@link Deque}.
+ * Linked接口定义了一个链式数据结构的通用接口<br>
+ * 链式结构中每个元素都包含两个指针，分别指向前一个元素和后一个元素。
  *
- * @param <T> 值类型
+ * @param <T> 泛型参数，表示链式结构中元素的类型，必须继承自Linked<T>接口
+ * @author Looly
  */
 public interface Linked<T extends Linked<T>> {
 
 	/**
-	 * Retrieves the previous element or {@code null} if either the element is
-	 * unlinked or the first element on the deque.
+	 * 获取前一个节点，若返回{@code null} 表示这个节点没有链接或者为头节点
 	 *
 	 * @return 前一个值
 	 */
 	T getPrevious();
 
 	/**
-	 * Sets the previous element or {@code null} if there is no link.
+	 * 设置前一个节点，若为{@code null} 表示这个节点没有链接或者为头节点
 	 *
 	 * @param prev 前一个值
 	 */
 	void setPrevious(T prev);
 
 	/**
-	 * Retrieves the next element or {@code null} if either the element is
-	 * unlinked or the last element on the deque.
+	 * 获取下一个节点，若返回{@code null} 表示这个节点没有链接或者为尾节点
 	 *
-	 * @return 下一个值
+	 * @return 下一个节点
 	 */
 	T getNext();
 
 	/**
-	 * Sets the next element or {@code null} if there is no link.
+	 * 设置下一个节点，若为{@code null} 表示这个节点没有链接或者为尾节点。
 	 *
-	 * @param next 下一个值
+	 * @param next 下一个节点
 	 */
 	void setNext(T next);
 }

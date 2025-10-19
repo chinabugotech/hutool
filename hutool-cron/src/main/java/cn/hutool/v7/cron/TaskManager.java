@@ -17,10 +17,8 @@
 package cn.hutool.v7.cron;
 
 import cn.hutool.v7.core.collection.ListUtil;
-import cn.hutool.v7.core.date.DateUtil;
 import cn.hutool.v7.cron.task.CronTask;
 import cn.hutool.v7.cron.task.Task;
-import cn.hutool.v7.log.Log;
 
 import java.io.Serial;
 import java.io.Serializable;

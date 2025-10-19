@@ -19,6 +19,7 @@ import cn.hutool.v7.core.lang.Console;
 import cn.hutool.v7.core.thread.SimpleScheduler;
 import cn.hutool.v7.core.util.RuntimeUtil;
 
+import java.io.Serial;
 import java.util.Collection;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.function.Predicate;
@@ -37,6 +38,7 @@ import java.util.function.Predicate;
  * @since 6.0.0
  */
 public class MemorySafeLinkedBlockingQueue<E> extends CheckedLinkedBlockingQueue<E> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
