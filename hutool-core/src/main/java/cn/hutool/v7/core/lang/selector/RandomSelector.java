@@ -18,6 +18,7 @@ package cn.hutool.v7.core.lang.selector;
 
 import cn.hutool.v7.core.util.RandomUtil;
 
+import java.io.Serial;
 import java.util.ArrayList;
 
 /**
@@ -28,6 +29,7 @@ import java.util.ArrayList;
  * @since 6.0.0
  */
 public class RandomSelector<T> extends ArrayList<T> implements Selector<T> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	// region ----- Constructors

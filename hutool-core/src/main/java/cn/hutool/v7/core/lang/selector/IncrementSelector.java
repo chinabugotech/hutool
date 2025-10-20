@@ -60,7 +60,7 @@ public class IncrementSelector<T> extends ArrayList<T> implements Selector<T> {
 	@Override
 	public T select() {
 		final T result = get(position);
-		if(position >= size()){
+		if(++position >= size()){
 			position = 0;
 		}
 		return result;
