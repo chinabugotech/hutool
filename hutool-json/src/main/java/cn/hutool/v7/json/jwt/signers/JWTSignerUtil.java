@@ -18,6 +18,7 @@ package cn.hutool.v7.json.jwt.signers;
 
 import cn.hutool.v7.core.lang.Assert;
 import cn.hutool.v7.core.regex.ReUtil;
+import cn.hutool.v7.json.jwt.JWTException;
 
 import java.security.Key;
 import java.security.KeyPair;
@@ -147,7 +148,7 @@ public class JWTSignerUtil {
 	 * @return 签名器
 	 */
 	public static JWTSigner hmd5(final Key key) {
-		return createSigner("HMD5",key);
+		return createSigner("HMD5", key);
 	}
 
 	/**
@@ -157,7 +158,7 @@ public class JWTSignerUtil {
 	 * @return 签名器
 	 */
 	public static JWTSigner hsha1(final Key key) {
-		return createSigner("HSHA1",key);
+		return createSigner("HSHA1", key);
 	}
 
 	/**
@@ -167,7 +168,7 @@ public class JWTSignerUtil {
 	 * @return 签名器
 	 */
 	public static JWTSigner sm4cmac(final Key key) {
-		return createSigner("SM4CMAC",key);
+		return createSigner("SM4CMAC", key);
 	}
 
 	/**
@@ -177,7 +178,7 @@ public class JWTSignerUtil {
 	 * @return 签名器
 	 */
 	public static JWTSigner rmd2(final Key key) {
-		return createSigner("RMD2",key);
+		return createSigner("RMD2", key);
 	}
 
 	/**
@@ -187,7 +188,7 @@ public class JWTSignerUtil {
 	 * @return 签名器
 	 */
 	public static JWTSigner rmd5(final Key key) {
-		return createSigner("RMD5",key);
+		return createSigner("RMD5", key);
 	}
 
 	/**
@@ -197,7 +198,7 @@ public class JWTSignerUtil {
 	 * @return 签名器
 	 */
 	public static JWTSigner rsha1(final Key key) {
-		return createSigner("RSHA1",key);
+		return createSigner("RSHA1", key);
 	}
 
 	/**
@@ -207,7 +208,7 @@ public class JWTSignerUtil {
 	 * @return 签名器
 	 */
 	public static JWTSigner dnone(final Key key) {
-		return createSigner("DNONE",key);
+		return createSigner("DNONE", key);
 	}
 
 	/**
@@ -217,7 +218,7 @@ public class JWTSignerUtil {
 	 * @return 签名器
 	 */
 	public static JWTSigner dsha1(final Key key) {
-		return createSigner("DSHA1",key);
+		return createSigner("DSHA1", key);
 	}
 
 	/**
@@ -227,7 +228,7 @@ public class JWTSignerUtil {
 	 * @return 签名器
 	 */
 	public static JWTSigner enone(final Key key) {
-		return createSigner("ENONE",key);
+		return createSigner("ENONE", key);
 	}
 
 	/**
@@ -237,22 +238,26 @@ public class JWTSignerUtil {
 	 * @return 签名器
 	 */
 	public static JWTSigner esha1(final Key key) {
-		return createSigner("ESHA1",key);
+		return createSigner("ESHA1", key);
 	}
 
 	/**
-	 * 创建签名器
+	 * 创建签名器<br>
+	 * 当key为{@code null}且签名算法为{@link NoneJWTSigner#NONE}时，返回无签名的签名器
 	 *
-	 * @param algorithmId 算法ID，见{@link AlgorithmUtil}
+	 * @param algorithmId 算法ID，见{@link AlgorithmUtil}，{@code null} "" 空格使用无签名签名器
 	 * @param key         密钥
 	 * @return 签名器
 	 */
 	public static JWTSigner createSigner(final String algorithmId, final byte[] key) {
-		Assert.notNull(key, "Signer key must be not null!");
-
-		if (null == algorithmId || NoneJWTSigner.ID_NONE.equals(algorithmId)) {
-			return none();
+		if (NoneJWTSigner.isNone(algorithmId)) {
+			if(null ==  key){
+				return none();
+			}else{
+				throw new JWTException("When key is not null, algorithmId must not be none.");
+			}
 		}
+
 		return new HMacJWTSigner(AlgorithmUtil.getAlgorithm(algorithmId), key);
 	}
 
@@ -264,15 +269,17 @@ public class JWTSignerUtil {
 	 * @return 签名器
 	 */
 	public static JWTSigner createSigner(final String algorithmId, final KeyPair keyPair) {
-		Assert.notNull(keyPair, "Signer key pair must be not null!");
-
-		if (null == algorithmId || NoneJWTSigner.ID_NONE.equals(algorithmId)) {
-			return none();
+		if (NoneJWTSigner.isNone(algorithmId)) {
+			if(null ==  keyPair){
+				return none();
+			}else{
+				throw new JWTException("When keyPair is not null, algorithmId must not be none.");
+			}
 		}
 
 		final String algorithm = AlgorithmUtil.getAlgorithm(algorithmId);
 		// issue3205@Github
-		if(ReUtil.isMatch(ES_ALGORITHM_PATTERN, algorithmId)){
+		if (ReUtil.isMatch(ES_ALGORITHM_PATTERN, algorithmId)) {
 			return new EllipticCurveJWTSigner(algorithm, keyPair);
 		}
 
@@ -287,16 +294,18 @@ public class JWTSignerUtil {
 	 * @return 签名器
 	 */
 	public static JWTSigner createSigner(final String algorithmId, final Key key) {
-		Assert.notNull(key, "Signer key must be not null!");
-
-		if (null == algorithmId || NoneJWTSigner.ID_NONE.equals(algorithmId)) {
-			return NoneJWTSigner.NONE;
+		if (NoneJWTSigner.isNone(algorithmId)) {
+			if(null ==  key){
+				return none();
+			}else{
+				throw new JWTException("When key is not null, algorithmId must not be none.");
+			}
 		}
 
 		final String algorithm = AlgorithmUtil.getAlgorithm(algorithmId);
 		if (key instanceof PrivateKey || key instanceof PublicKey) {
 			// issue3205@Github
-			if(ReUtil.isMatch(ES_ALGORITHM_PATTERN, algorithmId)){
+			if (ReUtil.isMatch(ES_ALGORITHM_PATTERN, algorithmId)) {
 				return new EllipticCurveJWTSigner(algorithm, key);
 			}
 

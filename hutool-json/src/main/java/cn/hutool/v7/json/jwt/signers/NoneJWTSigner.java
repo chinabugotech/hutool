@@ -36,6 +36,16 @@ public class NoneJWTSigner implements JWTSigner {
 	 */
 	public static NoneJWTSigner NONE = new NoneJWTSigner();
 
+	/**
+	 * 判断给定的算法是否为无签名的算法
+	 *
+	 * @param alg 算法
+	 * @return 如果是无签名的算法，则返回true；否则返回false
+	 */
+	public static boolean isNone(final String alg) {
+		return StrUtil.isBlank( alg) || StrUtil.equalsIgnoreCase(alg, ID_NONE);
+	}
+
 
 	@Override
 	public String sign(final String headerBase64, final String payloadBase64) {

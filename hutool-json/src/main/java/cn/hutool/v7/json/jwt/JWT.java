@@ -136,12 +136,7 @@ public class JWT implements RegisteredPayload<JWT> {
 	 * @return this
 	 */
 	public JWT setKey(final byte[] key) {
-		// 检查头信息中是否有算法信息
-		final String algorithmId = (String) this.header.getClaim(JWTHeader.ALGORITHM);
-		if (StrUtil.isNotBlank(algorithmId)) {
-			return setSigner(algorithmId, key);
-		}
-		return setSigner(JWTSignerUtil.hs256(key));
+		return setSigner(getAlgorithm(), key);
 	}
 
 	/**
@@ -418,6 +413,16 @@ public class JWT implements RegisteredPayload<JWT> {
 		if (null == signer) {
 			// 如果无签名器提供，默认认为是无签名JWT信息
 			signer = NoneJWTSigner.NONE;
+		}
+
+		// 用户定义alg为none但是签名器不是NoneJWTSigner
+		if(NoneJWTSigner.isNone(getAlgorithm()) && !(signer instanceof NoneJWTSigner)){
+			throw new JWTException("Alg is 'none' but use: {} !", signer.getClass());
+		}
+
+		// alg非none，但签名器是NoneJWTSigner
+		if(signer instanceof NoneJWTSigner && !NoneJWTSigner.isNone(getAlgorithm())){
+			throw new JWTException("Alg is not 'none' but use NoneJWTSigner!");
 		}
 
 		final List<String> tokens = this.tokens;

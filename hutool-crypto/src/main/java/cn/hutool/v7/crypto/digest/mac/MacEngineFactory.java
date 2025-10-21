@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.crypto.digest.mac;
 
+import cn.hutool.v7.core.lang.Assert;
 import cn.hutool.v7.crypto.bc.SmUtil;
 
 import java.security.Key;
@@ -50,6 +51,7 @@ public class MacEngineFactory {
 	 * @since 5.7.12
 	 */
 	public static MacEngine createEngine(final String algorithm, final Key key, final AlgorithmParameterSpec spec) {
+		Assert.notBlank(algorithm, "Algorithm must be not blank!");
 		if (algorithm.equalsIgnoreCase(HmacAlgorithm.HmacSM3.getValue())) {
 			// HmacSM3算法是BC库实现的，忽略加盐
 			return SmUtil.createHmacSm3Engine(key.getEncoded());
