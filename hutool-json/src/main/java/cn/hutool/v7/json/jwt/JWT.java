@@ -136,7 +136,7 @@ public class JWT implements RegisteredPayload<JWT> {
 	 * @return this
 	 */
 	public JWT setKey(final byte[] key) {
-		return setSigner(getAlgorithm(), key);
+		return setSigner(StrUtil.defaultIfNull(getAlgorithm(), "HS256"), key);
 	}
 
 	/**
@@ -182,6 +182,13 @@ public class JWT implements RegisteredPayload<JWT> {
 	 */
 	public JWT setSigner(final JWTSigner signer) {
 		this.signer = signer;
+
+		// 检查头信息中是否有算法信息
+		final String algorithm = (String) this.header.getClaim(JWTHeader.ALGORITHM);
+		if (StrUtil.isBlank(algorithm)) {
+			this.header.setAlgorithm(AlgorithmUtil.getId(signer.getAlgorithm()));
+		}
+
 		return this;
 	}
 

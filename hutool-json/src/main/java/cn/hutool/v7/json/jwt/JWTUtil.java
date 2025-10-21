@@ -34,7 +34,7 @@ public class JWTUtil {
 	 * @return JWT Token
 	 */
 	public static String createToken(final Map<String, ?> payload, final byte[] key) {
-		return createToken(MapUtil.of(JWTHeader.TYPE, "JWT"), payload, key);
+		return createToken(MapUtil.ofKvs(false,JWTHeader.TYPE, "JWT", JWTHeader.ALGORITHM, "HS256"), payload, key);
 	}
 
 	/**
