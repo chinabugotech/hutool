@@ -55,7 +55,7 @@ public class Issue4105Test {
 		// 对于签名为none的JWT，verify()方法总是返回true
 		Assertions.assertTrue(jwt.verify());
 
-		// 对于签名为none的JWT，setKey使用的签名总是
+		// 对于签名为none的JWT，但是定义了key，不一致报错
 		final JWT jwt2 = JWTUtil.parseToken(token);
 		Assertions.assertThrows(JWTException.class, ()-> jwt2.setKey("123".getBytes(StandardCharsets.UTF_8)).verify());
 	}
