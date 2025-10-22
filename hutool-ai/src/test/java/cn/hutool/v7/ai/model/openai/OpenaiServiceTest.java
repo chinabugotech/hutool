@@ -92,7 +92,7 @@ class OpenaiServiceTest {
 		final OpenaiService openaiService = AIServiceFactory.getAIService(new AIConfigBuilder(ModelName.OPENAI.getValue())
 			.setApiKey(key).setModel(Models.Openai.GPT_4O_MINI.getModel()).build(), OpenaiService.class);
 		String prompt = "图片上有些什么？";
-		List<String> images = Arrays.asList("https://img2.baidu.com/it/u=862000265,4064861820&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1544\",\"https://img2.baidu.com/it/u=1682510685,1244554634&fm=253&fmt=auto&app=138&f=JPEG?w=803&h=800");
+		List<String> images = List.of("https://img2.baidu.com/it/u=862000265,4064861820&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1544\",\"https://img2.baidu.com/it/u=1682510685,1244554634&fm=253&fmt=auto&app=138&f=JPEG?w=803&h=800");
 
 		// 使用AtomicBoolean作为结束标志
 		AtomicBoolean isDone = new AtomicBoolean(false);
@@ -155,10 +155,11 @@ class OpenaiServiceTest {
 	void textToSpeech() {
 		final OpenaiService openaiService = AIServiceFactory.getAIService(new AIConfigBuilder(ModelName.OPENAI.getValue())
 			.setApiKey(key).setModel(Models.Openai.TTS_1_HD.getModel()).build(), OpenaiService.class);
-		final InputStream inputStream = openaiService.textToSpeech("万里山河一夜白，\n" +
-			"千峰尽染玉龙哀。\n" +
-			"长风卷起琼花碎，\n" +
-			"直上九霄揽月来。", OpenaiCommon.OpenaiSpeech.NOVA);
+		final InputStream inputStream = openaiService.textToSpeech("""
+			万里山河一夜白，
+			千峰尽染玉龙哀。
+			长风卷起琼花碎，
+			直上九霄揽月来。""", OpenaiCommon.OpenaiSpeech.NOVA);
 
 		final String filePath = "your filePath";
 		final Path path = Paths.get(filePath);
@@ -199,7 +200,7 @@ class OpenaiServiceTest {
 	void moderations() {
 		final OpenaiService openaiService = AIServiceFactory.getAIService(new AIConfigBuilder(ModelName.OPENAI.getValue())
 			.setApiKey(key).setModel(Models.Openai.OMNI_MODERATION_LATEST.getModel()).build(), OpenaiService.class);
-		final String moderations = openaiService.moderations("你要杀人", "https://img2.baidu.com/it/u=862000265,4064861820&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1544");
+		final String moderations = openaiService.moderations("你要玩游戏", "https://img2.baidu.com/it/u=862000265,4064861820&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1544");
 		assertNotNull(moderations);
 	}
 
