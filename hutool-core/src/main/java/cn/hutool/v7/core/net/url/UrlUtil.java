@@ -662,8 +662,7 @@ public class UrlUtil {
 			try {
 				conn = url.openConnection();
 				useCachesIfNecessary(conn);
-				if (conn instanceof HttpURLConnection) {
-					final HttpURLConnection httpCon = (HttpURLConnection) conn;
+				if (conn instanceof HttpURLConnection httpCon) {
 					httpCon.setRequestMethod("HEAD");
 				}
 				return conn.getContentLengthLong();
@@ -685,5 +684,74 @@ public class UrlUtil {
 	 */
 	public static void useCachesIfNecessary(final URLConnection con) {
 		con.setUseCaches(con.getClass().getSimpleName().startsWith("JNLP"));
+	}
+
+	/**
+	 * 将表单数据加到URL中（用于GET表单提交）
+	 * 表单的键值对会被url编码，但是url中原参数不会被编码
+	 * 且对form参数进行  FormUrlEncoded ，x-www-form-urlencoded模式，此模式下空格会编码为'+'
+	 *
+	 * @param url     URL
+	 * @param form    表单数据
+	 * @param charset 编码   null表示不encode键值对
+	 * @return 合成后的URL
+	 */
+	public static String urlWithFormUrlEncoded(final String url, final Map<String, Object> form, final Charset charset) {
+		return urlWithForm(url, form, charset, true);
+	}
+
+	/**
+	 * 将表单数据加到URL中（用于GET表单提交）<br>
+	 * 表单的键值对会被url编码，但是url中原参数不会被编码
+	 *
+	 * @param url            URL
+	 * @param form           表单数据
+	 * @param charset        编码
+	 * @param isEncodeParams 是否对键和值做转义处理
+	 * @return 合成后的URL
+	 */
+	public static String urlWithForm(final String url, final Map<String, Object> form, final Charset charset, final boolean isEncodeParams) {
+		return urlWithForm(url, UrlQueryUtil.toQuery(form, null), charset, isEncodeParams);
+	}
+
+	/**
+	 * 将表单数据字符串加到URL中（用于GET表单提交）
+	 *
+	 * @param url         URL
+	 * @param queryString 表单数据字符串
+	 * @param charset     编码
+	 * @param isEncode    是否对键和值做转义处理
+	 * @return 拼接后的字符串
+	 */
+	public static String urlWithForm(final String url, final String queryString, final Charset charset, final boolean isEncode) {
+		if (StrUtil.isBlank(queryString)) {
+			// 无额外参数
+			if (StrUtil.contains(url, '?')) {
+				// url中包含参数
+				return isEncode ? UrlQueryUtil.encodeQuery(url, charset) : url;
+			}
+			return url;
+		}
+
+		// 始终有参数
+		final StringBuilder urlBuilder = new StringBuilder(url.length() + queryString.length() + 16);
+		final int qmIndex = url.indexOf('?');
+		if (qmIndex > 0) {
+			// 原URL带参数，则对这部分参数单独编码（如果选项为进行编码）
+			urlBuilder.append(isEncode ? UrlQueryUtil.encodeQuery(url, charset) : url);
+			if (!StrUtil.endWith(url, '&')) {
+				// 已经带参数的情况下追加参数
+				urlBuilder.append('&');
+			}
+		} else {
+			// 原url无参数，则不做编码
+			urlBuilder.append(url);
+			if (qmIndex < 0) {
+				// 无 '?' 追加之
+				urlBuilder.append('?');
+			}
+		}
+		urlBuilder.append(isEncode ? UrlQueryUtil.encodeQuery(queryString, charset) : queryString);
+		return urlBuilder.toString();
 	}
 }

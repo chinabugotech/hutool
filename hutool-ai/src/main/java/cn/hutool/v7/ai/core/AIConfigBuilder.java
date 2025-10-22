@@ -16,6 +16,8 @@
 
 package cn.hutool.v7.ai.core;
 
+import cn.hutool.v7.http.proxy.ProxyInfo;
+
 import java.lang.reflect.Constructor;
 
 /**
@@ -131,6 +133,18 @@ public class AIConfigBuilder {
 		if (readTimeout > 0) {
 			config.setReadTimeout(readTimeout);
 		}
+		return this;
+	}
+
+	/**
+	 * 设置代理
+	 *
+	 * @param proxy 代理
+	 * @return config
+	 * @since 7.0.0
+	 */
+	public AIConfigBuilder setProxy(final ProxyInfo proxy) {
+		config.setProxy(proxy);
 		return this;
 	}
 

@@ -23,6 +23,7 @@ package cn.hutool.v7.ai.core;
  * @since 6.0.0
  */
 public class Message {
+
 	//角色 注意：如果设置系统消息，请放在messages列表的第一位
 	private String role;
 	//内容
@@ -49,9 +50,11 @@ public class Message {
 	 * 设置角色
 	 *
 	 * @param role 角色
+	 * @return this
 	 */
-	public void setRole(final String role) {
+	public Message setRole(final String role) {
 		this.role = role;
+		return this;
 	}
 
 	/**
@@ -76,8 +79,10 @@ public class Message {
 	 * 设置内容
 	 *
 	 * @param content 内容
+	 * @return this
 	 */
-	public void setContent(final Object content) {
+	public Message setContent(final Object content) {
 		this.content = content;
+		return this;
 	}
 }

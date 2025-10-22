@@ -17,7 +17,7 @@
 package cn.hutool.v7.ai.model.openai;
 
 import cn.hutool.v7.ai.Models;
-import cn.hutool.v7.ai.core.BaseConfig;
+import cn.hutool.v7.ai.core.BaseAIConfig;
 
 /**
  * openai配置类，初始化API接口地址，设置默认的模型
@@ -25,7 +25,7 @@ import cn.hutool.v7.ai.core.BaseConfig;
  * @author elichow
  * @since 6.0.0
  */
-public class OpenaiConfig extends BaseConfig {
+public class OpenaiConfig extends BaseAIConfig {
 
 	private final String API_URL = "https://api.openai.com/v1";
 

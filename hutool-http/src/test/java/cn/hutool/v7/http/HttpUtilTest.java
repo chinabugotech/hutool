@@ -28,7 +28,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -129,30 +128,6 @@ public class HttpUtilTest {
 		// 验证patch请求是否可用
 		final String body = HttpUtil.send(Request.of("https://hutool.cn").method(Method.PATCH)).bodyStr();
 		Console.log(body);
-	}
-
-	@Test
-	public void urlWithFormTest() {
-		final Map<String, Object> param = new LinkedHashMap<>();
-		param.put("AccessKeyId", "123");
-		param.put("Action", "DescribeDomainRecords");
-		param.put("Format", "date");
-		param.put("DomainName", "lesper.cn"); // 域名地址
-		param.put("SignatureMethod", "POST");
-		param.put("SignatureNonce", "123");
-		param.put("SignatureVersion", "4.3.1");
-		param.put("Timestamp", 123432453);
-		param.put("Version", "1.0");
-
-		String urlWithForm = HttpUtil.urlWithForm("http://api.hutool.cn/login?type=aaa", param, CharsetUtil.UTF_8, false);
-		Assertions.assertEquals(
-				"http://api.hutool.cn/login?type=aaa&AccessKeyId=123&Action=DescribeDomainRecords&Format=date&DomainName=lesper.cn&SignatureMethod=POST&SignatureNonce=123&SignatureVersion=4.3.1&Timestamp=123432453&Version=1.0",
-				urlWithForm);
-
-		urlWithForm = HttpUtil.urlWithForm("http://api.hutool.cn/login?type=aaa", param, CharsetUtil.UTF_8, false);
-		Assertions.assertEquals(
-				"http://api.hutool.cn/login?type=aaa&AccessKeyId=123&Action=DescribeDomainRecords&Format=date&DomainName=lesper.cn&SignatureMethod=POST&SignatureNonce=123&SignatureVersion=4.3.1&Timestamp=123432453&Version=1.0",
-				urlWithForm);
 	}
 
 	@Test

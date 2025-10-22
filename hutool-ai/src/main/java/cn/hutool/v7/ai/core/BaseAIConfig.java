@@ -16,6 +16,8 @@
 
 package cn.hutool.v7.ai.core;
 
+import cn.hutool.v7.http.proxy.ProxyInfo;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -25,7 +27,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author elichow
  * @since 6.0.0
  */
-public class BaseConfig implements AIConfig {
+public class BaseAIConfig implements AIConfig {
 
 	/**
 	 * API Key
@@ -51,6 +53,10 @@ public class BaseConfig implements AIConfig {
 	 * 读取超时
 	 */
 	protected volatile int readTimeout = 300000;
+	/**
+	 * 代理
+	 */
+	private volatile ProxyInfo proxy;
 
 	@Override
 	public void setApiKey(final String apiKey) {
@@ -115,5 +121,15 @@ public class BaseConfig implements AIConfig {
 	@Override
 	public void setReadTimeout(final int readTimeout) {
 		this.readTimeout = readTimeout;
+	}
+
+	@Override
+	public ProxyInfo getProxy() {
+		return proxy;
+	}
+
+	@Override
+	public void setProxy(final ProxyInfo proxy) {
+		this.proxy = proxy;
 	}
 }

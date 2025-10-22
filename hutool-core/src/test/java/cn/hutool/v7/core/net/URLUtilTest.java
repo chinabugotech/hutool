@@ -17,11 +17,15 @@
 package cn.hutool.v7.core.net;
 
 import cn.hutool.v7.core.net.url.UrlUtil;
+import cn.hutool.v7.core.util.CharsetUtil;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -106,5 +110,29 @@ public class URLUtilTest {
 		final URI uri = UrlUtil.toURI(fileFullName);
 		final URI resolve = uri.resolve(".");
 		assertEquals("/Uploads/20240601/", resolve.toString());
+	}
+
+	@Test
+	public void urlWithFormTest() {
+		final Map<String, Object> param = new LinkedHashMap<>();
+		param.put("AccessKeyId", "123");
+		param.put("Action", "DescribeDomainRecords");
+		param.put("Format", "date");
+		param.put("DomainName", "lesper.cn"); // 域名地址
+		param.put("SignatureMethod", "POST");
+		param.put("SignatureNonce", "123");
+		param.put("SignatureVersion", "4.3.1");
+		param.put("Timestamp", 123432453);
+		param.put("Version", "1.0");
+
+		String urlWithForm = UrlUtil.urlWithForm("http://api.hutool.cn/login?type=aaa", param, CharsetUtil.UTF_8, false);
+		Assertions.assertEquals(
+			"http://api.hutool.cn/login?type=aaa&AccessKeyId=123&Action=DescribeDomainRecords&Format=date&DomainName=lesper.cn&SignatureMethod=POST&SignatureNonce=123&SignatureVersion=4.3.1&Timestamp=123432453&Version=1.0",
+			urlWithForm);
+
+		urlWithForm = UrlUtil.urlWithForm("http://api.hutool.cn/login?type=aaa", param, CharsetUtil.UTF_8, false);
+		Assertions.assertEquals(
+			"http://api.hutool.cn/login?type=aaa&AccessKeyId=123&Action=DescribeDomainRecords&Format=date&DomainName=lesper.cn&SignatureMethod=POST&SignatureNonce=123&SignatureVersion=4.3.1&Timestamp=123432453&Version=1.0",
+			urlWithForm);
 	}
 }

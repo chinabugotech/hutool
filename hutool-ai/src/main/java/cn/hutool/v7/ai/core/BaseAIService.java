@@ -16,19 +16,18 @@
 
 package cn.hutool.v7.ai.core;
 
-import cn.hutool.v7.ai.AIException;
-import cn.hutool.v7.http.HttpGlobalConfig;
+import cn.hutool.v7.core.io.IoUtil;
 import cn.hutool.v7.http.HttpUtil;
+import cn.hutool.v7.http.client.ClientConfig;
 import cn.hutool.v7.http.client.Response;
+import cn.hutool.v7.http.client.engine.ClientEngine;
+import cn.hutool.v7.http.client.engine.ClientEngineFactory;
+import cn.hutool.v7.http.meta.ContentType;
 import cn.hutool.v7.http.meta.HeaderName;
 import cn.hutool.v7.http.meta.Method;
-import cn.hutool.v7.json.JSONUtil;
 
 import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.io.IOException;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -44,6 +43,7 @@ public class BaseAIService {
 	 * AI配置
 	 */
 	protected final AIConfig config;
+	private final ClientEngine clientEngine;
 
 	/**
 	 * 构造方法
@@ -52,6 +52,8 @@ public class BaseAIService {
 	 */
 	public BaseAIService(final AIConfig config) {
 		this.config = config;
+		this.clientEngine = ClientEngineFactory.createEngine(
+			ClientConfig.of().setTimeout(config.getTimeout()).setProxy(config.getProxy()));
 	}
 
 	/**
@@ -60,17 +62,10 @@ public class BaseAIService {
 	 * @return 请求响应
 	 */
 	protected Response sendGet(final String endpoint) {
-		//链式构建请求
-		try {
-			//设置超时
-			HttpGlobalConfig.setTimeout(config.getTimeout());
-			return HttpUtil.createRequest(config.getApiUrl() + endpoint, Method.GET)
-				.header(HeaderName.ACCEPT, "application/json")
-				.header(HeaderName.AUTHORIZATION, "Bearer " + config.getApiKey())
-				.send();
-		} catch (final AIException e) {
-			throw new AIException("Failed to send GET request: " + e.getMessage(), e);
-		}
+		return HttpUtil.createRequest(config.getApiUrl() + endpoint, Method.GET)
+			.header(HeaderName.ACCEPT, ContentType.JSON.getValue())
+			.bearerAuth(config.getApiKey())
+			.send(this.clientEngine);
 	}
 
 	/**
@@ -80,20 +75,12 @@ public class BaseAIService {
 	 * @return 请求响应
 	 */
 	protected Response sendPost(final String endpoint, final String paramJson) {
-		//链式构建请求
-		try {
-			//设置超时3分钟
-			HttpGlobalConfig.setTimeout(config.getTimeout());
-			return HttpUtil.createRequest(config.getApiUrl() + endpoint, Method.POST)
-				.header(HeaderName.CONTENT_TYPE, "application/json")
-				.header(HeaderName.ACCEPT, "application/json")
-				.header(HeaderName.AUTHORIZATION, "Bearer " + config.getApiKey())
-				.body(paramJson)
-				.send();
-		} catch (final AIException e) {
-			throw new AIException("Failed to send POST request：" + e.getMessage(), e);
-		}
-
+		return HttpUtil.createRequest(config.getApiUrl() + endpoint, Method.POST)
+			.header(HeaderName.CONTENT_TYPE, ContentType.JSON.getValue())
+			.header(HeaderName.ACCEPT, ContentType.JSON.getValue())
+			.bearerAuth(config.getApiKey())
+			.body(paramJson)
+			.send(this.clientEngine);
 	}
 
 	/**
@@ -103,19 +90,12 @@ public class BaseAIService {
 	 * @return 请求响应
 	 */
 	protected Response sendFormData(final String endpoint, final Map<String, Object> paramMap) {
-		//链式构建请求
-		try {
-			//设置超时3分钟
-			HttpGlobalConfig.setTimeout(config.getTimeout());
-			return HttpUtil.createPost(config.getApiUrl() + endpoint)
-				//form表单中有file对象会自动将文件编码为 multipart/form-data 格式。不需要设置
+		return HttpUtil.createPost(config.getApiUrl() + endpoint)
+			//form表单中有file对象会自动将文件编码为 multipart/form-data 格式。不需要设置
 //				.header(HeaderName.CONTENT_TYPE, "multipart/form-data")
-				.header(HeaderName.AUTHORIZATION, "Bearer " + config.getApiKey())
-				.form(paramMap)
-				.send();
-		} catch (final AIException e) {
-			throw new AIException("Failed to send POST request：" + e.getMessage(), e);
-		}
+			.bearerAuth(config.getApiKey())
+			.form(paramMap)
+			.send(this.clientEngine);
 	}
 
 	/**
@@ -126,41 +106,22 @@ public class BaseAIService {
 	 * @param callback 流式数据回调函数
 	 */
 	protected void sendPostStream(final String endpoint, final Map<String, Object> paramMap, final Consumer<String> callback) {
-		HttpURLConnection connection = null;
-		try {
-			// 创建连接
-			final URL apiUrl = new URL(config.getApiUrl() + endpoint);
-			connection = (HttpURLConnection) apiUrl.openConnection();
-			connection.setRequestMethod(Method.POST.name());
-			connection.setRequestProperty(HeaderName.CONTENT_TYPE.getValue(), "application/json");
-			connection.setRequestProperty(HeaderName.AUTHORIZATION.getValue(), "Bearer " + config.getApiKey());
-			connection.setDoOutput(true);
-			//设置读取超时
-			connection.setReadTimeout(config.getReadTimeout());
-			//设置连接超时
-			connection.setConnectTimeout(config.getTimeout());
-			// 发送请求体
-			try (final OutputStream os = connection.getOutputStream()) {
-				final String jsonInputString = JSONUtil.toJsonStr(paramMap);
-				os.write(jsonInputString.getBytes());
-				os.flush();
-			}
+		final Response response = HttpUtil.createPost(config.getApiUrl() + endpoint)
+			//form表单中有file对象会自动将文件编码为 multipart/form-data 格式。不需要设置
+//				.header(HeaderName.CONTENT_TYPE, "multipart/form-data")
+			.bearerAuth(config.getApiKey())
+			.form(paramMap)
+			.send(this.clientEngine);
 
-			// 读取流式响应
-			try (final BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
-				String line;
-				while ((line = reader.readLine()) != null) {
-					// 调用回调函数处理每一行数据
-					callback.accept(line);
-				}
+		// 读取流式响应
+		try (final BufferedReader reader = IoUtil.toUtf8Reader(response.bodyStream())) {
+			String line;
+			while ((line = reader.readLine()) != null) {
+				// 调用回调函数处理每一行数据
+				callback.accept(line);
 			}
-		} catch (final Exception e) {
+		} catch (final IOException e){
 			callback.accept("{\"error\": \"" + e.getMessage() + "\"}");
-		} finally {
-			// 关闭连接
-			if (connection != null) {
-				connection.disconnect();
-			}
 		}
 	}
 }

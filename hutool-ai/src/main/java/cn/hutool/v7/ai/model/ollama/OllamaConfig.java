@@ -17,7 +17,7 @@
 package cn.hutool.v7.ai.model.ollama;
 
 import cn.hutool.v7.ai.Models;
-import cn.hutool.v7.ai.core.BaseConfig;
+import cn.hutool.v7.ai.core.BaseAIConfig;
 
 /**
  * Ollama配置类，初始化API接口地址，设置默认的模型
@@ -25,7 +25,7 @@ import cn.hutool.v7.ai.core.BaseConfig;
  * @author yangruoyu-yumeisoft
  * @since 5.8.40
  */
-public class OllamaConfig extends BaseConfig {
+public class OllamaConfig extends BaseAIConfig {
 
 	private final String API_URL = "http://localhost:11434";
 

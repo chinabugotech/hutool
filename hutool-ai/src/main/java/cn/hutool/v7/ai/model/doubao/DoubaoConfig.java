@@ -17,7 +17,7 @@
 package cn.hutool.v7.ai.model.doubao;
 
 import cn.hutool.v7.ai.Models;
-import cn.hutool.v7.ai.core.BaseConfig;
+import cn.hutool.v7.ai.core.BaseAIConfig;
 
 /**
  * Doubao配置类，初始化API接口地址，设置默认的模型
@@ -25,7 +25,7 @@ import cn.hutool.v7.ai.core.BaseConfig;
  * @author elichow
  * @since 6.0.0
  */
-public class DoubaoConfig extends BaseConfig {
+public class DoubaoConfig extends BaseAIConfig {
 
 	// 定义API的基础URL，用于和服务器通信
 	private static final String API_URL = "https://ark.cn-beijing.volces.com/api/v3";

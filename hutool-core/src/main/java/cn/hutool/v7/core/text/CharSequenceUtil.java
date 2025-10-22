@@ -3943,9 +3943,21 @@ public class CharSequenceUtil extends StrValidator {
 	 * @return StringBuilder对象
 	 */
 	public static StringBuilder builder(final CharSequence... strs) {
+		return builder(Function.identity(), strs);
+	}
+
+	/**
+	 * 创建StringBuilder对象
+	 *
+	 * @param strEditor 编辑器，用于对每个字符串进行编辑
+	 * @param strs 待处理的字符串列表
+	 * @return StringBuilder对象
+	 * @since 5.8.42
+	 */
+	public static StringBuilder builder(Function<CharSequence, CharSequence> strEditor, final CharSequence... strs){
 		final StringBuilder sb = new StringBuilder();
 		for (final CharSequence str : strs) {
-			sb.append(str);
+			sb.append(strEditor.apply( str));
 		}
 		return sb;
 	}

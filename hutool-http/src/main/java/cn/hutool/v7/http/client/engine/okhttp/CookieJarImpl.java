@@ -31,26 +31,17 @@ import java.util.List;
  *
  * @author Looly
  * @since 6.0.0
+ * @param cookieStore Cookie存储器，用于自定义Cookie存储实现
  */
-public class CookieJarImpl implements CookieJar {
-
-	private final CookieStoreSpi cookieStore;
-
-	/**
-	 * 构造
-	 *
-	 * @param cookieStore Cookie存储器，用于自定义Cookie存储实现
-	 */
-	public CookieJarImpl(final CookieStoreSpi cookieStore) {
-		this.cookieStore = cookieStore;
-	}
+public record CookieJarImpl(CookieStoreSpi cookieStore) implements CookieJar {
 
 	/**
 	 * 获取Cookie存储器
 	 *
 	 * @return Cookie存储器
 	 */
-	public CookieStoreSpi getCookieStore() {
+	@Override
+	public CookieStoreSpi cookieStore() {
 		return this.cookieStore;
 	}
 
@@ -59,14 +50,14 @@ public class CookieJarImpl implements CookieJar {
 		final List<CookieSpi> cookieSpis = this.cookieStore.get(httpUrl.uri());
 		final List<Cookie> cookies = new ArrayList<>(cookieSpis.size());
 		for (final CookieSpi cookieSpi : cookieSpis) {
-			cookies.add(((OkCookie)cookieSpi).getRaw());
+			cookies.add(((OkCookie) cookieSpi).getRaw());
 		}
 		return cookies;
 	}
 
 	@Override
 	public void saveFromResponse(final HttpUrl httpUrl, final List<Cookie> list) {
-		if(CollUtil.isEmpty(list)){
+		if (CollUtil.isEmpty(list)) {
 			return;
 		}
 

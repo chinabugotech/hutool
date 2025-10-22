@@ -17,7 +17,7 @@
 package cn.hutool.v7.ai.model.deepseek;
 
 import cn.hutool.v7.ai.Models;
-import cn.hutool.v7.ai.core.BaseConfig;
+import cn.hutool.v7.ai.core.BaseAIConfig;
 
 /**
  * DeepSeek配置类，初始化API接口地址，设置默认的模型
@@ -25,7 +25,7 @@ import cn.hutool.v7.ai.core.BaseConfig;
  * @author elichow
  * @since 6.0.0
  */
-public class DeepSeekConfig extends BaseConfig {
+public class DeepSeekConfig extends BaseAIConfig {
 
 	/**
 	 * 定义API的基础URL，用于后续的所有API请求

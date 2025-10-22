@@ -30,19 +30,9 @@ import java.net.PasswordAuthentication;
  *
  * @author Looly
  * @since 6.0.0
+ * @param auth 账号密码
  */
-public class BasicProxyAuthenticator implements Authenticator {
-
-	private final PasswordAuthentication auth;
-
-	/**
-	 * 构造
-	 *
-	 * @param passwordAuthentication 账号密码对
-	 */
-	public BasicProxyAuthenticator(final PasswordAuthentication passwordAuthentication) {
-		auth = passwordAuthentication;
-	}
+public record BasicProxyAuthenticator(PasswordAuthentication auth) implements Authenticator {
 
 	@Override
 	public Request authenticate(final Route route, final Response response) {

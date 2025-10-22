@@ -18,10 +18,13 @@ package cn.hutool.v7.ai;
 
 import cn.hutool.v7.core.exception.HutoolException;
 
+import java.io.Serial;
+
 /**
  * 异常处理类
  */
 public class AIException extends HutoolException {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

@@ -16,6 +16,8 @@
 
 package cn.hutool.v7.ai.core;
 
+import cn.hutool.v7.http.proxy.ProxyInfo;
+
 import java.util.Map;
 
 /**
@@ -142,4 +144,19 @@ public interface AIConfig {
 	 */
 	int getReadTimeout();
 
+	/**
+	 * 获取http代理
+	 *
+	 * @return http代理
+	 * @since 7.0.0
+	 */
+	ProxyInfo getProxy();
+
+	/**
+	 * 设置代理配置
+	 *
+	 * @param proxy 连接超时时间
+	 * @since 7.0.0
+	 */
+	void setProxy(ProxyInfo proxy);
 }

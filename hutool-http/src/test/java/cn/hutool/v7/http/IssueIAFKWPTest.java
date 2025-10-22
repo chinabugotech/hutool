@@ -18,6 +18,7 @@ package cn.hutool.v7.http;
 
 import cn.hutool.v7.core.collection.ListUtil;
 import cn.hutool.v7.core.net.url.UrlQuery;
+import cn.hutool.v7.core.net.url.UrlUtil;
 import cn.hutool.v7.core.util.CharsetUtil;
 import cn.hutool.v7.json.JSONObject;
 import cn.hutool.v7.json.JSONUtil;
@@ -39,12 +40,12 @@ public class IssueIAFKWPTest {
 
 		// form-url-encoded模式下所有字符转义
 		String build = UrlQuery.of(params, UrlQuery.EncodeMode.FORM_URL_ENCODED).build(CharsetUtil.UTF_8);
-		String s = HttpUtil.urlWithForm("https://hutool.cn", build, CharsetUtil.UTF_8, false);
+		String s = UrlUtil.urlWithForm("https://hutool.cn", build, CharsetUtil.UTF_8, false);
 		Assertions.assertEquals("https://hutool.cn?query=%7B%22fields%22%3A%5B%221%22%2C%222%22%2C%22good%22%5D%7D", s);
 
 		// 标准模式下只转义特定字符
 		build = UrlQuery.of(params, UrlQuery.EncodeMode.NORMAL).build(CharsetUtil.UTF_8);
-		s = HttpUtil.urlWithForm("https://hutool.cn", build, CharsetUtil.UTF_8, false);
+		s = UrlUtil.urlWithForm("https://hutool.cn", build, CharsetUtil.UTF_8, false);
 		Assertions.assertEquals("https://hutool.cn?query=%7B%22fields%22:%5B%221%22,%222%22,%22good%22%5D%7D", s);
 	}
 }
