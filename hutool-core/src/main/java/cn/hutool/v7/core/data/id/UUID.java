@@ -439,7 +439,7 @@ public final class UUID implements java.io.Serializable, Comparable<UUID> {
 	 * @return 此{@code UUID} 的字符串表现形式
 	 */
 	public String toString(final boolean isSimple) {
-		final long mostSigBits = this.getLeastSignificantBits();
+		final long mostSigBits = this.getMostSignificantBits();
 		final long leastSigBits = this.getLeastSignificantBits();
 
 		final StringBuilder builder = StrUtil.builder(isSimple ? 32 : 36);
