@@ -44,6 +44,7 @@ public class InternalMailUtil {
 	 * @since 4.0.3
 	 */
 	public static InternetAddress[] parseAddressFromStrs(final String[] addrStrs, final Charset charset) {
+		if (ArrayUtil.isEmpty(addrStrs)) return new InternetAddress[0];
 		final List<InternetAddress> resultList = new ArrayList<>(addrStrs.length);
 		InternetAddress[] addrs;
 		for (final String addrStr : addrStrs) {
