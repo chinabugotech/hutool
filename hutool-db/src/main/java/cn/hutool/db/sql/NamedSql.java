@@ -138,8 +138,8 @@ public class NamedSql {
 		if(paramMap.containsKey(nameStr)) {
 			// 有变量对应值（值可以为null），替换占位符为?，变量值放入相应index位置
 			final Object paramValue = paramMap.get(nameStr);
-			if(ArrayUtil.isArray(paramValue) && SqlUtil.isInClause(sqlBuilder)){
-				// 可能为select in (xxx)语句，则拆分参数为多个参数，变成in (?,?,?)
+			if(ArrayUtil.isArray(paramValue)){
+				// 若参数为数组，则拆分参数为多个参数，类似in (?,?,?)
 				final int length = ArrayUtil.length(paramValue);
 				for (int i = 0; i < length; i++) {
 					if(0 != i){
