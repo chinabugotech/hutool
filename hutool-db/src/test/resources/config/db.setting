@@ -82,7 +82,7 @@ pass = 123456
 remarks = true
 
 [postgre]
-url = jdbc:postgresql://Looly.centos:5432/test_hutool
+url = jdbc:postgresql://localhost:5432/test_hutool
 user = postgres
 pass = 123456
 remarks = true

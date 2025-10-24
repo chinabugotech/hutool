@@ -42,6 +42,7 @@
 		<hikariCP.version>7.0.2</hikariCP.version>
 		<sqlite.version>3.50.3.0</sqlite.version>
 		<hsqldb.version>2.7.4</hsqldb.version>
+		<postgresql.version>42.7.8</postgresql.version>
 	</properties>
 
 	<dependencies>
@@ -152,6 +153,12 @@
 			<groupId>com.sap.cloud.db.jdbc</groupId>
 			<artifactId>ngdbc</artifactId>
 			<version>2.26.6</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>${postgresql.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
