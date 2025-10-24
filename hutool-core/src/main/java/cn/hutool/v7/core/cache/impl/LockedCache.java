@@ -55,6 +55,22 @@ public abstract class LockedCache<K, V> extends AbstractCache<K, V> {
 	}
 
 	@Override
+	public boolean putIfAbsent(K key, V object, long timeout) {
+		lock.lock();
+		try {
+			CacheObj<K, V> co = getOrRemoveExpiredWithoutLock(key);
+			if (null != co) {
+				return false;
+			} else {
+				putWithoutLock(key, object, timeout);
+				return true;
+			}
+		} finally {
+			lock.unlock();
+		}
+	}
+
+	@Override
 	public boolean containsKey(final K key) {
 		return null != getOrRemoveExpired(key, false, false);
 	}

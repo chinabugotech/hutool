@@ -83,6 +83,11 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
 		put(key, object, timeout);
 	}
 
+	@Override
+	public boolean putIfAbsent(K key, V object) {
+		return putIfAbsent(key, object, timeout);
+	}
+
 	/**
 	 * 加入元素，无锁
 	 *

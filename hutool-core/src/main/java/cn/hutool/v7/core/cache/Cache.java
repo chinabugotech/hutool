@@ -64,6 +64,26 @@ public interface Cache<K, V> extends Iterable<V>, Serializable {
 	 */
 	void put(K key, V object, long timeout);
 
+    /**
+     * 如果对象不存在则将对象加入到缓存，使用默认失效时长
+     *
+     * @param key     键
+     * @param object  缓存的对象
+     * @return 加入结果, true: 加入缓存成功; false: 加入缓存失败(对象已存在)
+     */
+    boolean putIfAbsent(K key, V object);
+
+	/**
+	 * 如果对象不存在则将对象加入到缓存，使用指定失效时长<br>
+	 * 如果缓存空间满了，{@link #prune()} 将被调用以获得空间来存放新对象
+	 *
+	 * @param key     键
+	 * @param object  缓存的对象
+	 * @param timeout 失效时长，单位毫秒
+	 * @return 加入结果, true: 加入缓存成功; false: 加入缓存失败(对象已存在)
+	 */
+	boolean putIfAbsent(K key, V object, long timeout);
+
 	/**
 	 * 从缓存中获得对象，当对象不在缓存中或已经过期返回{@code null}
 	 * <p>

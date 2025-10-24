@@ -54,6 +54,18 @@ public class NoCache<K, V> implements Cache<K, V> {
 	}
 
 	@Override
+	public boolean putIfAbsent(K key, V object) {
+		// 跳过
+		return false;
+	}
+
+	@Override
+	public boolean putIfAbsent(K key, V object, long timeout) {
+		// 跳过
+		return false;
+	}
+
+	@Override
 	public boolean containsKey(final K key) {
 		return false;
 	}
