@@ -94,7 +94,7 @@ public class PasswdStrength {
 	 * @return strength level
 	 */
 	public static int check(final String passwd) {
-		if (null == passwd) {
+		if (StrUtil.isEmpty(passwd)) {
 			throw new IllegalArgumentException("password is empty");
 		}
 		final int len = passwd.length();
@@ -175,13 +175,13 @@ public class PasswdStrength {
 		}
 
 		// decrease points
-		if ("abcdefghijklmnopqrstuvwxyz".indexOf(passwd) > 0 || "ABCDEFGHIJKLMNOPQRSTUVWXYZ".indexOf(passwd) > 0) {
+		if ("abcdefghijklmnopqrstuvwxyz".contains(passwd) || "ABCDEFGHIJKLMNOPQRSTUVWXYZ".contains(passwd)) {
 			level--;
 		}
-		if ("qwertyuiop".indexOf(passwd) > 0 || "asdfghjkl".indexOf(passwd) > 0 || "zxcvbnm".indexOf(passwd) > 0) {
+		if ("qwertyuiop".contains(passwd) || "asdfghjkl".contains(passwd) || "zxcvbnm".contains(passwd)) {
 			level--;
 		}
-		if (StrUtil.isNumeric(passwd) && ("01234567890".indexOf(passwd) > 0 || "09876543210".indexOf(passwd) > 0)) {
+		if (StrUtil.isNumeric(passwd) && ("01234567890".contains(passwd) || "09876543210".contains(passwd))) {
 			level--;
 		}
 
@@ -251,39 +251,24 @@ public class PasswdStrength {
 	}
 
 	/**
-	 * Get password strength level, includes easy, midium, strong, very strong, extremely strong
+	 * Get password strength level, includes easy, medium, strong, very strong, extremely strong
 	 *
 	 * @param passwd 密码
 	 * @return 密码等级枚举
 	 */
 	public static PASSWD_LEVEL getLevel(final String passwd) {
 		final int level = check(passwd);
-		switch (level) {
-			case 0:
-			case 1:
-			case 2:
-			case 3:
-				return PASSWD_LEVEL.EASY;
-			case 4:
-			case 5:
-			case 6:
-				return PASSWD_LEVEL.MEDIUM;
-			case 7:
-			case 8:
-			case 9:
-				return PASSWD_LEVEL.STRONG;
-			case 10:
-			case 11:
-			case 12:
-				return PASSWD_LEVEL.VERY_STRONG;
-			default:
-				return PASSWD_LEVEL.EXTREMELY_STRONG;
-		}
+		return switch (level) {
+			case 0, 1, 2, 3 -> PASSWD_LEVEL.EASY;
+			case 4, 5, 6 -> PASSWD_LEVEL.MEDIUM;
+			case 7, 8, 9 -> PASSWD_LEVEL.STRONG;
+			case 10, 11, 12 -> PASSWD_LEVEL.VERY_STRONG;
+			default -> PASSWD_LEVEL.EXTREMELY_STRONG;
+		};
 	}
 
 	/**
-	 * Check character's type, includes num, capital letter, small letter and other character.
-	 * 检查字符类型
+	 * 检查字符类型，包括数字、大写字母、小写字母及其他字符
 	 *
 	 * @param c 字符
 	 * @return 类型
