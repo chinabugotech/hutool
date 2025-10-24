@@ -42,17 +42,16 @@ public class ServerEngineFactory {
 	}
 
 	/**
-	 * 根据用户引入的HTTP客户端引擎jar，自动创建对应的HTTP服务器引擎对象<br>
+	 * 根据用户引入的HTTP服务端端引擎jar，自动创建对应的HTTP服务器引擎对象<br>
 	 * 推荐创建的引擎单例使用，此方法每次调用会返回新的引擎<br>
 	 * 对不同引擎个性化配置，使用对应的{@link ServerConfig} 子类：
 	 *
 	 * <p>
 	 * 如果混用这些配置，则个性配置不生效
 	 *
-	 * @param config Http客户端配置
+	 * @param config Http服务端配置
 	 * @return {@code ClientEngine}
 	 */
-	@SuppressWarnings("resource")
 	public static ServerEngine createEngine(final ServerConfig config) {
 		return createEngine().init(config);
 	}
