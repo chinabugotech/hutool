@@ -26,6 +26,7 @@ import cn.hutool.v7.core.text.split.SplitUtil;
 import cn.hutool.v7.core.util.CharsetUtil;
 import cn.hutool.v7.core.util.ObjUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.nio.charset.Charset;
 import java.util.List;
@@ -33,7 +34,7 @@ import java.util.Map;
 
 /**
  * HTTP头相关方法<br>
- * 相关规范见：https://www.rfc-editor.org/rfc/rfc5987
+ * 相关规范见：<a href="https://www.rfc-editor.org/rfc/rfc5987">rfc5987</a>
  *
  * @author Looly
  * @since 6.0.0
@@ -56,6 +57,8 @@ public class HttpHeaderUtil {
 		return headersIgnoreCase.get(name.trim());
 	}
 
+	// region ----- disposition
+
 	/**
 	 * 生成Content-Disposition头，用于下载文件<br>
 	 * 格式为：
@@ -73,15 +76,33 @@ public class HttpHeaderUtil {
 	}
 
 	/**
+	 * 生成Content-Disposition头，用于内嵌文件<br>
+	 * 格式为：
+	 * <pre>{@code
+	 *     inline;filename="example.txt";filename*=UTF-8''example.txt
+	 * }</pre>
+	 *
+	 * @param fileName 文件名
+	 * @param charset  编码
+	 * @return Content-Disposition头
+	 * @since 7.0.0
+	 */
+	public static String createInlineDisposition(final String fileName, final Charset charset) {
+		final String encodeText = UrlEncoder.encodeAll(fileName, charset);
+		return StrUtil.format("inline;filename=\"{}\";filename*={}''{}", encodeText, charset.name(), encodeText);
+	}
+	// endregion
+
+	/**
 	 * 从Content-Disposition头中获取文件名。<br>
-	 * 参考标准：https://datatracker.ietf.org/doc/html/rfc6266#section-4.1<br>
+	 * 参考标准：<a href="https://datatracker.ietf.org/doc/html/rfc6266#section-4.1">rfc6266#section-4.1</a><br>
 	 * 以参数名为`filename`为例，规则为：
 	 * <ul>
 	 *     <li>首先按照RFC5987规范检查`filename*`参数对应的值，即：`filename*="example.txt"`，则获取`example.txt`</li>
 	 *     <li>如果找不到`filename*`参数，则检查`filename`参数对应的值，即：`filename="example.txt"`，则获取`example.txt`</li>
 	 * </ul>
 	 * 按照规范，`Content-Disposition`可能返回多个，此处遍历所有返回头，并且`filename*`始终优先获取，即使`filename`存在并更靠前。<br>
-	 * 参考：https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Content-Disposition
+	 * 参考：<a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Content-Disposition">Content-Disposition</a>
 	 *
 	 * @param headers   头列表
 	 * @param paramName 文件参数名，如果为{@code null}则使用默认的`filename`
@@ -123,7 +144,7 @@ public class HttpHeaderUtil {
 	}
 
 	/**
-	 * 获取rfc5987标准的值，标准见：https://www.rfc-editor.org/rfc/rfc5987#section-3.2.1<br>
+	 * 获取rfc5987标准的值，标准见：<a href="https://www.rfc-editor.org/rfc/rfc5987#section-3.2.1">rfc5987#section-3.2.1</a><br>
 	 * 包括：
 	 *
 	 * <ul>
@@ -146,6 +167,7 @@ public class HttpHeaderUtil {
 	 * }</pre>
 	 */
 	public static class ExtendedValue implements Serializable {
+		@Serial
 		private static final long serialVersionUID = 1L;
 
 		/**
