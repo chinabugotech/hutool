@@ -196,7 +196,7 @@ public class SMTPMessage extends MimeMessage {
 	 */
 	public SMTPMessage setContent(final String content, final boolean isHtml) {
 		try {
-			super.setContent(buildContent(this.mailAccount.getCharset(), isHtml));
+			super.setContent(buildContent(content, this.mailAccount.getCharset(), isHtml));
 		} catch (final MessagingException e) {
 			throw new MailException(e);
 		}
@@ -339,22 +339,25 @@ public class SMTPMessage extends MimeMessage {
 		}
 	}
 
-	/**
-	 * 构建邮件信息主体
-	 *
-	 * @param charset 编码，{@code null}则使用{@link MimeUtility#getDefaultJavaCharset()}
-	 * @param isHtml  是否为HTML
-	 * @return 邮件信息主体
-	 * @throws MessagingException 消息异常
-	 */
-	private Multipart buildContent(final Charset charset, final boolean isHtml) throws MessagingException {
-		final String charsetStr = null != charset ? charset.name() : MimeUtility.getDefaultJavaCharset();
-		// 正文
-		final MimeBodyPart body = new MimeBodyPart();
-		body.setContent(content, StrUtil.format("text/{}; charset={}", isHtml ? "html" : "plain", charsetStr));
-		addBodyPart( body, 0);
-		return this.multipart;
-	}
+    /**
+     * 构建邮件信息主体
+     *
+     * @param content 内容, {@code null}则使用{@link StrUtil#EMPTY}替换
+     * @param charset 编码，{@code null}则使用{@link MimeUtility#getDefaultJavaCharset()}
+     * @param isHtml  是否为HTML
+     * @return 邮件信息主体
+     * @throws MessagingException 消息异常
+     */
+    private Multipart buildContent(final String content, final Charset charset, final boolean isHtml) throws MessagingException {
+        final String charsetStr = null != charset ? charset.name() : MimeUtility.getDefaultJavaCharset();
+        // 内容如果是null会抛异常, 使用空字符串代替
+        final String contentStr = content == null ? StrUtil.EMPTY : content;
+        // 正文
+        final MimeBodyPart body = new MimeBodyPart();
+        body.setContent(contentStr, StrUtil.format("text/{}; charset={}", isHtml ? "html" : "plain", charsetStr));
+        addBodyPart(body, 0);
+        return this.multipart;
+    }
 
 	/**
 	 * 执行发送
