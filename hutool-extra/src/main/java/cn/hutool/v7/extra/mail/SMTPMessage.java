@@ -51,12 +51,12 @@ public class SMTPMessage extends MimeMessage {
 	/**
 	 * 创建SMTP消息
 	 *
-	 * @param mailAccount 邮件账户
+	 * @param mailAccount      邮件账户
 	 * @param useGlobalSession 是否使用全局Session
-	 * @param debugOutput 输出调试信息
+	 * @param debugOutput      输出调试信息
 	 * @return this
 	 */
-	public static SMTPMessage of(final MailAccount mailAccount, final boolean useGlobalSession, final PrintStream debugOutput){
+	public static SMTPMessage of(final MailAccount mailAccount, final boolean useGlobalSession, final PrintStream debugOutput) {
 		final Session session = MailUtil.getSession(mailAccount, useGlobalSession);
 		if (null != debugOutput) {
 			session.setDebugOut(debugOutput);
@@ -339,25 +339,24 @@ public class SMTPMessage extends MimeMessage {
 		}
 	}
 
-    /**
-     * 构建邮件信息主体
-     *
-     * @param content 内容, {@code null}则使用{@link StrUtil#EMPTY}替换
-     * @param charset 编码，{@code null}则使用{@link MimeUtility#getDefaultJavaCharset()}
-     * @param isHtml  是否为HTML
-     * @return 邮件信息主体
-     * @throws MessagingException 消息异常
-     */
-    private Multipart buildContent(final String content, final Charset charset, final boolean isHtml) throws MessagingException {
-        final String charsetStr = null != charset ? charset.name() : MimeUtility.getDefaultJavaCharset();
-        // 内容如果是null会抛异常, 使用空字符串代替
-        final String contentStr = content == null ? StrUtil.EMPTY : content;
-        // 正文
-        final MimeBodyPart body = new MimeBodyPart();
-        body.setContent(contentStr, StrUtil.format("text/{}; charset={}", isHtml ? "html" : "plain", charsetStr));
-        addBodyPart(body, 0);
-        return this.multipart;
-    }
+	/**
+	 * 构建邮件信息主体
+	 *
+	 * @param content 内容, {@code null}则使用{@link StrUtil#EMPTY}替换
+	 * @param charset 编码，{@code null}则使用{@link MimeUtility#getDefaultJavaCharset()}
+	 * @param isHtml  是否为HTML
+	 * @return 邮件信息主体
+	 * @throws MessagingException 消息异常
+	 */
+	private Multipart buildContent(final String content, final Charset charset, final boolean isHtml) throws MessagingException {
+		final String charsetStr = null != charset ? charset.name() : MimeUtility.getDefaultJavaCharset();
+		// 正文
+		final MimeBodyPart body = new MimeBodyPart();
+		// 内容如果是null会抛异常, 使用空字符串代替
+		body.setContent(StrUtil.emptyIfNull(content), StrUtil.format("text/{}; charset={}", isHtml ? "html" : "plain", charsetStr));
+		addBodyPart(body, 0);
+		return this.multipart;
+	}
 
 	/**
 	 * 执行发送
