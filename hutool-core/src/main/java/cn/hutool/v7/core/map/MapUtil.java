@@ -772,7 +772,7 @@ public class MapUtil extends MapGetUtil {
 	 * @since 3.2.2
 	 */
 	public static <T> Map<T, T> reverse(final Map<T, T> map) {
-		return edit(map, t -> new Entry<>() {
+		return edit(map, t -> new Entry<T, T>() {
 
 			@Override
 			public T getKey() {
