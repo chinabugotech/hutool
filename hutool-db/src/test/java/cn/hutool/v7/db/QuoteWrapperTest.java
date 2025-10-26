@@ -34,7 +34,7 @@ public class QuoteWrapperTest {
 		final String originalName = "name";
 		final String wrapName = wrapper.wrap(originalName);
 		final String unWrapName = wrapper.unWrap(wrapName);
-		Assertions.assertEquals(unWrapName, originalName);
+		Assertions.assertEquals(originalName, unWrapName);
 	}
 
 	@Test
@@ -44,7 +44,7 @@ public class QuoteWrapperTest {
 		final String originalName = "name.age";
 		final String wrapName = wrapper.wrap(originalName);
 		final String unWrapName = wrapper.unWrap(wrapName);
-		Assertions.assertEquals(unWrapName, originalName);
+		Assertions.assertEquals(originalName, unWrapName);
 	}
 
 	@Test
@@ -54,6 +54,6 @@ public class QuoteWrapperTest {
 		final String originalName = "name.age*";
 		final String wrapName = wrapper.wrap(originalName);
 		final String unWrapName = wrapper.unWrap(wrapName);
-		Assertions.assertEquals(unWrapName, originalName);
+		Assertions.assertEquals(originalName, unWrapName);
 	}
 }

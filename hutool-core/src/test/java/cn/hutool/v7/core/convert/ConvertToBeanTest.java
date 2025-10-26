@@ -46,8 +46,8 @@ public class ConvertToBeanTest {
 		person.setSubName("sub名字");
 
 		final Map<?, ?> map = ConvertUtil.convert(Map.class, person);
-		assertEquals(map.get("name"), "测试A11");
-		assertEquals(map.get("age"), 14);
+		assertEquals("测试A11", map.get("name"));
+		assertEquals(14, map.get("age"));
 		assertEquals("11213232", map.get("openid"));
 	}
 
@@ -64,8 +64,7 @@ public class ConvertToBeanTest {
 		assertEquals("14", map.get("age"));
 		assertEquals("11213232", map.get("openid"));
 
-		final LinkedHashMap<String, String> map2 = ConvertUtil.convert(
-				new TypeReference<LinkedHashMap<String, String>>() {}, person);
+		final LinkedHashMap<String, String> map2 = ConvertUtil.convert(new TypeReference<>() {}, person);
 		assertEquals("测试A11", map2.get("name"));
 		assertEquals("14", map2.get("age"));
 		assertEquals("11213232", map2.get("openid"));

@@ -70,7 +70,7 @@ public class FastDateFormat extends Format implements PositionDateParser, DatePr
 	 */
 	public static final int SHORT = DateFormat.SHORT;
 
-	private static final FormatCache<FastDateFormat> CACHE = new FormatCache<FastDateFormat>() {
+	private static final FormatCache<FastDateFormat> CACHE = new FormatCache<>() {
 		@Override
 		protected FastDateFormat createInstance(final String pattern, final TimeZone timeZone, final Locale locale) {
 			return new FastDateFormat(pattern, timeZone, locale);

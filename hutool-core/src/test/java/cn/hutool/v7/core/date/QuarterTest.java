@@ -53,9 +53,7 @@ public class QuarterTest {
 		assertEquals(3, Objects.requireNonNull(quarter).getValue());
 		assertEquals("Q3", quarter.name());
 
-		assertThrows(IllegalArgumentException.class, () -> {
-			Quarter.valueOf("Abc");
-		});
+		assertThrows(IllegalArgumentException.class, () -> Quarter.valueOf("Abc"));
 
 		final Month firstMonth = quarter.firstMonth();
 		assertEquals(Month.JULY, firstMonth);
@@ -69,12 +67,10 @@ public class QuarterTest {
 		final Quarter quarter = Quarter.of(4);
 		assertSame(Quarter.Q4, quarter);
 		assertSame(quarter, Quarter.valueOf("Q4"));
-		assertEquals(4, quarter.getValue());
+		assertEquals(4, Objects.requireNonNull(quarter).getValue());
 		assertEquals("Q4", quarter.name());
 
-		assertThrows(IllegalArgumentException.class, () -> {
-			Quarter.valueOf("Q5");
-		});
+		assertThrows(IllegalArgumentException.class, () -> Quarter.valueOf("Q5"));
 
 		final Month firstMonth = quarter.firstMonth();
 		assertEquals(Month.OCTOBER, firstMonth);

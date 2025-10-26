@@ -35,7 +35,7 @@ public class FileSystemUtilTest {
 		final FileSystem fileSystem = FileSystemUtil.createZip("d:/test/test.zip",
 				CharsetUtil.GBK);
 		final Path root = FileSystemUtil.getRoot(fileSystem);
-		PathUtil.walkFiles(root, new SimpleFileVisitor<Path>() {
+		PathUtil.walkFiles(root, new SimpleFileVisitor<>() {
 
 			@Override
 			public FileVisitResult visitFile(final Path path, final BasicFileAttributes attrs) {

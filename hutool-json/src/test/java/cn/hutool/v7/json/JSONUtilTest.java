@@ -37,16 +37,12 @@ public class JSONUtilTest {
 
 	@Test
 	public void parseInvalid() {
-		assertThrows(JSONException.class, () -> {
-			JSONUtil.parse("'abc");
-		});
+		assertThrows(JSONException.class, () -> JSONUtil.parse("'abc"));
 	}
 
 	@Test
 	public void parseInvalid3() {
-		assertThrows(JSONException.class, () -> {
-			JSONUtil.parse("\"abc");
-		});
+		assertThrows(JSONException.class, () -> JSONUtil.parse("\"abc"));
 	}
 
 	@Test
@@ -94,9 +90,7 @@ public class JSONUtilTest {
 	 */
 	@Test
 	public void parseTest() {
-		assertThrows(JSONException.class, () -> {
-			JSONUtil.parseArray("[{\"a\":\"a\\x]");
-		});
+		assertThrows(JSONException.class, () -> JSONUtil.parseArray("[{\"a\":\"a\\x]"));
 	}
 
 	/**
@@ -115,10 +109,8 @@ public class JSONUtilTest {
 	 */
 	@Test
 	public void parseNumberToJSONArrayTest2() {
-		Assertions.assertThrows(JSONException.class, ()->{
-			JSONUtil.parseArray(123L,
-				JSONConfig.of().setIgnoreError(false));
-		});
+		Assertions.assertThrows(JSONException.class, ()-> JSONUtil.parseArray(123L,
+			JSONConfig.of().setIgnoreError(false)));
 
 		final JSONArray json = JSONUtil.parseArray(123L,
 			JSONConfig.of().setIgnoreError(true));
@@ -222,7 +214,7 @@ public class JSONUtilTest {
 	@Test
 	public void toJsonStrFromSortedTest() {
 		//noinspection SerializableInnerClassWithNonSerializableOuterClass
-		final SortedMap<Object, Object> sortedMap = new TreeMap<Object, Object>() {
+		final SortedMap<Object, Object> sortedMap = new TreeMap<>() {
 			@Serial
 			private static final long serialVersionUID = 1L;
 

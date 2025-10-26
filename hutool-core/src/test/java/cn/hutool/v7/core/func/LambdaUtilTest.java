@@ -329,9 +329,7 @@ public class LambdaUtilTest {
 	@Test
 	void getInvokeMethodErrorTest() {
 		// 非函数接口返回异常
-		Assertions.assertThrows(IllegalArgumentException.class, () -> {
-			LambdaUtil.getInvokeMethod(LambdaUtilTest.class);
-		});
+		Assertions.assertThrows(IllegalArgumentException.class, () -> LambdaUtil.getInvokeMethod(LambdaUtilTest.class));
 	}
 
 	@SuppressWarnings("unchecked")

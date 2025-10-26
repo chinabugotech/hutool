@@ -27,8 +27,6 @@ public class Issue2748Test {
 	void toJSONObjectTest() {
 		final String s = StrUtil.repeat("<a>", 600);
 
-		Assertions.assertThrows(JSONException.class, () -> {
-			JSONXMLUtil.toJSONObject(s, ParseConfig.of().setMaxNestingDepth(512));
-		});
+		Assertions.assertThrows(JSONException.class, () -> JSONXMLUtil.toJSONObject(s, ParseConfig.of().setMaxNestingDepth(512)));
 	}
 }

@@ -506,9 +506,7 @@ public class FileUtilTest {
 
 	@Test
 	void checkSlipTest() {
-		Assertions.assertThrows(IllegalArgumentException.class, () -> {
-			FileUtil.checkSlip(FileUtil.file("test/a"), FileUtil.file("test/../a"));
-		});
+		Assertions.assertThrows(IllegalArgumentException.class, () -> FileUtil.checkSlip(FileUtil.file("test/a"), FileUtil.file("test/../a")));
 	}
 
 	@Test
@@ -537,15 +535,11 @@ public class FileUtilTest {
 
 	@Test
 	public void isSub_NullParentTest() {
-		assertThrows(IllegalArgumentException.class, () -> {
-			FileUtil.isSub(null, new java.io.File("d:/any/path"));
-		});
+		assertThrows(IllegalArgumentException.class, () -> FileUtil.isSub(null, new File("d:/any/path")));
 	}
 
 	@Test
 	public void isSub_NullSubTest() {
-		assertThrows(IllegalArgumentException.class, () -> {
-			FileUtil.isSub(new java.io.File("d:/any/path"), null);
-		});
+		assertThrows(IllegalArgumentException.class, () -> FileUtil.isSub(new File("d:/any/path"), null));
 	}
 }

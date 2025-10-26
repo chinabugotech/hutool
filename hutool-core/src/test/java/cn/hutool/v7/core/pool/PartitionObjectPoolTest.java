@@ -35,7 +35,7 @@ public class PartitionObjectPoolTest {
 			.setMaxIdle(5000)
 			.setMaxWait(100);
 
-		final ObjectFactory<StringBuilder> factory = new ObjectFactory<StringBuilder>() {
+		final ObjectFactory<StringBuilder> factory = new ObjectFactory<>() {
 			@Override
 			public StringBuilder create() {
 				return new StringBuilder();

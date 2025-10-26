@@ -102,7 +102,7 @@ public class Range<T> implements Iterable<T>, Serializable {
 
 	@Override
 	public Iterator<T> iterator() {
-		return new Iterator<T>(){
+		return new Iterator<>() {
 			/**
 			 * 下一个对象
 			 */
@@ -142,11 +142,11 @@ public class Range<T> implements Iterable<T>, Serializable {
 			 */
 			private T nextUncheck() {
 				final T current;
-				if(0 == this.index){
+				if (0 == this.index) {
 					current = start;
-					if(!includeStart){
+					if (!includeStart) {
 						// 获取下一组元素
-						index ++;
+						index++;
 						return nextUncheck();
 					}
 				} else {
@@ -161,7 +161,7 @@ public class Range<T> implements Iterable<T>, Serializable {
 			/**
 			 * 不抛异常的获取下一步进的元素，如果获取失败返回{@code null}
 			 *
-			 * @param base  上一个元素
+			 * @param base 上一个元素
 			 * @return 下一步进
 			 */
 			private T safeStep(final T base) {

@@ -63,7 +63,7 @@ public class LRUFileCache extends AbstractFileCache{
 
 	@Override
 	protected Cache<File, byte[]> initCache() {
-		return new LRUCache<File, byte[]>(LRUFileCache.this.capacity, super.timeout) {
+		return new LRUCache<>(LRUFileCache.this.capacity, super.timeout) {
 			@Serial
 			private static final long serialVersionUID = 1L;
 

@@ -29,10 +29,10 @@ public class BoundTest {
 	public void testEquals() {
 		final Bound<Integer> bound = new FiniteBound<>(1, BoundType.OPEN_UPPER_BOUND);
 		Assertions.assertEquals(bound, bound);
-		Assertions.assertEquals(bound, new FiniteBound<>(1, BoundType.OPEN_UPPER_BOUND));
-		Assertions.assertNotEquals(bound, new FiniteBound<>(2, BoundType.OPEN_UPPER_BOUND));
-		Assertions.assertNotEquals(bound, new FiniteBound<>(1, BoundType.OPEN_LOWER_BOUND));
-		Assertions.assertNotEquals(bound, null);
+		Assertions.assertEquals(new FiniteBound<>(1, BoundType.OPEN_UPPER_BOUND), bound);
+		Assertions.assertNotEquals(new FiniteBound<>(2, BoundType.OPEN_UPPER_BOUND), bound);
+		Assertions.assertNotEquals(new FiniteBound<>(1, BoundType.OPEN_LOWER_BOUND), bound);
+		Assertions.assertNotEquals(null, bound);
 	}
 
 	@Test

@@ -84,7 +84,8 @@ public class VelocityTemplate implements Template, Serializable {
 	 * @return {@link VelocityContext}
 	 */
 	private VelocityContext toContext(final Map<?, ?> bindingMap) {
-		final Map<String, Object> map = ConvertUtil.convert(new TypeReference<Map<String, Object>>() {}, bindingMap);
+		final Map<String, Object> map = ConvertUtil.convert(new TypeReference<>() {
+		}, bindingMap);
 		return new VelocityContext(map);
 	}
 

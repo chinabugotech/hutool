@@ -200,14 +200,16 @@ public class XmlUtilTest {
 
 	@Test
 	public void getByPathTest() {
-		final String xmlStr = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-			"<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">\n" +
-			"  <soap:Body>\n" +
-			"    <ns2:testResponse xmlns:ns2=\"http://ws.xxx.com/\">\n" +
-			"      <return>2020/04/15 21:01:21</return>\n" +
-			"    </ns2:testResponse>\n" +
-			"  </soap:Body>\n" +
-			"</soap:Envelope>\n";
+		final String xmlStr = """
+			<?xml version="1.0" encoding="UTF-8"?>
+			<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+			  <soap:Body>
+			    <ns2:testResponse xmlns:ns2="http://ws.xxx.com/">
+			      <return>2020/04/15 21:01:21</return>
+			    </ns2:testResponse>
+			  </soap:Body>
+			</soap:Envelope>
+			""";
 
 		final Document document = XmlUtil.readXml(xmlStr);
 		final Object value = XPathUtil.getByXPath(
@@ -337,9 +339,10 @@ public class XmlUtilTest {
 
 	@Test
 	public void getParamTest() {
-		final String xml = "<Config name=\"aaaa\">\n" +
-			"    <url>222222</url>\n" +
-			"</Config>";
+		final String xml = """
+			<Config name="aaaa">
+			    <url>222222</url>
+			</Config>""";
 
 		final Document doc = XmlUtil.parseXml(xml);
 		final String name = doc.getDocumentElement().getAttribute("name");
@@ -382,12 +385,13 @@ public class XmlUtilTest {
 
 	@Test
 	public void issue3139Test() {
-		final String xml = "<r>\n" +
-			"  <c>\n" +
-			"     <s>1</s>\n" +
-			"     <p>str</p>\n" +
-			"  </c>\n" +
-			"</r>";
+		final String xml = """
+			<r>
+			  <c>
+			     <s>1</s>
+			     <p>str</p>
+			  </c>
+			</r>""";
 
 		final R r = XmlUtil.xmlToBean(XmlUtil.parseXml(xml), R.class);
 		Assertions.assertEquals("1", r.getC().get(0).getS());

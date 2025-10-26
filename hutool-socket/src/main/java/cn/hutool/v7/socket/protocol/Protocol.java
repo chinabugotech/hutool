@@ -25,6 +25,7 @@ package cn.hutool.v7.socket.protocol;
  * </p>
  *
  * @author Looly
+ * @param <T> 消息类型
  */
 public interface Protocol<T> extends MsgEncoder<T>, MsgDecoder<T> {
 

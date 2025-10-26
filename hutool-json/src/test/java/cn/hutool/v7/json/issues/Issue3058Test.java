@@ -27,14 +27,16 @@ import java.util.TreeMap;
 public class Issue3058Test {
 	@Test
 	void toJsonStrTest() {
-		final SortedMap<Object, Object> sortedMap = new TreeMap<Object, Object>() {
+		final SortedMap<Object, Object> sortedMap = new TreeMap<>() {
 			@Serial
 			private static final long serialVersionUID = 1L;
+
 			{
 				put("attributes", "a");
 				put("b", "b");
 				put("c", "c");
-			}};
+			}
+		};
 
 		final String jsonStr = JSONUtil.toJsonStr(sortedMap);
 		Assertions.assertEquals("{\"attributes\":\"a\",\"b\":\"b\",\"c\":\"c\"}", jsonStr);

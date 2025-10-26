@@ -89,8 +89,7 @@ public class JarResource extends UrlResource {
 	 */
 	private JarFile doGetJarFile() throws IOException {
 		final URLConnection con = getUrl().openConnection();
-		if (con instanceof JarURLConnection) {
-			final JarURLConnection jarCon = (JarURLConnection) con;
+		if (con instanceof JarURLConnection jarCon) {
 			return jarCon.getJarFile();
 		} else {
 			final String urlFile = getUrl().getFile();

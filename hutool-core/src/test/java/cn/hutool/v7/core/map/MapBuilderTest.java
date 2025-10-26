@@ -32,9 +32,9 @@ public class MapBuilderTest {
 				.put(false, "d", () -> getValue(4))
 				.build();
 
-		Assertions.assertEquals(map.get("a"), "1");
+		Assertions.assertEquals("1", map.get("a"));
 		Assertions.assertFalse(map.containsKey("b"));
-		Assertions.assertEquals(map.get("c"), "3");
+		Assertions.assertEquals("3", map.get("c"));
 		Assertions.assertFalse(map.containsKey("d"));
 	}
 

@@ -26,9 +26,8 @@ import cn.hutool.v7.swing.img.ImgUtil;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import java.awt.*;
+import java.awt.Toolkit;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -85,7 +84,7 @@ class DoubaoServiceTest {
 		final DoubaoService doubaoService = AIServiceFactory.getAIService(new AIConfigBuilder(ModelName.DOUBAO.getValue())
 			.setApiKey(key).setModel(Models.Doubao.DOUBAO_1_5_VISION_PRO_32K.getModel()).build(), DoubaoService.class);
 		final String base64 = ImgUtil.toBase64DataUri(Toolkit.getDefaultToolkit().createImage("your imageUrl"), "png");
-		final String chatVision = doubaoService.chatVision("图片上有些什么？", Arrays.asList(base64));
+		final String chatVision = doubaoService.chatVision("图片上有些什么？", List.of(base64));
 		assertNotNull(chatVision);
 	}
 
@@ -96,7 +95,7 @@ class DoubaoServiceTest {
 			.setApiKey(key).setModel(Models.Doubao.DOUBAO_1_5_VISION_PRO_32K.getModel()).build(), DoubaoService.class);
 
 		String prompt = "图片上有些什么？";
-		List<String> images = Arrays.asList("https://img2.baidu.com/it/u=862000265,4064861820&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1544");
+		List<String> images = List.of("https://img2.baidu.com/it/u=862000265,4064861820&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1544");
 
 		// 使用AtomicBoolean作为结束标志
 		AtomicBoolean isDone = new AtomicBoolean(false);
@@ -121,7 +120,7 @@ class DoubaoServiceTest {
 	void testChatVision() {
 		final DoubaoService doubaoService = AIServiceFactory.getAIService(new AIConfigBuilder(ModelName.DOUBAO.getValue())
 			.setApiKey(key).setModel(Models.Doubao.DOUBAO_1_5_VISION_PRO_32K.getModel()).build(), DoubaoService.class);
-		final String chatVision = doubaoService.chatVision("图片上有些什么？", Arrays.asList("https://img2.baidu.com/it/u=862000265,4064861820&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1544"),DoubaoCommon.DoubaoVision.HIGH.getDetail());
+		final String chatVision = doubaoService.chatVision("图片上有些什么？", List.of("https://img2.baidu.com/it/u=862000265,4064861820&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1544"),DoubaoCommon.DoubaoVision.HIGH.getDetail());
 		assertNotNull(chatVision);
 	}
 

@@ -115,7 +115,7 @@ public class PooledDataSource extends AbstractDataSource {
 	 * @return {@link ObjectFactory}
 	 */
 	private ObjectFactory<PooledConnection> createConnFactory(final ConnectionConfig<?> config) {
-		return new ObjectFactory<PooledConnection>() {
+		return new ObjectFactory<>() {
 			@Override
 			public PooledConnection create() {
 				return new PooledConnection(config, PooledDataSource.this);
@@ -136,7 +136,7 @@ public class PooledDataSource extends AbstractDataSource {
 
 			@Override
 			public void destroy(final PooledConnection connection) {
-				if(null != connection){
+				if (null != connection) {
 					connection.destroy();
 				}
 			}

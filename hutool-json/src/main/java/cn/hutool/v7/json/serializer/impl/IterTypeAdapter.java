@@ -127,9 +127,7 @@ public class IterTypeAdapter implements MatcherJSONSerializer<Object>, MatcherJS
 	 * @param elementType 元素类型
 	 */
 	private static void fill(final JSONObject json, final Collection<?> result, final Type elementType) {
-		json.forEach((key, value)->{
-			result.add(null == value ? null : value.toBean(elementType));
-		});
+		json.forEach((key, value)-> result.add(null == value ? null : value.toBean(elementType)));
 	}
 
 	/**
@@ -140,8 +138,6 @@ public class IterTypeAdapter implements MatcherJSONSerializer<Object>, MatcherJS
 	 * @param elementType 元素类型
 	 */
 	private static void fill(final JSONArray json, final Collection<?> result, final Type elementType) {
-		json.forEach((element)->{
-			result.add(null == element ? null : element.toBean(elementType));
-		});
+		json.forEach((element)-> result.add(null == element ? null : element.toBean(elementType)));
 	}
 }

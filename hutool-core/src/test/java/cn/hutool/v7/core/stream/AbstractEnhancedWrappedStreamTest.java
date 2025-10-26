@@ -171,7 +171,7 @@ public class AbstractEnhancedWrappedStreamTest {
 	@Test
 	public void testGrouping() {
 		final List<Integer> list = asList(1, 2, 3);
-		final Map<String, List<Integer>> map = new HashMap<String, List<Integer>>() {
+		final Map<String, List<Integer>> map = new HashMap<>() {
 			@Serial
 			private static final long serialVersionUID = 1L;
 
@@ -193,7 +193,7 @@ public class AbstractEnhancedWrappedStreamTest {
 	@Test
 	public void testPartitioning() {
 		final List<Integer> list = asList(1, 2, 3);
-		final Map<Boolean, List<Integer>> map = new HashMap<Boolean, List<Integer>>() {
+		final Map<Boolean, List<Integer>> map = new HashMap<>() {
 			@Serial
 			private static final long serialVersionUID = 1L;
 
@@ -636,7 +636,7 @@ public class AbstractEnhancedWrappedStreamTest {
 
 	@Test
 	public void testToEntries() {
-		final Map<Integer, Integer> expect = new HashMap<Integer, Integer>() {
+		final Map<Integer, Integer> expect = new HashMap<>() {
 			@Serial
 			private static final long serialVersionUID = 1L;
 

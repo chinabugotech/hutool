@@ -691,7 +691,7 @@ public class MapUtilTest {
 	//------getQuietly
 	@Test
 	public void getQuietlyMapIsNullReturnsDefaultValue() {
-		String result = MapUtil.getQuietly(null, "key1", new TypeReference<String>() {
+		String result = MapUtil.getQuietly(null, "key1", new TypeReference<>() {
 		}, "default");
 		assertEquals("default", result);
 		result = MapUtil.getQuietly(null, "key1", String.class, "default");
@@ -703,7 +703,7 @@ public class MapUtilTest {
 		final Map<String, Object> map = new HashMap<>();
 		map.put("key1", "value1");
 		map.put("key2", 123);
-		final String result = MapUtil.getQuietly(map, "key1", new TypeReference<String>() {
+		final String result = MapUtil.getQuietly(map, "key1", new TypeReference<>() {
 		}, "default");
 		assertEquals("value1", result);
 	}
@@ -713,7 +713,7 @@ public class MapUtilTest {
 		final Map<String, Object> map = new HashMap<>();
 		map.put("key1", "value1");
 		map.put("key2", 123);
-		final String result = MapUtil.getQuietly(map, "key3", new TypeReference<String>() {
+		final String result = MapUtil.getQuietly(map, "key3", new TypeReference<>() {
 		}, "default");
 		assertEquals("default", result);
 	}
@@ -723,7 +723,7 @@ public class MapUtilTest {
 		final Map<String, Object> map = new HashMap<>();
 		map.put("key1", "value1");
 		map.put("key2", 123);
-		final Integer result = MapUtil.getQuietly(map, "key1", new TypeReference<Integer>() {
+		final Integer result = MapUtil.getQuietly(map, "key1", new TypeReference<>() {
 		}, 0);
 		assertEquals(0, result);
 	}
@@ -733,7 +733,7 @@ public class MapUtilTest {
 		final Map<String, Object> map = new HashMap<>();
 		map.put("key1", "value1");
 		map.put("key2", 123);
-		final Integer result = MapUtil.getQuietly(map, "key2", new TypeReference<Integer>() {
+		final Integer result = MapUtil.getQuietly(map, "key2", new TypeReference<>() {
 		}, 0);
 		assertEquals(123, result);
 	}
@@ -744,7 +744,7 @@ public class MapUtilTest {
 		map.put("key1", "value1");
 		map.put("key2", 123);
 		map.put("key3", null);
-		final String result = MapUtil.getQuietly(map, "key3", new TypeReference<String>() {
+		final String result = MapUtil.getQuietly(map, "key3", new TypeReference<>() {
 		}, "default");
 		assertEquals("default", result);
 	}
@@ -800,7 +800,7 @@ public class MapUtilTest {
 		final Map<String, Object> map = new HashMap<>();
 		map.put("age", "18");
 		map.put("name", "Hutool");
-		assertEquals("18", MapUtil.get(map, "age", new TypeReference<String>() {
+		assertEquals("18", MapUtil.get(map, "age", new TypeReference<>() {
 		}, "default"));
 	}
 
@@ -810,11 +810,11 @@ public class MapUtilTest {
 		Map<String, String> map = new HashMap<>();
 		map.put("age", "18");
 		map.put("name", "Hutool");
-		assertEquals(18, MapUtil.get(map, "age", new TypeReference<Integer>() {
+		assertEquals(18, MapUtil.get(map, "age", new TypeReference<>() {
 		}, 0));
 
 		map = null;
-		assertEquals(0, MapUtil.get(map, "age", new TypeReference<Integer>() {
+		assertEquals(0, MapUtil.get(map, "age", new TypeReference<>() {
 		}, 0));
 	}
 }

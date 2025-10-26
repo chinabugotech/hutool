@@ -100,7 +100,7 @@ public class EasyStream<T> extends AbstractEnhancedWrappedStream<T, EasyStream<T
 	 * @return a unwrap builder
 	 */
 	public static <T> Builder<T> builder() {
-		return new Builder<T>() {
+		return new Builder<>() {
 			@Serial
 			private static final long serialVersionUID = 1L;
 			private final Stream.Builder<T> streamBuilder = Stream.builder();
@@ -473,6 +473,7 @@ public class EasyStream<T> extends AbstractEnhancedWrappedStream<T, EasyStream<T
 	 * 建造者
 	 *
 	 * @author VampireAchao
+	 * @param <T> 元素类型
 	 */
 	public interface Builder<T> extends Consumer<T>, cn.hutool.v7.core.lang.builder.Builder<EasyStream<T>> {
 

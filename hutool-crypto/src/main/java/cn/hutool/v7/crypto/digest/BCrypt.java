@@ -23,7 +23,7 @@ import java.security.SecureRandom;
 /**
  * BCrypt加密算法实现。由它加密的文件可在所有支持的操作系统和处理器上进行转移。它的口令必须是8至56个字符，并将在内部被转化为448位的密钥。
  * <p>
- * 此类来自于https://github.com/jeremyh/jBCrypt/
+ * 此类来自于<a href="https://github.com/jeremyh/jBCrypt/">jBCrypt</a>
  * <p>
  * 使用方法如下：
  * <p>
@@ -225,7 +225,7 @@ public class BCrypt {
 			if (c1 == -1 || c2 == -1)
 				break;
 			o = (byte) (c1 << 2);
-			o |= (c2 & 0x30) >> 4;
+			o |= (byte) ((c2 & 0x30) >> 4);
 			rs.append((char) o);
 			if (++olen >= maxolen || off >= slen)
 				break;
@@ -233,7 +233,7 @@ public class BCrypt {
 			if (c3 == -1)
 				break;
 			o = (byte) ((c2 & 0x0f) << 4);
-			o |= (c3 & 0x3c) >> 2;
+			o |= (byte) ((c3 & 0x3c) >> 2);
 			rs.append((char) o);
 			if (++olen >= maxolen || off >= slen)
 				break;
@@ -337,7 +337,8 @@ public class BCrypt {
 	}
 
 	/**
-	 * Perform the "enhanced key schedule" step described by Provos and Mazieres in "A Future-Adaptable Password Scheme" http://www.openbsd.org/papers/bcrypt-paper.ps
+	 * Perform the "enhanced key schedule" step described by Provos and Mazieres in "A Future-Adaptable Password Scheme" <br>
+	 * 见：<a href="http://www.openbsd.org/papers/bcrypt-paper.ps">bcrypt-paper</a>
 	 *
 	 * @param data salt information
 	 * @param key  password information

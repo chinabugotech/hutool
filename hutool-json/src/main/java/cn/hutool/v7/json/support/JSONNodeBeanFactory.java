@@ -48,8 +48,7 @@ public class JSONNodeBeanFactory implements NodeBeanFactory<JSON> {
 		final BeanPath<JSON> next = beanPath.next();
 		if (null != next) {
 			final Node node = next.getNode();
-			if (node instanceof NameNode) {
-				final NameNode nameNode = (NameNode) node;
+			if (node instanceof NameNode nameNode) {
 				if (nameNode.isNumber()) {
 					return JSONUtil.ofArray(config);
 				}

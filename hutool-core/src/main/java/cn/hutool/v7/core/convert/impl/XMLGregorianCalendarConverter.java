@@ -87,8 +87,7 @@ public class XMLGregorianCalendarConverter extends AbstractConverter {
 		// Handle Date
 		if (value instanceof Date) {
 			gregorianCalendar.setTime((Date) value);
-		} else if (value instanceof Calendar) {
-			final Calendar calendar = (Calendar) value;
+		} else if (value instanceof Calendar calendar) {
 			gregorianCalendar.setTimeZone(calendar.getTimeZone());
 			gregorianCalendar.setFirstDayOfWeek(calendar.getFirstDayOfWeek());
 			gregorianCalendar.setLenient(calendar.isLenient());

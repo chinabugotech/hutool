@@ -44,10 +44,10 @@ public class MetaAnnotatedElementTest {
 	@Test
 	public void testEquals() {
 		final AnnotatedElement element = new MetaAnnotatedElement<>(Foo.class, RESOLVED_MAPPING_FACTORY);
-		Assertions.assertNotEquals(element, null);
-		Assertions.assertEquals(element, new MetaAnnotatedElement<>(Foo.class, RESOLVED_MAPPING_FACTORY));
-		Assertions.assertNotEquals(element, new MetaAnnotatedElement<>(Foo.class, MAPPING_FACTORY));
-		Assertions.assertNotEquals(element, new MetaAnnotatedElement<>(Annotation1.class, MAPPING_FACTORY));
+		Assertions.assertNotEquals(null, element);
+		Assertions.assertEquals(new MetaAnnotatedElement<>(Foo.class, RESOLVED_MAPPING_FACTORY), element);
+		Assertions.assertNotEquals(new MetaAnnotatedElement<>(Foo.class, MAPPING_FACTORY), element);
+		Assertions.assertNotEquals(new MetaAnnotatedElement<>(Annotation1.class, MAPPING_FACTORY), element);
 	}
 
 	@Test

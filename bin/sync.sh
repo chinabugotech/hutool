@@ -17,7 +17,7 @@
 #
 
 # show Hutool logo
-"$(dirname ${BASH_SOURCE[0]})"/logo.sh
+"$(dirname "${BASH_SOURCE[0]}")"/logo.sh
 
 # 保证当前在v7-dev分支
 git checkout v7-dev

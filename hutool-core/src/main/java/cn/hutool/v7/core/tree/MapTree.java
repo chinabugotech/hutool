@@ -386,9 +386,7 @@ public class MapTree<T> extends LinkedHashMap<String, Object> implements Node<T>
 			return null;
 		}
 		final List<MapTree<T>> newChildren = new ArrayList<>(children.size());
-		children.forEach((t) -> {
-			newChildren.add(t.cloneTree().setParent(parent));
-		});
+		children.forEach((t) -> newChildren.add(t.cloneTree().setParent(parent)));
 		return newChildren;
 	}
 

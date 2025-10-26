@@ -153,7 +153,7 @@ public class ByteUtilTest {
 		final byte[] bytes = ByteUtil.toBytes(short1, ByteOrder.BIG_ENDIAN);
 		final short short2 = ByteUtil.toShort(bytes, ByteOrder.BIG_ENDIAN);
 
-		assertEquals(short2, short1);
+		assertEquals(short1, short2);
 	}
 
 	@Test

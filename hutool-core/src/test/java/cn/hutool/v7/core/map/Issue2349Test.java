@@ -29,8 +29,6 @@ public class Issue2349Test {
 		final ConcurrentHashMap<String, Integer> map = new ConcurrentHashMap<>();
 
 		// JDK9+ has been resolved JDK-8161372 bug, when cause dead then throw IllegalStateException
-		Assertions.assertThrows(IllegalStateException.class, () -> {
-			map.computeIfAbsent("AaAa", key -> map.computeIfAbsent("BBBB", key2 -> 42));
-		});
+		Assertions.assertThrows(IllegalStateException.class, () -> map.computeIfAbsent("AaAa", key -> map.computeIfAbsent("BBBB", key2 -> 42)));
 	}
 }

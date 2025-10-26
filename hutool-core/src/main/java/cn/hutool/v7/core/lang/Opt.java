@@ -541,11 +541,10 @@ public class Opt<T> {
 			return true;
 		}
 
-		if (!(obj instanceof Opt)) {
+		if (!(obj instanceof Opt<?> other)) {
 			return false;
 		}
 
-		final Opt<?> other = (Opt<?>) obj;
 		return Objects.equals(value, other.value);
 	}
 

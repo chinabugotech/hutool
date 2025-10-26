@@ -100,11 +100,9 @@ public class UndertowEngine extends AbstractServerEngine {
 		}
 
 		// 请求处理器
-		builder.setHandler(exchange -> {
-			this.handler.handle(
-				new UndertowRequest(exchange),
-				new UndertowResponse(exchange));
-		});
+		builder.setHandler(exchange -> this.handler.handle(
+			new UndertowRequest(exchange),
+			new UndertowResponse(exchange)));
 		this.undertow = builder.build();
 	}
 }

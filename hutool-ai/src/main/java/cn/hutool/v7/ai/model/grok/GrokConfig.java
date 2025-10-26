@@ -27,16 +27,28 @@ import cn.hutool.v7.ai.core.BaseAIConfig;
  */
 public class GrokConfig extends BaseAIConfig {
 
+	/**
+	 * API接口地址
+	 */
 	private final String API_URL = "https://api.x.ai/v1";
-
+	/**
+	 * 默认模型
+	 */
 	private final String DEFAULT_MODEL = Models.Grok.GROK_2_1212.getModel();
 
-
+	/**
+	 * 构造
+	 */
 	public GrokConfig() {
 		setApiUrl(API_URL);
 		setModel(DEFAULT_MODEL);
 	}
 
+	/**
+	 * 构造
+	 *
+	 * @param apiKey API密钥
+	 */
 	public GrokConfig(String apiKey) {
 		this();
 		setApiKey(apiKey);

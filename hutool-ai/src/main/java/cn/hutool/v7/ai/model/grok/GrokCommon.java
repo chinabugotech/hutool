@@ -24,11 +24,22 @@ package cn.hutool.v7.ai.model.grok;
  */
 public class GrokCommon {
 
-	//grok视觉参数
+	/**
+	 * grok视觉参数
+	 */
 	public enum GrokVision {
 
+		/**
+		 * 自动
+		 */
 		AUTO("auto"),
+		/**
+		 * 低
+		 */
 		LOW("low"),
+		/**
+		 * 高
+		 */
 		HIGH("high");
 
 		private final String detail;
@@ -37,6 +48,11 @@ public class GrokCommon {
 			this.detail = detail;
 		}
 
+		/**
+		 * 获取详情
+		 *
+		 * @return 详情
+		 */
 		public String getDetail() {
 			return detail;
 		}

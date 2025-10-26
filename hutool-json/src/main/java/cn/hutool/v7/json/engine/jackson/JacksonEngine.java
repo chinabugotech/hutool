@@ -146,7 +146,7 @@ public class JacksonEngine extends AbstractJSONEngine implements Wrapper<ObjectM
 			mapper.setDateFormat(DateUtil.newSimpleFormat(dateFormat));
 		}
 		if(config.isIgnoreNullValue()){
-			mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+			mapper.setDefaultPropertyInclusion(JsonInclude.Include.NON_NULL);
 		}
 
 		this.mapper = mapper;

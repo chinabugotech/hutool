@@ -30,9 +30,7 @@ public class PrimitiveConvertTest {
 
 	@Test
 	public void toIntErrorTest(){
-		Assertions.assertThrows(IllegalArgumentException.class, ()->{
-			ConvertUtil.convert(int.class, "aaaa");
-		});
+		Assertions.assertThrows(IllegalArgumentException.class, ()-> ConvertUtil.convert(int.class, "aaaa"));
 	}
 
 	@Test

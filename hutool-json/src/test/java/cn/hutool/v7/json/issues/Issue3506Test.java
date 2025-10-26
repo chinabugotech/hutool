@@ -40,7 +40,7 @@ public class Issue3506Test {
 		final Languages bean = jsonObject.toBean(Languages.class);
 
 		Assertions.assertNotNull(bean);
-		Assertions.assertEquals(bean.getLanguageType(), Java.class);
+		Assertions.assertEquals(Java.class, bean.getLanguageType());
 	}
 
 	@Data

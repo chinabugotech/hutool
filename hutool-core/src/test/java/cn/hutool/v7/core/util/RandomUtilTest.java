@@ -34,13 +34,13 @@ public class RandomUtilTest {
 	@Test
 	public void randomEleSetTest(){
 		final Set<Integer> set = RandomUtil.randomEleSet(ListUtil.of(1, 2, 3, 4, 5, 6), 2);
-		Assertions.assertEquals(set.size(), 2);
+		Assertions.assertEquals(2, set.size());
 	}
 
 	@Test
 	public void randomElesTest(){
 		final List<Integer> result = RandomUtil.randomEles(ListUtil.of(1, 2, 3, 4, 5, 6), 2);
-		Assertions.assertEquals(result.size(), 2);
+		Assertions.assertEquals(2, result.size());
 	}
 
 	@Test

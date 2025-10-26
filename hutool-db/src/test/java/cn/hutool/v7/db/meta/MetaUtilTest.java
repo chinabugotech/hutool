@@ -56,7 +56,7 @@ public class MetaUtilTest {
 	@Test
 	public void getTableIndexInfoTest() {
 		final Table table = MetaUtil.getTableMeta(ds, "user_1");
-		Assertions.assertEquals(table.getIndexInfoList().size(), 2);
+		Assertions.assertEquals(2, table.getIndexInfoList().size());
 	}
 
 	/**

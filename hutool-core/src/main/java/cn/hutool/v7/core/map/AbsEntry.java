@@ -39,8 +39,7 @@ public abstract class AbsEntry<K, V> implements Map.Entry<K, V> {
 
 	@Override
 	public boolean equals(final Object object) {
-		if (object instanceof Map.Entry) {
-			final Map.Entry<?, ?> that = (Map.Entry<?, ?>) object;
+		if (object instanceof Map.Entry<?, ?> that) {
 			return ObjUtil.equals(this.getKey(), that.getKey())
 					&& ObjUtil.equals(this.getValue(), that.getValue());
 		}

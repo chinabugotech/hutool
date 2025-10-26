@@ -59,6 +59,11 @@ public class DoubaoServiceImpl extends BaseAIService implements DoubaoService {
 	//文生图
 	private static final String IMAGES_GENERATIONS = "/images/generations";
 
+	/**
+	 * 构造
+	 *
+	 * @param config 配置
+	 */
 	public DoubaoServiceImpl(final AIConfig config) {
 		//初始化doubao客户端
 		super(config);

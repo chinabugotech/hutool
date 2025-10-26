@@ -117,7 +117,7 @@ public class LineReader extends ReaderWrapper implements Iterable<String> {
 
 	@Override
 	public Iterator<String> iterator() {
-		return new ComputeIter<String>() {
+		return new ComputeIter<>() {
 			@Override
 			protected String computeNext() {
 				try {

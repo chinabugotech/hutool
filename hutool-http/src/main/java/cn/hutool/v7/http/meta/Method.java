@@ -22,7 +22,42 @@ package cn.hutool.v7.http.meta;
  * @author Looly
  */
 public enum Method {
-	GET, POST, HEAD, OPTIONS, PUT, DELETE, TRACE, CONNECT, PATCH;
+	/**
+	 * GET 请求
+	 */
+	GET,
+	/**
+	 * POST 请求
+	 */
+	POST,
+	/**
+	 * HEAD 请求
+	 */
+	HEAD,
+	/**
+	 * OPTIONS 请求
+	 */
+	OPTIONS,
+	/**
+	 * PUT 请求
+	 */
+	PUT,
+	/**
+	 * DELETE 请求
+	 */
+	DELETE,
+	/**
+	 * TRACE 请求
+	 */
+	TRACE,
+	/**
+	 * CONNECT 请求
+	 */
+	CONNECT,
+	/**
+	 * PATCH 请求
+	 */
+	PATCH;
 
 	/**
 	 * 是否忽略读取响应body部分<br>

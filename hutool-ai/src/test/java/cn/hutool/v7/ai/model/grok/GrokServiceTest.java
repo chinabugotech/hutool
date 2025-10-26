@@ -26,13 +26,12 @@ import cn.hutool.v7.swing.img.ImgUtil;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import java.awt.*;
+import java.awt.Toolkit;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class GrokServiceTest {
 
@@ -115,7 +114,7 @@ class GrokServiceTest {
 	void chatVision() {
 		final GrokService grokService = AIServiceFactory.getAIService(new AIConfigBuilder(ModelName.GROK.getValue()).setModel(Models.Grok.GROK_2_VISION_1212.getModel()).setApiKey(key).build(), GrokService.class);
 		final String base64 = ImgUtil.toBase64DataUri(Toolkit.getDefaultToolkit().createImage("your imageUrl"), "png");
-		final String chatVision = grokService.chatVision("图片上有些什么？", Arrays.asList(base64));
+		final String chatVision = grokService.chatVision("图片上有些什么？", List.of(base64));
 		assertNotNull(chatVision);
 	}
 
@@ -124,7 +123,7 @@ class GrokServiceTest {
 	void testChatVisionStream() {
 		final GrokService grokService = AIServiceFactory.getAIService(new AIConfigBuilder(ModelName.GROK.getValue()).setModel(Models.Grok.GROK_2_VISION_1212.getModel()).setApiKey(key).build(), GrokService.class);
 		String prompt = "图片上有些什么？";
-		List<String> images = Arrays.asList("https://img2.baidu.com/it/u=862000265,4064861820&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1544");
+		List<String> images = List.of("https://img2.baidu.com/it/u=862000265,4064861820&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1544");
 
 		// 使用AtomicBoolean作为结束标志
 		AtomicBoolean isDone = new AtomicBoolean(false);
@@ -148,7 +147,7 @@ class GrokServiceTest {
 	@Disabled
 	void testChatVision() {
 		final GrokService grokService = AIServiceFactory.getAIService(new AIConfigBuilder(ModelName.GROK.getValue()).setModel(Models.Grok.GROK_2_VISION_1212.getModel()).setApiKey(key).build(), GrokService.class);
-		final String chatVision = grokService.chatVision("图片上有些什么？", Arrays.asList("https://img2.baidu.com/it/u=862000265,4064861820&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1544"));
+		final String chatVision = grokService.chatVision("图片上有些什么？", List.of("https://img2.baidu.com/it/u=862000265,4064861820&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1544"));
 		assertNotNull(chatVision);
 	}
 

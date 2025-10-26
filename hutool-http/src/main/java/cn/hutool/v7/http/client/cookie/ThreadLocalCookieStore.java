@@ -29,7 +29,7 @@ import java.util.List;
  */
 public class ThreadLocalCookieStore implements CookieStoreSpi {
 
-	private final static ThreadLocal<CookieStoreSpi> STORES = new ThreadLocal<CookieStoreSpi>() {
+	private final static ThreadLocal<CookieStoreSpi> STORES = new ThreadLocal<>() {
 		@Override
 		protected synchronized CookieStoreSpi initialValue() {
 			/* InMemoryCookieStore */

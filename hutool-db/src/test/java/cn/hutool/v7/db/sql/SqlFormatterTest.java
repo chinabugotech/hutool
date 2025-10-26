@@ -34,9 +34,10 @@ public class SqlFormatterTest {
 		final String sql = "select * from `order`";
 		final String format = SqlFormatter.format(sql);
 		Assertions.assertEquals(
-			"select\n" +
-			"        * \n" +
-			"    from\n" +
-			"        `order`", format);
+			"""
+				select
+				        *\s
+				    from
+				        `order`""", format);
 	}
 }

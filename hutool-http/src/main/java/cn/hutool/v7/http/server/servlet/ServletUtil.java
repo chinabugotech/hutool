@@ -131,7 +131,7 @@ public class ServletUtil {
 	 */
 	public static <T> T fillBean(final ServletRequest request, final T bean, final CopyOptions copyOptions) {
 		final String beanName = StrUtil.lowerFirst(bean.getClass().getSimpleName());
-		return BeanUtil.fillBean(bean, new ValueProvider<String>() {
+		return BeanUtil.fillBean(bean, new ValueProvider<>() {
 			@Override
 			public Object value(final String key, final Type valueType) {
 				String[] values = request.getParameterValues(key);

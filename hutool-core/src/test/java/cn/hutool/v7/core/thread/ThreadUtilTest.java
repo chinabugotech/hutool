@@ -37,9 +37,7 @@ public class ThreadUtilTest {
 	public void testNewFixedExecutor(){
 		final ThreadPoolExecutor executor = ThreadUtil.newFixedExecutor(1, 2, "test-", true);
 		for (int i = 0; i < 20; i++) {
-			executor.execute(()->{
-				Console.log("执行任务1");
-			});
+			executor.execute(()-> Console.log("执行任务1"));
 		}
 	}
 	@Test

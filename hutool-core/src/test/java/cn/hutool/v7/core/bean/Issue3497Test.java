@@ -33,7 +33,7 @@ public class Issue3497Test {
 			entry.setKey(StrUtil.toCamelCase(entry.getKey().toString()));
 			return entry;
 		}));
-		Assertions.assertEquals(bean.toString(), "{aB=1}");
+		Assertions.assertEquals("{aB=1}", bean.toString());
 	}
 
 }

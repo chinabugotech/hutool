@@ -65,30 +65,28 @@ public class JmsConsumer implements Consumer {
 	@Override
 	public void subscribe(final MessageHandler messageHandler) {
 		try {
-			this.consumer.setMessageListener(message -> {
-				messageHandler.handle(new Message() {
-					@Override
-					public String topic() {
-						return consumerGroup;
-					}
+			this.consumer.setMessageListener(message -> messageHandler.handle(new Message() {
+				@Override
+				public String topic() {
+					return consumerGroup;
+				}
 
-					@Override
-					public byte[] content() {
-						try {
-							if (message instanceof TextMessage) {
-								// TODO 考虑编码
-								return ByteUtil.toUtf8Bytes(((TextMessage) message).getText());
-							} else if (message instanceof BytesMessage) {
-								return new byte[(int) ((BytesMessage) message).getBodyLength()];
-							} else {
-								throw new IllegalArgumentException("Unsupported message type: " + message.getClass().getName());
-							}
-						} catch (final JMSException e) {
-							throw new MQException(e);
+				@Override
+				public byte[] content() {
+					try {
+						if (message instanceof TextMessage) {
+							// TODO 考虑编码
+							return ByteUtil.toUtf8Bytes(((TextMessage) message).getText());
+						} else if (message instanceof BytesMessage) {
+							return new byte[(int) ((BytesMessage) message).getBodyLength()];
+						} else {
+							throw new IllegalArgumentException("Unsupported message type: " + message.getClass().getName());
 						}
+					} catch (final JMSException e) {
+						throw new MQException(e);
 					}
-				});
-			});
+				}
+			}));
 		} catch (final JMSException e) {
 			throw new MQException(e);
 		}

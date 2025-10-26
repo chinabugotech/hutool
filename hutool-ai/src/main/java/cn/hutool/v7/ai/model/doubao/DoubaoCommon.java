@@ -156,22 +156,38 @@ public class DoubaoCommon {
 		private final String type;
 		private final Object value;
 
+		/**
+		 * 构造
+		 *
+		 * @param type  参数类型
+		 * @param value 参数值
+		 */
 		DoubaoVideo(final String type, final Object value) {
 			this.type = type;
 			this.value = value;
 		}
 
+		/**
+		 * 获取参数类型
+		 *
+		 * @return 参数类型
+		 */
 		public String getType() {
 			return type;
 		}
 
+		/**
+		 * 获取参数值
+		 *
+		 * @return 值
+		 */
 		public Object getValue() {
 			if (value instanceof String) {
-				return (String) value;
+				return value;
 			} else if (value instanceof Integer) {
-				return (Integer) value;
+				return value;
 			} else if (value instanceof Boolean) {
-				return (Boolean) value;
+				return value;
 			}
 			return value;
 		}

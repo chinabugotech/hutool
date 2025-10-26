@@ -74,7 +74,8 @@ public class ThymeleafTemplate implements Template, Serializable {
 
 	@Override
 	public void render(final Map<?, ?> bindingMap, final Writer writer) {
-		final Map<String, Object> map = ConvertUtil.convert(new TypeReference<Map<String, Object>>() {}, bindingMap);
+		final Map<String, Object> map = ConvertUtil.convert(new TypeReference<>() {
+		}, bindingMap);
 		final Context context = new Context(Locale.getDefault(), map);
 		this.engine.process(this.template, context, writer);
 	}

@@ -89,16 +89,14 @@ public class EntryConverter extends ConverterWithRoot implements MatcherConverte
 	public Map.Entry<?, ?> convert(final Type targetType, final Type keyType, final Type valueType, final Object value)
 		throws ConvertException {
 		Map map = null;
-		if (value instanceof Map.Entry) {
-			final Map.Entry entry = (Map.Entry) value;
+		if (value instanceof Map.Entry entry) {
 			map = MapUtil.of(entry.getKey(), entry.getValue());
 		} else if (value instanceof Pair) {
 			final Pair entry = (Pair<?, ?>) value;
 			map = MapUtil.of(entry.getLeft(), entry.getRight());
 		} else if (value instanceof Map) {
 			map = (Map) value;
-		} else if (value instanceof CharSequence) {
-			final CharSequence str = (CharSequence) value;
+		} else if (value instanceof CharSequence str) {
 			map = strToMap(str);
 		} else if (BeanUtil.isWritableBean(value.getClass())) {
 			// 一次性只读场景，包装为Map效率更高

@@ -152,9 +152,7 @@ public interface HeaderOperation<T extends HeaderOperation<T>> {
 			return (T) this;
 		}
 		final Map<String, List<String>> headerMaps = new LinkedHashMap<>(headers().size());
-		headerMap.forEach((key, value) -> {
-			headerMaps.put(key, ListUtil.of(value));
-		});
+		headerMap.forEach((key, value) -> headerMaps.put(key, ListUtil.of(value)));
 		return header(headerMaps, true);
 	}
 

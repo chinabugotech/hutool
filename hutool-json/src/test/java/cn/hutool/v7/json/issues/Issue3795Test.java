@@ -28,8 +28,6 @@ public class Issue3795Test {
 	@Test
 	void toBeanTest() {
 		final String fieldMapping = "[{\"lable\":\"id\",\"value\":\"id\"},{\"lable\":\"name\",\"value\":\"name\"},{\"lable\":\"age\",\"value\":\"age\"}]";
-		Assertions.assertThrows(JSONException.class, ()->{
-			JSONUtil.toBean(fieldMapping, new TypeReference<Map<String, String>>() {});
-		});
+		Assertions.assertThrows(JSONException.class, ()-> JSONUtil.toBean(fieldMapping, new TypeReference<Map<String, String>>() {}));
 	}
 }

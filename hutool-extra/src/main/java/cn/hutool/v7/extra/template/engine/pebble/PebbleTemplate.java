@@ -64,7 +64,7 @@ public class PebbleTemplate implements Template {
 	@Override
 	public void render(final Map<?, ?> bindingMap, final Writer writer) {
 
-		final Map<String, Object> map = ConvertUtil.convert(new TypeReference<Map<String, Object>>() {
+		final Map<String, Object> map = ConvertUtil.convert(new TypeReference<>() {
 		}, bindingMap);
 		try {
 			this.template.evaluate(writer, map);
@@ -82,7 +82,7 @@ public class PebbleTemplate implements Template {
 	@Override
 	public void render(final Map<?, ?> bindingMap, final OutputStream out) {
 
-		final Map<String, Object> map = ConvertUtil.convert(new TypeReference<Map<String, Object>>() {
+		final Map<String, Object> map = ConvertUtil.convert(new TypeReference<>() {
 		}, bindingMap);
 		try {
 			this.template.evaluate(new OutputStreamWriter(out), map);

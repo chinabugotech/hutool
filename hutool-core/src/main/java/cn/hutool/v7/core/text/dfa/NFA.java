@@ -148,7 +148,7 @@ public class NFA {
 			}
 		}
 		final List<FoundWord> ans = new ArrayList<>();
-		Node p = root, k = null;
+		Node p = root, k;
 		for (int i = 0, len = text.length(); i < len; i++) {
 			final int ind = text.charAt(i);
 			// 状态转移(沿着fail指针链接的链表，此处区别于DFA模型)

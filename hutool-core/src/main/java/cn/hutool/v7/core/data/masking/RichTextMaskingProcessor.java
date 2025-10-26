@@ -243,7 +243,6 @@ public class RichTextMaskingProcessor {
 				case REPLACE ->
 					// 替换脱敏，用指定文本替换
 					rule.getReplacement();
-				default -> matched;
 			};
 
 			// 处理正则表达式中的特殊字符

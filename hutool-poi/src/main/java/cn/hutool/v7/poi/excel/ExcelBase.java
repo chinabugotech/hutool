@@ -219,9 +219,8 @@ public class ExcelBase<T extends ExcelBase<T, C>, C extends ExcelConfig> impleme
 	@SuppressWarnings("unchecked")
 	public T cloneSheet(final int sheetIndex, final String newSheetName, final boolean setAsCurrentSheet) {
 		final Sheet sheet;
-		if (this.workbook instanceof XSSFWorkbook) {
-			final XSSFWorkbook workbook = (XSSFWorkbook) this.workbook;
-			sheet = workbook.cloneSheet(sheetIndex, newSheetName);
+		if (this.workbook instanceof XSSFWorkbook xssfWorkbook) {
+			sheet = xssfWorkbook.cloneSheet(sheetIndex, newSheetName);
 		} else {
 			sheet = this.workbook.cloneSheet(sheetIndex);
 			// issue#I8QIBB，clone后的sheet的index应该重新获取

@@ -35,15 +35,15 @@ public class MorseTest {
 	public void test1() {
 		final String text = "你好，世界！";
 		final String morse = "-..----.--...../-.--..-.-----.-/--------....--../-..---....-.--./---.-.-.-..--../--------.......-/";
-		Assertions.assertEquals(morseCoder.encode(text), morse);
-		Assertions.assertEquals(morseCoder.decode(morse), text);
+		Assertions.assertEquals(morse, morseCoder.encode(text));
+		Assertions.assertEquals(text, morseCoder.decode(morse));
 	}
 
 	@Test
 	public void test2() {
 		final String text = "こんにちは";
 		final String morse = "--.....-.-..--/--....-..-..--/--.....--.-.--/--.....--....-/--.....--.----/";
-		Assertions.assertEquals(morseCoder.encode(text), morse);
-		Assertions.assertEquals(morseCoder.decode(morse), text);
+		Assertions.assertEquals(morse, morseCoder.encode(text));
+		Assertions.assertEquals(text, morseCoder.decode(morse));
 	}
 }

@@ -38,7 +38,7 @@ public class Issue1101Test {
 	public void treeMapConvertTest(){
 		final String json = "[{\"nodeName\":\"admin\",\"treeNodeId\":\"00010001_52c95b83-2083-4138-99fb-e6e21f0c1277\",\"sort\":0,\"type\":10,\"parentId\":\"00010001\",\"children\":[],\"id\":\"52c95b83-2083-4138-99fb-e6e21f0c1277\",\"status\":true},{\"nodeName\":\"test\",\"treeNodeId\":\"00010001_97054a82-f8ff-46a1-b76c-cbacf6d18045\",\"sort\":0,\"type\":10,\"parentId\":\"00010001\",\"children\":[],\"id\":\"97054a82-f8ff-46a1-b76c-cbacf6d18045\",\"status\":true}]";
 		final JSONArray objects = JSONUtil.parseArray(json);
-		final TreeSet<TreeNodeDto> convert = ConvertUtil.convert(new TypeReference<TreeSet<TreeNodeDto>>() {
+		final TreeSet<TreeNodeDto> convert = ConvertUtil.convert(new TypeReference<>() {
 		}, objects);
 		Assertions.assertEquals(2, convert.size());
 	}

@@ -193,7 +193,7 @@ public class WatchServiceWrapper extends SimpleWrapper<WatchService> implements 
 		}
 
 		// 递归注册下一层层级的目录和文件
-		PathUtil.walkFiles(path, maxDepth, new SimpleFileVisitor<Path>() {
+		PathUtil.walkFiles(path, maxDepth, new SimpleFileVisitor<>() {
 			@SuppressWarnings("resource")
 			@Override
 			public FileVisitResult postVisitDirectory(final Path dir, final IOException exc) throws IOException {

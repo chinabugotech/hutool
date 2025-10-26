@@ -62,10 +62,10 @@ public class RangeTest {
 		final Date end = DateUtil.parse("2021-01-03");
 
 		final List<Integer> dayOfMonthList = DateUtil.rangeFunc(start, end, DateField.DAY_OF_YEAR, a -> DateTime.of(a).dayOfMonth());
-		Assertions.assertArrayEquals(dayOfMonthList.toArray(new Integer[]{}), new Integer[]{1, 2, 3});
+		Assertions.assertArrayEquals(new Integer[]{1, 2, 3}, dayOfMonthList.toArray(new Integer[]{}));
 
 		final List<Integer> dayOfMonthList2 = DateUtil.rangeFunc(null, null, DateField.DAY_OF_YEAR, a -> DateTime.of(a).dayOfMonth());
-		Assertions.assertArrayEquals(dayOfMonthList2.toArray(new Integer[]{}), new Integer[]{});
+		Assertions.assertArrayEquals(new Integer[]{}, dayOfMonthList2.toArray(new Integer[]{}));
 	}
 
 	@Test
@@ -75,11 +75,11 @@ public class RangeTest {
 
 		final StringBuilder sb = new StringBuilder();
 		DateUtil.rangeConsume(start, end, DateField.DAY_OF_YEAR, a -> sb.append(DateTime.of(a).dayOfMonth()).append("#"));
-		Assertions.assertEquals(sb.toString(), "1#2#3#");
+		Assertions.assertEquals("1#2#3#", sb.toString());
 
 		final StringBuilder sb2 = new StringBuilder();
 		DateUtil.rangeConsume(null, null, DateField.DAY_OF_YEAR, a -> sb2.append(DateTime.of(a).dayOfMonth()).append("#"));
-		Assertions.assertEquals(sb2.toString(), StrUtil.EMPTY);
+		Assertions.assertEquals(StrUtil.EMPTY, sb2.toString());
 	}
 
 	@Test

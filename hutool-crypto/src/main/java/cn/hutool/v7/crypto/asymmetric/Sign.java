@@ -211,11 +211,10 @@ public class Sign extends BaseAsymmetric<Sign> {
 		// If the certificate is of type X509Certificate,
 		// we should check whether it has a Key Usage
 		// extension marked as critical.
-		if (certificate instanceof X509Certificate) {
+		if (certificate instanceof X509Certificate cert) {
 			// Check whether the cert has a key usage extension
 			// marked as a critical extension.
 			// The OID for KeyUsage extension is 2.5.29.15.
-			final X509Certificate cert = (X509Certificate) certificate;
 			final Set<String> critSet = cert.getCriticalExtensionOIDs();
 
 			if (CollUtil.isNotEmpty(critSet) && critSet.contains("2.5.29.15")) {

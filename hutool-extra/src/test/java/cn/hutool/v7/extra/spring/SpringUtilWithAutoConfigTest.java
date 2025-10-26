@@ -59,7 +59,8 @@ public class SpringUtilWithAutoConfigTest {
 
 	@Test
 	public void getBeanWithTypeReferenceTest() {
-		final Map<String, Object> mapBean = SpringUtil.getBean(new TypeReference<Map<String, Object>>() {});
+		final Map<String, Object> mapBean = SpringUtil.getBean(new TypeReference<>() {
+		});
 		Assertions.assertNotNull(mapBean);
 		Assertions.assertEquals("value1", mapBean.get("key1"));
 		Assertions.assertEquals("value2", mapBean.get("key2"));

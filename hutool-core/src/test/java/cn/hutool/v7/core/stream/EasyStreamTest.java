@@ -16,13 +16,12 @@
 
 package cn.hutool.v7.core.stream;
 
-import static java.util.Collections.singletonList;
-import lombok.Builder;
-import lombok.Data;
 import cn.hutool.v7.core.collection.ListUtil;
 import cn.hutool.v7.core.lang.Opt;
 import cn.hutool.v7.core.map.MapUtil;
 import cn.hutool.v7.core.math.NumberUtil;
+import lombok.Builder;
+import lombok.Data;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -33,6 +32,8 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static java.util.Collections.singletonList;
 
 /**
  * @author VampireAchao
@@ -270,7 +271,7 @@ public class EasyStreamTest {
 				.peek(e -> Assertions.assertEquals("four", e))
 				.map(String::toUpperCase)
 				.peek(e -> Assertions.assertEquals("FOUR", e))
-				.collect(Collectors.toList());
+				.toList();
 	}
 
 	@Test
@@ -280,7 +281,7 @@ public class EasyStreamTest {
 				.peekIdx((e, i) -> Assertions.assertEquals("four:0", e + ":" + i))
 				.map(String::toUpperCase)
 				.peekIdx((e, i) -> Assertions.assertEquals("FOUR:0", e + ":" + i))
-				.collect(Collectors.toList());
+				.toList();
 	}
 
 	@Test

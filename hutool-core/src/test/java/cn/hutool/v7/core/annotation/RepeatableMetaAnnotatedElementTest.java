@@ -46,7 +46,7 @@ public class RepeatableMetaAnnotatedElementTest {
 	@Test
 	public void testEquals() {
 		final AnnotatedElement element = RepeatableMetaAnnotatedElement.create(Foo.class, RESOLVED_MAPPING_FACTORY);
-		Assertions.assertNotEquals(element, null);
+		Assertions.assertNotEquals(null, element);
 		Assertions.assertEquals(element, RepeatableMetaAnnotatedElement.create(Foo.class, RESOLVED_MAPPING_FACTORY));
 		Assertions.assertNotEquals(element, RepeatableMetaAnnotatedElement.create(Foo.class, MAPPING_FACTORY));
 		Assertions.assertNotEquals(element, RepeatableMetaAnnotatedElement.create(Annotation1.class, MAPPING_FACTORY));

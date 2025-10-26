@@ -191,7 +191,7 @@ public class IdcardUtilTest {
 		assertTrue(IdcardUtil.isValidCard(FOREIGN_ID_18));
 
 		final Date date = DateUtil.parse("2017-04-10");
-		assertEquals(IdcardUtil.getAge(FOREIGN_ID_18, date), 32);
+		assertEquals(32, IdcardUtil.getAge(FOREIGN_ID_18, date));
 
 		// 新版外国人永久居留身份证
 		assertTrue(IdcardUtil.isValidCard18("932682198501010017"));

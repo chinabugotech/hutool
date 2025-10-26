@@ -59,7 +59,8 @@ public class RythmTemplate implements Template, Serializable {
 
 	@Override
 	public void render(final Map<?, ?> bindingMap, final Writer writer) {
-		final Map<String, Object> map = ConvertUtil.convert(new TypeReference<Map<String, Object>>() {}, bindingMap);
+		final Map<String, Object> map = ConvertUtil.convert(new TypeReference<>() {
+		}, bindingMap);
 		rawTemplate.__setRenderArgs(map);
 		rawTemplate.render(writer);
 	}

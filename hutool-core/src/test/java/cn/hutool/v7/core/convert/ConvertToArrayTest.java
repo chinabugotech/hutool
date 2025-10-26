@@ -41,14 +41,14 @@ public class ConvertToArrayTest {
 		final String[] b = { "1", "2", "3", "4" };
 
 		final Integer[] integerArray = ConvertUtil.toIntArray(b);
-		Assertions.assertArrayEquals(integerArray, new Integer[]{1,2,3,4});
+		Assertions.assertArrayEquals(new Integer[]{1,2,3,4}, integerArray);
 
 		final int[] intArray = ConvertUtil.convert(int[].class, b);
-		Assertions.assertArrayEquals(intArray, new int[]{1,2,3,4});
+		Assertions.assertArrayEquals(new int[]{1,2,3,4}, intArray);
 
 		final long[] c = {1,2,3,4,5};
 		final Integer[] intArray2 = ConvertUtil.toIntArray(c);
-		Assertions.assertArrayEquals(intArray2, new Integer[]{1,2,3,4,5});
+		Assertions.assertArrayEquals(new Integer[]{1,2,3,4,5}, intArray2);
 	}
 
 	@Test
@@ -57,7 +57,7 @@ public class ConvertToArrayTest {
 
 		final ArrayConverter arrayConverter = new ArrayConverter(true);
 		final Integer[] integerArray = arrayConverter.convert(Integer[].class, b, null);
-		Assertions.assertArrayEquals(integerArray, new Integer[]{null, 1});
+		Assertions.assertArrayEquals(new Integer[]{null, 1}, integerArray);
 	}
 
 	@Test
@@ -65,14 +65,14 @@ public class ConvertToArrayTest {
 		final String[] b = { "1", "2", "3", "4" };
 
 		final Long[] longArray = ConvertUtil.toLongArray(b);
-		Assertions.assertArrayEquals(longArray, new Long[]{1L,2L,3L,4L});
+		Assertions.assertArrayEquals(new Long[]{1L,2L,3L,4L}, longArray);
 
 		final long[] longArray2 = ConvertUtil.convert(long[].class, b);
-		Assertions.assertArrayEquals(longArray2, new long[]{1L,2L,3L,4L});
+		Assertions.assertArrayEquals(new long[]{1L,2L,3L,4L}, longArray2);
 
 		final int[] c = {1,2,3,4,5};
 		final Long[] intArray2 = ConvertUtil.toLongArray(c);
-		Assertions.assertArrayEquals(intArray2, new Long[]{1L,2L,3L,4L,5L});
+		Assertions.assertArrayEquals(new Long[]{1L,2L,3L,4L,5L}, intArray2);
 	}
 
 	@Test
@@ -80,14 +80,14 @@ public class ConvertToArrayTest {
 		final String[] b = { "1", "2", "3", "4" };
 
 		final Double[] doubleArray = ConvertUtil.toDoubleArray(b);
-		Assertions.assertArrayEquals(doubleArray, new Double[]{1D,2D,3D,4D});
+		Assertions.assertArrayEquals(new Double[]{1D,2D,3D,4D}, doubleArray);
 
 		final double[] doubleArray2 = ConvertUtil.convert(double[].class, b);
-		Assertions.assertArrayEquals(doubleArray2, new double[]{1D,2D,3D,4D}, 2);
+		Assertions.assertArrayEquals(new double[]{1D,2D,3D,4D}, doubleArray2, 2);
 
 		final int[] c = {1,2,3,4,5};
 		final Double[] intArray2 = ConvertUtil.toDoubleArray(c);
-		Assertions.assertArrayEquals(intArray2, new Double[]{1D,2D,3D,4D,5D});
+		Assertions.assertArrayEquals(new Double[]{1D,2D,3D,4D,5D}, intArray2);
 	}
 
 	@Test

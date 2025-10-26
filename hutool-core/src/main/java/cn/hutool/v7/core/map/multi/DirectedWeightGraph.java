@@ -73,9 +73,7 @@ public class DirectedWeightGraph<T> {
 		allPoints.clear();
 		neighborEdgeMap.forEach((f, m) -> {
 			allPoints.add(f);
-			m.forEach((t, e) -> {
-				allPoints.add(t);
-			});
+			m.forEach((t, e) -> allPoints.add(t));
 		});
 	}
 
@@ -87,20 +85,16 @@ public class DirectedWeightGraph<T> {
 	public void removePoint(final T point) {
 		allPoints.remove(point);
 		neighborEdgeMap.remove(point);
-		neighborEdgeMap.forEach((f, m) -> {
-			m.remove(point);
-		});
+		neighborEdgeMap.forEach((f, m) -> m.remove(point));
 	}
 
 	@Override
 	public String toString() {
 		final StringBuilder builder = new StringBuilder();
-		neighborEdgeMap.forEach((from, edgeMap) -> {
-			edgeMap.forEach((to, edge) -> {
-				builder.append(edge);
-				builder.append("\r\n");
-			});
-		});
+		neighborEdgeMap.forEach((from, edgeMap) -> edgeMap.forEach((to, edge) -> {
+			builder.append(edge);
+			builder.append("\r\n");
+		}));
 		return builder.toString();
 	}
 

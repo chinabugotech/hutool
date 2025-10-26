@@ -20,26 +20,16 @@ import java.util.Iterator;
 
 /**
  * Unicode字符遍历器<br>
- * 参考：http://stackoverflow.com/a/21791059/6030888
+ * 参考：<a href="http://stackoverflow.com/a/21791059/6030888">http://stackoverflow.com/a/21791059/6030888</a>
  *
  * @author Looly
+ * @param str
  */
-public class CodePointIter implements Iterable<Integer> {
-
-	final String str;
-
-	/**
-	 * 构造
-	 *
-	 * @param str 字符串
-	 */
-	public CodePointIter(final String str) {
-		this.str = str;
-	}
+public record CodePointIter(String str) implements Iterable<Integer> {
 
 	@Override
 	public Iterator<Integer> iterator() {
-		return new Iterator<Integer>() {
+		return new Iterator<>() {
 
 			private final int length = str.length();
 			private int nextIndex = 0;

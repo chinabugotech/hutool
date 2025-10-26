@@ -79,7 +79,6 @@ public class TemporalUtil {
 			case MINUTES -> ChronoUnit.MINUTES;
 			case HOURS -> ChronoUnit.HOURS;
 			case DAYS -> ChronoUnit.DAYS;
-			default -> throw new IllegalArgumentException("Unknown TimeUnit constant");
 		};
 	}
 

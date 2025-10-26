@@ -21,5 +21,5 @@
 #--------------------------------------
 
 # show Hutool logo
-"$(dirname ${BASH_SOURCE[0]})"/logo.sh
+"$(dirname "${BASH_SOURCE[0]}")"/logo.sh
 mvn versions:display-dependency-updates

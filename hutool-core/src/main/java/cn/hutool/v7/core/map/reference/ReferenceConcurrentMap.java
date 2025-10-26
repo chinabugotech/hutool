@@ -212,11 +212,11 @@ public abstract class ReferenceConcurrentMap<K, V> implements ConcurrentMap<K, V
 	public Set<K> keySet() {
 		this.purgeStale();
 		final Set<Ref<K>> referenceSet = this.raw.keySet();
-		return new AbstractSet<K>() {
+		return new AbstractSet<>() {
 			@Override
 			public Iterator<K> iterator() {
 				final Iterator<Ref<K>> referenceIter = referenceSet.iterator();
-				return new Iterator<K>() {
+				return new Iterator<>() {
 					@Override
 					public boolean hasNext() {
 						return referenceIter.hasNext();
@@ -240,11 +240,11 @@ public abstract class ReferenceConcurrentMap<K, V> implements ConcurrentMap<K, V
 	public Collection<V> values() {
 		this.purgeStale();
 		final Collection<Ref<V>> referenceValues = this.raw.values();
-		return new AbstractCollection<V>() {
+		return new AbstractCollection<>() {
 			@Override
 			public Iterator<V> iterator() {
 				final Iterator<Ref<V>> referenceIter = referenceValues.iterator();
-				return new Iterator<V>() {
+				return new Iterator<>() {
 					@Override
 					public boolean hasNext() {
 						return referenceIter.hasNext();
@@ -268,7 +268,7 @@ public abstract class ReferenceConcurrentMap<K, V> implements ConcurrentMap<K, V
 	public Set<Entry<K, V>> entrySet() {
 		this.purgeStale();
 		final Set<Entry<Ref<K>, Ref<V>>> referenceEntrySet = this.raw.entrySet();
-		return new AbstractSet<Entry<K, V>>() {
+		return new AbstractSet<>() {
 			@Override
 			public Iterator<Entry<K, V>> iterator() {
 				final Iterator<Entry<Ref<K>, Ref<V>>> referenceIter = referenceEntrySet.iterator();
@@ -281,7 +281,7 @@ public abstract class ReferenceConcurrentMap<K, V> implements ConcurrentMap<K, V
 					@Override
 					public Entry<K, V> next() {
 						final Entry<Ref<K>, Ref<V>> next = referenceIter.next();
-						return new Entry<K, V>() {
+						return new Entry<>() {
 							@Override
 							public K getKey() {
 								return unwrap(next.getKey());

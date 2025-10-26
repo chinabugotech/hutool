@@ -138,9 +138,10 @@ public class JWTTest {
 		map.put("test1", "1");
 		map.put("test2", "2");
 
-		final Map<String, Object> payload = new HashMap<String, Object>() {
+		final Map<String, Object> payload = new HashMap<>() {
 			@Serial
 			private static final long serialVersionUID = 1L;
+
 			{
 				put("username", username);
 				put("bean", bean);
@@ -161,7 +162,7 @@ public class JWTTest {
 		final Map<String, String> mapRes = jwt.getPayload("map", new TypeReference<Map<String, String>>(){});
 
 		Assertions.assertEquals(bean, beanRes);
-		Assertions.assertEquals(numRes, num);
+		Assertions.assertEquals(num, numRes);
 		Assertions.assertEquals(username, strRes);
 		Assertions.assertEquals(list.toString(), listRes.toString());
 

@@ -25,7 +25,7 @@ import java.util.Stack;
 
 /**
  * 数学表达式计算工具类<br>
- * 见：https://github.com/chinabugotech/hutool/issues/1090#issuecomment-693750140
+ * 见：<a href="https://github.com/chinabugotech/hutool/issues/1090#issuecomment-693750140">issues#1090#issuecomment-693750140</a>
  *
  * @author trainliang, Looly
  * @since 5.4.3
@@ -165,7 +165,7 @@ public class Calculator {
 	 * @return 结果
 	 */
 	private BigDecimal calculate(final String firstValue, final String secondValue, final char currentOp) {
-		final BigDecimal result = switch (currentOp) {
+		return switch (currentOp) {
 			case '+' -> NumberUtil.add(firstValue, secondValue);
 			case '-' -> NumberUtil.sub(firstValue, secondValue);
 			case '*' -> NumberUtil.mul(firstValue, secondValue);
@@ -173,7 +173,6 @@ public class Calculator {
 			case '%' -> NumberUtil.toBigDecimal(firstValue).remainder(NumberUtil.toBigDecimal(secondValue));
 			default -> throw new IllegalStateException("Unexpected value: " + currentOp);
 		};
-		return result;
 	}
 
 	/**

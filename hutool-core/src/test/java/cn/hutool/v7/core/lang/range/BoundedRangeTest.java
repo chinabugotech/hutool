@@ -29,7 +29,7 @@ public class BoundedRangeTest {
 		final BoundedRange<Integer> range = new BoundedRange<>(
 			Bound.greaterThan(0), Bound.lessThan(10)
 		);
-		Assertions.assertNotEquals(range, null);
+		Assertions.assertNotEquals(null, range);
 		Assertions.assertEquals(range, new BoundedRange<>(
 			Bound.greaterThan(0), Bound.lessThan(10)
 		));

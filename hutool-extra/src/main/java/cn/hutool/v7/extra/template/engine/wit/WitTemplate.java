@@ -58,13 +58,15 @@ public class WitTemplate implements cn.hutool.v7.extra.template.Template, Serial
 
 	@Override
 	public void render(final Map<?, ?> bindingMap, final Writer writer) {
-		final Map<String, Object> map = ConvertUtil.convert(new TypeReference<Map<String, Object>>() {}, bindingMap);
+		final Map<String, Object> map = ConvertUtil.convert(new TypeReference<>() {
+		}, bindingMap);
 		rawTemplate.merge(map, writer);
 	}
 
 	@Override
 	public void render(final Map<?, ?> bindingMap, final OutputStream out) {
-		final Map<String, Object> map = ConvertUtil.convert(new TypeReference<Map<String, Object>>() {}, bindingMap);
+		final Map<String, Object> map = ConvertUtil.convert(new TypeReference<>() {
+		}, bindingMap);
 		rawTemplate.merge(map, out);
 	}
 

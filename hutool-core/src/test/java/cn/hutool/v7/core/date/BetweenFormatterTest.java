@@ -23,22 +23,19 @@ import java.util.function.Function;
 
 public class BetweenFormatterTest {
 
-	Function<BetweenFormatter.Level, String> levelFormatterEn = level -> {
-		return switch (level) {
-			case DAY -> " day";
-			case HOUR -> " hour";
-			case MINUTE -> " minute";
-			case SECOND -> " second";
-			case MILLISECOND -> " millisecond";
-			default -> " " + level.name();
-		};
+	Function<BetweenFormatter.Level, String> levelFormatterEn = level -> switch (level) {
+		case DAY -> " day";
+		case HOUR -> " hour";
+		case MINUTE -> " minute";
+		case SECOND -> " second";
+		case MILLISECOND -> " millisecond";
 	};
 
 	@Test
 	public void formatTest() {
 		final long betweenMs = DateUtil.betweenMs(DateUtil.parse("2017-01-01 22:59:59"), DateUtil.parse("2017-01-02 23:59:58"));
 		final BetweenFormatter formatter = new BetweenFormatter(betweenMs, BetweenFormatter.Level.MILLISECOND, 1);
-		Assertions.assertEquals(formatter.toString(), "1天");
+		Assertions.assertEquals("1天", formatter.toString());
 	}
 
 	@Test
@@ -46,27 +43,27 @@ public class BetweenFormatterTest {
 		final long betweenMs = DateUtil.betweenMs(DateUtil.parse("2017-01-01 22:59:59"), DateUtil.parse("2017-01-02 23:59:58"));
 		final BetweenFormatter formatter = new BetweenFormatter(betweenMs, BetweenFormatter.Level.MILLISECOND, 1);
 		formatter.setLevelFormatter(levelFormatterEn);
-		Assertions.assertEquals(formatter.toString(), "1 day");
+		Assertions.assertEquals("1 day", formatter.toString());
 	}
 
 	@Test
 	public void formatBetweenTest() {
 		final long betweenMs = DateUtil.betweenMs(DateUtil.parse("2018-07-16 11:23:19"), DateUtil.parse("2018-07-16 11:23:20"));
 		final BetweenFormatter formatter = new BetweenFormatter(betweenMs, BetweenFormatter.Level.SECOND, 1);
-		Assertions.assertEquals(formatter.toString(), "1秒");
+		Assertions.assertEquals("1秒", formatter.toString());
 	}
 
 	@Test
 	public void formatBetweenTest2() {
 		final long betweenMs = DateUtil.betweenMs(DateUtil.parse("2018-07-16 12:25:23"), DateUtil.parse("2018-07-16 11:23:20"));
 		final BetweenFormatter formatter = new BetweenFormatter(betweenMs, BetweenFormatter.Level.SECOND, 5);
-		Assertions.assertEquals(formatter.toString(), "1小时2分3秒");
+		Assertions.assertEquals("1小时2分3秒", formatter.toString());
 	}
 
 	@Test
 	public void formatTest2() {
 		final BetweenFormatter formatter = new BetweenFormatter(584, BetweenFormatter.Level.SECOND, 1);
-		Assertions.assertEquals(formatter.toString(), "0秒");
+		Assertions.assertEquals("0秒", formatter.toString());
 	}
 
 	@Test

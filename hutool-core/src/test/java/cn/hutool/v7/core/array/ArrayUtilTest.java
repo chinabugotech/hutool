@@ -104,21 +104,21 @@ public class ArrayUtilTest {
 	public void filterEditTest() {
 		final Integer[] a = {1, 2, 3, 4, 5, 6};
 		final Integer[] filter = ArrayUtil.edit(a, t -> (t % 2 == 0) ? t : null);
-		assertArrayEquals(filter, new Integer[]{2, 4, 6});
+		assertArrayEquals(new Integer[]{2, 4, 6}, filter);
 	}
 
 	@Test
 	public void filterTestForFilter() {
 		final Integer[] a = {1, 2, 3, 4, 5, 6};
 		final Integer[] filter = ArrayUtil.filter(a, t -> t % 2 == 0);
-		assertArrayEquals(filter, new Integer[]{2, 4, 6});
+		assertArrayEquals(new Integer[]{2, 4, 6}, filter);
 	}
 
 	@Test
 	public void editTest() {
 		final Integer[] a = {1, 2, 3, 4, 5, 6};
 		final Integer[] filter = ArrayUtil.edit(a, t -> (t % 2 == 0) ? t * 10 : t);
-		assertArrayEquals(filter, new Integer[]{1, 20, 3, 40, 5, 60});
+		assertArrayEquals(new Integer[]{1, 20, 3, 40, 5, 60}, filter);
 	}
 
 	@Test
@@ -227,7 +227,7 @@ public class ArrayUtilTest {
 		final String[] keys = {"a", "b", "c"};
 		final Integer[] values = {1, 2, 3};
 		final Map<String, Integer> map = ArrayUtil.zip(keys, values, true);
-		assertEquals(Objects.requireNonNull(map).toString(), "{a=1, b=2, c=3}");
+		assertEquals("{a=1, b=2, c=3}", Objects.requireNonNull(map).toString());
 	}
 
 	@Test

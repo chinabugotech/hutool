@@ -34,7 +34,7 @@ public class PerfectEvaluationProductResVo extends ProductResBase {
 	@Serial
 	private static final long serialVersionUID = 1L;
 
-	public static final Map<String, String> KEY_TO_KEY = new HashMap<String, String>() {
+	public static final Map<String, String> KEY_TO_KEY = new HashMap<>() {
 		@Serial
 		private static final long serialVersionUID = 1L;
 

@@ -71,7 +71,7 @@ public class JSONConvertTest {
 		final UserInfoDict userInfoDict = jsonObject.toBean(UserInfoDict.class);
 
 		assertEquals(userInfoDict.getId(), Integer.valueOf(1));
-		assertEquals(userInfoDict.getRealName(), "质量过关");
+		assertEquals("质量过关", userInfoDict.getRealName());
 
 		//============
 

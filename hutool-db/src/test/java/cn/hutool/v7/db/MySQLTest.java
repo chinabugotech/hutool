@@ -58,17 +58,15 @@ public class MySQLTest {
 	@Test
 	@Disabled
 	public void txTest() throws SQLException {
-		Assertions.assertThrows(SQLException.class, ()->{
-			Db.of("mysql").tx(db -> {
-				final int update = db.update(Entity.of("user").set("text", "描述100"), Entity.of().set("id", 100));
-				db.update(Entity.of("user").set("text", "描述101"), Entity.of().set("id", 101));
-				if (1 == update) {
-					// 手动指定异常，然后测试回滚触发
-					throw new RuntimeException("Error");
-				}
-				db.update(Entity.of("user").set("text", "描述102"), Entity.of().set("id", 102));
-			});
-		});
+		Assertions.assertThrows(SQLException.class, ()-> Db.of("mysql").tx(db -> {
+			final int update = db.update(Entity.of("user").set("text", "描述100"), Entity.of().set("id", 100));
+			db.update(Entity.of("user").set("text", "描述101"), Entity.of().set("id", 101));
+			if (1 == update) {
+				// 手动指定异常，然后测试回滚触发
+				throw new RuntimeException("Error");
+			}
+			db.update(Entity.of("user").set("text", "描述102"), Entity.of().set("id", 102));
+		}));
 	}
 
 	@Test
@@ -95,6 +93,6 @@ public class MySQLTest {
 		db.upsert(Entity.of("testuser").set("id", 1).set("account", "icefairy").set("pass", "a123456"));
 		final Entity user = db.get(Entity.of("testuser").set("id", 1));
 		System.out.println("user======="+user.getStr("account")+"___"+user.getStr("pass"));
-		Assertions.assertEquals(user.getStr("account"), "icefairy");
+		Assertions.assertEquals("icefairy", user.getStr("account"));
 	}
 }

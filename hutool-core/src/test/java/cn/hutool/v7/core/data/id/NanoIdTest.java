@@ -149,9 +149,7 @@ public class NanoIdTest {
 
 	@Test
 	public void randomNanoIdEmptyAlphabetExceptionThrownTest() {
-		Assertions.assertThrows(IllegalArgumentException.class, ()->{
-			NanoId.randomNanoId(new SecureRandom(), new char[]{}, 10);
-		});
+		Assertions.assertThrows(IllegalArgumentException.class, ()-> NanoId.randomNanoId(new SecureRandom(), new char[]{}, 10));
 	}
 
 	@Test
@@ -170,15 +168,11 @@ public class NanoIdTest {
 
 	@Test
 	public void randomNanoIdNegativeSizeExceptionThrown() {
-		Assertions.assertThrows(IllegalArgumentException.class, ()->{
-			NanoId.randomNanoId(new SecureRandom(), new char[]{'a', 'b', 'c'}, -10);
-		});
+		Assertions.assertThrows(IllegalArgumentException.class, ()-> NanoId.randomNanoId(new SecureRandom(), new char[]{'a', 'b', 'c'}, -10));
 	}
 
 	@Test
 	public void randomNanoIdZeroSizeExceptionThrown() {
-		Assertions.assertThrows(IllegalArgumentException.class, ()->{
-			NanoId.randomNanoId(new SecureRandom(), new char[]{'a', 'b', 'c'}, 0);
-		});
+		Assertions.assertThrows(IllegalArgumentException.class, ()-> NanoId.randomNanoId(new SecureRandom(), new char[]{'a', 'b', 'c'}, 0));
 	}
 }

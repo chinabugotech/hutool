@@ -54,8 +54,7 @@ public abstract class AbsTable<R, C, V> implements Table<R, C, V> {
 	public boolean equals(final Object obj) {
 		if (obj == this) {
 			return true;
-		} else if (obj instanceof Table) {
-			final Table<?, ?, ?> that = (Table<?, ?, ?>) obj;
+		} else if (obj instanceof Table<?, ?, ?> that) {
 			return this.cellSet().equals(that.cellSet());
 		} else {
 			return false;
@@ -232,8 +231,7 @@ public abstract class AbsTable<R, C, V> implements Table<R, C, V> {
 			if (obj == this) {
 				return true;
 			}
-			if (obj instanceof Cell) {
-				final Cell<?, ?, ?> other = (Cell<?, ?, ?>) obj;
+			if (obj instanceof Cell<?, ?, ?> other) {
 				return ObjUtil.equals(rowKey, other.getRowKey())
 						&& ObjUtil.equals(columnKey, other.getColumnKey())
 						&& ObjUtil.equals(value, other.getValue());

@@ -27,7 +27,7 @@ public class SimpleSchedulerTest {
 	public static void main(final String[] args) {
 
 		// 新建一个定时任务，定时获取内存信息
-		final SimpleScheduler<Long> scheduler = new SimpleScheduler<>(new SimpleScheduler.Job<Long>() {
+		final SimpleScheduler<Long> scheduler = new SimpleScheduler<>(new SimpleScheduler.Job<>() {
 			private volatile long maxAvailable;
 
 			@Override

@@ -17,14 +17,12 @@
 package cn.hutool.v7.core.func;
 
 import cn.hutool.v7.core.collection.set.SetUtil;
-import cn.hutool.v7.core.func.PredicateUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class PredicateUtilTest {
@@ -34,7 +32,7 @@ public class PredicateUtilTest {
 		final Set<String> sets = SetUtil.of("1", "2", "3");
 		final List<String> collect = Stream.of("3", "4", "5")
 				.filter(PredicateUtil.negate(sets::contains))
-				.collect(Collectors.toList());
+				.toList();
 
 		Assertions.assertEquals(2, collect.size());
 		Assertions.assertEquals("4", collect.get(0));

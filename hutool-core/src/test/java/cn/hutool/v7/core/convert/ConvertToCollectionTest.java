@@ -38,7 +38,7 @@ public class ConvertToCollectionTest {
 
 	@Test
 	public void toCollectionTest() {
-		final Object[] a = { "a", "你", "好", "", 1 };
+		final Object[] a = {"a", "你", "好", "", 1};
 		final List<?> list = (List<?>) ConvertUtil.convert(Collection.class, a);
 		Assertions.assertEquals("a", list.get(0));
 		Assertions.assertEquals("你", list.get(1));
@@ -49,7 +49,7 @@ public class ConvertToCollectionTest {
 
 	@Test
 	public void toListTest() {
-		final Object[] a = { "a", "你", "好", "", 1 };
+		final Object[] a = {"a", "你", "好", "", 1};
 		final List<?> list = ConvertUtil.toList(a);
 		Assertions.assertEquals("a", list.get(0));
 		Assertions.assertEquals("你", list.get(1));
@@ -60,7 +60,7 @@ public class ConvertToCollectionTest {
 
 	@Test
 	public void toListTest2() {
-		final Object[] a = { "a", "你", "好", "", 1 };
+		final Object[] a = {"a", "你", "好", "", 1};
 		final List<String> list = ConvertUtil.toList(String.class, a);
 		Assertions.assertEquals("a", list.get(0));
 		Assertions.assertEquals("你", list.get(1));
@@ -71,7 +71,7 @@ public class ConvertToCollectionTest {
 
 	@Test
 	public void toListTest3() {
-		final Object[] a = { "a", "你", "好", "", 1 };
+		final Object[] a = {"a", "你", "好", "", 1};
 		final List<String> list = ConvertUtil.toList(String.class, a);
 		Assertions.assertEquals("a", list.get(0));
 		Assertions.assertEquals("你", list.get(1));
@@ -82,8 +82,8 @@ public class ConvertToCollectionTest {
 
 	@Test
 	public void toListTest4() {
-		final Object[] a = { "a", "你", "好", "", 1 };
-		final List<String> list = ConvertUtil.convert(new TypeReference<List<String>>() {}, a);
+		final Object[] a = {"a", "你", "好", "", 1};
+		final List<String> list = ConvertUtil.convert(new TypeReference<>() {}, a);
 		Assertions.assertEquals("a", list.get(0));
 		Assertions.assertEquals("你", list.get(1));
 		Assertions.assertEquals("好", list.get(2));
@@ -131,7 +131,7 @@ public class ConvertToCollectionTest {
 
 	@Test
 	public void toLinkedListTest() {
-		final Object[] a = { "a", "你", "好", "", 1 };
+		final Object[] a = {"a", "你", "好", "", 1};
 		final List<?> list = ConvertUtil.convert(LinkedList.class, a);
 		Assertions.assertEquals("a", list.get(0));
 		Assertions.assertEquals("你", list.get(1));
@@ -142,7 +142,7 @@ public class ConvertToCollectionTest {
 
 	@Test
 	public void toSetTest() {
-		final Object[] a = { "a", "你", "好", "", 1 };
+		final Object[] a = {"a", "你", "好", "", 1};
 		final LinkedHashSet<?> set = ConvertUtil.convert(LinkedHashSet.class, a);
 		final ArrayList<?> list = ListUtil.of(set);
 		Assertions.assertEquals("a", list.get(0));

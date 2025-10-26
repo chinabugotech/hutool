@@ -52,6 +52,11 @@ public class GrokServiceImpl extends BaseAIService implements GrokService {
 	//文生图
 	private final String IMAGES_GENERATIONS = "/images/generations";
 
+	/**
+	 * 构造函数
+	 *
+	 * @param config 配置
+	 */
 	public GrokServiceImpl(final AIConfig config) {
 		//初始化grok客户端
 		super(config);

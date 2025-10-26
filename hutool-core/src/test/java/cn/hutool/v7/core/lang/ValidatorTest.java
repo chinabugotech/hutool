@@ -311,11 +311,11 @@ public class ValidatorTest {
 	public void validateByteLengthTest() {
 		final String s1 = "abc";
 		final int len1 = StrUtil.byteLength(s1, CharsetUtil.UTF_8);
-		Assertions.assertEquals(len1, 3);
+		Assertions.assertEquals(3, len1);
 
 		final String s2 = "我ab";
 		final int len2 = StrUtil.byteLength(s2, CharsetUtil.UTF_8);
-		Assertions.assertEquals(len2, 5);
+		Assertions.assertEquals(5, len2);
 
 		//一个汉字在utf-8编码下，占3个字节。
 		Assertions.assertThrows(ValidateException.class, ()->

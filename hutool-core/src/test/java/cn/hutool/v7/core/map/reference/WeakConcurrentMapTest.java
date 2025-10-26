@@ -34,9 +34,7 @@ public class WeakConcurrentMapTest {
 
 		map.computeIfAbsent("key2", key -> "value2");
 		// Test if the map can handle concurrent modifications
-		new Thread(() -> {
-			map.put("key2", "value2");
-		}).start();
+		new Thread(() -> map.put("key2", "value2")).start();
 
 		// Test if the map has correctly stored the value from the concurrent modification
 		assertEquals("value2", map.get("key2"));

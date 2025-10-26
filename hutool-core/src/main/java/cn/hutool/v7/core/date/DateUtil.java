@@ -1674,8 +1674,8 @@ public class DateUtil {
 	 * @since 5.7.21
 	 */
 	public static List<DateTime> rangeContains(final DateRange start, final DateRange end) {
-		final List<DateTime> startDateTimes = ListUtil.of((Iterable<DateTime>) start);
-		final List<DateTime> endDateTimes = ListUtil.of((Iterable<DateTime>) end);
+		final List<DateTime> startDateTimes = ListUtil.of(start);
+		final List<DateTime> endDateTimes = ListUtil.of(end);
 		return startDateTimes.stream().filter(endDateTimes::contains).collect(Collectors.toList());
 	}
 
@@ -1689,8 +1689,8 @@ public class DateUtil {
 	 * @since 5.7.21
 	 */
 	public static List<DateTime> rangeNotContains(final DateRange start, final DateRange end) {
-		final List<DateTime> startDateTimes = ListUtil.of((Iterable<DateTime>) start);
-		final List<DateTime> endDateTimes = ListUtil.of((Iterable<DateTime>) end);
+		final List<DateTime> startDateTimes = ListUtil.of(start);
+		final List<DateTime> endDateTimes = ListUtil.of(end);
 		return endDateTimes.stream().filter(item -> !startDateTimes.contains(item)).collect(Collectors.toList());
 	}
 
@@ -1741,7 +1741,7 @@ public class DateUtil {
 	 * @return {@link DateRange}
 	 */
 	public static List<DateTime> rangeToList(final Date start, final Date end, final DateField unit) {
-		return ListUtil.of((Iterable<DateTime>) range(start, end, unit));
+		return ListUtil.of(range(start, end, unit));
 	}
 
 	/**
@@ -1755,7 +1755,7 @@ public class DateUtil {
 	 * @since 5.7.16
 	 */
 	public static List<DateTime> rangeToList(final Date start, final Date end, final DateField unit, final int step) {
-		return ListUtil.of((Iterable<DateTime>) new DateRange(start, end, unit, step));
+		return ListUtil.of(new DateRange(start, end, unit, step));
 	}
 	// endregion
 

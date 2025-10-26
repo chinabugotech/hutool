@@ -26,8 +26,8 @@ public class PageTest {
 	public void addOrderTest() {
 		final Page page = new Page();
 		page.addOrder(new Order("aaa"));
-		Assertions.assertEquals(page.getOrders().length, 1);
+		Assertions.assertEquals(1, page.getOrders().length);
 		page.addOrder(new Order("aaa"));
-		Assertions.assertEquals(page.getOrders().length, 2);
+		Assertions.assertEquals(2, page.getOrders().length);
 	}
 }

@@ -184,7 +184,7 @@ public class ListServiceLoader<S> extends AbsServiceLoader<S> {
 
 	@Override
 	public Iterator<S> iterator() {
-		return new Iterator<S>() {
+		return new Iterator<>() {
 			private final Iterator<String> nameIter = serviceNames.iterator();
 
 			@Override

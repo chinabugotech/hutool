@@ -65,7 +65,7 @@ public class DruidDSFactory extends AbstractDSFactory {
 		if(MapUtil.isNotEmpty(poolProps)){
 			final Props druidProps = new Props();
 			poolProps.forEach((key, value)-> druidProps.set(StrUtil.addPrefixIfNot(key.toString(), "druid."), value));
-			ds.configFromPropeties(druidProps);
+			ds.configFromProperties(druidProps);
 
 			//issue#I4ZKCW 某些非属性设置单独设置
 			// connectionErrorRetryAttempts

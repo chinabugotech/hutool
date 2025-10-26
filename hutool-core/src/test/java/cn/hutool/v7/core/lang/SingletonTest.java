@@ -84,12 +84,10 @@ public class SingletonTest {
 		final String key = "123";
 		final ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(10, 10, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>());
 		for (int i = 0; i < 100; i++) {
-			threadPoolExecutor.execute(() -> {
-				Singleton.get(key, () -> {
-					System.out.println(key);
-					return "123";
-				});
-			});
+			threadPoolExecutor.execute(() -> Singleton.get(key, () -> {
+				System.out.println(key);
+				return "123";
+			}));
 		}
 
 		ThreadUtil.sleep(5000);

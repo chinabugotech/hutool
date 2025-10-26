@@ -106,7 +106,7 @@ public class MemorySafeLinkedBlockingQueue<E> extends CheckedLinkedBlockingQueue
 		private static final FreeMemoryCalculator INSTANCE = new FreeMemoryCalculator();
 
 		FreeMemoryCalculator() {
-			super(new SimpleScheduler.Job<Long>() {
+			super(new SimpleScheduler.Job<>() {
 				private volatile long maxAvailable = RuntimeUtil.getFreeMemory();
 
 				@Override

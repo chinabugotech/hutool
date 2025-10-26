@@ -233,9 +233,7 @@ public class RegexDateParser implements DateParser, Serializable {
 		});
 
 		// zone（包括可时区名称、时区偏移等信息，综合解析）
-		Opt.ofNullable(ReUtil.group(matcher, "zone")).ifPresent((zoneOffset) -> {
-			parseZone(zoneOffset, dateBuilder);
-		});
+		Opt.ofNullable(ReUtil.group(matcher, "zone")).ifPresent((zoneOffset) -> parseZone(zoneOffset, dateBuilder));
 
 		// zone offset
 		Opt.ofNullable(ReUtil.group(matcher, "zoneOffset")).ifPresent((zoneOffset) -> {
@@ -244,9 +242,7 @@ public class RegexDateParser implements DateParser, Serializable {
 		});
 
 		// unix时间戳，可能有NS
-		Opt.ofNullable(ReUtil.group(matcher, "unixsecond")).ifPresent((unixsecond) -> {
-			dateBuilder.setUnixsecond(parseLong(unixsecond));
-		});
+		Opt.ofNullable(ReUtil.group(matcher, "unixsecond")).ifPresent((unixsecond) -> dateBuilder.setUnixsecond(parseLong(unixsecond)));
 	}
 
 	/**

@@ -40,9 +40,7 @@ public class MapServiceLoaderTest {
 	@Test
 	void getServiceClassNotExistTest() {
 		final MapServiceLoader<TestSPI1> serviceLoader = MapServiceLoader.of(TestSPI1.class);
-		Assertions.assertThrows(HutoolException.class, ()->{
-			serviceLoader.getServiceClass("service2");
-		});
+		Assertions.assertThrows(HutoolException.class, ()-> serviceLoader.getServiceClass("service2"));
 	}
 
 	@Test

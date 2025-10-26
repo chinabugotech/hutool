@@ -157,7 +157,7 @@ public abstract class AbsSetting implements TypeGetter<CharSequence>,
 	 * @return Bean
 	 */
 	public <T> T toBean(final CharSequence group, final T bean) {
-		return BeanUtil.fillBean(bean, new ValueProvider<String>() {
+		return BeanUtil.fillBean(bean, new ValueProvider<>() {
 
 			@Override
 			public Object value(final String key, final Type valueType) {

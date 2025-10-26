@@ -347,7 +347,7 @@ public interface TerminableWrappedStream<T, S extends TerminableWrappedStream<T,
 	 * @return 流是否为空
 	 */
 	default boolean isEmpty() {
-		return !findAny().isPresent();
+		return findAny().isEmpty();
 	}
 
 	/**

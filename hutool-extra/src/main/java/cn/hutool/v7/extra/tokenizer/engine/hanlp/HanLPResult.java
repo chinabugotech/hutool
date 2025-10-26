@@ -25,7 +25,7 @@ import java.util.List;
 
 /**
  * HanLP分词结果实现<br>
- * 项目地址：https://github.com/hankcs/HanLP
+ * 项目地址：<a href="https://github.com/hankcs/HanLP">HanLP</a>
  *
  * @author Looly
  *
@@ -34,6 +34,11 @@ public class HanLPResult implements Result {
 
 	Iterator<Term> result;
 
+	/**
+	 * 构造
+	 *
+	 * @param termList 分词结果列表
+	 */
 	public HanLPResult(final List<Term> termList) {
 		this.result = termList.iterator();
 	}

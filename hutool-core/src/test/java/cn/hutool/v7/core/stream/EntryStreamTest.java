@@ -137,6 +137,7 @@ public class EntryStreamTest {
 		Assertions.assertEquals(2, count);
 	}
 
+	@SuppressWarnings("ResultOfMethodCallIgnored")
 	@Test
 	public void testPeekKey() {
 		final List<Integer> keys = new ArrayList<>();
@@ -146,6 +147,7 @@ public class EntryStreamTest {
 		Assertions.assertEquals(Arrays.asList(1, 1, 2, 2), keys);
 	}
 
+	@SuppressWarnings("ResultOfMethodCallIgnored")
 	@Test
 	public void testPeekValue() {
 		final List<Integer> values = new ArrayList<>();
@@ -179,22 +181,24 @@ public class EntryStreamTest {
 
 	@Test
 	public void testAppend() {
-		final Map<Integer, Integer> map1 = new HashMap<Integer, Integer>(){
+		final Map<Integer, Integer> map1 = new HashMap<>() {
 			@Serial
 			private static final long serialVersionUID = 2091911960221937275L;
 
 			{
-			put(1, 1);
-			put(2, 2);
-		}};
-		final Map<Integer, Integer> map2 = new HashMap<Integer, Integer>(){
+				put(1, 1);
+				put(2, 2);
+			}
+		};
+		final Map<Integer, Integer> map2 = new HashMap<>() {
 			@Serial
 			private static final long serialVersionUID = 4802315578432177802L;
 
 			{
-			put(3, 3);
-			put(4, 4);
-		}};
+				put(3, 3);
+				put(4, 4);
+			}
+		};
 		Assertions.assertEquals(
 			new ArrayList<Map.Entry<Integer, Integer>>(){
 				@Serial
@@ -213,22 +217,24 @@ public class EntryStreamTest {
 
 	@Test
 	public void testPrepend() {
-		final Map<Integer, Integer> map1 = new HashMap<Integer, Integer>(){
+		final Map<Integer, Integer> map1 = new HashMap<>() {
 			@Serial
 			private static final long serialVersionUID = -8772310525807986780L;
 
 			{
-			put(1, 1);
-			put(2, 2);
-		}};
-		final Map<Integer, Integer> map2 = new HashMap<Integer, Integer>(){
+				put(1, 1);
+				put(2, 2);
+			}
+		};
+		final Map<Integer, Integer> map2 = new HashMap<>() {
 			@Serial
 			private static final long serialVersionUID = -8453400649627773936L;
 
 			{
-			put(3, 3);
-			put(4, 4);
-		}};
+				put(3, 3);
+				put(4, 4);
+			}
+		};
 		Assertions.assertEquals(
 			new ArrayList<Map.Entry<Integer, Integer>>(){
 				@Serial
@@ -249,7 +255,7 @@ public class EntryStreamTest {
 	public void testSortByKey() {
 		final List<Map.Entry<Integer, Integer>> entries = EntryStream.of(Arrays.asList(new Entry<>(3, 1), new Entry<>(2, 1), new Entry<>(4, 1), new Entry<>(1, 1)))
 			.sortByKey(Comparator.comparingInt(Integer::intValue))
-			.collect(Collectors.toList());
+			.toList();
 		Assertions.assertEquals(
 			Arrays.asList(1, 2, 3, 4),
 			entries.stream().map(Map.Entry::getKey).collect(Collectors.toList())
@@ -260,7 +266,7 @@ public class EntryStreamTest {
 	public void testSortByValue() {
 		final List<Map.Entry<Integer, Integer>> entries = EntryStream.of(Arrays.asList(new Entry<>(4, 4), new Entry<>(2, 2), new Entry<>(1, 1), new Entry<>(3, 3)))
 			.sortByValue(Comparator.comparingInt(Integer::intValue))
-			.collect(Collectors.toList());
+			.toList();
 		Assertions.assertEquals(
 			Arrays.asList(1, 2, 3, 4),
 			entries.stream().map(Map.Entry::getValue).collect(Collectors.toList())

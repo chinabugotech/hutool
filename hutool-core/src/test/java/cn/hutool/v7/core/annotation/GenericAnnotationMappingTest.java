@@ -37,7 +37,7 @@ public class GenericAnnotationMappingTest {
 	public void testEquals() {
 		final Annotation1 annotation = Foo.class.getAnnotation(Annotation1.class);
 		final GenericAnnotationMapping mapping = GenericAnnotationMapping.create(annotation, false);
-		Assertions.assertNotEquals(mapping, null);
+		Assertions.assertNotEquals(null, mapping);
 		Assertions.assertEquals(mapping, GenericAnnotationMapping.create(annotation, false));
 		Assertions.assertNotEquals(mapping, GenericAnnotationMapping.create(annotation, true));
 	}

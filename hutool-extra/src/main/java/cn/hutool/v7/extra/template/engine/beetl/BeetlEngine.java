@@ -123,7 +123,6 @@ public class BeetlEngine implements TemplateEngine {
 			case COMPOSITE ->
 				//TODO 需要定义复合资源加载器
 				createGroupTemplate(new CompositeResourceLoader());
-			default -> new GroupTemplate();
 		};
 	}
 

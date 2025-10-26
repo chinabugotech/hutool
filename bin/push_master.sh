@@ -17,7 +17,7 @@
 #
 
 # show Hutool logo
-"$(dirname ${BASH_SOURCE[0]})"/logo.sh
+"$(dirname "${BASH_SOURCE[0]}")"/logo.sh
 
 echo -e "\033[32mCheckout to v7-master\033[0m"
 git checkout v7-master

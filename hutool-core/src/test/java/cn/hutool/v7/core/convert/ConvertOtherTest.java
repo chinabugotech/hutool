@@ -46,7 +46,7 @@ public class ConvertOtherTest {
 		Assertions.assertEquals("\\u6211\\u662f\\u4e00\\u4e2a\\u5c0f\\u5c0f\\u7684\\u53ef\\u7231\\u7684\\u5b57\\u7b26\\u4e32", unicode);
 
 		final String raw = ConvertUtil.unicodeToStr(unicode);
-		Assertions.assertEquals(raw, a);
+		Assertions.assertEquals(a, raw);
 
 		// 针对有特殊空白符的Unicode
 		final String str = "你 好";
@@ -63,7 +63,7 @@ public class ConvertOtherTest {
 		// 转换后result为乱码
 		final String result = ConvertUtil.convertCharset(a, CharsetUtil.NAME_UTF_8, CharsetUtil.NAME_ISO_8859_1);
 		final String raw = ConvertUtil.convertCharset(result, CharsetUtil.NAME_ISO_8859_1, "UTF-8");
-		Assertions.assertEquals(raw, a);
+		Assertions.assertEquals(a, raw);
 	}
 
 	@Test

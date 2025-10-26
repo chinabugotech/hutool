@@ -59,9 +59,7 @@ public class RetryUtilTest {
 			},
 			3,
 			Duration.ofSeconds(1),
-			() -> {
-				Console.log("兜底");
-			},
+			() -> Console.log("兜底"),
 			ArithmeticException.class
 		);
 	}

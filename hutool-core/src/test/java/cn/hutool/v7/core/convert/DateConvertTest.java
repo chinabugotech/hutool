@@ -82,6 +82,6 @@ public class DateConvertTest {
 
 		final String str = "2020-12-12 12:12:12.0";
 		ldt = ConvertUtil.toLocalDateTime(str);
-		Assertions.assertEquals(ldt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S")), str);
+		Assertions.assertEquals(str, ldt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S")));
 	}
 }

@@ -145,7 +145,7 @@ public class CacheTest {
 
 	/**
 	 * TimedCache的数据过期后不是每次都触发监听器onRemove，而是偶尔触发onRemove
-	 * https://gitee.com/chinabugotech/hutool/issues/IBP752
+	 * <a href="https://gitee.com/chinabugotech/hutool/issues/IBP752">issues#IBP752</a>
 	 */
 	@Test
 	public void whenContainsKeyTimeoutShouldCallOnRemove() {
@@ -153,9 +153,7 @@ public class CacheTest {
 		final TimedCache<Integer, String> ALARM_CACHE = new TimedCache<>(timeout);
 
 		final AtomicInteger counter = new AtomicInteger(0);
-		ALARM_CACHE.setListener((key, value) -> {
-			counter.incrementAndGet();
-		});
+		ALARM_CACHE.setListener((key, value) -> counter.incrementAndGet());
 
 		ALARM_CACHE.put(1, "value1");
 
@@ -167,7 +165,7 @@ public class CacheTest {
 
 	/**
 	 * ReentrantCache类clear()方法、AbstractCache.putWithoutLock方法可能导致资源泄露
-	 * https://github.com/chinabugotech/hutool/issues/3957
+	 * <a href="https://github.com/chinabugotech/hutool/issues/3957">issues#3957</a>
 	 */
 	@Test
 	public void reentrantCacheClearMethodTest() {

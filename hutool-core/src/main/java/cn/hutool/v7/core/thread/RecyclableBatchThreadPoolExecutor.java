@@ -225,7 +225,7 @@ public class RecyclableBatchThreadPoolExecutor {
 	 */
 	private static <T> List<List<T>> splitData(final List<T> data, final int batchSize) {
 		final int batchCount = (data.size() + batchSize - 1) / batchSize;
-		return new AbstractList<List<T>>() {
+		return new AbstractList<>() {
 			@Override
 			public List<T> get(final int index) {
 				final int from = index * batchSize;

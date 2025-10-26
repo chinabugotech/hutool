@@ -40,10 +40,10 @@ public class PropsTest {
 		//noinspection MismatchedQueryAndUpdateOfCollection
 		final Props props = new Props("test.properties");
 		final String user = props.getProperty("user");
-		Assertions.assertEquals(user, "root");
+		Assertions.assertEquals("root", user);
 
 		final String driver = props.getStr("driver");
-		Assertions.assertEquals(driver, "com.mysql.jdbc.Driver");
+		Assertions.assertEquals("com.mysql.jdbc.Driver", driver);
 	}
 
 	@Test
@@ -52,10 +52,10 @@ public class PropsTest {
 		//noinspection MismatchedQueryAndUpdateOfCollection
 		final Props props = new Props("d:/test.properties");
 		final String user = props.getProperty("user");
-		Assertions.assertEquals(user, "root");
+		Assertions.assertEquals("root", user);
 
 		final String driver = props.getStr("driver");
-		Assertions.assertEquals(driver, "com.mysql.jdbc.Driver");
+		Assertions.assertEquals("com.mysql.jdbc.Driver", driver);
 	}
 
 	@Test

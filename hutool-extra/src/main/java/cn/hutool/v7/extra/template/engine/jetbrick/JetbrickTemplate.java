@@ -61,13 +61,15 @@ public class JetbrickTemplate implements Template, Serializable{
 
 	@Override
 	public void render(final Map<?, ?> bindingMap, final Writer writer) {
-		final Map<String, Object> map = ConvertUtil.convert(new TypeReference<Map<String, Object>>() {}, bindingMap);
+		final Map<String, Object> map = ConvertUtil.convert(new TypeReference<>() {
+		}, bindingMap);
 		rawTemplate.render(map, writer);
 	}
 
 	@Override
 	public void render(final Map<?, ?> bindingMap, final OutputStream out) {
-		final Map<String, Object> map = ConvertUtil.convert(new TypeReference<Map<String, Object>>() {}, bindingMap);
+		final Map<String, Object> map = ConvertUtil.convert(new TypeReference<>() {
+		}, bindingMap);
 		rawTemplate.render(map, out);
 	}
 

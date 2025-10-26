@@ -52,8 +52,7 @@ public class Console {
 	 * @param obj 要打印的对象
 	 */
 	public static void log(final Object obj) {
-		if (obj instanceof Throwable) {
-			final Throwable e = (Throwable) obj;
+		if (obj instanceof Throwable e) {
 			log(e, e.getMessage());
 		} else {
 			log(TEMPLATE_VAR, obj);
@@ -220,8 +219,7 @@ public class Console {
 	 * @param obj 要打印的对象
 	 */
 	public static void error(final Object obj) {
-		if (obj instanceof Throwable) {
-			final Throwable e = (Throwable) obj;
+		if (obj instanceof Throwable e) {
 			error(e, e.getMessage());
 		} else {
 			error(TEMPLATE_VAR, obj);

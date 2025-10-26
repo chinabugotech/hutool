@@ -67,7 +67,7 @@ public class HierarchicalAnnotatedElementTest {
 		Assertions.assertEquals(elements, HierarchicalAnnotatedElements.of(Foo.class, ELEMENT_MAPPING_FACTORY));
 		Assertions.assertNotEquals(elements, HierarchicalAnnotatedElements.of(Super.class, ELEMENT_MAPPING_FACTORY));
 		Assertions.assertNotEquals(elements, HierarchicalAnnotatedElements.of(Foo.class, (es, e) -> e));
-		Assertions.assertNotEquals(elements, null);
+		Assertions.assertNotEquals(null, elements);
 	}
 
 	@Test

@@ -40,9 +40,7 @@ public class ListServiceLoaderTest {
 	@Test
 	void getServiceClassNotExistTest() {
 		final ListServiceLoader<TestSPI1> serviceLoader = ListServiceLoader.of(TestSPI1.class);
-		Assertions.assertThrows(HutoolException.class, ()->{
-			serviceLoader.getServiceClass(0);
-		});
+		Assertions.assertThrows(HutoolException.class, ()-> serviceLoader.getServiceClass(0));
 	}
 
 	public interface TestSPI1{

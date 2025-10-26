@@ -16,7 +16,6 @@
 
 package cn.hutool.v7.core.io;
 
-import cn.hutool.v7.core.io.IORuntimeException;
 import cn.hutool.v7.core.io.resource.ResourceUtil;
 
 import java.io.File;
@@ -56,8 +55,7 @@ public class ManifestUtil {
 			throw new IORuntimeException(e);
 		}
 
-		if (connection instanceof JarURLConnection) {
-			final JarURLConnection conn = (JarURLConnection) connection;
+		if (connection instanceof JarURLConnection conn) {
 			return getManifest(conn);
 		}
 		return null;

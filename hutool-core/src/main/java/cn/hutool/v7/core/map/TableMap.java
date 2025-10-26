@@ -243,7 +243,7 @@ public class TableMap<K, V> implements Map<K, V>, Iterable<Map.Entry<K, V>>, Ser
 
 	@Override
 	public Iterator<Map.Entry<K, V>> iterator() {
-		return new Iterator<Map.Entry<K, V>>() {
+		return new Iterator<>() {
 			private final Iterator<K> keysIter = keys.iterator();
 			private final Iterator<V> valuesIter = values.iterator();
 

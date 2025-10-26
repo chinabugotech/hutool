@@ -353,7 +353,7 @@ public class ConvertTest {
 
 	@Test
 	public void toSetTest(){
-		final Set<Integer> result = ConvertUtil.convert(new TypeReference<Set<Integer>>() {
+		final Set<Integer> result = ConvertUtil.convert(new TypeReference<>() {
 		}, "1,2,3");
 		assertEquals(SetUtil.of(1,2,3), result);
 	}

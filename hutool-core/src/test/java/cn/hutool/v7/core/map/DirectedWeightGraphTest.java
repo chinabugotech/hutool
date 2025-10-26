@@ -55,8 +55,6 @@ public class DirectedWeightGraphTest {
 
 		graph.removePoint("X");
 
-		Assertions.assertThrows(DirectedWeightGraph.NegativeRingException.class, ()->{
-			graph.bestPathMap("A");
-		});
+		Assertions.assertThrows(DirectedWeightGraph.NegativeRingException.class, ()-> graph.bestPathMap("A"));
 	}
 }

@@ -385,9 +385,7 @@ public class NumberUtilTest {
 
 	@Test
 	void emptyToBigDecimalTest(){
-		assertThrows(IllegalArgumentException.class,()->{
-			NumberUtil.toBigDecimal("");
-		});
+		assertThrows(IllegalArgumentException.class,()-> NumberUtil.toBigDecimal(""));
 	}
 
 	@Test
@@ -694,9 +692,7 @@ public class NumberUtilTest {
 
 	@Test
 	public void rangeMinTest() {
-		assertThrows(NegativeArraySizeException.class, ()->{
-			NumberUtil.range(0, Integer.MIN_VALUE);
-		});
+		assertThrows(NegativeArraySizeException.class, ()-> NumberUtil.range(0, Integer.MIN_VALUE));
 	}
 
 	@Test

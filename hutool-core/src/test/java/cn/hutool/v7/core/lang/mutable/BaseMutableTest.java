@@ -128,8 +128,8 @@ abstract class BaseMutableTest<V, M extends Mutable<V>> {
 		final Mutable<V> mutableObj = new MutableObj<>(value);
 		Assertions.assertNotEquals(value, mutableObj);
 		Assertions.assertEquals(mutableObj, new MutableObj<>(value));
-		Assertions.assertNotEquals(mutableObj, new MutableObj<>(null));
-		Assertions.assertNotEquals(mutableObj, null);
+		Assertions.assertNotEquals(new MutableObj<>(null), mutableObj);
+		Assertions.assertNotEquals(null, mutableObj);
 		Assertions.assertNotEquals(mutableObj, value);
 	}
 

@@ -74,14 +74,14 @@ public class JSONArrayTest {
 		array.addValue("value2");
 		array.addValue("value3");
 
-		assertEquals(array.getObj(0), "value1");
+		assertEquals("value1", array.getObj(0));
 	}
 
 	@Test
 	public void parseTest() {
 		final String jsonStr = "[\"value1\", \"value2\", \"value3\"]";
 		final JSONArray array = JSONUtil.parseArray(jsonStr);
-		assertEquals(array.getObj(0), "value1");
+		assertEquals("value1", array.getObj(0));
 	}
 
 	@Test

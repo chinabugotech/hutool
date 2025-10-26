@@ -268,7 +268,7 @@ public class MurmurHash implements Hash32<byte[]>, Hash64<byte[]>, Hash128<byte[
 	 */
 	public Number128 hash128(final byte[] data, final int offset, final int length, int seed) {
 		// 避免负数的种子
-		seed &= 0xffffffffL;
+		seed &= (int) 0xffffffffL;
 
 		long h1 = seed;
 		long h2 = seed;

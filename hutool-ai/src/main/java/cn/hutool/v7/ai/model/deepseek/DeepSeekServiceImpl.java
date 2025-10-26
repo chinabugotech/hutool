@@ -78,7 +78,7 @@ public class DeepSeekServiceImpl extends BaseAIService implements DeepSeekServic
 	@Override
 	public void beta(String prompt, Consumer<String> callback) {
 		Map<String, Object> paramMap = buildBetaStreamRequestBody(prompt);
-		ThreadUtil.newThread(() -> sendPostStream(BETA_ENDPOINT, paramMap, callback::accept), "deepseek-beta-sse").start();
+		ThreadUtil.newThread(() -> sendPostStream(BETA_ENDPOINT, paramMap, callback), "deepseek-beta-sse").start();
 	}
 
 	@Override

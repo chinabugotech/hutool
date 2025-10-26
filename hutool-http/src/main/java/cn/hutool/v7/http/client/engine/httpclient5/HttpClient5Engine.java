@@ -189,8 +189,7 @@ public class HttpClient5Engine extends AbstractClientEngine {
 		connectionManagerBuilder.setDefaultConnectionConfig(connectionConfigBuilder.build());
 
 		// 连接池配置
-		if (config instanceof ApacheHttpClientConfig) {
-			final ApacheHttpClientConfig apacheHttpClientConfig = (ApacheHttpClientConfig) config;
+		if (config instanceof ApacheHttpClientConfig apacheHttpClientConfig) {
 			final int maxTotal = apacheHttpClientConfig.getMaxTotal();
 			if (maxTotal > 0) {
 				connectionManagerBuilder.setMaxConnTotal(maxTotal);

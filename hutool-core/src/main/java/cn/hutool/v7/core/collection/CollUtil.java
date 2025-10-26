@@ -2129,7 +2129,7 @@ public class CollUtil {
 	 * @since 6.0.0
 	 */
 	public static <T> List<List<T>> groupByFunc(final Collection<T> collection, final Function<T, ?> getter) {
-		return group(collection, new Hash32<T>() {
+		return group(collection, new Hash32<>() {
 			private final List<Object> hashValList = new ArrayList<>();
 
 			@Override

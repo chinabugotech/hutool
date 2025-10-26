@@ -169,7 +169,7 @@ public class PathUtil {
 			return fileList;
 		}
 
-		walkFiles(path, maxDepth, isFollowLinks, new SimpleFileVisitor<Path>() {
+		walkFiles(path, maxDepth, isFollowLinks, new SimpleFileVisitor<>() {
 
 			@Override
 			public FileVisitResult visitFile(final Path path, final BasicFileAttributes attrs) {

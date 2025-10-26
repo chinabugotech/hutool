@@ -23,7 +23,7 @@
 #------------------------------------------------
 
 # show Hutool logo
-"$(dirname ${BASH_SOURCE[0]})"/logo.sh
+"$(dirname "${BASH_SOURCE[0]}")"/logo.sh
 
 if [ -z "$1" ]; then
         echo "ERROR: 新版本不存在，请指定参数1"
@@ -37,4 +37,4 @@ mvn versions:set -DnewVersion=$1
 version=${1%-SNAPSHOT}
 
 # 替换其它地方的版本
-"$(dirname ${BASH_SOURCE[0]})"/replaceVersion.sh "$version"
+"$(dirname "${BASH_SOURCE[0]}")"/replaceVersion.sh "$version"
