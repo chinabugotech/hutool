@@ -21,6 +21,7 @@ import cn.hutool.v7.core.lang.page.PageInfo;
 import cn.hutool.v7.core.array.ArrayUtil;
 import cn.hutool.v7.db.sql.Order;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Arrays;
 
@@ -30,6 +31,7 @@ import java.util.Arrays;
  * @author Looly
  */
 public class Page implements Segment<Integer>, Serializable {
+	@Serial
 	private static final long serialVersionUID = 97792549823353462L;
 
 	/**

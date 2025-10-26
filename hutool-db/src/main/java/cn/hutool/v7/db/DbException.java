@@ -18,12 +18,15 @@ package cn.hutool.v7.db;
 
 import cn.hutool.v7.core.exception.HutoolException;
 
+import java.io.Serial;
+
 /**
  * 数据库异常
  *
  * @author Looly
  */
 public class DbException extends HutoolException {
+	@Serial
 	private static final long serialVersionUID = 3624487785708765623L;
 
 	/**

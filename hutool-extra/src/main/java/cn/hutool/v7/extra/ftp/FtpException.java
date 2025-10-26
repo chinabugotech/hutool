@@ -18,12 +18,15 @@ package cn.hutool.v7.extra.ftp;
 
 import cn.hutool.v7.core.exception.HutoolException;
 
+import java.io.Serial;
+
 /**
  * Ftp异常
  *
  * @author Looly
  */
 public class FtpException extends HutoolException {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

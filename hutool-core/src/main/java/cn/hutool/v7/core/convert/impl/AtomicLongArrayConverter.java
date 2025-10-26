@@ -19,6 +19,7 @@ package cn.hutool.v7.core.convert.impl;
 import cn.hutool.v7.core.convert.AbstractConverter;
 import cn.hutool.v7.core.convert.ConvertUtil;
 
+import java.io.Serial;
 import java.util.concurrent.atomic.AtomicLongArray;
 
 /**
@@ -28,6 +29,7 @@ import java.util.concurrent.atomic.AtomicLongArray;
  * @since 5.4.5
  */
 public class AtomicLongArrayConverter extends AbstractConverter {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	@Override

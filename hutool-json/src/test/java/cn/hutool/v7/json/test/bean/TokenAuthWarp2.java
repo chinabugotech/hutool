@@ -16,6 +16,9 @@
 
 package cn.hutool.v7.json.test.bean;
 
+import java.io.Serial;
+
 public class TokenAuthWarp2 extends TokenAuthWarp {
+	@Serial
 	private static final long serialVersionUID = 1L;
 }

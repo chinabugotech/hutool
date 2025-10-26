@@ -18,11 +18,14 @@ package cn.hutool.v7.core.date;
 
 import cn.hutool.v7.core.exception.HutoolException;
 
+import java.io.Serial;
+
 /**
  * 工具类异常
  * @author Looly
  */
 public class DateException extends HutoolException {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

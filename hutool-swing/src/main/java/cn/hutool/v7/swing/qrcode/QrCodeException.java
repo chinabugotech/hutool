@@ -18,12 +18,15 @@ package cn.hutool.v7.swing.qrcode;
 
 import cn.hutool.v7.core.exception.HutoolException;
 
+import java.io.Serial;
+
 /**
  * Qrcode异常
  *
  * @author Looly
  */
 public class QrCodeException extends HutoolException {
+	@Serial
 	private static final long serialVersionUID = 8247610319171014183L;
 
 	/**

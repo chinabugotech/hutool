@@ -25,6 +25,7 @@ import cn.hutool.v7.swing.img.color.ColorUtil;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.Serial;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -34,6 +35,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * @since 3.2.3
  */
 public class CircleCaptcha extends AbstractCaptcha {
+	@Serial
 	private static final long serialVersionUID = -7096627300356535494L;
 
 	/**

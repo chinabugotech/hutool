@@ -27,6 +27,7 @@ import cn.hutool.v7.core.reflect.ModifierUtil;
 import cn.hutool.v7.core.reflect.method.MethodUtil;
 import cn.hutool.v7.core.util.EnumUtil;
 
+import java.io.Serial;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.Arrays;
@@ -41,6 +42,7 @@ import java.util.stream.Collectors;
  */
 @SuppressWarnings({"unchecked", "rawtypes"})
 public class EnumConverter extends AbstractConverter implements MatcherConverter {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

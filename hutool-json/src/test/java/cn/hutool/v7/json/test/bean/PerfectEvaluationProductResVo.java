@@ -19,6 +19,7 @@ package cn.hutool.v7.json.test.bean;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.io.Serial;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,9 +31,11 @@ import java.util.Map;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class PerfectEvaluationProductResVo extends ProductResBase {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	public static final Map<String, String> KEY_TO_KEY = new HashMap<String, String>() {
+		@Serial
 		private static final long serialVersionUID = 1L;
 
 		{

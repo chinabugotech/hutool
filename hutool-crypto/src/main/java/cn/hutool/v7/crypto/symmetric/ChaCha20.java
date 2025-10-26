@@ -20,6 +20,7 @@ import cn.hutool.v7.core.util.RandomUtil;
 import cn.hutool.v7.crypto.KeyUtil;
 
 import javax.crypto.spec.IvParameterSpec;
+import java.io.Serial;
 
 /**
  * ChaCha20算法实现<br>
@@ -29,6 +30,7 @@ import javax.crypto.spec.IvParameterSpec;
  * @since 5.7.12
  */
 public class ChaCha20 extends SymmetricCrypto {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

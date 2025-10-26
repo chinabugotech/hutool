@@ -16,10 +16,12 @@
 
 package cn.hutool.v7.core.lang.test.bean;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 public class UserInfoRedundCount implements Serializable {
 
+	@Serial
 	private static final long serialVersionUID = -8397291070139255181L;
 	private String finishedRatio; // 完成率
 

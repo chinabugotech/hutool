@@ -20,6 +20,7 @@ import cn.hutool.v7.core.collection.ListUtil;
 import cn.hutool.v7.db.Entity;
 import cn.hutool.v7.db.handler.row.EntityRowHandler;
 
+import java.io.Serial;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -31,6 +32,7 @@ import java.util.List;
  * @author loolly
  */
 public class EntityListHandler implements RsHandler<List<Entity>> {
+	@Serial
 	private static final long serialVersionUID = -2846240126316979895L;
 
 	/**

@@ -20,6 +20,7 @@ import cn.hutool.v7.core.map.multi.Table;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -179,6 +180,7 @@ public class EntryStreamTest {
 	@Test
 	public void testAppend() {
 		final Map<Integer, Integer> map1 = new HashMap<Integer, Integer>(){
+			@Serial
 			private static final long serialVersionUID = 2091911960221937275L;
 
 			{
@@ -186,6 +188,7 @@ public class EntryStreamTest {
 			put(2, 2);
 		}};
 		final Map<Integer, Integer> map2 = new HashMap<Integer, Integer>(){
+			@Serial
 			private static final long serialVersionUID = 4802315578432177802L;
 
 			{
@@ -194,6 +197,7 @@ public class EntryStreamTest {
 		}};
 		Assertions.assertEquals(
 			new ArrayList<Map.Entry<Integer, Integer>>(){
+				@Serial
 				private static final long serialVersionUID = -4045530648496761947L;
 
 				{
@@ -210,6 +214,7 @@ public class EntryStreamTest {
 	@Test
 	public void testPrepend() {
 		final Map<Integer, Integer> map1 = new HashMap<Integer, Integer>(){
+			@Serial
 			private static final long serialVersionUID = -8772310525807986780L;
 
 			{
@@ -217,6 +222,7 @@ public class EntryStreamTest {
 			put(2, 2);
 		}};
 		final Map<Integer, Integer> map2 = new HashMap<Integer, Integer>(){
+			@Serial
 			private static final long serialVersionUID = -8453400649627773936L;
 
 			{
@@ -225,6 +231,7 @@ public class EntryStreamTest {
 		}};
 		Assertions.assertEquals(
 			new ArrayList<Map.Entry<Integer, Integer>>(){
+				@Serial
 				private static final long serialVersionUID = 7564826138581563332L;
 
 				{

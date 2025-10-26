@@ -21,6 +21,7 @@ import cn.hutool.v7.core.reflect.FieldUtil;
 import cn.hutool.v7.core.reflect.ModifierUtil;
 import cn.hutool.v7.core.reflect.method.MethodUtil;
 
+import java.io.Serial;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Map;
@@ -33,6 +34,7 @@ import java.util.Map;
  * @since 3.1.2
  */
 public class RecordBeanDesc extends AbstractBeanDesc {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

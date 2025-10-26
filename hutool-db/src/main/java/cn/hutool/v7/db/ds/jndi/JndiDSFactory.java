@@ -23,6 +23,7 @@ import cn.hutool.v7.db.ds.DSFactory;
 import cn.hutool.v7.db.ds.DSUtil;
 
 import javax.sql.DataSource;
+import java.io.Serial;
 
 /**
  * JNDI数据源工厂类<br>
@@ -36,6 +37,7 @@ import javax.sql.DataSource;
  *
  */
 public class JndiDSFactory implements DSFactory {
+	@Serial
 	private static final long serialVersionUID = 1573625812927370432L;
 
 	@Override

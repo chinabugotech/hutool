@@ -18,6 +18,7 @@ package cn.hutool.v7.db.handler;
 
 import cn.hutool.v7.db.handler.row.ListRowHandler;
 
+import java.io.Serial;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ import java.util.List;
  *
  */
 public class ValueListHandler implements RsHandler<List<List<Object>>>{
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

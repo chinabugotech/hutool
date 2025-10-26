@@ -18,12 +18,15 @@ package cn.hutool.v7.core.io.watch;
 
 import cn.hutool.v7.core.exception.HutoolException;
 
+import java.io.Serial;
+
 /**
  * 监听异常
  * @author Looly
  *
  */
 public class WatchException extends HutoolException {
+	@Serial
 	private static final long serialVersionUID = 8068509879445395353L;
 
 	/**

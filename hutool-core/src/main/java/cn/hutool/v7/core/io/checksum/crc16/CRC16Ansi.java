@@ -16,6 +16,8 @@
 
 package cn.hutool.v7.core.io.checksum.crc16;
 
+import java.io.Serial;
+
 /**
  * CRC16_ANSI
  *
@@ -23,6 +25,7 @@ package cn.hutool.v7.core.io.checksum.crc16;
  * @since 5.3.10
  */
 public class CRC16Ansi extends CRC16Checksum{
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private static final int WC_POLY = 0xa001;

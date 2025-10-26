@@ -16,6 +16,8 @@
 
 package cn.hutool.v7.crypto.digest;
 
+import java.io.Serial;
+
 /**
  * 国密SM3杂凑（摘要）算法
  *
@@ -31,6 +33,7 @@ package cn.hutool.v7.crypto.digest;
  * @since 4.6.8
  */
 public class SM3 extends Digester {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

@@ -19,6 +19,7 @@ package cn.hutool.v7.core.convert.impl;
 import cn.hutool.v7.core.convert.AbstractConverter;
 import cn.hutool.v7.core.text.StrUtil;
 
+import java.io.Serial;
 import java.util.Locale;
 
 /**
@@ -30,6 +31,7 @@ import java.util.Locale;
  * @since 4.5.2
  */
 public class LocaleConverter extends AbstractConverter {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	@Override

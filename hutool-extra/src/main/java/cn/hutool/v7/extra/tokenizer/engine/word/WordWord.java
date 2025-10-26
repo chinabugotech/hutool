@@ -18,6 +18,8 @@ package cn.hutool.v7.extra.tokenizer.engine.word;
 
 import cn.hutool.v7.extra.tokenizer.Word;
 
+import java.io.Serial;
+
 /**
  * Word分词中的一个单词包装
  *
@@ -25,6 +27,7 @@ import cn.hutool.v7.extra.tokenizer.Word;
  *
  */
 public class WordWord implements Word {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private final org.apdplat.word.segmentation.Word word;

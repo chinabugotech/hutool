@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.core.net;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -29,6 +30,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  *
  */
 public class LocalPortGenerator implements Serializable{
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/** 备选的本地端口 */

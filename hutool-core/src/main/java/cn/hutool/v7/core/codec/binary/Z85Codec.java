@@ -19,6 +19,7 @@ package cn.hutool.v7.core.codec.binary;
 import cn.hutool.v7.core.codec.Decoder;
 import cn.hutool.v7.core.codec.Encoder;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -30,6 +31,7 @@ import java.io.Serializable;
  * @author cometd-java
  */
 public class Z85Codec implements Encoder<byte[], String>, Decoder<String, byte[]>, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private static final char[] encodeTable = new char[]{

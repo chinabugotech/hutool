@@ -25,6 +25,7 @@ import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.core.util.BooleanUtil;
 import cn.hutool.v7.core.util.ByteUtil;
 
+import java.io.Serial;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -57,6 +58,7 @@ import java.util.function.Function;
  * @author Looly
  */
 public class NumberConverter extends AbstractConverter implements MatcherConverter {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

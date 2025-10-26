@@ -34,10 +34,7 @@ import javax.crypto.CipherOutputStream;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEParameterSpec;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.Serializable;
+import java.io.*;
 import java.security.SecureRandom;
 import java.security.spec.AlgorithmParameterSpec;
 import java.util.concurrent.locks.Lock;
@@ -52,6 +49,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * @author Looly
  */
 public class SymmetricCrypto implements SymmetricEncryptor, SymmetricDecryptor, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private JceCipher cipher;

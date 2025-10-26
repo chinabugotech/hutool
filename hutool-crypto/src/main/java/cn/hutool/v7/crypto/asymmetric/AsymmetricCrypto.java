@@ -22,6 +22,7 @@ import cn.hutool.v7.crypto.*;
 import cn.hutool.v7.crypto.symmetric.SymmetricAlgorithm;
 
 import java.io.IOException;
+import java.io.Serial;
 import java.security.*;
 import java.security.spec.AlgorithmParameterSpec;
 
@@ -39,6 +40,7 @@ import java.security.spec.AlgorithmParameterSpec;
  * @author Looly
  */
 public class AsymmetricCrypto extends AbstractAsymmetricCrypto<AsymmetricCrypto> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

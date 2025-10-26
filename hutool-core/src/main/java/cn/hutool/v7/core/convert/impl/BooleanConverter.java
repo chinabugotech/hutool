@@ -19,6 +19,8 @@ package cn.hutool.v7.core.convert.impl;
 import cn.hutool.v7.core.convert.AbstractConverter;
 import cn.hutool.v7.core.util.BooleanUtil;
 
+import java.io.Serial;
+
 /**
  * 布尔转换器
  *
@@ -33,6 +35,7 @@ import cn.hutool.v7.core.util.BooleanUtil;
  * @author Looly
  */
 public class BooleanConverter extends AbstractConverter {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

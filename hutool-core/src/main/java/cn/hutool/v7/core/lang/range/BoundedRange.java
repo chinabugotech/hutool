@@ -19,6 +19,7 @@ package cn.hutool.v7.core.lang.range;
 import cn.hutool.v7.core.func.SerPredicate;
 import cn.hutool.v7.core.lang.Assert;
 
+import java.io.Serial;
 import java.util.Objects;
 import java.util.function.Predicate;
 
@@ -62,6 +63,7 @@ import java.util.function.Predicate;
  * @since 6.0.0
  */
 public class BoundedRange<T extends Comparable<? super T>> implements SerPredicate<T> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

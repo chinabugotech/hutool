@@ -19,6 +19,7 @@ package cn.hutool.v7.extra.aop.aspects;
 import cn.hutool.v7.core.date.StopWatch;
 import cn.hutool.v7.core.lang.Console;
 
+import java.io.Serial;
 import java.lang.reflect.Method;
 
 /**
@@ -27,6 +28,7 @@ import java.lang.reflect.Method;
  * @author Looly
  */
 public class TimeIntervalAspect extends SimpleAspect {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private final StopWatch interval = new StopWatch();

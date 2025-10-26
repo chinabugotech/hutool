@@ -18,12 +18,14 @@ package cn.hutool.v7.extra.management;
 
 import cn.hutool.v7.core.util.SystemUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
  * 代表Java Virtual Machine Implementation的信息。
  */
 public class JvmInfo implements Serializable{
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private final String JAVA_VM_NAME = SystemUtil.get("java.vm.name", false);

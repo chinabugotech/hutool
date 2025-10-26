@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.core.tree;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -24,6 +25,7 @@ import java.io.Serializable;
  * @author liangbaikai
  */
 public class TreeNodeConfig implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

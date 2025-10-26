@@ -26,6 +26,7 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 
 import java.io.OutputStream;
+import java.io.Serial;
 import java.io.Serializable;
 import java.io.Writer;
 import java.util.Map;
@@ -37,6 +38,7 @@ import java.util.Map;
  *
  */
 public class VelocityTemplate implements Template, Serializable {
+	@Serial
 	private static final long serialVersionUID = -132774960373894911L;
 
 	private final org.apache.velocity.Template rawTemplate;

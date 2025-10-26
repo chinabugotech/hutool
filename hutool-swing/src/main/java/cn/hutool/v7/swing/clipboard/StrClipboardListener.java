@@ -19,6 +19,7 @@ package cn.hutool.v7.swing.clipboard;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -28,6 +29,7 @@ import java.io.Serializable;
  * @since 4.5.7
  */
 public abstract class StrClipboardListener implements ClipboardListener, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	@Override

@@ -18,6 +18,7 @@ package cn.hutool.v7.core.convert.impl;
 
 import cn.hutool.v7.core.convert.AbstractConverter;
 
+import java.io.Serial;
 import java.util.UUID;
 
 /**
@@ -28,6 +29,7 @@ import java.util.UUID;
  *
  */
 public class UUIDConverter extends AbstractConverter {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 

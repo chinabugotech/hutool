@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.db.handler;
 
+import java.io.Serial;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ import java.util.List;
  * @since 3.1.0
  */
 public class BeanListHandler<E> implements RsHandler<List<E>> {
+	@Serial
 	private static final long serialVersionUID = 4510569754766197707L;
 
 	private final Class<E> elementBeanType;

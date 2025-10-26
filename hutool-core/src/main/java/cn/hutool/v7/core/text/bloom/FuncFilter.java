@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.core.text.bloom;
 
+import java.io.Serial;
 import java.util.function.Function;
 
 /**
@@ -25,6 +26,7 @@ import java.util.function.Function;
  * @since 5.8.0
  */
 public class FuncFilter extends AbstractFilter {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

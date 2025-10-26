@@ -18,6 +18,8 @@ package cn.hutool.v7.json;
 
 import cn.hutool.v7.core.exception.HutoolException;
 
+import java.io.Serial;
+
 /**
  * JSON异常
  *
@@ -25,6 +27,7 @@ import cn.hutool.v7.core.exception.HutoolException;
  * @since 3.0.2
  */
 public class JSONException extends HutoolException {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

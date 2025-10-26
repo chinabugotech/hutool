@@ -24,10 +24,7 @@ import cn.hutool.v7.core.util.ByteUtil;
 import cn.hutool.v7.core.util.CharsetUtil;
 import cn.hutool.v7.crypto.CryptoException;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.InputStream;
-import java.io.Serializable;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
 
@@ -42,6 +39,7 @@ import java.security.MessageDigest;
  * @since 5.8.0
  */
 public class Mac implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private final MacEngine engine;

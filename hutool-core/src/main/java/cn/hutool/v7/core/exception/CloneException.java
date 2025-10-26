@@ -16,12 +16,15 @@
 
 package cn.hutool.v7.core.exception;
 
+import java.io.Serial;
+
 /**
  * 克隆异常
  *
  * @author Looly
  */
 public class CloneException extends HutoolException {
+	@Serial
 	private static final long serialVersionUID = 6774837422188798989L;
 
 	/**

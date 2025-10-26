@@ -19,6 +19,8 @@ package cn.hutool.v7.db;
 import cn.hutool.v7.core.func.SerSupplier;
 import cn.hutool.v7.core.map.MapUtil;
 
+import java.io.Serial;
+
 /**
  * 动态实体类<br>
  * 提供了针对自身实体的增删改方法
@@ -27,6 +29,7 @@ import cn.hutool.v7.core.map.MapUtil;
  *
  */
 public class ActiveEntity extends Entity {
+	@Serial
 	private static final long serialVersionUID = 6112321379601134750L;
 
 	private final Db db;

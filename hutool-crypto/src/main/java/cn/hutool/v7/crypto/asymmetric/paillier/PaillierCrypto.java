@@ -22,6 +22,7 @@ import cn.hutool.v7.crypto.asymmetric.AbstractAsymmetricCrypto;
 import cn.hutool.v7.crypto.asymmetric.KeyType;
 
 import javax.crypto.Cipher;
+import java.io.Serial;
 import java.security.Key;
 import java.security.KeyPair;
 import java.security.SecureRandom;
@@ -46,6 +47,7 @@ import java.security.SecureRandom;
  * @author Revers, peterstefanov
  **/
 public class PaillierCrypto extends AbstractAsymmetricCrypto<PaillierCrypto> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private final PaillierCipher cipher;

@@ -18,6 +18,8 @@ package cn.hutool.v7.core.thread;
 
 import cn.hutool.v7.core.exception.HutoolException;
 
+import java.io.Serial;
+
 /**
  * 线程异常
  *
@@ -25,6 +27,7 @@ import cn.hutool.v7.core.exception.HutoolException;
  * @since 5.7.17
  */
 public class ThreadException extends HutoolException {
+	@Serial
 	private static final long serialVersionUID = 5253124428623713216L;
 
 	/**

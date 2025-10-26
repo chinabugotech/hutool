@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.core.text;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.function.UnaryOperator;
 
@@ -27,6 +28,7 @@ import java.util.function.UnaryOperator;
  * @since 5.8.0
  */
 public class StrStripper implements UnaryOperator<CharSequence>, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private final CharSequence prefix;

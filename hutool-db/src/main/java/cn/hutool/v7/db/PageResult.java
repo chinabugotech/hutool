@@ -18,6 +18,7 @@ package cn.hutool.v7.db;
 
 import cn.hutool.v7.core.lang.page.PageInfo;
 
+import java.io.Serial;
 import java.util.ArrayList;
 
 /**
@@ -27,6 +28,7 @@ import java.util.ArrayList;
  * @author Looly
  */
 public class PageResult<T> extends ArrayList<T> {
+	@Serial
 	private static final long serialVersionUID = 9056411043515781783L;
 
 	/**

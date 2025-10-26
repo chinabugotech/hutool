@@ -18,6 +18,7 @@ package cn.hutool.v7.json.test.bean;
 
 import lombok.Data;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -27,6 +28,7 @@ import java.io.Serializable;
  */
 @Data
 public class ExamInfoDict implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 3640936499125004525L;
 
 	// 主键

@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.core.data;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -244,6 +245,7 @@ public class CoordinateUtil {
 	 * @author Looly
 	 */
 	public static class Coordinate implements Serializable {
+		@Serial
 		private static final long serialVersionUID = 1L;
 
 		/**

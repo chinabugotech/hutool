@@ -18,12 +18,15 @@ package cn.hutool.v7.core.bean;
 
 import cn.hutool.v7.core.exception.HutoolException;
 
+import java.io.Serial;
+
 /**
  * Bean异常
  *
  * @author Looly
  */
 public class BeanException extends HutoolException {
+	@Serial
 	private static final long serialVersionUID = -8096998667745023423L;
 
 	/**

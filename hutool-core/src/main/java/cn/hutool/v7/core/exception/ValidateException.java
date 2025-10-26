@@ -16,12 +16,15 @@
 
 package cn.hutool.v7.core.exception;
 
+import java.io.Serial;
+
 /**
  * 验证异常
  *
  * @author Looly
  */
 public class ValidateException extends StatefulException {
+	@Serial
 	private static final long serialVersionUID = 6057602589533840889L;
 
 	/**

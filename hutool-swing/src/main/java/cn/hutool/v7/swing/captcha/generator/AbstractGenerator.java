@@ -18,6 +18,8 @@ package cn.hutool.v7.swing.captcha.generator;
 
 import cn.hutool.v7.core.util.RandomUtil;
 
+import java.io.Serial;
+
 /**
  * 随机字符验证码生成器<br>
  * 可以通过传入的基础集合和长度随机生成验证码字符
@@ -26,6 +28,7 @@ import cn.hutool.v7.core.util.RandomUtil;
  * @since 4.1.2
  */
 public abstract class AbstractGenerator implements CodeGenerator {
+	@Serial
 	private static final long serialVersionUID = 8685744597154953479L;
 
 	/** 基础字符集合，用于随机获取字符串的字符集合 */

@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.core.date.format;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -26,6 +27,7 @@ import java.util.TimeZone;
  * @author Looly
  */
 public class SimpleDateBasic implements DateBasic, Serializable {
+	@Serial
 	private static final long serialVersionUID = 6333136319870641818L;
 
 	/**

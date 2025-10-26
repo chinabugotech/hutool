@@ -18,6 +18,7 @@ package cn.hutool.v7.core.lang.mutable;
 
 import cn.hutool.v7.core.map.AbsEntry;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Map;
 
@@ -29,6 +30,7 @@ import java.util.Map;
  * @author Looly
  */
 public class MutableEntry<K, V> extends AbsEntry<K, V> implements Mutable<Map.Entry<K, V>>, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

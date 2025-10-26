@@ -21,6 +21,7 @@ import cn.hutool.v7.core.io.file.FileUtil;
 import cn.hutool.v7.core.io.IORuntimeException;
 
 import java.io.File;
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -29,6 +30,7 @@ import java.io.Serializable;
  *
  */
 public abstract class AbstractFileCache implements Serializable{
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/** 容量 */

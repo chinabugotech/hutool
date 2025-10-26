@@ -20,6 +20,7 @@ import cn.hutool.v7.core.lang.Assert;
 import cn.hutool.v7.core.lang.builder.Builder;
 
 import java.awt.RenderingHints;
+import java.io.Serial;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,6 +43,7 @@ import java.util.Map;
  * @since 6.0.0
  */
 public class RenderingHintsBuilder implements Builder<RenderingHints> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

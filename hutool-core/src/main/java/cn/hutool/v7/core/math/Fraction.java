@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.core.math;
 
+import java.io.Serial;
 import java.math.BigInteger;
 import java.util.Objects;
 
@@ -35,6 +36,7 @@ import java.util.Objects;
  * @since 6.0.0
  */
 public final class Fraction extends Number implements Comparable<Fraction> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

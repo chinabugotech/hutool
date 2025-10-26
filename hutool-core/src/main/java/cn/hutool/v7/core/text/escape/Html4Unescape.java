@@ -18,12 +18,15 @@ package cn.hutool.v7.core.text.escape;
 
 import cn.hutool.v7.core.text.replacer.LookupReplacer;
 
+import java.io.Serial;
+
 /**
  * HTML4的UNESCAPE
  *
  * @author Looly
  */
 public class Html4Unescape extends XmlUnescape {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

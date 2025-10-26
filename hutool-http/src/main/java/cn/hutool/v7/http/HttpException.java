@@ -18,12 +18,15 @@ package cn.hutool.v7.http;
 
 import cn.hutool.v7.core.exception.HutoolException;
 
+import java.io.Serial;
+
 /**
  * HTTP异常
  *
  * @author Looly
  */
 public class HttpException extends HutoolException {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

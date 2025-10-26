@@ -20,6 +20,7 @@ import cn.hutool.v7.core.cache.Cache;
 import cn.hutool.v7.core.cache.impl.LFUCache;
 
 import java.io.File;
+import java.io.Serial;
 
 /**
  *  使用LFU缓存文件，以解决频繁读取文件引起的性能问题
@@ -27,6 +28,7 @@ import java.io.File;
  *
  */
 public class LFUFileCache extends AbstractFileCache{
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -62,6 +64,7 @@ public class LFUFileCache extends AbstractFileCache{
 	@Override
 	protected Cache<File, byte[]> initCache() {
 		return new LFUCache<File, byte[]>(LFUFileCache.this.capacity, LFUFileCache.this.timeout) {
+			@Serial
 			private static final long serialVersionUID = 1L;
 
 			@Override

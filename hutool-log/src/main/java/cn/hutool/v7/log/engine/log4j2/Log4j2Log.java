@@ -24,12 +24,15 @@ import org.apache.logging.log4j.spi.AbstractLogger;
 import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.log.AbstractLog;
 
+import java.io.Serial;
+
 /**
  * <a href="http://logging.apache.org/log4j/2.x/index.html">Apache Log4J 2</a> log.<br>
  *
  * @author Looly
  */
 public class Log4j2Log extends AbstractLog {
+	@Serial
 	private static final long serialVersionUID = -6843151523380063975L;
 
 	private final transient Logger logger;

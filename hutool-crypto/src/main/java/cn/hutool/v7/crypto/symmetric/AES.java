@@ -24,6 +24,7 @@ import cn.hutool.v7.crypto.Padding;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
+import java.io.Serial;
 import java.security.spec.AlgorithmParameterSpec;
 
 /**
@@ -46,6 +47,7 @@ import java.security.spec.AlgorithmParameterSpec;
  * @since 3.0.8
  */
 public class AES extends SymmetricCrypto {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	//------------------------------------------------------------------------- Constrctor start

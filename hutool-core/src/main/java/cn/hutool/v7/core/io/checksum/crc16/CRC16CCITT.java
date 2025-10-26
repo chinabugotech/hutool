@@ -16,6 +16,8 @@
 
 package cn.hutool.v7.core.io.checksum.crc16;
 
+import java.io.Serial;
+
 /**
  * CRC16_CCITT：多项式x16+x12+x5+1（0x1021），初始值0x0000，低位在前，高位在后，结果与0x0000异或
  * 0x8408是0x1021按位颠倒后的结果。
@@ -24,6 +26,7 @@ package cn.hutool.v7.core.io.checksum.crc16;
  * @since 5.3.10
  */
 public class CRC16CCITT extends CRC16Checksum{
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private static final int WC_POLY = 0x8408;

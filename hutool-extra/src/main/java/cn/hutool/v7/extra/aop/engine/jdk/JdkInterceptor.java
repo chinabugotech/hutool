@@ -21,6 +21,7 @@ import cn.hutool.v7.core.reflect.ReflectUtil;
 import cn.hutool.v7.extra.aop.Aspect;
 import cn.hutool.v7.extra.aop.SimpleInterceptor;
 
+import java.io.Serial;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -32,6 +33,7 @@ import java.lang.reflect.Method;
  * @author ted.L
  */
 public class JdkInterceptor extends SimpleInterceptor implements InvocationHandler {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

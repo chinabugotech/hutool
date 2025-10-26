@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.json.xml;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -25,6 +26,7 @@ import java.io.Serializable;
  * @author AylwardJ, Looly
  */
 public class ParseConfig implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

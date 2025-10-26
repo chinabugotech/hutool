@@ -18,6 +18,7 @@ package cn.hutool.v7.core.text.finder;
 
 import cn.hutool.v7.core.regex.PatternPool;
 
+import java.io.Serial;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -29,6 +30,7 @@ import java.util.regex.Pattern;
  * @since 5.7.14
  */
 public class PatternFinder extends TextFinder {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private final Pattern pattern;

@@ -19,6 +19,8 @@ package cn.hutool.v7.core.convert.impl;
 import cn.hutool.v7.core.convert.AbstractConverter;
 import cn.hutool.v7.core.lang.Opt;
 
+import java.io.Serial;
+
 /**
  *
  * {@link Opt}对象转换器
@@ -27,6 +29,7 @@ import cn.hutool.v7.core.lang.Opt;
  * @since 5.7.16
  */
 public class OptConverter extends AbstractConverter {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	@Override

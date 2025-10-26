@@ -21,6 +21,7 @@ import cn.hutool.v7.crypto.Padding;
 import org.bouncycastle.crypto.AlphabetMapper;
 import org.bouncycastle.jcajce.spec.FPEParameterSpec;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -46,6 +47,7 @@ import java.io.Serializable;
  * @since 5.7.12
  */
 public class FPE implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	// 映射字符表，规定了明文和密文的字符范围

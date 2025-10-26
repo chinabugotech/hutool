@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.core.comparator;
 
+import java.io.Serial;
 import java.util.function.Function;
 
 /**
@@ -25,6 +26,7 @@ import java.util.function.Function;
  * @author Looly
  */
 public class FuncComparator<T> extends NullComparator<T> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

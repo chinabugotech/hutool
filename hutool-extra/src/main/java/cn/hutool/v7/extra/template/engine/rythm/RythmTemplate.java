@@ -21,6 +21,7 @@ import cn.hutool.v7.core.reflect.TypeReference;
 import cn.hutool.v7.extra.template.Template;
 
 import java.io.OutputStream;
+import java.io.Serial;
 import java.io.Serializable;
 import java.io.Writer;
 import java.util.Map;
@@ -32,6 +33,7 @@ import java.util.Map;
  *
  */
 public class RythmTemplate implements Template, Serializable {
+	@Serial
 	private static final long serialVersionUID = -132774960373894911L;
 
 	private final org.rythmengine.template.ITemplate rawTemplate;

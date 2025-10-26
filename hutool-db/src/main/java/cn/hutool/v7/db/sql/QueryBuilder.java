@@ -19,6 +19,7 @@ package cn.hutool.v7.db.sql;
 import cn.hutool.v7.core.lang.builder.Builder;
 import cn.hutool.v7.core.text.StrUtil;
 
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -39,6 +40,7 @@ import java.util.List;
  * @since 6.0.0
  */
 public class QueryBuilder implements Builder<Query> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private final List<String> fields;

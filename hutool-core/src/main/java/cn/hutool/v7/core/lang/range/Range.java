@@ -18,6 +18,7 @@ package cn.hutool.v7.core.lang.range;
 
 import cn.hutool.v7.core.lang.Assert;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -35,6 +36,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * @author Looly
  */
 public class Range<T> implements Iterable<T>, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

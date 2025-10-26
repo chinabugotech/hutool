@@ -20,6 +20,7 @@ import java.awt.Image;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -30,6 +31,7 @@ import java.io.Serializable;
  * @since 4.5.6
  */
 public class ImageSelection implements Transferable, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private final Image image;

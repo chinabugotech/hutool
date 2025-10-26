@@ -29,6 +29,7 @@ import cn.hutool.v7.core.util.ObjUtil;
 import cn.hutool.v7.db.sql.Condition;
 import cn.hutool.v7.db.sql.SqlUtil;
 
+import java.io.Serial;
 import java.nio.charset.Charset;
 import java.sql.Blob;
 import java.sql.Clob;
@@ -46,6 +47,7 @@ import java.util.*;
  * @author loolly
  */
 public class Entity extends Dict {
+	@Serial
 	private static final long serialVersionUID = -1951012511464327448L;
 
 	// region ----- of

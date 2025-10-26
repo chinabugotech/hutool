@@ -18,12 +18,15 @@ package cn.hutool.v7.core.pool.partition;
 
 import cn.hutool.v7.core.pool.PoolConfig;
 
+import java.io.Serial;
+
 /**
  * 分局对象池配置
  *
  * @author Looly
  */
 public class PartitionPoolConfig extends PoolConfig {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

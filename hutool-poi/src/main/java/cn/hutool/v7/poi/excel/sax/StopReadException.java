@@ -18,6 +18,8 @@ package cn.hutool.v7.poi.excel.sax;
 
 import cn.hutool.v7.poi.POIException;
 
+import java.io.Serial;
+
 /**
  * 读取结束异常，用于标记读取结束<br>
  * Sax方式读取时，如果用户在RowHandler中抛出此异常，表示读取结束，此时不再读取其他数据
@@ -26,6 +28,7 @@ import cn.hutool.v7.poi.POIException;
  * @since 5.8.35
  */
 public class StopReadException extends POIException {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

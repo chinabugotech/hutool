@@ -18,6 +18,7 @@ package cn.hutool.v7.http.useragent;
 
 import cn.hutool.v7.core.collection.ListUtil;
 
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +29,7 @@ import java.util.List;
  * @since 4.2.1
  */
 public class Platform extends UserAgentInfo {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

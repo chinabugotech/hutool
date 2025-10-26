@@ -19,6 +19,7 @@ package cn.hutool.v7.core.codec.binary;
 import cn.hutool.v7.core.codec.Decoder;
 import cn.hutool.v7.core.codec.Encoder;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Arrays;
 
@@ -37,6 +38,7 @@ import java.util.Arrays;
  * @since 5.8.0
  */
 public class Base32Codec implements Encoder<byte[], String>, Decoder<CharSequence, byte[]>, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -227,23 +229,23 @@ public class Base32Codec implements Encoder<byte[], String>, Decoder<CharSequenc
 				if (index <= 3) {
 					index = (index + 5) % 8;
 					if (index == 0) {
-						bytes[offset] |= digit;
+						bytes[offset] |= (byte) digit;
 						offset++;
 						if (offset >= bytes.length) {
 							break;
 						}
 					} else {
-						bytes[offset] |= digit << (8 - index);
+						bytes[offset] |= (byte) (digit << (8 - index));
 					}
 				} else {
 					index = (index + 5) % 8;
-					bytes[offset] |= (digit >>> index);
+					bytes[offset] |= (byte) (digit >>> index);
 					offset++;
 
 					if (offset >= bytes.length) {
 						break;
 					}
-					bytes[offset] |= digit << (8 - index);
+					bytes[offset] |= (byte) (digit << (8 - index));
 				}
 			}
 			return bytes;

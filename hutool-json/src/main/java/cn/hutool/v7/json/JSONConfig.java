@@ -19,6 +19,7 @@ package cn.hutool.v7.json;
 import cn.hutool.v7.core.comparator.CompareUtil;
 import cn.hutool.v7.json.writer.NumberWriteMode;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Comparator;
 
@@ -29,6 +30,7 @@ import java.util.Comparator;
  * @since 4.1.19
  */
 public class JSONConfig implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 119730355204738278L;
 
 	/**

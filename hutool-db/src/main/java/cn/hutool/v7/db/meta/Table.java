@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.db.meta;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -30,6 +31,7 @@ import java.util.Set;
  * @author loolly
  */
 public class Table implements Serializable, Cloneable {
+	@Serial
 	private static final long serialVersionUID = -810699625961392983L;
 
 	/**

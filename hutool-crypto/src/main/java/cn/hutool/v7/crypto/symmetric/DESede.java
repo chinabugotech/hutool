@@ -23,6 +23,7 @@ import cn.hutool.v7.crypto.Padding;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
+import java.io.Serial;
 
 /**
  * DESede是由DES对称加密算法改进后的一种对称加密算法，又名3DES、TripleDES。<br>
@@ -34,6 +35,7 @@ import javax.crypto.spec.IvParameterSpec;
  * @since 3.3.0
  */
 public class DESede extends SymmetricCrypto {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	// ------------------------------------------------------------------------- Constructor start

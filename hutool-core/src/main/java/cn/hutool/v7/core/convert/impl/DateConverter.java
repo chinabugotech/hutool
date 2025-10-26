@@ -24,6 +24,7 @@ import cn.hutool.v7.core.date.DateUtil;
 import cn.hutool.v7.core.date.SqlDateUtil;
 import cn.hutool.v7.core.text.StrUtil;
 
+import java.io.Serial;
 import java.lang.reflect.Type;
 import java.time.temporal.TemporalAccessor;
 import java.util.Calendar;
@@ -35,6 +36,7 @@ import java.util.Date;
  * @author Looly
  */
 public class DateConverter extends AbstractConverter implements MatcherConverter {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

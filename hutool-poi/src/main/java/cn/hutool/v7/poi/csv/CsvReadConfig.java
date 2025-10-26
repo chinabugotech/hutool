@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.poi.csv;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -25,6 +26,7 @@ import java.io.Serializable;
  *
  */
 public class CsvReadConfig extends CsvConfig<CsvReadConfig> implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 5396453565371560052L;
 
 	/** 指定标题行号，-1表示无标题行 */

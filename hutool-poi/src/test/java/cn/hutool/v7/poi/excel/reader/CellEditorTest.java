@@ -23,6 +23,7 @@ import lombok.Data;
 import org.apache.poi.ss.usermodel.Cell;
 import org.junit.jupiter.api.Assertions;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 
@@ -45,6 +46,7 @@ public class CellEditorTest {
 	@AllArgsConstructor
 	@Data
 	public static class Test implements Serializable {
+		@Serial
 		private static final long serialVersionUID = 1L;
 
 		private String test1;

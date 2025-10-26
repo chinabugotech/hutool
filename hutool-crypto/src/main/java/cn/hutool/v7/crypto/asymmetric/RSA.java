@@ -20,6 +20,7 @@ import cn.hutool.v7.crypto.CryptoException;
 import cn.hutool.v7.crypto.provider.GlobalProviderFactory;
 import cn.hutool.v7.crypto.KeyUtil;
 
+import java.io.Serial;
 import java.math.BigInteger;
 import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
@@ -45,6 +46,7 @@ import java.security.spec.RSAPublicKeySpec;
  *
  */
 public class RSA extends AsymmetricCrypto {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/** 默认的RSA算法 */

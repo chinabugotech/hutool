@@ -23,6 +23,7 @@ import cn.hutool.v7.core.reflect.ClassUtil;
 import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.log.level.Level;
 
+import java.io.Serial;
 import java.util.function.Function;
 
 /**
@@ -32,6 +33,7 @@ import java.util.function.Function;
  * @since 5.8.0
  */
 public class ConsoleColorLog extends ConsoleLog {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -49,20 +51,12 @@ public class ConsoleColorLog extends ConsoleLog {
 	 */
 	private static final Ansi4BitColor COLOR_NONE = Ansi4BitColor.DEFAULT;
 
-	private static Function<Level, Ansi4BitColor> colorFactory = (level -> {
-		switch (level) {
-			case DEBUG:
-			case INFO:
-				return Ansi4BitColor.GREEN;
-			case WARN:
-				return Ansi4BitColor.YELLOW;
-			case ERROR:
-				return Ansi4BitColor.RED;
-			case TRACE:
-				return Ansi4BitColor.MAGENTA;
-			default:
-				return COLOR_NONE;
-		}
+	private static Function<Level, Ansi4BitColor> colorFactory = (level -> switch (level) {
+		case DEBUG, INFO -> Ansi4BitColor.GREEN;
+		case WARN -> Ansi4BitColor.YELLOW;
+		case ERROR -> Ansi4BitColor.RED;
+		case TRACE -> Ansi4BitColor.MAGENTA;
+		default -> COLOR_NONE;
 	});
 
 	/**

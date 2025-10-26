@@ -18,12 +18,15 @@ package cn.hutool.v7.socket;
 
 import cn.hutool.v7.core.exception.HutoolException;
 
+import java.io.Serial;
+
 /**
  * Socket异常
  *
  * @author Looly
  */
 public class SocketRuntimeException extends HutoolException {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

@@ -18,6 +18,7 @@ package cn.hutool.v7.core.comparator;
 
 import cn.hutool.v7.core.lang.Version;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -31,6 +32,7 @@ import java.io.Serializable;
  * @since 4.0.2
  */
 public class VersionComparator extends NullComparator<String> implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

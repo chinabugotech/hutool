@@ -18,12 +18,15 @@ package cn.hutool.v7.core.spi;
 
 import cn.hutool.v7.core.exception.HutoolException;
 
+import java.io.Serial;
+
 /**
  * SPI异常
  *
  * @author Looly
  */
 public class SpiException extends HutoolException {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

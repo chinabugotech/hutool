@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.json.engine;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -25,6 +26,7 @@ import java.io.Serializable;
  * @since 6.0.0
  */
 public class JSONEngineConfig implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

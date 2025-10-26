@@ -18,12 +18,15 @@ package cn.hutool.v7.extra.compress;
 
 import cn.hutool.v7.core.exception.HutoolException;
 
+import java.io.Serial;
+
 /**
  * 压缩解压异常语言异常
  *
  * @author Looly
  */
 public class CompressException extends HutoolException {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

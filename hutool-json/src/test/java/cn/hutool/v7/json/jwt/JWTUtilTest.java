@@ -19,6 +19,7 @@ package cn.hutool.v7.json.jwt;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.Serial;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,6 +29,7 @@ public class JWTUtilTest {
 	public void createTest(){
 		final byte[] key = "1234".getBytes();
 		final Map<String, Object> map = new HashMap<String, Object>() {
+			@Serial
 			private static final long serialVersionUID = 1L;
 			{
 				put("uid", Integer.parseInt("123"));

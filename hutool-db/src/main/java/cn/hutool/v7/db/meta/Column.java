@@ -20,6 +20,7 @@ import cn.hutool.v7.core.util.BooleanUtil;
 import cn.hutool.v7.core.regex.ReUtil;
 import cn.hutool.v7.db.DbException;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -30,6 +31,7 @@ import java.sql.SQLException;
  * @author loolly
  */
 public class Column implements Serializable, Cloneable {
+	@Serial
 	private static final long serialVersionUID = 577527740359719367L;
 
 	// ----------------------------------------------------- Fields start

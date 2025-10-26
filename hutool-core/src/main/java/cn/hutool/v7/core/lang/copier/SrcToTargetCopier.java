@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.core.lang.copier;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.function.Predicate;
 
@@ -30,6 +31,7 @@ import java.util.function.Predicate;
  * @since 3.0.9
  */
 public abstract class SrcToTargetCopier<T, C extends SrcToTargetCopier<T, C>> implements Copier<T>, Serializable{
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/** 源 */

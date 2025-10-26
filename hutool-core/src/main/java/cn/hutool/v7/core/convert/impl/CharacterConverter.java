@@ -20,6 +20,8 @@ import cn.hutool.v7.core.convert.AbstractConverter;
 import cn.hutool.v7.core.util.BooleanUtil;
 import cn.hutool.v7.core.text.StrUtil;
 
+import java.io.Serial;
+
 /**
  * 字符转换器
  *
@@ -27,6 +29,7 @@ import cn.hutool.v7.core.text.StrUtil;
  *
  */
 public class CharacterConverter extends AbstractConverter {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

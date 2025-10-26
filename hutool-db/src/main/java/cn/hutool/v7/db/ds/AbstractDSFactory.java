@@ -19,6 +19,7 @@ package cn.hutool.v7.db.ds;
 import cn.hutool.v7.core.lang.Assert;
 
 import javax.sql.DataSource;
+import java.io.Serial;
 
 /**
  * 抽象数据源工厂
@@ -26,6 +27,7 @@ import javax.sql.DataSource;
  * @author Looly
  */
 public abstract class AbstractDSFactory implements DSFactory {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private final String dataSourceName;

@@ -18,6 +18,7 @@ package cn.hutool.v7.core.map;
 
 import cn.hutool.v7.core.text.StrUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,6 +34,7 @@ import java.util.function.Function;
  * @since 4.0.7
  */
 public class CamelCaseMap<K, V> extends FuncKeyMap<K, V> {
+	@Serial
 	private static final long serialVersionUID = 4043263744224569870L;
 
 	// ------------------------------------------------------------------------- Constructor start

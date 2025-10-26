@@ -19,6 +19,7 @@ package cn.hutool.v7.core.io.checksum.crc16;
 import cn.hutool.v7.core.codec.binary.HexUtil;
 import cn.hutool.v7.core.text.StrUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.zip.Checksum;
 
@@ -30,6 +31,7 @@ import java.util.zip.Checksum;
  * @since 5.3.10
  */
 public abstract class CRC16Checksum implements Checksum, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

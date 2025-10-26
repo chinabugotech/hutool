@@ -18,12 +18,15 @@ package cn.hutool.v7.core.comparator;
 
 import cn.hutool.v7.core.exception.HutoolException;
 
+import java.io.Serial;
+
 /**
  * 比较异常
  *
  * @author Looly
  */
 public class ComparatorException extends HutoolException {
+	@Serial
 	private static final long serialVersionUID = 4475602435485521971L;
 
 	/**

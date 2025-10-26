@@ -18,6 +18,8 @@ package cn.hutool.v7.core.lang.mutable;
 
 import cn.hutool.v7.core.lang.tuple.Triple;
 
+import java.io.Serial;
+
 /**
  * 可变三元组对象
  *
@@ -28,6 +30,7 @@ import cn.hutool.v7.core.lang.tuple.Triple;
  * @since 6.0.0
  */
 public class MutableTriple<L, M, R> extends Triple<L, M, R> implements Mutable<MutableTriple<L, M, R>>{
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

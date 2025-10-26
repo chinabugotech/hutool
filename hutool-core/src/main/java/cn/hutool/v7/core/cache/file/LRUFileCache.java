@@ -20,6 +20,7 @@ import cn.hutool.v7.core.cache.Cache;
 import cn.hutool.v7.core.cache.impl.LRUCache;
 
 import java.io.File;
+import java.io.Serial;
 
 /**
  *  使用LRU缓存文件，以解决频繁读取文件引起的性能问题
@@ -27,6 +28,7 @@ import java.io.File;
  *
  */
 public class LRUFileCache extends AbstractFileCache{
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -62,6 +64,7 @@ public class LRUFileCache extends AbstractFileCache{
 	@Override
 	protected Cache<File, byte[]> initCache() {
 		return new LRUCache<File, byte[]>(LRUFileCache.this.capacity, super.timeout) {
+			@Serial
 			private static final long serialVersionUID = 1L;
 
 			@Override

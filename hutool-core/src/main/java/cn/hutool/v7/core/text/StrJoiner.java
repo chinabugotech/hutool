@@ -23,6 +23,7 @@ import cn.hutool.v7.core.io.IORuntimeException;
 import cn.hutool.v7.core.array.ArrayUtil;
 
 import java.io.IOException;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Map;
@@ -42,6 +43,7 @@ import java.util.function.Function;
  * @since 5.7.2
  */
 public class StrJoiner implements Appendable, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private Appendable appendable;

@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.db.handler;
 
+import java.io.Serial;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -25,6 +26,7 @@ import java.sql.SQLException;
  *
  */
 public class NumberHandler implements RsHandler<Number>{
+	@Serial
 	private static final long serialVersionUID = 4081498054379705596L;
 
 	/**

@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.core.text.replacer;
 
+import java.io.Serial;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -32,6 +33,7 @@ import java.util.Map;
  * @author kyao
  */
 public class HighMultiReplacer extends StrReplacer {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private final AhoCorasickAutomaton ahoCorasickAutomaton;

@@ -26,6 +26,7 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import java.io.OutputStream;
+import java.io.Serial;
 import java.io.Serializable;
 import java.io.Writer;
 import java.nio.charset.Charset;
@@ -39,6 +40,7 @@ import java.util.Map;
  * @since 4.1.11
  */
 public class ThymeleafTemplate implements Template, Serializable {
+	@Serial
 	private static final long serialVersionUID = 781284916568562509L;
 
 	private final TemplateEngine engine;

@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.core.lang.event;
 
+import java.io.Serial;
 import java.util.EventObject;
 
 /**
@@ -25,6 +26,7 @@ import java.util.EventObject;
  * @since 6.0.0
  */
 public class SourceEvent extends EventObject implements Event {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

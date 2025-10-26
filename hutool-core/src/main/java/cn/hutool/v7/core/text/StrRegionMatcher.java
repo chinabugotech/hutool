@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.core.text;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.function.BiPredicate;
 
@@ -41,6 +42,7 @@ import java.util.function.BiPredicate;
  * @since 6.0.0
  */
 public class StrRegionMatcher implements BiPredicate<CharSequence, CharSequence>, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private final boolean ignoreCase;

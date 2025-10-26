@@ -19,6 +19,7 @@ package cn.hutool.v7.swing.img;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Point;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -29,6 +30,7 @@ import java.util.Objects;
  * @since 6.0.0
  */
 public class DisplayText implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

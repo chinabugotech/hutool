@@ -18,6 +18,7 @@ package cn.hutool.v7.core.comparator;
 
 import cn.hutool.v7.core.lang.Chain;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.*;
 
@@ -31,6 +32,7 @@ import java.util.*;
  * @param <E> 被比较的对象
  */
 public class ComparatorChain<E> implements Chain<Comparator<E>, ComparatorChain<E>>, Comparator<E>, Serializable {
+	@Serial
 	private static final long serialVersionUID = -2426725788913962429L;
 
 	/**
@@ -138,7 +140,7 @@ public class ComparatorChain<E> implements Chain<Comparator<E>, ComparatorChain<
 		chain = new ArrayList<>(1);
 		chain.add(comparator);
 		orderingBits = new BitSet(1);
-		if (reverse == true) {
+		if (reverse) {
 			orderingBits.set(0);
 		}
 	}
@@ -186,7 +188,7 @@ public class ComparatorChain<E> implements Chain<Comparator<E>, ComparatorChain<
 		checkLocked();
 
 		chain.add(comparator);
-		if (reverse == true) {
+		if (reverse) {
 			orderingBits.set(chain.size() - 1);
 		}
 		return this;
@@ -216,7 +218,7 @@ public class ComparatorChain<E> implements Chain<Comparator<E>, ComparatorChain<
 		checkLocked();
 
 		chain.set(index, comparator);
-		if (reverse == true) {
+		if (reverse) {
 			orderingBits.set(index);
 		} else {
 			orderingBits.clear(index);
@@ -287,7 +289,7 @@ public class ComparatorChain<E> implements Chain<Comparator<E>, ComparatorChain<
 	 */
 	@Override
 	public int compare(final E o1, final E o2) throws UnsupportedOperationException {
-		if (lock == false) {
+		if (!lock) {
 			checkChainIntegrity();
 			lock = true;
 		}
@@ -300,7 +302,7 @@ public class ComparatorChain<E> implements Chain<Comparator<E>, ComparatorChain<
 			retval = comparator.compare(o1, o2);
 			if (retval != 0) {
 				// invert the order if it is a reverse sort
-				if (true == orderingBits.get(comparatorIndex)) {
+				if (orderingBits.get(comparatorIndex)) {
 					retval = (retval > 0) ? -1 : 1;
 				}
 				return retval;
@@ -348,7 +350,7 @@ public class ComparatorChain<E> implements Chain<Comparator<E>, ComparatorChain<
 	 * @throws UnsupportedOperationException 被锁定抛出此异常
 	 */
 	private void checkLocked() {
-		if (lock == true) {
+		if (lock) {
 			throw new UnsupportedOperationException("Comparator ordering cannot be changed after the first comparison is performed");
 		}
 	}

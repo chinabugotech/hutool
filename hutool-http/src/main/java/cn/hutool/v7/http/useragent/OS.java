@@ -19,6 +19,7 @@ package cn.hutool.v7.http.useragent;
 import cn.hutool.v7.core.collection.ListUtil;
 import cn.hutool.v7.core.regex.ReUtil;
 
+import java.io.Serial;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -29,6 +30,7 @@ import java.util.regex.Pattern;
  * @since 4.2.1
  */
 public class OS extends UserAgentInfo {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

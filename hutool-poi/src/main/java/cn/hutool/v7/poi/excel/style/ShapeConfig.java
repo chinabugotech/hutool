@@ -19,6 +19,7 @@ package cn.hutool.v7.poi.excel.style;
 import org.apache.poi.sl.usermodel.ShapeType;
 
 import java.awt.Color;
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -29,6 +30,7 @@ import java.io.Serializable;
  * @since 6.0.0
  */
 public class ShapeConfig implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

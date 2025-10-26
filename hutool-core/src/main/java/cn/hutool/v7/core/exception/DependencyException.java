@@ -16,6 +16,8 @@
 
 package cn.hutool.v7.core.exception;
 
+import java.io.Serial;
+
 /**
  * 依赖异常
  *
@@ -23,6 +25,7 @@ package cn.hutool.v7.core.exception;
  * @since 4.0.10
  */
 public class DependencyException extends HutoolException {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

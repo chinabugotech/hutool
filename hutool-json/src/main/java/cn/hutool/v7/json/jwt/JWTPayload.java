@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.json.jwt;
 
+import java.io.Serial;
 import java.util.Map;
 
 /**
@@ -34,6 +35,7 @@ import java.util.Map;
  * @since 5.7.0
  */
 public class JWTPayload extends Claims implements RegisteredPayload<JWTPayload>{
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

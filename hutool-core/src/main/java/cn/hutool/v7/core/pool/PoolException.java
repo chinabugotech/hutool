@@ -18,12 +18,15 @@ package cn.hutool.v7.core.pool;
 
 import cn.hutool.v7.core.exception.HutoolException;
 
+import java.io.Serial;
+
 /**
  * 对象池异常
  *
  * @author Looly
  */
 public class PoolException extends HutoolException {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

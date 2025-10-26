@@ -21,6 +21,7 @@ import cn.hutool.v7.core.lang.Opt;
 import cn.hutool.v7.core.map.MapWrapper;
 import cn.hutool.v7.core.util.ObjUtil;
 
+import java.io.Serial;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -41,6 +42,7 @@ import java.util.stream.Collectors;
  * @see ListValueMap
  */
 public abstract class AbsCollValueMap<K, V> extends MapWrapper<K, Collection<V>> implements MultiValueMap<K, V> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

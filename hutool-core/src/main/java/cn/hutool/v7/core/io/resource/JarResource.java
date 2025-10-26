@@ -21,6 +21,7 @@ import cn.hutool.v7.core.io.IORuntimeException;
 import cn.hutool.v7.core.net.url.UrlUtil;
 
 import java.io.IOException;
+import java.io.Serial;
 import java.net.JarURLConnection;
 import java.net.URI;
 import java.net.URL;
@@ -33,6 +34,7 @@ import java.util.jar.JarFile;
  * @author Looly
  */
 public class JarResource extends UrlResource {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

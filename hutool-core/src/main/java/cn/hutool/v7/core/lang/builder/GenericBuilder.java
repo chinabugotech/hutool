@@ -18,6 +18,7 @@ package cn.hutool.v7.core.lang.builder;
 
 import cn.hutool.v7.core.func.SerConsumer3;
 
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
@@ -74,6 +75,7 @@ import java.util.function.Supplier;
  * @param <T> 构建对象类型
  */
 public class GenericBuilder<T> implements Builder<T> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

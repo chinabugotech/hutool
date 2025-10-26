@@ -20,6 +20,7 @@ import cn.hutool.v7.core.exception.ExceptionUtil;
 import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.log.level.Level;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -30,26 +31,24 @@ import java.io.Serializable;
  *
  */
 public abstract class AbstractLog implements Log, Serializable{
-
+	@Serial
 	private static final long serialVersionUID = -3211115409504005616L;
+
+	/**
+	 * FQCN，全限定类名
+	 */
 	private static final String FQCN = AbstractLog.class.getName();
 
 	@Override
 	public boolean isEnabled(final Level level) {
-		switch (level) {
-			case TRACE:
-				return isTraceEnabled();
-			case DEBUG:
-				return isDebugEnabled();
-			case INFO:
-				return isInfoEnabled();
-			case WARN:
-				return isWarnEnabled();
-			case ERROR:
-				return isErrorEnabled();
-			default:
-				throw new Error(StrUtil.format("Can not identify level: {}", level));
-		}
+		return switch (level) {
+			case TRACE -> isTraceEnabled();
+			case DEBUG -> isDebugEnabled();
+			case INFO -> isInfoEnabled();
+			case WARN -> isWarnEnabled();
+			case ERROR -> isErrorEnabled();
+			default -> throw new Error(StrUtil.format("Can not identify level: {}", level));
+		};
 	}
 
 	@Override

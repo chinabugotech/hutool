@@ -21,6 +21,7 @@ import cn.hutool.v7.core.lang.Assert;
 import cn.hutool.v7.core.reflect.TypeUtil;
 import cn.hutool.v7.core.stream.StreamUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.LinkedHashSet;
@@ -35,6 +36,7 @@ import java.util.Set;
  * @since 6.0.0
  */
 public class SpecialConverter extends ConverterWithRoot implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

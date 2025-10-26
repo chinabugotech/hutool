@@ -22,6 +22,7 @@ import cn.hutool.v7.extra.template.Template;
 import jetbrick.template.JetTemplate;
 
 import java.io.OutputStream;
+import java.io.Serial;
 import java.io.Serializable;
 import java.io.Writer;
 import java.util.Map;
@@ -34,6 +35,7 @@ import java.util.Map;
  * @since 5.7.21
  */
 public class JetbrickTemplate implements Template, Serializable{
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private final JetTemplate rawTemplate;

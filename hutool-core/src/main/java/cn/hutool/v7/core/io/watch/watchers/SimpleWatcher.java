@@ -18,6 +18,7 @@ package cn.hutool.v7.core.io.watch.watchers;
 
 import cn.hutool.v7.core.io.watch.Watcher;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.nio.file.WatchEvent;
 import java.nio.file.WatchKey;
@@ -29,6 +30,7 @@ import java.nio.file.WatchKey;
  * @author Looly
  */
 public class SimpleWatcher implements Watcher, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	@Override

@@ -24,6 +24,7 @@ import cn.hutool.v7.core.lang.tuple.Triple;
 import cn.hutool.v7.core.reflect.TypeReference;
 import cn.hutool.v7.core.reflect.TypeUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.Map;
@@ -38,6 +39,7 @@ import java.util.Map;
  * @since 6.0.0
  */
 public class TripleConverter extends ConverterWithRoot implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

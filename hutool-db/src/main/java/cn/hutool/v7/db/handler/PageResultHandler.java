@@ -19,6 +19,7 @@ package cn.hutool.v7.db.handler;
 import cn.hutool.v7.db.Entity;
 import cn.hutool.v7.db.PageResult;
 
+import java.io.Serial;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -29,6 +30,7 @@ import java.sql.SQLException;
  * @author loolly
  */
 public class PageResultHandler<T> implements RsHandler<PageResult<T>> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private final Class<T> beanClass;

@@ -18,6 +18,7 @@ package cn.hutool.v7.core.lang.tuple;
 
 import cn.hutool.v7.core.exception.CloneException;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -30,6 +31,7 @@ import java.util.Objects;
  * @since 6.0.0
  */
 public class Pair<L, R> implements Serializable, Cloneable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

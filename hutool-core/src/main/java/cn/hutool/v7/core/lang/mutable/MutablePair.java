@@ -18,6 +18,8 @@ package cn.hutool.v7.core.lang.mutable;
 
 import cn.hutool.v7.core.lang.tuple.Pair;
 
+import java.io.Serial;
+
 /**
  * 可变二元组对象
  *
@@ -27,6 +29,7 @@ import cn.hutool.v7.core.lang.tuple.Pair;
  * @since 6.0.0
  */
 public class MutablePair<L, R> extends Pair<L, R> implements Mutable<MutablePair<L, R>>{
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

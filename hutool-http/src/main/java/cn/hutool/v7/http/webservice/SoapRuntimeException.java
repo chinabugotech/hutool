@@ -18,12 +18,15 @@ package cn.hutool.v7.http.webservice;
 
 import cn.hutool.v7.core.exception.HutoolException;
 
+import java.io.Serial;
+
 /**
  * SOAP异常
  *
  * @author Looly
  */
 public class SoapRuntimeException extends HutoolException {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

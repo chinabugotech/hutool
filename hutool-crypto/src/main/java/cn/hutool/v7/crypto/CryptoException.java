@@ -18,12 +18,15 @@ package cn.hutool.v7.crypto;
 
 import cn.hutool.v7.core.exception.HutoolException;
 
+import java.io.Serial;
+
 /**
  * 加密异常
  *
  * @author Looly
  */
 public class CryptoException extends HutoolException {
+	@Serial
 	private static final long serialVersionUID = 8068509879445395353L;
 
 	/**

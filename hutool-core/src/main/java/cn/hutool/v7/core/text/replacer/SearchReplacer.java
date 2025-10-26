@@ -20,6 +20,8 @@ import cn.hutool.v7.core.lang.Assert;
 import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.core.text.finder.Finder;
 
+import java.io.Serial;
+
 /**
  * 查找替换器<br>
  * 查找给定的字符串，并全部替换为新的字符串，其它字符不变
@@ -28,6 +30,7 @@ import cn.hutool.v7.core.text.finder.Finder;
  * @since 6.0.0
  */
 public class SearchReplacer extends StrReplacer {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private static final int INDEX_NOT_FOUND = Finder.INDEX_NOT_FOUND;

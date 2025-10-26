@@ -19,6 +19,7 @@ package cn.hutool.v7.socket;
 import cn.hutool.v7.core.io.IoUtil;
 import cn.hutool.v7.core.util.RuntimeUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -28,6 +29,7 @@ import java.io.Serializable;
  *
  */
 public class SocketConfig implements Serializable{
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/** CPU核心数 */

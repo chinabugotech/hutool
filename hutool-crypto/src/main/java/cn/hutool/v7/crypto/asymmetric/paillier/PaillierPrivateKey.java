@@ -18,6 +18,7 @@ package cn.hutool.v7.crypto.asymmetric.paillier;
 
 import cn.hutool.v7.core.lang.Assert;
 
+import java.io.Serial;
 import java.math.BigInteger;
 import java.security.PrivateKey;
 
@@ -27,6 +28,7 @@ import java.security.PrivateKey;
  * @author peterstefanov, Revers, Looly
  */
 public class PaillierPrivateKey extends PaillierKey implements PrivateKey {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private final BigInteger u;

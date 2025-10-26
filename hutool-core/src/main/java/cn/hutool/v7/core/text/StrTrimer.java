@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.core.text;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
@@ -28,6 +29,7 @@ import java.util.function.UnaryOperator;
  * @since 6.0.0
  */
 public class StrTrimer implements UnaryOperator<CharSequence>, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

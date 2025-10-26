@@ -23,6 +23,7 @@ import cn.hutool.v7.crypto.Padding;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
+import java.io.Serial;
 
 /**
  * DES加密算法实现<br>
@@ -33,6 +34,7 @@ import javax.crypto.spec.IvParameterSpec;
  * @since 3.0.8
  */
 public class DES extends SymmetricCrypto {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	// region ----- Constructor

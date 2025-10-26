@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.crypto.asymmetric;
 
+import java.io.Serial;
 import java.security.KeyPair;
 
 /**
@@ -27,6 +28,7 @@ import java.security.KeyPair;
 public abstract class AbstractAsymmetricCrypto<T extends AbstractAsymmetricCrypto<T>>
 		extends BaseAsymmetric<T>
 		implements AsymmetricEncryptor, AsymmetricDecryptor{
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	// ------------------------------------------------------------------ Constructor start

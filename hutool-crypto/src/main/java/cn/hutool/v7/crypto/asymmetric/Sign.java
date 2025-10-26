@@ -27,6 +27,7 @@ import cn.hutool.v7.crypto.SignUtil;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.io.Serial;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.KeyPair;
 import java.security.Signature;
@@ -42,6 +43,7 @@ import java.util.Set;
  * @since 3.3.0
  */
 public class Sign extends BaseAsymmetric<Sign> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

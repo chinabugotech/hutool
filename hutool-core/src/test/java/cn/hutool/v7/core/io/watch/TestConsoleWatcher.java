@@ -19,10 +19,12 @@ package cn.hutool.v7.core.io.watch;
 import cn.hutool.v7.core.io.watch.watchers.SimpleWatcher;
 import cn.hutool.v7.core.lang.Console;
 
+import java.io.Serial;
 import java.nio.file.WatchEvent;
 import java.nio.file.WatchKey;
 
 public class TestConsoleWatcher extends SimpleWatcher {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	@Override

@@ -20,6 +20,7 @@ import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellReference;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.temporal.TemporalAccessor;
@@ -33,6 +34,7 @@ import java.util.Date;
  * @since 6.0.0
  */
 public class DefaultStyleSet implements StyleSet, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

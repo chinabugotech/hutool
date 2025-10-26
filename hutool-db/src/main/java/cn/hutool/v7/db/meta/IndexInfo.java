@@ -19,6 +19,7 @@ package cn.hutool.v7.db.meta;
 
 import cn.hutool.v7.core.util.ObjUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +32,7 @@ import java.util.Objects;
  * @author huzhongying
  */
 public class IndexInfo implements Serializable, Cloneable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.core.cache.impl;
 
+import java.io.Serial;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 
@@ -35,6 +36,7 @@ import java.util.LinkedHashMap;
  * @author Looly
  */
 public class FIFOCache<K, V> extends LockedCache<K, V> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

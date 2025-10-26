@@ -18,12 +18,15 @@ package cn.hutool.v7.core.io;
 
 import cn.hutool.v7.core.exception.HutoolException;
 
+import java.io.Serial;
+
 /**
  * IO运行时异常，常用于对IOException的包装
  *
  * @author Looly
  */
 public class IORuntimeException extends HutoolException {
+	@Serial
 	private static final long serialVersionUID = 8247610319171014183L;
 
 	/**

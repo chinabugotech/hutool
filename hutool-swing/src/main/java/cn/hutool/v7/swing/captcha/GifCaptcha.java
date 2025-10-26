@@ -29,6 +29,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
+import java.io.Serial;
 
 /**
  * Gif验证码类
@@ -37,6 +38,7 @@ import java.io.ByteArrayOutputStream;
  * @since 5.5.2
  */
 public class GifCaptcha extends AbstractCaptcha {
+	@Serial
 	private static final long serialVersionUID = 7091627304326538464L;
 
 	//量化器取样间隔 - 默认是10ms

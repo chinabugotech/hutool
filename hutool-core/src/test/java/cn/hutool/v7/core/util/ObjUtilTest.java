@@ -23,6 +23,7 @@ import cn.hutool.v7.core.convert.ConvertUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -255,6 +256,7 @@ public class ObjUtilTest {
 	@RequiredArgsConstructor
 	@EqualsAndHashCode
 	private static class SerializableBean implements Serializable {
+		@Serial
 		private static final long serialVersionUID = -7759522980793544334L;
 		private final Integer id;
 	}

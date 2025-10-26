@@ -24,6 +24,7 @@ import cn.hutool.v7.core.date.format.DateFormatManager;
 import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.core.util.ObjUtil;
 
+import java.io.Serial;
 import java.time.*;
 import java.time.chrono.Era;
 import java.time.chrono.IsoEra;
@@ -51,6 +52,7 @@ import java.util.Objects;
  * @since 5.0.0
  */
 public class TemporalAccessorConverter extends AbstractConverter {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

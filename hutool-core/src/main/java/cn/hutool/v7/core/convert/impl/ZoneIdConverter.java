@@ -20,6 +20,7 @@ import cn.hutool.v7.core.convert.AbstractConverter;
 import cn.hutool.v7.core.convert.MatcherConverter;
 import cn.hutool.v7.core.date.ZoneUtil;
 
+import java.io.Serial;
 import java.lang.reflect.Type;
 import java.time.ZoneId;
 import java.util.TimeZone;
@@ -30,6 +31,7 @@ import java.util.TimeZone;
  * @author Looly
  */
 public class ZoneIdConverter extends AbstractConverter implements MatcherConverter {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

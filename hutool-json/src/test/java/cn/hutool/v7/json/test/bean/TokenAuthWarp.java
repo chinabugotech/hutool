@@ -19,9 +19,12 @@ package cn.hutool.v7.json.test.bean;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serial;
+
 @Getter
 @Setter
 public class TokenAuthWarp extends UUMap<TokenAuthResponse> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private String targetUrl;

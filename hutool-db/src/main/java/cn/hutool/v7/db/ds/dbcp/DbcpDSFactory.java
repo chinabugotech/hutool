@@ -23,6 +23,7 @@ import cn.hutool.v7.db.ds.AbstractDSFactory;
 import cn.hutool.v7.setting.props.Props;
 
 import javax.sql.DataSource;
+import java.io.Serial;
 import java.util.Properties;
 
 /**
@@ -32,6 +33,7 @@ import java.util.Properties;
  *
  */
 public class DbcpDSFactory extends AbstractDSFactory {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

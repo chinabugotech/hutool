@@ -22,6 +22,7 @@ import cn.hutool.v7.core.map.MapUtil;
 import cn.hutool.v7.core.reflect.TypeReference;
 import cn.hutool.v7.core.reflect.TypeUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.LinkedHashMap;
@@ -39,6 +40,7 @@ import java.util.Objects;
  * @since 3.0.8
  */
 public class MapConverter extends ConverterWithRoot implements MatcherConverter, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

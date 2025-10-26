@@ -18,6 +18,7 @@ package cn.hutool.v7.core.lang.loader;
 
 import cn.hutool.v7.core.lang.Assert;
 
+import java.io.Serial;
 import java.util.function.Supplier;
 
 /**
@@ -32,6 +33,7 @@ import java.util.function.Supplier;
  * @since 5.6.1
  */
 public class LazyFunLoader<T> extends LazyLoader<T> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.core.text.replacer;
 
+import java.io.Serial;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -28,6 +29,7 @@ import java.util.Set;
  * @since 4.1.5
  */
 public class LookupReplacer extends StrReplacer {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private final Map<String, String> lookupMap;

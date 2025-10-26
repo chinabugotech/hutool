@@ -19,6 +19,8 @@ package cn.hutool.v7.core.text.escape;
 import cn.hutool.v7.core.text.replacer.LookupReplacer;
 import cn.hutool.v7.core.text.replacer.ReplacerChain;
 
+import java.io.Serial;
+
 /**
  * XML特殊字符转义<br>
  * 见：https://stackoverflow.com/questions/1091945/what-characters-do-i-need-to-escape-in-xml-documents<br>
@@ -34,6 +36,7 @@ import cn.hutool.v7.core.text.replacer.ReplacerChain;
  * @since 5.7.2
  */
 public class XmlEscape extends ReplacerChain {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

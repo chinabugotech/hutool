@@ -23,10 +23,7 @@ import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.core.array.ArrayUtil;
 import cn.hutool.v7.core.util.CharsetUtil;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.*;
@@ -53,6 +50,7 @@ import java.util.*;
  * @since 3.1.0
  */
 public class GroupedSet extends HashMap<String, LinkedHashSet<String>> {
+	@Serial
 	private static final long serialVersionUID = -8430706353275835496L;
 	// private final static Log log = StaticLog.get();
 

@@ -20,6 +20,7 @@ import cn.hutool.v7.db.config.ConnectionConfig;
 import cn.hutool.v7.db.ds.DSFactory;
 
 import javax.sql.DataSource;
+import java.io.Serial;
 
 /**
  * Hutool自身实现的池化数据源工厂类
@@ -28,6 +29,7 @@ import javax.sql.DataSource;
  *
  */
 public class PooledDSFactory implements DSFactory {
+	@Serial
 	private static final long serialVersionUID = 8093886210895248277L;
 
 	@Override

@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.core.codec;
 
+import java.io.Serial;
 import java.nio.ByteOrder;
 import java.util.Objects;
 
@@ -30,6 +31,7 @@ import java.util.Objects;
  * @since 5.2.5
  */
 public class Number128 extends Number implements Comparable<Number128>{
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

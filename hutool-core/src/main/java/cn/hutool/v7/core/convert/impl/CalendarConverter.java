@@ -22,6 +22,7 @@ import cn.hutool.v7.core.date.DateUtil;
 import cn.hutool.v7.core.text.StrUtil;
 
 import javax.xml.datatype.XMLGregorianCalendar;
+import java.io.Serial;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -31,6 +32,7 @@ import java.util.Date;
  * @author Looly
  */
 public class CalendarConverter extends AbstractConverter {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

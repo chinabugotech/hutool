@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.core.map;
 
+import java.io.Serial;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.TreeMap;
@@ -31,6 +32,7 @@ import java.util.TreeMap;
  * @since 3.3.1
  */
 public class CaseInsensitiveTreeMap<K, V> extends CaseInsensitiveMap<K, V> {
+	@Serial
 	private static final long serialVersionUID = 4043263744224569870L;
 
 	// ------------------------------------------------------------------------- Constructor start

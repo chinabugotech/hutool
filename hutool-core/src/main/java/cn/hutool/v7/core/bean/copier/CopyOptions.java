@@ -26,6 +26,7 @@ import cn.hutool.v7.core.lang.mutable.MutableEntry;
 import cn.hutool.v7.core.array.ArrayUtil;
 import cn.hutool.v7.core.text.StrUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
@@ -44,6 +45,7 @@ import java.util.function.UnaryOperator;
  * @author Looly
  */
 public class CopyOptions implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

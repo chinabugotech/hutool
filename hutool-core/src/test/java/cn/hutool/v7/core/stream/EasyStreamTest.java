@@ -26,6 +26,7 @@ import cn.hutool.v7.core.math.NumberUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.Serial;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
@@ -156,6 +157,7 @@ public class EasyStreamTest {
 		final List<Integer> list = Arrays.asList(1, 2, 3);
 		final Map<String, Integer> identityMap = EasyStream.of(list).toMap(String::valueOf);
 		Assertions.assertEquals(new HashMap<String, Integer>() {
+			@Serial
 			private static final long serialVersionUID = 1L;
 
 			{
@@ -172,6 +174,7 @@ public class EasyStreamTest {
 		final Map<String, List<Integer>> group = EasyStream.of(list).group(String::valueOf);
 		Assertions.assertEquals(
 				new HashMap<String, List<Integer>>() {
+					@Serial
 					private static final long serialVersionUID = 1L;
 
 					{

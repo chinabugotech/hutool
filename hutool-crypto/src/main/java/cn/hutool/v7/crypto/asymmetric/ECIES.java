@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.crypto.asymmetric;
 
+import java.io.Serial;
 import java.security.KeyPair;
 
 /**
@@ -29,6 +30,7 @@ import java.security.KeyPair;
  * @since 5.3.10
  */
 public class ECIES extends AsymmetricCrypto{
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/** 默认的ECIES算法 */

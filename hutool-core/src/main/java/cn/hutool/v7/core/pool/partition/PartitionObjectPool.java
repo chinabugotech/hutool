@@ -24,6 +24,7 @@ import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.core.thread.ThreadUtil;
 
 import java.io.IOException;
+import java.io.Serial;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
@@ -35,6 +36,7 @@ import java.util.concurrent.BlockingQueue;
  * @author Daniel, Looly
  */
 public class PartitionObjectPool<T> implements ObjectPool<T> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private final PartitionPoolConfig config;

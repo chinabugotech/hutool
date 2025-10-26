@@ -18,6 +18,7 @@ package cn.hutool.v7.core.cache.impl;
 
 import cn.hutool.v7.core.thread.lock.NoLock;
 
+import java.io.Serial;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -34,6 +35,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @param <V> 值类型
  */
 public class LFUCache<K, V> extends LockedCache<K, V> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

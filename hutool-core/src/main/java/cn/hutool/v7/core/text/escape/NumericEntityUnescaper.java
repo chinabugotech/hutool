@@ -19,6 +19,8 @@ package cn.hutool.v7.core.text.escape;
 import cn.hutool.v7.core.text.replacer.StrReplacer;
 import cn.hutool.v7.core.text.CharUtil;
 
+import java.io.Serial;
+
 /**
  * 形如&#39;的反转义器
  *
@@ -26,6 +28,7 @@ import cn.hutool.v7.core.text.CharUtil;
  *
  */
 public class NumericEntityUnescaper extends StrReplacer {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	@Override

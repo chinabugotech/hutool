@@ -28,6 +28,7 @@ import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.core.text.split.SplitUtil;
 import cn.hutool.v7.core.util.ByteUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.lang.reflect.Type;
@@ -41,6 +42,7 @@ import java.util.List;
  * @author Looly
  */
 public class ArrayConverter extends AbstractConverter implements MatcherConverter {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -180,17 +182,15 @@ public class ArrayConverter extends AbstractConverter implements MatcherConverte
 	 */
 	private Object convertIterableToArray(final Class<?> targetComponentType, final Iterable<?> value) {
 		final Object result;
-		if (value instanceof List) {
+		if (value instanceof List<?> list) {
 			// List转数组
-			final List<?> list = (List<?>) value;
 			final int size = list.size();
 			result = Array.newInstance(targetComponentType, size);
 			for (int i = 0; i < size; i++) {
 				Array.set(result, i, convertComponentType(targetComponentType, list.get(i)));
 			}
-		} else if (value instanceof Collection) {
+		} else if (value instanceof Collection<?> collection) {
 			// 集合转数组
-			final Collection<?> collection = (Collection<?>) value;
 			result = Array.newInstance(targetComponentType, collection.size());
 
 			int i = 0;

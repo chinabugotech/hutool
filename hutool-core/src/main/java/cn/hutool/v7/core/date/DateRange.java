@@ -18,6 +18,7 @@ package cn.hutool.v7.core.date;
 
 import cn.hutool.v7.core.lang.range.Range;
 
+import java.io.Serial;
 import java.util.Date;
 
 /**
@@ -27,6 +28,7 @@ import java.util.Date;
  * @since 4.1.0
  */
 public class DateRange extends Range<DateTime> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

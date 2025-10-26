@@ -19,6 +19,7 @@ package cn.hutool.v7.core.cache.impl;
 import cn.hutool.v7.core.lang.mutable.Mutable;
 import cn.hutool.v7.core.map.FixedLinkedHashMap;
 
+import java.io.Serial;
 import java.util.Iterator;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -35,6 +36,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * @param <V> 值类型
  */
 public class LRUCache<K, V> extends LockedCache<K, V> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

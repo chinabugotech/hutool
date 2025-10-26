@@ -18,6 +18,8 @@ package cn.hutool.v7.json.jwt;
 
 import cn.hutool.v7.core.exception.HutoolException;
 
+import java.io.Serial;
+
 /**
  * JWT异常
  *
@@ -25,6 +27,7 @@ import cn.hutool.v7.core.exception.HutoolException;
  * @since 5.7.0
  */
 public class JWTException extends HutoolException {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

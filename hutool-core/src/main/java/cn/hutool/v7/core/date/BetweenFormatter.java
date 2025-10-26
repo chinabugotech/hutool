@@ -18,6 +18,7 @@ package cn.hutool.v7.core.date;
 
 import cn.hutool.v7.core.text.StrUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.function.Function;
 
@@ -33,6 +34,7 @@ import java.util.function.Function;
  * @author Looly
  */
 public class BetweenFormatter implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

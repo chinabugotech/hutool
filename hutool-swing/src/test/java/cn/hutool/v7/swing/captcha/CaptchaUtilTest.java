@@ -28,6 +28,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.Serial;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class CaptchaUtilTest {
@@ -50,6 +51,7 @@ public class CaptchaUtilTest {
 	}
 
 	static class TestLineCaptcha extends AbstractCaptcha{
+		@Serial
 		private static final long serialVersionUID = -558846929114465692L;
 
 		public TestLineCaptcha(final int width, final int height, final int codeCount, final int interfereCount) {

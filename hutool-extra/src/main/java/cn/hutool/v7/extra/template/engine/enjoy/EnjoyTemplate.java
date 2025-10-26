@@ -19,6 +19,7 @@ package cn.hutool.v7.extra.template.engine.enjoy;
 import cn.hutool.v7.extra.template.Template;
 
 import java.io.OutputStream;
+import java.io.Serial;
 import java.io.Serializable;
 import java.io.Writer;
 import java.util.Map;
@@ -30,6 +31,7 @@ import java.util.Map;
  * @since 4.1.9
  */
 public class EnjoyTemplate implements Template, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

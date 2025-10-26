@@ -18,6 +18,8 @@ package cn.hutool.v7.core.text.replacer;
 
 import cn.hutool.v7.core.text.StrUtil;
 
+import java.io.Serial;
+
 /**
  * 区间字符串替换，指定区间，将区间中的所有字符去除，替换为指定的字符串，字符串只重复一次<br>
  * 此方法使用{@link String#codePoints()}完成拆分替换
@@ -25,6 +27,7 @@ import cn.hutool.v7.core.text.StrUtil;
  * @author Looly
  */
 public class RangeReplacerByStr extends StrReplacer {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private final int beginInclude;

@@ -24,6 +24,7 @@ import cn.hutool.v7.crypto.Padding;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
+import java.io.Serial;
 
 /**
  * 国密对称堆成加密算法SM4实现
@@ -40,6 +41,7 @@ import javax.crypto.spec.IvParameterSpec;
  * @since 4.6.8
  */
 public class SM4 extends SymmetricCrypto {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

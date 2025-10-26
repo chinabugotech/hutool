@@ -18,6 +18,7 @@ package cn.hutool.v7.core.text.finder;
 
 import cn.hutool.v7.core.lang.Assert;
 
+import java.io.Serial;
 import java.util.function.Predicate;
 
 /**
@@ -28,6 +29,7 @@ import java.util.function.Predicate;
  * @author Looly
  */
 public class CharMatcherFinder extends TextFinder {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private final Predicate<Character> matcher;

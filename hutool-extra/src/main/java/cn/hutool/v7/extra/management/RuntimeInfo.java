@@ -18,6 +18,7 @@ package cn.hutool.v7.extra.management;
 
 import cn.hutool.v7.core.io.file.FileUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -26,6 +27,7 @@ import java.io.Serializable;
  * @author Looly
  */
 public class RuntimeInfo implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private final Runtime currentRuntime = Runtime.getRuntime();

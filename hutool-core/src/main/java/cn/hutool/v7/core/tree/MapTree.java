@@ -24,6 +24,7 @@ import cn.hutool.v7.core.text.CharUtil;
 import cn.hutool.v7.core.util.ObjUtil;
 
 import java.io.PrintWriter;
+import java.io.Serial;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -42,6 +43,7 @@ import java.util.function.Predicate;
  * @since 5.2.1
  */
 public class MapTree<T> extends LinkedHashMap<String, Object> implements Node<T> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private final TreeNodeConfig treeNodeConfig;

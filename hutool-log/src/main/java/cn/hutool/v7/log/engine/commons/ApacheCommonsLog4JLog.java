@@ -20,12 +20,15 @@ import cn.hutool.v7.log.engine.log4j.Log4jLog;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.Serial;
+
 /**
  * Apache Commons Logging for Log4j
  *
  * @author Looly
  */
 public class ApacheCommonsLog4JLog extends Log4jLog {
+	@Serial
 	private static final long serialVersionUID = -6843151523380063975L;
 
 	// ------------------------------------------------------------------------- Constructor

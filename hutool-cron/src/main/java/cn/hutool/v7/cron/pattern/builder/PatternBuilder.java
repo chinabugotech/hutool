@@ -23,6 +23,8 @@ import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.core.util.ObjUtil;
 import cn.hutool.v7.cron.pattern.Part;
 
+import java.io.Serial;
+
 /**
  * 定时任务表达式构建器
  *
@@ -30,6 +32,7 @@ import cn.hutool.v7.cron.pattern.Part;
  * @since 5.8.0
  */
 public class PatternBuilder implements Builder<String> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	final String[] parts = new String[7];

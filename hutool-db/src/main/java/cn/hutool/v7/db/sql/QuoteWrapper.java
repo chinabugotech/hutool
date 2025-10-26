@@ -22,6 +22,7 @@ import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.core.text.split.SplitUtil;
 import cn.hutool.v7.db.Entity;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
@@ -34,6 +35,7 @@ import java.util.Map.Entry;
  * @author Looly
  */
 public class QuoteWrapper implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

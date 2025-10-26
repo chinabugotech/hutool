@@ -18,6 +18,7 @@ package cn.hutool.v7.core.collection.iter;
 
 import cn.hutool.v7.core.lang.Assert;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -37,6 +38,7 @@ import java.util.Objects;
  * @since 5.7.10
  */
 public class PartitionIter<T> implements IterableIter<List<T>>, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

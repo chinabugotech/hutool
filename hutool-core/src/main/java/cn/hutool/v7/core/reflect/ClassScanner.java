@@ -33,6 +33,7 @@ import cn.hutool.v7.core.util.SystemUtil;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serial;
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.net.URL;
@@ -51,6 +52,7 @@ import java.util.jar.JarFile;
  * @since 4.6.9
  */
 public class ClassScanner implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

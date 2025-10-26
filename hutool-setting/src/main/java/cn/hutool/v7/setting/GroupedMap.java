@@ -19,6 +19,7 @@ package cn.hutool.v7.setting;
 import cn.hutool.v7.core.map.MapUtil;
 import cn.hutool.v7.core.text.StrUtil;
 
+import java.io.Serial;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -37,6 +38,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock;
  * @since 4.0.11
  */
 public class GroupedMap extends LinkedHashMap<String, LinkedHashMap<String, String>> {
+	@Serial
 	private static final long serialVersionUID = -7777365130776081931L;
 
 	private final ReentrantReadWriteLock cacheLock = new ReentrantReadWriteLock();

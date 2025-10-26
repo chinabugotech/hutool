@@ -18,6 +18,7 @@ package cn.hutool.v7.core.io.resource;
 
 import cn.hutool.v7.core.util.CharsetUtil;
 
+import java.io.Serial;
 import java.nio.charset.Charset;
 
 /**
@@ -28,6 +29,7 @@ import java.nio.charset.Charset;
  * @see CharSequenceResource
  */
 public class StringResource extends CharSequenceResource {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 

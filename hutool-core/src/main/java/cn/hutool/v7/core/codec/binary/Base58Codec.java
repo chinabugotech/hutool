@@ -20,6 +20,7 @@ import cn.hutool.v7.core.codec.Decoder;
 import cn.hutool.v7.core.codec.Encoder;
 import cn.hutool.v7.core.text.StrUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Arrays;
 
@@ -31,6 +32,7 @@ import java.util.Arrays;
  * @since 5.7.22
  */
 public class Base58Codec implements Encoder<byte[], String>, Decoder<CharSequence, byte[]>, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -154,7 +156,7 @@ public class Base58Codec implements Encoder<byte[], String>, Decoder<CharSequenc
 
 		@Override
 		public byte[] decode(final CharSequence encoded) {
-			if (encoded.length() == 0) {
+			if (encoded.isEmpty()) {
 				return new byte[0];
 			}
 			// Convert the base58-encoded ASCII chars to a base58 byte sequence (base58 digits).

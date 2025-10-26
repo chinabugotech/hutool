@@ -33,6 +33,7 @@ import cn.hutool.v7.poi.excel.style.StyleUtil;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import java.io.Serial;
 import java.util.*;
 
 /**
@@ -244,21 +245,25 @@ public class BigExcelWriteTest {
 		config.addHeaderAlias("userName", "User Name");
 
 		final List<Map<String, Object>> list = new ArrayList<>();
-		list.add(new HashMap<String, Object>() {
+		list.add(new HashMap<>() {
+			@Serial
 			private static final long serialVersionUID = 1L;
 
 			{
-			put("id", 1);
-			put("userName", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-		}});
+				put("id", 1);
+				put("userName", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+			}
+		});
 
-		list.add(new HashMap<String, Object>() {
+		list.add(new HashMap<>() {
+			@Serial
 			private static final long serialVersionUID = 1L;
 
 			{
-			put("id", 2);
-			put("userName", "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
-		}});
+				put("id", 2);
+				put("userName", "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
+			}
+		});
 		writer.write(list, true);
 		writer.autoSizeColumnAll(false, 0);
 		writer.close();

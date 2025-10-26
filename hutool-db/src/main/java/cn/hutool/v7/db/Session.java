@@ -25,6 +25,7 @@ import cn.hutool.v7.log.Log;
 
 import javax.sql.DataSource;
 import java.io.Closeable;
+import java.io.Serial;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Savepoint;
@@ -39,6 +40,7 @@ import java.sql.Savepoint;
  *
  */
 public class Session extends AbstractDb<Session> implements Closeable {
+	@Serial
 	private static final long serialVersionUID = 3421251905539056945L;
 	private final static Log log = Log.get();
 

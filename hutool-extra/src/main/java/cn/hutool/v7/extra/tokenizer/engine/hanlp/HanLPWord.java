@@ -20,6 +20,8 @@ import com.hankcs.hanlp.seg.common.Term;
 
 import cn.hutool.v7.extra.tokenizer.Word;
 
+import java.io.Serial;
+
 /**
  * HanLP分词中的一个单词包装
  *
@@ -27,6 +29,7 @@ import cn.hutool.v7.extra.tokenizer.Word;
  *
  */
 public class HanLPWord implements Word {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private final Term term;

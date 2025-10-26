@@ -20,12 +20,15 @@ import com.mayabot.nlp.segment.WordTerm;
 
 import cn.hutool.v7.extra.tokenizer.Word;
 
+import java.io.Serial;
+
 /**
  * mmseg分词中的一个单词包装
  *
  * @author Looly
  */
 public class MynlpWord implements Word {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private final WordTerm word;

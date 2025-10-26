@@ -19,6 +19,8 @@ package cn.hutool.v7.core.text.escape;
 import cn.hutool.v7.core.text.replacer.LookupReplacer;
 import cn.hutool.v7.core.text.replacer.ReplacerChain;
 
+import java.io.Serial;
+
 /**
  * HTML4的ESCAPE
  * 参考：Commons Lang3
@@ -27,6 +29,7 @@ import cn.hutool.v7.core.text.replacer.ReplacerChain;
  *
  */
 public class Html4Escape extends ReplacerChain {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

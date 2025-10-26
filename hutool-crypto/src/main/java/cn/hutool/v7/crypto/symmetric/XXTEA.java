@@ -20,6 +20,7 @@ import cn.hutool.v7.core.io.IoUtil;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -29,6 +30,7 @@ import java.io.Serializable;
  * @author Ma Bingyao
  */
 public class XXTEA implements SymmetricEncryptor, SymmetricDecryptor, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private static final int DELTA = 0x9E3779B9;

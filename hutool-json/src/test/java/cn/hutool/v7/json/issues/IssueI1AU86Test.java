@@ -23,6 +23,7 @@ import cn.hutool.v7.json.JSONUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -56,6 +57,7 @@ public class IssueI1AU86Test {
 
 	@Data
 	public static class Vcc implements Serializable {
+		@Serial
 		private static final long serialVersionUID = 1L;
 		private Long id;
 		private Date updateDate;

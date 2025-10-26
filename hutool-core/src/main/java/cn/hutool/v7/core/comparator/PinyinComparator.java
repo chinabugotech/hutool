@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.core.comparator;
 
+import java.io.Serial;
 import java.util.Locale;
 
 /**
@@ -25,6 +26,7 @@ import java.util.Locale;
  * @since 4.0.8
  */
 public class PinyinComparator extends LocaleComparator {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

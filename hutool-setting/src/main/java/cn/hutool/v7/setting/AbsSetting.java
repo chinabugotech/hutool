@@ -29,6 +29,7 @@ import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.core.text.split.SplitUtil;
 import cn.hutool.v7.core.util.ObjUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.lang.reflect.Type;
 
@@ -39,6 +40,7 @@ import java.lang.reflect.Type;
  */
 public abstract class AbsSetting implements TypeGetter<CharSequence>,
 		GroupedTypeGetter<CharSequence, CharSequence>, Serializable {
+	@Serial
 	private static final long serialVersionUID = 6200156302595905863L;
 
 	/**

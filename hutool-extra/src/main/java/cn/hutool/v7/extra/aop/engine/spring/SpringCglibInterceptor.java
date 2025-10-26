@@ -21,6 +21,7 @@ import cn.hutool.v7.extra.aop.SimpleInterceptor;
 import org.springframework.cglib.proxy.MethodInterceptor;
 import org.springframework.cglib.proxy.MethodProxy;
 
+import java.io.Serial;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -30,6 +31,7 @@ import java.lang.reflect.Method;
  * @author Looly
  */
 public class SpringCglibInterceptor extends SimpleInterceptor implements MethodInterceptor {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

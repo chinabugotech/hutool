@@ -20,6 +20,7 @@ import cn.hutool.v7.json.JSONUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.Serial;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -27,6 +28,7 @@ public class Issue3058Test {
 	@Test
 	void toJsonStrTest() {
 		final SortedMap<Object, Object> sortedMap = new TreeMap<Object, Object>() {
+			@Serial
 			private static final long serialVersionUID = 1L;
 			{
 				put("attributes", "a");

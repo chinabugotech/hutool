@@ -33,6 +33,7 @@ import java.util.Map;
  */
 public class JteTemplate implements Template, Serializable {
 
+	@Serial
 	private static final long serialVersionUID = -2739915422007257186L;
 
 	private final TemplateEngine templateEngine;

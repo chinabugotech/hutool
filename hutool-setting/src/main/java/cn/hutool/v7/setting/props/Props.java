@@ -40,6 +40,7 @@ import cn.hutool.v7.log.LogUtil;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serial;
 import java.io.Writer;
 import java.net.URL;
 import java.nio.charset.Charset;
@@ -54,6 +55,7 @@ import java.util.Properties;
  * @author loolly
  */
 public final class Props extends Properties implements TypeGetter<CharSequence> {
+	@Serial
 	private static final long serialVersionUID = 1935981579709590740L;
 
 	/**
@@ -235,6 +237,7 @@ public final class Props extends Properties implements TypeGetter<CharSequence> 
 			// 先关闭之前的监听
 			IoUtil.closeQuietly(this.watchMonitor);
 			this.watchMonitor = WatchUtil.ofModify(this.resource.getUrl(), new SimpleWatcher() {
+				@Serial
 				private static final long serialVersionUID = 1L;
 
 				@Override

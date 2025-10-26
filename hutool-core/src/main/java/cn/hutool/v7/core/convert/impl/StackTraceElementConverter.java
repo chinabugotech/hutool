@@ -20,6 +20,7 @@ import cn.hutool.v7.core.convert.AbstractConverter;
 import cn.hutool.v7.core.map.MapUtil;
 import cn.hutool.v7.core.util.ObjUtil;
 
+import java.io.Serial;
 import java.util.Map;
 
 /**
@@ -30,6 +31,7 @@ import java.util.Map;
  * @since 3.0.8
  */
 public class StackTraceElementConverter extends AbstractConverter {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	@Override

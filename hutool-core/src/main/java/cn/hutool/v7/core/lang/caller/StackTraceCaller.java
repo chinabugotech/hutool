@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.core.lang.caller;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 import cn.hutool.v7.core.exception.HutoolException;
@@ -26,6 +27,7 @@ import cn.hutool.v7.core.exception.HutoolException;
  * @author Looly
  */
 public class StackTraceCaller implements Caller, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 	private static final int OFFSET = 2;
 

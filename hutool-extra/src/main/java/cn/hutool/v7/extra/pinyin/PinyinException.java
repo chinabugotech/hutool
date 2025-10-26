@@ -18,12 +18,15 @@ package cn.hutool.v7.extra.pinyin;
 
 import cn.hutool.v7.core.exception.HutoolException;
 
+import java.io.Serial;
+
 /**
  * 拼音异常
  *
  * @author Looly
  */
 public class PinyinException extends HutoolException {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

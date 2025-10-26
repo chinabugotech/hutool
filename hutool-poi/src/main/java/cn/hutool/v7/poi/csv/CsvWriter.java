@@ -42,6 +42,7 @@ import java.util.Map;
  * @since 4.0.5
  */
 public final class CsvWriter implements Closeable, Flushable, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

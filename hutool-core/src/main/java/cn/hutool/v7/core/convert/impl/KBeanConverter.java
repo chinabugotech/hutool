@@ -27,6 +27,7 @@ import cn.hutool.v7.core.lang.Assert;
 import cn.hutool.v7.core.reflect.TypeUtil;
 import cn.hutool.v7.core.reflect.kotlin.KClassUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.Map;
@@ -42,6 +43,7 @@ import java.util.Map;
  * @author Looly
  */
 public class KBeanConverter implements MatcherConverter, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

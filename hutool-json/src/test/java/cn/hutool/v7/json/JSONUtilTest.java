@@ -27,6 +27,7 @@ import cn.hutool.v7.json.test.bean.UserC;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.Serial;
 import java.sql.SQLException;
 import java.util.*;
 
@@ -221,6 +222,7 @@ public class JSONUtilTest {
 	public void toJsonStrFromSortedTest() {
 		//noinspection SerializableInnerClassWithNonSerializableOuterClass
 		final SortedMap<Object, Object> sortedMap = new TreeMap<Object, Object>() {
+			@Serial
 			private static final long serialVersionUID = 1L;
 
 			{

@@ -20,6 +20,7 @@ import cn.hutool.v7.core.util.RandomUtil;
 import cn.hutool.v7.crypto.KeyUtil;
 
 import javax.crypto.spec.IvParameterSpec;
+import java.io.Serial;
 
 /**
  * 祖冲之算法集（ZUC算法）实现，基于BouncyCastle实现。
@@ -28,6 +29,7 @@ import javax.crypto.spec.IvParameterSpec;
  * @since 5.7.12
  */
 public class ZUC extends SymmetricCrypto {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

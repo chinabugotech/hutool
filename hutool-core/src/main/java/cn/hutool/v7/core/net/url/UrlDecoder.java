@@ -21,6 +21,7 @@ import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.core.text.CharUtil;
 import cn.hutool.v7.core.util.CharsetUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.nio.charset.Charset;
 
@@ -36,6 +37,7 @@ import java.nio.charset.Charset;
  * @author Looly
  */
 public class UrlDecoder implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private static final Charset DEFAULT_CHARSET = CharsetUtil.UTF_8;

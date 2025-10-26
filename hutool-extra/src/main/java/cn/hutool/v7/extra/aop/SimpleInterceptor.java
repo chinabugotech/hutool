@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.extra.aop;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -25,6 +26,7 @@ import java.io.Serializable;
  * @since 6.0.0
  */
 public class SimpleInterceptor implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	protected final Object target;

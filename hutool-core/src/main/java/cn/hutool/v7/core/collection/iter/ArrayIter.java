@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.core.collection.iter;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.NoSuchElementException;
@@ -29,6 +30,7 @@ import java.util.Objects;
  * @since 4.1.1
  */
 public class ArrayIter<E> implements IterableIter<E>, ResettableIter<E>, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -112,7 +114,7 @@ public class ArrayIter<E> implements IterableIter<E>, ResettableIter<E>, Seriali
 	@Override
 	@SuppressWarnings("unchecked")
 	public E next() {
-		if (hasNext() == false) {
+		if (!hasNext()) {
 			throw new NoSuchElementException();
 		}
 		return (E) Array.get(array, index++);

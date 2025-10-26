@@ -17,6 +17,7 @@
 package cn.hutool.v7.core.io.resource;
 
 import java.io.File;
+import java.io.Serial;
 import java.nio.file.Path;
 import java.util.Collection;
 
@@ -27,6 +28,7 @@ import java.util.Collection;
  * @author Looly
  */
 public class MultiFileResource extends MultiResource {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

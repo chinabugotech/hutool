@@ -19,6 +19,8 @@ package cn.hutool.v7.core.text.finder;
 import cn.hutool.v7.core.lang.Assert;
 import cn.hutool.v7.core.text.CharSequenceUtil;
 
+import java.io.Serial;
+
 /**
  * 字符串查找器
  *
@@ -26,6 +28,7 @@ import cn.hutool.v7.core.text.CharSequenceUtil;
  * @since 5.7.14
  */
 public class StrFinder extends TextFinder {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

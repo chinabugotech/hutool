@@ -19,6 +19,7 @@ package cn.hutool.v7.core.comparator;
 import cn.hutool.v7.core.lang.Assert;
 import cn.hutool.v7.core.reflect.FieldUtil;
 
+import java.io.Serial;
 import java.lang.reflect.Field;
 
 /**
@@ -29,6 +30,7 @@ import java.lang.reflect.Field;
  * @author Looly
  */
 public class FieldsComparator<T> extends NullComparator<T> {
+	@Serial
 	private static final long serialVersionUID = 8649196282886500803L;
 
 	/**

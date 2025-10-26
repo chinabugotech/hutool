@@ -17,6 +17,7 @@
 package cn.hutool.v7.core.io.resource;
 
 import java.io.File;
+import java.io.Serial;
 
 import cn.hutool.v7.core.io.file.FileUtil;
 
@@ -27,6 +28,7 @@ import cn.hutool.v7.core.io.file.FileUtil;
  * @since 4.1.11
  */
 public class WebAppResource extends FileResource {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

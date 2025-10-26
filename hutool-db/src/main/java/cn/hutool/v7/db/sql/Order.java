@@ -18,6 +18,7 @@ package cn.hutool.v7.db.sql;
 
 import cn.hutool.v7.core.text.StrUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -26,6 +27,7 @@ import java.io.Serializable;
  *
  */
 public class Order implements Serializable{
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/** 排序的字段 */

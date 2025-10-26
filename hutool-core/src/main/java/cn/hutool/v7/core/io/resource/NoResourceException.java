@@ -19,6 +19,8 @@ package cn.hutool.v7.core.io.resource;
 import cn.hutool.v7.core.io.IORuntimeException;
 import cn.hutool.v7.core.text.StrUtil;
 
+import java.io.Serial;
+
 /**
  * 资源文件或资源不存在异常
  *
@@ -26,6 +28,7 @@ import cn.hutool.v7.core.text.StrUtil;
  * @since 4.0.2
  */
 public class NoResourceException extends IORuntimeException {
+	@Serial
 	private static final long serialVersionUID = -623254467603299129L;
 
 	/**

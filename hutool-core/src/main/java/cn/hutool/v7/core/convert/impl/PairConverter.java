@@ -27,6 +27,7 @@ import cn.hutool.v7.core.reflect.TypeUtil;
 import cn.hutool.v7.core.text.CharUtil;
 import cn.hutool.v7.core.text.StrUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.Map;
@@ -43,6 +44,7 @@ import java.util.Map;
  * @author Looly
  */
 public class PairConverter extends ConverterWithRoot implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

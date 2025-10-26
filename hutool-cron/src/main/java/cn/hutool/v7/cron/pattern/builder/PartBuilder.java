@@ -20,6 +20,7 @@ import cn.hutool.v7.core.collection.CollUtil;
 import cn.hutool.v7.core.collection.ListUtil;
 import cn.hutool.v7.core.lang.builder.Builder;
 
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +45,7 @@ public interface PartBuilder extends Builder<String> {
 	 * 始终匹配
 	 */
 	class Always implements PartBuilder {
+		@Serial
 		private static final long serialVersionUID = 1L;
 
 		/**
@@ -61,6 +63,7 @@ public interface PartBuilder extends Builder<String> {
 	 * 固定值
 	 */
 	class On implements PartBuilder {
+		@Serial
 		private static final long serialVersionUID = 1L;
 
 		private final String value;
@@ -93,6 +96,7 @@ public interface PartBuilder extends Builder<String> {
 	 * 区间表达式
 	 */
 	class Range implements PartBuilder {
+		@Serial
 		private static final long serialVersionUID = 1L;
 
 		private final String start;
@@ -129,6 +133,7 @@ public interface PartBuilder extends Builder<String> {
 	 * 逻辑与表达式
 	 */
 	class And implements PartBuilder {
+		@Serial
 		private static final long serialVersionUID = 1L;
 
 		private final List<PartBuilder> builders;
@@ -176,6 +181,7 @@ public interface PartBuilder extends Builder<String> {
 	 * 如 5/3，表示每3步取一次，即5,8,11,14,17...
 	 */
 	class Every implements PartBuilder {
+		@Serial
 		private static final long serialVersionUID = 1L;
 
 		private final PartBuilder partBuilder;

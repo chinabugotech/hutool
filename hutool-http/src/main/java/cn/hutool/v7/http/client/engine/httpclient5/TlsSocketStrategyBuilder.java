@@ -27,6 +27,7 @@ import cn.hutool.v7.core.util.ObjUtil;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
+import java.io.Serial;
 
 /**
  * TLS Socket 策略构建器
@@ -35,6 +36,7 @@ import javax.net.ssl.SSLContext;
  * @since 6.0.0
  */
 public class TlsSocketStrategyBuilder implements Builder<TlsSocketStrategy> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

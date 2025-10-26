@@ -22,6 +22,7 @@ import cn.hutool.v7.json.JSONUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +33,7 @@ public class Issues1881Test {
 	@Data
 	static class ThingsHolderContactVO implements Serializable {
 
+		@Serial
 		private static final long serialVersionUID = -8727337936070932370L;
 		private Long id;
 		private Integer type;

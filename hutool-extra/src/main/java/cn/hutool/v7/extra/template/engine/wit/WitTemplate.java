@@ -21,6 +21,7 @@ import cn.hutool.v7.core.reflect.TypeReference;
 import org.febit.wit.Template;
 
 import java.io.OutputStream;
+import java.io.Serial;
 import java.io.Serializable;
 import java.io.Writer;
 import java.util.Map;
@@ -31,6 +32,7 @@ import java.util.Map;
  * @author Looly
  */
 public class WitTemplate implements cn.hutool.v7.extra.template.Template, Serializable{
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private final Template rawTemplate;

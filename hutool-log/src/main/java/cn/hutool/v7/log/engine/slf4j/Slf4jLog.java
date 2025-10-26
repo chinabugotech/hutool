@@ -24,6 +24,8 @@ import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.log.AbstractLog;
 import cn.hutool.v7.log.level.Level;
 
+import java.io.Serial;
+
 /**
  * <a href="http://www.slf4j.org/">SLF4J</a> log.<br>
  * 同样无缝支持 <a href="http://logback.qos.ch/">LogBack</a>
@@ -32,6 +34,7 @@ import cn.hutool.v7.log.level.Level;
  *
  */
 public class Slf4jLog extends AbstractLog {
+	@Serial
 	private static final long serialVersionUID = -6843151523380063975L;
 
 	private final transient Logger logger;

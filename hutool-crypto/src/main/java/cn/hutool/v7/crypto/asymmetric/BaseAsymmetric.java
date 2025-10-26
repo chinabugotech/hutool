@@ -23,6 +23,7 @@ import cn.hutool.v7.core.util.ObjUtil;
 import cn.hutool.v7.crypto.CryptoException;
 import cn.hutool.v7.crypto.KeyUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.security.Key;
 import java.security.KeyPair;
@@ -39,6 +40,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * @since 3.3.0
  */
 public class BaseAsymmetric<T extends BaseAsymmetric<T>> implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -217,19 +219,21 @@ public class BaseAsymmetric<T extends BaseAsymmetric<T>> implements Serializable
 	 * @return {@link Key}
 	 */
 	protected Key getKeyByType(final KeyType type) {
-		switch (type) {
-			case PrivateKey:
+		return switch (type) {
+			case PrivateKey -> {
 				if (null == this.privateKey) {
 					throw new NullPointerException("Private key must not null when use it !");
 				}
-				return this.privateKey;
-			case PublicKey:
+				yield this.privateKey;
+			}
+			case PublicKey -> {
 				if (null == this.publicKey) {
 					throw new NullPointerException("Public key must not null when use it !");
 				}
-				return this.publicKey;
-		}
-		throw new CryptoException("Unsupported key type: " + type);
+				yield this.publicKey;
+			}
+			default -> throw new CryptoException("Unsupported key type: " + type);
+		};
 	}
 	// endregion
 }

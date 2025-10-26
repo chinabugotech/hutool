@@ -20,6 +20,7 @@ import cn.hutool.v7.core.convert.AbstractConverter;
 import cn.hutool.v7.core.convert.ConvertException;
 import cn.hutool.v7.core.convert.MatcherConverter;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.lang.reflect.Type;
 
@@ -40,6 +41,7 @@ import java.lang.reflect.Type;
  * @author Looly
  */
 public class PrimitiveConverter extends AbstractConverter implements MatcherConverter, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

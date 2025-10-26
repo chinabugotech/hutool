@@ -28,6 +28,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.Serial;
 
 /**
  * 扭曲干扰验证码
@@ -36,6 +37,7 @@ import java.awt.image.BufferedImage;
  * @since 3.2.3
  */
 public class ShearCaptcha extends AbstractCaptcha {
+	@Serial
 	private static final long serialVersionUID = -7096627300356535494L;
 
 	/**

@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.core.map;
 
+import java.io.Serial;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -29,6 +30,7 @@ import java.util.function.Consumer;
  * @author Looly
  */
 public class FixedLinkedHashMap<K, V> extends LinkedHashMap<K, V> {
+	@Serial
 	private static final long serialVersionUID = -629171177321416095L;
 
 	/**

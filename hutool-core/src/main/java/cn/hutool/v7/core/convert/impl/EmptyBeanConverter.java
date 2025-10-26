@@ -21,6 +21,7 @@ import cn.hutool.v7.core.convert.MatcherConverter;
 import cn.hutool.v7.core.reflect.ConstructorUtil;
 import cn.hutool.v7.core.util.ObjUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.lang.reflect.Type;
 
@@ -31,6 +32,7 @@ import java.lang.reflect.Type;
  * @since 6.0.0
  */
 public class EmptyBeanConverter extends AbstractConverter implements MatcherConverter, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

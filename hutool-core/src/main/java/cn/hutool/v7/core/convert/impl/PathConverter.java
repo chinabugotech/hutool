@@ -19,6 +19,7 @@ package cn.hutool.v7.core.convert.impl;
 import cn.hutool.v7.core.convert.AbstractConverter;
 
 import java.io.File;
+import java.io.Serial;
 import java.net.URI;
 import java.net.URL;
 import java.nio.file.Path;
@@ -30,6 +31,7 @@ import java.nio.file.Paths;
  *
  */
 public class PathConverter extends AbstractConverter{
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	@Override

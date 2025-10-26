@@ -22,6 +22,7 @@ import cn.hutool.v7.core.array.ArrayUtil;
 import cn.hutool.v7.core.text.CharUtil;
 import cn.hutool.v7.core.text.StrUtil;
 
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +35,7 @@ import java.util.List;
  * @since 5.4.3
  */
 public class ConditionBuilder implements Builder<String> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

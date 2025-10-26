@@ -18,10 +18,12 @@ package cn.hutool.v7.json.test.bean;
 
 import lombok.Data;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 @Data
 public class JsonNode implements Serializable {
+	@Serial
 	private static final long serialVersionUID = -2280206942803550272L;
 
 	private Long id;

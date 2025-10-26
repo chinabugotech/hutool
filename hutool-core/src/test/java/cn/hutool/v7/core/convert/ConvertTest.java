@@ -29,6 +29,7 @@ import lombok.Getter;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -111,19 +112,19 @@ public class ConvertTest {
 		final String a = "aaaa";
 		final String aDefaultValue = "aDefault";
 		final String aResult = ConvertUtil.toStr(a, aDefaultValue);
-		assertEquals(aResult, a);
+		assertEquals(a, aResult);
 
 		// 被转化的对象为null，返回默认值
 		final String b = null;
 		final String bDefaultValue = "bDefault";
 		final String bResult = ConvertUtil.toStr(b, bDefaultValue);
-		assertEquals(bResult, bDefaultValue);
+		assertEquals(bDefaultValue, bResult);
 
 		// 转换失败，返回默认值
 		final TestExceptionClass c = new TestExceptionClass();
 		final String cDefaultValue = "cDefault";
 		final String cResult = ConvertUtil.toStr(c, cDefaultValue);
-		assertEquals(cResult, cDefaultValue);
+		assertEquals(cDefaultValue, cResult);
 	}
 
 	@Test
@@ -266,7 +267,7 @@ public class ConvertTest {
 		final byte[] bytes = ConvertUtil.shortToBytes(short1);
 		final short short2 = ConvertUtil.bytesToShort(bytes);
 
-		assertEquals(short2, short1);
+		assertEquals(short1, short2);
 	}
 
 	@Test
@@ -336,6 +337,7 @@ public class ConvertTest {
 	@Data
 	@AllArgsConstructor
 	public static class Product implements Serializable {
+		@Serial
 		private static final long serialVersionUID = 1L;
 
 		private String name;

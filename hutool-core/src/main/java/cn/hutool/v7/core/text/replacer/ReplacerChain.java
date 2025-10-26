@@ -18,6 +18,7 @@ package cn.hutool.v7.core.text.replacer;
 
 import cn.hutool.v7.core.lang.Chain;
 
+import java.io.Serial;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -29,6 +30,7 @@ import java.util.List;
  * @since 4.1.5
  */
 public class ReplacerChain extends StrReplacer implements Chain<StrReplacer, ReplacerChain> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private final List<StrReplacer> replacers = new LinkedList<>();

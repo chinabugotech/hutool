@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.core.comparator;
 
+import java.io.Serial;
 import java.text.Collator;
 import java.util.Locale;
 
@@ -25,6 +26,7 @@ import java.util.Locale;
  * @author Looly
  */
 public class LocaleComparator extends NullComparator<String> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

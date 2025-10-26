@@ -19,6 +19,7 @@ package cn.hutool.v7.db.sql;
 import cn.hutool.v7.core.array.ArrayUtil;
 import cn.hutool.v7.core.text.StrUtil;
 
+import java.io.Serial;
 import java.util.List;
 
 /**
@@ -29,6 +30,7 @@ import java.util.List;
  * @since 5.7.21
  */
 public class ConditionGroup extends Condition {
+	@Serial
 	private static final long serialVersionUID = 1L;
 	/**
 	 * 条件列表

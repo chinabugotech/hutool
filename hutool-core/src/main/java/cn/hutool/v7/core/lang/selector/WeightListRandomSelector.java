@@ -19,6 +19,7 @@ package cn.hutool.v7.core.lang.selector;
 import cn.hutool.v7.core.lang.Assert;
 import cn.hutool.v7.core.util.ObjUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -39,6 +40,7 @@ import java.util.List;
  * @author 王叶峰
  */
 public class WeightListRandomSelector<E> implements Selector<E>, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

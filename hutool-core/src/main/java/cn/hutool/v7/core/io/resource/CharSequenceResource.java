@@ -19,6 +19,7 @@ package cn.hutool.v7.core.io.resource;
 import cn.hutool.v7.core.util.ByteUtil;
 import cn.hutool.v7.core.util.CharsetUtil;
 
+import java.io.Serial;
 import java.nio.charset.Charset;
 
 /**
@@ -28,6 +29,7 @@ import java.nio.charset.Charset;
  * @since 5.5.2
  */
 public class CharSequenceResource extends BytesResource {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

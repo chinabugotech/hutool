@@ -18,12 +18,15 @@ package cn.hutool.v7.extra.tokenizer;
 
 import cn.hutool.v7.core.exception.HutoolException;
 
+import java.io.Serial;
+
 /**
  * 分词异常
  *
  * @author Looly
  */
 public class TokenizerException extends HutoolException {
+	@Serial
 	private static final long serialVersionUID = 8074865854534335463L;
 
 	/**

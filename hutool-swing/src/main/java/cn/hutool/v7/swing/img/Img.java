@@ -48,6 +48,7 @@ import java.nio.file.Path;
  * @since 4.1.5
  */
 public class Img implements Flushable, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private final BufferedImage srcImage;

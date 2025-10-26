@@ -27,6 +27,7 @@ import cn.hutool.v7.json.jwt.signers.JWTSignerUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.Serial;
 import java.util.*;
 
 public class JWTTest {
@@ -138,6 +139,7 @@ public class JWTTest {
 		map.put("test2", "2");
 
 		final Map<String, Object> payload = new HashMap<String, Object>() {
+			@Serial
 			private static final long serialVersionUID = 1L;
 			{
 				put("username", username);

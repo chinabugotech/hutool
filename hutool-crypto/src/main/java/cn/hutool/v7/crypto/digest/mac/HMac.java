@@ -17,6 +17,7 @@
 package cn.hutool.v7.crypto.digest.mac;
 
 import javax.crypto.spec.SecretKeySpec;
+import java.io.Serial;
 import java.security.Key;
 import java.security.spec.AlgorithmParameterSpec;
 
@@ -31,6 +32,7 @@ import java.security.spec.AlgorithmParameterSpec;
  * @author Looly
  */
 public class HMac extends Mac {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	// ------------------------------------------------------------------------------------------- Constructor start

@@ -18,6 +18,7 @@ package cn.hutool.v7.json.test.bean;
 
 import lombok.Data;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -26,6 +27,7 @@ import java.io.Serializable;
  */
 @Data
 public class ProductResBase implements Serializable {
+	@Serial
 	private static final long serialVersionUID = -6708040074002451511L;
 	/**
 	 * 请求结果成功0

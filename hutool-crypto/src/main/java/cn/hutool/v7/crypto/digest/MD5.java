@@ -18,6 +18,7 @@ package cn.hutool.v7.crypto.digest;
 
 import java.io.File;
 import java.io.InputStream;
+import java.io.Serial;
 import java.nio.charset.Charset;
 
 /**
@@ -27,6 +28,7 @@ import java.nio.charset.Charset;
  * @since 4.4.3
  */
 public class MD5 extends Digester {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	// issue#I6ZIQH

@@ -18,6 +18,8 @@ package cn.hutool.v7.core.text.finder;
 
 import cn.hutool.v7.core.lang.Assert;
 
+import java.io.Serial;
+
 /**
  * 固定长度查找器<br>
  * 给定一个长度，查找的位置为from + length，一般用于分段截取
@@ -26,6 +28,7 @@ import cn.hutool.v7.core.lang.Assert;
  * @author Looly
  */
 public class LengthFinder extends TextFinder {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private final int length;

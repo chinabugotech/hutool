@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.core.lang.loader;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -29,6 +30,7 @@ import java.io.Serializable;
  * @param <T> 被加载对象类型
  */
 public abstract class LazyLoader<T> implements Loader<T>, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/** 被加载对象 */

@@ -19,6 +19,8 @@ package cn.hutool.v7.core.text.finder;
 import cn.hutool.v7.core.lang.Assert;
 import cn.hutool.v7.core.text.CharUtil;
 
+import java.io.Serial;
+
 /**
  * 字符查找器<br>
  * 查找指定字符在字符串中的位置信息
@@ -27,6 +29,7 @@ import cn.hutool.v7.core.text.CharUtil;
  * @since 5.7.14
  */
 public class CharFinder extends TextFinder {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private final char c;

@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.http.useragent;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -25,6 +26,7 @@ import java.io.Serializable;
  * @since 4.2.1
  */
 public class UserAgent implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

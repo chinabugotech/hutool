@@ -29,6 +29,7 @@ import cn.hutool.v7.core.func.SerSupplier;
 import cn.hutool.v7.core.lang.Assert;
 import cn.hutool.v7.core.lang.getter.TypeGetter;
 
+import java.io.Serial;
 import java.lang.reflect.Type;
 import java.util.*;
 
@@ -39,6 +40,7 @@ import java.util.*;
  * @author Looly
  */
 public class Dict extends CustomKeyMap<String, Object> implements TypeGetter<String> {
+	@Serial
 	private static final long serialVersionUID = 6135423866861206530L;
 
 	static final float DEFAULT_LOAD_FACTOR = 0.75f;

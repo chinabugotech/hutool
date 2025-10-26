@@ -21,6 +21,7 @@ import cn.hutool.v7.core.lang.Assert;
 import cn.hutool.v7.core.text.finder.TextFinder;
 import cn.hutool.v7.core.text.StrUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +36,7 @@ import java.util.function.Function;
  * @since 5.7.14
  */
 public class SplitIter extends ComputeIter<String> implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private final String text;

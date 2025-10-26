@@ -18,6 +18,7 @@ package cn.hutool.v7.core.collection.set;
 
 import cn.hutool.v7.core.map.concurrent.ConcurrentLinkedHashMap;
 
+import java.io.Serial;
 import java.util.Collection;
 
 /**
@@ -28,6 +29,7 @@ import java.util.Collection;
  * @since 3.1.0
  */
 public class ConcurrentLinkedHashSet<E> extends SetFromMap<E> {
+	@Serial
 	private static final long serialVersionUID = 7997886765361607470L;
 
 	// ----------------------------------------------------------------------------------- Constructor start

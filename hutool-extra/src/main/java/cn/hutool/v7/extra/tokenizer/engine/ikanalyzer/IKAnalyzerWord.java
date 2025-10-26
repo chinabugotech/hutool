@@ -20,6 +20,8 @@ import org.wltea.analyzer.core.Lexeme;
 
 import cn.hutool.v7.extra.tokenizer.Word;
 
+import java.io.Serial;
+
 /**
  * IKAnalyzer分词中的一个单词包装
  *
@@ -27,6 +29,7 @@ import cn.hutool.v7.extra.tokenizer.Word;
  *
  */
 public class IKAnalyzerWord implements Word {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private final Lexeme word;

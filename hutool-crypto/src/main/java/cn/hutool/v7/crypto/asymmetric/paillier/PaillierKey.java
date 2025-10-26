@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.crypto.asymmetric.paillier;
 
+import java.io.Serial;
 import java.math.BigInteger;
 import java.security.Key;
 import java.security.SecureRandom;
@@ -27,6 +28,7 @@ import java.security.SecureRandom;
  * @author Looly
  */
 public class PaillierKey implements Key {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

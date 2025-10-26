@@ -18,6 +18,7 @@ package cn.hutool.v7.poi.csv;
 
 import cn.hutool.v7.core.text.CharUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -26,6 +27,7 @@ import java.io.Serializable;
  * @author Looly
  */
 public class CsvWriteConfig extends CsvConfig<CsvWriteConfig> implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 5396453565371560052L;
 
 	/**

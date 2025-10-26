@@ -18,12 +18,15 @@ package cn.hutool.v7.setting;
 
 import cn.hutool.v7.core.exception.HutoolException;
 
+import java.io.Serial;
+
 /**
  * 设置异常
  *
  * @author Looly
  */
 public class SettingException extends HutoolException {
+	@Serial
 	private static final long serialVersionUID = 7941096116780378387L;
 
 	/**

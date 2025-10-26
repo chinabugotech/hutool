@@ -19,6 +19,8 @@ package cn.hutool.v7.core.text.escape;
 import cn.hutool.v7.core.text.replacer.LookupReplacer;
 import cn.hutool.v7.core.text.replacer.ReplacerChain;
 
+import java.io.Serial;
+
 /**
  * XML的UNESCAPE
  *
@@ -26,6 +28,7 @@ import cn.hutool.v7.core.text.replacer.ReplacerChain;
  * @since 5.7.2
  */
 public class XmlUnescape extends ReplacerChain {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

@@ -26,6 +26,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.Serial;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -35,6 +36,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * @since 3.1.2
  */
 public class LineCaptcha extends AbstractCaptcha {
+	@Serial
 	private static final long serialVersionUID = 8691294460763091089L;
 
 	// -------------------------------------------------------------------- Constructor start

@@ -28,10 +28,7 @@ import cn.hutool.v7.crypto.CryptoException;
 import cn.hutool.v7.crypto.SecureUtil;
 import cn.hutool.v7.crypto.provider.GlobalProviderFactory;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Serializable;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.Provider;
@@ -43,6 +40,7 @@ import java.security.Provider;
  * @author Looly
  */
 public class Digester extends SimpleWrapper<MessageDigest> implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

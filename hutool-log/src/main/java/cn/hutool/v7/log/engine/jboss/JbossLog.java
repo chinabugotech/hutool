@@ -22,6 +22,8 @@ import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.log.AbstractLog;
 import cn.hutool.v7.log.level.Level;
 
+import java.io.Serial;
+
 /**
  * <a href="https://github.com/jboss-logging">Jboss-Logging</a> log.
  *
@@ -29,6 +31,7 @@ import cn.hutool.v7.log.level.Level;
  *
  */
 public class JbossLog extends AbstractLog {
+	@Serial
 	private static final long serialVersionUID = -6843151523380063975L;
 
 	private final transient Logger logger;

@@ -18,12 +18,15 @@ package cn.hutool.v7.extra.template;
 
 import cn.hutool.v7.core.exception.HutoolException;
 
+import java.io.Serial;
+
 /**
  * 模板异常
  *
  * @author Looly
  */
 public class TemplateException extends HutoolException {
+	@Serial
 	private static final long serialVersionUID = 8247610319171014183L;
 
 	/**

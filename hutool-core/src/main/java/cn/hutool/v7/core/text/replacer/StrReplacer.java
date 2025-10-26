@@ -18,6 +18,7 @@ package cn.hutool.v7.core.text.replacer;
 
 import cn.hutool.v7.core.text.StrUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.function.UnaryOperator;
 
@@ -29,6 +30,7 @@ import java.util.function.UnaryOperator;
  * @since 4.1.5
  */
 public abstract class StrReplacer implements UnaryOperator<CharSequence>, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

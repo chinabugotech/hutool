@@ -41,6 +41,7 @@ import cn.hutool.v7.crypto.bc.ECKeyUtil;
 import cn.hutool.v7.crypto.bc.SmUtil;
 
 import java.io.InputStream;
+import java.io.Serial;
 import java.math.BigInteger;
 import java.nio.charset.Charset;
 import java.security.KeyPair;
@@ -65,6 +66,7 @@ import java.security.SecureRandom;
  * @since 4.3.2
  */
 public class SM2 extends AbstractAsymmetricCrypto<SM2> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

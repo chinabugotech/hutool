@@ -22,6 +22,7 @@ import cn.hutool.v7.core.lang.builder.Builder;
 import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.core.util.CharsetUtil;
 
+import java.io.Serial;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -42,6 +43,7 @@ import java.nio.charset.Charset;
  * @since 5.3.1
  */
 public final class UrlBuilder implements Builder<String> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 	private static final String DEFAULT_SCHEME = "http" ;
 

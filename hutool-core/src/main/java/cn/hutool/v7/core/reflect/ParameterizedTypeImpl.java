@@ -19,6 +19,7 @@ package cn.hutool.v7.core.reflect;
 import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.core.array.ArrayUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -30,6 +31,7 @@ import java.lang.reflect.Type;
  * @since 4.5.7
  */
 public class ParameterizedTypeImpl implements ParameterizedType, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private final Type[] actualTypeArguments;

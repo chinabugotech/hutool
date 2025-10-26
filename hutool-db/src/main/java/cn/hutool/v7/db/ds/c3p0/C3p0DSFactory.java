@@ -25,6 +25,7 @@ import cn.hutool.v7.setting.props.Props;
 
 import javax.sql.DataSource;
 import java.beans.PropertyVetoException;
+import java.io.Serial;
 import java.util.Properties;
 
 /**
@@ -34,6 +35,7 @@ import java.util.Properties;
  *
  */
 public class C3p0DSFactory extends AbstractDSFactory {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

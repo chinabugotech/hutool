@@ -19,6 +19,7 @@ package cn.hutool.v7.db.handler;
 import cn.hutool.v7.db.Entity;
 import cn.hutool.v7.db.handler.row.EntityRowHandler;
 
+import java.io.Serial;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -29,6 +30,7 @@ import java.sql.SQLException;
  *
  */
 public class EntityHandler implements RsHandler<Entity>{
+	@Serial
 	private static final long serialVersionUID = -8742432871908355992L;
 
 	/** 是否大小写不敏感 */

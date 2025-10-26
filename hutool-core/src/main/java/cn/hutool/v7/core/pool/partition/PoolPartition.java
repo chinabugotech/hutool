@@ -20,6 +20,7 @@ import cn.hutool.v7.core.lang.Assert;
 import cn.hutool.v7.core.pool.*;
 
 import java.io.IOException;
+import java.io.Serial;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
@@ -44,6 +45,7 @@ import java.util.concurrent.TimeUnit;
  * @param <T> 对象类型
  */
 public class PoolPartition<T> implements ObjectPool<T> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private final PoolConfig config;

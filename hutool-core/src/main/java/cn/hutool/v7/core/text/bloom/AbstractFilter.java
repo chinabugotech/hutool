@@ -18,6 +18,7 @@ package cn.hutool.v7.core.text.bloom;
 
 import cn.hutool.v7.core.lang.Assert;
 
+import java.io.Serial;
 import java.util.BitSet;
 
 /**
@@ -26,6 +27,7 @@ import java.util.BitSet;
  * @author Looly
  */
 public abstract class AbstractFilter implements BloomFilter {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private final BitSet bitSet;

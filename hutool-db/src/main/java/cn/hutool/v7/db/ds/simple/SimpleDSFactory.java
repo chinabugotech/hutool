@@ -20,6 +20,7 @@ import cn.hutool.v7.db.config.ConnectionConfig;
 import cn.hutool.v7.db.ds.DSFactory;
 
 import javax.sql.DataSource;
+import java.io.Serial;
 
 /**
  * 简单数据源工厂类
@@ -28,6 +29,7 @@ import javax.sql.DataSource;
  *
  */
 public class SimpleDSFactory implements DSFactory {
+	@Serial
 	private static final long serialVersionUID = 4738029988261034743L;
 
 	@Override

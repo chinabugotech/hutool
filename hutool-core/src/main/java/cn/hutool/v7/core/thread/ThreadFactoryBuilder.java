@@ -19,6 +19,7 @@ package cn.hutool.v7.core.thread;
 import cn.hutool.v7.core.lang.builder.Builder;
 import cn.hutool.v7.core.text.StrUtil;
 
+import java.io.Serial;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
@@ -32,6 +33,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * @since 4.1.9
  */
 public class ThreadFactoryBuilder implements Builder<ThreadFactory> {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

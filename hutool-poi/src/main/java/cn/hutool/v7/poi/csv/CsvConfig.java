@@ -18,6 +18,7 @@ package cn.hutool.v7.poi.csv;
 
 import cn.hutool.v7.core.text.CharUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -31,6 +32,7 @@ import java.util.Map;
  */
 @SuppressWarnings("unchecked")
 public class CsvConfig<T extends CsvConfig<T>> implements Serializable {
+	@Serial
 	private static final long serialVersionUID = -8069578249066158459L;
 
 	/**

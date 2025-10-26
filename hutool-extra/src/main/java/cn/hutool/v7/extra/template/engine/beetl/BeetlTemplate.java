@@ -19,6 +19,7 @@ package cn.hutool.v7.extra.template.engine.beetl;
 import cn.hutool.v7.extra.template.Template;
 
 import java.io.OutputStream;
+import java.io.Serial;
 import java.io.Serializable;
 import java.io.Writer;
 import java.util.Map;
@@ -29,6 +30,7 @@ import java.util.Map;
  * @author Looly
  */
 public class BeetlTemplate implements Template, Serializable{
+	@Serial
 	private static final long serialVersionUID = -8157926902932567280L;
 
 	private final org.beetl.core.Template rawTemplate;

@@ -19,6 +19,7 @@ package cn.hutool.v7.core.tree;
 import cn.hutool.v7.core.func.LambdaUtil;
 import cn.hutool.v7.core.func.SerFunction;
 
+import java.io.Serial;
 import java.util.List;
 import java.util.Objects;
 
@@ -31,6 +32,7 @@ import java.util.Objects;
  * @param <R> 返回值类型
  */
 public class LambdaTreeNodeConfig<T, R> extends TreeNodeConfig {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private SerFunction<T, R> idKeyFun;

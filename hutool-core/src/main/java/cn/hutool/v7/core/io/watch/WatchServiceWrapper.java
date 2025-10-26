@@ -22,6 +22,7 @@ import cn.hutool.v7.core.io.file.PathUtil;
 import cn.hutool.v7.core.lang.wrapper.SimpleWrapper;
 
 import java.io.IOException;
+import java.io.Serial;
 import java.io.Serializable;
 import java.nio.file.*;
 import java.util.concurrent.TimeUnit;
@@ -39,6 +40,7 @@ import java.util.function.Predicate;
  * @since 6.0.0
  */
 public class WatchServiceWrapper extends SimpleWrapper<WatchService> implements WatchService, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

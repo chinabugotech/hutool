@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.core.comparator;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Objects;
@@ -32,6 +33,7 @@ import java.util.Objects;
  * @since 5.7.10
  */
 public class NullComparator<T> implements Comparator<T>, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

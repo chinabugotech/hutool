@@ -23,6 +23,7 @@ import cn.hutool.v7.core.regex.PatternPool;
 import cn.hutool.v7.core.regex.ReUtil;
 import cn.hutool.v7.core.text.StrUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -36,6 +37,7 @@ import java.io.Serializable;
  * @since 6.0.0
  */
 public class TimeParser implements PredicateDateParser, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

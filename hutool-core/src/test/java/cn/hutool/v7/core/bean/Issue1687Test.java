@@ -23,6 +23,7 @@ import lombok.Data;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -61,6 +62,7 @@ public class Issue1687Test {
 	@Data
 	static class SysUserFb implements Serializable {
 
+		@Serial
 		private static final long serialVersionUID = 1L;
 
 		@Alias("depart")
@@ -73,6 +75,7 @@ public class Issue1687Test {
 	@Data
 	static class SysUser implements Serializable {
 
+		@Serial
 		private static final long serialVersionUID = 1L;
 
 		@Alias("depId")

@@ -18,6 +18,7 @@ package cn.hutool.v7.core.text.finder;
 
 import cn.hutool.v7.core.lang.Assert;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -27,6 +28,7 @@ import java.io.Serializable;
  * @since 5.7.14
  */
 public abstract class TextFinder implements Finder, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

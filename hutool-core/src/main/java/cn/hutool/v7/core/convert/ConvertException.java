@@ -18,12 +18,15 @@ package cn.hutool.v7.core.convert;
 
 import cn.hutool.v7.core.exception.HutoolException;
 
+import java.io.Serial;
+
 /**
  * 转换异常
  *
  * @author Looly
  */
 public class ConvertException extends HutoolException {
+	@Serial
 	private static final long serialVersionUID = 4730597402855274362L;
 
 	/**

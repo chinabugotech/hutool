@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.core.map;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,6 +33,7 @@ import java.util.function.Function;
  * @since 3.0.2
  */
 public class CaseInsensitiveMap<K, V> extends FuncKeyMap<K, V> {
+	@Serial
 	private static final long serialVersionUID = 4043263744224569870L;
 
 	//------------------------------------------------------------------------- Constructor start

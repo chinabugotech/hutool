@@ -18,6 +18,8 @@ package cn.hutool.v7.core.exception;
 
 import cn.hutool.v7.core.text.StrUtil;
 
+import java.io.Serial;
+
 /**
  * Hutool工具类异常
  *
@@ -25,6 +27,7 @@ import cn.hutool.v7.core.text.StrUtil;
  * @since 6.0.0
  */
 public class HutoolException extends RuntimeException {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

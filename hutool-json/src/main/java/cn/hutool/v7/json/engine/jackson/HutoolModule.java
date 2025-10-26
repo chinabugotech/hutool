@@ -18,6 +18,8 @@ package cn.hutool.v7.json.engine.jackson;
 
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
+import java.io.Serial;
+
 /**
  * 时间相关序列化模块
  *
@@ -25,6 +27,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
  * @since 6.0.0
  */
 public class HutoolModule extends SimpleModule {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

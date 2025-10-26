@@ -20,12 +20,14 @@ import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.core.util.SystemUtil;
 
 import java.io.File;
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
  * 代表当前用户的信息。
  */
 public class UserInfo implements Serializable{
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private final String USER_NAME;

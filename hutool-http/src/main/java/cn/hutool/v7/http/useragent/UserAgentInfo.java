@@ -18,6 +18,7 @@ package cn.hutool.v7.http.useragent;
 
 import cn.hutool.v7.core.regex.ReUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.regex.Pattern;
 
@@ -28,6 +29,7 @@ import java.util.regex.Pattern;
  * @since 4.2.1
  */
 public class UserAgentInfo implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

@@ -18,6 +18,7 @@ package cn.hutool.v7.extra.ftp;
 
 import cn.hutool.v7.extra.ssh.Connector;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.nio.charset.Charset;
 
@@ -27,6 +28,7 @@ import java.nio.charset.Charset;
  * @author Looly
  */
 public class FtpConfig implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

@@ -20,6 +20,7 @@ import cn.hutool.v7.core.collection.iter.IterUtil;
 import cn.hutool.v7.core.collection.iter.TransIter;
 import cn.hutool.v7.core.util.ObjUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.AbstractCollection;
 import java.util.AbstractSet;
@@ -198,6 +199,7 @@ public abstract class AbsTable<R, C, V> implements Table<R, C, V> {
 	 * @param <V> 值类型
 	 */
 	private static class SimpleCell<R, C, V> implements Cell<R, C, V>, Serializable {
+		@Serial
 		private static final long serialVersionUID = 1L;
 
 		private final R rowKey;

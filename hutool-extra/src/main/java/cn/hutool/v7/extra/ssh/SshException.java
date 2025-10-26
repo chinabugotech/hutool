@@ -18,12 +18,15 @@ package cn.hutool.v7.extra.ssh;
 
 import cn.hutool.v7.core.exception.HutoolException;
 
+import java.io.Serial;
+
 /**
  * SSH异常
  *
  * @author Looly
  */
 public class SshException extends HutoolException {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

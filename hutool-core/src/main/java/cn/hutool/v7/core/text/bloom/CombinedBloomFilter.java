@@ -16,6 +16,8 @@
 
 package cn.hutool.v7.core.text.bloom;
 
+import java.io.Serial;
+
 /**
  * 组合BloomFilter 实现 <br>
  * 1.构建hash算法 <br>
@@ -26,6 +28,7 @@ package cn.hutool.v7.core.text.bloom;
  * @author Ansj
  */
 public class CombinedBloomFilter implements BloomFilter {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private final BloomFilter[] filters;
@@ -62,7 +65,7 @@ public class CombinedBloomFilter implements BloomFilter {
 	@Override
 	public boolean contains(final String str) {
 		for (final BloomFilter filter : filters) {
-			if (filter.contains(str) == false) {
+			if (!filter.contains(str)) {
 				return false;
 			}
 		}

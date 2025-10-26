@@ -19,6 +19,7 @@ package cn.hutool.v7.core.convert.impl;
 import cn.hutool.v7.core.convert.ConvertException;
 import cn.hutool.v7.core.convert.MatcherConverter;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.lang.reflect.Type;
 
@@ -29,6 +30,7 @@ import java.lang.reflect.Type;
  * @since 4.0.2
  */
 public class CastConverter implements MatcherConverter, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
