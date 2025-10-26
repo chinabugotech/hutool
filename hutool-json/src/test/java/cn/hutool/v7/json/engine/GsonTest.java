@@ -37,11 +37,12 @@ public class GsonTest {
 		final JSONEngineTest.TestBean testBean = new JSONEngineTest.TestBean("张三", 18, true);
 		final String jsonString = engine.toJsonString(testBean);
 		// 使用统一换行符
-		Assertions.assertEquals("{\n" +
-			"  \"name\": \"张三\",\n" +
-			"  \"age\": 18,\n" +
-			"  \"gender\": true\n" +
-			"}", jsonString);
+		Assertions.assertEquals("""
+			{
+			  "name": "张三",
+			  "age": 18,
+			  "gender": true
+			}""", jsonString);
 	}
 
 	@Test

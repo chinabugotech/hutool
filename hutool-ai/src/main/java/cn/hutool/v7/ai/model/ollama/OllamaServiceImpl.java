@@ -84,7 +84,7 @@ public class OllamaServiceImpl extends BaseAIService implements OllamaService {
 	@Override
 	public void chat(final List<Message> messages, final Consumer<String> callback) {
 		final Map<String, Object> paramMap = buildChatStreamRequestBody(messages);
-		ThreadUtil.newThread(() -> sendPostStream(CHAT_ENDPOINT, paramMap, callback::accept), "ollama-chat-sse").start();
+		ThreadUtil.newThread(() -> sendPostStream(CHAT_ENDPOINT, paramMap, callback), "ollama-chat-sse").start();
 	}
 
 	@Override
@@ -97,7 +97,7 @@ public class OllamaServiceImpl extends BaseAIService implements OllamaService {
 	@Override
 	public void generate(final String prompt, final Consumer<String> callback) {
 		final Map<String, Object> paramMap = buildGenerateStreamRequestBody(prompt, null);
-		ThreadUtil.newThread(() -> sendPostStream(GENERATE_ENDPOINT, paramMap, callback::accept), "ollama-generate-sse").start();
+		ThreadUtil.newThread(() -> sendPostStream(GENERATE_ENDPOINT, paramMap, callback), "ollama-generate-sse").start();
 	}
 
 	@Override
@@ -110,7 +110,7 @@ public class OllamaServiceImpl extends BaseAIService implements OllamaService {
 	@Override
 	public void generate(final String prompt, final String format, final Consumer<String> callback) {
 		final Map<String, Object> paramMap = buildGenerateStreamRequestBody(prompt, format);
-		ThreadUtil.newThread(() -> sendPostStream(GENERATE_ENDPOINT, paramMap, callback::accept), "ollama-generate-sse").start();
+		ThreadUtil.newThread(() -> sendPostStream(GENERATE_ENDPOINT, paramMap, callback), "ollama-generate-sse").start();
 	}
 
 	@Override

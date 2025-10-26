@@ -124,24 +124,15 @@ public enum Week {
 	 * @since 4.0.11
 	 */
 	public String toChinese(final String weekNamePre) {
-		switch (this) {
-			case SUNDAY:
-				return weekNamePre + "日";
-			case MONDAY:
-				return weekNamePre + "一";
-			case TUESDAY:
-				return weekNamePre + "二";
-			case WEDNESDAY:
-				return weekNamePre + "三";
-			case THURSDAY:
-				return weekNamePre + "四";
-			case FRIDAY:
-				return weekNamePre + "五";
-			case SATURDAY:
-				return weekNamePre + "六";
-			default:
-				return null;
-		}
+		return switch (this) {
+			case SUNDAY -> weekNamePre + "日";
+			case MONDAY -> weekNamePre + "一";
+			case TUESDAY -> weekNamePre + "二";
+			case WEDNESDAY -> weekNamePre + "三";
+			case THURSDAY -> weekNamePre + "四";
+			case FRIDAY -> weekNamePre + "五";
+			case SATURDAY -> weekNamePre + "六";
+		};
 	}
 
 	/**
@@ -176,7 +167,7 @@ public enum Week {
 
 	/**
 	 * 解析别名为Week对象，别名如：sun或者SUNDAY，不区分大小写<br>
-	 * 参考：https://github.com/sisyphsu/dateparser/blob/master/src/main/java/com/github/sisyphsu/dateparser/DateParser.java#L319
+	 * 参考：<a href="https://github.com/sisyphsu/dateparser/blob/master/src/main/java/com/github/sisyphsu/dateparser/DateParser.java#L319">DateParser.java#L319</a>
 	 *
 	 * @param name 别名值
 	 * @return 周枚举Week，非空
@@ -188,23 +179,16 @@ public enum Week {
 			// issue#3637
 			if (StrUtil.startWithAny(name, "星期", "周")) {
 				final char chineseNumber = name.charAt(name.length() - 1);
-				switch (chineseNumber) {
-					case '一':
-						return MONDAY;
-					case '二':
-						return TUESDAY;
-					case '三':
-						return WEDNESDAY;
-					case '四':
-						return THURSDAY;
-					case '五':
-						return FRIDAY;
-					case '六':
-						return SATURDAY;
-					case '日':
-						return SUNDAY;
-				}
-				throw new IllegalArgumentException("Invalid week name: " + name);
+				return switch (chineseNumber) {
+					case '一' -> MONDAY;
+					case '二' -> TUESDAY;
+					case '三' -> WEDNESDAY;
+					case '四' -> THURSDAY;
+					case '五' -> FRIDAY;
+					case '六' -> SATURDAY;
+					case '日' -> SUNDAY;
+					default -> throw new IllegalArgumentException("Invalid week name: " + name);
+				};
 			}
 
 			switch (Character.toLowerCase(name.charAt(0))) {

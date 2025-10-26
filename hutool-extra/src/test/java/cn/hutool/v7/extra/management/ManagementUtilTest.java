@@ -16,7 +16,6 @@
 
 package cn.hutool.v7.extra.management;
 
-import cn.hutool.v7.core.lang.Console;
 import cn.hutool.v7.core.util.SystemUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;

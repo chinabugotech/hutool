@@ -71,7 +71,7 @@ public class JSONTokener extends ReaderWrapper {
 	 * 是否使用前一个字符
 	 */
 	private boolean usePrevious;
-	private boolean ignoreZeroWithChar;
+	private final boolean ignoreZeroWithChar;
 
 	// ------------------------------------------------------------------------------------ Constructor start
 
@@ -302,14 +302,14 @@ public class JSONTokener extends ReaderWrapper {
 	 */
 	public String nextString() throws JSONException {
 		final char c = nextClean();
-		switch (c) {
-			case CharUtil.DOUBLE_QUOTES:
-			case CharUtil.SINGLE_QUOTE:
-				return nextWrapString(c);
-		}
+		return switch (c) {
+			case CharUtil.DOUBLE_QUOTES, CharUtil.SINGLE_QUOTE -> nextWrapString(c);
+			default ->
 
-		// 兼容不严格的JSON，如key不被双引号包围的情况
-		return nextUnwrapString(c);
+				// 兼容不严格的JSON，如key不被双引号包围的情况
+				nextUnwrapString(c);
+		};
+
 	}
 
 	/**
@@ -445,27 +445,17 @@ public class JSONTokener extends ReaderWrapper {
 	 * @return 反转义字符
 	 */
 	private char getUnescapeChar(final char c) {
-		switch (c) {
-			case 'b':
-				return '\b';
-			case 't':
-				return '\t';
-			case 'n':
-				return '\n';
-			case 'f':
-				return '\f';
-			case 'r':
-				return '\r';
-			case 'u':// Unicode符
-				return nextUnicode();
-			case CharUtil.DOUBLE_QUOTES:
-			case CharUtil.SINGLE_QUOTE:
-			case CharUtil.BACKSLASH:
-			case CharUtil.SLASH:
-				return c;
-			default:
-				throw this.syntaxError("Illegal escape.");
-		}
+		return switch (c) {
+			case 'b' -> '\b';
+			case 't' -> '\t';
+			case 'n' -> '\n';
+			case 'f' -> '\f';
+			case 'r' -> '\r';
+			case 'u' ->// Unicode符
+				nextUnicode();
+			case CharUtil.DOUBLE_QUOTES, CharUtil.SINGLE_QUOTE, CharUtil.BACKSLASH, CharUtil.SLASH -> c;
+			default -> throw this.syntaxError("Illegal escape.");
+		};
 	}
 
 	/**

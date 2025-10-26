@@ -55,7 +55,7 @@ public class PunyCode {
 		final List<String> split = SplitUtil.split(domain, StrUtil.DOT);
 		final StringBuilder result = new StringBuilder(domain.length() * 4);
 		for (final String str : split) {
-			if (result.length() != 0) {
+			if (!result.isEmpty()) {
 				result.append(CharUtil.DOT);
 			}
 			result.append(encode(str, true));
@@ -175,7 +175,7 @@ public class PunyCode {
 		final List<String> split = SplitUtil.split(domain, StrUtil.DOT);
 		final StringBuilder result = new StringBuilder(domain.length() / 4 + 1);
 		for (final String str : split) {
-			if (result.length() != 0) {
+			if (!result.isEmpty()) {
 				result.append(CharUtil.DOT);
 			}
 			result.append(StrUtil.startWithIgnoreEquals(str, PUNY_CODE_PREFIX) ? decode(str) : str);

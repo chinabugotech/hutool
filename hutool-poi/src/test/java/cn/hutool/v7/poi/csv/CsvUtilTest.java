@@ -78,8 +78,10 @@ public class CsvUtilTest {
 
 	@Test
 	public void readCsvStr1WithUncloseTest(){
-		final CsvData data = CsvUtil.getReader().readFromStr("# 这是一行注释，读取时应忽略\n" +
-				"\"sss,sss\",姓名,\"性别\",关注\"对象\",年龄,\"\",\"\"\"\n");
+		final CsvData data = CsvUtil.getReader().readFromStr("""
+			# 这是一行注释，读取时应忽略
+			"sss,sss",姓名,"性别",关注"对象",年龄,"",""\"
+			""");
 		final List<CsvRow> rows = data.getRows();
 		final CsvRow row0 = rows.get(0);
 		Assertions.assertEquals("sss,sss", row0.get(0));
@@ -95,8 +97,10 @@ public class CsvUtilTest {
 	@Test
 	public void readCsvStr1WithUncloseTrimTest(){
 		final CsvData data = CsvUtil.getReader(CsvReadConfig.of().setTrimField(true))
-			.readFromStr("# 这是一行注释，读取时应忽略\n" +
-			"\"sss,sss\",姓名,\"性别\",关注\"对象\",年龄,\"\",\"\"\"\n");
+			.readFromStr("""
+				# 这是一行注释，读取时应忽略
+				"sss,sss",姓名,"性别",关注"对象",年龄,"",""\"
+				""");
 		final List<CsvRow> rows = data.getRows();
 		final CsvRow row0 = rows.get(0);
 		Assertions.assertEquals("sss,sss", row0.get(0));
@@ -110,8 +114,10 @@ public class CsvUtilTest {
 
 	@Test
 	public void readCsvStrUseConsumerTest(){
-		CsvUtil.getReader().readFromStr("# 这是一行注释，读取时应忽略\n" +
-				"\"sss,sss\",姓名,\"性别\",关注\"对象\",年龄,\"\",\"\"\"\n",(csvRow)-> {
+		CsvUtil.getReader().readFromStr("""
+			# 这是一行注释，读取时应忽略
+			"sss,sss",姓名,"性别",关注"对象",年龄,"",""\"
+			""",(csvRow)-> {
 			// 只有一行，所以直接判断
 			Assertions.assertEquals("sss,sss", csvRow.get(0));
 			Assertions.assertEquals("姓名", csvRow.get(1));

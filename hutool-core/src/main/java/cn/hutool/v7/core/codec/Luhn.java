@@ -73,7 +73,6 @@ public class Luhn {
 		final char[] strArray = str.toCharArray();
 		final int n = strArray.length;
 		int sum = strArray[n - 1] - '0';
-		;
 		for (int i = 2; i <= n; i++) {
 			int a = strArray[n - i] - '0';
 			// 偶数位乘以2

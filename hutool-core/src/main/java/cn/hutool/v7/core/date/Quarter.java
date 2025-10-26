@@ -75,18 +75,13 @@ public enum Quarter {
 	 * @see #Q4
 	 */
 	public static Quarter of(final int intValue) {
-		switch (intValue) {
-			case 1:
-				return Q1;
-			case 2:
-				return Q2;
-			case 3:
-				return Q3;
-			case 4:
-				return Q4;
-			default:
-				return null;
-		}
+		return switch (intValue) {
+			case 1 -> Q1;
+			case 2 -> Q2;
+			case 3 -> Q3;
+			case 4 -> Q4;
+			default -> null;
+		};
 	}
 
 	/**

@@ -29,10 +29,6 @@ public interface SensitiveProcessor {
 	 */
 	default String process(final FoundWord foundWord) {
 		final int length = foundWord.getFoundWord().length();
-		final StringBuilder sb = new StringBuilder(length);
-		for (int i = 0; i < length; i++) {
-			sb.append("*");
-		}
-		return sb.toString();
+		return "*".repeat(length);
 	}
 }

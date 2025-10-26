@@ -82,7 +82,7 @@ public class MultipartFormData {
 				break;
 			}
 
-			if (header.isFile == true) {
+			if (header.isFile) {
 				// 文件类型的表单项
 				final String fileName = header.fileName;
 				if (!fileName.isEmpty() && header.contentType.contains("application/x-macbinary")) {
@@ -281,7 +281,7 @@ public class MultipartFormData {
 	 * @throws IOException IO异常
 	 */
 	private void setLoaded() throws IOException {
-		if (loaded == true) {
+		if (loaded) {
 			throw new IOException("Multi-part request already parsed.");
 		}
 		loaded = true;

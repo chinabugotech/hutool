@@ -436,10 +436,9 @@ public class FastDateFormat extends Format implements PositionDateParser, DatePr
 	// -----------------------------------------------------------------------
 	@Override
 	public boolean equals(final Object obj) {
-		if (obj instanceof FastDateFormat == false) {
+		if (!(obj instanceof FastDateFormat other)) {
 			return false;
 		}
-		final FastDateFormat other = (FastDateFormat) obj;
 		// no need to check parser, as it has same invariants as printer
 		return printer.equals(other.printer);
 	}

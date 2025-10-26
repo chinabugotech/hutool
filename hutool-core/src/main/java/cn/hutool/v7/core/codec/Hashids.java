@@ -377,7 +377,7 @@ public class Hashids implements Encoder<long[], String>, Decoder<String, long[]>
 					}
 				}
 
-				if (block.length() > 0) {
+				if (!block.isEmpty()) {
 					// create the salt
 					if (saltLeft > 0) {
 						System.arraycopy(currentAlphabet, 0, decodeSalt,

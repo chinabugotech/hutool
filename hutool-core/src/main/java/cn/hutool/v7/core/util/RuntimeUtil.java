@@ -391,7 +391,7 @@ public class RuntimeUtil {
 			}
 		}
 
-		if (cache.length() > 0) {
+		if (!cache.isEmpty()) {
 			cmds.add(cache.toString());
 		}
 

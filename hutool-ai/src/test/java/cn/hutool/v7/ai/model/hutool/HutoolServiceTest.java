@@ -27,15 +27,14 @@ import cn.hutool.v7.swing.img.ImgUtil;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import java.awt.*;
+import java.awt.Toolkit;
 import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class HutoolServiceTest {
 
@@ -88,7 +87,7 @@ class HutoolServiceTest {
 	@Disabled
 	void chatVision() {
 		final String base64 = ImgUtil.toBase64DataUri(Toolkit.getDefaultToolkit().createImage("your imageUrl"), "png");
-		final String chatVision = hutoolService.chatVision("图片上有些什么？", Arrays.asList(base64));
+		final String chatVision = hutoolService.chatVision("图片上有些什么？", List.of(base64));
 		assertNotNull(chatVision);
 	}
 
@@ -96,7 +95,7 @@ class HutoolServiceTest {
 	@Disabled
 	void testChatVisionStream() {
 		String prompt = "图片上有些什么？";
-		List<String> images = Arrays.asList("https://img2.baidu.com/it/u=862000265,4064861820&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1544");
+		List<String> images = List.of("https://img2.baidu.com/it/u=862000265,4064861820&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1544");
 
 		// 使用AtomicBoolean作为结束标志
 		AtomicBoolean isDone = new AtomicBoolean(false);
@@ -119,7 +118,7 @@ class HutoolServiceTest {
 	@Test
 	@Disabled
 	void testChatVision() {
-		final String chatVision = hutoolService.chatVision("图片上有些什么？", Arrays.asList("https://img2.baidu.com/it/u=862000265,4064861820&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1544"));
+		final String chatVision = hutoolService.chatVision("图片上有些什么？", List.of("https://img2.baidu.com/it/u=862000265,4064861820&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1544"));
 		assertNotNull(chatVision);
 	}
 
@@ -150,10 +149,11 @@ class HutoolServiceTest {
 	void textToSpeech() {
 		try {
 			// 测试正常音频流返回
-			final InputStream inputStream = hutoolService.tts("万里山河一夜白，\n" +
-				"千峰尽染玉龙哀。\n" +
-				"长风卷起琼花碎，\n" +
-				"直上九霄揽月来。", HutoolCommon.HutoolSpeech.NOVA);
+			final InputStream inputStream = hutoolService.tts("""
+				万里山河一夜白，
+				千峰尽染玉龙哀。
+				长风卷起琼花碎，
+				直上九霄揽月来。""", HutoolCommon.HutoolSpeech.NOVA);
 			assertNotNull(inputStream);
 
 			// 保存音频文件

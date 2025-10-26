@@ -146,17 +146,13 @@ public class BCUtil {
 				return new CTSBlockCipher(cipher);
 		}
 
-		switch (padding) {
-			case NoPadding:
-				return new DefaultBufferedBlockCipher(cipher);
-			case PKCS5Padding:
-				return new PaddedBufferedBlockCipher(cipher);
-			case ZeroPadding:
-				return new PaddedBufferedBlockCipher(cipher, new ZeroBytePadding());
-			case ISO10126Padding:
-				return new PaddedBufferedBlockCipher(cipher, new ISO10126d2Padding());
-		}
+		return switch (padding) {
+			case NoPadding -> new DefaultBufferedBlockCipher(cipher);
+			case PKCS5Padding -> new PaddedBufferedBlockCipher(cipher);
+			case ZeroPadding -> new PaddedBufferedBlockCipher(cipher, new ZeroBytePadding());
+			case ISO10126Padding -> new PaddedBufferedBlockCipher(cipher, new ISO10126d2Padding());
+			default -> null;
+		};
 
-		return null;
 	}
 }

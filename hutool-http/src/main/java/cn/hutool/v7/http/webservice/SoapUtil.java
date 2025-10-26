@@ -16,17 +16,14 @@
 
 package cn.hutool.v7.http.webservice;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
-
+import cn.hutool.v7.core.util.CharsetUtil;
+import cn.hutool.v7.core.xml.XmlUtil;
 import jakarta.xml.soap.SOAPException;
 import jakarta.xml.soap.SOAPMessage;
 
-import cn.hutool.v7.core.exception.HutoolException;
-import cn.hutool.v7.core.util.CharsetUtil;
-import cn.hutool.v7.core.xml.XmlUtil;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.nio.charset.Charset;
 
 /**
  * SOAP相关工具类
@@ -98,11 +95,7 @@ public class SoapUtil {
 			throw new SoapRuntimeException(e);
 		}
 		final String messageToString;
-		try {
-			messageToString = out.toString(charset.toString());
-		} catch (final UnsupportedEncodingException e) {
-			throw new HutoolException(e);
-		}
+		messageToString = out.toString(charset);
 		return pretty ? XmlUtil.format(messageToString) : messageToString;
 	}
 }

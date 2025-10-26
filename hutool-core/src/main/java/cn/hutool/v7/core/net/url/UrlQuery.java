@@ -270,14 +270,11 @@ public class UrlQuery {
 	 * @return URL查询字符串
 	 */
 	public String build(final Charset charset) {
-		switch (this.encodeMode) {
-			case FORM_URL_ENCODED:
-				return build(FormUrlencoded.ALL, FormUrlencoded.ALL, charset);
-			case STRICT:
-				return build(RFC3986.QUERY_PARAM_NAME_STRICT, RFC3986.QUERY_PARAM_VALUE_STRICT, charset);
-			default:
-				return build(RFC3986.QUERY_PARAM_NAME, RFC3986.QUERY_PARAM_VALUE, charset);
-		}
+		return switch (this.encodeMode) {
+			case FORM_URL_ENCODED -> build(FormUrlencoded.ALL, FormUrlencoded.ALL, charset);
+			case STRICT -> build(RFC3986.QUERY_PARAM_NAME_STRICT, RFC3986.QUERY_PARAM_VALUE_STRICT, charset);
+			default -> build(RFC3986.QUERY_PARAM_NAME, RFC3986.QUERY_PARAM_VALUE, charset);
+		};
 	}
 
 	/**
@@ -306,7 +303,7 @@ public class UrlQuery {
 		for (final Map.Entry<CharSequence, CharSequence> entry : this.query) {
 			name = entry.getKey();
 			if (null != name) {
-				if (sb.length() > 0) {
+				if (!sb.isEmpty()) {
 					sb.append("&");
 				}
 				sb.append(keyCoder.encode(name, charset));
@@ -332,7 +329,7 @@ public class UrlQuery {
 
 	/**
 	 * 解析URL中的查询字符串<br>
-	 * 规则见：https://url.spec.whatwg.org/#urlencoded-parsing
+	 * 规则见：<a href="https://url.spec.whatwg.org/#urlencoded-parsing">urlencoded-parsing</a>
 	 *
 	 * @param queryStr 查询字符串，类似于key1=v1&amp;key2=&amp;key3=v3
 	 * @param charset  decode编码，null表示不做decode

@@ -114,21 +114,17 @@ public class BeetlEngine implements TemplateEngine {
 			config = TemplateConfig.DEFAULT;
 		}
 
-		switch (config.getResourceMode()) {
-		case CLASSPATH:
-			return createGroupTemplate(new ClasspathResourceLoader(config.getPath(), config.getCharsetStr()));
-		case FILE:
-			return createGroupTemplate(new FileResourceLoader(config.getPath(), config.getCharsetStr()));
-		case WEB_ROOT:
-			return createGroupTemplate(new WebAppResourceLoader(config.getPath(), config.getCharsetStr()));
-		case STRING:
-			return createGroupTemplate(new StringTemplateResourceLoader());
-		case COMPOSITE:
-			//TODO 需要定义复合资源加载器
-			return createGroupTemplate(new CompositeResourceLoader());
-		default:
-			return new GroupTemplate();
-		}
+		return switch (config.getResourceMode()) {
+			case CLASSPATH ->
+				createGroupTemplate(new ClasspathResourceLoader(config.getPath(), config.getCharsetStr()));
+			case FILE -> createGroupTemplate(new FileResourceLoader(config.getPath(), config.getCharsetStr()));
+			case WEB_ROOT -> createGroupTemplate(new WebAppResourceLoader(config.getPath(), config.getCharsetStr()));
+			case STRING -> createGroupTemplate(new StringTemplateResourceLoader());
+			case COMPOSITE ->
+				//TODO 需要定义复合资源加载器
+				createGroupTemplate(new CompositeResourceLoader());
+			default -> new GroupTemplate();
+		};
 	}
 
 	/**

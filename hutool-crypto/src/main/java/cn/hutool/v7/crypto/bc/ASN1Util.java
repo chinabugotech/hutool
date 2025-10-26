@@ -69,20 +69,12 @@ public class ASN1Util {
 	 * @param elements     ASN.1元素
 	 */
 	public static void encodeTo(final String asn1Encoding, final OutputStream out, final ASN1Encodable... elements) {
-		final ASN1Sequence sequence;
-		switch (asn1Encoding) {
-			case ASN1Encoding.DER:
-				sequence = new DERSequence(elements);
-				break;
-			case ASN1Encoding.BER:
-				sequence = new BERSequence(elements);
-				break;
-			case ASN1Encoding.DL:
-				sequence = new DLSequence(elements);
-				break;
-			default:
-				throw new CryptoException("Unsupported ASN1 encoding: {}", asn1Encoding);
-		}
+		final ASN1Sequence sequence = switch (asn1Encoding) {
+			case ASN1Encoding.DER -> new DERSequence(elements);
+			case ASN1Encoding.BER -> new BERSequence(elements);
+			case ASN1Encoding.DL -> new DLSequence(elements);
+			default -> throw new CryptoException("Unsupported ASN1 encoding: {}", asn1Encoding);
+		};
 		try {
 			sequence.encodeTo(out);
 		} catch (final IOException e) {

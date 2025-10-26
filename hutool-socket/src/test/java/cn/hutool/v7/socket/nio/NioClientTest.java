@@ -58,7 +58,7 @@ public class NioClientTest {
 		final Scanner scanner = new Scanner(System.in);
 		while (scanner.hasNextLine()) {
 			final String request = scanner.nextLine();
-			if (request != null && request.trim().length() > 0) {
+			if (request != null && !request.trim().isEmpty()) {
 				client.write(BufferUtil.ofUtf8(request));
 			}
 		}

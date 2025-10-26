@@ -221,7 +221,7 @@ public class Sign extends BaseAsymmetric<Sign> {
 			if (CollUtil.isNotEmpty(critSet) && critSet.contains("2.5.29.15")) {
 				final boolean[] keyUsageInfo = cert.getKeyUsage();
 				// keyUsageInfo[0] is for digitalSignature.
-				if ((keyUsageInfo != null) && (keyUsageInfo[0] == false)) {
+				if ((keyUsageInfo != null) && (!keyUsageInfo[0])) {
 					throw new CryptoException("Wrong key usage");
 				}
 			}

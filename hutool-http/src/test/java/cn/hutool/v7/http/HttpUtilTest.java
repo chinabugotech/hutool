@@ -174,15 +174,16 @@ public class HttpUtilTest {
 	@Test
 	@Disabled
 	public void httpUtilCreateRequest1PostSoap11Test(){
-		final String requestBody = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
-			"<soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"\n" +
-			"  xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">\n" +
-			"  <soap:Body>\n" +
-			"    <getCountryCityByIp xmlns=\"http://WebXml.com.cn/\">\n" +
-			"      <theIpAddress>222.91.66.232</theIpAddress>\n" +
-			"    </getCountryCityByIp>\n" +
-			"  </soap:Body>\n" +
-			"</soap:Envelope>";
+		final String requestBody = """
+			<?xml version="1.0" encoding="utf-8"?>
+			<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+			  xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+			  <soap:Body>
+			    <getCountryCityByIp xmlns="http://WebXml.com.cn/">
+			      <theIpAddress>222.91.66.232</theIpAddress>
+			    </getCountryCityByIp>
+			  </soap:Body>
+			</soap:Envelope>""";
 
 		final String body = HttpUtil.createRequest("http://www.webxml.com.cn/WebServices/IpAddressSearchWebService.asmx", Method.POST)
 			.header(HeaderName.CONTENT_TYPE, "text/xml; charset=utf-8")
@@ -201,15 +202,16 @@ public class HttpUtilTest {
 	@Test
 	@Disabled
 	public void httpUtilCreateRequest2PostSoap12Test(){
-		final String requestBody = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
-			"<soap12:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"\n" +
-			"  xmlns:soap12=\"http://www.w3.org/2003/05/soap-envelope\">\n" +
-			"  <soap12:Body>\n" +
-			"    <getCountryCityByIp xmlns=\"http://WebXml.com.cn/\">\n" +
-			"      <theIpAddress>222.91.66.232</theIpAddress>\n" +
-			"    </getCountryCityByIp>\n" +
-			"  </soap12:Body>\n" +
-			"</soap12:Envelope>";
+		final String requestBody = """
+			<?xml version="1.0" encoding="utf-8"?>
+			<soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+			  xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
+			  <soap12:Body>
+			    <getCountryCityByIp xmlns="http://WebXml.com.cn/">
+			      <theIpAddress>222.91.66.232</theIpAddress>
+			    </getCountryCityByIp>
+			  </soap12:Body>
+			</soap12:Envelope>""";
 
 		final String body = HttpUtil.createPost("http://www.webxml.com.cn/WebServices/IpAddressSearchWebService.asmx")
 			.header(HeaderName.CONTENT_TYPE, "application/soap+xml; charset=utf-8")

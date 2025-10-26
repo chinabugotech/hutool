@@ -47,7 +47,7 @@ class UrlDecoderTest {
 
 		final String s1 = UrlEncoder.encodeAll(s, StandardCharsets.UTF_16);
 		Assertions.assertEquals(expectedDecode, s1);
-		final String s2 = java.net.URLEncoder.encode(s, "UTF-16");
+		final String s2 = java.net.URLEncoder.encode(s, StandardCharsets.UTF_16);
 		Assertions.assertEquals(expectedDecode, s2);
 
 		final String decode = UrlDecoder.decode(s1, StandardCharsets.UTF_16);
@@ -59,7 +59,7 @@ class UrlDecoderTest {
 		Assertions.assertEquals("测试你好", decode2);
 
 		Assertions.assertEquals(
-			java.net.URLDecoder.decode(mixDecoded, "UTF-16"),
+			java.net.URLDecoder.decode(mixDecoded, StandardCharsets.UTF_16),
 			UrlDecoder.decode(mixDecoded, StandardCharsets.UTF_16)
 		);
 	}

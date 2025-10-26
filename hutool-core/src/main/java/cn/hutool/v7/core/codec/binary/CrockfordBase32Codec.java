@@ -23,7 +23,7 @@ import java.util.Objects;
 
 /**
  * Crockford`s Base32实现<br>
- * 来自：https://gist.github.com/markov/5206312
+ * 来自：<a href="https://gist.github.com/markov/5206312">markov/5206312</a>
  *
  * <p>Provides Base32 encoding and decoding as defined by <a href="http://www.ietf.org/rfc/rfc4648.txt">RFC 4648</a>.
  * However it uses a custom alphabet first coined by Douglas Crockford. Only addition to the alphabet is that 'u' and
@@ -141,15 +141,10 @@ public class CrockfordBase32Codec {
 	 * @return true if byte is whitespace, false otherwise
 	 */
 	protected static boolean isWhiteSpace(final byte byteToCheck) {
-		switch (byteToCheck) {
-			case ' ':
-			case '\n':
-			case '\r':
-			case '\t':
-				return true;
-			default:
-				return false;
-		}
+		return switch (byteToCheck) {
+			case ' ', '\n', '\r', '\t' -> true;
+			default -> false;
+		};
 	}
 
 	/**
@@ -609,128 +604,40 @@ public class CrockfordBase32Codec {
 	}
 
 	private static byte decode(final byte octet) {
-		switch (octet) {
-			case '0':
-			case 'O':
-			case 'o':
-				return 0;
-
-			case '1':
-			case 'I':
-			case 'i':
-			case 'L':
-			case 'l':
-				return 1;
-
-			case '2':
-				return 2;
-			case '3':
-				return 3;
-			case '4':
-				return 4;
-			case '5':
-				return 5;
-			case '6':
-				return 6;
-			case '7':
-				return 7;
-			case '8':
-				return 8;
-			case '9':
-				return 9;
-
-			case 'A':
-			case 'a':
-				return 10;
-
-			case 'B':
-			case 'b':
-				return 11;
-
-			case 'C':
-			case 'c':
-				return 12;
-
-			case 'D':
-			case 'd':
-				return 13;
-
-			case 'E':
-			case 'e':
-				return 14;
-
-			case 'F':
-			case 'f':
-				return 15;
-
-			case 'G':
-			case 'g':
-				return 16;
-
-			case 'H':
-			case 'h':
-				return 17;
-
-			case 'J':
-			case 'j':
-				return 18;
-
-			case 'K':
-			case 'k':
-				return 19;
-
-			case 'M':
-			case 'm':
-				return 20;
-
-			case 'N':
-			case 'n':
-				return 21;
-
-			case 'P':
-			case 'p':
-				return 22;
-
-			case 'Q':
-			case 'q':
-				return 23;
-
-			case 'R':
-			case 'r':
-				return 24;
-
-			case 'S':
-			case 's':
-				return 25;
-
-			case 'T':
-			case 't':
-				return 26;
-
-			case 'U':
-			case 'u':
-			case 'V':
-			case 'v':
-				return 27;
-
-			case 'W':
-			case 'w':
-				return 28;
-
-			case 'X':
-			case 'x':
-				return 29;
-
-			case 'Y':
-			case 'y':
-				return 30;
-
-			case 'Z':
-			case 'z':
-				return 31;
-
-			default:
-				return -1;
-		}
+		return switch (octet) {
+			case '0', 'O', 'o' -> 0;
+			case '1', 'I', 'i', 'L', 'l' -> 1;
+			case '2' -> 2;
+			case '3' -> 3;
+			case '4' -> 4;
+			case '5' -> 5;
+			case '6' -> 6;
+			case '7' -> 7;
+			case '8' -> 8;
+			case '9' -> 9;
+			case 'A', 'a' -> 10;
+			case 'B', 'b' -> 11;
+			case 'C', 'c' -> 12;
+			case 'D', 'd' -> 13;
+			case 'E', 'e' -> 14;
+			case 'F', 'f' -> 15;
+			case 'G', 'g' -> 16;
+			case 'H', 'h' -> 17;
+			case 'J', 'j' -> 18;
+			case 'K', 'k' -> 19;
+			case 'M', 'm' -> 20;
+			case 'N', 'n' -> 21;
+			case 'P', 'p' -> 22;
+			case 'Q', 'q' -> 23;
+			case 'R', 'r' -> 24;
+			case 'S', 's' -> 25;
+			case 'T', 't' -> 26;
+			case 'U', 'u', 'V', 'v' -> 27;
+			case 'W', 'w' -> 28;
+			case 'X', 'x' -> 29;
+			case 'Y', 'y' -> 30;
+			case 'Z', 'z' -> 31;
+			default -> -1;
+		};
 	}
 }

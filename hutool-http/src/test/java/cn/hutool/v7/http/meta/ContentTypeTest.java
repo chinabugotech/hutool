@@ -35,9 +35,11 @@ public class ContentTypeTest {
 
 	@Test
 	void testGetWithLeadingSpace() {
-		final String json = " {\n" +
-			"     \"name\": \"hutool\"\n" +
-			" }";
+		final String json = """
+			 {
+			     "name": "hutool"
+			 }\
+			""";
 		final ContentType contentType = ContentType.get(json);
 		assertEquals(ContentType.JSON, contentType);
 	}

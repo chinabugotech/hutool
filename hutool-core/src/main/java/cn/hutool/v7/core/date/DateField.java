@@ -140,39 +140,23 @@ public enum DateField {
 	 * @return DateField
 	 */
 	public static DateField of(final int calendarPartIntValue) {
-		switch (calendarPartIntValue) {
-			case Calendar.ERA:
-				return ERA;
-			case Calendar.YEAR:
-				return YEAR;
-			case Calendar.MONTH:
-				return MONTH;
-			case Calendar.WEEK_OF_YEAR:
-				return WEEK_OF_YEAR;
-			case Calendar.WEEK_OF_MONTH:
-				return WEEK_OF_MONTH;
-			case Calendar.DAY_OF_MONTH:
-				return DAY_OF_MONTH;
-			case Calendar.DAY_OF_YEAR:
-				return DAY_OF_YEAR;
-			case Calendar.DAY_OF_WEEK:
-				return DAY_OF_WEEK;
-			case Calendar.DAY_OF_WEEK_IN_MONTH:
-				return DAY_OF_WEEK_IN_MONTH;
-			case Calendar.AM_PM:
-				return AM_PM;
-			case Calendar.HOUR:
-				return HOUR;
-			case Calendar.HOUR_OF_DAY:
-				return HOUR_OF_DAY;
-			case Calendar.MINUTE:
-				return MINUTE;
-			case Calendar.SECOND:
-				return SECOND;
-			case Calendar.MILLISECOND:
-				return MILLISECOND;
-			default:
-				return null;
-		}
+		return switch (calendarPartIntValue) {
+			case Calendar.ERA -> ERA;
+			case Calendar.YEAR -> YEAR;
+			case Calendar.MONTH -> MONTH;
+			case Calendar.WEEK_OF_YEAR -> WEEK_OF_YEAR;
+			case Calendar.WEEK_OF_MONTH -> WEEK_OF_MONTH;
+			case Calendar.DAY_OF_MONTH -> DAY_OF_MONTH;
+			case Calendar.DAY_OF_YEAR -> DAY_OF_YEAR;
+			case Calendar.DAY_OF_WEEK -> DAY_OF_WEEK;
+			case Calendar.DAY_OF_WEEK_IN_MONTH -> DAY_OF_WEEK_IN_MONTH;
+			case Calendar.AM_PM -> AM_PM;
+			case Calendar.HOUR -> HOUR;
+			case Calendar.HOUR_OF_DAY -> HOUR_OF_DAY;
+			case Calendar.MINUTE -> MINUTE;
+			case Calendar.SECOND -> SECOND;
+			case Calendar.MILLISECOND -> MILLISECOND;
+			default -> null;
+		};
 	}
 }

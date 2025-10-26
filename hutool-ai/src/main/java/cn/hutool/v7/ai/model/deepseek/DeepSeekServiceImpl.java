@@ -65,7 +65,7 @@ public class DeepSeekServiceImpl extends BaseAIService implements DeepSeekServic
 	@Override
 	public void chat(List<Message> messages, Consumer<String> callback) {
 		Map<String, Object> paramMap = buildChatStreamRequestBody(messages);
-		ThreadUtil.newThread(() -> sendPostStream(CHAT_ENDPOINT, paramMap, callback::accept), "deepseek-chat-sse").start();
+		ThreadUtil.newThread(() -> sendPostStream(CHAT_ENDPOINT, paramMap, callback), "deepseek-chat-sse").start();
 	}
 
 	@Override

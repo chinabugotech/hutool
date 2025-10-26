@@ -45,34 +45,35 @@ public class Issue1101Test {
 
 	@Test
 	public void test(){
-		final String json = "{\n" +
-				"\t\"children\": [{\n" +
-				"\t\t\"children\": [],\n" +
-				"\t\t\"id\": \"52c95b83-2083-4138-99fb-e6e21f0c1277\",\n" +
-				"\t\t\"nodeName\": \"admin\",\n" +
-				"\t\t\"parentId\": \"00010001\",\n" +
-				"\t\t\"sort\": 0,\n" +
-				"\t\t\"status\": true,\n" +
-				"\t\t\"treeNodeId\": \"00010001_52c95b83-2083-4138-99fb-e6e21f0c1277\",\n" +
-				"\t\t\"type\": 10\n" +
-				"\t}, {\n" +
-				"\t\t\"children\": [],\n" +
-				"\t\t\"id\": \"97054a82-f8ff-46a1-b76c-cbacf6d18045\",\n" +
-				"\t\t\"nodeName\": \"test\",\n" +
-				"\t\t\"parentId\": \"00010001\",\n" +
-				"\t\t\"sort\": 0,\n" +
-				"\t\t\"status\": true,\n" +
-				"\t\t\"treeNodeId\": \"00010001_97054a82-f8ff-46a1-b76c-cbacf6d18045\",\n" +
-				"\t\t\"type\": 10\n" +
-				"\t}],\n" +
-				"\t\"id\": \"00010001\",\n" +
-				"\t\"nodeName\": \"测试\",\n" +
-				"\t\"parentId\": \"0001\",\n" +
-				"\t\"sort\": 0,\n" +
-				"\t\"status\": true,\n" +
-				"\t\"treeNodeId\": \"00010001\",\n" +
-				"\t\"type\": 0\n" +
-				"}";
+		final String json = """
+			{
+			\t"children": [{
+			\t\t"children": [],
+			\t\t"id": "52c95b83-2083-4138-99fb-e6e21f0c1277",
+			\t\t"nodeName": "admin",
+			\t\t"parentId": "00010001",
+			\t\t"sort": 0,
+			\t\t"status": true,
+			\t\t"treeNodeId": "00010001_52c95b83-2083-4138-99fb-e6e21f0c1277",
+			\t\t"type": 10
+			\t}, {
+			\t\t"children": [],
+			\t\t"id": "97054a82-f8ff-46a1-b76c-cbacf6d18045",
+			\t\t"nodeName": "test",
+			\t\t"parentId": "00010001",
+			\t\t"sort": 0,
+			\t\t"status": true,
+			\t\t"treeNodeId": "00010001_97054a82-f8ff-46a1-b76c-cbacf6d18045",
+			\t\t"type": 10
+			\t}],
+			\t"id": "00010001",
+			\t"nodeName": "测试",
+			\t"parentId": "0001",
+			\t"sort": 0,
+			\t"status": true,
+			\t"treeNodeId": "00010001",
+			\t"type": 0
+			}""";
 
 		final JSONObject jsonObject = JSONUtil.parseObj(json);
 

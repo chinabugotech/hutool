@@ -74,7 +74,7 @@ public class DoubaoServiceImpl extends BaseAIService implements DoubaoService {
 	@Override
 	public void chat(final List<Message> messages, final Consumer<String> callback) {
 		final Map<String, Object> paramMap = buildChatStreamRequestBody(messages);
-		ThreadUtil.newThread(() -> sendPostStream(CHAT_ENDPOINT, paramMap, callback::accept), "doubao-chat-sse").start();
+		ThreadUtil.newThread(() -> sendPostStream(CHAT_ENDPOINT, paramMap, callback), "doubao-chat-sse").start();
 	}
 
 	@Override
@@ -87,7 +87,7 @@ public class DoubaoServiceImpl extends BaseAIService implements DoubaoService {
 	@Override
 	public void chatVision(final String prompt, final List<String> images, final String detail, final Consumer<String> callback) {
 		final Map<String, Object> paramMap = buildChatVisionStreamRequestBody(prompt, images, detail);
-		ThreadUtil.newThread(() -> sendPostStream(CHAT_ENDPOINT, paramMap, callback::accept), "doubao-chatVision-sse").start();
+		ThreadUtil.newThread(() -> sendPostStream(CHAT_ENDPOINT, paramMap, callback), "doubao-chatVision-sse").start();
 	}
 
 	@Override
@@ -128,7 +128,7 @@ public class DoubaoServiceImpl extends BaseAIService implements DoubaoService {
 	@Override
 	public void botsChat(final List<Message> messages, final Consumer<String> callback) {
 		final Map<String, Object> paramMap = buildBotsChatStreamRequestBody(messages);
-		ThreadUtil.newThread(() -> sendPostStream(BOTS_CHAT, paramMap, callback::accept), "doubao-botsChat-sse").start();
+		ThreadUtil.newThread(() -> sendPostStream(BOTS_CHAT, paramMap, callback), "doubao-botsChat-sse").start();
 	}
 
 	@Override
@@ -162,7 +162,7 @@ public class DoubaoServiceImpl extends BaseAIService implements DoubaoService {
 	@Override
 	public void chatContext(final List<Message> messages, final String contextId, final Consumer<String> callback) {
 		final Map<String, Object> paramMap = buildChatContentStreamRequestBody(messages, contextId);
-		ThreadUtil.newThread(() -> sendPostStream(CHAT_CONTEXT, paramMap, callback::accept), "doubao-chatContext-sse").start();
+		ThreadUtil.newThread(() -> sendPostStream(CHAT_CONTEXT, paramMap, callback), "doubao-chatContext-sse").start();
 	}
 
 	@Override

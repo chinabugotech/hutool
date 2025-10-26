@@ -30,12 +30,13 @@ import java.util.List;
 public class Issue3139Test {
 	@Test
 	public void toBeanTest() {
-		final String xml = "<r>\n" +
-			"  <c>\n" +
-			"     <s>1</s>\n" +
-			"     <p>str</p>\n" +
-			"  </c>\n" +
-			"</r>";
+		final String xml = """
+			<r>
+			  <c>
+			     <s>1</s>
+			     <p>str</p>
+			  </c>
+			</r>""";
 
 		final JSONObject jsonObject = JSONUtil.parseObj(xml);
 		Assertions.assertEquals("{\"r\":{\"c\":{\"s\":1,\"p\":\"str\"}}}", jsonObject.toString());

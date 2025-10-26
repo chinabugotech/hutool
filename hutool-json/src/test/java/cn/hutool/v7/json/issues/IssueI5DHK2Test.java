@@ -26,15 +26,16 @@ public class IssueI5DHK2Test {
 
 	@Test
 	public void toBeanTest(){
-		final String jsonStr = "{\n" +
-				"    \"punished_parties\": [{\n" +
-				"        \"properties\": {\n" +
-				"            \"employment_informations\": [{\n" +
-				"                \"employer_name\": \"张三皮包公司\"\n" +
-				"            }]\n" +
-				"        }\n" +
-				"    }]\n" +
-				"}";
+		final String jsonStr = """
+			{
+			    "punished_parties": [{
+			        "properties": {
+			            "employment_informations": [{
+			                "employer_name": "张三皮包公司"
+			            }]
+			        }
+			    }]
+			}""";
 
 		final JSONObject json = JSONUtil.parseObj(jsonStr);
 		final String exployerName = json

@@ -27,13 +27,14 @@ import java.util.Map;
 public class IssueIAWE3HTest {
 	@Test
 	void toMapTest() {
-		final String jsonStr = "{\n" +
-			"  \"reply\": \"hi\",\n" +
-			"  \"solved\": true,\n" +
-			"  \"notifyTypes\": [\n" +
-			"    \"push\"\n" +
-			"  ]\n" +
-			"}";
+		final String jsonStr = """
+			{
+			  "reply": "hi",
+			  "solved": true,
+			  "notifyTypes": [
+			    "push"
+			  ]
+			}""";
 
 		final JSONObject jsonObject = JSONUtil.parseObj(jsonStr);
 

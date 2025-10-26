@@ -32,7 +32,7 @@ public class PartitionIterTest {
 		final LineIter lineIter = new LineIter(ResourceUtil.getUtf8Reader("test_lines.csv"));
 		final PartitionIter<String> iter = new PartitionIter<>(lineIter, 3);
 		for (final List<String> lines : iter) {
-			Assertions.assertTrue(lines.size() > 0);
+			Assertions.assertFalse(lines.isEmpty());
 		}
 	}
 

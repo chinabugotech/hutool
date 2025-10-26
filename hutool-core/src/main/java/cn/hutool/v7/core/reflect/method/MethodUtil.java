@@ -452,14 +452,11 @@ public class MethodUtil {
 	public static boolean isGetterOrSetter(final Method method, final boolean ignoreCase) {
 		// 参数个数必须为1
 		final int parameterCount = method.getParameterCount();
-		switch (parameterCount) {
-			case 0:
-				return isGetter(method, ignoreCase);
-			case 1:
-				return isSetter(method, ignoreCase);
-			default:
-				return false;
-		}
+		return switch (parameterCount) {
+			case 0 -> isGetter(method, ignoreCase);
+			case 1 -> isSetter(method, ignoreCase);
+			default -> false;
+		};
 	}
 
 	/**

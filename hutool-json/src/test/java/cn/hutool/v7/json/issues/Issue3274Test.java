@@ -28,12 +28,13 @@ import org.junit.jupiter.api.Test;
 public class Issue3274Test {
 	@Test
 	public void toBeanTest() {
-		final JSONObject entries = JSONUtil.parseObj("{\n" +
-			"    \n" +
-			"    \"age\": 36,\n" +
-			"    \"gender\": \"\",\n" +
-			"    \"id\": \"123123123\"\n" +
-			"}", JSONConfig.of().setIgnoreError(true));
+		final JSONObject entries = JSONUtil.parseObj("""
+			{
+			   \s
+			    "age": 36,
+			    "gender": "",
+			    "id": "123123123"
+			}""", JSONConfig.of().setIgnoreError(true));
 		final LarkCoreHrPersonal larkCoreHrPersonal = entries.toBean(LarkCoreHrPersonal.class);
 		Assertions.assertNotNull(larkCoreHrPersonal);
 	}

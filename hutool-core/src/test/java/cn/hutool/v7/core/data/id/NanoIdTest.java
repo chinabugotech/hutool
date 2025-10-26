@@ -16,16 +16,11 @@
 
 package cn.hutool.v7.core.data.id;
 
-import cn.hutool.v7.core.data.id.NanoId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.security.SecureRandom;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Pattern;
 
 /**
@@ -45,7 +40,7 @@ public class NanoIdTest {
 
 		for (int i = 0; i < idCount; i++) {
 			final String id = NanoId.randomNanoId();
-			if (ids.contains(id) == false) {
+			if (!ids.contains(id)) {
 				ids.add(id);
 			} else {
 				Assertions.fail("Non-unique ID generated: " + id);

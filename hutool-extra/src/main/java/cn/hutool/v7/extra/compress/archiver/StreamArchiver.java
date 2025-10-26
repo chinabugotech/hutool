@@ -16,24 +16,21 @@
 
 package cn.hutool.v7.extra.compress.archiver;
 
+import cn.hutool.v7.core.array.ArrayUtil;
+import cn.hutool.v7.core.io.IORuntimeException;
+import cn.hutool.v7.core.io.IoUtil;
+import cn.hutool.v7.core.io.file.FileUtil;
 import cn.hutool.v7.core.io.file.PathUtil;
+import cn.hutool.v7.extra.compress.CompressException;
 import cn.hutool.v7.extra.compress.CompressUtil;
 import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.ArchiveException;
 import org.apache.commons.compress.archivers.ArchiveOutputStream;
 import org.apache.commons.compress.archivers.ArchiveStreamFactory;
 import org.apache.commons.compress.archivers.ar.ArArchiveOutputStream;
-import org.apache.commons.compress.archivers.sevenz.SevenZOutputFile;
 import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorOutputStream;
-import cn.hutool.v7.core.array.ArrayUtil;
-import cn.hutool.v7.core.io.IORuntimeException;
-import cn.hutool.v7.core.io.IoUtil;
-import cn.hutool.v7.core.io.file.FileUtil;
-import cn.hutool.v7.core.text.StrUtil;
-import cn.hutool.v7.extra.compress.CompressException;
 
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;

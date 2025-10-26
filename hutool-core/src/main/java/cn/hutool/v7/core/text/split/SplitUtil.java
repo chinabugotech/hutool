@@ -167,7 +167,7 @@ public class SplitUtil {
 									final Function<String, R> mapping) {
 		if (null == str) {
 			return ListUtil.zero();
-		} else if (0 == str.length() && ignoreEmpty) {
+		} else if (str.isEmpty() && ignoreEmpty) {
 			return ListUtil.zero();
 		}
 		Assert.notEmpty(separator, "Separator must be not empty!");
@@ -304,7 +304,7 @@ public class SplitUtil {
 		if (null == str) {
 			return ListUtil.zero();
 		}
-		if(0 == str.length()){
+		if(str.isEmpty()){
 			return ignoreEmpty ? ListUtil.zero() : ListUtil.of(StrUtil.EMPTY);
 		}
 		if(null == separatorPattern){

@@ -246,7 +246,7 @@ public class Session extends AbstractDb<Session> implements Closeable {
 	 */
 	public void setTransactionIsolation(final int level) throws DbException {
 		try {
-			if (getConnection().getMetaData().supportsTransactionIsolationLevel(level) == false) {
+			if (!getConnection().getMetaData().supportsTransactionIsolationLevel(level)) {
 				throw new DbException(StrUtil.format("Transaction isolation [{}] not support!", level));
 			}
 			getConnection().setTransactionIsolation(level);

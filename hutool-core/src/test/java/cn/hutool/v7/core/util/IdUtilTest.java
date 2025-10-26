@@ -24,7 +24,6 @@ import cn.hutool.v7.core.date.StopWatch;
 import cn.hutool.v7.core.exception.HutoolException;
 import cn.hutool.v7.core.lang.Console;
 import cn.hutool.v7.core.thread.ThreadUtil;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;

@@ -164,21 +164,22 @@ public class JSONUtilTest {
 		map.put("rows", list);
 
 		final String jsonStr = JSONUtil.toJsonPrettyStr(map);
-		Assertions.assertEquals("{\n" +
-			"  \"total\": 13,\n" +
-			"  \"rows\": [\n" +
-			"    {\n" +
-			"      \"name\": \"AAAAName\",\n" +
-			"      \"a\": \"aaaa\",\n" +
-			"      \"date\": 1727800929605\n" +
-			"    },\n" +
-			"    {\n" +
-			"      \"name\": \"AAAA222Name\",\n" +
-			"      \"a\": \"aaaa222\",\n" +
-			"      \"date\": 1727800929605\n" +
-			"    }\n" +
-			"  ]\n" +
-			"}", jsonStr);
+		Assertions.assertEquals("""
+			{
+			  "total": 13,
+			  "rows": [
+			    {
+			      "name": "AAAAName",
+			      "a": "aaaa",
+			      "date": 1727800929605
+			    },
+			    {
+			      "name": "AAAA222Name",
+			      "a": "aaaa222",
+			      "date": 1727800929605
+			    }
+			  ]
+			}""", jsonStr);
 	}
 
 	@Test
@@ -311,9 +312,10 @@ public class JSONUtilTest {
 	@Test
 	public void parseObjTest() {
 		// 测试转义
-		final JSONObject jsonObject = JSONUtil.parseObj("{\n" +
-			"    \"test\": \"\\\\地库地库\",\n" +
-			"}");
+		final JSONObject jsonObject = JSONUtil.parseObj("""
+			{
+			    "test": "\\\\地库地库",
+			}""");
 
 		assertEquals("\\地库地库", jsonObject.getObj("test"));
 	}

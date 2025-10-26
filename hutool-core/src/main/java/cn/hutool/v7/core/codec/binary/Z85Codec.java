@@ -101,11 +101,7 @@ public class Z85Codec implements Encoder<byte[], String>, Decoder<String, byte[]
 	public byte[] decode(String encoded) {
 		final int remainder = encoded.length() % 5;
 		final int padding = 5 - (remainder == 0 ? 5 : remainder);
-		final StringBuilder encodedBuilder = new StringBuilder(encoded);
-		for (int p = 0; p < padding; ++p) {
-			encodedBuilder.append(encodeTable[encodeTable.length - 1]);
-		}
-		encoded = encodedBuilder.toString();
+		encoded = encoded + String.valueOf(encodeTable[encodeTable.length - 1]).repeat(padding);
 		final int length = encoded.length();
 		final byte[] bytes = new byte[((length << 2) / 5) - padding];
 		long value = 0;

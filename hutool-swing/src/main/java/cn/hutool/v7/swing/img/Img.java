@@ -859,12 +859,10 @@ public class Img implements Flushable, Serializable {
 	 */
 	private int getTypeInt() {
 		//noinspection SwitchStatementWithTooFewBranches
-		switch (this.targetImageType) {
-			case ImgUtil.IMAGE_TYPE_PNG:
-				return BufferedImage.TYPE_INT_ARGB;
-			default:
-				return BufferedImage.TYPE_INT_RGB;
-		}
+		return switch (this.targetImageType) {
+			case ImgUtil.IMAGE_TYPE_PNG -> BufferedImage.TYPE_INT_ARGB;
+			default -> BufferedImage.TYPE_INT_RGB;
+		};
 	}
 
 	/**

@@ -296,14 +296,11 @@ public class ResultColumn {
 		 * @return ColumnNullable
 		 */
 		public static ColumnNullable of(final int nullable) {
-			switch (nullable) {
-				case ResultSetMetaData.columnNoNulls:
-					return NO_NULLS;
-				case ResultSetMetaData.columnNullable:
-					return NULLABLE;
-				default:
-					return UNKNOWN;
-			}
+			return switch (nullable) {
+				case ResultSetMetaData.columnNoNulls -> NO_NULLS;
+				case ResultSetMetaData.columnNullable -> NULLABLE;
+				default -> UNKNOWN;
+			};
 		}
 
 		final int value;

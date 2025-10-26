@@ -89,12 +89,11 @@ public class MultipartRequestInputStream extends BufferedInputStream {
 		//noinspection StatementWithEmptyBody
 		while ((b = readByte()) <= ' ') {
 		}
-		boundaryOutput.write(b);
 
 		// now read boundary chars
-		while ((b = readByte()) != '\r') {
+		do {
 			boundaryOutput.write(b);
-		}
+		} while ((b = readByte()) != '\r');
 		if (boundaryOutput.size() == 0) {
 			throw new IOException("Problems with parsing request: invalid boundary");
 		}
@@ -170,7 +169,7 @@ public class MultipartRequestInputStream extends BufferedInputStream {
 			data.write(b);
 		}
 		skipBytes(3);
-		return charset == null ? data.toString() : data.toString(charset.name());
+		return charset == null ? data.toString() : data.toString(charset);
 	}
 	// ---------------------------------------------------------------- copy
 

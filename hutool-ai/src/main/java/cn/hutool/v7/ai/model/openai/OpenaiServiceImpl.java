@@ -72,7 +72,7 @@ public class OpenaiServiceImpl extends BaseAIService implements OpenaiService {
 	@Override
 	public void chat(List<Message> messages, Consumer<String> callback) {
 		Map<String, Object> paramMap = buildChatStreamRequestBody(messages);
-		ThreadUtil.newThread(() -> sendPostStream(CHAT_ENDPOINT, paramMap, callback::accept), "openai-chat-sse").start();
+		ThreadUtil.newThread(() -> sendPostStream(CHAT_ENDPOINT, paramMap, callback), "openai-chat-sse").start();
 	}
 
 	@Override
@@ -85,7 +85,7 @@ public class OpenaiServiceImpl extends BaseAIService implements OpenaiService {
 	@Override
 	public void chatVision(String prompt, List<String> images, String detail, Consumer<String> callback) {
 		Map<String, Object> paramMap = buildChatVisionStreamRequestBody(prompt, images, detail);
-		ThreadUtil.newThread(() -> sendPostStream(CHAT_ENDPOINT, paramMap, callback::accept), "openai-chatVision-sse").start();
+		ThreadUtil.newThread(() -> sendPostStream(CHAT_ENDPOINT, paramMap, callback), "openai-chatVision-sse").start();
 	}
 
 	@Override
@@ -147,7 +147,7 @@ public class OpenaiServiceImpl extends BaseAIService implements OpenaiService {
 	@Override
 	public void chatReasoning(List<Message> messages, String reasoningEffort, Consumer<String> callback) {
 		Map<String, Object> paramMap = buildChatReasoningStreamRequestBody(messages, reasoningEffort);
-		ThreadUtil.newThread(() -> sendPostStream(CHAT_ENDPOINT, paramMap, callback::accept), "openai-chatReasoning-sse").start();
+		ThreadUtil.newThread(() -> sendPostStream(CHAT_ENDPOINT, paramMap, callback), "openai-chatReasoning-sse").start();
 	}
 
 	// 构建chat请求体

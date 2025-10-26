@@ -76,31 +76,16 @@ public class RomanNumberFormatter {
 		final char[] charArray = roman.toCharArray();
 		for (int i = charArray.length - 1; i >= 0; i--) {
 			final char c = charArray[i];
-			switch (c) {
-				case 'I':
-					currValue = 1;
-					break;
-				case 'V':
-					currValue = 5;
-					break;
-				case 'X':
-					currValue = 10;
-					break;
-				case 'L':
-					currValue = 50;
-					break;
-				case 'C':
-					currValue = 100;
-					break;
-				case 'D':
-					currValue = 500;
-					break;
-				case 'M':
-					currValue = 1000;
-					break;
-				default:
-					throw new IllegalArgumentException("Invalid Roman character: " + c);
-			}
+			currValue = switch (c) {
+				case 'I' -> 1;
+				case 'V' -> 5;
+				case 'X' -> 10;
+				case 'L' -> 50;
+				case 'C' -> 100;
+				case 'D' -> 500;
+				case 'M' -> 1000;
+				default -> throw new IllegalArgumentException("Invalid Roman character: " + c);
+			};
 			if (currValue < prevValue) {
 				result -= currValue;
 			} else {

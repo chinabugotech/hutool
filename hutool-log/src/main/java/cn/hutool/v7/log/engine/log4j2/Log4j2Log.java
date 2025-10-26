@@ -128,26 +128,14 @@ public class Log4j2Log extends AbstractLog {
 	// ------------------------------------------------------------------------- Log
 	@Override
 	public void log(final String fqcn, final cn.hutool.v7.log.level.Level level, final Throwable t, final String format, final Object... arguments) {
-		final Level log4j2Level;
-		switch (level) {
-			case TRACE:
-				log4j2Level = Level.TRACE;
-				break;
-			case DEBUG:
-				log4j2Level = Level.DEBUG;
-				break;
-			case INFO:
-				log4j2Level = Level.INFO;
-				break;
-			case WARN:
-				log4j2Level = Level.WARN;
-				break;
-			case ERROR:
-				log4j2Level = Level.ERROR;
-				break;
-			default:
-				throw new Error(StrUtil.format("Can not identify level: {}", level));
-		}
+		final Level log4j2Level = switch (level) {
+			case TRACE -> Level.TRACE;
+			case DEBUG -> Level.DEBUG;
+			case INFO -> Level.INFO;
+			case WARN -> Level.WARN;
+			case ERROR -> Level.ERROR;
+			default -> throw new Error(StrUtil.format("Can not identify level: {}", level));
+		};
 		logIfEnabled(fqcn, log4j2Level, t, format, arguments);
 	}
 

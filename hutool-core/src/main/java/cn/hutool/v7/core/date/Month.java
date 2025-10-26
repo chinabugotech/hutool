@@ -142,17 +142,11 @@ public enum Month {
 	 * @return 此月份最后一天的值
 	 */
 	public int getLastDay(final boolean isLeapYear) {
-		switch (this) {
-			case FEBRUARY:
-				return isLeapYear ? 29 : 28;
-			case APRIL:
-			case JUNE:
-			case SEPTEMBER:
-			case NOVEMBER:
-				return 30;
-			default:
-				return 31;
-		}
+		return switch (this) {
+			case FEBRUARY -> isLeapYear ? 29 : 28;
+			case APRIL, JUNE, SEPTEMBER, NOVEMBER -> 30;
+			default -> 31;
+		};
 	}
 
 	/**
@@ -249,13 +243,11 @@ public enum Month {
 				case '九':
 					return SEPTEMBER;
 				case '十':
-					switch (Character.toLowerCase(name.charAt(1))){
-						case '一':
-							return NOVEMBER;
-						case '二':
-							return DECEMBER;
-					}
-					return OCTOBER;
+					return switch (Character.toLowerCase(name.charAt(1))) {
+						case '一' -> NOVEMBER;
+						case '二' -> DECEMBER;
+						default -> OCTOBER;
+					};
 			}
 		}
 

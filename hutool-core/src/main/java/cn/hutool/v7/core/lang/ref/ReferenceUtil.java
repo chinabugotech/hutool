@@ -60,16 +60,12 @@ public class ReferenceUtil {
 	 * @return {@link Reference}
 	 */
 	public static <T> Reference<T> of(final ReferenceType type, final T referent, final ReferenceQueue<T> queue) {
-		switch (type) {
-			case SOFT:
-				return new SoftReference<>(referent, queue);
-			case WEAK:
-				return new WeakReference<>(referent, queue);
-			case PHANTOM:
-				return new PhantomReference<>(referent, queue);
-			default:
-				return null;
-		}
+		return switch (type) {
+			case SOFT -> new SoftReference<>(referent, queue);
+			case WEAK -> new WeakReference<>(referent, queue);
+			case PHANTOM -> new PhantomReference<>(referent, queue);
+			default -> null;
+		};
 	}
 
 	/**

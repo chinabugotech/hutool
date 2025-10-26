@@ -33,13 +33,9 @@ public enum Method {
 	public boolean isIgnoreBody() {
 		//https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Methods/OPTIONS
 		// OPTIONS请求可以带有响应体
-		switch (this){
-			case HEAD:
-			case CONNECT:
-			case TRACE:
-				return true;
-			default:
-				return false;
-		}
+		return switch (this) {
+			case HEAD, CONNECT, TRACE -> true;
+			default -> false;
+		};
 	}
 }

@@ -297,7 +297,7 @@ public class SheetDataSaxHandler extends DefaultHandler {
 
 		final String contentStr = StrUtil.trim(lastContent);
 		final Object value;
-		if(this.lastFormula.length() > 0){
+		if(!this.lastFormula.isEmpty()){
 			if(CellDataType.NULL == this.cellDataType){
 				// 对于公式，默认值类型为数字
 				this.cellDataType = CellDataType.NUMBER;

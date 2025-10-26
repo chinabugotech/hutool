@@ -197,7 +197,6 @@ public class HttpHeaderUtil {
 				this.value = split.get(2);
 			} else {
 				this.value = StrUtil.unWrap(value, '"');
-				;
 			}
 		}
 

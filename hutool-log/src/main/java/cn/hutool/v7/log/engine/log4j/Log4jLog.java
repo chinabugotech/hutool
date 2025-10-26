@@ -129,26 +129,14 @@ public class Log4jLog extends AbstractLog {
 	// ------------------------------------------------------------------------- Log
 	@Override
 	public void log(final String fqcn, final cn.hutool.v7.log.level.Level level, final Throwable t, final String format, final Object... arguments) {
-		final Level log4jLevel;
-		switch (level) {
-			case TRACE:
-				log4jLevel = Level.TRACE;
-				break;
-			case DEBUG:
-				log4jLevel = Level.DEBUG;
-				break;
-			case INFO:
-				log4jLevel = Level.INFO;
-				break;
-			case WARN:
-				log4jLevel = Level.WARN;
-				break;
-			case ERROR:
-				log4jLevel = Level.ERROR;
-				break;
-			default:
-				throw new Error(StrUtil.format("Can not identify level: {}", level));
-		}
+		final Level log4jLevel = switch (level) {
+			case TRACE -> Level.TRACE;
+			case DEBUG -> Level.DEBUG;
+			case INFO -> Level.INFO;
+			case WARN -> Level.WARN;
+			case ERROR -> Level.ERROR;
+			default -> throw new Error(StrUtil.format("Can not identify level: {}", level));
+		};
 
 		if(logger.isEnabled(log4jLevel)) {
 			//Log4j2的API设计已内置类名自动获取能力

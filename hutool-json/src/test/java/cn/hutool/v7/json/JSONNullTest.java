@@ -23,11 +23,12 @@ public class JSONNullTest {
 
 	@Test
 	public void parseNullTest(){
-		final JSONObject bodyjson = JSONUtil.parseObj("{\n" +
-				"            \"device_model\": null,\n" +
-				"            \"device_status_date\": null,\n" +
-				"            \"imsi\": null,\n" +
-				"            \"act_date\": \"2021-07-23T06:23:26.000+00:00\"}");
+		final JSONObject bodyjson = JSONUtil.parseObj("""
+			{
+			            "device_model": null,
+			            "device_status_date": null,
+			            "imsi": null,
+			            "act_date": "2021-07-23T06:23:26.000+00:00"}""");
 		Assertions.assertNull(bodyjson.get("device_model"));
 		Assertions.assertNull(bodyjson.get("device_status_date"));
 		Assertions.assertNull(bodyjson.get("imsi"));
@@ -38,11 +39,12 @@ public class JSONNullTest {
 
 	@Test
 	public void parseNullTest2(){
-		final JSONObject bodyjson = JSONUtil.parseObj("{\n" +
-				"            \"device_model\": null,\n" +
-				"            \"device_status_date\": null,\n" +
-				"            \"imsi\": null,\n" +
-				"            \"act_date\": \"2021-07-23T06:23:26.000+00:00\"}");
+		final JSONObject bodyjson = JSONUtil.parseObj("""
+			{
+			            "device_model": null,
+			            "device_status_date": null,
+			            "imsi": null,
+			            "act_date": "2021-07-23T06:23:26.000+00:00"}""");
 		Assertions.assertFalse(bodyjson.containsKey("device_model"));
 		Assertions.assertFalse(bodyjson.containsKey("device_status_date"));
 		Assertions.assertFalse(bodyjson.containsKey("imsi"));

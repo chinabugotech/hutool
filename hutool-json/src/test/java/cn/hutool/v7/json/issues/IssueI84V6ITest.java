@@ -27,9 +27,10 @@ public class IssueI84V6ITest {
 		final String formatJsonStr = JSONUtil.formatJsonStr(a1);
 //		Console.log(formatJsonStr);
 		Assertions.assertEquals(
-			"{\n" +
-			"  'x': '\\n',\n" +
-			"  'y': ','\n" +
-			"}", formatJsonStr);
+			"""
+				{
+				  'x': '\\n',
+				  'y': ','
+				}""", formatJsonStr);
 	}
 }

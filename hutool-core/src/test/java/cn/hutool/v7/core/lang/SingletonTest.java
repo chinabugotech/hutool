@@ -16,14 +16,12 @@
 
 package cn.hutool.v7.core.lang;
 
-import lombok.Data;
 import cn.hutool.v7.core.exception.HutoolException;
 import cn.hutool.v7.core.thread.ThreadUtil;
+import lombok.Data;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.condition.DisabledOnJre;
-import org.junit.jupiter.api.condition.JRE;
 
 import java.time.Duration;
 import java.util.concurrent.LinkedBlockingQueue;

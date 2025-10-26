@@ -71,7 +71,7 @@ public class HutoolServiceImpl extends BaseAIService implements HutoolService {
 	@Override
 	public void chat(List<Message> messages,Consumer<String> callback) {
 		Map<String, Object> paramMap = buildChatStreamRequestBody(messages);
-		ThreadUtil.newThread(() -> sendPostStream(CHAT_ENDPOINT, paramMap, callback::accept), "hutool-chat-sse").start();
+		ThreadUtil.newThread(() -> sendPostStream(CHAT_ENDPOINT, paramMap, callback), "hutool-chat-sse").start();
 	}
 
 	@Override
@@ -85,7 +85,7 @@ public class HutoolServiceImpl extends BaseAIService implements HutoolService {
 	public void chatVision(String prompt, List<String> images, String detail, Consumer<String> callback) {
 		Map<String, Object> paramMap = buildChatVisionStreamRequestBody(prompt, images, detail);
 		System.out.println(JSONUtil.toJsonStr(paramMap));
-		ThreadUtil.newThread(() -> sendPostStream(CHAT_ENDPOINT, paramMap, callback::accept), "hutool-chatVision-sse").start();
+		ThreadUtil.newThread(() -> sendPostStream(CHAT_ENDPOINT, paramMap, callback), "hutool-chatVision-sse").start();
 	}
 
 	@Override

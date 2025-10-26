@@ -46,27 +46,21 @@ public class EnumConvertTest {
 		A, B, C;
 
 		public static TestEnum parse(final String str) {
-			switch (str) {
-				case "AAA":
-					return A;
-				case "BBB":
-					return B;
-				case "CCC":
-					return C;
-			}
-			return null;
+			return switch (str) {
+				case "AAA" -> A;
+				case "BBB" -> B;
+				case "CCC" -> C;
+				default -> null;
+			};
 		}
 
 		public static TestEnum parseByNumber(final int i) {
-			switch (i) {
-				case 11:
-					return A;
-				case 22:
-					return B;
-				case 33:
-					return C;
-			}
-			return null;
+			return switch (i) {
+				case 11 -> A;
+				case 22 -> B;
+				case 33 -> C;
+				default -> null;
+			};
 		}
 	}
 }

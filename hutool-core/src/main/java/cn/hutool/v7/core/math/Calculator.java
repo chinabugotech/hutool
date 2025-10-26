@@ -165,26 +165,14 @@ public class Calculator {
 	 * @return 结果
 	 */
 	private BigDecimal calculate(final String firstValue, final String secondValue, final char currentOp) {
-		final BigDecimal result;
-		switch (currentOp) {
-			case '+':
-				result = NumberUtil.add(firstValue, secondValue);
-				break;
-			case '-':
-				result = NumberUtil.sub(firstValue, secondValue);
-				break;
-			case '*':
-				result = NumberUtil.mul(firstValue, secondValue);
-				break;
-			case '/':
-				result = NumberUtil.div(firstValue, secondValue);
-				break;
-			case '%':
-				result = NumberUtil.toBigDecimal(firstValue).remainder(NumberUtil.toBigDecimal(secondValue));
-				break;
-			default:
-				throw new IllegalStateException("Unexpected value: " + currentOp);
-		}
+		final BigDecimal result = switch (currentOp) {
+			case '+' -> NumberUtil.add(firstValue, secondValue);
+			case '-' -> NumberUtil.sub(firstValue, secondValue);
+			case '*' -> NumberUtil.mul(firstValue, secondValue);
+			case '/' -> NumberUtil.div(firstValue, secondValue);
+			case '%' -> NumberUtil.toBigDecimal(firstValue).remainder(NumberUtil.toBigDecimal(secondValue));
+			default -> throw new IllegalStateException("Unexpected value: " + currentOp);
+		};
 		return result;
 	}
 

@@ -29,16 +29,12 @@ public class ProxyBeanTest {
 	void proxyTest() {
 		final IBean bean = ProxyUtil.newProxyInstance((proxy, method, args) -> {
 			final String name = method.getName();
-			switch (name){
-				case "getName":
-					return "hutool";
-				case "setName":
-				case "setAge":
-					return null;
-				case "getAge":
-					return 1;
-			}
-			throw new HutoolException("No method name: " + name);
+			return switch (name) {
+				case "getName" -> "hutool";
+				case "setName", "setAge" -> null;
+				case "getAge" -> 1;
+				default -> throw new HutoolException("No method name: " + name);
+			};
 		}, IBean.class);
 
 		// 测试代理类的Bean拷贝

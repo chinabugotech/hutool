@@ -19,7 +19,6 @@ package cn.hutool.v7.cron.pattern;
 import cn.hutool.v7.core.date.DateField;
 import cn.hutool.v7.core.date.DateTime;
 import cn.hutool.v7.core.date.DateUtil;
-import cn.hutool.v7.core.lang.Console;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

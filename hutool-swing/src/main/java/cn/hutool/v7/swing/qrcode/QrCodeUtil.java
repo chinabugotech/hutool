@@ -171,17 +171,11 @@ public class QrCodeUtil {
 	 * @since 4.1.2
 	 */
 	public static void generate(final String content, final QrConfig config, final String imageType, final OutputStream out) {
-		final BitMatrixRender render;
-		switch (imageType) {
-			case QR_TYPE_SVG:
-				render = new SVGRender(config);
-				break;
-			case QR_TYPE_TXT:
-				render = new AsciiArtRender(config);
-				break;
-			default:
-				render = new ImageRender(config, imageType);
-		}
+		final BitMatrixRender render = switch (imageType) {
+			case QR_TYPE_SVG -> new SVGRender(config);
+			case QR_TYPE_TXT -> new AsciiArtRender(config);
+			default -> new ImageRender(config, imageType);
+		};
 		render.render(encode(content, config), out);
 	}
 

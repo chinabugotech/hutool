@@ -172,30 +172,15 @@ public class TinyLog extends AbstractLog {
 	 * @since 4.0.3
 	 */
 	private Level toTinyLevel(final cn.hutool.v7.log.level.Level level) {
-		final Level tinyLevel;
-		switch (level) {
-			case TRACE:
-				tinyLevel = Level.TRACE;
-				break;
-			case DEBUG:
-				tinyLevel = Level.DEBUG;
-				break;
-			case INFO:
-				tinyLevel = Level.INFO;
-				break;
-			case WARN:
-				tinyLevel = Level.WARN;
-				break;
-			case ERROR:
-				tinyLevel = Level.ERROR;
-				break;
-			case OFF:
-				tinyLevel = Level.OFF;
-				break;
-			default:
-				throw new Error(StrUtil.format("Can not identify level: {}", level));
-		}
-		return tinyLevel;
+		return switch (level) {
+			case TRACE -> Level.TRACE;
+			case DEBUG -> Level.DEBUG;
+			case INFO -> Level.INFO;
+			case WARN -> Level.WARN;
+			case ERROR -> Level.ERROR;
+			case OFF -> Level.OFF;
+			default -> throw new Error(StrUtil.format("Can not identify level: {}", level));
+		};
 	}
 
 	/**

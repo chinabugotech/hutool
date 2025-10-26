@@ -79,7 +79,7 @@ public class LRUCache<K, V> extends LockedCache<K, V> {
 	 */
 	@Override
 	protected int pruneCache() {
-		if (isPruneExpiredActive() == false) {
+		if (!isPruneExpiredActive()) {
 			return 0;
 		}
 		int count = 0;

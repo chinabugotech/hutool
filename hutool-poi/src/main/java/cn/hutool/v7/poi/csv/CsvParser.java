@@ -226,7 +226,7 @@ public final class CsvParser extends ComputeIter<CsvRow> implements Closeable, S
 		while (true) {
 			c = tokener.next();
 			if(c < 0){
-				if (currentField.length() > 0 || preChar == config.fieldSeparator) {
+				if (!currentField.isEmpty() || preChar == config.fieldSeparator) {
 					if(this.inQuotes){
 						// 未闭合的文本包装，在末尾补充包装符
 						currentField.append(config.textDelimiter);

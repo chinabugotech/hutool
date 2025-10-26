@@ -138,7 +138,7 @@ public interface HttpStatus {
 	 * HTTP 1.1 Status-Code 307: Temporary Redirect.<br>
 	 * 由于不可预见的原因该页面暂不可用。当站点支持非 GET 方法的链接或操作的时候，该状态码优于 302 状态码。<br>
 	 * 方法和消息主体都不发生变化。<br>
-	 * 见：https://www.rfc-editor.org/rfc/rfc7231#section-6.4.7
+	 * 见：<a href="https://www.rfc-editor.org/rfc/rfc7231#section-6.4.7">rfc7231#section-6.4.7</a>
 	 */
 	int HTTP_TEMP_REDIRECT = 307;
 
@@ -363,23 +363,17 @@ public interface HttpStatus {
 		if(responseCode < 300){
 			return false;
 		}
-		switch (responseCode){
-			case HTTP_MOVED_PERM:
-			case HTTP_MOVED_TEMP:
-			case HTTP_SEE_OTHER:
-				// issue#1504@Github，307和308是RFC 7538中http 1.1定义的规范
-			case HTTP_TEMP_REDIRECT:
-			case HTTP_PERMANENT_REDIRECT:
-				return true;
-			default:
-				return false;
-		}
+		return switch (responseCode) {
+			// issue#1504@Github，307和308是RFC 7538中http 1.1定义的规范
+			case HTTP_MOVED_PERM, HTTP_MOVED_TEMP, HTTP_SEE_OTHER, HTTP_TEMP_REDIRECT, HTTP_PERMANENT_REDIRECT -> true;
+			default -> false;
+		};
 	}
 
 	/**
 	 * 是否为重定后请求变更为GET方法，307、308方法消息主体都不发生变化，见：<br>
 	 * <ul>
-	 *     <li>https://www.rfc-editor.org/rfc/rfc7231#section-6.4.7</li>
+	 *     <li><a href="https://www.rfc-editor.org/rfc/rfc7231#section-6.4.7">rfc7231#section-6.4.7</a></li>
 	 *     <li>https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Redirections</li>
 	 * </ul>
 	 *

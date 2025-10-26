@@ -127,7 +127,7 @@ public class StrMatcher {
 			}
 		}
 
-		if (part.length() > 0) {
+		if (!part.isEmpty()) {
 			patterns.add(part.toString());
 		}
 		return patterns;

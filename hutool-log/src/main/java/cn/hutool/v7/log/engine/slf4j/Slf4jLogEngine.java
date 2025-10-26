@@ -16,15 +16,14 @@
 
 package cn.hutool.v7.log.engine.slf4j;
 
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
-
+import cn.hutool.v7.core.util.CharsetUtil;
 import cn.hutool.v7.log.AbsLogEngine;
+import cn.hutool.v7.log.Log;
 import org.slf4j.LoggerFactory;
 import org.slf4j.helpers.NOPLoggerFactory;
 
-import cn.hutool.v7.log.Log;
+import java.io.OutputStream;
+import java.io.PrintStream;
 
 /**
  * <a href="http://www.slf4j.org/">SLF4J</a> log.<br>
@@ -57,16 +56,12 @@ public class Slf4jLogEngine extends AbsLogEngine {
 		// the console during automatic detection.
 		final StringBuilder buf = new StringBuilder();
 		final PrintStream err = System.err;
-		try {
-			System.setErr(new PrintStream(new OutputStream() {
-				@Override
-				public void write(final int b) {
-					buf.append((char) b);
-				}
-			}, true, "US-ASCII"));
-		} catch (final UnsupportedEncodingException e) {
-			throw new Error(e);
-		}
+		System.setErr(new PrintStream(new OutputStream() {
+			@Override
+			public void write(final int b) {
+				buf.append((char) b);
+			}
+		}, true, CharsetUtil.US_ASCII));
 
 		try {
 			if (LoggerFactory.getILoggerFactory() instanceof NOPLoggerFactory) {

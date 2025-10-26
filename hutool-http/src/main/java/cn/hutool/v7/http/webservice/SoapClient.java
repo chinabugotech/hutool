@@ -16,7 +16,6 @@
 
 package cn.hutool.v7.http.webservice;
 
-import jakarta.xml.soap.*;
 import cn.hutool.v7.core.collection.CollUtil;
 import cn.hutool.v7.core.map.MapUtil;
 import cn.hutool.v7.core.text.StrUtil;
@@ -27,6 +26,7 @@ import cn.hutool.v7.http.client.HeaderOperation;
 import cn.hutool.v7.http.client.Request;
 import cn.hutool.v7.http.client.Response;
 import cn.hutool.v7.http.meta.Method;
+import jakarta.xml.soap.*;
 
 import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
@@ -64,7 +64,7 @@ public class SoapClient implements HeaderOperation<SoapClient> {
 	 * XML消息体的Content-Type
 	 * soap1.1 : text/xml
 	 * soap1.2 : application/soap+xml
-	 * soap1.1与soap1.2区别:  https://www.cnblogs.com/qlqwjy/p/7577147.html
+	 * soap1.1与soap1.2区别:  <a href="https://www.cnblogs.com/qlqwjy/p/7577147.html">https://www.cnblogs.com/qlqwjy/p/7577147.html</a>
 	 */
 	private static final String CONTENT_TYPE_SOAP11_TEXT_XML = "text/xml;charset=";
 	private static final String CONTENT_TYPE_SOAP12_SOAP_XML = "application/soap+xml;charset=";
@@ -568,14 +568,10 @@ public class SoapClient implements HeaderOperation<SoapClient> {
 	 * @return 请求的Content-Type
 	 */
 	private String getXmlContentType() {
-		switch (this.protocol) {
-			case SOAP_1_1:
-				return CONTENT_TYPE_SOAP11_TEXT_XML.concat(this.charset.toString());
-			case SOAP_1_2:
-				return CONTENT_TYPE_SOAP12_SOAP_XML.concat(this.charset.toString());
-			default:
-				throw new SoapRuntimeException("Unsupported protocol: {}", this.protocol);
-		}
+		return switch (this.protocol) {
+			case SOAP_1_1 -> CONTENT_TYPE_SOAP11_TEXT_XML.concat(this.charset.toString());
+			case SOAP_1_2 -> CONTENT_TYPE_SOAP12_SOAP_XML.concat(this.charset.toString());
+		};
 	}
 
 	/**

@@ -109,7 +109,7 @@ public class Ipv4Util implements Ipv4Pool {
 	 * <p>
 	 * 此方法不会抛出异常，获取失败将返回{@code null}<br>
 	 * <p>
-	 * 见：https://github.com/chinabugotech/hutool/issues/428
+	 * 见：<a href="https://github.com/chinabugotech/hutool/issues/428">issues#428</a>
 	 *
 	 * @return 本机网卡IP地址，获取失败返回{@code null}
 	 */
@@ -129,7 +129,7 @@ public class Ipv4Util implements Ipv4Pool {
 	 * <p>
 	 * 此方法不会抛出异常，获取失败将返回{@code null}<br>
 	 * <p>
-	 * 见：https://github.com/chinabugotech/hutool/issues/428
+	 * 见：<a href="https://github.com/chinabugotech/hutool/issues/428">issues#428</a>
 	 *
 	 * @return 本机网卡IP地址，获取失败返回{@code null}
 	 */
@@ -149,7 +149,7 @@ public class Ipv4Util implements Ipv4Pool {
 	 * <p>
 	 * 此方法不会抛出异常，获取失败将返回{@code null}<br>
 	 * <p>
-	 * 见：https://github.com/chinabugotech/hutool/issues/428
+	 * 见：<a href="https://github.com/chinabugotech/hutool/issues/428">issues#428</a>
 	 *
 	 * @param includeSiteLocal 是否包含局域网地址，如10.0.0.0 ~ 10.255.255.255、172.16.0.0 ~ 172.31.255.255、192.168.0.0 ~ 192.168.255.255
 	 * @return 本机网卡IP地址，获取失败返回{@code null}
@@ -580,18 +580,13 @@ public class Ipv4Util implements Ipv4Pool {
 	 * @since 6.0.0
 	 */
 	public static int getPartOfIp(final long ip, final int position) {
-		switch (position) {
-			case 1:
-				return (int) (ip >> 24) & 0xFF;
-			case 2:
-				return (int) (ip >> 16) & 0xFF;
-			case 3:
-				return (int) (ip >> 8) & 0xFF;
-			case 4:
-				return (int) ip & 0xFF;
-			default:
-				throw new IllegalArgumentException("Illegal position of ip Long: " + position);
-		}
+		return switch (position) {
+			case 1 -> (int) (ip >> 24) & 0xFF;
+			case 2 -> (int) (ip >> 16) & 0xFF;
+			case 3 -> (int) (ip >> 8) & 0xFF;
+			case 4 -> (int) ip & 0xFF;
+			default -> throw new IllegalArgumentException("Illegal position of ip Long: " + position);
+		};
 	}
 
 	/**

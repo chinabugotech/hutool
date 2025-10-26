@@ -147,7 +147,6 @@ public class ChineseNumberFormatter {
 	 */
 	public ChineseNumberFormatter setUnitName(final String unitName) {
 		this.unitName = Assert.notNull(unitName);
-		;
 		return this;
 	}
 	// endregion

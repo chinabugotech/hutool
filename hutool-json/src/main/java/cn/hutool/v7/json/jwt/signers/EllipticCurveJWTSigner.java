@@ -23,7 +23,7 @@ import java.security.KeyPair;
 
 /**
  * 椭圆曲线（Elliptic Curve）的JWT签名器。<br>
- * 按照https://datatracker.ietf.org/doc/html/rfc7518#section-3.4,<br>
+ * 按照<a href="https://datatracker.ietf.org/doc/html/rfc7518#section-3.4">rfc7518#section-3.4</a>,<br>
  * Elliptic Curve Digital Signature Algorithm (ECDSA)算法签名需要转换DER格式为pair (R, S)
  *
  * @author Looly
@@ -71,19 +71,12 @@ public class EllipticCurveJWTSigner extends AsymmetricJWTSigner {
 	 * @throws JWTException JWT异常
 	 */
 	private static int getSignatureByteArrayLength(final String alg) throws JWTException {
-		switch (alg) {
-			case "ES256":
-			case "SHA256withECDSA":
-				return 64;
-			case "ES384":
-			case "SHA384withECDSA":
-				return 96;
-			case "ES512":
-			case "SHA512withECDSA":
-				return 132;
-			default:
-				throw new JWTException("Unsupported Algorithm: {}", alg);
-		}
+		return switch (alg) {
+			case "ES256", "SHA256withECDSA" -> 64;
+			case "ES384", "SHA384withECDSA" -> 96;
+			case "ES512", "SHA512withECDSA" -> 132;
+			default -> throw new JWTException("Unsupported Algorithm: {}", alg);
+		};
 	}
 
 	/**

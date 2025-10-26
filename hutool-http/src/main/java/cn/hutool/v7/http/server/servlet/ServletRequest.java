@@ -16,13 +16,12 @@
 
 package cn.hutool.v7.http.server.servlet;
 
-import jakarta.servlet.http.HttpServletRequest;
 import cn.hutool.v7.http.server.handler.ServerRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 /**

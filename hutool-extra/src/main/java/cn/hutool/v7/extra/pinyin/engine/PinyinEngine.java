@@ -38,7 +38,7 @@ public interface PinyinEngine {
 	 */
 	default String getPinyin(final char c){
 		return getPinyin(c, false);
-	};
+	}
 
 	/**
 	 * 如果c为汉字，则返回大写拼音；如果c不是汉字，则返回String.valueOf(c)

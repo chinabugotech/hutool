@@ -29,15 +29,17 @@ import org.junit.jupiter.api.Test;
  */
 public class JAXBUtilTest {
 
-	private final String xmlStr = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
-			"<school>\n" +
-			"    <school_name>西安市第一中学</school_name>\n" +
-			"    <school_address>西安市雁塔区长安堡一号</school_address>\n" +
-			"    <room>\n" +
-			"        <room_no>101</room_no>\n" +
-			"        <room_name>101教室</room_name>\n" +
-			"    </room>\n" +
-			"</school>\n";
+	private final String xmlStr = """
+		<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+		<school>
+		    <school_name>西安市第一中学</school_name>
+		    <school_address>西安市雁塔区长安堡一号</school_address>
+		    <room>
+		        <room_no>101</room_no>
+		        <room_name>101教室</room_name>
+		    </room>
+		</school>
+		""";
 
 	@Test
 	public void beanToXmlTest() {

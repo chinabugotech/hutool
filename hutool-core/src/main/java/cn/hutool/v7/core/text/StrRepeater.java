@@ -82,7 +82,7 @@ public class StrRepeater {
 		}
 
 		final int count = this.countOrLength;
-		if (count <= 0 || str.length() == 0) {
+		if (count <= 0 || str.isEmpty()) {
 			return StrUtil.EMPTY;
 		}
 		if (count == 1) {

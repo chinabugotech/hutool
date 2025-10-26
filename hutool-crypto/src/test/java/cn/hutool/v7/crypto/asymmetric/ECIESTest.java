@@ -56,9 +56,7 @@ public class ECIESTest {
 	private void doTest(final AsymmetricCrypto cryptoForEncrypt, final AsymmetricCrypto cryptoForDecrypt){
 		final String textBase = "我是一段特别长的测试";
 		final StringBuilder text = new StringBuilder();
-		for (int i = 0; i < 10; i++) {
-			text.append(textBase);
-		}
+		text.append(textBase.repeat(10));
 
 		// 公钥加密，私钥解密
 		final String encryptStr = cryptoForEncrypt.encryptBase64(text.toString(), KeyType.PublicKey);

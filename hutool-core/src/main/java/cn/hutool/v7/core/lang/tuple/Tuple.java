@@ -197,7 +197,7 @@ public class Tuple implements Iterable<Object>, Serializable, Cloneable {
 			return false;
 		}
 		final Tuple other = (Tuple) obj;
-		return false != Arrays.deepEquals(members, other.members);
+		return Arrays.deepEquals(members, other.members);
 	}
 
 	@Override

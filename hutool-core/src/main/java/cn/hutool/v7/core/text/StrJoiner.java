@@ -16,11 +16,11 @@
 
 package cn.hutool.v7.core.text;
 
+import cn.hutool.v7.core.array.ArrayUtil;
 import cn.hutool.v7.core.collection.iter.ArrayIter;
 import cn.hutool.v7.core.collection.iter.IterUtil;
 import cn.hutool.v7.core.convert.ConvertUtil;
 import cn.hutool.v7.core.io.IORuntimeException;
-import cn.hutool.v7.core.array.ArrayUtil;
 
 import java.io.IOException;
 import java.io.Serial;
@@ -236,8 +236,7 @@ public class StrJoiner implements Appendable, Serializable {
 			append((Iterator<?>) obj);
 		} else if (obj instanceof Iterable) {
 			append(((Iterable<?>) obj).iterator());
-		}else if (obj instanceof Map.Entry) {
-			final Map.Entry<?, ?> entry = (Map.Entry<?, ?>) obj;
+		}else if (obj instanceof Map.Entry<?, ?> entry) {
 			append(entry.getKey()).append(entry.getValue());
 		} else {
 			append(ConvertUtil.toStr(obj));
@@ -449,9 +448,8 @@ public class StrJoiner implements Appendable, Serializable {
 	 * @param appendable {@link Appendable}
 	 */
 	private void checkHasContent(final Appendable appendable) {
-		if (appendable instanceof CharSequence) {
-			final CharSequence charSequence = (CharSequence) appendable;
-			if (charSequence.length() > 0 && StrUtil.endWith(charSequence, delimiter)) {
+		if (appendable instanceof CharSequence charSequence) {
+			if (!charSequence.isEmpty() && StrUtil.endWith(charSequence, delimiter)) {
 				this.hasContent = true;
 			}
 		} else {

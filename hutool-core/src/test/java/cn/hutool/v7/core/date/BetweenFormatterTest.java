@@ -24,20 +24,14 @@ import java.util.function.Function;
 public class BetweenFormatterTest {
 
 	Function<BetweenFormatter.Level, String> levelFormatterEn = level -> {
-		switch (level) {
-			case DAY:
-				return " day";
-			case HOUR:
-				return " hour";
-			case MINUTE:
-				return " minute";
-			case SECOND:
-				return " second";
-			case MILLISECOND:
-				return " millisecond";
-			default:
-				return " " + level.name();
-		}
+		return switch (level) {
+			case DAY -> " day";
+			case HOUR -> " hour";
+			case MINUTE -> " minute";
+			case SECOND -> " second";
+			case MILLISECOND -> " millisecond";
+			default -> " " + level.name();
+		};
 	};
 
 	@Test

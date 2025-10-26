@@ -87,7 +87,7 @@ public class JSONFormatStyle {
 	 */
 	public JSONFormatStyle(final String newline, final String indent, final boolean spaceAfterSeparators) {
 		this.newline = Assert.notNull(newline);
-		this.indent = Assert.notNull(indent);;
+		this.indent = Assert.notNull(indent);
 		this.spaceAfterSeparators = spaceAfterSeparators;
 	}
 

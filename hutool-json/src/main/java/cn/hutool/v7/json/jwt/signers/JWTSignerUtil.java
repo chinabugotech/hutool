@@ -16,7 +16,6 @@
 
 package cn.hutool.v7.json.jwt.signers;
 
-import cn.hutool.v7.core.lang.Assert;
 import cn.hutool.v7.core.regex.ReUtil;
 import cn.hutool.v7.json.jwt.JWTException;
 

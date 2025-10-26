@@ -160,19 +160,21 @@ public class JSONEngineTest {
 		if("moshi".equals(engineName)){
 			// Moshi顺序不同
 			// 使用统一换行符
-			assertEquals("{\n" +
-				"  \"age\": 18,\n" +
-				"  \"gender\": true,\n" +
-				"  \"name\": \"张三\"\n" +
-				"}", jsonString);
+			assertEquals("""
+				{
+				  "age": 18,
+				  "gender": true,
+				  "name": "张三"
+				}""", jsonString);
 			return;
 		}
 		// 使用统一换行符
-		assertEquals("{\n" +
-			"  \"name\": \"张三\",\n" +
-			"  \"age\": 18,\n" +
-			"  \"gender\": true\n" +
-			"}", jsonString);
+		assertEquals("""
+			{
+			  "name": "张三",
+			  "age": 18,
+			  "gender": true
+			}""", jsonString);
 	}
 
 	@Data

@@ -357,9 +357,7 @@ public class SqlFormatter {
 
 		private void newline() {
 			this.result.append("\n");
-			for (int i = 0; i < this.indent; i++) {
-				this.result.append(indentString);
-			}
+			this.result.append(indentString.repeat(Math.max(0, this.indent)));
 			this.beginLine = true;
 		}
 	}

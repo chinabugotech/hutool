@@ -67,7 +67,7 @@ public class GrokServiceImpl extends BaseAIService implements GrokService {
 	@Override
 	public void chat(List<Message> messages, Consumer<String> callback) {
 		Map<String, Object> paramMap = buildChatStreamRequestBody(messages);
-		ThreadUtil.newThread(() -> sendPostStream(CHAT_ENDPOINT, paramMap, callback::accept), "grok-chat-sse").start();
+		ThreadUtil.newThread(() -> sendPostStream(CHAT_ENDPOINT, paramMap, callback), "grok-chat-sse").start();
 	}
 
 	@Override
@@ -80,7 +80,7 @@ public class GrokServiceImpl extends BaseAIService implements GrokService {
 	@Override
 	public void message(List<Message> messages, int maxToken, final Consumer<String> callback) {
 		Map<String, Object> paramMap = buildMessageStreamRequestBody(messages, maxToken);
-		ThreadUtil.newThread(() -> sendPostStream(MESSAGES, paramMap, callback::accept), "grok-message-sse").start();
+		ThreadUtil.newThread(() -> sendPostStream(MESSAGES, paramMap, callback), "grok-message-sse").start();
 	}
 
 	@Override
@@ -93,7 +93,7 @@ public class GrokServiceImpl extends BaseAIService implements GrokService {
 	@Override
 	public void chatVision(String prompt, List<String> images, String detail, Consumer<String> callback) {
 		Map<String, Object> paramMap = buildChatVisionStreamRequestBody(prompt, images, detail);
-		ThreadUtil.newThread(() -> sendPostStream(CHAT_ENDPOINT, paramMap, callback::accept), "grok-chatVision-sse").start();
+		ThreadUtil.newThread(() -> sendPostStream(CHAT_ENDPOINT, paramMap, callback), "grok-chatVision-sse").start();
 	}
 
 	@Override

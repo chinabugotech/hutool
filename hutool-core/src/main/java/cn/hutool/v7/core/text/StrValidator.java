@@ -157,7 +157,7 @@ public class StrValidator {
 	 * @see #isBlank(CharSequence)
 	 */
 	public static boolean isEmpty(final CharSequence str) {
-		return str == null || str.length() == 0;
+		return str == null || str.isEmpty();
 	}
 
 	/**

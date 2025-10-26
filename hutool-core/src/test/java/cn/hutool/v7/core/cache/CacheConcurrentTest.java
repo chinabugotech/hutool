@@ -20,7 +20,6 @@ import cn.hutool.v7.core.cache.impl.FIFOCache;
 import cn.hutool.v7.core.cache.impl.LRUCache;
 import cn.hutool.v7.core.cache.impl.WeakCache;
 import cn.hutool.v7.core.exception.HutoolException;
-import cn.hutool.v7.core.func.SerSupplier;
 import cn.hutool.v7.core.lang.Console;
 import cn.hutool.v7.core.thread.ConcurrencyTester;
 import cn.hutool.v7.core.thread.ThreadUtil;
@@ -29,8 +28,6 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 

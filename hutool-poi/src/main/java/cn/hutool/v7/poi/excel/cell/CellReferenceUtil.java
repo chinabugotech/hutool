@@ -38,7 +38,7 @@ public class CellReferenceUtil {
 		}
 		final StringBuilder colName = StrUtil.builder();
 		do {
-			if (colName.length() > 0) {
+			if (!colName.isEmpty()) {
 				index--;
 			}
 			final int remainder = index % 26;

@@ -100,9 +100,7 @@ public class SM2Test {
 	public void sm2Base64Test() {
 		final String textBase = "我是一段特别长的测试";
 		final StringBuilder text = new StringBuilder();
-		for (int i = 0; i < 100; i++) {
-			text.append(textBase);
-		}
+		text.append(textBase.repeat(100));
 
 		SM2 sm2 = new SM2();
 
