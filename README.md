@@ -155,7 +155,7 @@ implementation 'cn.hutool.v7:hutool-all:7.0.0-M3'
 下载整个项目源码（v6-master或v6-dev分支都可）然后进入Hutool项目目录执行：
 
 ```sh
-./hutool.sh install   。/ hutool.sh安装
+./hutool.sh install   ./ hutool.sh安装
 ```
 
 然后就可以使用Maven引入了。
