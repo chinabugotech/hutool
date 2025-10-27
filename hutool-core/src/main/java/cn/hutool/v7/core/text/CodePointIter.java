@@ -23,7 +23,7 @@ import java.util.Iterator;
  * 参考：<a href="http://stackoverflow.com/a/21791059/6030888">http://stackoverflow.com/a/21791059/6030888</a>
  *
  * @author Looly
- * @param str
+ * @param str 字符串
  */
 public record CodePointIter(String str) implements Iterable<Integer> {
 

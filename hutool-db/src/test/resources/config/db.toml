@@ -1,0 +1,115 @@
+#
+# Copyright (c) 2013-2025 Hutool Team and hutool.cn
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+# suppress inspection "Annotator" for whole file
+#===================================================================
+# 数据库配置文件样例
+# DsFactory默认读取的配置文件是config/db.setting
+# db.setting的配置包括两部分：基本连接信息和连接池配置信息。
+# 基本连接信息所有连接池都支持，连接池配置信息根据不同的连接池，连接池配置是根据连接池相应的配置项移植而来
+#===================================================================
+
+## 打印SQL的配置
+# 是否在日志中显示执行的SQL，默认false
+showSql = true
+# 是否格式化显示的SQL，默认false
+formatSql = true
+# 是否显示SQL参数，默认false
+showParams = true
+# 打印SQL的日志等级，默认debug
+sqlLevel = "debug"
+
+# 默认数据源
+url = "jdbc:sqlite:test.db"
+remarks = true
+
+# 测试数据源
+[test]
+url = "jdbc:sqlite:test.db"
+remarks = true
+driver = "org.sqlite.JDBC"
+
+# 测试用HSQLDB数据库
+[hsqldb]
+url = "jdbc:hsqldb:mem:mem_hutool"
+user = "SA"
+pass = ""
+remarks = true
+
+# 测试用HSQLDB数据库
+[h2]
+url = "jdbc:h2:mem:h2_hutool"
+user = "sa"
+pass = ""
+remarks = true
+
+# 测试用HSQLDB数据库
+[derby]
+url = "jdbc:derby:.derby/test_db;create=true"
+remarks = true
+
+# 测试用Oracle数据库
+[orcl]
+url = "jdbc:oracle:thin:@//localhost:1521/XEPDB1"
+user = "system"
+pass = "123456"
+remarks = true
+
+[mysql]
+url = "jdbc:mysql://Looly.centos8:3306/hutool_test?useSSL=false"
+user = "root"
+pass = "123456"
+remarks = true
+
+[mariadb_local]
+url = "jdbc:mysql://localhost:3306/test?useSSL=false"
+user = "root"
+pass = "123456"
+remarks = true
+
+[postgre]
+url = "jdbc:postgresql://localhost:5432/test_hutool"
+user = "postgres"
+pass = "123456"
+remarks = true
+
+[sqlserver]
+url = "jdbc:sqlserver://Looly.database.chinacloudapi.cn:1433;database=test;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.chinacloudapi.cn;loginTimeout=30;"
+user = "Looly@Looly"
+pass = "123"
+remarks = true
+
+# 测试用达梦8数据库
+# 测试环境使用docker启动，见：https://eco.dameng.com/document/dm/zh-cn/start/dm-install-docker.html
+[dm]
+url = "jdbc:dm://localhost:5236"
+user = "SYSDBA"
+pass = "SYSDBA001"
+remarks = true
+
+# OceanBase
+# 测试环境使用docker启动，见：https://www.oceanbase.com/docs/common-oceanbase-database-cn-1000000000217958
+[ob]
+url = "jdbc:oceanbase://localhost:2881/test"
+user = "root"
+pass = "123456"
+remarks = true
+
+[hana]
+url = "jdbc:sap://localhost:30015/HAP_CONN?autoReconnect=true"
+user = "DB"
+pass = "123456"
+remarks = "true"
