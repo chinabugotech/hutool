@@ -18,7 +18,7 @@
     <a target="_blank" href="https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html">
         <img alt="" src="https://img.shields.io/badge/JDK-8+-green.svg" />
     </a>
-    <a target="_blank" href="https://travis-ci.com/chinabugotech/hutool">
+    <a target="_blank" href="https://app.travis-ci.com/chinabugotech/hutool">
         <img alt="" src="https://travis-ci.com/chinabugotech/hutool.svg?branch=v5-master" />
     </a>
     <a href="https://www.codacy.com/gh/chinabugotech/hutool/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=chinabugotech/hutool&amp;utm_campaign=Badge_Grade">
