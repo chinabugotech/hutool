@@ -20,7 +20,7 @@ import cn.hutool.v7.core.lang.Console;
 import cn.hutool.v7.db.ds.DSUtil;
 import cn.hutool.v7.db.ds.DSWrapper;
 import cn.hutool.v7.db.meta.MetaUtil;
-import cn.hutool.v7.db.meta.Table;
+import cn.hutool.v7.db.meta.TableMeta;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -29,7 +29,7 @@ public class IssueI9BANETest {
 	@Disabled
 	void metaTest() {
 		final DSWrapper ds = DSUtil.getDS("orcl");
-		final Table tableMeta = MetaUtil.getTableMeta(ds, null, null, "\"1234\"");
+		final TableMeta tableMeta = MetaUtil.getTableMeta(ds, null, null, "\"1234\"");
 		Console.log("remarks: " + tableMeta.getRemarks());
 		Console.log("pks: " + tableMeta.getPkNames());
 		Console.log("columns: " + tableMeta.getColumns());

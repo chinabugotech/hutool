@@ -83,12 +83,12 @@ public class Column implements Serializable, Cloneable {
 	 * 创建列对象
 	 *
 	 * @param columnMetaRs 列元信息的ResultSet
-	 * @param table        表信息
+	 * @param tableMeta        表信息
 	 * @return 列对象
 	 * @since 5.4.3
 	 */
-	public static Column of(final Table table, final ResultSet columnMetaRs) {
-		return new Column(table, columnMetaRs);
+	public static Column of(final TableMeta tableMeta, final ResultSet columnMetaRs) {
+		return new Column(tableMeta, columnMetaRs);
 	}
 
 	// ----------------------------------------------------- Constructor start
@@ -102,13 +102,13 @@ public class Column implements Serializable, Cloneable {
 	/**
 	 * 构造
 	 *
-	 * @param table        表信息
+	 * @param tableMeta        表信息
 	 * @param columnMetaRs Meta信息的ResultSet
 	 * @since 5.4.3
 	 */
-	public Column(final Table table, final ResultSet columnMetaRs) {
+	public Column(final TableMeta tableMeta, final ResultSet columnMetaRs) {
 		try {
-			init(table, columnMetaRs);
+			init(tableMeta, columnMetaRs);
 		} catch (final SQLException e) {
 			throw new DbException(e, "Get table [{}] meta info error!", tableName);
 		}
@@ -118,15 +118,15 @@ public class Column implements Serializable, Cloneable {
 	/**
 	 * 初始化
 	 *
-	 * @param table        表信息
+	 * @param tableMeta        表信息
 	 * @param columnMetaRs 列的meta ResultSet
 	 * @throws SQLException SQL执行异常
 	 */
-	public void init(final Table table, final ResultSet columnMetaRs) throws SQLException {
-		this.tableName = table.getTableName();
+	public void init(final TableMeta tableMeta, final ResultSet columnMetaRs) throws SQLException {
+		this.tableName = tableMeta.getTableName();
 
 		this.name = columnMetaRs.getString("COLUMN_NAME");
-		this.isPk = table.isPk(this.name);
+		this.isPk = tableMeta.isPk(this.name);
 
 		final int type = columnMetaRs.getInt("DATA_TYPE");
 		String typeName = columnMetaRs.getString("TYPE_NAME");

@@ -272,20 +272,20 @@ public class DatabaseMetaDataWrapper extends SimpleWrapper<DatabaseMetaData> {
 	/**
 	 * 从数据库元数据中获取指定表的列信息。
 	 *
-	 * @param table 表对象，用于存储获取到的列信息。
+	 * @param tableMeta 表对象，用于存储获取到的列信息。
 	 */
-	public void fetchColumns(final Table table) {
+	public void fetchColumns(final TableMeta tableMeta) {
 		final String catalog = this.catalog;
 		final String schema = this.schema;
 
 		// issue#I9BANE Oracle中特殊表名需要解包
-		final String tableName = getPureTableName(ObjUtil.defaultIfNull(table.getPureTableName(), table::getTableName));
+		final String tableName = getPureTableName(ObjUtil.defaultIfNull(tableMeta.getPureTableName(), tableMeta::getTableName));
 
 		// 获得列
 		try (final ResultSet rs = this.raw.getColumns(catalog, schema, tableName, null)) {
 			if (null != rs) {
 				while (rs.next()) {
-					table.addColumn(Column.of(table, rs));
+					tableMeta.addColumn(Column.of(tableMeta, rs));
 				}
 			}
 		} catch (final SQLException e) {

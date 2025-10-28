@@ -130,12 +130,13 @@ public interface DriverNames {
 	String DRIVER_GBASE = "com.gbase.jdbc.Driver";
 	/**
 	 * JDBC 驱动 南大通用 GBase 8s<br>
-	 * 见：https://www.gbase.cn/community/post/4029
+	 * 见：<a href="https://www.gbase.cn/community/post/4029">南大通用GBase 8s JDBC驱动URL使用指南</a>
 	 */
 	String DRIVER_GBASE8S = "com.gbasedbt.jdbc.Driver";
 	/**
 	 * JDBC 驱动 南大通用 GBase 8c<br>
-	 * 见：https://www.gbase.cn/download/gbase-8c?category=DRIVER_PACKAGE 页面 GBase8c_JDBC.zip 中的《JDBC 使用手册_V1.0_20230818.pdf》p14
+	 * 见：<a href="https://www.gbase.cn/download/gbase-8c?category=DRIVER_PACKAGE">gbase-8c?category=DRIVER_PACKAGE</a>
+	 * 页面 GBase8c_JDBC.zip 中的《JDBC 使用手册_V1.0_20230818.pdf》p14
 	 */
 	String DRIVER_GBASE8C = "cn.gbase8c.Driver";
 	/**
@@ -272,22 +273,23 @@ public interface DriverNames {
 	String DRIVER_HANA = "com.sap.db.jdbc.Driver";
 	/**
 	 * JDBC 驱动 腾讯 TDSQL PostgreSQL 版本<br>
-	 * 见：https://cloud.tencent.com/document/product/1129/116487
+	 * 见：<a href="https://cloud.tencent.com/document/product/1129/116487">使用 JDBC 连接 TDSQL PG</a>
 	 */
 	String DRIVER_TDSQL_POSTGRESQL = "com.tencentcloud.tdsql.pg.jdbc.Driver";
 	/**
 	 * JDBC 驱动 腾讯 TDSQL-H LibraDB<br>
-	 * 见：https://cloud.tencent.com/document/product/1488/79810
+	 * 见：<a href="https://cloud.tencent.com/document/product/1488/79810">使用 JDBC 连接 TDSQL-H LibraDB</a>
 	 */
 	String DRIVER_TDSQL_H_LIBRADB = "ru.yandex.clickhouse.ClickHouseDriver";
 	/**
 	 * JDBC 驱动 Snowflake<br>
-	 * 见：https://docs.snowflake.cn/zh/developer-guide/jdbc/jdbc-configure#label-jdbc-connection-string
+	 * 见：<a href="https://docs.snowflake.cn/zh/developer-guide/jdbc/jdbc-configure#label-jdbc-connection-string">Snowflake JDBC 驱动程序连接字符串</a>
 	 */
 	String DRIVER_SNOWFLAKE = "net.snowflake.client.jdbc.SnowflakeDriver";
 	/**
 	 * JDBC 驱动 Teradata<br>
-	 * 见：https://teradata-docs.s3.amazonaws.com/doc/connectivity/jdbc/reference/current/frameset.html 页面 JDBC Interfaces A-L 部分
+	 * 见：<a href="https://teradata-docs.s3.amazonaws.com/doc/connectivity/jdbc/reference/current/frameset.html">Teradata JDBC Driver Reference</a>
+	 * 页面 JDBC Interfaces A-L 部分
 	 */
 	String DRIVER_TERADATA = "com.teradata.jdbc.TeraDriver";
 }

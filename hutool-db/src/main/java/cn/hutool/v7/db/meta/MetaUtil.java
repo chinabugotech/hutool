@@ -210,7 +210,7 @@ public class MetaUtil {
 	 * @param tableName 表名
 	 * @return Table对象
 	 */
-	public static Table getTableMeta(final DataSource ds, final String tableName) {
+	public static TableMeta getTableMeta(final DataSource ds, final String tableName) {
 		return getTableMeta(ds, null, null, tableName);
 	}
 
@@ -229,7 +229,7 @@ public class MetaUtil {
 	 * @return Table对象
 	 * @since 5.7.22
 	 */
-	public static Table getTableMeta(final DataSource ds, final String catalog, final String schema, final String tableName) {
+	public static TableMeta getTableMeta(final DataSource ds, final String catalog, final String schema, final String tableName) {
 		Connection conn = null;
 		try {
 			conn = ds.getConnection();
@@ -256,37 +256,37 @@ public class MetaUtil {
 	 * @return Table对象
 	 * @since 5.8.28
 	 */
-	public static Table getTableMeta(final Connection conn, String catalog, String schema, final String tableName) {
-		final Table table = Table.of(tableName);
+	public static TableMeta getTableMeta(final Connection conn, String catalog, String schema, final String tableName) {
+		final TableMeta tableMeta = TableMeta.of(tableName);
 
 		// catalog和schema获取失败默认使用null代替
 		if (null == catalog) {
 			catalog = getCatalog(conn);
 		}
-		table.setCatalog(catalog);
+		tableMeta.setCatalog(catalog);
 		if (null == schema) {
 			schema = getSchema(conn);
 		}
-		table.setSchema(schema);
+		tableMeta.setSchema(schema);
 
 		final DatabaseMetaData metaData = getMetaData(conn);
 		final DatabaseMetaDataWrapper metaDataWrapper = DatabaseMetaDataWrapper.of(metaData, catalog, schema);
 
 		// 获取原始表名
 		final String pureTableName = metaDataWrapper.getPureTableName(tableName);
-		table.setPureTableName(pureTableName);
+		tableMeta.setPureTableName(pureTableName);
 
 		// 获得表元数据（表注释）
-		table.setRemarks(metaDataWrapper.getRemarks(pureTableName));
+		tableMeta.setRemarks(metaDataWrapper.getRemarks(pureTableName));
 		// 获得主键
-		table.setPkNames(metaDataWrapper.getPrimaryKeys(pureTableName));
+		tableMeta.setPkNames(metaDataWrapper.getPrimaryKeys(pureTableName));
 		// 获得列
-		metaDataWrapper.fetchColumns(table);
+		metaDataWrapper.fetchColumns(tableMeta);
 		// 获得索引信息(since 5.7.23)
 		final Map<String, IndexInfo> indexInfoMap = metaDataWrapper.getIndexInfo(tableName);
-		table.setIndexInfoList(ListUtil.of(indexInfoMap.values()));
+		tableMeta.setIndexInfoList(ListUtil.of(indexInfoMap.values()));
 
-		return table;
+		return tableMeta;
 	}
 
 	/**

@@ -26,7 +26,7 @@ import cn.hutool.v7.core.text.StrUtil;
  */
 public class ColumnType {
 	/**
-	 * 类型，对应java.sql.Types中的类型
+	 * 类型，对应{@link java.sql.Types}中的类型
 	 */
 	private int type;
 	/**
@@ -37,7 +37,7 @@ public class ColumnType {
 	/**
 	 * 构造
 	 *
-	 * @param type     类型，对应java.sql.Types中的类型
+	 * @param type     类型，对应{@link java.sql.Types}中的类型
 	 * @param typeName 类型名称
 	 * @param size     大小或数据长度
 	 */

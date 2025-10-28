@@ -11,7 +11,7 @@ public class MysqlTableGeneratorTest {
 
 	@Test
 	public void testGenerateCreateTableSql_WithIndexes() {
-		Table table = new Table("products");
+		TableMeta tableMeta = new TableMeta("products");
 
 		// 列定义
 		Column idCol = new Column().setName("id").setType(new ColumnType(-5, "BIGINT", 20));
@@ -27,10 +27,10 @@ public class MysqlTableGeneratorTest {
 		ColumnIndex priceIdxCol = new ColumnIndex("price", "D");
 		normalIndex.setColumnIndexInfoList(Collections.singletonList(priceIdxCol));
 
-		table.addColumn(idCol).addColumn(nameCol).addColumn(priceCol);
-		table.setIndexInfoList(Arrays.asList(uniqueIndex, normalIndex));
+		tableMeta.addColumn(idCol).addColumn(nameCol).addColumn(priceCol);
+		tableMeta.setIndexInfoList(Arrays.asList(uniqueIndex, normalIndex));
 
-		String sql = MysqlTableGenerator.generateCreateTableSql(table);
+		String sql = MysqlTableGenerator.generateCreateTableSql(tableMeta);
 		Assertions.assertEquals("""
 			CREATE TABLE `products` (
 			  `id` BIGINT NOT NULL,

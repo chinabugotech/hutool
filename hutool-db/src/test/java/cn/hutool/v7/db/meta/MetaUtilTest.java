@@ -43,8 +43,8 @@ public class MetaUtilTest {
 
 	@Test
 	public void getTableMetaTest() {
-		final Table table = MetaUtil.getTableMeta(ds, "user");
-		Assertions.assertEquals(SetUtil.of("id"), table.getPkNames());
+		final TableMeta tableMeta = MetaUtil.getTableMeta(ds, "user");
+		Assertions.assertEquals(SetUtil.of("id"), tableMeta.getPkNames());
 	}
 
 	@Test
@@ -55,8 +55,8 @@ public class MetaUtilTest {
 
 	@Test
 	public void getTableIndexInfoTest() {
-		final Table table = MetaUtil.getTableMeta(ds, "user_1");
-		Assertions.assertEquals(2, table.getIndexInfoList().size());
+		final TableMeta tableMeta = MetaUtil.getTableMeta(ds, "user_1");
+		Assertions.assertEquals(2, tableMeta.getIndexInfoList().size());
 	}
 
 	/**
@@ -64,8 +64,8 @@ public class MetaUtilTest {
 	 */
 	@Test
 	public void getTableColumnTest() {
-		final Table table = MetaUtil.getTableMeta(ds, "user");
-		System.out.println(table.getColumns());
-		Assertions.assertEquals(SetUtil.of("id"), table.getPkNames());
+		final TableMeta tableMeta = MetaUtil.getTableMeta(ds, "user");
+		System.out.println(tableMeta.getColumns());
+		Assertions.assertEquals(SetUtil.of("id"), tableMeta.getPkNames());
 	}
 }

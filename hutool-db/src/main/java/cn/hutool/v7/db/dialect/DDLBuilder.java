@@ -1,69 +1,47 @@
-package cn.hutool.v7.db.meta.ddl;
+package cn.hutool.v7.db.dialect;
 
+import cn.hutool.v7.core.collection.CollUtil;
+import cn.hutool.v7.core.lang.Assert;
 import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.db.meta.*;
+import cn.hutool.v7.db.sql.QuoteWrapper;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-/**
- * 根据Table对象生成MySQL的CREATE TABLE语句
- *
- * @author Looly
- */
-public class MysqlTableGenerator {
+public class DDLBuilder {
 
-	/**
-	 * 根据Table对象生成MySQL的CREATE TABLE语句
-	 *
-	 * @param tableMeta Table对象
-	 * @return MySQL的CREATE TABLE语句
-	 */
-	public static String generateCreateTableSql(TableMeta tableMeta) {
+	private QuoteWrapper quoteWrapper;
+
+	public String buildCreateTableSql(TableMeta tableMeta) {
 		StringBuilder sqlBuilder = new StringBuilder();
 
 		// 表名
 		final String tableName = tableMeta.getTableName();
-		if (StrUtil.isBlank(tableName)) {
-			throw new IllegalArgumentException("Table name cannot be blank!");
-		}
+		Assert.notBlank(tableName, "Table name cannot be blank!");
 
-		sqlBuilder.append("CREATE TABLE `").append(tableName).append("` (\n");
+		buildCreateTableStart(sqlBuilder, tableName);
+		sqlBuilder.append(StrUtil.LF);
 
 		// 列定义
 		Collection<Column> columns = tableMeta.getColumns();
-		if (columns.isEmpty()) {
-			throw new IllegalArgumentException("Table must have at least one column");
-		}
-
+		Assert.notEmpty(columns, "Table must have at least one column");
 		boolean firstColumn = true;
 		for (Column column : columns) {
 			if (!firstColumn) {
 				sqlBuilder.append(",\n");
 			}
-			sqlBuilder.append("  ").append(generateColumnDefinition(column));
+			sqlBuilder.append("  ").append(buildColumnDefinition(column));
 			firstColumn = false;
 		}
 
-		// 主键定义
-		Set<String> pkNames = tableMeta.getPkNames();
-		if (!pkNames.isEmpty()) {
-			sqlBuilder.append(",\n  PRIMARY KEY (");
-			boolean firstPk = true;
-			for (String pkName : pkNames) {
-				if (!firstPk) {
-					sqlBuilder.append(", ");
-				}
-				sqlBuilder.append("`").append(pkName).append("`");
-				firstPk = false;
-			}
-			sqlBuilder.append(")");
-		}
+		// 主键约束定义
+		buildPrimaryKey(sqlBuilder, tableMeta.getPkNames());
 
 		// 索引定义 (如果有)
 		List<IndexInfo> indexInfoList = tableMeta.getIndexInfoList();
-		if (indexInfoList != null && !indexInfoList.isEmpty()) {
+		if (CollUtil.isNotEmpty(indexInfoList)) {
 			for (IndexInfo indexInfo : indexInfoList) {
 				sqlBuilder.append(",\n  ");
 				if (!indexInfo.isNonUnique()) {
@@ -94,7 +72,7 @@ public class MysqlTableGenerator {
 			}
 		}
 
-		sqlBuilder.append("\n)");
+		buildCreateTableEnd(sqlBuilder);
 
 		// 表注释
 		String remarks = tableMeta.getRemarks();
@@ -108,6 +86,38 @@ public class MysqlTableGenerator {
 	}
 
 	/**
+	 * 通用方法：建表开头（可被子类重写，如Oracle可能有特殊语法），生成如：<br>
+	 * <pre>{@code
+	 *     CREATE TABLE <tableName> (
+	 * }</pre>
+	 *
+	 * @param tableName 表名
+	 */
+	protected void buildCreateTableStart(StringBuilder sqlBuilder,String tableName) {
+		if (StrUtil.isBlank(tableName)) {
+			throw new IllegalArgumentException("Table name cannot be blank!");
+		}
+		sqlBuilder.append("CREATE TABLE ").append(wrap(tableName)).append(" (");
+	}
+
+	protected void buildPrimaryKey(StringBuilder sqlBuilder, Set<String> pkNames) {
+		if (pkNames.isEmpty()) {
+			return;
+		}
+
+		sqlBuilder.append(",\n  PRIMARY KEY (");
+		boolean firstPk = true;
+		for (String pkName : pkNames) {
+			if (!firstPk) {
+				sqlBuilder.append(", ");
+			}
+			sqlBuilder.append(wrap(pkName));
+			firstPk = false;
+		}
+		sqlBuilder.append(")");
+	}
+
+	/**
 	 * 根据Column对象生成列定义
 	 * <p>
 	 * 注意: 这里是一个简化的实现，实际项目中需要根据Column类的具体属性
@@ -116,7 +126,7 @@ public class MysqlTableGenerator {
 	 * @param column Column对象
 	 * @return 列定义字符串
 	 */
-	private static String generateColumnDefinition(Column column) {
+	private static String buildColumnDefinition(Column column) {
 		StringBuilder columnBuilder = new StringBuilder();
 
 		// 列名
@@ -150,5 +160,28 @@ public class MysqlTableGenerator {
 		}
 
 		return columnBuilder.toString();
+	}
+
+	/**
+	 * 通用方法：建表结尾（可被子类重写，如MySQL可能有特殊语法），生成如：<br>
+	 * <pre>{@code
+	 *     )
+	 * }</pre>
+	 */
+	protected void buildCreateTableEnd(StringBuilder sqlBuilder) {
+		sqlBuilder.append("\n)");
+	}
+
+	/**
+	 * 字段名包装
+	 *
+	 * @param field 字段名
+	 * @return 包装后的字段名
+	 */
+	private String wrap(String field) {
+		if (null != quoteWrapper) {
+			return quoteWrapper.wrap(field);
+		}
+		return field;
 	}
 }

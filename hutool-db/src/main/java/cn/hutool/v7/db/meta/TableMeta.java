@@ -30,7 +30,7 @@ import java.util.Set;
  *
  * @author loolly
  */
-public class Table implements Serializable, Cloneable {
+public class TableMeta implements Serializable, Cloneable {
 	@Serial
 	private static final long serialVersionUID = -810699625961392983L;
 
@@ -73,8 +73,8 @@ public class Table implements Serializable, Cloneable {
 	 * @param tableName 表的名称，用于标识数据库中的特定表。
 	 * @return 返回一个新的Table实例，其名称为传入的表名。
 	 */
-	public static Table of(final String tableName) {
-		return new Table(tableName);
+	public static TableMeta of(final String tableName) {
+		return new TableMeta(tableName);
 	}
 
 	// ----------------------------------------------------- Constructor start
@@ -84,7 +84,7 @@ public class Table implements Serializable, Cloneable {
 	 *
 	 * @param tableName 表名
 	 */
-	public Table(final String tableName) {
+	public TableMeta(final String tableName) {
 		this.setTableName(tableName);
 	}
 	// ----------------------------------------------------- Constructor end
@@ -108,7 +108,7 @@ public class Table implements Serializable, Cloneable {
 	 * @return this
 	 * @since 5.4.3
 	 */
-	public Table setSchema(final String schema) {
+	public TableMeta setSchema(final String schema) {
 		this.schema = schema;
 		return this;
 	}
@@ -130,7 +130,7 @@ public class Table implements Serializable, Cloneable {
 	 * @return this
 	 * @since 5.4.3
 	 */
-	public Table setCatalog(final String catalog) {
+	public TableMeta setCatalog(final String catalog) {
 		this.catalog = catalog;
 		return this;
 	}
@@ -186,7 +186,7 @@ public class Table implements Serializable, Cloneable {
 	 * @param remarks 注释
 	 * @return this
 	 */
-	public Table setRemarks(final String remarks) {
+	public TableMeta setRemarks(final String remarks) {
 		this.remarks = remarks;
 		return this;
 	}
@@ -227,7 +227,7 @@ public class Table implements Serializable, Cloneable {
 	 * @param column 列对象
 	 * @return 自己
 	 */
-	public Table addColumn(final Column column) {
+	public TableMeta addColumn(final Column column) {
 		this.columns.put(column.getName(), column);
 		return this;
 	}
@@ -259,7 +259,7 @@ public class Table implements Serializable, Cloneable {
 	 * @param pkColumnName 主键的列名
 	 * @return 自己
 	 */
-	public Table addPk(final String pkColumnName) {
+	public TableMeta addPk(final String pkColumnName) {
 		this.pkNames.add(pkColumnName);
 		return this;
 	}
@@ -285,7 +285,7 @@ public class Table implements Serializable, Cloneable {
 	}
 
 	@Override
-	public Table clone() throws CloneNotSupportedException {
-		return (Table) super.clone();
+	public TableMeta clone() throws CloneNotSupportedException {
+		return (TableMeta) super.clone();
 	}
 }
