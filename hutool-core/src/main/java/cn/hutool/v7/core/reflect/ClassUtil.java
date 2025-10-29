@@ -709,7 +709,7 @@ public class ClassUtil {
 
 	/**
 	 * 获取class类路径URL, 不管是否在jar包中都会返回文件夹的路径<br>
-	 * class在jar包中返回jar所在文件夹,class不在jar中返回文件夹目录<br>
+	 * class在jar包中返回jar的路径,class不在jar中返回文件夹目录<br>
 	 * jdk中的类不能使用此方法
 	 *
 	 * @param clazz 类
@@ -725,7 +725,7 @@ public class ClassUtil {
 
 	/**
 	 * 获取class类路径, 不管是否在jar包中都会返回文件夹的路径<br>
-	 * class在jar包中返回jar所在文件夹,class不在jar中返回文件夹目录<br>
+	 * class在jar包中返回jar的路径,class不在jar中返回文件夹目录<br>
 	 * jdk中的类不能使用此方法
 	 *
 	 * @param clazz 类
