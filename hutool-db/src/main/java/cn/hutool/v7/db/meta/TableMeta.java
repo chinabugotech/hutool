@@ -229,6 +229,10 @@ public class TableMeta implements Serializable, Cloneable {
 	 */
 	public TableMeta addColumn(final Column column) {
 		this.columns.put(column.getName(), column);
+		// 主键
+		if(column.isPk()){
+			this.pkNames.add(column.getName());
+		}
 		return this;
 	}
 

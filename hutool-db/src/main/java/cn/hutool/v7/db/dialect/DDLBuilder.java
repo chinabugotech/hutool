@@ -2,6 +2,7 @@ package cn.hutool.v7.db.dialect;
 
 import cn.hutool.v7.core.collection.CollUtil;
 import cn.hutool.v7.core.lang.Assert;
+import cn.hutool.v7.core.text.StrJoiner;
 import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.db.meta.*;
 import cn.hutool.v7.db.sql.QuoteWrapper;
@@ -27,14 +28,9 @@ public class DDLBuilder {
 		// 列定义
 		Collection<Column> columns = tableMeta.getColumns();
 		Assert.notEmpty(columns, "Table must have at least one column");
-		boolean firstColumn = true;
-		for (Column column : columns) {
-			if (!firstColumn) {
-				sqlBuilder.append(",\n");
-			}
-			sqlBuilder.append("  ").append(buildColumnDefinition(column));
-			firstColumn = false;
-		}
+		final String columnsDefinition = StrJoiner.of(",\n")
+			.append(columns, column -> "  " + buildColumnDefinition(column)).toString();
+		sqlBuilder.append(columnsDefinition);
 
 		// 主键约束定义
 		buildPrimaryKey(sqlBuilder, tableMeta.getPkNames());
