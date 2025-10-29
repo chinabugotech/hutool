@@ -250,21 +250,13 @@ public class FileUtil {
 		if (path == null) {
 			return new ArrayList<>(0);
 		}
+		path = getAbsolutePath(path);
 		int index = path.lastIndexOf(FileNameUtil.EXT_JAR_PATH);
 		if (index < 0) {
 			// 普通目录
-			final List<String> paths = new ArrayList<>();
-			final File[] files = ls(path);
-			for (final File file : files) {
-				if (file.isFile()) {
-					paths.add(file.getName());
-				}
-			}
-			return paths;
+			return Arrays.stream(ls(path)).filter(File::isFile).map(File::getName).toList();
 		}
 
-		// jar文件
-		path = getAbsolutePath(path);
 		// jar文件中的路径
 		index = index + FileNameUtil.EXT_JAR.length();
 		JarFile jarFile = null;
@@ -323,7 +315,7 @@ public class FileUtil {
 
 	/**
 	 * 创建File对象<br>
-	 * 此方法会检查slip漏洞，漏洞说明见http://blog.nsfocus.net/zip-slip-2/
+	 * 此方法会检查slip漏洞，漏洞说明见<a href="http://blog.nsfocus.net/zip-slip-2/">zip-slip-2</a>
 	 *
 	 * @param parent 父目录
 	 * @param path   文件路径
@@ -336,7 +328,7 @@ public class FileUtil {
 	/**
 	 * 创建File对象<br>
 	 * 根据的路径构建文件，在Win下直接构建，在Linux下拆分路径单独构建
-	 * 此方法会检查slip漏洞，漏洞说明见http://blog.nsfocus.net/zip-slip-2/
+	 * 此方法会检查slip漏洞，漏洞说明见<a href="http://blog.nsfocus.net/zip-slip-2/">zip-slip-2</a>
 	 *
 	 * @param parent 父文件对象
 	 * @param path   文件路径
@@ -351,7 +343,7 @@ public class FileUtil {
 
 	/**
 	 * 通过多层目录参数创建文件<br>
-	 * 此方法会检查slip漏洞，漏洞说明见http://blog.nsfocus.net/zip-slip-2/
+	 * 此方法会检查slip漏洞，漏洞说明见<a href="http://blog.nsfocus.net/zip-slip-2/">zip-slip-2</a>
 	 *
 	 * @param directory 父目录
 	 * @param names     元素名（多层目录名），由外到内依次传入
@@ -564,7 +556,7 @@ public class FileUtil {
 
 	/**
 	 * 计算文件的总行数<br>
-	 * 参考：https://stackoverflow.com/questions/453018/number-of-lines-in-a-file-in-java<br>
+	 * 参考：<a href="https://stackoverflow.com/questions/453018/number-of-lines-in-a-file-in-java">number-of-lines-in-a-file-in-java</a><br>
 	 * 最后一行如果末尾带有换行符，则被当作为新行
 	 *
 	 * @param file 文件
@@ -577,7 +569,7 @@ public class FileUtil {
 
 	/**
 	 * 计算文件的总行数<br>
-	 * 参考：https://stackoverflow.com/questions/453018/number-of-lines-in-a-file-in-java<br>
+	 * 参考：<a href="https://stackoverflow.com/questions/453018/number-of-lines-in-a-file-in-java">number-of-lines-in-a-file-in-java</a><br>
 	 * 最后一行如果末尾带有换行符，则被当作为新行
 	 *
 	 * @param file       文件
@@ -591,7 +583,7 @@ public class FileUtil {
 
 	/**
 	 * 计算文件的总行数<br>
-	 * 参考：https://stackoverflow.com/questions/453018/number-of-lines-in-a-file-in-java
+	 * 参考：<a href="https://stackoverflow.com/questions/453018/number-of-lines-in-a-file-in-java">number-of-lines-in-a-file-in-java</a>
 	 *
 	 * @param file       文件
 	 * @param bufferSize 缓存大小，小于1则使用默认的1024
@@ -2786,7 +2778,7 @@ public class FileUtil {
 	/**
 	 * 检查父完整路径是否为自路径的前半部分，如果不是说明不是子路径，可能存在slip注入。
 	 * <p>
-	 * 见http://blog.nsfocus.net/zip-slip-2/
+	 * 见：<a href="http://blog.nsfocus.net/zip-slip-2/">zip-slip-2</a>
 	 *
 	 * @param parentFile 父文件或目录
 	 * @param file       子文件或目录
