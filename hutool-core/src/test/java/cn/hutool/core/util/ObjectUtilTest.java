@@ -122,4 +122,18 @@ public class ObjectUtilTest {
 		// 不会抛出空指针异常NullPointerException
 		assertFalse(ObjectUtil.isNull(badObject));
 	}
+
+	@Test
+	public void testIsNotNullWithBadEqualsImplementation() {
+		// 创建一个equals方法实现不当的对象
+		Object badObject = new Object() {
+			@Override
+			public boolean equals(Object obj) {
+				// 错误实现：没有检查null
+				return this.toString().equals(obj.toString());
+			}
+		};
+		// 不会抛出空指针异常NullPointerException
+		assertTrue(ObjectUtil.isNotNull(badObject));
+	}
 }

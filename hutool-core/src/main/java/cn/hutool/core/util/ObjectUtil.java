@@ -201,17 +201,12 @@ public class ObjectUtil {
 
 	/**
 	 * 检查对象是否不为null
-	 * <pre>
-	 * 1. != null
-	 * 2. not equals(null)
-	 * </pre>
 	 *
 	 * @param obj 对象
 	 * @return 是否为非null
 	 */
 	public static boolean isNotNull(Object obj) {
-		//noinspection ConstantConditions
-		return null != obj && false == obj.equals(null);
+		return obj != null;
 	}
 
 	/**
