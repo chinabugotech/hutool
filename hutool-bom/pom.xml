@@ -95,6 +95,11 @@
 				<artifactId>hutool-swing</artifactId>
 				<version>${project.parent.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>${project.parent.groupId}</groupId>
+				<artifactId>hutool-ai</artifactId>
+				<version>${project.parent.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -146,6 +151,10 @@
 		<dependency>
 			<groupId>${project.parent.groupId}</groupId>
 			<artifactId>hutool-swing</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>${project.parent.groupId}</groupId>
+			<artifactId>hutool-ai</artifactId>
 		</dependency>
 	</dependencies>
 
