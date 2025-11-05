@@ -165,6 +165,10 @@ public class Range<T> implements Iterable<T>, Serializable {
 			 * @return 下一步进
 			 */
 			private T safeStep(final T base) {
+				// 添加边界检查
+				if (base == null || (base.equals(end))) {
+					return null;
+				}
 				final int index = this.index;
 				T next = null;
 				try {
