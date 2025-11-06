@@ -48,6 +48,17 @@ public class HttpDownloader {
 	/**
 	 * 创建下载器
 	 *
+	 * @param engine 引擎
+	 * @param url    请求地址
+	 * @return 下载器
+	 */
+	public static HttpDownloader of(ClientEngine engine, String url) {
+		return of(url).setEngine(engine);
+	}
+
+	/**
+	 * 创建下载器
+	 *
 	 * @param url 请求地址
 	 * @return 下载器
 	 */
