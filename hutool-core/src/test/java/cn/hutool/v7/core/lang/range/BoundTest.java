@@ -16,11 +16,10 @@
 
 package cn.hutool.v7.core.lang.range;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * test for {@link Bound}
@@ -40,63 +39,71 @@ public class BoundTest {
 	}
 
 	@Test
+	void isDisjointTest(){
+		BoundedRange<Integer> range1 = BoundedRange.close(1, 3);
+		BoundedRange<Integer> range2 = BoundedRange.close(3, 5);
+		// 点重合，相交
+		assertFalse(range1.isDisjoint(range2));
+	}
+
+	@Test
 	public void testEquals() {
 		final Bound<Integer> bound = new FiniteBound<>(1, BoundType.OPEN_UPPER_BOUND);
-		Assertions.assertEquals(bound, bound);
-		Assertions.assertEquals(new FiniteBound<>(1, BoundType.OPEN_UPPER_BOUND), bound);
-		Assertions.assertNotEquals(new FiniteBound<>(2, BoundType.OPEN_UPPER_BOUND), bound);
-		Assertions.assertNotEquals(new FiniteBound<>(1, BoundType.OPEN_LOWER_BOUND), bound);
-		Assertions.assertNotEquals(null, bound);
+		assertEquals(bound, bound);
+		assertEquals(new FiniteBound<>(1, BoundType.OPEN_UPPER_BOUND), bound);
+		assertNotEquals(new FiniteBound<>(2, BoundType.OPEN_UPPER_BOUND), bound);
+		assertNotEquals(new FiniteBound<>(1, BoundType.OPEN_LOWER_BOUND), bound);
+		assertNotEquals(null, bound);
 	}
 
 	@Test
 	public void testHashCode() {
 		final int hashCode = new FiniteBound<>(1, BoundType.OPEN_UPPER_BOUND).hashCode();
-		Assertions.assertEquals(hashCode, new FiniteBound<>(1, BoundType.OPEN_UPPER_BOUND).hashCode());
-		Assertions.assertNotEquals(hashCode, new FiniteBound<>(2, BoundType.OPEN_UPPER_BOUND).hashCode());
-		Assertions.assertNotEquals(hashCode, new FiniteBound<>(1, BoundType.OPEN_LOWER_BOUND).hashCode());
+		assertEquals(hashCode, new FiniteBound<>(1, BoundType.OPEN_UPPER_BOUND).hashCode());
+		assertNotEquals(hashCode, new FiniteBound<>(2, BoundType.OPEN_UPPER_BOUND).hashCode());
+		assertNotEquals(hashCode, new FiniteBound<>(1, BoundType.OPEN_LOWER_BOUND).hashCode());
 	}
 
 	@Test
 	public void testNoneLowerBound() {
 		final Bound<Integer> bound = Bound.noneLowerBound();
 		// negate
-		Assertions.assertEquals(bound, bound.negate());
+		assertEquals(bound, bound.negate());
 		// test
-		Assertions.assertTrue(bound.test(Integer.MAX_VALUE));
+		assertTrue(bound.test(Integer.MAX_VALUE));
 		// getType
-		Assertions.assertEquals(BoundType.OPEN_LOWER_BOUND, bound.getType());
+		assertEquals(BoundType.OPEN_LOWER_BOUND, bound.getType());
 		// getValue
-		Assertions.assertNull(bound.getValue());
+		assertNull(bound.getValue());
 		// toString
-		Assertions.assertEquals("(" + "-∞", bound.descBound());
+		assertEquals("(" + "-∞", bound.descBound());
 		// compareTo
-		Assertions.assertEquals(0, bound.compareTo(bound));
-		Assertions.assertEquals(-1, bound.compareTo(Bound.atMost(1)));
+		assertEquals(0, bound.compareTo(bound));
+		assertEquals(-1, bound.compareTo(Bound.atMost(1)));
 
-		Assertions.assertEquals(BoundedRange.all(), bound.toRange());
-		Assertions.assertEquals("{x | x > -∞}", bound.toString());
+		assertEquals(BoundedRange.all(), bound.toRange());
+		assertEquals("{x | x > -∞}", bound.toString());
 	}
 
 	@Test
 	public void testNoneUpperBound() {
 		final Bound<Integer> bound = Bound.noneUpperBound();
 		// negate
-		Assertions.assertEquals(bound, bound.negate());
+		assertEquals(bound, bound.negate());
 		// test
-		Assertions.assertTrue(bound.test(Integer.MAX_VALUE));
+		assertTrue(bound.test(Integer.MAX_VALUE));
 		// getType
-		Assertions.assertEquals(BoundType.OPEN_UPPER_BOUND, bound.getType());
+		assertEquals(BoundType.OPEN_UPPER_BOUND, bound.getType());
 		// getValue
-		Assertions.assertNull(bound.getValue());
+		assertNull(bound.getValue());
 		// toString
-		Assertions.assertEquals("+∞" + ")", bound.descBound());
+		assertEquals("+∞" + ")", bound.descBound());
 		// compareTo
-		Assertions.assertEquals(0, bound.compareTo(bound));
-		Assertions.assertEquals(1, bound.compareTo(Bound.atMost(1)));
+		assertEquals(0, bound.compareTo(bound));
+		assertEquals(1, bound.compareTo(Bound.atMost(1)));
 
-		Assertions.assertEquals(BoundedRange.all(), bound.toRange());
-		Assertions.assertEquals("{x | x < +∞}", bound.toString());
+		assertEquals(BoundedRange.all(), bound.toRange());
+		assertEquals("{x | x < +∞}", bound.toString());
 	}
 
 	@Test
@@ -105,33 +112,33 @@ public class BoundTest {
 		Bound<Integer> bound = Bound.greaterThan(0);
 
 		// test
-		Assertions.assertTrue(bound.test(1));
-		Assertions.assertFalse(bound.test(0));
-		Assertions.assertFalse(bound.test(-1));
+		assertTrue(bound.test(1));
+		assertFalse(bound.test(0));
+		assertFalse(bound.test(-1));
 		// getType
-		Assertions.assertEquals(BoundType.OPEN_LOWER_BOUND, bound.getType());
+		assertEquals(BoundType.OPEN_LOWER_BOUND, bound.getType());
 		// getValue
-		Assertions.assertEquals((Integer)0, bound.getValue());
+		assertEquals((Integer)0, bound.getValue());
 		// toString
-		Assertions.assertEquals("(0", bound.descBound());
-		Assertions.assertEquals("{x | x > 0}", bound.toString());
+		assertEquals("(0", bound.descBound());
+		assertEquals("{x | x > 0}", bound.toString());
 
 		// compareTo
-		Assertions.assertEquals(0, bound.compareTo(bound));
-		Assertions.assertEquals(-1, bound.compareTo(Bound.noneUpperBound()));
-		Assertions.assertEquals(1, bound.compareTo(Bound.atLeast(-1)));
-		Assertions.assertEquals(-1, bound.compareTo(Bound.atLeast(2)));
-		Assertions.assertEquals(1, bound.compareTo(Bound.lessThan(0)));
-		Assertions.assertEquals(1, bound.compareTo(Bound.atMost(0)));
-		Assertions.assertEquals(-1, bound.compareTo(Bound.atMost(2)));
-		Assertions.assertEquals(1, bound.compareTo(Bound.noneLowerBound()));
+		assertEquals(0, bound.compareTo(bound));
+		assertEquals(-1, bound.compareTo(Bound.noneUpperBound()));
+		assertEquals(1, bound.compareTo(Bound.atLeast(-1)));
+		assertEquals(-1, bound.compareTo(Bound.atLeast(2)));
+		assertEquals(1, bound.compareTo(Bound.lessThan(0)));
+		assertEquals(1, bound.compareTo(Bound.atMost(0)));
+		assertEquals(-1, bound.compareTo(Bound.atMost(2)));
+		assertEquals(1, bound.compareTo(Bound.noneLowerBound()));
 
 		// { x | x >= 0}
 		bound = bound.negate();
-		Assertions.assertEquals((Integer)0, bound.getValue());
-		Assertions.assertEquals(BoundType.CLOSE_UPPER_BOUND, bound.getType());
+		assertEquals((Integer)0, bound.getValue());
+		assertEquals(BoundType.CLOSE_UPPER_BOUND, bound.getType());
 
-		Assertions.assertNotNull(bound.toRange());
+		assertNotNull(bound.toRange());
 	}
 
 	@Test
@@ -140,33 +147,34 @@ public class BoundTest {
 		Bound<Integer> bound = Bound.atLeast(0);
 
 		// test
-		Assertions.assertTrue(bound.test(1));
-		Assertions.assertTrue(bound.test(0));
-		Assertions.assertFalse(bound.test(-1));
+		assertTrue(bound.test(1));
+		assertTrue(bound.test(0));
+		assertFalse(bound.test(-1));
 		// getType
-		Assertions.assertEquals(BoundType.CLOSE_LOWER_BOUND, bound.getType());
+		assertEquals(BoundType.CLOSE_LOWER_BOUND, bound.getType());
 		// getValue
-		Assertions.assertEquals((Integer)0, bound.getValue());
+		assertEquals((Integer)0, bound.getValue());
 		// toString
-		Assertions.assertEquals("[0", bound.descBound());
-		Assertions.assertEquals("{x | x >= 0}", bound.toString());
+		assertEquals("[0", bound.descBound());
+		assertEquals("{x | x >= 0}", bound.toString());
 
 		// compareTo
-		Assertions.assertEquals(0, bound.compareTo(bound));
-		Assertions.assertEquals(-1, bound.compareTo(Bound.noneUpperBound()));
-		Assertions.assertEquals(1, bound.compareTo(Bound.greaterThan(-1)));
-		Assertions.assertEquals(-1, bound.compareTo(Bound.greaterThan(0)));
-		Assertions.assertEquals(1, bound.compareTo(Bound.lessThan(0)));
-		Assertions.assertEquals(1, bound.compareTo(Bound.atMost(0)));
-		Assertions.assertEquals(-1, bound.compareTo(Bound.atMost(2)));
-		Assertions.assertEquals(1, bound.compareTo(Bound.noneLowerBound()));
+		assertEquals(0, bound.compareTo(bound));
+		assertEquals(-1, bound.compareTo(Bound.noneUpperBound()));
+		assertEquals(1, bound.compareTo(Bound.greaterThan(-1)));
+		assertEquals(-1, bound.compareTo(Bound.greaterThan(0)));
+		assertEquals(1, bound.compareTo(Bound.lessThan(0)));
+		// pr#1385@gitee 特殊情况：右闭区间与左闭区间在同一点时，认为这个边界相等
+		assertEquals(0, bound.compareTo(Bound.atMost(0)));
+		assertEquals(-1, bound.compareTo(Bound.atMost(2)));
+		assertEquals(1, bound.compareTo(Bound.noneLowerBound()));
 
 		// { x | x < 0}
 		bound = bound.negate();
-		Assertions.assertEquals((Integer)0, bound.getValue());
-		Assertions.assertEquals(BoundType.OPEN_UPPER_BOUND, bound.getType());
+		assertEquals((Integer)0, bound.getValue());
+		assertEquals(BoundType.OPEN_UPPER_BOUND, bound.getType());
 
-		Assertions.assertNotNull(bound.toRange());
+		assertNotNull(bound.toRange());
 	}
 
 	@Test
@@ -175,33 +183,33 @@ public class BoundTest {
 		Bound<Integer> bound = Bound.lessThan(0);
 
 		// test
-		Assertions.assertFalse(bound.test(1));
-		Assertions.assertFalse(bound.test(0));
-		Assertions.assertTrue(bound.test(-1));
+		assertFalse(bound.test(1));
+		assertFalse(bound.test(0));
+		assertTrue(bound.test(-1));
 		// getType
-		Assertions.assertEquals(BoundType.OPEN_UPPER_BOUND, bound.getType());
+		assertEquals(BoundType.OPEN_UPPER_BOUND, bound.getType());
 		// getValue
-		Assertions.assertEquals((Integer)0, bound.getValue());
+		assertEquals((Integer)0, bound.getValue());
 		// toString
-		Assertions.assertEquals("0)", bound.descBound());
-		Assertions.assertEquals("{x | x < 0}", bound.toString());
+		assertEquals("0)", bound.descBound());
+		assertEquals("{x | x < 0}", bound.toString());
 
 		// compareTo
-		Assertions.assertEquals(0, bound.compareTo(bound));
-		Assertions.assertEquals(-1, bound.compareTo(Bound.noneUpperBound()));
-		Assertions.assertEquals(1, bound.compareTo(Bound.greaterThan(-1)));
-		Assertions.assertEquals(-1, bound.compareTo(Bound.greaterThan(0)));
-		Assertions.assertEquals(1, bound.compareTo(Bound.lessThan(-1)));
-		Assertions.assertEquals(-1, bound.compareTo(Bound.atMost(0)));
-		Assertions.assertEquals(1, bound.compareTo(Bound.atMost(-1)));
-		Assertions.assertEquals(1, bound.compareTo(Bound.noneLowerBound()));
+		assertEquals(0, bound.compareTo(bound));
+		assertEquals(-1, bound.compareTo(Bound.noneUpperBound()));
+		assertEquals(1, bound.compareTo(Bound.greaterThan(-1)));
+		assertEquals(-1, bound.compareTo(Bound.greaterThan(0)));
+		assertEquals(1, bound.compareTo(Bound.lessThan(-1)));
+		assertEquals(-1, bound.compareTo(Bound.atMost(0)));
+		assertEquals(1, bound.compareTo(Bound.atMost(-1)));
+		assertEquals(1, bound.compareTo(Bound.noneLowerBound()));
 
 		// { x | x >= 0}
 		bound = bound.negate();
-		Assertions.assertEquals((Integer)0, bound.getValue());
-		Assertions.assertEquals(BoundType.CLOSE_LOWER_BOUND, bound.getType());
+		assertEquals((Integer)0, bound.getValue());
+		assertEquals(BoundType.CLOSE_LOWER_BOUND, bound.getType());
 
-		Assertions.assertNotNull(bound.toRange());
+		assertNotNull(bound.toRange());
 	}
 
 	@Test
@@ -210,33 +218,33 @@ public class BoundTest {
 		Bound<Integer> bound = Bound.atMost(0);
 
 		// test
-		Assertions.assertFalse(bound.test(1));
-		Assertions.assertTrue(bound.test(0));
-		Assertions.assertTrue(bound.test(-1));
+		assertFalse(bound.test(1));
+		assertTrue(bound.test(0));
+		assertTrue(bound.test(-1));
 		// getType
-		Assertions.assertEquals(BoundType.CLOSE_UPPER_BOUND, bound.getType());
+		assertEquals(BoundType.CLOSE_UPPER_BOUND, bound.getType());
 		// getValue
-		Assertions.assertEquals((Integer)0, bound.getValue());
+		assertEquals((Integer)0, bound.getValue());
 		// toString
-		Assertions.assertEquals("0]", bound.descBound());
-		Assertions.assertEquals("{x | x <= 0}", bound.toString());
+		assertEquals("0]", bound.descBound());
+		assertEquals("{x | x <= 0}", bound.toString());
 
 		// compareTo
-		Assertions.assertEquals(0, bound.compareTo(bound));
-		Assertions.assertEquals(-1, bound.compareTo(Bound.noneUpperBound()));
-		Assertions.assertEquals(1, bound.compareTo(Bound.greaterThan(-1)));
-		Assertions.assertEquals(-1, bound.compareTo(Bound.greaterThan(0)));
-		Assertions.assertEquals(1, bound.compareTo(Bound.atMost(-1)));
-		Assertions.assertEquals(1, bound.compareTo(Bound.lessThan(0)));
-		Assertions.assertEquals(1, bound.compareTo(Bound.lessThan(-1)));
-		Assertions.assertEquals(1, bound.compareTo(Bound.noneLowerBound()));
+		assertEquals(0, bound.compareTo(bound));
+		assertEquals(-1, bound.compareTo(Bound.noneUpperBound()));
+		assertEquals(1, bound.compareTo(Bound.greaterThan(-1)));
+		assertEquals(-1, bound.compareTo(Bound.greaterThan(0)));
+		assertEquals(1, bound.compareTo(Bound.atMost(-1)));
+		assertEquals(1, bound.compareTo(Bound.lessThan(0)));
+		assertEquals(1, bound.compareTo(Bound.lessThan(-1)));
+		assertEquals(1, bound.compareTo(Bound.noneLowerBound()));
 
 		// { x | x > 0}
 		bound = bound.negate();
-		Assertions.assertEquals((Integer)0, bound.getValue());
-		Assertions.assertEquals(BoundType.OPEN_LOWER_BOUND, bound.getType());
+		assertEquals((Integer)0, bound.getValue());
+		assertEquals(BoundType.OPEN_LOWER_BOUND, bound.getType());
 
-		Assertions.assertNotNull(bound.toRange());
+		assertNotNull(bound.toRange());
 	}
 
 }

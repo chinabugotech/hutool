@@ -156,7 +156,7 @@ public class BoundedRangeTest {
 
 		// isXXX
 		Assertions.assertTrue(range.isDisjoint(BoundedRange.open(-5, 0))); // (-5, 0)
-		Assertions.assertTrue(range.isDisjoint(BoundedRange.close(-5, 0))); // [-5, 0]
+		Assertions.assertFalse(range.isDisjoint(BoundedRange.close(-5, 0))); // [-5, 0]
 		Assertions.assertTrue(range.isIntersected(BoundedRange.open(-5, 1))); // [-5, 1]
 		Assertions.assertFalse(range.isSubset(BoundedRange.open(0, 5))); // (0, 5)
 		Assertions.assertFalse(range.isProperSubset(BoundedRange.open(0, 5))); // (0, 5)

@@ -191,7 +191,10 @@ class FiniteBound<T extends Comparable<? super T>> implements Bound<T> {
 	}
 
 	/**
-	 * 当两个边界的值不相等时，判断它们在坐标轴上位置的先后顺序
+	 * 当两个边界的值相等时，判断它们在坐标轴上位置的先后顺序
+	 *
+	 * @param bound 另一边界
+	 * @return 比较位置顺序，-1：当前边界在前，0：重合，1：当前边界在后
 	 */
 	private int compareIfSameBoundValue(final Bound<T> bound) {
 		final BoundType bt1 = this.getType();
@@ -202,7 +205,7 @@ class FiniteBound<T extends Comparable<? super T>> implements Bound<T> {
 		}
 		// 一为左边界，一为右边界
 		if (bt1.isDislocated(bt2)) {
-			// 特殊情况：右闭区间与左闭区间在同一点时，认为它们重合（用于区间相交判断）
+			// pr#1385@Gitee 特殊情况：右闭区间与左闭区间在同一点时，认为它们重合（用于区间相交判断）
 			if ((bt1 == BoundType.CLOSE_UPPER_BOUND && bt2 == BoundType.CLOSE_LOWER_BOUND) ||
 				(bt1 == BoundType.CLOSE_LOWER_BOUND && bt2 == BoundType.CLOSE_UPPER_BOUND)) {
 				return 0;
