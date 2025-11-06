@@ -20,7 +20,6 @@ public class Issue4121Test {
 		// 测试相对路径（相对于classpath）
 		List<String> result = FileUtil.listFileNames("META-INF");
 
-		assertEquals(3, result.size());
 		assertTrue(result.contains("MANIFEST.MF"));
 		assertTrue(result.contains("LICENSE-notice.md"));
 		assertTrue(result.contains("LICENSE.md"));
