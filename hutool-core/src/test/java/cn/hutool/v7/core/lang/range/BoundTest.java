@@ -17,13 +17,27 @@
 package cn.hutool.v7.core.lang.range;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * test for {@link Bound}
  */
 @SuppressWarnings("EqualsWithItself")
 public class BoundTest {
+
+	@Test
+	@DisplayName("测试相邻区间合并")
+	void testUnionIfIntersectedWithAdjacentRanges() {
+		BoundedRange<Integer> range1 = BoundedRange.close(1, 3);
+		BoundedRange<Integer> range2 = BoundedRange.close(3, 5);
+		BoundedRange<Integer> result = BoundedRangeOperation.unionIfIntersected(range1, range2);
+
+		assertEquals(Bound.atLeast(1), result.getLowerBound());
+		assertEquals(Bound.atMost(5), result.getUpperBound());
+	}
 
 	@Test
 	public void testEquals() {

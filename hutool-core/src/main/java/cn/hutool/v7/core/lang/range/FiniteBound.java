@@ -200,8 +200,14 @@ class FiniteBound<T extends Comparable<? super T>> implements Bound<T> {
 		if (bt1 == bt2) {
 			return 0;
 		}
-		// 一为左边界，一为右边界，则左边界恒在右边界后
+		// 一为左边界，一为右边界
 		if (bt1.isDislocated(bt2)) {
+			// 特殊情况：右闭区间与左闭区间在同一点时，认为它们重合（用于区间相交判断）
+			if ((bt1 == BoundType.CLOSE_UPPER_BOUND && bt2 == BoundType.CLOSE_LOWER_BOUND) ||
+				(bt1 == BoundType.CLOSE_LOWER_BOUND && bt2 == BoundType.CLOSE_UPPER_BOUND)) {
+				return 0;
+			}
+			// 一般情况：左边界恒在右边界后
 			return bt1.isLowerBound() ? 1 : -1;
 		}
 		// 都为左边界，则封闭边界在前，若都为右边界，则封闭边界在后

@@ -22,12 +22,16 @@ import cn.hutool.v7.core.date.DateTime;
 import cn.hutool.v7.core.date.DateUtil;
 import cn.hutool.v7.core.text.StrUtil;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * {@link Range} 单元测试
@@ -35,6 +39,18 @@ import java.util.NoSuchElementException;
  * @author Looly
  */
 public class RangeTest {
+
+	@Test
+	@DisplayName("测试不包含起始元素的迭代")
+	void testIteratorWithoutIncludeStart() {
+		Range<Integer> range = new Range<>(1, 5, (current, end, index) -> current + 1, false, true);
+		List<Integer> elements = new ArrayList<>();
+		for (Integer i : range) {
+			elements.add(i);
+		}
+
+		assertEquals(List.of(2, 3, 4, 5), elements);
+	}
 
 	@Test
 	public void dateRangeTest() {
@@ -50,9 +66,9 @@ public class RangeTest {
 
 		final Iterator<DateTime> iterator = range.iterator();
 		Assertions.assertTrue(iterator.hasNext());
-		Assertions.assertEquals(DateUtil.parse("2017-01-01"), iterator.next());
+		assertEquals(DateUtil.parse("2017-01-01"), iterator.next());
 		Assertions.assertTrue(iterator.hasNext());
-		Assertions.assertEquals(DateUtil.parse("2017-01-02"), iterator.next());
+		assertEquals(DateUtil.parse("2017-01-02"), iterator.next());
 		Assertions.assertFalse(iterator.hasNext());
 	}
 
@@ -75,11 +91,11 @@ public class RangeTest {
 
 		final StringBuilder sb = new StringBuilder();
 		DateUtil.rangeConsume(start, end, DateField.DAY_OF_YEAR, a -> sb.append(DateTime.of(a).dayOfMonth()).append("#"));
-		Assertions.assertEquals("1#2#3#", sb.toString());
+		assertEquals("1#2#3#", sb.toString());
 
 		final StringBuilder sb2 = new StringBuilder();
 		DateUtil.rangeConsume(null, null, DateField.DAY_OF_YEAR, a -> sb2.append(DateTime.of(a).dayOfMonth()).append("#"));
-		Assertions.assertEquals(StrUtil.EMPTY, sb2.toString());
+		assertEquals(StrUtil.EMPTY, sb2.toString());
 	}
 
 	@Test
@@ -90,11 +106,11 @@ public class RangeTest {
 		final DateRange range = DateUtil.range(start, end, DateField.MONTH);
 		final Iterator<DateTime> iterator = range.iterator();
 		Assertions.assertTrue(iterator.hasNext());
-		Assertions.assertEquals(DateUtil.parse("2021-01-31"), iterator.next());
+		assertEquals(DateUtil.parse("2021-01-31"), iterator.next());
 		Assertions.assertTrue(iterator.hasNext());
-		Assertions.assertEquals(DateUtil.parse("2021-02-28"), iterator.next());
+		assertEquals(DateUtil.parse("2021-02-28"), iterator.next());
 		Assertions.assertTrue(iterator.hasNext());
-		Assertions.assertEquals(DateUtil.parse("2021-03-31"), iterator.next());
+		assertEquals(DateUtil.parse("2021-03-31"), iterator.next());
 		Assertions.assertFalse(iterator.hasNext());
 	}
 
@@ -104,7 +120,7 @@ public class RangeTest {
 		final Iterator<Integer> iterator = range.iterator();
 
 		Assertions.assertTrue(iterator.hasNext());
-		Assertions.assertEquals(Integer.valueOf(1), iterator.next());
+		assertEquals(Integer.valueOf(1), iterator.next());
 		Assertions.assertFalse(iterator.hasNext());
 	}
 
@@ -116,9 +132,9 @@ public class RangeTest {
 		// 测试包含开始和结束情况下步进为1的情况
 		DateRange range = DateUtil.range(start, end, DateField.DAY_OF_YEAR);
 		Iterator<DateTime> iterator = range.iterator();
-		Assertions.assertEquals(iterator.next(), DateUtil.parse("2017-01-01"));
-		Assertions.assertEquals(iterator.next(), DateUtil.parse("2017-01-02"));
-		Assertions.assertEquals(iterator.next(), DateUtil.parse("2017-01-03"));
+		assertEquals(iterator.next(), DateUtil.parse("2017-01-01"));
+		assertEquals(iterator.next(), DateUtil.parse("2017-01-02"));
+		assertEquals(iterator.next(), DateUtil.parse("2017-01-03"));
 		try {
 			iterator.next();
 			Assertions.fail("已超过边界，下一个元素不应该存在！");
@@ -128,8 +144,8 @@ public class RangeTest {
 		// 测试多步进的情况
 		range = new DateRange(start, end, DateField.DAY_OF_YEAR, 2);
 		iterator = range.iterator();
-		Assertions.assertEquals(DateUtil.parse("2017-01-01"), iterator.next());
-		Assertions.assertEquals(DateUtil.parse("2017-01-03"), iterator.next());
+		assertEquals(DateUtil.parse("2017-01-01"), iterator.next());
+		assertEquals(DateUtil.parse("2017-01-03"), iterator.next());
 	}
 
 	@Test
@@ -140,9 +156,9 @@ public class RangeTest {
 		// 测试不包含开始结束时间的情况
 		final DateRange range = new DateRange(start, end, DateField.DAY_OF_YEAR, 1, false, false);
 		final Iterator<DateTime> iterator = range.iterator();
-		Assertions.assertEquals(DateUtil.parse("2017-01-02"), iterator.next());
-		Assertions.assertEquals(DateUtil.parse("2017-01-03"), iterator.next());
-		Assertions.assertEquals(DateUtil.parse("2017-01-04"), iterator.next());
+		assertEquals(DateUtil.parse("2017-01-02"), iterator.next());
+		assertEquals(DateUtil.parse("2017-01-03"), iterator.next());
+		assertEquals(DateUtil.parse("2017-01-04"), iterator.next());
 		try {
 			iterator.next();
 			Assertions.fail("不包含结束时间情况下，下一个元素不应该存在！");
@@ -156,8 +172,8 @@ public class RangeTest {
 		final Date end = DateUtil.parse("2017-01-31");
 
 		final List<DateTime> rangeToList = DateUtil.rangeToList(start, end, DateField.DAY_OF_YEAR);
-		Assertions.assertEquals(DateUtil.parse("2017-01-01"), rangeToList.get(0));
-		Assertions.assertEquals(DateUtil.parse("2017-01-02"), rangeToList.get(1));
+		assertEquals(DateUtil.parse("2017-01-01"), rangeToList.get(0));
+		assertEquals(DateUtil.parse("2017-01-02"), rangeToList.get(1));
 	}
 
 
@@ -173,8 +189,8 @@ public class RangeTest {
 		final DateRange endRange = DateUtil.range(start1, end1, DateField.DAY_OF_YEAR);
 		// 交集
 		final List<DateTime> dateTimes = DateUtil.rangeContains(startRange, endRange);
-		Assertions.assertEquals(1, dateTimes.size());
-		Assertions.assertEquals(DateUtil.parse("2017-01-31"), dateTimes.get(0));
+		assertEquals(1, dateTimes.size());
+		assertEquals(DateUtil.parse("2017-01-31"), dateTimes.get(0));
 	}
 
 	@Test
@@ -190,8 +206,8 @@ public class RangeTest {
 		// 差集
 		final List<DateTime> dateTimes1 = DateUtil.rangeNotContains(startRange, endRange);
 
-		Assertions.assertEquals(1, dateTimes1.size());
-		Assertions.assertEquals(DateUtil.parse("2017-01-31"), dateTimes1.get(0));
+		assertEquals(1, dateTimes1.size());
+		assertEquals(DateUtil.parse("2017-01-31"), dateTimes1.get(0));
 	}
 
 }

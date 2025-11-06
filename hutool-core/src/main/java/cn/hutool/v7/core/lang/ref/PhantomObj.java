@@ -52,7 +52,8 @@ public class PhantomObj<T> extends PhantomReference<T> implements Ref<T>{
 		if (other == this) {
 			return true;
 		} else if (other instanceof PhantomObj) {
-			return ObjUtil.equals(((PhantomObj<?>) other).get(), get());
+			// 比较原始对象的哈希码，因为虚引用无法获取原始对象
+			return this.hashCode == ((PhantomObj<?>)other).hashCode;
 		}
 		return false;
 	}
