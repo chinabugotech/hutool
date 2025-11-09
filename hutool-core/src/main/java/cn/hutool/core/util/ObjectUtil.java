@@ -73,6 +73,7 @@ public class ObjectUtil {
 
 	/**
 	 * 计算对象长度，如果是字符串调用其length函数，集合类调用其size函数，数组调用其length属性，其他可遍历对象遍历计算长度<br>
+	 * 注意：对于 {@link Iterator} 和 {@link Enumeration} 类型参数，此方法调用后，迭代器将处于耗尽状态，无法再次使用。
 	 * 支持的类型包括：
 	 * <ul>
 	 * <li>CharSequence</li>
