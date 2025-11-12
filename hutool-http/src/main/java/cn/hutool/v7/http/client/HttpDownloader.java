@@ -46,6 +46,18 @@ import java.util.Map;
 public class HttpDownloader {
 
 	/**
+	 * 创建下载器，使用自定义引擎<br>
+	 * 自定义引擎使用完毕后不会关闭
+	 *
+	 * @param engine 引擎
+	 * @param url    请求地址
+	 * @return 下载器
+	 */
+	public static HttpDownloader of(ClientEngine engine, String url) {
+		return of(url).setEngine(engine).setCloseEngine(false);
+	}
+
+	/**
 	 * 创建下载器
 	 *
 	 * @param url 请求地址
