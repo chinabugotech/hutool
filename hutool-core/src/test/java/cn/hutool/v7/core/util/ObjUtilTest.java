@@ -30,6 +30,9 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.function.Function;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
 /**
  * test for {@link ObjUtil}
  */
@@ -60,31 +63,31 @@ public class ObjUtilTest {
 
 		a = 1;
 		b = 1.0;
-		Assertions.assertFalse(ObjUtil.equals(a, b));
+		assertFalse(ObjUtil.equals(a, b));
 	}
 
 	@Test
 	public void lengthTest(){
 		final int[] array = new int[]{1,2,3,4,5};
 		int length = ObjUtil.length(array);
-		Assertions.assertEquals(5, length);
+		assertEquals(5, length);
 
 		final Map<String, String> map = new HashMap<>();
 		map.put("a", "a1");
 		map.put("b", "b1");
 		map.put("c", "c1");
 		length = ObjUtil.length(map);
-		Assertions.assertEquals(3, length);
+		assertEquals(3, length);
 
 		final Iterable<Integer> list = ListUtil.of(1, 2, 3);
-		Assertions.assertEquals(3, ObjUtil.length(list));
-		Assertions.assertEquals(3, ObjUtil.length(Arrays.asList(1, 2, 3).iterator()));
+		assertEquals(3, ObjUtil.length(list));
+		assertEquals(3, ObjUtil.length(Arrays.asList(1, 2, 3).iterator()));
 	}
 
 	@Test
 	public void containsTest(){
 		Assertions.assertTrue(ObjUtil.contains(new int[]{1,2,3,4,5}, 1));
-		Assertions.assertFalse(ObjUtil.contains(null, 1));
+		assertFalse(ObjUtil.contains(null, 1));
 		Assertions.assertTrue(ObjUtil.contains("123", "3"));
 		final Map<Integer, Integer> map = new HashMap<>();
 		map.put(1, 1);
@@ -102,7 +105,7 @@ public class ObjUtilTest {
 	@SuppressWarnings("ConstantConditions")
 	@Test
 	public void isNotNullTest() {
-		Assertions.assertFalse(ObjUtil.isNotNull(null));
+		assertFalse(ObjUtil.isNotNull(null));
 	}
 
 	@Test
@@ -117,12 +120,12 @@ public class ObjUtilTest {
 
 	@Test
 	public void isNotEmptyTest() {
-		Assertions.assertFalse(ObjUtil.isNotEmpty(null));
-		Assertions.assertFalse(ObjUtil.isNotEmpty(new int[0]));
-		Assertions.assertFalse(ObjUtil.isNotEmpty(""));
-		Assertions.assertFalse(ObjUtil.isNotEmpty(Collections.emptyList()));
-		Assertions.assertFalse(ObjUtil.isNotEmpty(Collections.emptyMap()));
-		Assertions.assertFalse(ObjUtil.isNotEmpty(Collections.emptyIterator()));
+		assertFalse(ObjUtil.isNotEmpty(null));
+		assertFalse(ObjUtil.isNotEmpty(new int[0]));
+		assertFalse(ObjUtil.isNotEmpty(""));
+		assertFalse(ObjUtil.isNotEmpty(Collections.emptyList()));
+		assertFalse(ObjUtil.isNotEmpty(Collections.emptyMap()));
+		assertFalse(ObjUtil.isNotEmpty(Collections.emptyIterator()));
 	}
 
 	@SuppressWarnings("ConstantValue")
@@ -156,7 +159,7 @@ public class ObjUtilTest {
 	void cloneListTest() {
 		final ArrayList<Integer> list = ListUtil.of(1, 2);
 		final ArrayList<Integer> clone = ObjUtil.clone(list);
-		Assertions.assertEquals(list, clone);
+		assertEquals(list, clone);
 	}
 
 	@Test
@@ -165,11 +168,11 @@ public class ObjUtilTest {
 
 		final CloneableBean cloneableBean1 = new CloneableBean(1);
 		final CloneableBean cloneableBean2 = ObjUtil.clone(cloneableBean1);
-		Assertions.assertEquals(cloneableBean1, cloneableBean2);
+		assertEquals(cloneableBean1, cloneableBean2);
 
 		final SerializableBean serializableBean1 = new SerializableBean(2);
 		final SerializableBean serializableBean2 = ObjUtil.clone(serializableBean1);
-		Assertions.assertEquals(serializableBean1, serializableBean2);
+		assertEquals(serializableBean1, serializableBean2);
 
 		final Bean bean1 = new Bean(3);
 		Assertions.assertNull(ObjUtil.clone(bean1));
@@ -180,10 +183,10 @@ public class ObjUtilTest {
 		Assertions.assertNull(ObjUtil.clone(null));
 
 		final CloneableBean cloneableBean1 = new CloneableBean(1);
-		Assertions.assertEquals(cloneableBean1, ObjUtil.cloneIfPossible(cloneableBean1));
+		assertEquals(cloneableBean1, ObjUtil.cloneIfPossible(cloneableBean1));
 
 		final SerializableBean serializableBean1 = new SerializableBean(2);
-		Assertions.assertEquals(serializableBean1, ObjUtil.cloneIfPossible(serializableBean1));
+		assertEquals(serializableBean1, ObjUtil.cloneIfPossible(serializableBean1));
 
 		final Bean bean1 = new Bean(3);
 		Assertions.assertSame(bean1, ObjUtil.cloneIfPossible(bean1));
@@ -197,7 +200,7 @@ public class ObjUtilTest {
 		Assertions.assertNull(ObjUtil.cloneByStream(null));
 		Assertions.assertNull(ObjUtil.cloneByStream(new CloneableBean(1)));
 		final SerializableBean serializableBean1 = new SerializableBean(2);
-		Assertions.assertEquals(serializableBean1, ObjUtil.cloneByStream(serializableBean1));
+		assertEquals(serializableBean1, ObjUtil.cloneByStream(serializableBean1));
 		Assertions.assertNull(ObjUtil.cloneByStream(new Bean(1)));
 	}
 
@@ -211,26 +214,54 @@ public class ObjUtilTest {
 	@Test
 	public void isValidIfNumberTest() {
 		Assertions.assertTrue(ObjUtil.isValidIfNumber(null));
-		Assertions.assertFalse(ObjUtil.isValidIfNumber(Double.NEGATIVE_INFINITY));
-		Assertions.assertFalse(ObjUtil.isValidIfNumber(Double.NaN));
+		assertFalse(ObjUtil.isValidIfNumber(Double.NEGATIVE_INFINITY));
+		assertFalse(ObjUtil.isValidIfNumber(Double.NaN));
 		Assertions.assertTrue(ObjUtil.isValidIfNumber(Double.MIN_VALUE));
-		Assertions.assertFalse(ObjUtil.isValidIfNumber(Float.NEGATIVE_INFINITY));
-		Assertions.assertFalse(ObjUtil.isValidIfNumber(Float.NaN));
+		assertFalse(ObjUtil.isValidIfNumber(Float.NEGATIVE_INFINITY));
+		assertFalse(ObjUtil.isValidIfNumber(Float.NaN));
 		Assertions.assertTrue(ObjUtil.isValidIfNumber(Float.MIN_VALUE));
 	}
 
 	@Test
 	public void getTypeArgumentTest() {
 		final Bean bean = new Bean(1);
-		Assertions.assertEquals(Integer.class, ObjUtil.getTypeArgument(bean));
-		Assertions.assertEquals(String.class, ObjUtil.getTypeArgument(bean, 1));
+		assertEquals(Integer.class, ObjUtil.getTypeArgument(bean));
+		assertEquals(String.class, ObjUtil.getTypeArgument(bean, 1));
 	}
 
 	@Test
 	public void toStringTest() {
-		Assertions.assertEquals("null", ConvertUtil.toStrOrNullStr(null));
-		Assertions.assertEquals(Collections.emptyMap().toString(), ConvertUtil.toStrOrNullStr(Collections.emptyMap()));
-		Assertions.assertEquals("[1, 2]", Arrays.asList("1", "2").toString());
+		assertEquals("null", ConvertUtil.toStrOrNullStr(null));
+		assertEquals(Collections.emptyMap().toString(), ConvertUtil.toStrOrNullStr(Collections.emptyMap()));
+		assertEquals("[1, 2]", Arrays.asList("1", "2").toString());
+	}
+
+	@Test
+	public void testLengthConsumesIterator() {
+		List<String> list = Arrays.asList("a", "b", "c");
+		Iterator<String> iterator = list.iterator();
+		// 迭代器第一次调用length
+		int length1 = ObjUtil.length(iterator);
+		assertEquals(3, length1);
+		// 迭代器第二次调用length - 迭代器已经被消耗，返回0
+		int length2 = ObjUtil.length(iterator);
+		assertEquals(0, length2); // 但当前实现会重新遍历，但iterator已经没有元素了
+		// 尝试使用迭代器 - 已经无法使用
+		assertFalse(iterator.hasNext());
+	}
+
+	@Test
+	public void testLengthConsumesEnumeration() {
+		Vector<String> vector = new Vector<>(Arrays.asList("a", "b", "c"));
+		Enumeration<String> enumeration = vector.elements();
+		// 第一次调用length
+		int length1 = ObjUtil.length(enumeration);
+		assertEquals(3, length1);
+		// 第二次调用length - 枚举已经被消耗
+		int length2 = ObjUtil.length(enumeration);
+		assertEquals(0, length2);
+		// 枚举已经无法使用
+		assertFalse(enumeration.hasMoreElements());
 	}
 
 	@RequiredArgsConstructor

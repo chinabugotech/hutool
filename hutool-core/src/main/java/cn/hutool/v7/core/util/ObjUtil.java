@@ -88,8 +88,8 @@ public class ObjUtil {
 	 *     <li>数组：返回数组长度；</li>
 	 *     <li>{@link CharSequence}：返回{@link CharSequence#length()}；</li>
 	 *     <li>{@link Collection}：返回{@link Collection#size()}；</li>
-	 *     <li>{@link Iterator}或{@link Iterable}：可迭代的元素数量；</li>
-	 *     <li>{@link Enumeration}：返回可迭代的元素数量；</li>
+	 *     <li>{@link Iterator}或{@link Iterable}：可迭代的元素数量；副作用：{@link Iterator}只能被迭代一次</li>
+	 *     <li>{@link Enumeration}：返回可迭代的元素数量；副作用：{@link Enumeration}只能被迭代一次</li>
 	 * </ul>
 	 *
 	 * @param obj 被计算长度的对象
