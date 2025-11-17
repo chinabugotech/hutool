@@ -1727,7 +1727,7 @@ public class ImgUtil {
 	 * @since 3.1.0
 	 */
 	public static void write(final Image image, final File targetFile) throws IORuntimeException {
-		ImgWriter.of(image, FileNameUtil.extName(targetFile)).write(targetFile);
+		ImgWriter.of(image, FileNameUtil.extName(targetFile)).write(targetFile).flush();
 	}
 
 	/**
@@ -1773,7 +1773,8 @@ public class ImgUtil {
 	public static void write(final Image image, final String imageType, final ImageOutputStream output, final float quality) {
 		ImgWriter.of(image, imageType)
 			.setQuality(quality)
-			.write(output);
+			.write(output)
+			.flush();
 	}
 
 	/**
