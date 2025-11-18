@@ -16,9 +16,9 @@
 
 package cn.hutool.v7.swing.img;
 
-import cn.hutool.v7.core.io.file.FileUtil;
 import cn.hutool.v7.core.io.IORuntimeException;
 import cn.hutool.v7.core.io.IoUtil;
+import cn.hutool.v7.core.io.file.FileUtil;
 import cn.hutool.v7.core.lang.Assert;
 
 import javax.imageio.IIOImage;
@@ -28,7 +28,6 @@ import javax.imageio.ImageWriter;
 import javax.imageio.stream.ImageOutputStream;
 import java.awt.Color;
 import java.awt.Image;
-import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.RenderedImage;
 import java.io.File;
@@ -96,9 +95,11 @@ public class ImgWriter implements Flushable {
 	 *
 	 * @param out     写出到的目标流
 	 * @throws IORuntimeException IO异常
+	 * @return this
 	 */
-	public void write(final OutputStream out) throws IORuntimeException {
+	public ImgWriter write(final OutputStream out) throws IORuntimeException {
 		write(ImgUtil.getImageOutputStream(out));
+		return this;
 	}
 
 	/**
@@ -106,8 +107,9 @@ public class ImgWriter implements Flushable {
 	 *
 	 * @param targetFile 目标文件
 	 * @throws IORuntimeException IO异常
+	 * @return this
 	 */
-	public void write(final File targetFile) throws IORuntimeException {
+	public ImgWriter write(final File targetFile) throws IORuntimeException {
 		FileUtil.touch(targetFile);
 		ImageOutputStream out = null;
 		try {
@@ -116,14 +118,16 @@ public class ImgWriter implements Flushable {
 		} finally {
 			IoUtil.closeQuietly(out);
 		}
+		return this;
 	}
 
 	/**
 	 * 通过{@link ImageWriter}写出图片到输出流
 	 *
 	 * @param output 输出的Image流{@link ImageOutputStream}， 非空
+	 * @return this
 	 */
-	public void write(final ImageOutputStream output) {
+	public ImgWriter write(final ImageOutputStream output) {
 		Assert.notNull(output);
 
 		final ImageWriter writer = this.writer;
@@ -145,14 +149,13 @@ public class ImgWriter implements Flushable {
 			// FileCacheImageOutputStream会产生临时文件，此处关闭清除
 			IoUtil.closeQuietly(output);
 		}
+		return this;
 	}
 
 	@Override
 	public void flush() {
 		final RenderedImage renderedImage = this.image;
-		if(renderedImage instanceof BufferedImage){
-			ImgUtil.flush((BufferedImage) renderedImage);
-		} else if(renderedImage instanceof Image){
+		if(renderedImage instanceof Image){
 			ImgUtil.flush((Image) renderedImage);
 		}
 	}
