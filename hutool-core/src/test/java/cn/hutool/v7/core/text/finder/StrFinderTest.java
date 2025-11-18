@@ -54,29 +54,22 @@ public class StrFinderTest {
 		Assertions.assertEquals(8, finder.start(text.length() - 1));
 	}
 
-//	@Test
-//	public void testAlgorithmEdgeCase() {
-//		// 5. 算法边界测试：验证 Sunday 算法偏移表构建是否正确
-//		// 场景：模式串首尾字符重复 "aba"
-//		// 正向表应存靠右的 'a'，反向表应存靠左的 'a'
-//
-//		String text = "ababa";
-//		// 索引: 01234
-//
-//		// --- 正向 ---
-//		StrFinder forward = StrFinder.of("aba", false);
-//		forward.setText(text);
-//		Assertions.assertEquals(0, forward.start(0));
-//		// 从1开始找，应该跳过第一个a，匹配到索引2的aba
-//		Assertions.assertEquals(2, forward.start(1));
-//
-//		// --- 反向 ---
-//		StrFinder reverse = StrFinder.of("aba", false);
-//		reverse.setNegative(true);
-//		reverse.setText(text);
-//		Assertions.assertEquals(2, reverse.start(4));
-//		Assertions.assertEquals(0, reverse.start(1));
-//	}
+	@Test
+	public void testAlgorithmEdgeCase() {
+
+		String text = "ababa";
+
+		StrFinder forward = StrFinder.of("aba", false);
+		forward.setText(text);
+		Assertions.assertEquals(0, forward.start(0));
+		Assertions.assertEquals(2, forward.start(1));
+
+		StrFinder reverse = StrFinder.of("aba", false);
+		reverse.setNegative(true);
+		reverse.setText(text);
+		Assertions.assertEquals(2, reverse.start(4));
+		Assertions.assertEquals(0, reverse.start(1));
+	}
 
 	@Test
 	public void testZeroCopy() {
