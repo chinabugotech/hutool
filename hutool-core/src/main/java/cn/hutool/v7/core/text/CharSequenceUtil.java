@@ -2432,12 +2432,9 @@ public class CharSequenceUtil extends StrValidator {
 				continue;
 			}
 			if (ignoreCase) {
-				final char u1 = Character.toUpperCase(c1);
-				final char u2 = Character.toUpperCase(c2);
+				final char u1 = Character.toLowerCase(c1);
+				final char u2 = Character.toLowerCase(c2);
 				if (u1 == u2) {
-					continue;
-				}
-				if (Character.toLowerCase(u1) == Character.toLowerCase(u2)) {
 					continue;
 				}
 			}
