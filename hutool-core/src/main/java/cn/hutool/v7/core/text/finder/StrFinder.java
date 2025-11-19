@@ -20,6 +20,10 @@ import cn.hutool.v7.core.lang.Assert;
 import cn.hutool.v7.core.text.CharSequenceUtil;
 
 import java.io.Serial;
+import java.util.HashMap;
+import java.util.Map;
+
+import static cn.hutool.v7.core.text.CharSequenceUtil.isSubEquals;
 
 /**
  * 字符串查找器
@@ -44,6 +48,8 @@ public class StrFinder extends TextFinder {
 
 	private final CharSequence strToFind;
 	private final boolean caseInsensitive;
+	private Map<Character, Integer> forwardOffsetMap;
+	private Map<Character, Integer> reverseOffsetMap;
 
 	/**
 	 * 构造
@@ -61,23 +67,54 @@ public class StrFinder extends TextFinder {
 	public int start(int from) {
 		Assert.notNull(this.text, "Text to find must be not null!");
 		final int subLen = strToFind.length();
+		final int textLen = text.length();
 
-		if (from < 0) {
-			from = 0;
-		}
-		int endLimit = getValidEndIndex();
+		// 基于Sunday算法实现高效子串查询
 		if (negative) {
-			for (int i = from; i > endLimit; i--) {
-				if (CharSequenceUtil.isSubEquals(text, i, strToFind, 0, subLen, caseInsensitive)) {
+			if (this.reverseOffsetMap == null) {
+				this.reverseOffsetMap = buildReverseOffsetMap(strToFind, caseInsensitive);
+			}
+			int maxIndex = textLen - subLen;
+			if (from > maxIndex) {
+				from = maxIndex;
+			}
+			int i = from;
+			while (i >= 0) {
+				if (isSubEquals(text, i, strToFind, 0, subLen, caseInsensitive)) {
 					return i;
 				}
+				if (i - 1 < 0) {
+					break;
+				}
+				char preChar = text.charAt(i - 1);
+				int jump = reverseOffsetMap.getOrDefault(
+					caseInsensitive ? Character.toLowerCase(preChar) : preChar,
+					subLen + 1
+				);
+				i -= jump;
 			}
 		} else {
-			endLimit = endLimit - subLen + 1;
-			for (int i = from; i < endLimit; i++) {
-				if (CharSequenceUtil.isSubEquals(text, i, strToFind, 0, subLen, caseInsensitive)) {
+			if (this.forwardOffsetMap == null) {
+				this.forwardOffsetMap = buildForwardOffsetMap(strToFind, caseInsensitive);
+			}
+			if (from < 0) {
+				from = 0;
+			}
+			int endLimit = textLen - subLen;
+			int i = from;
+			while (i <= endLimit) {
+				if (isSubEquals(text, i, strToFind, 0, subLen, caseInsensitive)) {
 					return i;
 				}
+				if (i + subLen >= textLen) {
+					break;
+				}
+				char nextChar = text.charAt(i + subLen);
+				int jump = forwardOffsetMap.getOrDefault(
+					caseInsensitive ? Character.toLowerCase(nextChar) : nextChar,
+					subLen + 1
+				);
+				i += jump;
 			}
 		}
 
@@ -90,5 +127,45 @@ public class StrFinder extends TextFinder {
 			return -1;
 		}
 		return start + strToFind.length();
+	}
+
+	/**
+	 * 构建正向偏移表
+	 */
+	private static Map<Character, Integer> buildForwardOffsetMap(CharSequence pattern, boolean caseInsensitive) {
+		int m = pattern.length();
+		Map<Character, Integer> map = new HashMap<>(Math.min(m, 128));
+
+		for (int i = 0; i < m; i++) {
+			char c = pattern.charAt(i);
+			int jump = m - i;
+
+			if (caseInsensitive) {
+				map.put(Character.toLowerCase(c), jump);
+			} else {
+				map.put(c, jump);
+			}
+		}
+		return map;
+	}
+
+	/**
+	 * 构建反向偏移表
+	 */
+	private static Map<Character, Integer> buildReverseOffsetMap(CharSequence pattern, boolean caseInsensitive) {
+		int m = pattern.length();
+		Map<Character, Integer> map = new HashMap<>(Math.min(m, 128));
+
+		for (int i = m - 1; i >= 0; i--) {
+			char c = pattern.charAt(i);
+			int jump = i + 1;
+
+			if (caseInsensitive) {
+				map.put(Character.toLowerCase(c), jump);
+			} else {
+				map.put(c, jump);
+			}
+		}
+		return map;
 	}
 }
