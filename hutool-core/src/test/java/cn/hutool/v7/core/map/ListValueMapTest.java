@@ -28,16 +28,16 @@ public class ListValueMapTest {
 
 	@Test
 	public void putTest() {
-		MultiValueMap<Integer, String> map = new ListValueMap<>();
+		final MultiValueMap<Integer, String> map = new ListValueMap<>();
 		Assertions.assertNull(map.put(1, Arrays.asList("a", "b")));
-		Collection<String> collection = map.put(1, Arrays.asList("c", "d"));
+		final Collection<String> collection = map.put(1, Arrays.asList("c", "d"));
 		Assertions.assertEquals(Arrays.asList("a", "b"), collection);
 	}
 
 	@Test
 	public void putAllTest() {
-		MultiValueMap<Integer, String> map = new ListValueMap<>();
-		Map<Integer, Collection<String>> source = new HashMap<>();
+		final MultiValueMap<Integer, String> map = new ListValueMap<>();
+		final Map<Integer, Collection<String>> source = new HashMap<>();
 		source.put(1, Arrays.asList("a", "b", "c"));
 		map.putAll(source);
 		Assertions.assertEquals(1, map.size());
@@ -46,7 +46,7 @@ public class ListValueMapTest {
 
 	@Test
 	public void putValueTest() {
-		MultiValueMap<Integer, String> map = new ListValueMap<>();
+		final MultiValueMap<Integer, String> map = new ListValueMap<>();
 		Assertions.assertTrue(map.putValue(1, "a"));
 		Assertions.assertTrue(map.putValue(1, "b"));
 		Assertions.assertTrue(map.putValue(1, "c"));
@@ -56,12 +56,12 @@ public class ListValueMapTest {
 
 	@Test
 	public void putAllValueTest() {
-		MultiValueMap<Integer, String> map = new ListValueMap<>();
+		final MultiValueMap<Integer, String> map = new ListValueMap<>();
 		Assertions.assertTrue(map.putAllValues(1, Arrays.asList("a", "b", "c")));
 		Assertions.assertEquals(1, map.size());
 		Assertions.assertEquals(Arrays.asList("a", "b", "c"), map.get(1));
 
-		Map<Integer, Collection<String>> source = new HashMap<>();
+		final Map<Integer, Collection<String>> source = new HashMap<>();
 		Assertions.assertTrue(map.putValue(1, "e"));
 		Assertions.assertTrue(map.putValue(1, "f"));
 		map.putAllValues(source);
@@ -70,14 +70,14 @@ public class ListValueMapTest {
 
 	@Test
 	public void putValuesTest() {
-		MultiValueMap<Integer, String> map = new ListValueMap<>();
+		final MultiValueMap<Integer, String> map = new ListValueMap<>();
 		Assertions.assertTrue(map.putValues(1, "a", "b", "c"));
 		Assertions.assertEquals(Arrays.asList("a", "b", "c"), map.get(1));
 	}
 
 	@Test
 	public void removeValueTest() {
-		MultiValueMap<Integer, String> map = new ListValueMap<>();
+		final MultiValueMap<Integer, String> map = new ListValueMap<>();
 		map.putValues(1, "a", "b", "c");
 		Assertions.assertFalse(map.removeValue(1, "d"));
 		Assertions.assertTrue(map.removeValue(1, "c"));
@@ -86,7 +86,7 @@ public class ListValueMapTest {
 
 	@Test
 	public void removeAllValuesTest() {
-		MultiValueMap<Integer, String> map = new ListValueMap<>();
+		final MultiValueMap<Integer, String> map = new ListValueMap<>();
 		map.putValues(1, "a", "b", "c");
 		Assertions.assertFalse(map.removeAllValues(1, Arrays.asList("e", "f")));
 		Assertions.assertTrue(map.removeAllValues(1, Arrays.asList("b", "c")));
@@ -95,7 +95,7 @@ public class ListValueMapTest {
 
 	@Test
 	public void removeValuesTest() {
-		MultiValueMap<Integer, String> map = new ListValueMap<>();
+		final MultiValueMap<Integer, String> map = new ListValueMap<>();
 		map.putValues(1, "a", "b", "c");
 		Assertions.assertFalse(map.removeValues(1, "e", "f"));
 		Assertions.assertTrue(map.removeValues(1, "b", "c"));
@@ -104,7 +104,7 @@ public class ListValueMapTest {
 
 	@Test
 	public void testFilterAllValues() {
-		MultiValueMap<Integer, String> map = new ListValueMap<>();
+		final MultiValueMap<Integer, String> map = new ListValueMap<>();
 		Assertions.assertTrue(map.putValues(1, "a", "b", "c"));
 		Assertions.assertTrue(map.putValues(2, "a", "b", "c"));
 
@@ -119,7 +119,7 @@ public class ListValueMapTest {
 
 	@Test
 	public void testReplaceAllValues() {
-		MultiValueMap<Integer, String> map = new ListValueMap<>();
+		final MultiValueMap<Integer, String> map = new ListValueMap<>();
 		Assertions.assertTrue(map.putValues(1, "a", "b", "c"));
 		Assertions.assertTrue(map.putValues(2, "a", "b", "c"));
 
@@ -134,7 +134,7 @@ public class ListValueMapTest {
 
 	@Test
 	public void getValuesTest() {
-		MultiValueMap<Integer, String> map = new ListValueMap<>();
+		final MultiValueMap<Integer, String> map = new ListValueMap<>();
 		map.putValues(1, "a", "b", "c");
 		Assertions.assertEquals(Collections.emptyList(), map.getValues(2));
 		Assertions.assertEquals(Arrays.asList("a", "b", "c"), map.getValues(1));
@@ -142,7 +142,7 @@ public class ListValueMapTest {
 
 	@Test
 	public void sizeTest() {
-		MultiValueMap<Integer, String> map = new ListValueMap<>();
+		final MultiValueMap<Integer, String> map = new ListValueMap<>();
 		map.putValues(1, "a", "b", "c");
 		Assertions.assertEquals(0, map.size(2));
 		Assertions.assertEquals(3, map.size(1));
@@ -150,10 +150,10 @@ public class ListValueMapTest {
 
 	@Test
 	public void allForEachTest() {
-		MultiValueMap<Integer, String> map = new ListValueMap<>();
+		final MultiValueMap<Integer, String> map = new ListValueMap<>();
 		map.putValues(1, "a", "b", "c");
-		List<Integer> keys = new ArrayList<>();
-		List<String> values = new ArrayList<>();
+		final List<Integer> keys = new ArrayList<>();
+		final List<String> values = new ArrayList<>();
 		map.allForEach((k, v) -> {
 			keys.add(k);
 			values.add(v);
@@ -164,7 +164,7 @@ public class ListValueMapTest {
 
 	@Test
 	public void allValuesTest() {
-		MultiValueMap<Integer, String> map = new ListValueMap<>();
+		final MultiValueMap<Integer, String> map = new ListValueMap<>();
 		map.putAllValues(1, Arrays.asList("a", "b", "c"));
 		map.putAllValues(2, Arrays.asList("d", "e"));
 		Assertions.assertEquals(

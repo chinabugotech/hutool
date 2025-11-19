@@ -36,7 +36,7 @@ public class HutoolConfig extends BaseAIConfig {
 		setModel(DEFAULT_MODEL);
 	}
 
-	public HutoolConfig(String apiKey) {
+	public HutoolConfig(final String apiKey) {
 		this();
 		setApiKey(apiKey);
 	}

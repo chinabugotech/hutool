@@ -81,10 +81,10 @@ public class SmartHttpServerEngine extends AbstractServerEngine {
 		if(null != sslContext){
 			try {
 				// 使用反射创建SslPlugin
-				Class<?> sslPluginClass = Class.forName("org.smartboot.socket.extension.plugins.SslPlugin");
-				Object sslPlugin = sslPluginClass.getConstructor(Supplier.class).newInstance((Supplier<SSLContext>) () -> sslContext);
+				final Class<?> sslPluginClass = Class.forName("org.smartboot.socket.extension.plugins.SslPlugin");
+				final Object sslPlugin = sslPluginClass.getConstructor(Supplier.class).newInstance((Supplier<SSLContext>) () -> sslContext);
 				// 使用反射调用addPlugin方法
-				Method addPlugin = configuration.getClass().getMethod("addPlugin", Object.class);
+				final Method addPlugin = configuration.getClass().getMethod("addPlugin", Object.class);
 				addPlugin.invoke(configuration, sslPlugin);
 			} catch (final Exception e) {
 				throw new HttpException(e);

@@ -27,7 +27,7 @@ public class IssueIB1QHQTest {
 	@Disabled
 	void requestByOkHttpTest() {
 		for (int i = 0; i < 3; i++) {
-			String response = ClientEngineFactory.createEngine("OkHttp")
+			final String response = ClientEngineFactory.createEngine("OkHttp")
 				.send(Request
 					.of("https://hutool.cn")
 					.method(Method.POST)

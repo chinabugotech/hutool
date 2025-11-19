@@ -404,7 +404,7 @@ public class CommonsFtp extends AbstractFtp {
 	}
 
 	@Override
-	public boolean rename(String oldPath, String newPath) {
+	public boolean rename(final String oldPath, final String newPath) {
 		try {
 			return this.client.rename(oldPath, newPath);
 		} catch (final IOException e) {

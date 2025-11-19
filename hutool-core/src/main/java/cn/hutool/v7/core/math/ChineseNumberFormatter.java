@@ -161,7 +161,7 @@ public class ChineseNumberFormatter {
 	public String format(final BigDecimal amount) {
 		final long longValue = amount.longValue();
 
-		String formatAmount;
+		final String formatAmount;
 		if (amount.scale() <= 0) {
 			formatAmount = format(longValue);
 		} else {

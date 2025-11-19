@@ -88,7 +88,7 @@ public class SetUtil {
 		if (null == iterable) {
 			return of(isLinked);
 		}
-		if (iterable instanceof Collection<T> collection) {
+		if (iterable instanceof final Collection<T> collection) {
 			return isLinked ? new LinkedHashSet<>(collection) : new HashSet<>(collection);
 		}
 		return of(isLinked, iterable.iterator());

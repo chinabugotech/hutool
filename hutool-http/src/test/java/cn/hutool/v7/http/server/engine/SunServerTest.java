@@ -26,7 +26,7 @@ import javax.net.ssl.SSLContext;
 import java.security.KeyStore;
 
 public class SunServerTest {
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		final char[] pwd = "123456".toCharArray();
 		final KeyStore keyStore = KeyStoreUtil.readJKSKeyStore(FileUtil.file("d:/test/keystore.jks"), pwd);
 		// 初始化SSLContext

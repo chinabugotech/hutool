@@ -27,7 +27,7 @@ public class Issue3240Test {
 	@Test
 	@Disabled
 	void okHttpTest() {
-		String url = "https://gh.yubue.cn/https://github.com/espressif/arduino-esp32/releases/download/2.0.11/package_esp32_dev_index.json";
+		final String url = "https://gh.yubue.cn/https://github.com/espressif/arduino-esp32/releases/download/2.0.11/package_esp32_dev_index.json";
 		final ClientEngine engine = HttpUtil.createClient("okhttp");
 		final Response send = engine.send(Request.of(url).method(Method.GET));
 		Console.log(send.body().getString());
@@ -36,7 +36,7 @@ public class Issue3240Test {
 	@Test
 	@Disabled
 	void httpClient4Test() {
-		String url = "https://gh.yubue.cn/https://github.com/espressif/arduino-esp32/releases/download/2.0.11/package_esp32_dev_index.json";
+		final String url = "https://gh.yubue.cn/https://github.com/espressif/arduino-esp32/releases/download/2.0.11/package_esp32_dev_index.json";
 		final ClientEngine engine = HttpUtil.createClient("okhttp");
 		final Response send = engine.send(Request.of(url).method(Method.GET));
 		Console.log(send.body().getString());

@@ -36,8 +36,8 @@ public class DynaBeanTest {
 
 	@Test
 	void createDynaBean_withPlainObject_shouldReturnDynaBean() {
-		BeanUtilTest.Person bean = new BeanUtilTest.Person();
-		DynaBean dynaBean = BeanUtil.createDynaBean(bean);
+		final BeanUtilTest.Person bean = new BeanUtilTest.Person();
+		final DynaBean dynaBean = BeanUtil.createDynaBean(bean);
 
 		assertNotNull(dynaBean);
 		assertEquals(bean, dynaBean.getBean());

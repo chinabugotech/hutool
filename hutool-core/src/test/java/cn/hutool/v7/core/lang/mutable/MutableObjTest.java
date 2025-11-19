@@ -50,7 +50,7 @@ class MutableObjTest extends BaseMutableTest<String, MutableObj<String>> {
 	 * @return 值
 	 */
 	@Override
-	MutableObj<String> getMutable(String value) {
+	MutableObj<String> getMutable(final String value) {
 		return new MutableObj<>(value);
 	}
 }

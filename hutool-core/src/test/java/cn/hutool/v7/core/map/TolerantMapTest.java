@@ -27,7 +27,7 @@ public class TolerantMapTest {
 
 	@Test
 	public void testSerialize() {
-		TolerantMap<String, String> map = TolerantMap.of(new HashMap<>(), "default");
+		final TolerantMap<String, String> map = TolerantMap.of(new HashMap<>(), "default");
 		map.put("monday", "星期一");
 		map.put("tuesday", "星期二");
 
@@ -39,7 +39,7 @@ public class TolerantMapTest {
 
 	@Test
 	public void testClone() {
-		TolerantMap<String, String> map = TolerantMap.of(new HashMap<>(), "default");
+		final TolerantMap<String, String> map = TolerantMap.of(new HashMap<>(), "default");
 		map.put("monday", "星期一");
 		map.put("tuesday", "星期二");
 
@@ -50,7 +50,7 @@ public class TolerantMapTest {
 
 	@Test
 	public void testGet() {
-		TolerantMap<String, String> map = TolerantMap.of(new HashMap<>(), "default");
+		final TolerantMap<String, String> map = TolerantMap.of(new HashMap<>(), "default");
 		map.put("monday", "星期一");
 		map.put("tuesday", "星期二");
 

@@ -24,8 +24,8 @@ class PhantomObjTest {
 	@Test
 	@DisplayName("测试 equals 方法与不同引用对象比较")
     void testEqualsWithDifferentReferent() {
-        String differentObject = "different";
-        PhantomObj<String> anotherPhantomObj = new PhantomObj<>(differentObject, queue);
+        final String differentObject = "different";
+        final PhantomObj<String> anotherPhantomObj = new PhantomObj<>(differentObject, queue);
         assertFalse(phantomObj.equals(anotherPhantomObj));
     }
 }

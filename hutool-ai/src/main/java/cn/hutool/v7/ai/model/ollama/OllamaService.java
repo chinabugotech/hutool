@@ -130,7 +130,7 @@ public interface OllamaService extends AIService {
 	 * @return AI回答
 	 * @since 5.8.40
 	 */
-	default String chat(String prompt) {
+	default String chat(final String prompt) {
 		final List<Message> messages = new ArrayList<>();
 		messages.add(new Message("user", prompt));
 		return chat(messages);
@@ -143,7 +143,7 @@ public interface OllamaService extends AIService {
 	 * @param callback 流式数据回调函数
 	 * @since 5.8.40
 	 */
-	default void chat(String prompt, Consumer<String> callback) {
+	default void chat(final String prompt, final Consumer<String> callback) {
 		final List<Message> messages = new ArrayList<>();
 		messages.add(new Message("user", prompt));
 		chat(messages, callback);

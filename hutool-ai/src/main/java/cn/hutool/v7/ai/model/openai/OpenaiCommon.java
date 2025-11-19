@@ -33,7 +33,7 @@ public class OpenaiCommon {
 
 		private final String effort;
 
-		OpenaiReasoning(String effort) {
+		OpenaiReasoning(final String effort) {
 			this.effort = effort;
 		}
 
@@ -51,7 +51,7 @@ public class OpenaiCommon {
 
 		private final String detail;
 
-		OpenaiVision(String detail) {
+		OpenaiVision(final String detail) {
 			this.detail = detail;
 		}
 
@@ -75,7 +75,7 @@ public class OpenaiCommon {
 
 		private final String voice;
 
-		OpenaiSpeech(String voice) {
+		OpenaiSpeech(final String voice) {
 			this.voice = voice;
 		}
 

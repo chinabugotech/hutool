@@ -28,9 +28,9 @@ public class Issue4105Test {
 	void verifyNoneTest() {
 		// {"alg": "none"}.{"exp": 1642196407}
 		// 当定义alg为none时，校验总是成功
-		String head = Base64.encode("{\"alg\": \"none\"}");
-		String payload = Base64.encode("{\"exp\": 1642196407}");
-		String token = StrUtil.format("{}.{}.", head, payload);
+		final String head = Base64.encode("{\"alg\": \"none\"}");
+		final String payload = Base64.encode("{\"exp\": 1642196407}");
+		final String token = StrUtil.format("{}.{}.", head, payload);
 
 		final JWT jwt = JWTUtil.parseToken(token);
 		Assertions.assertNull(jwt.getSigner());
@@ -46,9 +46,9 @@ public class Issue4105Test {
 	void verifyEmptyTest() {
 		// {"alg": "none"}.{"exp": 1642196407}
 		// 当定义alg为none时，校验总是成功
-		String head = Base64.encode("{\"alg\": \"\"}");
-		String payload = Base64.encode("{\"exp\": 1642196407}");
-		String token = StrUtil.format("{}.{}.", head, payload);
+		final String head = Base64.encode("{\"alg\": \"\"}");
+		final String payload = Base64.encode("{\"exp\": 1642196407}");
+		final String token = StrUtil.format("{}.{}.", head, payload);
 
 		final JWT jwt = JWTUtil.parseToken(token);
 		Assertions.assertNull(jwt.getSigner());
@@ -64,9 +64,9 @@ public class Issue4105Test {
 	void verifyHs256Test() {
 		// {"alg": "none"}.{"exp": 1642196407}
 		// 当定义alg为none时，校验总是成功
-		String head = Base64.encode("{\"alg\": \"HS256\"}");
-		String payload = Base64.encode("{\"exp\": 1642196407}");
-		String token = StrUtil.format("{}.{}.", head, payload);
+		final String head = Base64.encode("{\"alg\": \"HS256\"}");
+		final String payload = Base64.encode("{\"exp\": 1642196407}");
+		final String token = StrUtil.format("{}.{}.", head, payload);
 
 		final JWT jwt = JWTUtil.parseToken(token);
 		Assertions.assertNull(jwt.getSigner());

@@ -49,8 +49,8 @@ public class FieldUtilTest {
 		// 如果子类与父类中存在同名字段，则这两个字段同时存在，子类字段在前，父类字段在后。
 		fields = FieldUtil.getFields(TestSubUser.class);
 		assertEquals(4, fields.length);
-		List<Field> idFieldList = Arrays.stream(fields).filter(f -> Objects.equals(f.getName(), TestSubUser.Fields.id)).collect(Collectors.toList());
-		Field firstIdField = CollUtil.getFirst(idFieldList);
+		final List<Field> idFieldList = Arrays.stream(fields).filter(f -> Objects.equals(f.getName(), TestSubUser.Fields.id)).collect(Collectors.toList());
+		final Field firstIdField = CollUtil.getFirst(idFieldList);
 		assertEquals(Objects.requireNonNull(firstIdField).getDeclaringClass().getName(), TestSubUser.class.getName());
 	}
 
@@ -101,7 +101,7 @@ public class FieldUtilTest {
 	public void getFieldMapTest() {
 		// 获取指定类中字段名和字段对应的有序Map，包括其父类中的字段
 		// 如果子类与父类中存在同名字段，则后者覆盖前者。
-		Map<String, Field> fieldMap = FieldUtil.getFieldMap(TestSubUser.class);
+		final Map<String, Field> fieldMap = FieldUtil.getFieldMap(TestSubUser.class);
 		assertEquals(3, fieldMap.size());
 	}
 

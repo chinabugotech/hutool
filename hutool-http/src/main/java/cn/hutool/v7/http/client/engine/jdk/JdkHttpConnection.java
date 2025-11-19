@@ -219,7 +219,7 @@ public class JdkHttpConnection implements HeaderOperation<JdkHttpConnection>, Cl
 	public JdkHttpConnection setSSLInfo(final SSLInfo sslInfo) throws HttpException {
 		final HttpURLConnection conn = this.conn;
 
-		if (conn instanceof HttpsURLConnection httpsConn) {
+		if (conn instanceof final HttpsURLConnection httpsConn) {
 			// Https请求
 			// 验证域
 			Opt.ofNullable(sslInfo.getHostnameVerifier()).ifPresent(httpsConn::setHostnameVerifier);

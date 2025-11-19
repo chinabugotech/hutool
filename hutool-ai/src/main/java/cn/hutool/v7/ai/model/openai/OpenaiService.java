@@ -63,7 +63,7 @@ public interface OpenaiService extends AIService {
 	 * @return AI回答
 	 * @since 6.0.0
 	 */
-	default String chatVision(String prompt, final List<String> images) {
+	default String chatVision(final String prompt, final List<String> images) {
 		return chatVision(prompt, images, OpenaiCommon.OpenaiVision.AUTO.getDetail());
 	}
 
@@ -75,7 +75,7 @@ public interface OpenaiService extends AIService {
 	 * @param callback 流式数据回调函数
 	 * @since 6.0.0
 	 */
-	default void chatVision(String prompt, final List<String> images, final Consumer<String> callback){
+	default void chatVision(final String prompt, final List<String> images, final Consumer<String> callback){
 		chatVision(prompt, images, OpenaiCommon.OpenaiVision.AUTO.getDetail(), callback);
 	}
 
@@ -107,7 +107,7 @@ public interface OpenaiService extends AIService {
 	 * @return 包含生成图片的url
 	 * @since 6.0.0
 	 */
-	default String imagesEdits(String prompt, final File image) {
+	default String imagesEdits(final String prompt, final File image) {
 		return imagesEdits(prompt, image, null);
 	}
 
@@ -137,7 +137,7 @@ public interface OpenaiService extends AIService {
 	 * @return 返回的音频mp3文件流
 	 * @since 6.0.0
 	 */
-	default InputStream textToSpeech(String input) {
+	default InputStream textToSpeech(final String input) {
 		return textToSpeech(input, OpenaiCommon.OpenaiSpeech.ALLOY);
 	}
 
@@ -178,7 +178,7 @@ public interface OpenaiService extends AIService {
 	 * @return AI返回结果
 	 * @since 6.0.0
 	 */
-	default String moderations(String text) {
+	default String moderations(final String text) {
 		return moderations(text, null);
 	}
 
@@ -191,7 +191,7 @@ public interface OpenaiService extends AIService {
 	 * @return AI回答
 	 * @since 6.0.0
 	 */
-	default String chatReasoning(String prompt, String reasoningEffort){
+	default String chatReasoning(final String prompt, final String reasoningEffort){
 		final List<Message> messages = new ArrayList<>();
 		messages.add(new Message("system", "You are a helpful assistant"));
 		messages.add(new Message("user", prompt));
@@ -207,7 +207,7 @@ public interface OpenaiService extends AIService {
 	 * @param callback 流式数据回调函数
 	 * @since 6.0.0
 	 */
-	default void chatReasoning(String prompt, String reasoningEffort, final Consumer<String> callback){
+	default void chatReasoning(final String prompt, final String reasoningEffort, final Consumer<String> callback){
 		final List<Message> messages = new ArrayList<>();
 		messages.add(new Message("system", "You are a helpful assistant"));
 		messages.add(new Message("user", prompt));
@@ -222,7 +222,7 @@ public interface OpenaiService extends AIService {
 	 * @return AI回答
 	 * @since 6.0.0
 	 */
-	default String chatReasoning(String prompt) {
+	default String chatReasoning(final String prompt) {
 		return chatReasoning(prompt, OpenaiCommon.OpenaiReasoning.MEDIUM.getEffort());
 	}
 
@@ -234,7 +234,7 @@ public interface OpenaiService extends AIService {
 	 * @param callback 流式数据回调函数
 	 * @since 6.0.0
 	 */
-	default void chatReasoning(String prompt, final Consumer<String> callback) {
+	default void chatReasoning(final String prompt, final Consumer<String> callback) {
 		chatReasoning(prompt, OpenaiCommon.OpenaiReasoning.MEDIUM.getEffort(), callback);
 	}
 

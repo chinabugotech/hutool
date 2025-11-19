@@ -61,7 +61,7 @@ public interface HutoolService extends AIService {
 	 * @return AI回答
 	 * @since 6.0.0
 	 */
-	default String chatVision(String prompt, final List<String> images) {
+	default String chatVision(final String prompt, final List<String> images) {
 		return chatVision(prompt, images, HutoolCommon.HutoolVision.AUTO.getDetail());
 	}
 
@@ -73,7 +73,7 @@ public interface HutoolService extends AIService {
 	 * @param callback 流式数据回调函数
 	 * @since 6.0.0
 	 */
-	default void chatVision(String prompt, final List<String> images, final Consumer<String> callback){
+	default void chatVision(final String prompt, final List<String> images, final Consumer<String> callback){
 		chatVision(prompt, images, HutoolCommon.HutoolVision.AUTO.getDetail(), callback);
 	}
 
@@ -122,7 +122,7 @@ public interface HutoolService extends AIService {
 	 * @return 返回的音频mp3文件流
 	 * @since 6.0.0
 	 */
-	default InputStream tts(String input) {
+	default InputStream tts(final String input) {
 		return tts(input, HutoolCommon.HutoolSpeech.ALLOY);
 	}
 
@@ -154,7 +154,7 @@ public interface HutoolService extends AIService {
 	 * @return 生成任务id
 	 * @since 6.0.0
 	 */
-	default String videoTasks(String text, String image) {
+	default String videoTasks(final String text, final String image) {
 		return videoTasks(text, image, null);
 	}
 

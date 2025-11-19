@@ -43,9 +43,9 @@ public class RangeTest {
 	@Test
 	@DisplayName("测试不包含起始元素的迭代")
 	void testIteratorWithoutIncludeStart() {
-		Range<Integer> range = new Range<>(1, 5, (current, end, index) -> current + 1, false, true);
-		List<Integer> elements = new ArrayList<>();
-		for (Integer i : range) {
+		final Range<Integer> range = new Range<>(1, 5, (current, end, index) -> current + 1, false, true);
+		final List<Integer> elements = new ArrayList<>();
+		for (final Integer i : range) {
 			elements.add(i);
 		}
 

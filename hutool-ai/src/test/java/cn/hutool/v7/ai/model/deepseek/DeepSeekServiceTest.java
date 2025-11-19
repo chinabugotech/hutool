@@ -45,9 +45,9 @@ class DeepSeekServiceTest {
 	@Test
 	@Disabled
 	void chatStream() {
-		String prompt = "写一个疯狂星期四广告词";
+		final String prompt = "写一个疯狂星期四广告词";
 		// 使用AtomicBoolean作为结束标志
-		AtomicBoolean isDone = new AtomicBoolean(false);
+		final AtomicBoolean isDone = new AtomicBoolean(false);
 
 		deepSeekService.chat(prompt, data -> {
 			assertNotNull(data);
@@ -85,9 +85,9 @@ class DeepSeekServiceTest {
 	@Test
 	@Disabled
 	void betaStream() {
-		String beta = "写一个疯狂星期四广告词";
+		final String beta = "写一个疯狂星期四广告词";
 		// 使用AtomicBoolean作为结束标志
-		AtomicBoolean isDone = new AtomicBoolean(false);
+		final AtomicBoolean isDone = new AtomicBoolean(false);
 
 		deepSeekService.beta(beta, data -> {
 			assertNotNull(data);

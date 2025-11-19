@@ -37,7 +37,7 @@ public class JettyRequest implements ServerRequest {
 	 *
 	 * @param request Jetty请求对象
 	 */
-	public JettyRequest(Request request) {
+	public JettyRequest(final Request request) {
 		this.request = request;
 	}
 
@@ -57,7 +57,7 @@ public class JettyRequest implements ServerRequest {
 	}
 
 	@Override
-	public String getHeader(String name) {
+	public String getHeader(final String name) {
 		return request.getHeaders().get(name);
 	}
 

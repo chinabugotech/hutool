@@ -41,7 +41,7 @@ public class PredicateUtilTest {
 
 	@Test
 	public void andTest() {
-		boolean condition = Stream.of(1, 3, 5)
+		final boolean condition = Stream.of(1, 3, 5)
 				.allMatch(
 						PredicateUtil.and(
 								Objects::nonNull,
@@ -54,7 +54,7 @@ public class PredicateUtilTest {
 
 	@Test
 	public void orTest() {
-		boolean condition = Stream.of(1, 3, 5)
+		final boolean condition = Stream.of(1, 3, 5)
 				.anyMatch(
 						PredicateUtil.or(
 								Objects::isNull,

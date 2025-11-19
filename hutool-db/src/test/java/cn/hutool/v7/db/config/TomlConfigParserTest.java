@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 public class TomlConfigParserTest {
 	@Test
 	public void parseTest() {
-		DbConfig dbConfig = TomlConfigParser.of().parse("");
+		final DbConfig dbConfig = TomlConfigParser.of().parse("");
 		assertEquals("org.sqlite.JDBC", dbConfig.getDriver());
 		assertEquals("jdbc:sqlite:test.db", dbConfig.getUrl());
 		assertNull(dbConfig.getUser());
@@ -22,7 +22,7 @@ public class TomlConfigParserTest {
 
 	@Test
 	void parseOrclTest(){
-		DbConfig dbConfig = TomlConfigParser.of().parse("orcl");
+		final DbConfig dbConfig = TomlConfigParser.of().parse("orcl");
 		Console.log(dbConfig);
 
 		assertEquals("oracle.jdbc.OracleDriver", dbConfig.getDriver());

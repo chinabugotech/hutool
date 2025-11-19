@@ -39,7 +39,7 @@ public interface DoubaoService extends AIService {
 	 * @return AI回答
 	 * @since 6.0.0
 	 */
-	default String chatVision(String prompt, final List<String> images) {
+	default String chatVision(final String prompt, final List<String> images) {
 		return chatVision(prompt, images, DoubaoCommon.DoubaoVision.AUTO.getDetail());
 	}
 
@@ -51,7 +51,7 @@ public interface DoubaoService extends AIService {
 	 * @param callback 流式数据回调函数
 	 * @since 6.0.0
 	 */
-	default void chatVision(String prompt, final List<String> images, final Consumer<String> callback) {
+	default void chatVision(final String prompt, final List<String> images, final Consumer<String> callback) {
 		chatVision(prompt, images, DoubaoCommon.DoubaoVision.AUTO.getDetail(), callback);
 	}
 
@@ -98,7 +98,7 @@ public interface DoubaoService extends AIService {
 	 * @return 生成任务id
 	 * @since 6.0.0
 	 */
-	default String videoTasks(String text, String image) {
+	default String videoTasks(final String text, final String image) {
 		return videoTasks(text, image, null);
 	}
 
@@ -166,7 +166,7 @@ public interface DoubaoService extends AIService {
 	 * @return AI回答
 	 * @since 6.0.0
 	 */
-	default String batchChat(String prompt){
+	default String batchChat(final String prompt){
 		final List<Message> messages = new ArrayList<>();
 		messages.add(new Message("system", "You are a helpful assistant"));
 		messages.add(new Message("user", prompt));
@@ -218,7 +218,7 @@ public interface DoubaoService extends AIService {
 	 * @return AI的回答
 	 * @since 6.0.0
 	 */
-	default String chatContext(String prompt, String contextId){
+	default String chatContext(final String prompt, final String contextId){
 		final List<Message> messages = new ArrayList<>();
 		messages.add(new Message("user", prompt));
 		return chatContext(messages, contextId);
@@ -233,7 +233,7 @@ public interface DoubaoService extends AIService {
 	 * @param callback 流式数据回调函数
 	 * @since 6.0.0
 	 */
-	default void chatContext(String prompt, String contextId, final Consumer<String> callback){
+	default void chatContext(final String prompt, final String contextId, final Consumer<String> callback){
 		final List<Message> messages = new ArrayList<>();
 		messages.add(new Message("user", prompt));
 		chatContext(messages, contextId, callback);

@@ -32,14 +32,14 @@ public class TransIterTest {
 
 	@Test
 	public void testHasNext() {
-		TransIter<Integer, String> iter = new TransIter<>(Arrays.asList(1, 2, 3).iterator(), String::valueOf);
+		final TransIter<Integer, String> iter = new TransIter<>(Arrays.asList(1, 2, 3).iterator(), String::valueOf);
 		Assertions.assertTrue(iter.hasNext());
 		Assertions.assertFalse(new TransIter<>(Collections.emptyIterator(), Function.identity()).hasNext());
 	}
 
 	@Test
 	public void testNext() {
-		TransIter<Integer, String> iter = new TransIter<>(Arrays.asList(1, 2, 3).iterator(), String::valueOf);
+		final TransIter<Integer, String> iter = new TransIter<>(Arrays.asList(1, 2, 3).iterator(), String::valueOf);
 		Assertions.assertEquals("1", iter.next());
 		Assertions.assertEquals("2", iter.next());
 		Assertions.assertEquals("3", iter.next());
@@ -47,8 +47,8 @@ public class TransIterTest {
 
 	@Test
 	public void testRemove() {
-		List<Integer> list = ListUtil.of(1, 2, 3);
-		TransIter<Integer, String> iter = new TransIter<>(list.iterator(), String::valueOf);
+		final List<Integer> list = ListUtil.of(1, 2, 3);
+		final TransIter<Integer, String> iter = new TransIter<>(list.iterator(), String::valueOf);
 		iter.next();
 		iter.remove();
 		iter.next();

@@ -47,7 +47,7 @@ public class MutableShortTest extends BaseMutableTest<Number, MutableShort> {
 	 * @return 值
 	 */
 	@Override
-	MutableShort getMutable(Number value) {
+	MutableShort getMutable(final Number value) {
 		return new MutableShort(value);
 	}
 }

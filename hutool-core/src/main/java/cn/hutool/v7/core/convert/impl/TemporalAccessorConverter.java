@@ -110,7 +110,7 @@ public class TemporalAccessorConverter extends AbstractConverter {
 		} else if (value instanceof Date) {
 			final DateTime dateTime = DateUtil.date((Date) value);
 			return parseFromInstant(targetClass, dateTime.toInstant(), dateTime.getZoneId());
-		} else if (value instanceof Calendar calendar) {
+		} else if (value instanceof final Calendar calendar) {
 			return parseFromInstant(targetClass, calendar.toInstant(), calendar.getTimeZone().toZoneId());
 		} else {
 			return parseFromCharSequence(targetClass, convertToStr(value));

@@ -33,25 +33,25 @@ class HierarchyIteratorTest {
 
 	@Test
 	void testNoSuchElementException() {
-		Node node = createTree();
+		final Node node = createTree();
 		// 根节点也被忽略，将会抛出异常
 		Assertions.assertThrows(IllegalArgumentException.class, () -> HierarchyIterator.depthFirst(node, node1 -> node1.children, node1 -> false));
 		// 忽略所有节点，将会抛出NoSuchElementException
-		HierarchyIterator<Node> iterator = HierarchyIterator.depthFirst(node, node1 -> node1.children, node1 -> node1.id.equals("1"));
+		final HierarchyIterator<Node> iterator = HierarchyIterator.depthFirst(node, node1 -> node1.children, node1 -> node1.id.equals("1"));
 		Assertions.assertSame(node, iterator.next());
 		Assertions.assertThrows(NoSuchElementException.class, iterator::next);
 	}
 
 	@Test
 	void testDepthFirstWithFilter() {
-		Node node = createTree();
+		final Node node = createTree();
 		// 按深度度优先遍历树结构，忽略id为1-1的节点与以其为根节点的子树
-		List<String> nodes = new ArrayList<>();
-		HierarchyIterator<Node> iterator = HierarchyIterator.depthFirst(
+		final List<String> nodes = new ArrayList<>();
+		final HierarchyIterator<Node> iterator = HierarchyIterator.depthFirst(
 			node, node1 -> node1.children, node1 -> !node1.id.equals("1-1")
 		);
 		while (iterator.hasNext()) {
-			Node node1 = iterator.next();
+			final Node node1 = iterator.next();
 			nodes.add(node1.id);
 		}
 		Assertions.assertEquals(Arrays.asList("1", "1-2", "1-2-1", "1-2-2"), nodes);
@@ -59,12 +59,12 @@ class HierarchyIteratorTest {
 
 	@Test
 	void testDepthFirst() {
-		Node node = createTree();
+		final Node node = createTree();
 		// 按深度度优先遍历树结构
-		List<String> nodes = new ArrayList<>();
-		HierarchyIterator<Node> iterator = HierarchyIterator.depthFirst(node, node1 -> node1.children);
+		final List<String> nodes = new ArrayList<>();
+		final HierarchyIterator<Node> iterator = HierarchyIterator.depthFirst(node, node1 -> node1.children);
 		while (iterator.hasNext()) {
-			Node node1 = iterator.next();
+			final Node node1 = iterator.next();
 			nodes.add(node1.id);
 		}
 		Assertions.assertEquals(Arrays.asList("1", "1-1", "1-1-1", "1-1-2", "1-2", "1-2-1", "1-2-2"), nodes);
@@ -72,14 +72,14 @@ class HierarchyIteratorTest {
 
 	@Test
 	void testBreadthFirstWithFilter() {
-		Node node = createTree();
+		final Node node = createTree();
 		// 按深度度优先遍历树结构，忽略id为1-1的节点与以其为根节点的子树
-		List<String> nodes = new ArrayList<>();
-		HierarchyIterator<Node> iterator = HierarchyIterator.breadthFirst(
+		final List<String> nodes = new ArrayList<>();
+		final HierarchyIterator<Node> iterator = HierarchyIterator.breadthFirst(
 			node, node1 -> node1.children, node1 -> !node1.id.equals("1-1")
 		);
 		while (iterator.hasNext()) {
-			Node node1 = iterator.next();
+			final Node node1 = iterator.next();
 			nodes.add(node1.id);
 		}
 		Assertions.assertEquals(Arrays.asList("1", "1-2", "1-2-1", "1-2-2"), nodes);
@@ -87,12 +87,12 @@ class HierarchyIteratorTest {
 
 	@Test
 	void testBreadthFirst() {
-		Node root = createGraph();
+		final Node root = createGraph();
 		// 按深度度优先遍历图结构
-		List<String> nodes = new ArrayList<>();
-		HierarchyIterator<Node> iterator = HierarchyIterator.breadthFirst(root, node -> node.children);
+		final List<String> nodes = new ArrayList<>();
+		final HierarchyIterator<Node> iterator = HierarchyIterator.breadthFirst(root, node -> node.children);
 		while (iterator.hasNext()) {
-			Node node = iterator.next();
+			final Node node = iterator.next();
 			nodes.add(node.id);
 		}
 		Assertions.assertEquals(Arrays.asList("1", "4", "2", "3"), nodes);
@@ -100,10 +100,10 @@ class HierarchyIteratorTest {
 
 	private static Node createGraph() {
 		// 构建一个包含四个节点的图，每一个节点都有两个相邻节点
-		Node node1 = new Node("1");
-		Node node2 = new Node("2");
-		Node node3 = new Node("3");
-		Node node4 = new Node("4");
+		final Node node1 = new Node("1");
+		final Node node2 = new Node("2");
+		final Node node3 = new Node("3");
+		final Node node4 = new Node("4");
 		node1.children = Arrays.asList(node4, node2);
 		node2.children = Arrays.asList(node1, node3);
 		node3.children = Arrays.asList(node2, node4);
@@ -131,11 +131,11 @@ class HierarchyIteratorTest {
 	private static class Node {
 		private final String id;
 		private List<Node> children;
-		private Node(String id, List<Node> children) {
+		private Node(final String id, final List<Node> children) {
 			this.id = id;
 			this.children = children;
 		}
-		public Node(String id) {
+		public Node(final String id) {
 			this.id = id;
 		}
 	}

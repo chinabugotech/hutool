@@ -36,7 +36,7 @@ public class OpenaiConfig extends BaseAIConfig {
 		setModel(DEFAULT_MODEL);
 	}
 
-	public OpenaiConfig(String apiKey) {
+	public OpenaiConfig(final String apiKey) {
 		this();
 		setApiKey(apiKey);
 	}

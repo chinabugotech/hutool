@@ -212,7 +212,7 @@ public class TemplateConfig implements Serializable {
 	 * @return this
 	 * @since 5.8.38
 	 */
-	public TemplateConfig setUseCache(boolean useCache) {
+	public TemplateConfig setUseCache(final boolean useCache) {
 		this.useCache = useCache;
 		return this;
 	}

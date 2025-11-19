@@ -2419,6 +2419,8 @@ public class CharSequenceUtil extends StrValidator {
 		if (str1 instanceof String && str2 instanceof String) {
 			return ((String) str1).regionMatches(ignoreCase, offset1, (String) str2, offset2, length);
 		}
+		// pr#4134@Github
+		// 当 CharSequence 为 StringBuilder 类时会发生拷贝，效率很低，而且复杂度会退化至 O(N^2)，这里直接手动匹配
 		if (offset1 < 0 || offset2 < 0 || length < 0) {
 			return false;
 		}
@@ -2426,17 +2428,8 @@ public class CharSequenceUtil extends StrValidator {
 			return false;
 		}
 		for (int i = 0; i < length; i++) {
-			final char c1 = str1.charAt(offset1 + i);
-			final char c2 = str2.charAt(offset2 + i);
-			if (c1 == c2) {
+			if (CharUtil.equals(str1.charAt(offset1 + i), str2.charAt(offset2 + i), ignoreCase)) {
 				continue;
-			}
-			if (ignoreCase) {
-				final char u1 = Character.toLowerCase(c1);
-				final char u2 = Character.toLowerCase(c2);
-				if (u1 == u2) {
-					continue;
-				}
 			}
 			return false;
 		}
@@ -3978,7 +3971,7 @@ public class CharSequenceUtil extends StrValidator {
 	 * @return StringBuilder对象
 	 * @since 5.8.42
 	 */
-	public static StringBuilder builder(Function<CharSequence, CharSequence> strEditor, final CharSequence... strs){
+	public static StringBuilder builder(final Function<CharSequence, CharSequence> strEditor, final CharSequence... strs){
 		final StringBuilder sb = new StringBuilder();
 		for (final CharSequence str : strs) {
 			sb.append(strEditor.apply( str));

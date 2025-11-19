@@ -56,7 +56,7 @@ public class PostgreTest {
 	@Test
 	@Disabled
 	public void upsertTest() {
-		String createTableStr = """
+		final String createTableStr = """
 				CREATE TABLE
 				IF
 					NOT EXISTS "ctest" (
@@ -99,7 +99,7 @@ public class PostgreTest {
 	@Disabled
 	void namedSqlWithInTest() {
 		final HashMap<String, Object> paramMap = MapUtil.of("number", new int[]{1, 2, 3});
-		NamedSql namedSql = new NamedSql("select case when 2 = any(ARRAY[:number]) and 1 in (1) then 1 else 0 end", paramMap);
+		final NamedSql namedSql = new NamedSql("select case when 2 = any(ARRAY[:number]) and 1 in (1) then 1 else 0 end", paramMap);
 		final Db db = Db.of("postgre");
 		final List<Entity> query = db.query(namedSql.getSql(), namedSql.getParamArray());
 		Console.log(query);

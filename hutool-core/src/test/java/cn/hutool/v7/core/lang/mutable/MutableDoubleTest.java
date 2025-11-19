@@ -48,7 +48,7 @@ public class MutableDoubleTest extends BaseMutableTest<Number, MutableDouble> {
 	 * @return 值
 	 */
 	@Override
-	MutableDouble getMutable(Number value) {
+	MutableDouble getMutable(final Number value) {
 		return new MutableDouble(value);
 	}
 }

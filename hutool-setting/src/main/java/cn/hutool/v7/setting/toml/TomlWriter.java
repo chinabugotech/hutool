@@ -152,7 +152,7 @@ public class TomlWriter {
 		for (final Map.Entry<String, Object> entry : table.entrySet()) {
 			final String name = entry.getKey();
 			final Object value = entry.getValue();
-			if (value instanceof Collection<?> c) {// array
+			if (value instanceof final Collection<?> c) {// array
 				if (!c.isEmpty() && c.iterator().next() instanceof Map) {// array of tables
 					if (simpleValues) {
 						continue;
@@ -178,7 +178,7 @@ public class TomlWriter {
 					write(" = ");
 					writeArray(c);
 				}
-			} else if (value instanceof Object[] array) {// array
+			} else if (value instanceof final Object[] array) {// array
 				if (array.length > 0 && array[0] instanceof Map) {// array of tables
 					if (simpleValues) {
 						continue;

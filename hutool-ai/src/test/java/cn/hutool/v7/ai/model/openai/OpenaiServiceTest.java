@@ -56,9 +56,9 @@ class OpenaiServiceTest {
 	@Test
 	@Disabled
 	void chatStream() {
-		String prompt = "写一个疯狂星期四广告词";
+		final String prompt = "写一个疯狂星期四广告词";
 		// 使用AtomicBoolean作为结束标志
-		AtomicBoolean isDone = new AtomicBoolean(false);
+		final AtomicBoolean isDone = new AtomicBoolean(false);
 
 		openaiService.chat(prompt, data -> {
 			assertNotNull(data);
@@ -91,11 +91,11 @@ class OpenaiServiceTest {
 	void testChatVisionStream() {
 		final OpenaiService openaiService = AIServiceFactory.getAIService(new AIConfigBuilder(ModelName.OPENAI.getValue())
 			.setApiKey(key).setModel(Models.Openai.GPT_4O_MINI.getModel()).build(), OpenaiService.class);
-		String prompt = "图片上有些什么？";
-		List<String> images = List.of("https://img2.baidu.com/it/u=862000265,4064861820&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1544\",\"https://img2.baidu.com/it/u=1682510685,1244554634&fm=253&fmt=auto&app=138&f=JPEG?w=803&h=800");
+		final String prompt = "图片上有些什么？";
+		final List<String> images = List.of("https://img2.baidu.com/it/u=862000265,4064861820&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1544\",\"https://img2.baidu.com/it/u=1682510685,1244554634&fm=253&fmt=auto&app=138&f=JPEG?w=803&h=800");
 
 		// 使用AtomicBoolean作为结束标志
-		AtomicBoolean isDone = new AtomicBoolean(false);
+		final AtomicBoolean isDone = new AtomicBoolean(false);
 		openaiService.chatVision(prompt,images, data -> {
 			assertNotNull(data);
 			if (data.contains("[DONE]")) {
@@ -226,7 +226,7 @@ class OpenaiServiceTest {
 		messages.add(new Message("user","给我一个KFC疯狂星期四的文案"));
 
 		// 使用AtomicBoolean作为结束标志
-		AtomicBoolean isDone = new AtomicBoolean(false);
+		final AtomicBoolean isDone = new AtomicBoolean(false);
 		openaiService.chatReasoning(messages,OpenaiCommon.OpenaiReasoning.HIGH.getEffort(), data -> {
 			assertNotNull(data);
 			if (data.contains("[DONE]")) {

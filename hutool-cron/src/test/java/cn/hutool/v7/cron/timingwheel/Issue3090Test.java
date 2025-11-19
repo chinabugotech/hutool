@@ -17,8 +17,8 @@
 package cn.hutool.v7.cron.timingwheel;
 
 public class Issue3090Test {
-	public static void main(String[] args) {
-		SystemTimer timer = new SystemTimer();
+	public static void main(final String[] args) {
+		final SystemTimer timer = new SystemTimer();
 		timer.setDelayQueueTimeout(1000);
 		timer.start();
 		timer.addTask(new TimerTask(() -> {

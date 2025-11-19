@@ -219,7 +219,7 @@ public class ExcelBase<T extends ExcelBase<T, C>, C extends ExcelConfig> impleme
 	@SuppressWarnings("unchecked")
 	public T cloneSheet(final int sheetIndex, final String newSheetName, final boolean setAsCurrentSheet) {
 		final Sheet sheet;
-		if (this.workbook instanceof XSSFWorkbook xssfWorkbook) {
+		if (this.workbook instanceof final XSSFWorkbook xssfWorkbook) {
 			sheet = xssfWorkbook.cloneSheet(sheetIndex, newSheetName);
 		} else {
 			sheet = this.workbook.cloneSheet(sheetIndex);

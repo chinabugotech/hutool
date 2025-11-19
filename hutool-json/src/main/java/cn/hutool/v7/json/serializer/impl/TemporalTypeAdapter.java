@@ -134,11 +134,11 @@ public class TemporalTypeAdapter implements MatcherJSONSerializer<TemporalAccess
 	 * @param json JSONObject
 	 */
 	private static void toJSONObject(final TemporalAccessor bean, final JSONObject json) {
-		if (bean instanceof LocalDate localDate) {
+		if (bean instanceof final LocalDate localDate) {
 			json.putValue(YEAR_KEY, localDate.getYear());
 			json.putValue(MONTH_KEY, localDate.getMonthValue());
 			json.putValue(DAY_KEY, localDate.getDayOfMonth());
-		} else if (bean instanceof LocalDateTime localDateTime) {
+		} else if (bean instanceof final LocalDateTime localDateTime) {
 			json.putValue(YEAR_KEY, localDateTime.getYear());
 			json.putValue(MONTH_KEY, localDateTime.getMonthValue());
 			json.putValue(DAY_KEY, localDateTime.getDayOfMonth());
@@ -146,7 +146,7 @@ public class TemporalTypeAdapter implements MatcherJSONSerializer<TemporalAccess
 			json.putValue(MINUTE_KEY, localDateTime.getMinute());
 			json.putValue(SECOND_KEY, localDateTime.getSecond());
 			json.putValue(NANO_KEY, localDateTime.getNano());
-		} else if (bean instanceof LocalTime localTime) {
+		} else if (bean instanceof final LocalTime localTime) {
 			json.putValue(HOUR_KEY, localTime.getHour());
 			json.putValue(MINUTE_KEY, localTime.getMinute());
 			json.putValue(SECOND_KEY, localTime.getSecond());

@@ -134,7 +134,7 @@ public class Number128 extends Number implements Comparable<Number128>{
 		if (this == o) {
 			return true;
 		}
-		if (o instanceof Number128 number128) {
+		if (o instanceof final Number128 number128) {
 			return leastSigBits == number128.leastSigBits && mostSigBits == number128.mostSigBits;
 		}
 		return false;

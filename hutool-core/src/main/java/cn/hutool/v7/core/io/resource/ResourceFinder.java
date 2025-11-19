@@ -127,7 +127,7 @@ public class ResourceFinder {
 		String rootEntryPath;
 		final boolean closeJarFile;
 
-		if (conn instanceof JarURLConnection jarCon) {
+		if (conn instanceof final JarURLConnection jarCon) {
 			UrlUtil.useCachesIfNecessary(jarCon);
 			jarFile = jarCon.getJarFile();
 			final JarEntry jarEntry = jarCon.getJarEntry();

@@ -41,7 +41,7 @@ public class JettyHandler extends Handler.Abstract {
 	}
 
 	@Override
-	public boolean handle(Request request, Response response, Callback callback) {
+	public boolean handle(final Request request, final Response response, final Callback callback) {
 		handler.handle(new JettyRequest(request), new JettyResponse(response));
 		return true;
 	}

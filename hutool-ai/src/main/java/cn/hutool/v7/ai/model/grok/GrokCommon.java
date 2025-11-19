@@ -44,7 +44,7 @@ public class GrokCommon {
 
 		private final String detail;
 
-		GrokVision(String detail) {
+		GrokVision(final String detail) {
 			this.detail = detail;
 		}
 

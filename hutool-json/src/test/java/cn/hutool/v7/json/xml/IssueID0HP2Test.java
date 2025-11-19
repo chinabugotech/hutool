@@ -17,7 +17,7 @@ public class IssueID0HP2Test {
 		final JSONObject json = JSONUtil.ofObj(JSONConfig.of().setDateFormat("yyyy/MM/dd"))
 			.putValue("date", DateUtil.parse("2025-10-03"));
 
-		String xml = JSONUtil.toXmlStr(json);
+		final String xml = JSONUtil.toXmlStr(json);
 		Assertions.assertEquals("<date>2025/10/03</date>", xml);
 	}
 }

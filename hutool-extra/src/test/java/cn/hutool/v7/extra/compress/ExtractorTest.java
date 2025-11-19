@@ -22,6 +22,7 @@ import cn.hutool.v7.extra.compress.extractor.Extractor;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+@SuppressWarnings("resource")
 public class ExtractorTest {
 
 	@Test
@@ -47,7 +48,7 @@ public class ExtractorTest {
 	@Test
 	@Disabled
 	public void tgzTest(){
-		Extractor extractor = 	CompressUtil.createExtractor(
+		final Extractor extractor = 	CompressUtil.createExtractor(
 				CharsetUtil.defaultCharset(),
 				"tgz",
 				FileUtil.file("d:/test/test.tgz"));

@@ -47,7 +47,7 @@ public class MutableIntTest extends BaseMutableTest<Number, MutableInt> {
 	 * @return 值
 	 */
 	@Override
-	MutableInt getMutable(Number value) {
+	MutableInt getMutable(final Number value) {
 		return new MutableInt(value);
 	}
 }

@@ -43,7 +43,7 @@ public class MoneyTest {
 
 	@Test
 	public void currencyScalingTest() {
-		Money jpyMoney = new Money(0, Currency.getInstance("JPY"));
+		final Money jpyMoney = new Money(0, Currency.getInstance("JPY"));
 		jpyMoney.setAmount(BigDecimal.ONE);
 		assertEquals(1, jpyMoney.getCent());
 	}

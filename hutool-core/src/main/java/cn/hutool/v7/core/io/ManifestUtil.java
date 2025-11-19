@@ -55,7 +55,7 @@ public class ManifestUtil {
 			throw new IORuntimeException(e);
 		}
 
-		if (connection instanceof JarURLConnection conn) {
+		if (connection instanceof final JarURLConnection conn) {
 			return getManifest(conn);
 		}
 		return null;

@@ -34,7 +34,7 @@ import java.util.concurrent.TimeUnit;
  * form-data: file: file-data
  */
 public class IssueI6Q30XTest {
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		final SimpleServer server = HttpUtil.createServer(8888);
 		server.addAction("/file", (request, response) -> {
 			Console.log(((SunServerRequest)request).getHeaders().entrySet());

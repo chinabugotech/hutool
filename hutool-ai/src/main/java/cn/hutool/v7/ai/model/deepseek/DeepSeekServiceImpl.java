@@ -63,8 +63,8 @@ public class DeepSeekServiceImpl extends BaseAIService implements DeepSeekServic
 	}
 
 	@Override
-	public void chat(List<Message> messages, Consumer<String> callback) {
-		Map<String, Object> paramMap = buildChatStreamRequestBody(messages);
+	public void chat(final List<Message> messages, final Consumer<String> callback) {
+		final Map<String, Object> paramMap = buildChatStreamRequestBody(messages);
 		ThreadUtil.newThread(() -> sendPostStream(CHAT_ENDPOINT, paramMap, callback), "deepseek-chat-sse").start();
 	}
 
@@ -76,8 +76,8 @@ public class DeepSeekServiceImpl extends BaseAIService implements DeepSeekServic
 	}
 
 	@Override
-	public void beta(String prompt, Consumer<String> callback) {
-		Map<String, Object> paramMap = buildBetaStreamRequestBody(prompt);
+	public void beta(final String prompt, final Consumer<String> callback) {
+		final Map<String, Object> paramMap = buildBetaStreamRequestBody(prompt);
 		ThreadUtil.newThread(() -> sendPostStream(BETA_ENDPOINT, paramMap, callback), "deepseek-beta-sse").start();
 	}
 

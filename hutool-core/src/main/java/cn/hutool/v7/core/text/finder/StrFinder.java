@@ -17,7 +17,6 @@
 package cn.hutool.v7.core.text.finder;
 
 import cn.hutool.v7.core.lang.Assert;
-import cn.hutool.v7.core.text.CharSequenceUtil;
 
 import java.io.Serial;
 import java.util.HashMap;
@@ -69,12 +68,13 @@ public class StrFinder extends TextFinder {
 		final int subLen = strToFind.length();
 		final int textLen = text.length();
 
-		// 基于Sunday算法实现高效子串查询
+		// pr#4134@github
+		// 基于Sunday算法实现高效子串查询，理想情况为O(N / M)，最差情况(大量重复元素)会退化至O(M * N)，一般情况下优于 KMP算法，任何情况下都优于原来的暴力算法
 		if (negative) {
 			if (this.reverseOffsetMap == null) {
 				this.reverseOffsetMap = buildReverseOffsetMap(strToFind, caseInsensitive);
 			}
-			int maxIndex = textLen - subLen;
+			final int maxIndex = textLen - subLen;
 			if (from > maxIndex) {
 				from = maxIndex;
 			}
@@ -86,8 +86,8 @@ public class StrFinder extends TextFinder {
 				if (i - 1 < 0) {
 					break;
 				}
-				char preChar = text.charAt(i - 1);
-				int jump = reverseOffsetMap.getOrDefault(
+				final char preChar = text.charAt(i - 1);
+				final int jump = reverseOffsetMap.getOrDefault(
 					caseInsensitive ? Character.toLowerCase(preChar) : preChar,
 					subLen + 1
 				);
@@ -100,7 +100,7 @@ public class StrFinder extends TextFinder {
 			if (from < 0) {
 				from = 0;
 			}
-			int endLimit = textLen - subLen;
+			final int endLimit = textLen - subLen;
 			int i = from;
 			while (i <= endLimit) {
 				if (isSubEquals(text, i, strToFind, 0, subLen, caseInsensitive)) {
@@ -109,8 +109,8 @@ public class StrFinder extends TextFinder {
 				if (i + subLen >= textLen) {
 					break;
 				}
-				char nextChar = text.charAt(i + subLen);
-				int jump = forwardOffsetMap.getOrDefault(
+				final char nextChar = text.charAt(i + subLen);
+				final int jump = forwardOffsetMap.getOrDefault(
 					caseInsensitive ? Character.toLowerCase(nextChar) : nextChar,
 					subLen + 1
 				);
@@ -132,13 +132,13 @@ public class StrFinder extends TextFinder {
 	/**
 	 * 构建正向偏移表
 	 */
-	private static Map<Character, Integer> buildForwardOffsetMap(CharSequence pattern, boolean caseInsensitive) {
-		int m = pattern.length();
-		Map<Character, Integer> map = new HashMap<>(Math.min(m, 128));
+	private static Map<Character, Integer> buildForwardOffsetMap(final CharSequence pattern, final boolean caseInsensitive) {
+		final int m = pattern.length();
+		final Map<Character, Integer> map = new HashMap<>(Math.min(m, 128));
 
 		for (int i = 0; i < m; i++) {
-			char c = pattern.charAt(i);
-			int jump = m - i;
+			final char c = pattern.charAt(i);
+			final int jump = m - i;
 
 			if (caseInsensitive) {
 				map.put(Character.toLowerCase(c), jump);
@@ -152,13 +152,13 @@ public class StrFinder extends TextFinder {
 	/**
 	 * 构建反向偏移表
 	 */
-	private static Map<Character, Integer> buildReverseOffsetMap(CharSequence pattern, boolean caseInsensitive) {
-		int m = pattern.length();
-		Map<Character, Integer> map = new HashMap<>(Math.min(m, 128));
+	private static Map<Character, Integer> buildReverseOffsetMap(final CharSequence pattern, final boolean caseInsensitive) {
+		final int m = pattern.length();
+		final Map<Character, Integer> map = new HashMap<>(Math.min(m, 128));
 
 		for (int i = m - 1; i >= 0; i--) {
-			char c = pattern.charAt(i);
-			int jump = i + 1;
+			final char c = pattern.charAt(i);
+			final int jump = i + 1;
 
 			if (caseInsensitive) {
 				map.put(Character.toLowerCase(c), jump);

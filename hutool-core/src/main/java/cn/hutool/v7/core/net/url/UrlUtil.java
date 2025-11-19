@@ -662,7 +662,7 @@ public class UrlUtil {
 			try {
 				conn = url.openConnection();
 				useCachesIfNecessary(conn);
-				if (conn instanceof HttpURLConnection httpCon) {
+				if (conn instanceof final HttpURLConnection httpCon) {
 					httpCon.setRequestMethod("HEAD");
 				}
 				return conn.getContentLengthLong();

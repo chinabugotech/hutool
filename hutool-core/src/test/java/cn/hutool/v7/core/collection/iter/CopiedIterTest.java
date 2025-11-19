@@ -31,8 +31,8 @@ public class CopiedIterTest {
 
 	@Test
 	public void copyOf() {
-		List<Integer> list = Arrays.asList(1, 2, 3);
-		Iterator<Integer> iter = list.iterator();
+		final List<Integer> list = Arrays.asList(1, 2, 3);
+		final Iterator<Integer> iter = list.iterator();
 		Assertions.assertEquals((Integer)1, iter.next());
 
 		Assertions.assertEquals((Integer)2, CopiedIter.copyOf(iter).next());
@@ -46,8 +46,8 @@ public class CopiedIterTest {
 
 	@Test
 	public void next() {
-		List<Integer> list = Arrays.asList(1, 2, 3);
-		Iterator<Integer> iter = CopiedIter.copyOf(list.iterator());
+		final List<Integer> list = Arrays.asList(1, 2, 3);
+		final Iterator<Integer> iter = CopiedIter.copyOf(list.iterator());
 		Assertions.assertEquals((Integer)1, iter.next());
 		Assertions.assertEquals((Integer)2, iter.next());
 		Assertions.assertEquals((Integer)3, iter.next());
@@ -55,8 +55,8 @@ public class CopiedIterTest {
 
 	@Test
 	public void remove() {
-		List<Integer> list = Arrays.asList(1, 2, 3);
-		Iterator<Integer> iter = CopiedIter.copyOf(list.iterator());
+		final List<Integer> list = Arrays.asList(1, 2, 3);
+		final Iterator<Integer> iter = CopiedIter.copyOf(list.iterator());
 		Assertions.assertThrows(UnsupportedOperationException.class, iter::remove);
 	}
 

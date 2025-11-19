@@ -64,89 +64,89 @@ public class OpenaiServiceImpl extends BaseAIService implements OpenaiService {
 
 	@Override
 	public String chat(final List<Message> messages) {
-		String paramJson = buildChatRequestBody(messages);
-		Response response = sendPost(CHAT_ENDPOINT, paramJson);
+		final String paramJson = buildChatRequestBody(messages);
+		final Response response = sendPost(CHAT_ENDPOINT, paramJson);
 		return response.bodyStr();
 	}
 
 	@Override
-	public void chat(List<Message> messages, Consumer<String> callback) {
-		Map<String, Object> paramMap = buildChatStreamRequestBody(messages);
+	public void chat(final List<Message> messages, final Consumer<String> callback) {
+		final Map<String, Object> paramMap = buildChatStreamRequestBody(messages);
 		ThreadUtil.newThread(() -> sendPostStream(CHAT_ENDPOINT, paramMap, callback), "openai-chat-sse").start();
 	}
 
 	@Override
-	public String chatVision(String prompt, final List<String> images, String detail) {
-		String paramJson = buildChatVisionRequestBody(prompt, images, detail);
-		Response response = sendPost(CHAT_ENDPOINT, paramJson);
+	public String chatVision(final String prompt, final List<String> images, final String detail) {
+		final String paramJson = buildChatVisionRequestBody(prompt, images, detail);
+		final Response response = sendPost(CHAT_ENDPOINT, paramJson);
 		return response.bodyStr();
 	}
 
 	@Override
-	public void chatVision(String prompt, List<String> images, String detail, Consumer<String> callback) {
-		Map<String, Object> paramMap = buildChatVisionStreamRequestBody(prompt, images, detail);
+	public void chatVision(final String prompt, final List<String> images, final String detail, final Consumer<String> callback) {
+		final Map<String, Object> paramMap = buildChatVisionStreamRequestBody(prompt, images, detail);
 		ThreadUtil.newThread(() -> sendPostStream(CHAT_ENDPOINT, paramMap, callback), "openai-chatVision-sse").start();
 	}
 
 	@Override
-	public String imagesGenerations(String prompt) {
-		String paramJson = buildImagesGenerationsRequestBody(prompt);
-		Response response = sendPost(IMAGES_GENERATIONS, paramJson);
+	public String imagesGenerations(final String prompt) {
+		final String paramJson = buildImagesGenerationsRequestBody(prompt);
+		final Response response = sendPost(IMAGES_GENERATIONS, paramJson);
 		return response.bodyStr();
 	}
 
 	@Override
-	public String imagesEdits(String prompt, final File image, final File mask) {
+	public String imagesEdits(final String prompt, final File image, final File mask) {
 		final Map<String, Object> paramMap = buildImagesEditsRequestBody(prompt, image, mask);
-		Response response = sendFormData(IMAGES_EDITS, paramMap);
+		final Response response = sendFormData(IMAGES_EDITS, paramMap);
 		return response.bodyStr();
 	}
 
 	@Override
 	public String imagesVariations(final File image) {
 		final Map<String, Object> paramMap = buildImagesVariationsRequestBody(image);
-		Response response = sendFormData(IMAGES_VARIATIONS, paramMap);
+		final Response response = sendFormData(IMAGES_VARIATIONS, paramMap);
 		return response.bodyStr();
 	}
 
 	@Override
-	public InputStream textToSpeech(String input, final OpenaiCommon.OpenaiSpeech voice) {
-		String paramJson = buildTTSRequestBody(input, voice.getVoice());
-		Response response = sendPost(TTS, paramJson);
+	public InputStream textToSpeech(final String input, final OpenaiCommon.OpenaiSpeech voice) {
+		final String paramJson = buildTTSRequestBody(input, voice.getVoice());
+		final Response response = sendPost(TTS, paramJson);
 		return response.bodyStream();
 	}
 
 	@Override
 	public String speechToText(final File file) {
 		final Map<String, Object> paramMap = buildSTTRequestBody(file);
-		Response response = sendFormData(STT, paramMap);
+		final Response response = sendFormData(STT, paramMap);
 		return response.bodyStr();
 	}
 
 	@Override
-	public String embeddingText(String input) {
-		String paramJson = buildEmbeddingTextRequestBody(input);
-		Response response = sendPost(EMBEDDINGS, paramJson);
+	public String embeddingText(final String input) {
+		final String paramJson = buildEmbeddingTextRequestBody(input);
+		final Response response = sendPost(EMBEDDINGS, paramJson);
 		return response.bodyStr();
 	}
 
 	@Override
-	public String moderations(String text, String imgUrl) {
-		String paramJson = buileModerationsRequestBody(text, imgUrl);
-		Response response = sendPost(MODERATIONS, paramJson);
+	public String moderations(final String text, final String imgUrl) {
+		final String paramJson = buileModerationsRequestBody(text, imgUrl);
+		final Response response = sendPost(MODERATIONS, paramJson);
 		return response.bodyStr();
 	}
 
 	@Override
-	public String chatReasoning(final List<Message> messages, String reasoningEffort) {
-		String paramJson = buildChatReasoningRequestBody(messages, reasoningEffort);
-		Response response = sendPost(CHAT_ENDPOINT, paramJson);
+	public String chatReasoning(final List<Message> messages, final String reasoningEffort) {
+		final String paramJson = buildChatReasoningRequestBody(messages, reasoningEffort);
+		final Response response = sendPost(CHAT_ENDPOINT, paramJson);
 		return response.bodyStr();
 	}
 
 	@Override
-	public void chatReasoning(List<Message> messages, String reasoningEffort, Consumer<String> callback) {
-		Map<String, Object> paramMap = buildChatReasoningStreamRequestBody(messages, reasoningEffort);
+	public void chatReasoning(final List<Message> messages, final String reasoningEffort, final Consumer<String> callback) {
+		final Map<String, Object> paramMap = buildChatReasoningStreamRequestBody(messages, reasoningEffort);
 		ThreadUtil.newThread(() -> sendPostStream(CHAT_ENDPOINT, paramMap, callback), "openai-chatReasoning-sse").start();
 	}
 
@@ -175,7 +175,7 @@ public class OpenaiServiceImpl extends BaseAIService implements OpenaiService {
 	}
 
 	//构建chatVision请求体
-	private String buildChatVisionRequestBody(String prompt, final List<String> images, String detail) {
+	private String buildChatVisionRequestBody(final String prompt, final List<String> images, final String detail) {
 		// 定义消息结构
 		final List<Message> messages = new ArrayList<>();
 		final List<Object> content = new ArrayList<>();
@@ -184,7 +184,7 @@ public class OpenaiServiceImpl extends BaseAIService implements OpenaiService {
 		contentMap.put("type", "text");
 		contentMap.put("text", prompt);
 		content.add(contentMap);
-		for (String img : images) {
+		for (final String img : images) {
 			final Map<String, Object> imgUrlMap = new HashMap<>();
 			imgUrlMap.put("type", "image_url");
 			final Map<String, String> urlMap = new HashMap<>();
@@ -205,7 +205,7 @@ public class OpenaiServiceImpl extends BaseAIService implements OpenaiService {
 		return JSONUtil.toJsonStr(paramMap);
 	}
 
-	private Map<String, Object> buildChatVisionStreamRequestBody(String prompt, final List<String> images, String detail) {
+	private Map<String, Object> buildChatVisionStreamRequestBody(final String prompt, final List<String> images, final String detail) {
 		// 定义消息结构
 		final List<Message> messages = new ArrayList<>();
 		final List<Object> content = new ArrayList<>();
@@ -214,10 +214,10 @@ public class OpenaiServiceImpl extends BaseAIService implements OpenaiService {
 		contentMap.put("type", "text");
 		contentMap.put("text", prompt);
 		content.add(contentMap);
-		for (String img : images) {
-			HashMap<String, Object> imgUrlMap = new HashMap<>();
+		for (final String img : images) {
+			final HashMap<String, Object> imgUrlMap = new HashMap<>();
 			imgUrlMap.put("type", "image_url");
-			HashMap<String, String> urlMap = new HashMap<>();
+			final HashMap<String, String> urlMap = new HashMap<>();
 			urlMap.put("url", img);
 			urlMap.put("detail", detail);
 			imgUrlMap.put("image_url", urlMap);
@@ -237,7 +237,7 @@ public class OpenaiServiceImpl extends BaseAIService implements OpenaiService {
 	}
 
 	//构建文生图请求体
-	private String buildImagesGenerationsRequestBody(String prompt) {
+	private String buildImagesGenerationsRequestBody(final String prompt) {
 		final Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("model", config.getModel());
 		paramMap.put("prompt", prompt);
@@ -248,7 +248,7 @@ public class OpenaiServiceImpl extends BaseAIService implements OpenaiService {
 	}
 
 	//构建图片编辑请求体
-	private Map<String, Object> buildImagesEditsRequestBody(String prompt, final File image, final File mask) {
+	private Map<String, Object> buildImagesEditsRequestBody(final String prompt, final File image, final File mask) {
 		final Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("model", config.getModel());
 		paramMap.put("prompt", prompt);
@@ -274,7 +274,7 @@ public class OpenaiServiceImpl extends BaseAIService implements OpenaiService {
 	}
 
 	//构建TTS请求体
-	private String buildTTSRequestBody(String input, String voice) {
+	private String buildTTSRequestBody(final String input, final String voice) {
 		final Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("model", config.getModel());
 		paramMap.put("input", input);
@@ -297,7 +297,7 @@ public class OpenaiServiceImpl extends BaseAIService implements OpenaiService {
 	}
 
 	//构建文本向量化请求体
-	private String buildEmbeddingTextRequestBody(String input) {
+	private String buildEmbeddingTextRequestBody(final String input) {
 		//使用JSON工具
 		final Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("model", config.getModel());
@@ -308,7 +308,7 @@ public class OpenaiServiceImpl extends BaseAIService implements OpenaiService {
 	}
 
 	//构建检查图片或文字请求体
-	private String buileModerationsRequestBody(String text, String imgUrl) {
+	private String buileModerationsRequestBody(final String text, final String imgUrl) {
 		//使用JSON工具
 		final Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("model", config.getModel());
@@ -339,7 +339,7 @@ public class OpenaiServiceImpl extends BaseAIService implements OpenaiService {
 	}
 
 	//构建推理请求体
-	private String buildChatReasoningRequestBody(final List<Message> messages, String reasoningEffort) {
+	private String buildChatReasoningRequestBody(final List<Message> messages, final String reasoningEffort) {
 		final Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("model", config.getModel());
 		paramMap.put("messages", messages);
@@ -350,7 +350,7 @@ public class OpenaiServiceImpl extends BaseAIService implements OpenaiService {
 		return JSONUtil.toJsonStr(paramMap);
 	}
 
-	private Map<String, Object> buildChatReasoningStreamRequestBody(final List<Message> messages, String reasoningEffort) {
+	private Map<String, Object> buildChatReasoningStreamRequestBody(final List<Message> messages, final String reasoningEffort) {
 		final Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("stream", true);
 		paramMap.put("model", config.getModel());

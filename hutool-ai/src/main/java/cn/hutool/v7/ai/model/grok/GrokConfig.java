@@ -49,7 +49,7 @@ public class GrokConfig extends BaseAIConfig {
 	 *
 	 * @param apiKey API密钥
 	 */
-	public GrokConfig(String apiKey) {
+	public GrokConfig(final String apiKey) {
 		this();
 		setApiKey(apiKey);
 	}

@@ -39,7 +39,7 @@ public interface GrokService extends AIService {
 	 * @return AI回答
 	 * @since 6.0.0
 	 */
-	default String message(String prompt, int maxToken){
+	default String message(final String prompt, final int maxToken){
 		// 定义消息结构
 		final List<Message> messages = new ArrayList<>();
 		messages.add(new Message("system", "You are a helpful assistant"));
@@ -55,7 +55,7 @@ public interface GrokService extends AIService {
 	 * @param callback 流式数据回调函数
 	 * @since 6.0.0
 	 */
-	default void message(String prompt, int maxToken, final Consumer<String> callback){
+	default void message(final String prompt, final int maxToken, final Consumer<String> callback){
 		final List<Message> messages = new ArrayList<>();
 		messages.add(new Message("system", "You are a helpful assistant"));
 		messages.add(new Message("user", prompt));
@@ -112,7 +112,7 @@ public interface GrokService extends AIService {
 	 * @return AI回答
 	 * @since 6.0.0
 	 */
-	default String chatVision(String prompt, final List<String> images) {
+	default String chatVision(final String prompt, final List<String> images) {
 		return chatVision(prompt, images, GrokCommon.GrokVision.AUTO.getDetail());
 	}
 
@@ -124,7 +124,7 @@ public interface GrokService extends AIService {
 	 * @param callback 流式数据回调函数
 	 * @since 6.0.0
 	 */
-	default void chatVision(String prompt, final List<String> images, final Consumer<String> callback){
+	default void chatVision(final String prompt, final List<String> images, final Consumer<String> callback){
 		chatVision(prompt, images, GrokCommon.GrokVision.AUTO.getDetail(), callback);
 	}
 

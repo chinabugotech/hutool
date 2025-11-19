@@ -38,18 +38,18 @@ public class JettyResponse implements ServerResponse {
 	 *
 	 * @param response Jetty响应对象
 	 */
-	public JettyResponse(Response response) {
+	public JettyResponse(final Response response) {
 		this.response = response;
 	}
 
 	@Override
-	public JettyResponse setStatus(int statusCode) {
+	public JettyResponse setStatus(final int statusCode) {
 		response.setStatus(statusCode);
 		return this;
 	}
 
 	@Override
-	public JettyResponse setCharset(Charset charset) {
+	public JettyResponse setCharset(final Charset charset) {
 		this.charset = charset;
 		return this;
 	}
@@ -60,13 +60,13 @@ public class JettyResponse implements ServerResponse {
 	}
 
 	@Override
-	public JettyResponse addHeader(String header, String value) {
+	public JettyResponse addHeader(final String header, final String value) {
 		response.getHeaders().add(header, value);
 		return this;
 	}
 
 	@Override
-	public JettyResponse setHeader(String header, String value) {
+	public JettyResponse setHeader(final String header, final String value) {
 		response.getHeaders().put(header, value);
 		return this;
 	}

@@ -48,7 +48,7 @@ public class MutableByteTest extends BaseMutableTest<Number, MutableByte> {
 	 * @return 值
 	 */
 	@Override
-	MutableByte getMutable(Number value) {
+	MutableByte getMutable(final Number value) {
 		return new MutableByte(value);
 	}
 }

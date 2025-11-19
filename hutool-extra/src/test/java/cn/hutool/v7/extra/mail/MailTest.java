@@ -86,7 +86,7 @@ public class MailTest {
 	@Test
 	@Disabled
 	public void sendHtmlWithPicsTest() {
-		HashMap<String, InputStream> map = new HashMap<>();
+		final HashMap<String, InputStream> map = new HashMap<>();
 		map.put("abc", FileUtil.getInputStream("D:/test/abc.png"));
 		map.put("abcd",FileUtil.getInputStream("D:/test/def.png"));
 

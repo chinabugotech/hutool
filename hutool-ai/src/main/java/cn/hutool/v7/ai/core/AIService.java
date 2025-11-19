@@ -35,7 +35,7 @@ public interface AIService {
 	 * @return AI回答
 	 * @since 6.0.0
 	 */
-	default String chat(String prompt){
+	default String chat(final String prompt){
 		final List<Message> messages = new ArrayList<>();
 		messages.add(new Message("system", "You are a helpful assistant"));
 		messages.add(new Message("user", prompt));
@@ -48,7 +48,7 @@ public interface AIService {
 	 * @param callback 流式数据回调函数
 	 * @since 6.0.0
 	 */
-	default void chat(String prompt, final Consumer<String> callback){
+	default void chat(final String prompt, final Consumer<String> callback){
 		final List<Message> messages = new ArrayList<>();
 		messages.add(new Message("system", "You are a helpful assistant"));
 		messages.add(new Message("user", prompt));

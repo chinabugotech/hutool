@@ -193,7 +193,7 @@ public class CronPattern {
 	 * @return 匹配到的下一个时间时间戳
 	 * @since 7.0.0
 	 */
-	public long nextMatch(long millis) {
+	public long nextMatch(final long millis) {
 		return nextMatch(CalendarUtil.calendar(millis)).getTimeInMillis();
 	}
 

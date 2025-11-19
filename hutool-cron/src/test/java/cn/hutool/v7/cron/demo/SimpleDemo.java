@@ -20,7 +20,7 @@ import cn.hutool.v7.core.lang.Console;
 import cn.hutool.v7.cron.CronUtil;
 
 public class SimpleDemo {
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		// 打开秒匹配
 		CronUtil.setMatchSecond(true);
 		// 添加任务

@@ -51,27 +51,27 @@ public class FilterIterTest {
     @Test
     public void next() {
 		// 只保留奇数
-		Iterator<Integer> iter = new FilterIter<>(Arrays.asList(1, 2, 3).iterator(), i -> (i & 1) == 1);
+		final Iterator<Integer> iter = new FilterIter<>(Arrays.asList(1, 2, 3).iterator(), i -> (i & 1) == 1);
 		Assertions.assertEquals((Integer)1, iter.next());
 		Assertions.assertEquals((Integer)3, iter.next());
     }
 
     @Test
     public void remove() {
-		Iterator<Integer> iter = new FilterIter<>(Collections.emptyIterator(), i -> true);
+		final Iterator<Integer> iter = new FilterIter<>(Collections.emptyIterator(), i -> true);
 		Assertions.assertThrows(IllegalStateException.class, iter::remove);
     }
 
     @Test
     public void getIterator() {
-		FilterIter<Integer> iter = new FilterIter<>(Collections.emptyIterator(), i -> true);
+		final FilterIter<Integer> iter = new FilterIter<>(Collections.emptyIterator(), i -> true);
 		Assertions.assertSame(Collections.emptyIterator(), iter.getIterator());
     }
 
     @Test
     public void getFilter() {
-		Predicate<Integer> predicate = i -> true;
-		FilterIter<Integer> iter = new FilterIter<>(Collections.emptyIterator(), predicate);
+		final Predicate<Integer> predicate = i -> true;
+		final FilterIter<Integer> iter = new FilterIter<>(Collections.emptyIterator(), predicate);
 		Assertions.assertSame(predicate, iter.getFilter());
     }
 

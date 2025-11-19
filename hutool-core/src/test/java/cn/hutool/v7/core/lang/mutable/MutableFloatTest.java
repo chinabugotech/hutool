@@ -47,7 +47,7 @@ public class MutableFloatTest extends BaseMutableTest<Number, MutableFloat> {
 	 * @return 值
 	 */
 	@Override
-	MutableFloat getMutable(Number value) {
+	MutableFloat getMutable(final Number value) {
 		return new MutableFloat(value);
 	}
 }

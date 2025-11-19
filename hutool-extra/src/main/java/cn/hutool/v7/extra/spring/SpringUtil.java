@@ -288,7 +288,7 @@ public class SpringUtil implements ApplicationContextInitializer<ConfigurableApp
 	 */
 	public static void unregisterBean(final String beanName) {
 		final ConfigurableListableBeanFactory factory = getConfigurableBeanFactory();
-		if (factory instanceof DefaultSingletonBeanRegistry registry) {
+		if (factory instanceof final DefaultSingletonBeanRegistry registry) {
 			registry.destroySingleton(beanName);
 		} else {
 			throw new HutoolException("Can not unregister bean, the factory is not a DefaultSingletonBeanRegistry!");

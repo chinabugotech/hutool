@@ -238,13 +238,13 @@ public class ObjUtilTest {
 
 	@Test
 	public void testLengthConsumesIterator() {
-		List<String> list = Arrays.asList("a", "b", "c");
-		Iterator<String> iterator = list.iterator();
+		final List<String> list = Arrays.asList("a", "b", "c");
+		final Iterator<String> iterator = list.iterator();
 		// 迭代器第一次调用length
-		int length1 = ObjUtil.length(iterator);
+		final int length1 = ObjUtil.length(iterator);
 		assertEquals(3, length1);
 		// 迭代器第二次调用length - 迭代器已经被消耗，返回0
-		int length2 = ObjUtil.length(iterator);
+		final int length2 = ObjUtil.length(iterator);
 		assertEquals(0, length2); // 但当前实现会重新遍历，但iterator已经没有元素了
 		// 尝试使用迭代器 - 已经无法使用
 		assertFalse(iterator.hasNext());
@@ -252,13 +252,13 @@ public class ObjUtilTest {
 
 	@Test
 	public void testLengthConsumesEnumeration() {
-		Vector<String> vector = new Vector<>(Arrays.asList("a", "b", "c"));
-		Enumeration<String> enumeration = vector.elements();
+		final Vector<String> vector = new Vector<>(Arrays.asList("a", "b", "c"));
+		final Enumeration<String> enumeration = vector.elements();
 		// 第一次调用length
-		int length1 = ObjUtil.length(enumeration);
+		final int length1 = ObjUtil.length(enumeration);
 		assertEquals(3, length1);
 		// 第二次调用length - 枚举已经被消耗
-		int length2 = ObjUtil.length(enumeration);
+		final int length2 = ObjUtil.length(enumeration);
 		assertEquals(0, length2);
 		// 枚举已经无法使用
 		assertFalse(enumeration.hasMoreElements());

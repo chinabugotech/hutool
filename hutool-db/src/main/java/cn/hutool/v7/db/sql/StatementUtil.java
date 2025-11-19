@@ -51,7 +51,7 @@ public class StatementUtil {
 	 * @since 5.8.19
 	 */
 	public static PreparedStatement prepareStatement(final boolean returnGeneratedKey, final DbConfig config, final Connection conn, final String sql, final Object... params) {
-		PreparedStatement statement = StatementBuilder.of()
+		final PreparedStatement statement = StatementBuilder.of()
 			.setConnection(conn)
 			.setReturnGeneratedKey(returnGeneratedKey)
 			.setSqlFilter(Opt.ofNullable(config).map(DbConfig::getSqlFilters).getOrNull())
@@ -68,7 +68,7 @@ public class StatementUtil {
 			if (null != fetchDirection) {
 				statement.setFetchDirection(fetchDirection.getValue());
 			}
-		} catch (SQLException e){
+		} catch (final SQLException e){
 			throw new DbException(e);
 		}
 
@@ -101,7 +101,7 @@ public class StatementUtil {
 	 */
 	public static PreparedStatement prepareStatementForBatch(final DbConfig config, final Connection conn, final String sql,
 															 final Iterable<Object[]> paramsBatch) {
-		PreparedStatement statement = StatementBuilder.of()
+		final PreparedStatement statement = StatementBuilder.of()
 			.setConnection(conn)
 			.setReturnGeneratedKey(false)
 			.setSqlFilter(Opt.ofNullable(config).map(DbConfig::getSqlFilters).getOrNull())
@@ -118,7 +118,7 @@ public class StatementUtil {
 			if (null != fetchDirection) {
 				statement.setFetchDirection(fetchDirection.getValue());
 			}
-		} catch (SQLException e){
+		} catch (final SQLException e){
 			throw new DbException(e);
 		}
 

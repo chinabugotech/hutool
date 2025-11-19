@@ -44,7 +44,7 @@ public enum FetchDirection {
 	 */
 	private final int value;
 
-	FetchDirection(int value) {
+	FetchDirection(final int value) {
 		this.value = value;
 	}
 

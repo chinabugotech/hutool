@@ -348,18 +348,7 @@ public class DatePattern {
 	 * Inner class to output a constant single character.
 	 * </p>
 	 */
-	private static class CharacterLiteral implements Rule {
-		private final char mValue;
-
-		/**
-		 * Constructs a new instance of {@code CharacterLiteral} to hold the specified value.
-		 *
-		 * @param value the character literal
-		 */
-		CharacterLiteral(final char value) {
-			mValue = value;
-		}
-
+	private record CharacterLiteral(char mValue) implements Rule {
 		@Override
 		public int estimateLength() {
 			return 1;
@@ -376,18 +365,7 @@ public class DatePattern {
 	 * Inner class to output a constant string.
 	 * </p>
 	 */
-	private static class StringLiteral implements Rule {
-		private final String mValue;
-
-		/**
-		 * Constructs a new instance of {@code StringLiteral} to hold the specified value.
-		 *
-		 * @param value the string literal
-		 */
-		StringLiteral(final String value) {
-			mValue = value;
-		}
-
+	private record StringLiteral(String mValue) implements Rule {
 		@Override
 		public int estimateLength() {
 			return mValue.length();
@@ -404,21 +382,7 @@ public class DatePattern {
 	 * Inner class to output one of a set of values.
 	 * </p>
 	 */
-	private static class TextField implements Rule {
-		private final int mField;
-		private final String[] mValues;
-
-		/**
-		 * Constructs an instance of {@code TextField} with the specified field and values.
-		 *
-		 * @param field  the field
-		 * @param values the field values
-		 */
-		TextField(final int field, final String[] values) {
-			mField = field;
-			mValues = values;
-		}
-
+	private record TextField(int mField, String[] mValues) implements Rule {
 		@Override
 		public int estimateLength() {
 			int max = 0;
@@ -431,6 +395,7 @@ public class DatePattern {
 			return max;
 		}
 
+		@SuppressWarnings("MagicConstant")
 		@Override
 		public void appendTo(final Appendable buffer, final Calendar calendar) throws IOException {
 			buffer.append(mValues[calendar.get(mField)]);
@@ -442,23 +407,14 @@ public class DatePattern {
 	 * Inner class to output an unpadded number.
 	 * </p>
 	 */
-	private static class UnpaddedNumberField implements NumberRule {
-		private final int mField;
-
-		/**
-		 * Constructs an instance of {@code UnpadedNumberField} with the specified field.
-		 *
-		 * @param field the field
-		 */
-		UnpaddedNumberField(final int field) {
-			mField = field;
-		}
+	private record UnpaddedNumberField(int mField) implements NumberRule {
 
 		@Override
 		public int estimateLength() {
 			return 4;
 		}
 
+		@SuppressWarnings("MagicConstant")
 		@Override
 		public void appendTo(final Appendable buffer, final Calendar calendar) throws IOException {
 			appendTo(buffer, calendar.get(mField));
@@ -515,23 +471,18 @@ public class DatePattern {
 	 * Inner class to output a padded number.
 	 * </p>
 	 */
-	private static class PaddedNumberField implements NumberRule {
-		private final int mField;
-		private final int mSize;
-
+	private record PaddedNumberField(int mField, int mSize) implements NumberRule {
 		/**
 		 * Constructs an instance of {@code PaddedNumberField}.
 		 *
-		 * @param field the field
-		 * @param size  size of the output field
+		 * @param mField the field
+		 * @param mSize  size of the output field
 		 */
-		PaddedNumberField(final int field, final int size) {
-			if (size < 3) {
+		private PaddedNumberField {
+			if (mSize < 3) {
 				// Should use UnpaddedNumberField or TwoDigitNumberField.
 				throw new IllegalArgumentException();
 			}
-			mField = field;
-			mSize = size;
 		}
 
 		@Override
@@ -539,6 +490,7 @@ public class DatePattern {
 			return mSize;
 		}
 
+		@SuppressWarnings("MagicConstant")
 		@Override
 		public void appendTo(final Appendable buffer, final Calendar calendar) throws IOException {
 			appendTo(buffer, calendar.get(mField));
@@ -555,23 +507,13 @@ public class DatePattern {
 	 * Inner class to output a two digit number.
 	 * </p>
 	 */
-	private static class TwoDigitNumberField implements NumberRule {
-		private final int mField;
-
-		/**
-		 * Constructs an instance of {@code TwoDigitNumberField} with the specified field.
-		 *
-		 * @param field the field
-		 */
-		TwoDigitNumberField(final int field) {
-			mField = field;
-		}
-
+	private record TwoDigitNumberField(int mField) implements NumberRule {
 		@Override
 		public int estimateLength() {
 			return 2;
 		}
 
+		@SuppressWarnings("MagicConstant")
 		@Override
 		public void appendTo(final Appendable buffer, final Calendar calendar) throws IOException {
 			appendTo(buffer, calendar.get(mField));
@@ -652,18 +594,7 @@ public class DatePattern {
 	 * Inner class to output the twelve hour field.
 	 * </p>
 	 */
-	private static class TwelveHourField implements NumberRule {
-		private final NumberRule mRule;
-
-		/**
-		 * Constructs an instance of {@code TwelveHourField} with the specified {@code NumberRule}.
-		 *
-		 * @param rule the rule
-		 */
-		TwelveHourField(final NumberRule rule) {
-			mRule = rule;
-		}
-
+	private record TwelveHourField(NumberRule mRule) implements NumberRule {
 		@Override
 		public int estimateLength() {
 			return mRule.estimateLength();
@@ -685,22 +616,9 @@ public class DatePattern {
 	}
 
 	/**
-	 * <p>
 	 * Inner class to output the twenty four hour field.
-	 * </p>
 	 */
-	private static class TwentyFourHourField implements NumberRule {
-		private final NumberRule mRule;
-
-		/**
-		 * Constructs an instance of {@code TwentyFourHourField} with the specified {@code NumberRule}.
-		 *
-		 * @param rule the rule
-		 */
-		TwentyFourHourField(final NumberRule rule) {
-			mRule = rule;
-		}
-
+	private record TwentyFourHourField(NumberRule mRule) implements NumberRule {
 		@Override
 		public int estimateLength() {
 			return mRule.estimateLength();
@@ -722,17 +640,9 @@ public class DatePattern {
 	}
 
 	/**
-	 * <p>
 	 * Inner class to output the numeric day in week.
-	 * </p>
 	 */
-	private static class DayInWeekField implements NumberRule {
-		private final NumberRule mRule;
-
-		DayInWeekField(final NumberRule rule) {
-			mRule = rule;
-		}
-
+	private record DayInWeekField(NumberRule mRule) implements NumberRule {
 		@Override
 		public int estimateLength() {
 			return mRule.estimateLength();
@@ -751,17 +661,9 @@ public class DatePattern {
 	}
 
 	/**
-	 * <p>
 	 * Inner class to output the numeric day in week.
-	 * </p>
 	 */
-	private static class WeekYear implements NumberRule {
-		private final NumberRule mRule;
-
-		WeekYear(final NumberRule rule) {
-			mRule = rule;
-		}
-
+	private record WeekYear(NumberRule mRule) implements NumberRule {
 		@Override
 		public int estimateLength() {
 			return mRule.estimateLength();
@@ -784,9 +686,7 @@ public class DatePattern {
 	}
 
 	/**
-	 * <p>
 	 * Inner class to output a time zone name.
-	 * </p>
 	 */
 	private static class TimeZoneNameRule implements Rule {
 		private final Locale mLocale;
@@ -829,24 +729,11 @@ public class DatePattern {
 	}
 
 	/**
-	 * <p>
 	 * Inner class to output a time zone as a number {@code +/-HHMM} or {@code +/-HH:MM}.
-	 * </p>
 	 */
-	private static class TimeZoneNumberRule implements Rule {
+	private record TimeZoneNumberRule(boolean mColon) implements Rule {
 		static final TimeZoneNumberRule INSTANCE_COLON = new TimeZoneNumberRule(true);
 		static final TimeZoneNumberRule INSTANCE_NO_COLON = new TimeZoneNumberRule(false);
-
-		final boolean mColon;
-
-		/**
-		 * Constructs an instance of {@code TimeZoneNumberRule} with the specified properties.
-		 *
-		 * @param colon add colon between HH and MM in the output if {@code true}
-		 */
-		TimeZoneNumberRule(final boolean colon) {
-			mColon = colon;
-		}
 
 		@Override
 		public int estimateLength() {
@@ -882,7 +769,7 @@ public class DatePattern {
 	 * Inner class to output a time zone as a number {@code +/-HHMM} or {@code +/-HH:MM}.
 	 * </p>
 	 */
-	private static class Iso8601_Rule implements Rule {
+	private record Iso8601_Rule(int length) implements Rule {
 
 		// Sign TwoDigitHours or Z
 		static final Iso8601_Rule ISO8601_HOURS = new Iso8601_Rule(3);
@@ -906,15 +793,12 @@ public class DatePattern {
 			};
 		}
 
-		final int length;
-
 		/**
 		 * Constructs an instance of {@code Iso8601_Rule} with the specified properties.
 		 *
 		 * @param length The number of characters in output (unless Z is output)
 		 */
-		Iso8601_Rule(final int length) {
-			this.length = length;
+		private Iso8601_Rule {
 		}
 
 		@Override
@@ -1103,7 +987,7 @@ public class DatePattern {
 			if (this == obj) {
 				return true;
 			}
-			if (obj instanceof TimeZoneDisplayKey other) {
+			if (obj instanceof final TimeZoneDisplayKey other) {
 				return mTimeZone.equals(other.mTimeZone) && mStyle == other.mStyle && mLocale.equals(other.mLocale);
 			}
 			return false;

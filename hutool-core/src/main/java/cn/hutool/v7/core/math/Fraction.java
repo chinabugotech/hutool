@@ -618,7 +618,7 @@ public final class Fraction extends Number implements Comparable<Fraction> {
 		if (obj == this) {
 			return true;
 		}
-		if (!(obj instanceof Fraction other)) {
+		if (!(obj instanceof final Fraction other)) {
 			return false;
 		}
 		return getNumerator() == other.getNumerator() && getDenominator() == other.getDenominator();

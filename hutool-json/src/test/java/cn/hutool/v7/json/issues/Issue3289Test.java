@@ -25,7 +25,7 @@ public class Issue3289Test {
 	@Test
 	void parseTest() {
 		Assertions.assertThrows(JSONException.class, () -> {
-			String s = "{\"G\":00,[6E962756779]}";
+			final String s = "{\"G\":00,[6E962756779]}";
 			JSONUtil.parse(s);
 		});
 	}

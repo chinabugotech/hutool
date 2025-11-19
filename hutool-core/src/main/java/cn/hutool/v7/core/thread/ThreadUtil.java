@@ -795,9 +795,9 @@ public class ThreadUtil {
 	 * @since 4.5.8
 	 */
 	public static ConcurrencyTester concurrencyTest(final int threadSize, final Runnable runnable) {
-		try (ConcurrencyTester tester = new ConcurrencyTester(threadSize)) {
+		try (final ConcurrencyTester tester = new ConcurrencyTester(threadSize)) {
 			return tester.test(runnable);
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			throw new IORuntimeException(e);
 		}
 	}

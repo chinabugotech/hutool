@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 
 public class Issue3765Test {
 
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		HttpUtil.createServer(8888)
 			.setRoot("d:/test/www")
 			.start();

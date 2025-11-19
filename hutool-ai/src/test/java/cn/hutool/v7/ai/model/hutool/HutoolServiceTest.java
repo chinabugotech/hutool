@@ -52,9 +52,9 @@ class HutoolServiceTest {
 	@Test
 	@Disabled
 	void chatStream() {
-		String prompt = "写一个疯狂星期四广告词";
+		final String prompt = "写一个疯狂星期四广告词";
 		// 使用AtomicBoolean作为结束标志
-		AtomicBoolean isDone = new AtomicBoolean(false);
+		final AtomicBoolean isDone = new AtomicBoolean(false);
 
 		hutoolService.chat(prompt, data -> {
 			assertNotNull(data);
@@ -94,11 +94,11 @@ class HutoolServiceTest {
 	@Test
 	@Disabled
 	void testChatVisionStream() {
-		String prompt = "图片上有些什么？";
-		List<String> images = List.of("https://img2.baidu.com/it/u=862000265,4064861820&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1544");
+		final String prompt = "图片上有些什么？";
+		final List<String> images = List.of("https://img2.baidu.com/it/u=862000265,4064861820&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1544");
 
 		// 使用AtomicBoolean作为结束标志
-		AtomicBoolean isDone = new AtomicBoolean(false);
+		final AtomicBoolean isDone = new AtomicBoolean(false);
 		hutoolService.chatVision(prompt,images, data -> {
 			assertNotNull(data);
 			if (data.contains("[DONE]")) {
@@ -160,7 +160,7 @@ class HutoolServiceTest {
 			final String filePath = "your filePath";
 			FileUtil.writeFromStream(inputStream, new File(filePath));
 
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			throw new AIException("TTS测试失败: " + e.getMessage());
 		}
 

@@ -82,7 +82,7 @@ public class Triple<L, M, R> extends Pair<L, R> {
 		if (this == o) {
 			return true;
 		}
-		if (o instanceof Triple<?, ?, ?> triple) {
+		if (o instanceof final Triple<?, ?, ?> triple) {
 			return Objects.equals(getLeft(), triple.getLeft()) &&
 				Objects.equals(getMiddle(), triple.getMiddle()) &&
 				Objects.equals(getRight(), triple.getRight());

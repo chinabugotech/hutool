@@ -63,69 +63,69 @@ public class HutoolServiceImpl extends BaseAIService implements HutoolService {
 
 	@Override
 	public String chat(final List<Message> messages) {
-		String paramJson = buildChatRequestBody(messages);
-		Response response = sendPost(CHAT_ENDPOINT, paramJson);
+		final String paramJson = buildChatRequestBody(messages);
+		final Response response = sendPost(CHAT_ENDPOINT, paramJson);
 		return response.bodyStr();
 	}
 
 	@Override
-	public void chat(List<Message> messages,Consumer<String> callback) {
-		Map<String, Object> paramMap = buildChatStreamRequestBody(messages);
+	public void chat(final List<Message> messages, final Consumer<String> callback) {
+		final Map<String, Object> paramMap = buildChatStreamRequestBody(messages);
 		ThreadUtil.newThread(() -> sendPostStream(CHAT_ENDPOINT, paramMap, callback), "hutool-chat-sse").start();
 	}
 
 	@Override
-	public String chatVision(String prompt, final List<String> images, String detail) {
-		String paramJson = buildChatVisionRequestBody(prompt, images, detail);
-		Response response = sendPost(CHAT_ENDPOINT, paramJson);
+	public String chatVision(final String prompt, final List<String> images, final String detail) {
+		final String paramJson = buildChatVisionRequestBody(prompt, images, detail);
+		final Response response = sendPost(CHAT_ENDPOINT, paramJson);
 		return response.bodyStr();
 	}
 
 	@Override
-	public void chatVision(String prompt, List<String> images, String detail, Consumer<String> callback) {
-		Map<String, Object> paramMap = buildChatVisionStreamRequestBody(prompt, images, detail);
+	public void chatVision(final String prompt, final List<String> images, final String detail, final Consumer<String> callback) {
+		final Map<String, Object> paramMap = buildChatVisionStreamRequestBody(prompt, images, detail);
 		System.out.println(JSONUtil.toJsonStr(paramMap));
 		ThreadUtil.newThread(() -> sendPostStream(CHAT_ENDPOINT, paramMap, callback), "hutool-chatVision-sse").start();
 	}
 
 	@Override
-	public String tokenizeText(String text) {
-		String paramJson = buildTokenizeRequestBody(text);
-		Response response = sendPost(TOKENIZE_TEXT, paramJson);
+	public String tokenizeText(final String text) {
+		final String paramJson = buildTokenizeRequestBody(text);
+		final Response response = sendPost(TOKENIZE_TEXT, paramJson);
 		return response.bodyStr();
 	}
 
 	@Override
-	public String imagesGenerations(String prompt) {
-		String paramJson = buildImagesGenerationsRequestBody(prompt);
-		Response response = sendPost(IMAGES_GENERATIONS, paramJson);
+	public String imagesGenerations(final String prompt) {
+		final String paramJson = buildImagesGenerationsRequestBody(prompt);
+		final Response response = sendPost(IMAGES_GENERATIONS, paramJson);
 		return response.bodyStr();
 	}
 
 
 	@Override
-	public String embeddingVision(String text, String image) {
-		String paramJson = buildEmbeddingVisionRequestBody(text, image);
-		Response response = sendPost(EMBEDDING_VISION, paramJson);
+	public String embeddingVision(final String text, final String image) {
+		final String paramJson = buildEmbeddingVisionRequestBody(text, image);
+		final Response response = sendPost(EMBEDDING_VISION, paramJson);
 		return response.bodyStr();
 	}
 
 	@Override
-	public InputStream tts(String input, final HutoolCommon.HutoolSpeech voice) {
+	public InputStream tts(final String input, final HutoolCommon.HutoolSpeech voice) {
 		try {
-			String paramJson = buildTTSRequestBody(input, voice.getVoice());
-			Response response = sendPost(TTS, paramJson);
+			final String paramJson = buildTTSRequestBody(input, voice.getVoice());
+			final Response response = sendPost(TTS, paramJson);
 
 			// 检查响应内容类型
-			String contentType = response.header("Content-Type");
+			final String contentType = response.header("Content-Type");
 			if (contentType != null && contentType.startsWith("application/json")) {
 				// 如果是JSON响应，说明有错误
-				String errorBody = response.bodyStr();
+				final String errorBody = response.bodyStr();
 				throw new AIException("TTS请求失败: " + errorBody);
 			}
 			// 默认返回音频流
 			return response.bodyStream();
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			throw new AIException("TTS处理失败: " + e.getMessage(), e);
 		}
 	}
@@ -133,21 +133,21 @@ public class HutoolServiceImpl extends BaseAIService implements HutoolService {
 	@Override
 	public String stt(final File file) {
 		final Map<String, Object> paramMap = buildSTTRequestBody(file);
-		Response response = sendFormData(STT, paramMap);
+		final Response response = sendFormData(STT, paramMap);
 		return response.bodyStr();
 	}
 
 
 	@Override
-	public String videoTasks(String text, String image, final List<HutoolCommon.HutoolVideo> videoParams) {
-		String paramJson = buildGenerationsTasksRequestBody(text, image, videoParams);
-		Response response = sendPost(CREATE_VIDEO, paramJson);
+	public String videoTasks(final String text, final String image, final List<HutoolCommon.HutoolVideo> videoParams) {
+		final String paramJson = buildGenerationsTasksRequestBody(text, image, videoParams);
+		final Response response = sendPost(CREATE_VIDEO, paramJson);
 		return response.bodyStr();
 	}
 
 	@Override
-	public String getVideoTasksInfo(String taskId) {
-		Response response = sendGet(CREATE_VIDEO + "/" + taskId);
+	public String getVideoTasksInfo(final String taskId) {
+		final Response response = sendGet(CREATE_VIDEO + "/" + taskId);
 		return response.bodyStr();
 	}
 
@@ -177,7 +177,7 @@ public class HutoolServiceImpl extends BaseAIService implements HutoolService {
 	}
 
 	//构建chatVision请求体
-	private String buildChatVisionRequestBody(String prompt, final List<String> images, String detail) {
+	private String buildChatVisionRequestBody(final String prompt, final List<String> images, final String detail) {
 		// 定义消息结构
 		final List<Message> messages = new ArrayList<>();
 		final List<Object> content = new ArrayList<>();
@@ -186,10 +186,10 @@ public class HutoolServiceImpl extends BaseAIService implements HutoolService {
 		contentMap.put("type", "text");
 		contentMap.put("text", prompt);
 		content.add(contentMap);
-		for (String img : images) {
-			HashMap<String, Object> imgUrlMap = new HashMap<>();
+		for (final String img : images) {
+			final HashMap<String, Object> imgUrlMap = new HashMap<>();
 			imgUrlMap.put("type", "image_url");
-			HashMap<String, String> urlMap = new HashMap<>();
+			final HashMap<String, String> urlMap = new HashMap<>();
 			urlMap.put("url", img);
 			urlMap.put("detail", detail);
 			imgUrlMap.put("image_url", urlMap);
@@ -207,7 +207,7 @@ public class HutoolServiceImpl extends BaseAIService implements HutoolService {
 		return JSONUtil.toJsonStr(paramMap);
 	}
 
-	private Map<String, Object> buildChatVisionStreamRequestBody(String prompt, final List<String> images, String detail) {
+	private Map<String, Object> buildChatVisionStreamRequestBody(final String prompt, final List<String> images, final String detail) {
 		// 定义消息结构
 		final List<Message> messages = new ArrayList<>();
 		final List<Object> content = new ArrayList<>();
@@ -216,10 +216,10 @@ public class HutoolServiceImpl extends BaseAIService implements HutoolService {
 		contentMap.put("type", "text");
 		contentMap.put("text", prompt);
 		content.add(contentMap);
-		for (String img : images) {
-			HashMap<String, Object> imgUrlMap = new HashMap<>();
+		for (final String img : images) {
+			final HashMap<String, Object> imgUrlMap = new HashMap<>();
 			imgUrlMap.put("type", "image_url");
-			HashMap<String, String> urlMap = new HashMap<>();
+			final HashMap<String, String> urlMap = new HashMap<>();
 			urlMap.put("url", img);
 			urlMap.put("detail", detail);
 			imgUrlMap.put("image_url", urlMap);
@@ -240,7 +240,7 @@ public class HutoolServiceImpl extends BaseAIService implements HutoolService {
 
 
 	//构建分词请求体
-	private String buildTokenizeRequestBody(String text) {
+	private String buildTokenizeRequestBody(final String text) {
 		//使用JSON工具
 		final Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("model", config.getModel());
@@ -252,7 +252,7 @@ public class HutoolServiceImpl extends BaseAIService implements HutoolService {
 	}
 
 	//构建文生图请求体
-	private String buildImagesGenerationsRequestBody(String prompt) {
+	private String buildImagesGenerationsRequestBody(final String prompt) {
 		final Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("model", config.getModel());
 		paramMap.put("prompt", prompt);
@@ -263,7 +263,7 @@ public class HutoolServiceImpl extends BaseAIService implements HutoolService {
 	}
 
 	//构建图文向量化请求体
-	private String buildEmbeddingVisionRequestBody(String text, String image) {
+	private String buildEmbeddingVisionRequestBody(final String text, final String image) {
 		//使用JSON工具
 		final Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("model", config.getModel());
@@ -295,7 +295,7 @@ public class HutoolServiceImpl extends BaseAIService implements HutoolService {
 
 
 	//构建TTS请求体
-	private String buildTTSRequestBody(String input, String voice) {
+	private String buildTTSRequestBody(final String input, final String voice) {
 		final Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("model", config.getModel());
 		paramMap.put("input", input);
@@ -318,7 +318,7 @@ public class HutoolServiceImpl extends BaseAIService implements HutoolService {
 	}
 
 	//构建创建视频任务请求体
-	private String buildGenerationsTasksRequestBody(String text, String image, final List<HutoolCommon.HutoolVideo> videoParams) {
+	private String buildGenerationsTasksRequestBody(final String text, final String image, final List<HutoolCommon.HutoolVideo> videoParams) {
 		//使用JSON工具
 		final Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("model", config.getModel());
@@ -345,9 +345,9 @@ public class HutoolServiceImpl extends BaseAIService implements HutoolService {
 		if (videoParams != null && !videoParams.isEmpty()) {
 			//如果有文本参数就加在后面
 			if (textMap != null && !textMap.isEmpty()) {
-				int textIndex = content.indexOf(textMap);
-				StringBuilder textBuilder = new StringBuilder(text);
-				for (HutoolCommon.HutoolVideo videoParam : videoParams) {
+				final int textIndex = content.indexOf(textMap);
+				final StringBuilder textBuilder = new StringBuilder(text);
+				for (final HutoolCommon.HutoolVideo videoParam : videoParams) {
 					textBuilder.append(" ").append(videoParam.getType()).append(" ").append(videoParam.getValue());
 				}
 				textMap.put("type", "text");
@@ -360,8 +360,8 @@ public class HutoolServiceImpl extends BaseAIService implements HutoolService {
 				}
 			} else {
 				//如果没有文本参数就重新增加
-				StringBuilder textBuilder = new StringBuilder();
-				for (HutoolCommon.HutoolVideo videoParam : videoParams) {
+				final StringBuilder textBuilder = new StringBuilder();
+				for (final HutoolCommon.HutoolVideo videoParam : videoParams) {
 					textBuilder.append(videoParam.getType()).append(videoParam.getValue()).append(" ");
 				}
 				textMap.put("type", "text");

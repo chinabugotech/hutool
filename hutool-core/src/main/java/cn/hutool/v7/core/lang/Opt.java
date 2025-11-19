@@ -541,7 +541,7 @@ public class Opt<T> {
 			return true;
 		}
 
-		if (!(obj instanceof Opt<?> other)) {
+		if (!(obj instanceof final Opt<?> other)) {
 			return false;
 		}
 

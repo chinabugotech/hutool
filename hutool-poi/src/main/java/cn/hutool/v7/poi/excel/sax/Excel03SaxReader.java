@@ -210,7 +210,7 @@ public class Excel03SaxReader implements HSSFListener, ExcelSaxReader<Excel03Sax
 			return;
 		}
 
-		if (record instanceof BoundSheetRecord boundSheetRecord) {
+		if (record instanceof final BoundSheetRecord boundSheetRecord) {
 			// Sheet边界记录，此Record中可以获得Sheet名
 			boundSheetRecords.add(boundSheetRecord);
 			final String currentSheetName = boundSheetRecord.getSheetname();
@@ -220,7 +220,7 @@ public class Excel03SaxReader implements HSSFListener, ExcelSaxReader<Excel03Sax
 		} else if (record instanceof SSTRecord) {
 			// 静态字符串表
 			sstRecord = (SSTRecord) record;
-		} else if (record instanceof BOFRecord bofRecord) {
+		} else if (record instanceof final BOFRecord bofRecord) {
 			if (bofRecord.getType() == BOFRecord.TYPE_WORKSHEET) {
 				// 如果有需要，则建立子工作薄
 				if (workbookBuildingListener != null && stubWorkbook == null) {
@@ -237,7 +237,7 @@ public class Excel03SaxReader implements HSSFListener, ExcelSaxReader<Excel03Sax
 				processLastCellSheet();
 			}
 		} else if (isProcessCurrentSheet()) {
-			if (record instanceof MissingCellDummyRecord mc) {
+			if (record instanceof final MissingCellDummyRecord mc) {
 				// 空值的操作
 				addToRowCellList(mc);
 			} else if (record instanceof LastCellOfRowDummyRecord) {

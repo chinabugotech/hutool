@@ -39,8 +39,8 @@ public class ShiChenTest {
 		assertEquals(1, ShiChen.toModernTime("子正").between(DateUnit.HOUR));
 
 		// 测试所有时辰
-		String[] times = {"子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"};
-		for (String time : times) {
+		final String[] times = {"子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"};
+		for (final String time : times) {
 			assertEquals(2, ShiChen.toModernTime(time + "时").between(DateUnit.HOUR));
 			assertEquals(1, ShiChen.toModernTime(time + "初").between(DateUnit.HOUR));
 			assertEquals(1, ShiChen.toModernTime(time + "正").between(DateUnit.HOUR));

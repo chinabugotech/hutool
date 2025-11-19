@@ -48,9 +48,9 @@ class DoubaoServiceTest {
 	@Test
 	@Disabled
 	void chatStream() {
-		String prompt = "写一个疯狂星期四广告词";
+		final String prompt = "写一个疯狂星期四广告词";
 		// 使用AtomicBoolean作为结束标志
-		AtomicBoolean isDone = new AtomicBoolean(false);
+		final AtomicBoolean isDone = new AtomicBoolean(false);
 
 		doubaoService.chat(prompt, data -> {
 			assertNotNull(data);
@@ -94,11 +94,11 @@ class DoubaoServiceTest {
 		final DoubaoService doubaoService = AIServiceFactory.getAIService(new AIConfigBuilder(ModelName.DOUBAO.getValue())
 			.setApiKey(key).setModel(Models.Doubao.DOUBAO_1_5_VISION_PRO_32K.getModel()).build(), DoubaoService.class);
 
-		String prompt = "图片上有些什么？";
-		List<String> images = List.of("https://img2.baidu.com/it/u=862000265,4064861820&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1544");
+		final String prompt = "图片上有些什么？";
+		final List<String> images = List.of("https://img2.baidu.com/it/u=862000265,4064861820&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1544");
 
 		// 使用AtomicBoolean作为结束标志
-		AtomicBoolean isDone = new AtomicBoolean(false);
+		final AtomicBoolean isDone = new AtomicBoolean(false);
 		doubaoService.chatVision(prompt,images, data -> {
 			assertNotNull(data);
 			if (data.contains("[DONE]")) {
@@ -184,7 +184,7 @@ class DoubaoServiceTest {
 		messages.add(new Message("user","你想做些什么"));
 
 		// 使用AtomicBoolean作为结束标志
-		AtomicBoolean isDone = new AtomicBoolean(false);
+		final AtomicBoolean isDone = new AtomicBoolean(false);
 		doubaoService.botsChat(messages, data -> {
 			assertNotNull(data);
 			if (data.contains("[DONE]")) {
@@ -278,10 +278,10 @@ class DoubaoServiceTest {
 			.setApiKey(key).setModel("your Endpoint ID").build(), DoubaoService.class);
 		final List<Message> messages = new ArrayList<>();
 		messages.add(new Message("user","你怎么看待意大利面拌水泥？"));
-		String contextId  = "your contextId";
+		final String contextId  = "your contextId";
 
 		// 使用AtomicBoolean作为结束标志
-		AtomicBoolean isDone = new AtomicBoolean(false);
+		final AtomicBoolean isDone = new AtomicBoolean(false);
 		doubaoService.chatContext(messages,contextId, data -> {
 			assertNotNull(data);
 			if (data.contains("[DONE]")) {

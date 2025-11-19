@@ -29,7 +29,7 @@ public class IssueID61QRTest {
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testName() {
-		JSONObject map1 = JSONUtil.ofObj(new JSONConfig().setDateFormat("yyyy"));
+		final JSONObject map1 = JSONUtil.ofObj(new JSONConfig().setDateFormat("yyyy"));
 		map1.putValue("a", 3);
 		map1.putValue("b", 5);
 		map1.putValue("c", 5432);

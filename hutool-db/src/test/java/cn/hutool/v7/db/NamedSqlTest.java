@@ -148,7 +148,7 @@ public class NamedSqlTest {
 	void selectCaseInTest() {
 		final HashMap<String, Object> paramMap = MapUtil.of("number", new int[]{1, 2, 3});
 
-		NamedSql namedSql = new NamedSql("select case when 2 = any(ARRAY[:number]) and 1 in (1) then 1 else 0 end", paramMap);
+		final NamedSql namedSql = new NamedSql("select case when 2 = any(ARRAY[:number]) and 1 in (1) then 1 else 0 end", paramMap);
 		assertEquals("select case when 2 = any(ARRAY[?]) and 1 in (1) then 1 else 0 end", namedSql.getSql());
 		assertArrayEquals(new int[]{1, 2, 3}, (int[])namedSql.getParamArray()[0]);
 	}
@@ -160,8 +160,8 @@ public class NamedSqlTest {
 		paramMap.put("user1", new Object[]{1, "looly"});
 		paramMap.put("user2", new Object[]{2, "xxxtea"});
 
-		String sql = "INSERT INTO users (id, name) VALUES (:user1), (:user2)";
-		NamedSql namedSql = new NamedSql(sql, paramMap);
+		final String sql = "INSERT INTO users (id, name) VALUES (:user1), (:user2)";
+		final NamedSql namedSql = new NamedSql(sql, paramMap);
 
 		assertEquals("INSERT INTO users (id, name) VALUES (?), (?)", namedSql.getSql());
 		assertArrayEquals(new Object[]{new Object[]{1, "looly"}, new Object[]{2, "xxxtea"}}, namedSql.getParamArray());

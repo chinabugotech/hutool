@@ -39,7 +39,7 @@ public class OllamaCommon {
 
 		private final String format;
 
-		OllamaFormat(String format) {
+		OllamaFormat(final String format) {
 			this.format = format;
 		}
 

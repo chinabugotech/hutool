@@ -21,7 +21,7 @@ import com.formdev.flatlaf.FlatDarculaLaf;
 import javax.swing.JFrame;
 
 public class FlatLafTest {
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		FlatDarculaLaf.setup();
 		final JFrame frame = new JFrame("我的窗口");
 		frame.setSize(400, 300);

@@ -13,7 +13,7 @@ public class TaskTableFactory {
 	 * @param config 定时任务配置
 	 * @return 任务表
 	 */
-	public static TaskTable create(CronConfig config) {
+	public static TaskTable create(final CronConfig config) {
 		return config.isUseTriggerQueue() ? new TriggerQueueTaskTable() : new MatchTaskTable();
 	}
 }

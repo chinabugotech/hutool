@@ -182,14 +182,14 @@ public class ArrayConverter extends AbstractConverter implements MatcherConverte
 	 */
 	private Object convertIterableToArray(final Class<?> targetComponentType, final Iterable<?> value) {
 		final Object result;
-		if (value instanceof List<?> list) {
+		if (value instanceof final List<?> list) {
 			// List转数组
 			final int size = list.size();
 			result = Array.newInstance(targetComponentType, size);
 			for (int i = 0; i < size; i++) {
 				Array.set(result, i, convertComponentType(targetComponentType, list.get(i)));
 			}
-		} else if (value instanceof Collection<?> collection) {
+		} else if (value instanceof final Collection<?> collection) {
 			// 集合转数组
 			result = Array.newInstance(targetComponentType, collection.size());
 

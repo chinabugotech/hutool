@@ -40,7 +40,7 @@ public class TriggerQueueTaskTable extends TaskTable {
 	}
 
 	@Override
-	public TriggerQueueTaskTable add(String id, CronPattern pattern, Task task) {
+	public TriggerQueueTaskTable add(final String id, final CronPattern pattern, final Task task) {
 		super.add(id, pattern, task);
 		// 将下一个触发时间及任务添加到队列中
 		this.triggerQueue.offer(new TriggerTime(id, pattern.nextMatchFromNow()));
@@ -48,7 +48,7 @@ public class TriggerQueueTaskTable extends TaskTable {
 	}
 
 	@Override
-	public boolean remove(String id) {
+	public boolean remove(final String id) {
 		// 移除队列中的任务
 		this.triggerQueue.removeIf(task -> StrUtil.equals(task.id(), id));
 		return super.remove(id);
@@ -56,7 +56,7 @@ public class TriggerQueueTaskTable extends TaskTable {
 	}
 
 	@Override
-	public boolean updatePattern(String id, CronPattern pattern) {
+	public boolean updatePattern(final String id, final CronPattern pattern) {
 		// 移除队列中的任务
 		this.triggerQueue.removeIf(task -> StrUtil.equals(task.id(), id));
 		// 将下一个触发时间及任务添加到队列中
@@ -131,7 +131,7 @@ public class TriggerQueueTaskTable extends TaskTable {
 	 */
 	private record TriggerTime(String id, long timestamp) implements Comparable<TriggerTime> {
 		@Override
-		public int compareTo(TriggerTime other) {
+		public int compareTo(final TriggerTime other) {
 			return Long.compare(this.timestamp, other.timestamp);
 		}
 	}

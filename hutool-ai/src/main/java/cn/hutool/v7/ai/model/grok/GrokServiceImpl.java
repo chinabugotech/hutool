@@ -64,84 +64,84 @@ public class GrokServiceImpl extends BaseAIService implements GrokService {
 
 	@Override
 	public String chat(final List<Message> messages) {
-		String paramJson = buildChatRequestBody(messages);
-		Response response = sendPost(CHAT_ENDPOINT, paramJson);
+		final String paramJson = buildChatRequestBody(messages);
+		final Response response = sendPost(CHAT_ENDPOINT, paramJson);
 		return response.bodyStr();
 	}
 
 	@Override
-	public void chat(List<Message> messages, Consumer<String> callback) {
-		Map<String, Object> paramMap = buildChatStreamRequestBody(messages);
+	public void chat(final List<Message> messages, final Consumer<String> callback) {
+		final Map<String, Object> paramMap = buildChatStreamRequestBody(messages);
 		ThreadUtil.newThread(() -> sendPostStream(CHAT_ENDPOINT, paramMap, callback), "grok-chat-sse").start();
 	}
 
 	@Override
-	public String message(final List<Message> messages, int maxToken) {
-		String paramJson = buildMessageRequestBody(messages, maxToken);
-		Response response = sendPost(MESSAGES, paramJson);
+	public String message(final List<Message> messages, final int maxToken) {
+		final String paramJson = buildMessageRequestBody(messages, maxToken);
+		final Response response = sendPost(MESSAGES, paramJson);
 		return response.bodyStr();
 	}
 
 	@Override
-	public void message(List<Message> messages, int maxToken, final Consumer<String> callback) {
-		Map<String, Object> paramMap = buildMessageStreamRequestBody(messages, maxToken);
+	public void message(final List<Message> messages, final int maxToken, final Consumer<String> callback) {
+		final Map<String, Object> paramMap = buildMessageStreamRequestBody(messages, maxToken);
 		ThreadUtil.newThread(() -> sendPostStream(MESSAGES, paramMap, callback), "grok-message-sse").start();
 	}
 
 	@Override
-	public String chatVision(String prompt, final List<String> images, String detail) {
-		String paramJson = buildChatVisionRequestBody(prompt, images, detail);
-		Response response = sendPost(CHAT_ENDPOINT, paramJson);
+	public String chatVision(final String prompt, final List<String> images, final String detail) {
+		final String paramJson = buildChatVisionRequestBody(prompt, images, detail);
+		final Response response = sendPost(CHAT_ENDPOINT, paramJson);
 		return response.bodyStr();
 	}
 
 	@Override
-	public void chatVision(String prompt, List<String> images, String detail, Consumer<String> callback) {
-		Map<String, Object> paramMap = buildChatVisionStreamRequestBody(prompt, images, detail);
+	public void chatVision(final String prompt, final List<String> images, final String detail, final Consumer<String> callback) {
+		final Map<String, Object> paramMap = buildChatVisionStreamRequestBody(prompt, images, detail);
 		ThreadUtil.newThread(() -> sendPostStream(CHAT_ENDPOINT, paramMap, callback), "grok-chatVision-sse").start();
 	}
 
 	@Override
 	public String models() {
-		Response response = sendGet(MODELS_ENDPOINT);
+		final Response response = sendGet(MODELS_ENDPOINT);
 		return response.bodyStr();
 	}
 
 	@Override
-	public String getModel(String modelId) {
-		Response response = sendGet(MODELS_ENDPOINT + "/" + modelId);
+	public String getModel(final String modelId) {
+		final Response response = sendGet(MODELS_ENDPOINT + "/" + modelId);
 		return response.bodyStr();
 	}
 
 	@Override
 	public String languageModels() {
-		Response response = sendGet(LANGUAGE_MODELS);
+		final Response response = sendGet(LANGUAGE_MODELS);
 		return response.bodyStr();
 	}
 
 	@Override
-	public String getLanguageModel(String modelId) {
-		Response response = sendGet(LANGUAGE_MODELS + "/" + modelId);
+	public String getLanguageModel(final String modelId) {
+		final Response response = sendGet(LANGUAGE_MODELS + "/" + modelId);
 		return response.bodyStr();
 	}
 
 	@Override
-	public String tokenizeText(String text) {
-		String paramJson = buildTokenizeRequestBody(text);
-		Response response = sendPost(TOKENIZE_TEXT, paramJson);
+	public String tokenizeText(final String text) {
+		final String paramJson = buildTokenizeRequestBody(text);
+		final Response response = sendPost(TOKENIZE_TEXT, paramJson);
 		return response.bodyStr();
 	}
 
 	@Override
-	public String deferredCompletion(String requestId) {
-		Response response = sendGet(DEFERRED_COMPLETION + "/" + requestId);
+	public String deferredCompletion(final String requestId) {
+		final Response response = sendGet(DEFERRED_COMPLETION + "/" + requestId);
 		return response.bodyStr();
 	}
 
 	@Override
-	public String imagesGenerations(String prompt) {
-		String paramJson = buildImagesGenerationsRequestBody(prompt);
-		Response response = sendPost(IMAGES_GENERATIONS, paramJson);
+	public String imagesGenerations(final String prompt) {
+		final String paramJson = buildImagesGenerationsRequestBody(prompt);
+		final Response response = sendPost(IMAGES_GENERATIONS, paramJson);
 		return response.bodyStr();
 	}
 
@@ -170,7 +170,7 @@ public class GrokServiceImpl extends BaseAIService implements GrokService {
 	}
 
 	//构建chatVision请求体
-	private String buildChatVisionRequestBody(String prompt, final List<String> images, String detail) {
+	private String buildChatVisionRequestBody(final String prompt, final List<String> images, final String detail) {
 		// 定义消息结构
 		final List<Message> messages = new ArrayList<>();
 		final List<Object> content = new ArrayList<>();
@@ -179,10 +179,10 @@ public class GrokServiceImpl extends BaseAIService implements GrokService {
 		contentMap.put("type", "text");
 		contentMap.put("text", prompt);
 		content.add(contentMap);
-		for (String img : images) {
-			HashMap<String, Object> imgUrlMap = new HashMap<>();
+		for (final String img : images) {
+			final HashMap<String, Object> imgUrlMap = new HashMap<>();
 			imgUrlMap.put("type", "image_url");
-			HashMap<String, String> urlMap = new HashMap<>();
+			final HashMap<String, String> urlMap = new HashMap<>();
 			urlMap.put("url", img);
 			urlMap.put("detail", detail);
 			imgUrlMap.put("image_url", urlMap);
@@ -200,7 +200,7 @@ public class GrokServiceImpl extends BaseAIService implements GrokService {
 		return JSONUtil.toJsonStr(paramMap);
 	}
 
-	private Map<String, Object> buildChatVisionStreamRequestBody(String prompt, final List<String> images, String detail) {
+	private Map<String, Object> buildChatVisionStreamRequestBody(final String prompt, final List<String> images, final String detail) {
 		// 定义消息结构
 		final List<Message> messages = new ArrayList<>();
 		final List<Object> content = new ArrayList<>();
@@ -209,10 +209,10 @@ public class GrokServiceImpl extends BaseAIService implements GrokService {
 		contentMap.put("type", "text");
 		contentMap.put("text", prompt);
 		content.add(contentMap);
-		for (String img : images) {
-			HashMap<String, Object> imgUrlMap = new HashMap<>();
+		for (final String img : images) {
+			final HashMap<String, Object> imgUrlMap = new HashMap<>();
 			imgUrlMap.put("type", "image_url");
-			HashMap<String, String> urlMap = new HashMap<>();
+			final HashMap<String, String> urlMap = new HashMap<>();
 			urlMap.put("url", img);
 			urlMap.put("detail", detail);
 			imgUrlMap.put("image_url", urlMap);
@@ -232,7 +232,7 @@ public class GrokServiceImpl extends BaseAIService implements GrokService {
 	}
 
 	//构建消息回复请求体
-	private String buildMessageRequestBody(final List<Message> messages, int maxToken) {
+	private String buildMessageRequestBody(final List<Message> messages, final int maxToken) {
 		final Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("model", config.getModel());
 		paramMap.put("messages", messages);
@@ -243,7 +243,7 @@ public class GrokServiceImpl extends BaseAIService implements GrokService {
 		return JSONUtil.toJsonStr(paramMap);
 	}
 
-	private Map<String, Object> buildMessageStreamRequestBody(final List<Message> messages, int maxToken) {
+	private Map<String, Object> buildMessageStreamRequestBody(final List<Message> messages, final int maxToken) {
 		final Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("stream", true);
 		paramMap.put("model", config.getModel());
@@ -256,7 +256,7 @@ public class GrokServiceImpl extends BaseAIService implements GrokService {
 	}
 
 	//构建分词请求体
-	private String buildTokenizeRequestBody(String text) {
+	private String buildTokenizeRequestBody(final String text) {
 		//使用JSON工具
 		final Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("model", config.getModel());
@@ -268,7 +268,7 @@ public class GrokServiceImpl extends BaseAIService implements GrokService {
 	}
 
 	//构建文生图请求体
-	private String buildImagesGenerationsRequestBody(String prompt) {
+	private String buildImagesGenerationsRequestBody(final String prompt) {
 		final Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("model", config.getModel());
 		paramMap.put("prompt", prompt);

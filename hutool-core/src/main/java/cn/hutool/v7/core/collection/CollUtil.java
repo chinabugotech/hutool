@@ -1408,7 +1408,7 @@ public class CollUtil {
 	 * @return 合并后的新列表
 	 * @since 5.8.42
 	 */
-	public static <A, B, R> List<R> zip(Collection<A> collectionA, Collection<B> collectionB, BiFunction<A, B, R> zipper) {
+	public static <A, B, R> List<R> zip(final Collection<A> collectionA, final Collection<B> collectionB, final BiFunction<A, B, R> zipper) {
 		if (CollUtil.isEmpty(collectionA) || CollUtil.isEmpty(collectionB)) {
 			return new ArrayList<>();
 		}

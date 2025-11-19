@@ -44,7 +44,7 @@ public class EasyStreamTest {
 	@Test
 	void testIterateHierarchies() {
 		// 创建一个三层的树结构，每个节点都有两个子节点
-		Node node = new Node("1", Arrays.asList(
+		final Node node = new Node("1", Arrays.asList(
 			new Node("1-1", Arrays.asList(
 				new Node("1-1-1", null),
 				new Node("1-1-2", null)
@@ -56,13 +56,13 @@ public class EasyStreamTest {
 		));
 
 		// 按广度度优先遍历树结构
-		List<String> allNodes = new ArrayList<>();
+		final List<String> allNodes = new ArrayList<>();
 		EasyStream.iterateHierarchies(node, node1 -> node1.children)
 			.forEach(node1 -> allNodes.add(node1.id));
 		Assertions.assertEquals(Arrays.asList("1", "1-1", "1-2", "1-1-1", "1-1-2", "1-2-1", "1-2-2"), allNodes);
 
 		// 按广度度优先遍历树结构，忽略id为1-1的节点与以其为根节点的子树
-		List<String> filteredNodes = new ArrayList<>();
+		final List<String> filteredNodes = new ArrayList<>();
 		EasyStream.iterateHierarchies(node, node1 -> node1.children, node1 -> !node1.id.equals("1-1"))
 			.forEach(node1 -> filteredNodes.add(node1.id));
 		Assertions.assertEquals(Arrays.asList("1", "1-2", "1-2-1", "1-2-2"), filteredNodes);
@@ -610,11 +610,11 @@ public class EasyStreamTest {
 	private static class Node {
 		private final String id;
 		private List<Node> children;
-		private Node(String id, List<Node> children) {
+		private Node(final String id, final List<Node> children) {
 			this.id = id;
 			this.children = children;
 		}
-		public Node(String id) {
+		public Node(final String id) {
 			this.id = id;
 		}
 	}

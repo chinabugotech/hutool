@@ -1022,20 +1022,20 @@ public class BeanUtilTest {
 
 	@Test
 	void checkBean_withNullBean_shouldReturnTrue() {
-		Predicate<Field> predicate = field -> true;
+		final Predicate<Field> predicate = field -> true;
 		assertTrue(BeanUtil.checkBean(null, predicate));
 	}
 
 	@Test
 	void checkBean_withNoMatchingFields_shouldReturnFalse() {
-		Person bean = new Person();
-		Predicate<Field> predicate = field -> false;
+		final Person bean = new Person();
+		final Predicate<Field> predicate = field -> false;
 		assertFalse(BeanUtil.checkBean(bean, predicate));
 	}
 
 	@Test
 	void checkBean_withMatchingField_shouldReturnTrue() {
-		Person bean = new Person();
+		final Person bean = new Person();
 		Predicate<Field> predicate = field -> "name".equals(field.getName());
 		assertTrue(BeanUtil.checkBean(bean, predicate));
 
@@ -1046,12 +1046,12 @@ public class BeanUtilTest {
 	@Test
 	void findEditor_shouldReturnEditorForRegisteredType() {
 		// Given
-		Class<?> type = Integer.class;
+		final Class<?> type = Integer.class;
 		// Register editor for Integer if not already registered (though usually it's pre-registered)
-		PropertyEditor expectedEditor = PropertyEditorManager.findEditor(type);
+		final PropertyEditor expectedEditor = PropertyEditorManager.findEditor(type);
 
 		// When
-		PropertyEditor actualEditor = BeanUtil.findEditor(type);
+		final PropertyEditor actualEditor = BeanUtil.findEditor(type);
 
 		// Then
 		assertNotNull(actualEditor);
@@ -1062,10 +1062,10 @@ public class BeanUtilTest {
 	void findEditor_shouldReturnNullForUnregisteredType() {
 		// Given
 		class CustomUnregisteredType {}
-		Class<?> type = CustomUnregisteredType.class;
+		final Class<?> type = CustomUnregisteredType.class;
 
 		// When
-		PropertyEditor editor = BeanUtil.findEditor(type);
+		final PropertyEditor editor = BeanUtil.findEditor(type);
 
 		// Then
 		assertNull(editor);
@@ -1074,10 +1074,10 @@ public class BeanUtilTest {
 	@Test
 	void findEditor_shouldHandlePrimitiveTypes() {
 		// Given
-		Class<?> type = int.class;
+		final Class<?> type = int.class;
 
 		// When
-		PropertyEditor editor = BeanUtil.findEditor(type);
+		final PropertyEditor editor = BeanUtil.findEditor(type);
 
 		// Then
 		assertNotNull(editor);
@@ -1085,7 +1085,7 @@ public class BeanUtilTest {
 
 	@Test
 	void descForEach_shouldProcessAllProperties() {
-		List<String> processedProperties = new ArrayList<>();
+		final List<String> processedProperties = new ArrayList<>();
 
 		// 执行
 		BeanUtil.descForEach(Person.class, propDesc -> processedProperties.add(propDesc.getFieldName()));
@@ -1099,7 +1099,7 @@ public class BeanUtilTest {
 
 	@Test
 	public void testIsMatchName_SimpleMatch() {
-		String testObj = "test";
+		final String testObj = "test";
 		assertTrue(BeanUtil.isMatchName(testObj, "String", true));
 		assertTrue(BeanUtil.isMatchName(testObj, "string", true));
 
@@ -1110,7 +1110,7 @@ public class BeanUtilTest {
 
 	@Test
 	public void testIsMatchName_FullMatch() {
-		Integer testObj = 123;
+		final Integer testObj = 123;
 		assertTrue(BeanUtil.isMatchName(testObj, "java.lang.Integer", false));
 		assertFalse(BeanUtil.isMatchName(testObj, "Integer", false));
 
@@ -1120,7 +1120,7 @@ public class BeanUtilTest {
 
 	@Test
 	void testGetPropertyDescriptor_ExistingField() {
-		PropertyDescriptor pd = BeanUtil.getPropertyDescriptor(Person.class, "name");
+		final PropertyDescriptor pd = BeanUtil.getPropertyDescriptor(Person.class, "name");
 		assertNotNull(pd);
 		assertEquals("name", pd.getName());
 		assertEquals(String.class, pd.getPropertyType());
@@ -1134,7 +1134,7 @@ public class BeanUtilTest {
 
 	@Test
 	void testBeanToMap_IgnoreNullValue() {
-		Person person = new Person();
+		final Person person = new Person();
 		person.setName(null);
 		person.setAge(25);
 

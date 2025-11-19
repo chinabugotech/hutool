@@ -64,10 +64,10 @@ public class TomlConfigParser implements ConfigParser {
 			tomlContent = ResourceUtil.readUtf8Str(tomlPath);
 		} else {
 			// 读取默认TOML文件
-			for (String defaultDbTomlPath : DEFAULT_DB_TOML_PATHS) {
+			for (final String defaultDbTomlPath : DEFAULT_DB_TOML_PATHS) {
 				try {
 					tomlContent = ResourceUtil.readUtf8Str(defaultDbTomlPath);
-				} catch (NoResourceException e) {
+				} catch (final NoResourceException e) {
 					// ignore
 				}
 			}
@@ -83,12 +83,12 @@ public class TomlConfigParser implements ConfigParser {
 	@SuppressWarnings("unchecked")
 	@Override
 	public DbConfig parse(final String group) {
-		Map<String, Object> groupData;
+		final Map<String, Object> groupData;
 
 		if (StrUtil.isEmpty(group)) {
 			groupData = this.tomlData;
 		} else {
-			Object groupObj = this.tomlData.get(group);
+			final Object groupObj = this.tomlData.get(group);
 			if (groupObj instanceof Map) {
 				// 新建一个Map，避免继承属性影响原数据
 				groupData = new HashMap<>((Map<String, Object>) groupObj);
@@ -109,7 +109,7 @@ public class TomlConfigParser implements ConfigParser {
 	/**
 	 * 如果目标map中没有指定键，则从全局配置复制
 	 */
-	private void copyPropertyIfAbsent(Map<String, Object> target, String key) {
+	private void copyPropertyIfAbsent(final Map<String, Object> target, final String key) {
 		if (!target.containsKey(key) && this.tomlData.containsKey(key)) {
 			target.put(key, this.tomlData.get(key));
 		}
@@ -118,9 +118,9 @@ public class TomlConfigParser implements ConfigParser {
 	/**
 	 * 将TOML数据转换为DbConfig对象
 	 */
-	private DbConfig toDbConfig(Map<String, Object> data) {
+	private DbConfig toDbConfig(final Map<String, Object> data) {
 		// 基本信息
-		String url = getAndRemoveString(data, DSKeys.KEY_ALIAS_URL);
+		final String url = getAndRemoveString(data, DSKeys.KEY_ALIAS_URL);
 		if (StrUtil.isBlank(url)) {
 			throw new DbException("No JDBC URL!");
 		}
@@ -131,27 +131,27 @@ public class TomlConfigParser implements ConfigParser {
 			driver = DriverUtil.identifyDriver(url);
 		}
 
-		DbConfig dbConfig = DbConfig.of()
+		final DbConfig dbConfig = DbConfig.of()
 			.setUrl(url)
 			.setDriver(driver)
 			.setUser(getAndRemoveString(data, DSKeys.KEY_ALIAS_USER))
 			.setPass(getAndRemoveString(data, DSKeys.KEY_ALIAS_PASSWORD));
 
 		// SQL日志
-		SqlLogFilter sqlLogFilter = getSqlLogFilter(data);
+		final SqlLogFilter sqlLogFilter = getSqlLogFilter(data);
 		if (sqlLogFilter != null) {
 			dbConfig.addSqlFilter(sqlLogFilter);
 		}
 
 		// 大小写等配置
-		Boolean caseInsensitive = getAndRemoveBoolean(data, DSKeys.KEY_CASE_INSENSITIVE);
+		final Boolean caseInsensitive = getAndRemoveBoolean(data, DSKeys.KEY_CASE_INSENSITIVE);
 		if (null != caseInsensitive) {
 			dbConfig.setCaseInsensitive(caseInsensitive);
 		}
 
 		// 连接配置
-		for (String key : DSKeys.KEY_CONN_PROPS) {
-			String connValue = getAndRemoveString(data, key);
+		for (final String key : DSKeys.KEY_CONN_PROPS) {
+			final String connValue = getAndRemoveString(data, key);
 			if (StrUtil.isNotBlank(connValue)) {
 				dbConfig.addConnProps(key, connValue);
 			}
@@ -178,7 +178,7 @@ public class TomlConfigParser implements ConfigParser {
 	/**
 	 * 获取SQL日志过滤器
 	 */
-	private SqlLogFilter getSqlLogFilter(Map<String, Object> data) {
+	private SqlLogFilter getSqlLogFilter(final Map<String, Object> data) {
 		final Boolean isShowSql = getAndRemoveBoolean(data, DSKeys.KEY_SHOW_SQL);
 		if (isShowSql == null || !isShowSql) {
 			return null;
@@ -191,9 +191,9 @@ public class TomlConfigParser implements ConfigParser {
 		if (sqlLevelStr != null) {
 			sqlLevelStr = sqlLevelStr.toUpperCase();
 		}
-		Level level = ConvertUtil.toEnum(Level.class, sqlLevelStr, Level.DEBUG);
+		final Level level = ConvertUtil.toEnum(Level.class, sqlLevelStr, Level.DEBUG);
 
-		SqlLog sqlLog = new SqlLog();
+		final SqlLog sqlLog = new SqlLog();
 		sqlLog.init(true, isFormatSql, isShowParams, level);
 
 		return new SqlLogFilter(sqlLog);
@@ -206,9 +206,9 @@ public class TomlConfigParser implements ConfigParser {
 	 * @param keys 多个键
 	 * @return 字符串值
 	 */
-	private String getAndRemoveString(Map<String, Object> map, String... keys) {
+	private String getAndRemoveString(final Map<String, Object> map, final String... keys) {
 		Object value = null;
-		for (String key : keys) {
+		for (final String key : keys) {
 			value = map.remove(key);
 			if (null != value) {
 				break;
@@ -224,9 +224,9 @@ public class TomlConfigParser implements ConfigParser {
 	 * @param keys 多个键
 	 * @return 布尔值
 	 */
-	private Boolean getAndRemoveBoolean(Map<String, Object> map, String... keys) {
+	private Boolean getAndRemoveBoolean(final Map<String, Object> map, final String... keys) {
 		Object value = null;
-		for (String key : keys) {
+		for (final String key : keys) {
 			value = map.remove(key);
 			if (null != value) {
 				break;

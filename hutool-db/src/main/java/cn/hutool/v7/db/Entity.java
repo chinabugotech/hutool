@@ -431,7 +431,7 @@ public class Entity extends Dict {
 			return SqlUtil.clobToStr((Clob) obj);
 		} else if (obj instanceof Blob) {
 			return SqlUtil.blobToStr((Blob) obj, charset);
-		} else if (obj instanceof RowId rowId) {
+		} else if (obj instanceof final RowId rowId) {
 			return StrUtil.str(rowId.getBytes(), charset);
 		}
 		return super.getStr(field, defaultValue);

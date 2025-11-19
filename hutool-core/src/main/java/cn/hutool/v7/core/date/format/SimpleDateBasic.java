@@ -75,7 +75,7 @@ public class SimpleDateBasic implements DateBasic, Serializable {
 	// ----------------------------------------------------------------------- Basics
 	@Override
 	public boolean equals(final Object obj) {
-		if (!(obj instanceof FastDatePrinter other)) {
+		if (!(obj instanceof final FastDatePrinter other)) {
 			return false;
 		}
 		return pattern.equals(other.pattern) && timeZone.equals(other.timeZone) && locale.equals(other.locale);

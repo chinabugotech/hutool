@@ -55,7 +55,7 @@ public class MutableEntryTest extends BaseMutableTest<Map.Entry<String, String>,
 	 * @return 值
 	 */
 	@Override
-	MutableEntry<String, String> getMutable(Map.Entry<String, String> value) {
+	MutableEntry<String, String> getMutable(final Map.Entry<String, String> value) {
 		return new MutableEntry<>(value.getKey(), value.getValue());
 	}
 }

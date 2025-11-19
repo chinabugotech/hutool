@@ -57,7 +57,7 @@ public class JdkServiceLoaderUtil {
 					break;
 				}
 				instance = iterator.next();
-			} catch (ServiceConfigurationError | NoClassDefFoundError e) {
+			} catch (final ServiceConfigurationError | NoClassDefFoundError e) {
 				// 安全忽略当前实现，尝试下一个
 				continue;
 			}

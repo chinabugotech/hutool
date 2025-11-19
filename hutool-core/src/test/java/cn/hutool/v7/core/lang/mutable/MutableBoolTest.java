@@ -50,7 +50,7 @@ public class MutableBoolTest extends BaseMutableTest<Boolean, MutableBool> {
 	 * @return 值
 	 */
 	@Override
-	MutableBool getMutable(Boolean value) {
+	MutableBool getMutable(final Boolean value) {
 		return new MutableBool(value);
 	}
 }

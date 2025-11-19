@@ -36,12 +36,12 @@ public class OllamaConfig extends BaseAIConfig {
 		setModel(DEFAULT_MODEL);
 	}
 
-	public OllamaConfig(String apiUrl) {
+	public OllamaConfig(final String apiUrl) {
 		this();
 		setApiUrl(apiUrl);
 	}
 
-	public OllamaConfig(String apiUrl, String model) {
+	public OllamaConfig(final String apiUrl, final String model) {
 		this();
 		setApiUrl(apiUrl);
 		setModel(model);

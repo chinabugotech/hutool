@@ -53,7 +53,7 @@ public class HttpDownloader {
 	 * @param url    请求地址
 	 * @return 下载器
 	 */
-	public static HttpDownloader of(ClientEngine engine, String url) {
+	public static HttpDownloader of(final ClientEngine engine, final String url) {
 		return of(url).setEngine(engine).setCloseEngine(false);
 	}
 

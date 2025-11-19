@@ -170,7 +170,7 @@ public class HttpClient4Engine extends AbstractClientEngine {
 		);
 
 		// 连接池配置
-		if (config instanceof ApacheHttpClientConfig apacheHttpClientConfig) {
+		if (config instanceof final ApacheHttpClientConfig apacheHttpClientConfig) {
 			final int maxTotal = apacheHttpClientConfig.getMaxTotal();
 			if (maxTotal > 0) {
 				manager.setMaxTotal(maxTotal);

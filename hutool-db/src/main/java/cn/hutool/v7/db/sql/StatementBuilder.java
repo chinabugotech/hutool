@@ -165,7 +165,7 @@ public class StatementBuilder implements Builder<StatementWrapper> {
 				}
 				if (ArrayUtil.isArray(params)) {
 					ps.fillParams(new ArrayIter<>(params), nullTypeMap);
-				} else if (params instanceof Entity entity) {
+				} else if (params instanceof final Entity entity) {
 					// 对于多Entity批量插入的情况，为防止数据不对齐，故按照首行提供键值对筛选。
 					if(null == keys){
 						keys = entity.keySet();

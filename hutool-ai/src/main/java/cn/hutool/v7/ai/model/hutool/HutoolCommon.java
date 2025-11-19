@@ -33,7 +33,7 @@ public class HutoolCommon {
 
 		private final String detail;
 
-		HutoolVision(String detail) {
+		HutoolVision(final String detail) {
 			this.detail = detail;
 		}
 
@@ -57,7 +57,7 @@ public class HutoolCommon {
 
 		private final String voice;
 
-		HutoolSpeech(String voice) {
+		HutoolSpeech(final String voice) {
 			this.voice = voice;
 		}
 
@@ -94,7 +94,7 @@ public class HutoolCommon {
 		private final String type;
 		private final Object value;
 
-		HutoolVideo(String type, Object value) {
+		HutoolVideo(final String type, final Object value) {
 			this.type = type;
 			this.value = value;
 		}

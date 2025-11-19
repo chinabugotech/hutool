@@ -51,7 +51,7 @@ public class MutableTripleTest extends BaseMutableTest<MutableTriple<String, Str
 	 * @return 值
 	 */
 	@Override
-	MutableTriple<String, String, String> getMutable(MutableTriple<String, String, String> value) {
+	MutableTriple<String, String, String> getMutable(final MutableTriple<String, String, String> value) {
 		return new MutableTriple<>(value.getLeft(), value.getMiddle(), value.getRight());
 	}
 }

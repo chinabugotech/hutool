@@ -49,9 +49,9 @@ class GrokServiceTest {
 	@Test
 	@Disabled
 	void chatStream() {
-		String prompt = "写一个疯狂星期四广告词";
+		final String prompt = "写一个疯狂星期四广告词";
 		// 使用AtomicBoolean作为结束标志
-		AtomicBoolean isDone = new AtomicBoolean(false);
+		final AtomicBoolean isDone = new AtomicBoolean(false);
 
 		grokService.chat(prompt, data -> {
 			assertNotNull(data);
@@ -89,10 +89,10 @@ class GrokServiceTest {
 	@Test
 	@Disabled
 	void messageStream() {
-		String prompt = "给我一个KFC的广告词";
+		final String prompt = "给我一个KFC的广告词";
 
 		// 使用AtomicBoolean作为结束标志
-		AtomicBoolean isDone = new AtomicBoolean(false);
+		final AtomicBoolean isDone = new AtomicBoolean(false);
 		grokService.message(prompt, 4096, data -> {
 			assertNotNull(data);
 			if (data.contains("[DONE]")) {
@@ -122,11 +122,11 @@ class GrokServiceTest {
 	@Disabled
 	void testChatVisionStream() {
 		final GrokService grokService = AIServiceFactory.getAIService(new AIConfigBuilder(ModelName.GROK.getValue()).setModel(Models.Grok.GROK_2_VISION_1212.getModel()).setApiKey(key).build(), GrokService.class);
-		String prompt = "图片上有些什么？";
-		List<String> images = List.of("https://img2.baidu.com/it/u=862000265,4064861820&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1544");
+		final String prompt = "图片上有些什么？";
+		final List<String> images = List.of("https://img2.baidu.com/it/u=862000265,4064861820&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1544");
 
 		// 使用AtomicBoolean作为结束标志
-		AtomicBoolean isDone = new AtomicBoolean(false);
+		final AtomicBoolean isDone = new AtomicBoolean(false);
 		grokService.chatVision(prompt,images, data -> {
 			assertNotNull(data);
 			if (data.contains("[DONE]")) {

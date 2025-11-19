@@ -28,7 +28,7 @@ public class IncrementSelectorTest {
 	 */
 	@Test
 	void testSelectNormalCycle() {
-		IncrementSelector<String> selector = new IncrementSelector<>(List.of("A", "B", "C"));
+		final IncrementSelector<String> selector = new IncrementSelector<>(List.of("A", "B", "C"));
 
 		assertEquals("A", selector.select()); // 第一次调用应返回第一个元素
 		assertEquals("B", selector.select()); // 第二次调用应返回第二个元素

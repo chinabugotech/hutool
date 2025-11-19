@@ -102,7 +102,7 @@ public class SimpleCacheTest {
 		cache.get("key5", ()->"value5");
 
 		String key = null;
-		for (Map.Entry<String, String> entry : cache) {
+		for (final Map.Entry<String, String> entry : cache) {
 			if ("value3".equals(entry.getValue())) {
 				key = entry.getKey();
 				break;

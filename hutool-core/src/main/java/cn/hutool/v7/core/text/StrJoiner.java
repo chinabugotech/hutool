@@ -236,7 +236,7 @@ public class StrJoiner implements Appendable, Serializable {
 			append((Iterator<?>) obj);
 		} else if (obj instanceof Iterable) {
 			append(((Iterable<?>) obj).iterator());
-		}else if (obj instanceof Map.Entry<?, ?> entry) {
+		}else if (obj instanceof final Map.Entry<?, ?> entry) {
 			append(entry.getKey()).append(entry.getValue());
 		} else {
 			append(ConvertUtil.toStr(obj));
@@ -448,7 +448,7 @@ public class StrJoiner implements Appendable, Serializable {
 	 * @param appendable {@link Appendable}
 	 */
 	private void checkHasContent(final Appendable appendable) {
-		if (appendable instanceof CharSequence charSequence) {
+		if (appendable instanceof final CharSequence charSequence) {
 			if (!charSequence.isEmpty() && StrUtil.endWith(charSequence, delimiter)) {
 				this.hasContent = true;
 			}
