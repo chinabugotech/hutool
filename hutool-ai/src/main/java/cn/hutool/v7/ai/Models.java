@@ -193,7 +193,18 @@ public class Models {
 
 	// Ollama的模型
 	public enum Ollama {
-		QWEN3_32B("qwen3:32b");
+		QWEN3_32B("qwen3:32b"),
+		QWEN3_VL_2B("qwen3-vl:2b"),
+		QWEN3_VL_4B("qwen3-vl:4b"),
+		QWEN3_VL_8B("qwen3-vl:8b"),
+		QWEN3_VL_30B("qwen3-vl:30b"),
+		QWEN3_VL_32B("qwen3-vl:32b"),
+		DEEPSEEK_R1_7B("deepseek-r1:7b"),
+		DEEPSEEK_R1_8B("deepseek-r1:8b"),
+		DEEPSEEK_R1_14B("deepseek-r1:14b"),
+		DEEPSEEK_R1_32B("deepseek-r1:32b"),
+		EMBEDDINGGEMMA("embeddinggemma"),
+		GPT_OSS_20B("gpt-oss:20b");
 
 		private final String model;
 
