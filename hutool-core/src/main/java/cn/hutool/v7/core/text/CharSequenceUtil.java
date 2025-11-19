@@ -2416,8 +2416,32 @@ public class CharSequenceUtil extends StrValidator {
 		if (null == str1 || null == str2) {
 			return false;
 		}
+		if (str1 instanceof String && str2 instanceof String) {
+			return ((String) str1).regionMatches(ignoreCase, offset1, (String) str2, offset2, length);
+		}
+		if (offset1 < 0 || offset2 < 0 || length < 0) {
+			return false;
+		}
+		if (str1.length() - offset1 < length || str2.length() - offset2 < length) {
+			return false;
+		}
+		for (int i = 0; i < length; i++) {
+			final char c1 = str1.charAt(offset1 + i);
+			final char c2 = str2.charAt(offset2 + i);
+			if (c1 == c2) {
+				continue;
+			}
+			if (ignoreCase) {
+				final char u1 = Character.toLowerCase(c1);
+				final char u2 = Character.toLowerCase(c2);
+				if (u1 == u2) {
+					continue;
+				}
+			}
+			return false;
+		}
 
-		return str1.toString().regionMatches(ignoreCase, offset1, str2.toString(), offset2, length);
+		return true;
 	}
 	// endregion
 
