@@ -30,7 +30,7 @@ public abstract class AbstractFilter implements BloomFilter {
 	@Serial
 	private static final long serialVersionUID = 1L;
 
-	private final BitSet bitSet;
+	protected final BitSet bitSet;
 	/**
 	 * 容量
 	 */
