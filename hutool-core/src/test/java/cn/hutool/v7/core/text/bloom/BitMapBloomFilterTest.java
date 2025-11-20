@@ -20,15 +20,14 @@ import cn.hutool.v7.core.codec.hash.HashUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.BitSet;
-
 public class BitMapBloomFilterTest {
+
+	private static final int SIZE = 2 * 1024 * 1024 * 8;
 
 	@Test
 	public void filterTest() {
-		final int size = 2 * 1024 * 1024 * 8;
 
-		final CombinedBloomFilter filter = new CombinedBloomFilter(FuncFilter.of(size, HashUtil::rsHash));
+		final CombinedBloomFilter filter = new CombinedBloomFilter(FuncFilter.of(SIZE, HashUtil::rsHash));
 		filter.add("123");
 		filter.add("abc");
 		filter.add("ddd");
@@ -37,5 +36,68 @@ public class BitMapBloomFilterTest {
 		Assertions.assertTrue(filter.contains("ddd"));
 		Assertions.assertTrue(filter.contains("123"));
 	}
+	@Test
+	public void multiHashFuncTest() {
+		final FuncFilter filter = FuncFilter.of(SIZE,
+			HashUtil::rsHash,
+			HashUtil::jsHash,
+			HashUtil::pjwHash,
+			HashUtil::elfHash,
+			HashUtil::bkdrHash,
+			HashUtil::sdbmHash,
+			HashUtil::djbHash,
+			HashUtil::dekHash,
+			HashUtil::apHash,
+			HashUtil::javaDefaultHash
+		);
 
+		filter.add("Hutool");
+		filter.add("BloomFilter");
+		filter.add("Java");
+
+		Assertions.assertTrue(filter.contains("Hutool"));
+		Assertions.assertTrue(filter.contains("BloomFilter"));
+		Assertions.assertTrue(filter.contains("Java"));
+		Assertions.assertFalse(filter.contains("Python"));
+		Assertions.assertFalse(filter.contains("Go"));
+		Assertions.assertFalse(filter.contains("hutool"));
+	}
+
+	@Test
+	public void combinedMultiHashTest() {
+		FuncFilter multiHashFuncFilter = FuncFilter.of(SIZE,
+			HashUtil::bkdrHash,
+			HashUtil::apHash,
+			HashUtil::djbHash
+		);
+		final CombinedBloomFilter filter = new CombinedBloomFilter(multiHashFuncFilter);
+		filter.add("123123WASD-WASD");
+		Assertions.assertTrue(filter.contains("123123WASD-WASD"));
+		Assertions.assertFalse(filter.contains("123123WASD-WASD-false"));
+	}
+
+	@Test
+	public void chineseStringWithThreeHashesTest() {
+		final FuncFilter filter = FuncFilter.of(SIZE,
+			HashUtil::bkdrHash,
+			HashUtil::apHash,
+			HashUtil::djbHash
+		);
+
+		String s1 = "你好世界";
+		String s2 = "双亲委派";
+		String s3 = "测试工程师";
+
+		filter.add(s1);
+		filter.add(s2);
+		filter.add(s3);
+		Assertions.assertTrue(filter.contains(s1), "应包含: " + s1);
+		Assertions.assertTrue(filter.contains(s2), "应包含: " + s2);
+		Assertions.assertTrue(filter.contains(s3), "应包含: " + s3);
+		Assertions.assertFalse(filter.contains("我好世界"), "多字");
+		Assertions.assertFalse(filter.contains("父亲委派"), "改字");
+		Assertions.assertFalse(filter.contains("测试"), "子串");
+		Assertions.assertFalse(filter.contains(""), "空串");
+		Assertions.assertFalse(filter.contains("👍"), "未添加的");
+	}
 }
