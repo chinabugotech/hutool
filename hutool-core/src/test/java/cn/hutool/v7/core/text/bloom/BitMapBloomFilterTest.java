@@ -20,6 +20,8 @@ import cn.hutool.v7.core.codec.hash.HashUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.BitSet;
+
 public class BitMapBloomFilterTest {
 
 	@Test
@@ -35,4 +37,5 @@ public class BitMapBloomFilterTest {
 		Assertions.assertTrue(filter.contains("ddd"));
 		Assertions.assertTrue(filter.contains("123"));
 	}
+
 }

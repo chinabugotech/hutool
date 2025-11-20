@@ -51,28 +51,40 @@ public class FuncFilter extends AbstractFilter {
 
 	/**
 	 * @param size     最大值
-	 * @param hashFunc Hash函数
+	 * @param hashFuncs Hash函数
 	 */
 	@SafeVarargs
-	public FuncFilter(final int size, final Function<String, Number>... hashFunc) {
+	public FuncFilter(final int size, final Function<String, Number>... hashFuncs) {
 		super(size);
-		Assert.notEmpty(hashFunc, "Hash functions must not be empty");
-		this.hashFuncs = Collections.unmodifiableList(Arrays.asList(hashFunc));
+		Assert.notEmpty(hashFuncs, "Hash functions must not be empty");
+		this.hashFuncs = Collections.unmodifiableList(Arrays.asList(hashFuncs));
 	}
 
+	/**
+	 *兼容父类，如果存在多个哈希函数，就使用第一个
+	 *
+	 * @param str 字符串
+	 */
 	@Override
 	public int hash(final String str) {
 		return hash(str, hashFuncs.get(0));
 	}
 
+	/**
+	 *
+	 * @param str 字符串
+	 * @param hashFunc 哈希函数
+	 * @return HashCode 指定哈希函数的计算结果
+	 */
 	public int hash(final String str, final Function<String, Number> hashFunc) {
-		return hashFunc.apply(str).intValue() % size;
+		// 通过位运算获取正数
+		return (hashFunc.apply(str).intValue() & 0x7FFFFFFF) % size;
 	}
 
 	@Override
 	public boolean contains(final String str) {
 		for (final Function<String, Number> hashFunc : hashFuncs) {
-			if (!bitSet.get(Math.abs(hash(str, hashFunc)))) {
+			if (!bitSet.get(hash(str, hashFunc))) {
 				return false;
 			}
 		}
@@ -83,7 +95,7 @@ public class FuncFilter extends AbstractFilter {
 	public boolean add(final String str) {
 		boolean add = false;
 		for (final Function<String, Number> hashFunc : hashFuncs) {
-			int hash = Math.abs(hash(str,  hashFunc));
+			int hash = hash(str,  hashFunc);
 			if (!bitSet.get(hash)) {
 				bitSet.set(hash);
 				add = true;
