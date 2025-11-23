@@ -38,7 +38,8 @@ public class TypeUtilTest {
 
 	@Test
 	void getMapClassTest() {
-		final Class<?> aClass = TypeUtil.getClass(new TypeReference<Map<String, String>>() {});
+		final Class<?> aClass = TypeUtil.getClass(new TypeReference<Map<String, String>>() {
+		});
 		assertEquals(Map.class, aClass);
 	}
 
@@ -63,7 +64,7 @@ public class TypeUtilTest {
 	}
 
 	public static class TestClass {
-		public List<String> getList(){
+		public List<String> getList() {
 			return new ArrayList<>();
 		}
 
@@ -73,7 +74,7 @@ public class TypeUtilTest {
 	}
 
 	@Test
-	public void getTypeArgumentTest(){
+	public void getTypeArgumentTest() {
 		// 测试不继承父类，而是实现泛型接口时是否可以获取成功。
 		final Type typeArgument = TypeUtil.getTypeArgument(IPService.class);
 		assertEquals(String.class, typeArgument);
@@ -90,10 +91,10 @@ public class TypeUtilTest {
 	}
 
 	@Test
-	public void getActualTypesTest(){
+	public void getActualTypesTest() {
 		// 测试多层级泛型参数是否能获取成功
 		final Type idType = TypeUtil.getActualType(Level3.class,
-				FieldUtil.getField(Level3.class, "id"));
+			FieldUtil.getField(Level3.class, "id"));
 
 		assertEquals(Long.class, idType);
 	}
@@ -111,16 +112,16 @@ public class TypeUtilTest {
 		assertEquals(Object.class, clazz);
 	}
 
-	public static class Level3 extends Level2<Level3>{
+	public static class Level3 extends Level2<Level3> {
 
 	}
 
-	public static class Level2<E> extends Level1<Long>{
+	public static class Level2<E> extends Level1<Long> {
 
 	}
 
 	@Data
-	public static class Level1<T>{
+	public static class Level1<T> {
 		private T id;
 	}
 
@@ -171,13 +172,14 @@ public class TypeUtilTest {
 	}
 
 	/**
-	 * 测试getClass方法对参数化类型数组List<String>[]的处理
+	 * 测试getClass方法对参数化类型数组{@code List<String>[]}的处理
 	 * 验证数组组件类型能正确解析为原始类型
 	 */
 	@Test
 	public void getClassForParameterizedArrayTypeTest() {
 		// 创建List<String>[]类型引用
-		Type genericArrayType = new TypeReference<List<String>[]>() {}.getType();
+		Type genericArrayType = new TypeReference<List<String>[]>() {
+		}.getType();
 		// 调用getClass方法处理GenericArrayType
 		Class<?> clazz = TypeUtil.getClass(genericArrayType);
 		// 验证返回List[]类型
