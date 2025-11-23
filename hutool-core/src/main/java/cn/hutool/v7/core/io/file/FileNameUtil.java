@@ -315,7 +315,7 @@ public class FileNameUtil {
 			// issue#I4W5FS@Gitee
 			final int secondToLastIndex = fileName.substring(0, index).lastIndexOf(StrUtil.DOT);
 			final String substr = fileName.substring(secondToLastIndex == -1 ? index : secondToLastIndex + 1);
-			if (StrUtil.containsAny(substr, SPECIAL_SUFFIX)) {
+			if (StrUtil.equalsAny(substr, SPECIAL_SUFFIX)) {
 				return substr;
 			}
 

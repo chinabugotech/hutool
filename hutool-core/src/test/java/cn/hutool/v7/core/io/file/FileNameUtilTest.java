@@ -16,58 +16,67 @@
 
 package cn.hutool.v7.core.io.file;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class FileNameUtilTest {
 	@Test
 	public void cleanInvalidTest(){
 		String name = FileNameUtil.cleanInvalid("1\n2\n");
-		Assertions.assertEquals("12", name);
+		assertEquals("12", name);
 
 		name = FileNameUtil.cleanInvalid("\r1\r\n2\n");
-		Assertions.assertEquals("12", name);
+		assertEquals("12", name);
 	}
 
 	@Test
 	public void mainNameTest() {
 		final String s = FileNameUtil.mainName("abc.tar.gz");
-		Assertions.assertEquals("abc", s);
+		assertEquals("abc", s);
 	}
 
 	@Test
 	public void normalizeTest() {
-		Assertions.assertEquals("/foo/", FileNameUtil.normalize("/foo//"));
-		Assertions.assertEquals("/foo/", FileNameUtil.normalize("/foo/./"));
-		Assertions.assertEquals("/bar", FileNameUtil.normalize("/foo/../bar"));
-		Assertions.assertEquals("/bar/", FileNameUtil.normalize("/foo/../bar/"));
-		Assertions.assertEquals("/baz", FileNameUtil.normalize("/foo/../bar/../baz"));
-		Assertions.assertEquals("/", FileNameUtil.normalize("/../"));
-		Assertions.assertEquals("foo", FileNameUtil.normalize("foo/bar/.."));
-		Assertions.assertEquals("../bar", FileNameUtil.normalize("foo/../../bar"));
-		Assertions.assertEquals("bar", FileNameUtil.normalize("foo/../bar"));
-		Assertions.assertEquals("/server/bar", FileNameUtil.normalize("//server/foo/../bar"));
-		Assertions.assertEquals("/bar", FileNameUtil.normalize("//server/../bar"));
-		Assertions.assertEquals("C:/bar", FileNameUtil.normalize("C:\\foo\\..\\bar"));
+		assertEquals("/foo/", FileNameUtil.normalize("/foo//"));
+		assertEquals("/foo/", FileNameUtil.normalize("/foo/./"));
+		assertEquals("/bar", FileNameUtil.normalize("/foo/../bar"));
+		assertEquals("/bar/", FileNameUtil.normalize("/foo/../bar/"));
+		assertEquals("/baz", FileNameUtil.normalize("/foo/../bar/../baz"));
+		assertEquals("/", FileNameUtil.normalize("/../"));
+		assertEquals("foo", FileNameUtil.normalize("foo/bar/.."));
+		assertEquals("../bar", FileNameUtil.normalize("foo/../../bar"));
+		assertEquals("bar", FileNameUtil.normalize("foo/../bar"));
+		assertEquals("/server/bar", FileNameUtil.normalize("//server/foo/../bar"));
+		assertEquals("/bar", FileNameUtil.normalize("//server/../bar"));
+		assertEquals("C:/bar", FileNameUtil.normalize("C:\\foo\\..\\bar"));
 		//
-		Assertions.assertEquals("C:/bar", FileNameUtil.normalize("C:\\..\\bar"));
-		Assertions.assertEquals("../../bar", FileNameUtil.normalize("../../bar"));
-		Assertions.assertEquals("C:/bar", FileNameUtil.normalize("/C:/bar"));
-		Assertions.assertEquals("C:", FileNameUtil.normalize("C:"));
+		assertEquals("C:/bar", FileNameUtil.normalize("C:\\..\\bar"));
+		assertEquals("../../bar", FileNameUtil.normalize("../../bar"));
+		assertEquals("C:/bar", FileNameUtil.normalize("/C:/bar"));
+		assertEquals("C:", FileNameUtil.normalize("C:"));
 
 		// issue#3253，smb保留格式
-		Assertions.assertEquals("\\\\192.168.1.1\\Share\\", FileNameUtil.normalize("\\\\192.168.1.1\\Share\\"));
+		assertEquals("\\\\192.168.1.1\\Share\\", FileNameUtil.normalize("\\\\192.168.1.1\\Share\\"));
 	}
 
 	@Test
 	public void normalizeBlankTest() {
-		Assertions.assertEquals("C:/aaa ", FileNameUtil.normalize("C:\\aaa "));
+		assertEquals("C:/aaa ", FileNameUtil.normalize("C:\\aaa "));
 	}
 
 	@Test
 	void renameMainTest() {
-		Assertions.assertEquals("1.pdf", FileNameUtil.renameMain("a.b.pdf", "1"));
-		Assertions.assertEquals("a.pdf", FileNameUtil.renameMain(null, "a.pdf"));
-		Assertions.assertEquals("a.pdf", FileNameUtil.renameMain("", "a.pdf"));
+		assertEquals("1.pdf", FileNameUtil.renameMain("a.b.pdf", "1"));
+		assertEquals("a.pdf", FileNameUtil.renameMain(null, "a.pdf"));
+		assertEquals("a.pdf", FileNameUtil.renameMain("", "a.pdf"));
+	}
+
+	@Test
+	public void extNameAndMainNameBugTest() {
+		// 正确，输出前缀为 "app-v2.3.1-star"
+		assertEquals("app-v2.3.1-star",FileNameUtil.mainName("app-v2.3.1-star.gz"));
+		// 当前代码会失败，预期后缀结果 "gz"，但是输出 "star.gz"
+		assertEquals("gz", FileNameUtil.extName("app-v2.3.1-star.gz"));
 	}
 }
