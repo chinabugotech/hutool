@@ -20,6 +20,7 @@ import cn.hutool.v7.core.text.StrUtil;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -53,15 +54,52 @@ public class Combination implements Serializable {
 	/**
 	 * 计算组合数，即C(n, m) = n!/((n-m)!* m!)
 	 *
-	 * @param n 总数
-	 * @param m 选择的个数
-	 * @return 组合数
+	 * @param n 总数 n（必须 >= 0）
+	 * @param m 取出 m（必须 >= 0）
+	 * @return 若结果超出 long 范围，会抛 ArithmeticException，而非溢出。
+	 * @throws ArithmeticException 若结果超出 long 范围，会抛 ArithmeticException，而非溢出。
 	 */
-	public static long count(final int n, final int m) {
-		if (0 == m || n == m) {
-			return 1;
+	public static long count(final int n, final int m) throws ArithmeticException {
+		final BigInteger big = countBig(n, m);
+		return big.longValueExact();
+	}
+
+	/**
+	 * 计算组合数 C(n, m) 的 BigInteger 精确版本。
+	 * 使用逐步累乘除法（非阶乘）保证不溢出、性能好。
+	 * <p>
+	 * 数学定义：
+	 * C(n, m) = n! / (m! (n - m)!)
+	 * <p>
+	 * 优化方式：
+	 * 1. 利用对称性 m = min(m, n-m)
+	 * 2. 每一步先乘 BigInteger，再除以当前 i，保证数值不暴涨
+	 *
+	 * @param n 总数 n（必须 >= 0）
+	 * @param m 取出 m（必须 >= 0）
+	 * @return C(n, m) 的 BigInteger 精确值；当 m > n 时返回 BigInteger.ZERO
+	 */
+	public static BigInteger countBig(final int n, int m) {
+		if (n < 0 || m < 0) {
+			throw new IllegalArgumentException("n and m must be non-negative. got n=" + n + ", m=" + m);
 		}
-		return (n > m) ? MathUtil.factorial(n, n - m) / MathUtil.factorial(m) : 0;
+		if (m > n) {
+			return BigInteger.ZERO;
+		}
+		if (m == 0 || n == m) {
+			return BigInteger.ONE;
+		}
+		// 使用对称性：C(n, m) = C(n, n-m)
+		m = Math.min(m, n - m);
+		BigInteger result = BigInteger.ONE;
+		// 从 1 → m 累乘
+		for (int i = 1; i <= m; i++) {
+			final int numerator = n - m + i;
+			result = result.multiply(BigInteger.valueOf(numerator))
+				.divide(BigInteger.valueOf(i));
+		}
+
+		return result;
 	}
 
 	/**
