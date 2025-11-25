@@ -327,6 +327,7 @@ public class CalendarUtil {
 	 *
 	 * @param calendar 日期 {@link Calendar}
 	 * @return {@link Calendar}
+	 * @throws IllegalArgumentException 如果计算出的月份值无效时抛出
 	 * @since 4.1.0
 	 */
 	@SuppressWarnings({"MagicConstant", "ConstantConditions"})
@@ -537,11 +538,15 @@ public class CalendarUtil {
 
 	/**
 	 * 获取指定日期字段的最小值，例如分钟的最小值是0
+	 * <p>
+	 * 注意：对于 {@link DateField#DAY_OF_WEEK} 字段，会返回一周的第一天，详见 {@link #getBeginValue(Calendar, int)}
+	 * </p>
 	 *
 	 * @param calendar  {@link Calendar}
-	 * @param dateField {@link DateField}
+	 * @param dateField {@link DateField} 日期字段
 	 * @return 字段最小值
 	 * @see Calendar#getActualMinimum(int)
+	 * @see #getBeginValue(Calendar, int)
 	 * @since 5.4.2
 	 */
 	public static int getBeginValue(Calendar calendar, DateField dateField) {
@@ -550,15 +555,22 @@ public class CalendarUtil {
 
 	/**
 	 * 获取指定日期字段的最小值，例如分钟的最小值是0
+	 * <p>
+	 * 对于 {@link Calendar#DAY_OF_WEEK} 字段，需要特殊处理：<br>
+	 * 由于 DAY_OF_WEEK 的值范围是 1-7，取决于一周的第一天设置（周日或周一），<br>
+	 * 本方法会直接返回 {@link Calendar#getFirstDayOfWeek()} 的值作为一周的第一天。
+	 * </p>
 	 *
 	 * @param calendar  {@link Calendar}
-	 * @param dateField {@link DateField}
+	 * @param dateField 日期字段，使用 {@link Calendar} 中的字段常量，如 {@link Calendar#MINUTE}、{@link Calendar#DAY_OF_WEEK} 等
 	 * @return 字段最小值
 	 * @see Calendar#getActualMinimum(int)
+	 * @see Calendar#getFirstDayOfWeek()
 	 * @since 4.5.7
 	 */
 	public static int getBeginValue(Calendar calendar, int dateField) {
 		if (Calendar.DAY_OF_WEEK == dateField) {
+			// DAY_OF_WEEK 的值范围是 1-7，直接返回一周的第一天
 			return calendar.getFirstDayOfWeek();
 		}
 		return calendar.getActualMinimum(dateField);
@@ -566,11 +578,15 @@ public class CalendarUtil {
 
 	/**
 	 * 获取指定日期字段的最大值，例如分钟的最大值是59
+	 * <p>
+	 * 注意：对于 {@link DateField#DAY_OF_WEEK} 字段，会根据一周的第一天设置计算最后一天，详见 {@link #getEndValue(Calendar, int)}
+	 * </p>
 	 *
 	 * @param calendar  {@link Calendar}
-	 * @param dateField {@link DateField}
+	 * @param dateField {@link DateField} 日期字段
 	 * @return 字段最大值
 	 * @see Calendar#getActualMaximum(int)
+	 * @see #getEndValue(Calendar, int)
 	 * @since 5.4.2
 	 */
 	public static int getEndValue(Calendar calendar, DateField dateField) {
@@ -579,29 +595,37 @@ public class CalendarUtil {
 
 	/**
 	 * 获取指定日期字段的最大值，例如分钟的最大值是59
+	 * <p>
+	 * 对于 {@link Calendar#DAY_OF_WEEK} 字段，需要特殊处理：<br>
+	 * 由于 DAY_OF_WEEK 的值范围是 1-7，取决于一周的第一天设置（周日或周一），<br>
+	 * 本方法会根据 {@link Calendar#getFirstDayOfWeek()} 计算出一周的最后一天。<br>
+	 * 计算逻辑：最后一天 = 第一天 + 6，如果结果 &gt; 7，则减去 7 以保持在 1-7 范围内。<br>
+	 * 例如：如果第一天是周一(2)，则最后一天是周日(1)；如果第一天是周日(1)，则最后一天是周六(7)。
+	 * </p>
 	 *
 	 * @param calendar  {@link Calendar}
-	 * @param dateField {@link DateField}
+	 * @param dateField 日期字段，使用 {@link Calendar} 中的字段常量，如 {@link Calendar#MINUTE}、{@link Calendar#DAY_OF_WEEK} 等
 	 * @return 字段最大值
 	 * @see Calendar#getActualMaximum(int)
+	 * @see Calendar#getFirstDayOfWeek()
 	 * @since 4.5.7
 	 */
 	public static int getEndValue(Calendar calendar, int dateField) {
 		if (Calendar.DAY_OF_WEEK == dateField) {
-			// DAY_OF_WEEK values are 1-7, calculate last day of week based on first day
+			// DAY_OF_WEEK 的值范围是 1-7，根据一周的第一天计算最后一天
 			final int firstDay = calendar.getFirstDayOfWeek();
 			int lastDay = firstDay + 6;
-			// Wrap around: if > 7, subtract 7 to stay in 1-7 range
+			// 如果 > 7，则环绕：减去 7 以保持在 1-7 范围内
 			return lastDay > 7 ? lastDay - 7 : lastDay;
 		}
 		return calendar.getActualMaximum(dateField);
 	}
 
 	/**
-	 * Calendar{@link Instant}对象
+	 * 将 {@link Calendar} 转换为 {@link Instant} 对象
 	 *
-	 * @param calendar Date对象
-	 * @return {@link Instant}对象
+	 * @param calendar {@link Calendar} 对象
+	 * @return {@link Instant} 对象，如果 calendar 为 {@code null} 则返回 {@code null}
 	 * @since 5.0.5
 	 */
 	public static Instant toInstant(Calendar calendar) {

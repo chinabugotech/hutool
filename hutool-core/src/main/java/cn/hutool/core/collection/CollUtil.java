@@ -358,7 +358,7 @@ public class CollUtil {
 	 * @param coll1 集合1
 	 * @param coll2 集合2
 	 * @param <T>   元素类型
-	 * @return 单差集
+	 * @return 单差集的集合，返回 {@link ArrayList}
 	 */
 	public static <T> Collection<T> subtract(Collection<T> coll1, Collection<T> coll2) {
 		if(isEmpty(coll1) || isEmpty(coll2)){
@@ -2381,12 +2381,13 @@ public class CollUtil {
 	}
 
 	/**
-	 * 获取集合中指定多个下标的元素值，下标可以为负数，例如-1表示最后一个元素
+	 * 获取集合中指定多个下标的元素值，下标可以为负数，例如-1表示最后一个元素<br>
+	 * 如果下标越界（转换负数索引后仍然越界），则该下标对应的元素会被静默跳过，不会抛出异常
 	 *
 	 * @param <T>        元素类型
 	 * @param collection 集合
-	 * @param indexes    下标，支持负数
-	 * @return 元素值列表
+	 * @param indexes    下标列表，支持负数（负数表示从末尾倒数，-1为最后一个元素，-2为倒数第二个，以此类推）
+	 * @return 元素值列表，返回 {@link ArrayList}，只包含有效下标对应的元素
 	 * @since 4.0.6
 	 */
 	@SuppressWarnings("unchecked")

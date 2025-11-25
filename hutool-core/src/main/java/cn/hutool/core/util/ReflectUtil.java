@@ -72,7 +72,7 @@ public class ReflectUtil {
 	 * @param <T>       构造的对象类型
 	 * @param beanClass 类，非{@code null}
 	 * @return 字段列表
-	 * @throws SecurityException 安全检查异常
+	 * @throws SecurityException 当安全管理器存在且拒绝访问时抛出
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> Constructor<T>[] getConstructors(Class<T> beanClass) throws SecurityException {
@@ -85,7 +85,7 @@ public class ReflectUtil {
 	 *
 	 * @param beanClass 类
 	 * @return 字段列表
-	 * @throws SecurityException 安全检查异常
+	 * @throws SecurityException 当安全管理器存在且拒绝访问时抛出
 	 */
 	public static Constructor<?>[] getConstructorsDirectly(Class<?> beanClass) throws SecurityException {
 		return beanClass.getDeclaredConstructors();
@@ -99,7 +99,7 @@ public class ReflectUtil {
 	 * @param beanClass 被查找字段的类,不能为null
 	 * @param name      字段名
 	 * @return 是否包含字段
-	 * @throws SecurityException 安全异常
+	 * @throws SecurityException 当安全管理器存在且拒绝访问时抛出
 	 * @since 4.1.21
 	 */
 	public static boolean hasField(Class<?> beanClass, String name) throws SecurityException {
@@ -162,7 +162,7 @@ public class ReflectUtil {
 	 *
 	 * @param beanClass 类
 	 * @return 字段列表
-	 * @throws SecurityException 安全检查异常
+	 * @throws SecurityException 当安全管理器存在且拒绝访问时抛出
 	 */
 	public static Field[] getFields(Class<?> beanClass) throws SecurityException {
 		Assert.notNull(beanClass);

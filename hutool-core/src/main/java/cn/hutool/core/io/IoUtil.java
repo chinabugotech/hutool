@@ -242,7 +242,7 @@ public class IoUtil extends NioUtil {
 	 *
 	 * @param in      输入流
 	 * @param charset 字符集
-	 * @return BufferedReader对象
+	 * @return BufferedReader对象,如果in为null则返回null
 	 */
 	public static BufferedReader getReader(InputStream in, Charset charset) {
 		if (null == in) {
@@ -291,7 +291,7 @@ public class IoUtil extends NioUtil {
 	/**
 	 * 获得一个Writer，默认编码UTF-8
 	 *
-	 * @param out 输入流
+	 * @param out 输出流
 	 * @return OutputStreamWriter对象
 	 * @since 5.1.6
 	 */
@@ -302,7 +302,7 @@ public class IoUtil extends NioUtil {
 	/**
 	 * 获得一个Writer
 	 *
-	 * @param out         输入流
+	 * @param out         输出流
 	 * @param charsetName 字符集
 	 * @return OutputStreamWriter对象
 	 * @deprecated 请使用 {@link #getWriter(OutputStream, Charset)}
@@ -315,9 +315,9 @@ public class IoUtil extends NioUtil {
 	/**
 	 * 获得一个Writer
 	 *
-	 * @param out     输入流
+	 * @param out     输出流
 	 * @param charset 字符集
-	 * @return OutputStreamWriter对象
+	 * @return OutputStreamWriter对象,如果out为null则返回null
 	 */
 	public static OutputStreamWriter getWriter(OutputStream out, Charset charset) {
 		if (null == out) {
@@ -480,7 +480,7 @@ public class IoUtil extends NioUtil {
 	 *
 	 * @param in     {@link InputStream}，为{@code null}返回{@code null}
 	 * @param length 长度，小于等于0返回空byte数组
-	 * @return bytes
+	 * @return bytes,如果in为null则返回null
 	 * @throws IORuntimeException IO异常
 	 */
 	public static byte[] readBytes(InputStream in, int length) throws IORuntimeException {
@@ -741,7 +741,7 @@ public class IoUtil extends NioUtil {
 	 *
 	 * @param content 内容
 	 * @param charset 编码
-	 * @return 字节流
+	 * @return 字节流,如果content为null则返回null
 	 */
 	public static ByteArrayInputStream toStream(String content, Charset charset) {
 		if (content == null) {
@@ -754,7 +754,7 @@ public class IoUtil extends NioUtil {
 	 * String 转为UTF-8编码的字节流流
 	 *
 	 * @param content 内容
-	 * @return 字节流
+	 * @return 字节流,如果content为null则返回null
 	 * @since 4.5.1
 	 */
 	public static ByteArrayInputStream toUtf8Stream(String content) {
@@ -766,6 +766,7 @@ public class IoUtil extends NioUtil {
 	 *
 	 * @param file 文件
 	 * @return {@link FileInputStream}
+	 * @throws IORuntimeException 文件未找到
 	 */
 	public static FileInputStream toStream(File file) {
 		try {
@@ -779,7 +780,7 @@ public class IoUtil extends NioUtil {
 	 * byte[] 转为{@link ByteArrayInputStream}
 	 *
 	 * @param content 内容bytes
-	 * @return 字节流
+	 * @return 字节流,如果content为null则返回null
 	 * @since 4.1.8
 	 */
 	public static ByteArrayInputStream toStream(byte[] content) {
@@ -793,7 +794,7 @@ public class IoUtil extends NioUtil {
 	 * {@link ByteArrayOutputStream}转为{@link ByteArrayInputStream}
 	 *
 	 * @param out {@link ByteArrayOutputStream}
-	 * @return 字节流
+	 * @return 字节流,如果out为null则返回null
 	 * @since 5.3.6
 	 */
 	public static ByteArrayInputStream toStream(ByteArrayOutputStream out) {
@@ -908,7 +909,7 @@ public class IoUtil extends NioUtil {
 	 * 若原流支持mark标记，则返回原流，否则使用{@link BufferedInputStream} 包装之
 	 *
 	 * @param in 流
-	 * @return {@link InputStream}
+	 * @return {@link InputStream},如果in为null则返回null
 	 * @since 4.0.9
 	 */
 	public static InputStream toMarkSupportStream(InputStream in) {
@@ -948,6 +949,7 @@ public class IoUtil extends NioUtil {
 	 *
 	 * @param in 被转换的流
 	 * @return 转换后的流，可能为{@link PushbackInputStream}
+	 * @throws IORuntimeException IO异常
 	 * @since 5.5.3
 	 */
 	public static InputStream toAvailableStream(InputStream in) {
@@ -1343,6 +1345,7 @@ public class IoUtil extends NioUtil {
 	 * @param out {@link ByteArrayOutputStream}
 	 * @param charset 编码
 	 * @return 字符串
+	 * @throws IORuntimeException 编码不支持
 	 * @since 5.7.17
 	 */
 	public static String toStr(ByteArrayOutputStream out, Charset charset){

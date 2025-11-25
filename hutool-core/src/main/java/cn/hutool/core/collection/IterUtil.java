@@ -61,11 +61,11 @@ public class IterUtil {
 	/**
 	 * Iterator是否为空
 	 *
-	 * @param Iterator Iterator对象
+	 * @param iterator Iterator对象
 	 * @return 是否为空
 	 */
-	public static boolean isEmpty(Iterator<?> Iterator) {
-		return null == Iterator || false == Iterator.hasNext();
+	public static boolean isEmpty(Iterator<?> iterator) {
+		return null == iterator || false == iterator.hasNext();
 	}
 
 	/**
@@ -81,11 +81,11 @@ public class IterUtil {
 	/**
 	 * Iterator是否为空
 	 *
-	 * @param Iterator Iterator对象
+	 * @param iterator Iterator对象
 	 * @return 是否为空
 	 */
-	public static boolean isNotEmpty(Iterator<?> Iterator) {
-		return null != Iterator && Iterator.hasNext();
+	public static boolean isNotEmpty(Iterator<?> iterator) {
+		return null != iterator && iterator.hasNext();
 	}
 
 	/**
@@ -204,7 +204,7 @@ public class IterUtil {
 	 * @param <V>       对象类型
 	 * @param iterable  对象列表
 	 * @param fieldName 字段名（会通过反射获取其值）
-	 * @return 某个字段值与对象对应Map
+	 * @return 字段值列表
 	 * @since 4.6.2
 	 */
 	public static <V> List<Object> fieldValueList(Iterable<V> iterable, String fieldName) {
@@ -217,7 +217,7 @@ public class IterUtil {
 	 * @param <V>       对象类型
 	 * @param iter      对象列表
 	 * @param fieldName 字段名（会通过反射获取其值）
-	 * @return 某个字段值与对象对应Map
+	 * @return 字段值列表
 	 * @since 4.0.10
 	 */
 	public static <V> List<Object> fieldValueList(Iterator<V> iter, String fieldName) {
@@ -550,6 +550,7 @@ public class IterUtil {
 	 * @param index    位置
 	 * @param <E>      元素类型
 	 * @return 元素，找不到元素返回{@code null}
+	 * @throws IndexOutOfBoundsException 当index小于0时抛出
 	 * @since 5.8.0
 	 */
 	public static <E> E get(final Iterator<E> iterator, int index) throws IndexOutOfBoundsException {

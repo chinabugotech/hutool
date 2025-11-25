@@ -19,10 +19,16 @@ public class TextSimilarity {
 	 *     <li>只比较两个字符串字母、数字、汉字部分，其他符号去除</li>
 	 *     <li>计算出两个字符串最大子串，除以最长的字符串，结果即为相似度</li>
 	 * </ul>
+	 * <p>
+	 * 空值处理：
+	 * <ul>
+	 *     <li>如果两个字符串都为{@code null}，返回1（视为完全相同）</li>
+	 *     <li>如果其中一个字符串为{@code null}，返回0（视为完全不同）</li>
+	 * </ul>
 	 *
 	 * @param strA 字符串1
 	 * @param strB 字符串2
-	 * @return 相似度
+	 * @return 相似度，取值范围为[0, 1]，其中0表示完全不同，1表示完全相同
 	 */
 	public static double similar(String strA, String strB) {
 		if (null == strA && null == strB) {
@@ -69,7 +75,7 @@ public class TextSimilarity {
 	 *
 	 * @param strA 字符串1
 	 * @param strB 字符串2
-	 * @return 最长公共子串
+	 * @return 最长公共子串，如果任一参数为{@code null}则返回{@code null}，如果没有公共子串则返回空字符串""
 	 */
 	public static String longestCommonSubstring(String strA, String strB) {
 		if (null == strA || null == strB) {

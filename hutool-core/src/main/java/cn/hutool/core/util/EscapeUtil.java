@@ -143,7 +143,27 @@ public class EscapeUtil {
 	}
 
 	/**
-	 * Escape解码
+	 * Escape解码<br>
+	 * 支持两种转义格式的解码：
+	 * <ul>
+	 *     <li>%XX - 两位十六进制数字，用于表示ASCII字符（0-255）</li>
+	 *     <li>%uXXXX - 四位十六进制数字，用于表示Unicode字符</li>
+	 * </ul>
+	 * <p>
+	 * 对于不完整的转义序列，本方法会将其原样保留而不抛出异常：
+	 * <ul>
+	 *     <li>字符串末尾的单独"%"字符会被原样保留</li>
+	 *     <li>"%u"后面不足4位十六进制数字时，整个不完整序列会被原样保留</li>
+	 *     <li>"%"后面不足2位十六进制数字时（非%u格式），整个不完整序列会被原样保留</li>
+	 * </ul>
+	 * 例如：
+	 * <pre>
+	 * unescape("test%")      = "test%"     // 末尾的%被保留
+	 * unescape("test%u12")   = "test%u12"  // 不足4位，原样保留
+	 * unescape("test%2")     = "test%2"    // 不足2位，原样保留
+	 * unescape("test%20")    = "test "     // 正常解码空格
+	 * unescape("test%u4E2D") = "test中"    // 正常解码中文字符
+	 * </pre>
 	 *
 	 * @param content 被转义的内容
 	 * @return 解码后的字符串

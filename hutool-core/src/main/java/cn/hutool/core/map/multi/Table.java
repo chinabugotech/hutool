@@ -60,7 +60,7 @@ public interface Table<R, C, V> extends Iterable<Table.Cell<R, C, V>> {
 	/**
 	 * 返回所有行的key，行的key不可重复
 	 *
-	 * @return 行键
+	 * @return 行键set
 	 */
 	default Set<R> rowKeySet() {
 		return Opt.ofNullable(rowMap()).map(Map::keySet).get();
@@ -108,7 +108,7 @@ public interface Table<R, C, V> extends Iterable<Table.Cell<R, C, V>> {
 	/**
 	 * 返回所有列的key，列的key如果实现Map是可重复key，则返回对应不去重的List。
 	 *
-	 * @return 列set
+	 * @return 列List
 	 * @since 5.8.0
 	 */
 	default List<C> columnKeys() {
@@ -138,7 +138,7 @@ public interface Table<R, C, V> extends Iterable<Table.Cell<R, C, V>> {
 	 * 指定值是否存在
 	 *
 	 * @param value 值
-	 * @return 值
+	 * @return 是否包含指定的值
 	 */
 	default boolean containsValue(V value){
 		final Collection<Map<C, V>> rows = Opt.ofNullable(rowMap()).map(Map::values).get();

@@ -700,16 +700,26 @@ public class ListUtil {
 
 	/**
 	 * 将元素移动到指定列表的新位置。
+	 * <p>
+	 * 行为说明：
 	 * <ul>
-	 *     <li>如果元素不在列表中，则将其添加到新位置。</li>
-	 *     <li>如果元素已在列表中，则先移除它，然后再将其添加到新位置。</li>
+	 *     <li>如果元素不在列表中，则将其添加到指定位置。</li>
+	 *     <li>如果元素已在列表中，则先移除该元素，然后再将其添加到新位置。</li>
+	 * </ul>
+	 * <p>
+	 * 位置处理：
+	 * <ul>
+	 *     <li>newPosition会自动限制在有效范围内：[0, list.size()]</li>
+	 *     <li>如果newPosition小于0，会被调整为0</li>
+	 *     <li>如果newPosition大于list.size()，会被调整为list.size()（即添加到末尾）</li>
+	 *     <li>当元素已存在于列表中时，位置是基于移除该元素后的列表计算的</li>
 	 * </ul>
 	 *
-	 * @param list        原始列表，元素将在这个列表上进行操作。
-	 * @param element     需要移动的元素。
-	 * @param newPosition 元素的新位置，从0开始计数，位置计算是以移除元素后的列表位置计算的
-	 * @param <T>         列表和元素的通用类型。
-	 * @return 更新后的列表。
+	 * @param list        原始列表，元素将在这个列表上进行操作，不能为null
+	 * @param element     需要移动的元素
+	 * @param newPosition 元素的新位置，从0开始计数，会自动限制在[0, list.size()]范围内
+	 * @param <T>         列表和元素的通用类型
+	 * @return 更新后的列表（返回的是同一个列表对象）
 	 * @since 5.8.29
 	 */
 	public static <T> List<T> move(List<T> list, T element, int newPosition) {

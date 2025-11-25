@@ -2,7 +2,19 @@
   "permissions": {
     "allow": [
       "Bash(findstr:*)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "Bash(dir \"C:\\Users\\haiyangl\\Landawn\\hutool\\src\\main\\java\\cn\\hutool\\core\\util\" /s /b *.java)",
+      "Bash(cd:*)",
+      "Bash(dir:*)",
+      "Bash(done)",
+      "Bash(chcp 6500)",
+      "Bash(javac:*)",
+      "Bash(javadoc:*)",
+      "Bash(mvn javadoc:javadoc:*)",
+      "Bash(mvn compile javadoc:javadoc:*)",
+      "Bash(mvn compile:*)",
+      "Bash(\"C:\\Program Files\\Java\\jdk-25\\bin\\javadoc.exe\" -d javadoc-test -sourcepath hutool-core/src/main/java -classpath hutool-core/target/classes -subpackages cn.hutool.core.map:cn.hutool.core.text:cn.hutool.core.collection:cn.hutool.core.date:cn.hutool.core.util:cn.hutool.core.io -Xdoclint:none)",
+      "Bash(\"C:\\Program Files\\Java\\jdk-25\\bin\\javadoc.exe\":*)"
     ],
     "deny": [],
     "ask": []
