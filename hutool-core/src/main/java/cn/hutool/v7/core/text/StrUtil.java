@@ -228,7 +228,7 @@ public class StrUtil extends CharSequenceUtil implements StrPool {
 		if (null == charset) {
 			charset = Charset.defaultCharset();
 		}
-		return charset.decode(data).toString();
+		return charset.decode(data.duplicate()).toString();
 	}
 	// endregion
 
