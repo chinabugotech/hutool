@@ -27,10 +27,11 @@ import java.util.concurrent.locks.ReentrantLock;
 /**
  * SIEVE 缓存算法实现<br>
  * <p>
- * SIEVE 是一种比 LRU 更简单且通常更高效的缓存算法<br>
- * 它不需要在缓存命中时移动节点，仅需设置一个访问位<br>
- * 驱逐时使用一个指针（Hand）扫描队列，淘汰未被访问的节点<br>
- * 驱逐时遇到已访问的节点会设置为未访问，用于淘汰过期节点<br>
+ * SIEVE 是一种比 LRU 更简单且通常更高效的缓存算法。<br>
+ * 核心特性：<br>
+ * 缓存命中时，仅将节点的 {@code visited} 标记设为 true，不移动节点位置。<br>
+ * 淘汰时，使用 {@code hand} 指针从尾部扫描，淘汰 {@code visited=false} 的节点。<br>
+ * 新加入节点 {@code visited = false} 且置于头部，Hand 指针扫描时会优先淘汰它，提供抗扫描能力。<br>
  * </p>
  *
  * @param <K> 键类型
@@ -83,7 +84,6 @@ public class SieveCache<K, V> extends LockedCache<K, V> {
 		this.lock = new ReentrantLock();
 	}
 
-
 	@Override
 	protected void putWithoutLock(K key, V object, long timeout) {
 		final Mutable<K> keyObj = MutableObj.of(key);
@@ -98,15 +98,15 @@ public class SieveCache<K, V> extends LockedCache<K, V> {
 			// 替换旧节点
 			replaceNode(co, newCo);
 			cacheMap.put(keyObj, newCo);
-
 		} else {
-			if (isFull()) {
-				pruneCache();
-			}
 			co = new SieveCacheObj<>(key, object, timeout);
 			cacheMap.put(keyObj, co);
 			addToHead(co);
 			co.visited = false;
+
+			if (cacheMap.size() > capacity) {
+				pruneCache();
+			}
 		}
 	}
 
@@ -134,6 +134,11 @@ public class SieveCache<K, V> extends LockedCache<K, V> {
 			tail = newNode;
 		}
 
+		// 将hand转移至新节点，防止扫描时淘汰热点数据
+		if (hand == oldNode) {
+			hand = newNode;
+		}
+
 		oldNode.prev = null;
 		oldNode.next = null;
 	}
@@ -148,7 +153,6 @@ public class SieveCache<K, V> extends LockedCache<K, V> {
 				removeWithoutLock(key);
 				return null;
 			}
-
 			co.visited = true;
 			co.lastAccess = System.currentTimeMillis();
 		}
@@ -164,7 +168,6 @@ public class SieveCache<K, V> extends LockedCache<K, V> {
 		}
 		return co;
 	}
-
 
 	/**
 	 * 优先清理过期对象，如果容量仍溢出，反向扫描visited为false的节点，设置true节点为false
@@ -187,30 +190,33 @@ public class SieveCache<K, V> extends LockedCache<K, V> {
 			}
 		}
 
-		while (isFull() && hand != null) {
-			if (!hand.visited) {
-				final SieveCacheObj<K, V> victim = hand;
-				hand = hand.prev;
-				final Mutable<K> keyObj = MutableObj.of(victim.key);
-				cacheMap.remove(keyObj);
-				removeNode(victim);
-				onRemove(victim.key, victim.obj);
-				count++;
-			} else {
+		if (cacheMap.size() > capacity) {
+			if (hand == null) {
+				hand = tail;
+			}
 
-				// 近期被访问过，就先设置为false
-				hand.visited = false;
-				hand = hand.prev;
+			while (cacheMap.size() > capacity) {
 				if (hand == null) {
-
-					// 没找到能淘汰的节点，重新扫描一边
 					hand = tail;
+				}
+
+				if (!hand.visited) {
+					final SieveCacheObj<K, V> victim = hand;
+					hand = hand.prev;
+
+					final Mutable<K> keyObj = MutableObj.of(victim.key);
+					cacheMap.remove(keyObj);
+					removeNode(victim);
+					onRemove(victim.key, victim.obj);
+					count++;
+				} else {
+					hand.visited = false;
+					hand = hand.prev;
 				}
 			}
 		}
 		return count;
 	}
-
 
 	/**
 	 * 将节点加入链表头部
@@ -261,7 +267,6 @@ public class SieveCache<K, V> extends LockedCache<K, V> {
 	private static class SieveCacheObj<K, V> extends CacheObj<K, V> {
 		@Serial
 		private static final long serialVersionUID = 1L;
-
 		/**
 		 * 是否被访问过
 		 */
