@@ -15,7 +15,7 @@ import java.lang.reflect.Method;
 public class CacheableAnnotationAttribute implements AnnotationAttribute {
 
 	private volatile boolean valueInvoked;
-	private Object value;
+	private volatile Object value;
 
 	private boolean defaultValueInvoked;
 	private Object defaultValue;

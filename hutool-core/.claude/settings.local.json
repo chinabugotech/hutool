@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find:*)",
+      "Bash(mvn compile:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

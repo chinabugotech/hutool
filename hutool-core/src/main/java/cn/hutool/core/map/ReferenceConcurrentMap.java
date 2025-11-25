@@ -129,7 +129,10 @@ public class ReferenceConcurrentMap<K, V> implements ConcurrentMap<K, V>, Iterab
 	@Override
 	public void replaceAll(BiFunction<? super K, ? super V, ? extends V> function) {
 		this.purgeStaleKeys();
-		this.raw.replaceAll((kWeakKey, value) -> function.apply(kWeakKey.get(), value));
+		this.raw.replaceAll((kWeakKey, value) -> {
+			final K k = kWeakKey.get();
+			return k != null ? function.apply(k, value) : value;
+		});
 	}
 
 	@Override
@@ -194,6 +197,7 @@ public class ReferenceConcurrentMap<K, V> implements ConcurrentMap<K, V>, Iterab
 	public Set<Entry<K, V>> entrySet() {
 		this.purgeStaleKeys();
 		return this.raw.entrySet().stream()
+				.filter(entry -> entry.getKey().get() != null)
 				.map(entry -> new AbstractMap.SimpleImmutableEntry<>(entry.getKey().get(), entry.getValue()))
 				.collect(Collectors.toSet());
 	}
@@ -201,7 +205,12 @@ public class ReferenceConcurrentMap<K, V> implements ConcurrentMap<K, V>, Iterab
 	@Override
 	public void forEach(BiConsumer<? super K, ? super V> action) {
 		this.purgeStaleKeys();
-		this.raw.forEach((key, value)-> action.accept(key.get(), value));
+		this.raw.forEach((key, value) -> {
+			final K k = key.get();
+			if (k != null) {
+				action.accept(k, value);
+			}
+		});
 	}
 
 	@Override

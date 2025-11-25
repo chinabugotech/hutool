@@ -69,10 +69,11 @@ public class TemporalAccessorUtil extends TemporalUtil{
 		try {
 			return formatter.format(time);
 		} catch (UnsupportedTemporalTypeException e){
-			if(time instanceof LocalDate && e.getMessage().contains("HourOfDay")){
+			final String message = e.getMessage();
+			if(time instanceof LocalDate && message != null && message.contains("HourOfDay")){
 				// 用户传入LocalDate，但是要求格式化带有时间部分，转换为LocalDateTime重试
 				return formatter.format(((LocalDate) time).atStartOfDay());
-			}else if(time instanceof LocalTime && e.getMessage().contains("YearOfEra")){
+			}else if(time instanceof LocalTime && message != null && message.contains("YearOfEra")){
 				// 用户传入LocalTime，但是要求格式化带有日期部分，转换为LocalDateTime重试
 				return formatter.format(((LocalTime) time).atDate(LocalDate.now()));
 			} else if(time instanceof Instant){

@@ -64,7 +64,7 @@ public class ZipUtil {
 		} catch (IOException e) {
 			// issue#I3UZ28 可能编码错误提示
 			if(e instanceof ZipException){
-				if(e.getMessage().contains("invalid CEN header")){
+				if(e.getMessage() != null && e.getMessage().contains("invalid CEN header")){
 					try {
 						// 尝试使用不同编码
 						return new ZipFile(file, CharsetUtil.CHARSET_UTF_8.equals(charset) ? CharsetUtil.CHARSET_GBK : CharsetUtil.CHARSET_UTF_8);

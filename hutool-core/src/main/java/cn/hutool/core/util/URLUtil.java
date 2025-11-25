@@ -148,7 +148,7 @@ public class URLUtil extends URLEncodeUtil {
 			return new URL(null, url, handler);
 		} catch (MalformedURLException e) {
 			// issue#I8PY3Y
-			if(e.getMessage().contains("Accessing an URL protocol that was not enabled")){
+			if(e.getMessage() != null && e.getMessage().contains("Accessing an URL protocol that was not enabled")){
 				// Graalvm打包需要手动指定参数开启协议：
 				// --enable-url-protocols=http
 				// --enable-url-protocols=https
@@ -159,7 +159,7 @@ public class URLUtil extends URLEncodeUtil {
 			try {
 				return new File(url).toURI().toURL();
 			} catch (MalformedURLException ex2) {
-				throw new UtilException(e);
+				throw new UtilException(ex2);
 			}
 		}
 	}
@@ -807,8 +807,9 @@ public class URLUtil extends URLEncodeUtil {
 		} else {
 			// 如果资源打在jar包中或来自网络，使用网络请求长度
 			// issue#3226, 来自Spring的AbstractFileResolvingResource
+			URLConnection con = null;
 			try {
-				final URLConnection con = url.openConnection();
+				con = url.openConnection();
 				useCachesIfNecessary(con);
 				if (con instanceof HttpURLConnection) {
 					final HttpURLConnection httpCon = (HttpURLConnection) con;
@@ -817,6 +818,10 @@ public class URLUtil extends URLEncodeUtil {
 				return con.getContentLengthLong();
 			} catch (final IOException e) {
 				throw new IORuntimeException(e);
+			} finally {
+				if (con instanceof HttpURLConnection) {
+					((HttpURLConnection) con).disconnect();
+				}
 			}
 		}
 	}

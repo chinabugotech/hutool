@@ -64,7 +64,7 @@ public class FontUtil {
 			try {
 				return Font.createFont(Font.TYPE1_FONT, fontFile);
 			} catch (Exception e1) {
-				throw new UtilException(e);
+				throw new UtilException(e1);
 			}
 		} catch (IOException e) {
 			throw new IORuntimeException(e);
