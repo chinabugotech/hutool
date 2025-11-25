@@ -16,7 +16,6 @@
 
 package cn.hutool.v7.core.data;
 
-import cn.hutool.v7.core.data.CreditCodeUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -44,7 +43,9 @@ public class CreditCodeUtilTest {
 
 	@Test
 	public void randomCreditCode() {
-		final String s = CreditCodeUtil.randomCreditCode();
-		Assertions.assertTrue(CreditCodeUtil.isCreditCode(s));
+		for (int i = 0; i < 100; i++) {
+			final String s = CreditCodeUtil.randomCreditCode();
+			Assertions.assertTrue(CreditCodeUtil.isCreditCode(s));
+		}
 	}
 }
