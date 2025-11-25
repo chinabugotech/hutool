@@ -2399,7 +2399,9 @@ public class CollUtil {
 				if (index < 0) {
 					index += size;
 				}
-				result.add(list.get(index));
+				if (index >= 0 && index < size) {
+					result.add(list.get(index));
+				}
 			}
 		} else {
 			final Object[] array = collection.toArray();
@@ -2407,7 +2409,9 @@ public class CollUtil {
 				if (index < 0) {
 					index += size;
 				}
-				result.add((T) array[index]);
+				if (index >= 0 && index < size) {
+					result.add((T) array[index]);
+				}
 			}
 		}
 		return result;

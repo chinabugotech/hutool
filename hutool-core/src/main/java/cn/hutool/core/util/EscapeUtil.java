@@ -153,26 +153,41 @@ public class EscapeUtil {
 			return content;
 		}
 
-		StringBuilder tmp = new StringBuilder(content.length());
+		final int len = content.length();
+		StringBuilder tmp = new StringBuilder(len);
 		int lastPos = 0;
 		int pos;
 		char ch;
-		while (lastPos < content.length()) {
+		while (lastPos < len) {
 			pos = content.indexOf("%", lastPos);
 			if (pos == lastPos) {
-				if (content.charAt(pos + 1) == 'u') {
-					ch = (char) Integer.parseInt(content.substring(pos + 2, pos + 6), 16);
-					tmp.append(ch);
-					lastPos = pos + 6;
+				// Check if there's enough characters for unicode escape (%uXXXX)
+				if (pos + 1 < len && content.charAt(pos + 1) == 'u') {
+					if (pos + 6 <= len) {
+						ch = (char) Integer.parseInt(content.substring(pos + 2, pos + 6), 16);
+						tmp.append(ch);
+						lastPos = pos + 6;
+					} else {
+						// Not enough characters, append as-is
+						tmp.append(content.substring(pos));
+						lastPos = len;
+					}
 				} else {
-					ch = (char) Integer.parseInt(content.substring(pos + 1, pos + 3), 16);
-					tmp.append(ch);
-					lastPos = pos + 3;
+					// Check if there's enough characters for hex escape (%XX)
+					if (pos + 3 <= len) {
+						ch = (char) Integer.parseInt(content.substring(pos + 1, pos + 3), 16);
+						tmp.append(ch);
+						lastPos = pos + 3;
+					} else {
+						// Not enough characters, append as-is
+						tmp.append(content.substring(pos));
+						lastPos = len;
+					}
 				}
 			} else {
 				if (pos == -1) {
 					tmp.append(content.substring(lastPos));
-					lastPos = content.length();
+					lastPos = len;
 				} else {
 					tmp.append(content, lastPos, pos);
 					lastPos = pos;

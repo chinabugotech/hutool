@@ -25,6 +25,12 @@ public class TextSimilarity {
 	 * @return 相似度
 	 */
 	public static double similar(String strA, String strB) {
+		if (null == strA && null == strB) {
+			return 1;
+		}
+		if (null == strA || null == strB) {
+			return 0;
+		}
 		String newStrA, newStrB;
 		if (strA.length() < strB.length()) {
 			newStrA = removeSign(strB);
@@ -66,6 +72,9 @@ public class TextSimilarity {
 	 * @return 最长公共子串
 	 */
 	public static String longestCommonSubstring(String strA, String strB) {
+		if (null == strA || null == strB) {
+			return null;
+		}
 		// 初始化矩阵数据,matrix[0][0]的值为0， 如果字符数组chars_strA和chars_strB的对应位相同，则matrix[i][j]的值为左上角的值加1，
 		// 否则，matrix[i][j]的值等于左上方最近两个位置的较大值， 矩阵中其余各点的值为0.
 		final int[][] matrix = generateMatrix(strA, strB);
@@ -74,6 +83,9 @@ public class TextSimilarity {
 		int n = strB.length();
 		// 矩阵中，如果matrix[m][n]的值不等于matrix[m-1][n]的值也不等于matrix[m][n-1]的值，
 		// 则matrix[m][n]对应的字符为相似字符元，并将其存入result数组中。
+		if (matrix[m][n] == 0) {
+			return "";
+		}
 		char[] result = new char[matrix[m][n]];
 		int currentIndex = result.length - 1;
 		while (matrix[m][n] != 0) {

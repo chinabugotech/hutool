@@ -334,8 +334,13 @@ public class CalendarUtil {
 		final int year = calendar.get(Calendar.YEAR);
 		final int month = calendar.get(DateField.MONTH.getValue()) / 3 * 3 + 2;
 
+		final Month monthEnum = Month.of(month);
+		if (null == monthEnum) {
+			throw new IllegalArgumentException("Invalid month value: " + month);
+		}
+
 		final Calendar resultCal = Calendar.getInstance(calendar.getTimeZone());
-		resultCal.set(year, month, Month.of(month).getLastDay(DateUtil.isLeapYear(year)));
+		resultCal.set(year, month, monthEnum.getLastDay(DateUtil.isLeapYear(year)));
 
 		return endOfDay(resultCal);
 	}
@@ -583,7 +588,11 @@ public class CalendarUtil {
 	 */
 	public static int getEndValue(Calendar calendar, int dateField) {
 		if (Calendar.DAY_OF_WEEK == dateField) {
-			return (calendar.getFirstDayOfWeek() + 6) % 7;
+			// DAY_OF_WEEK values are 1-7, calculate last day of week based on first day
+			final int firstDay = calendar.getFirstDayOfWeek();
+			int lastDay = firstDay + 6;
+			// Wrap around: if > 7, subtract 7 to stay in 1-7 range
+			return lastDay > 7 ? lastDay - 7 : lastDay;
 		}
 		return calendar.getActualMaximum(dateField);
 	}

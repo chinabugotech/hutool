@@ -715,10 +715,14 @@ public class ListUtil {
 	public static <T> List<T> move(List<T> list, T element, int newPosition) {
 		Assert.notNull(list);
 		if (false == list.contains(element)) {
-			list.add(newPosition, element);
+			// Clamp newPosition to valid range
+			final int validPosition = Math.max(0, Math.min(newPosition, list.size()));
+			list.add(validPosition, element);
 		} else {
 			list.remove(element);
-			list.add(newPosition, element);
+			// After removal, clamp newPosition to valid range
+			final int validPosition = Math.max(0, Math.min(newPosition, list.size()));
+			list.add(validPosition, element);
 		}
 		return list;
 	}
