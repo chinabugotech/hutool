@@ -56,7 +56,7 @@ public interface Table<R, C, V> extends Iterable<Table.Cell<R, C, V>> {
 	/**
 	 * 行是否存在
 	 *
-	 * @param rowKey 行键
+	 * @param rowKey 行键set
 	 * @return 行是否存在
 	 */
 	default boolean containsRow(final R rowKey) {
@@ -124,7 +124,7 @@ public interface Table<R, C, V> extends Iterable<Table.Cell<R, C, V>> {
 	/**
 	 * 返回所有列的key，列的key如果实现Map是可重复key，则返回对应不去重的List。
 	 *
-	 * @return 列set
+	 * @return 列List
 	 * @since 5.8.0
 	 */
 	default List<C> columnKeys() {

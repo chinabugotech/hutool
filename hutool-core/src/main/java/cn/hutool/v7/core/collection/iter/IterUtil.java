@@ -243,7 +243,7 @@ public class IterUtil {
 	 * @param <V>       对象类型
 	 * @param iterable  对象列表
 	 * @param fieldName 字段名（会通过反射获取其值）
-	 * @return 某个字段值与对象对应Map
+	 * @return 字段值列表
 	 * @since 4.6.2
 	 */
 	public static <V, R> List<R> fieldValueList(final Iterable<V> iterable, final String fieldName) {
@@ -257,7 +257,7 @@ public class IterUtil {
 	 * @param <V>       对象类型
 	 * @param iter      对象列表
 	 * @param fieldName 字段名（会通过反射获取其值）
-	 * @return 某个字段值与对象对应Map
+	 * @return 字段值列表
 	 * @since 4.0.10
 	 */
 	@SuppressWarnings("unchecked")

@@ -131,9 +131,10 @@ public class EscapeUtil {
 			return StrUtil.toStringOrNull(content);
 		}
 
-		final StringBuilder tmp = new StringBuilder(content.length() * 6);
+		final int len = content.length();
+		final StringBuilder tmp = new StringBuilder(len * 6);
 		char c;
-		for (int i = 0; i < content.length(); i++) {
+		for (int i = 0; i < len; i++) {
 			c = content.charAt(i);
 			if (!filter.test(c)) {
 				tmp.append(c);
@@ -156,7 +157,26 @@ public class EscapeUtil {
 	}
 
 	/**
-	 * Escape解码
+	 * Escape解码支持两种转义格式的解码：
+	 * <ul>
+	 *     <li>%XX - 两位十六进制数字，用于表示ASCII字符（0-255）</li>
+	 *     <li>%uXXXX - 四位十六进制数字，用于表示Unicode字符</li>
+	 * </ul>
+	 * <p>
+	 * 对于不完整的转义序列，本方法会将其原样保留而不抛出异常：
+	 * <ul>
+	 *     <li>字符串末尾的单独"%"字符会被原样保留</li>
+	 *     <li>"%u"后面不足4位十六进制数字时，整个不完整序列会被原样保留</li>
+	 *     <li>"%"后面不足2位十六进制数字时（非%u格式），整个不完整序列会被原样保留</li>
+	 * </ul>
+	 * 例如：
+	 * <pre>
+	 * unescape("test%")      = "test%"     // 末尾的%被保留
+	 * unescape("test%u12")   = "test%u12"  // 不足4位，原样保留
+	 * unescape("test%2")     = "test%2"    // 不足2位，原样保留
+	 * unescape("test%20")    = "test "     // 正常解码空格
+	 * unescape("test%u4E2D") = "test中"    // 正常解码中文字符
+	 * </pre>
 	 *
 	 * @param content 被转义的内容
 	 * @return 解码后的字符串
@@ -166,26 +186,40 @@ public class EscapeUtil {
 			return content;
 		}
 
-		final StringBuilder tmp = new StringBuilder(content.length());
+		final int len = content.length();
+		final StringBuilder tmp = new StringBuilder(len);
 		int lastPos = 0;
 		int pos;
 		char ch;
-		while (lastPos < content.length()) {
+		while (lastPos < len) {
 			pos = content.indexOf("%", lastPos);
 			if (pos == lastPos) {
-				if (content.charAt(pos + 1) == 'u') {
-					ch = (char) Integer.parseInt(content.substring(pos + 2, pos + 6), 16);
-					tmp.append(ch);
-					lastPos = pos + 6;
+				if (pos + 1 < len && content.charAt(pos + 1) == 'u') {
+					if (pos + 6 <= len) {
+						ch = (char) Integer.parseInt(content.substring(pos + 2, pos + 6), 16);
+						tmp.append(ch);
+						lastPos = pos + 6;
+					} else {
+						// Not enough characters, append as-is
+						tmp.append(content.substring(pos));
+						lastPos = len;
+					}
 				} else {
-					ch = (char) Integer.parseInt(content.substring(pos + 1, pos + 3), 16);
-					tmp.append(ch);
-					lastPos = pos + 3;
+					// Check if there's enough characters for hex escape (%XX)
+					if (pos + 3 <= len) {
+						ch = (char) Integer.parseInt(content.substring(pos + 1, pos + 3), 16);
+						tmp.append(ch);
+						lastPos = pos + 3;
+					} else {
+						// Not enough characters, append as-is
+						tmp.append(content.substring(pos));
+						lastPos = len;
+					}
 				}
 			} else {
 				if (pos == -1) {
 					tmp.append(content.substring(lastPos));
-					lastPos = content.length();
+					lastPos = len;
 				} else {
 					tmp.append(content, lastPos, pos);
 					lastPos = pos;

@@ -229,7 +229,7 @@ public class IoUtil extends NioUtil {
 	/**
 	 * 获得一个Writer，默认编码UTF-8
 	 *
-	 * @param out 输入流
+	 * @param out 输出流
 	 * @return OutputStreamWriter对象
 	 * @since 5.1.6
 	 */
@@ -240,7 +240,7 @@ public class IoUtil extends NioUtil {
 	/**
 	 * 获得一个Writer
 	 *
-	 * @param out     输入流
+	 * @param out     输出流
 	 * @param charset 字符集
 	 * @return OutputStreamWriter对象
 	 */

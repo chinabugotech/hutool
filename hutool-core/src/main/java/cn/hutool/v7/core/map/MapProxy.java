@@ -139,6 +139,24 @@ public class MapProxy implements Map<Object, Object>, TypeGetter<Object>, Invoca
 		return map.entrySet();
 	}
 
+	/**
+	 * 实现InvocationHandler接口的调用处理方法
+	 * <p>
+	 * 此方法用于动态代理,支持以下功能:
+	 * <ul>
+	 *     <li>将getXXX方法调用转换为从Map中获取对应key的值</li>
+	 *     <li>将isXXX方法调用(针对boolean类型)转换为从Map中获取对应key的值</li>
+	 *     <li>将setXXX方法调用转换为向Map中设置对应key的值</li>
+	 *     <li>支持驼峰命名和下划线命名的自动转换</li>
+	 *     <li>自动进行类型转换,将Map中的值转换为方法返回类型</li>
+	 * </ul>
+	 *
+	 * @param proxy 代理实例
+	 * @param method 被调用的方法
+	 * @param args 方法参数
+	 * @return 方法调用的结果
+	 * @throws UnsupportedOperationException 如果方法不支持代理
+	 */
 	@Override
 	public Object invoke(final Object proxy, final Method method, final Object[] args) {
 		final Class<?>[] parameterTypes = method.getParameterTypes();

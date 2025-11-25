@@ -158,7 +158,7 @@ public class FieldUtil {
 	 *
 	 * @param beanClass 类
 	 * @return 字段列表
-	 * @throws SecurityException 安全检查异常
+	 * @throws SecurityException 当安全管理器存在且拒绝访问时抛出
 	 */
 	public static Field[] getFields(final Class<?> beanClass) throws SecurityException {
 		return getFields(beanClass, null);
@@ -172,7 +172,7 @@ public class FieldUtil {
 	 * @param beanClass      类
 	 * @param fieldPredicate field过滤器，过滤掉不需要的field，{@link Predicate#test(Object)}为{@code true}保留，null表示全部保留
 	 * @return 字段列表
-	 * @throws SecurityException 安全检查异常
+	 * @throws SecurityException 当安全管理器存在且拒绝访问时抛出
 	 * @since 5.7.14
 	 */
 	public static Field[] getFields(final Class<?> beanClass, final Predicate<Field> fieldPredicate) throws SecurityException {
@@ -186,7 +186,7 @@ public class FieldUtil {
 	 * @param beanClass      类
 	 * @param fieldPredicate field过滤器，过滤掉不需要的field，{@link Predicate#test(Object)}为{@code true}保留，null表示全部保留
 	 * @return 字段列表
-	 * @throws SecurityException 安全检查异常
+	 * @throws SecurityException 当安全管理器存在且拒绝访问时抛出
 	 * @since 6.0.0
 	 */
 	public static Field[] getDeclaredFields(final Class<?> beanClass, final Predicate<Field> fieldPredicate) throws SecurityException {
@@ -201,7 +201,7 @@ public class FieldUtil {
 	 * @param beanClass            类
 	 * @param withSuperClassFields 是否包括父类的字段列表
 	 * @return 字段列表
-	 * @throws SecurityException 安全检查异常
+	 * @throws SecurityException 当安全管理器存在且拒绝访问时抛出
 	 */
 	public static Field[] getFieldsDirectly(final Class<?> beanClass, final boolean withSuperClassFields) throws SecurityException {
 		return FieldReflect.of(beanClass).getFieldsDirectly(withSuperClassFields);

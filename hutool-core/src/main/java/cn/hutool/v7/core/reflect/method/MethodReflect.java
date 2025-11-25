@@ -149,7 +149,7 @@ public class MethodReflect {
 	 * @param withSupers           是否包括父类或接口的方法列表
 	 * @param withMethodFromObject 是否包括Object中的方法
 	 * @return 方法列表
-	 * @throws SecurityException 安全检查异常
+	 * @throws SecurityException 当安全管理器存在且拒绝访问时抛出
 	 */
 	public Method[] getMethodsDirectly(final boolean withSupers, final boolean withMethodFromObject) throws SecurityException {
 		final Class<?> clazz = this.clazz;

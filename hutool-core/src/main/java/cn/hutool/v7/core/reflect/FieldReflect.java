@@ -76,7 +76,7 @@ public class FieldReflect {
 	 *
 	 * @param predicate 过滤器
 	 * @return 字段数组
-	 * @throws SecurityException 安全检查异常
+	 * @throws SecurityException 当安全管理器存在且拒绝访问时抛出
 	 */
 	public Field[] getDeclaredFields(final Predicate<Field> predicate) {
 		if (null == declaredFields) {
@@ -94,7 +94,7 @@ public class FieldReflect {
 	 *
 	 * @param predicate 过滤器
 	 * @return 字段数组
-	 * @throws SecurityException 安全检查异常
+	 * @throws SecurityException 当安全管理器存在且拒绝访问时抛出
 	 */
 	public Field[] getAllFields(final Predicate<Field> predicate) {
 		if (null == allFields) {
@@ -113,7 +113,7 @@ public class FieldReflect {
 	 *
 	 * @param withSuperClassFields 是否包括父类的字段列表
 	 * @return 字段列表
-	 * @throws SecurityException 安全检查异常
+	 * @throws SecurityException 当安全管理器存在且拒绝访问时抛出
 	 */
 	public Field[] getFieldsDirectly(final boolean withSuperClassFields) throws SecurityException {
 		Field[] allFields = null;

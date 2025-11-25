@@ -286,7 +286,7 @@ public class MethodUtil {
 	 *
 	 * @param clazz 类，非{@code null}
 	 * @return 方法列表
-	 * @throws SecurityException 安全检查异常
+	 * @throws SecurityException 当安全管理器存在且拒绝访问时抛出
 	 */
 	public static Method[] getMethods(final Class<?> clazz) throws SecurityException {
 		return getMethods(clazz, null);
@@ -298,7 +298,7 @@ public class MethodUtil {
 	 * @param clazz     类，非{@code null}
 	 * @param predicate 方法过滤器，{@code null}表示无过滤
 	 * @return 方法列表
-	 * @throws SecurityException 安全检查异常
+	 * @throws SecurityException 当安全管理器存在且拒绝访问时抛出
 	 */
 	public static Method[] getMethods(final Class<?> clazz, final Predicate<Method> predicate) throws SecurityException {
 		return METHODS_CACHE.computeIfAbsent(Assert.notNull(clazz), MethodReflect::of).getAllMethods(predicate);
@@ -330,7 +330,7 @@ public class MethodUtil {
 	 *
 	 * @param clazz 类，非{@code null}
 	 * @return 方法列表
-	 * @throws SecurityException 安全检查异常
+	 * @throws SecurityException 当安全管理器存在且拒绝访问时抛出
 	 */
 	public static Method[] getDeclaredMethods(final Class<?> clazz) throws SecurityException {
 		return getDeclaredMethods(clazz, null);
@@ -342,7 +342,7 @@ public class MethodUtil {
 	 * @param clazz     类，非{@code null}
 	 * @param predicate 方法过滤器，{@code null}表示无过滤
 	 * @return 方法列表
-	 * @throws SecurityException 安全检查异常
+	 * @throws SecurityException 当安全管理器存在且拒绝访问时抛出
 	 */
 	public static Method[] getDeclaredMethods(final Class<?> clazz, final Predicate<Method> predicate) throws SecurityException {
 		return METHODS_CACHE.computeIfAbsent(Assert.notNull(clazz), MethodReflect::of).getDeclaredMethods(predicate);
@@ -363,7 +363,7 @@ public class MethodUtil {
 	 * @param withSupers           是否包括父类或接口的方法列表
 	 * @param withMethodFromObject 是否包括Object中的方法
 	 * @return 方法列表
-	 * @throws SecurityException 安全检查异常
+	 * @throws SecurityException 当安全管理器存在且拒绝访问时抛出
 	 */
 	public static Method[] getMethodsDirectly(final Class<?> beanClass, final boolean withSupers, final boolean withMethodFromObject) throws SecurityException {
 		return MethodReflect.of(Assert.notNull(beanClass)).getMethodsDirectly(withSupers, withMethodFromObject);

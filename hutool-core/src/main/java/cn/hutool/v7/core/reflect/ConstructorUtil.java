@@ -77,7 +77,7 @@ public class ConstructorUtil {
 	 * @param <T>       构造的对象类型
 	 * @param beanClass 类，非{@code null}
 	 * @return 字段列表
-	 * @throws SecurityException 安全检查异常
+	 * @throws SecurityException 当安全管理器存在且拒绝访问时抛出
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> Constructor<T>[] getConstructors(final Class<T> beanClass) throws SecurityException {
@@ -90,7 +90,7 @@ public class ConstructorUtil {
 	 *
 	 * @param beanClass 类
 	 * @return 字段列表
-	 * @throws SecurityException 安全检查异常
+	 * @throws SecurityException 当安全管理器存在且拒绝访问时抛出
 	 */
 	public static Constructor<?>[] getConstructorsDirectly(final Class<?> beanClass) throws SecurityException {
 		return beanClass.getDeclaredConstructors();

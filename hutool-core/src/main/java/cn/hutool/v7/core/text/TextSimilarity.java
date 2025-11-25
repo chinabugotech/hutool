@@ -34,12 +34,23 @@ public class TextSimilarity {
 	 *     <li>只比较两个字符串字母、数字、汉字部分，其他符号去除</li>
 	 *     <li>计算出两个字符串最大子串，除以最长的字符串，结果即为相似度</li>
 	 * </ul>
+	 * 空值处理：
+	 * <ul>
+	 *     <li>如果两个字符串都为{@code null}，返回1（视为完全相同）</li>
+	 *     <li>如果其中一个字符串为{@code null}，返回0（视为完全不同）</li>
+	 * </ul>
 	 *
 	 * @param strA 字符串1
 	 * @param strB 字符串2
-	 * @return 相似度
+	 * @return 相似度，取值范围为[0, 1]，其中0表示完全不同，1表示完全相同
 	 */
 	public static double similar(final String strA, final String strB) {
+		if (null == strA && null == strB) {
+			return 1;
+		}
+		if (null == strA || null == strB) {
+			return 0;
+		}
 		final String newStrA;
 		final String newStrB;
 		if (strA.length() < strB.length()) {
@@ -52,7 +63,7 @@ public class TextSimilarity {
 
 		// 用较大的字符串长度作为分母，相似子串作为分子计算出字串相似度
 		final int temp = Math.max(newStrA.length(), newStrB.length());
-		if(0 == temp) {
+		if (0 == temp) {
 			// 两个都是空串相似度为1，被认为是相同的串
 			return 1;
 		}
@@ -64,8 +75,8 @@ public class TextSimilarity {
 	/**
 	 * 利用莱文斯坦距离(Levenshtein distance)算法计算相似度百分比
 	 *
-	 * @param strA 字符串1
-	 * @param strB 字符串2
+	 * @param strA  字符串1
+	 * @param strB  字符串2
 	 * @param scale 保留小数
 	 * @return 百分比
 	 */
@@ -79,9 +90,12 @@ public class TextSimilarity {
 	 *
 	 * @param strA 字符串1
 	 * @param strB 字符串2
-	 * @return 最长公共子串
+	 * @return 最长公共子串，如果任一参数为{@code null}则返回{@code null}，如果没有公共子串则返回空字符串""
 	 */
 	public static String longestCommonSubstring(final String strA, final String strB) {
+		if (null == strA || null == strB) {
+			return null;
+		}
 		// 初始化矩阵数据,matrix[0][0]的值为0， 如果字符数组chars_strA和chars_strB的对应位相同，则matrix[i][j]的值为左上角的值加1，
 		// 否则，matrix[i][j]的值等于左上方最近两个位置的较大值， 矩阵中其余各点的值为0.
 		final int[][] matrix = generateMatrix(strA, strB);
@@ -108,6 +122,7 @@ public class TextSimilarity {
 	}
 
 	// --------------------------------------------------------------------------------------------------- Private method start
+
 	/**
 	 * 将字符串的所有数据依次写成一行，去除无意义字符串
 	 *
@@ -121,7 +136,7 @@ public class TextSimilarity {
 		char c;
 		for (int i = 0; i < length; i++) {
 			c = str.charAt(i);
-			if(isValidChar(c)) {
+			if (isValidChar(c)) {
 				sb.append(c);
 			}
 		}
@@ -137,9 +152,9 @@ public class TextSimilarity {
 	 */
 	private static boolean isValidChar(final char charValue) {
 		return (charValue >= 0x4E00 && charValue <= 0X9FFF) || //
-				(charValue >= 'a' && charValue <= 'z') || //
-				(charValue >= 'A' && charValue <= 'Z') || //
-				(charValue >= '0' && charValue <= '9');
+			(charValue >= 'a' && charValue <= 'z') || //
+			(charValue >= 'A' && charValue <= 'Z') || //
+			(charValue >= '0' && charValue <= '9');
 	}
 
 	/**
@@ -162,9 +177,9 @@ public class TextSimilarity {
 		for (int i = 1; i <= m; i++) {
 			for (int j = 1; j <= n; j++) {
 				if (strA.charAt(i - 1) == strB.charAt(j - 1)) {
-					currLine[j] = lastLine[j-1] + 1;
+					currLine[j] = lastLine[j - 1] + 1;
 				} else {
-					currLine[j] = Math.max(currLine[j-1], lastLine[j]);
+					currLine[j] = Math.max(currLine[j - 1], lastLine[j]);
 				}
 			}
 			temp = lastLine;

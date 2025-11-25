@@ -165,7 +165,7 @@ public class StopWatch {
 	/**
 	 * 开始默认的新任务
 	 *
-	 * @throws IllegalStateException 前一个任务没有结束
+	 * @throws IllegalStateException 当前已有任务正在运行时抛出此异常，必须先调用{@link #stop()}停止当前任务
 	 */
 	public void start() throws IllegalStateException {
 		start(StrUtil.EMPTY);
@@ -175,7 +175,7 @@ public class StopWatch {
 	 * 开始指定名称的新任务
 	 *
 	 * @param taskName 新开始的任务名称
-	 * @throws IllegalStateException 前一个任务没有结束
+	 * @throws IllegalStateException 当前已有任务正在运行时抛出此异常，必须先调用{@link #stop()}停止当前任务
 	 */
 	public void start(final String taskName) throws IllegalStateException {
 		if (null != this.currentTaskName) {
@@ -188,7 +188,7 @@ public class StopWatch {
 	/**
 	 * 停止当前任务
 	 *
-	 * @throws IllegalStateException 任务没有开始
+	 * @throws IllegalStateException 当前没有正在运行的任务时抛出此异常，必须先调用{@link #start()}或{@link #start(String)}开始任务
 	 */
 	public void stop() throws IllegalStateException {
 		if (null == this.currentTaskName) {
