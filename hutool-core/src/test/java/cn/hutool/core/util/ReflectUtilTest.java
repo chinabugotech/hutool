@@ -328,6 +328,41 @@ public class ReflectUtilTest {
 		assertArrayEquals(new int[0], intArray);
 	}
 
+	@Test
+	public void newInstanceIfPossibleTest2() {
+		// 测试Object.class不应该被错误地实例化为HashMap，应该返回Object实例
+		Object objectInstance = ReflectUtil.newInstanceIfPossible(Object.class);
+		assertNotNull(objectInstance);
+		assertEquals(Object.class, objectInstance.getClass());
+
+		// 测试Map.class能够正确实例化为HashMap
+		Map<?, ?> mapInstance = ReflectUtil.newInstanceIfPossible(Map.class);
+		assertNotNull(mapInstance);
+		assertInstanceOf(HashMap.class, mapInstance);
+
+		// 测试Collection.class能够正确实例化为ArrayList
+		Collection<?> collectionInstance = ReflectUtil.newInstanceIfPossible(Collection.class);
+		assertNotNull(collectionInstance);
+		assertInstanceOf(ArrayList.class, collectionInstance);
+
+
+		// 测试List.class能够正确实例化为ArrayList
+		List<?> listInstance = ReflectUtil.newInstanceIfPossible(List.class);
+		assertNotNull(listInstance);
+		assertInstanceOf(ArrayList.class, listInstance);
+
+		// 测试Set.class能够正确实例化为HashSet
+		Set<?> setInstance = ReflectUtil.newInstanceIfPossible(Set.class);
+		assertNotNull(setInstance);
+		assertInstanceOf(HashSet.class, setInstance);
+
+		// 测试Queue接口能够正确实例化为LinkedList
+		Queue<?> queueInstance = ReflectUtil.newInstanceIfPossible(Queue.class);
+		assertNotNull(queueInstance);
+		assertInstanceOf(LinkedList.class, queueInstance);
+	}
+
+
 	public static class JdbcDialects {
 		private static final List<Number> DIALECTS =
 				Arrays.asList(1L, 2L, 3L);

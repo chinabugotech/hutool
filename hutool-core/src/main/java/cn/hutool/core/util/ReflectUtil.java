@@ -870,9 +870,11 @@ public class ReflectUtil {
 	 * 对于某些特殊的接口，按照其默认实现实例化，例如：
 	 * <pre>
 	 *     Map       -》 HashMap
-	 *     Collction -》 ArrayList
 	 *     List      -》 ArrayList
 	 *     Set       -》 HashSet
+	 *     Queue     -》 LinkedList
+	 *     Deque     -》 LinkedList
+	 *     Collection-》 ArrayList
 	 * </pre>
 	 *
 	 * @param <T>  对象类型
@@ -889,12 +891,21 @@ public class ReflectUtil {
 		}
 
 		// 某些特殊接口的实例化按照默认实现进行
-		if (type.isAssignableFrom(AbstractMap.class)) {
+		if (Map.class.isAssignableFrom(type)) {
+			// Map接口使用HashMap作为默认实现
 			type = (Class<T>) HashMap.class;
-		} else if (type.isAssignableFrom(List.class)) {
+		} else if (List.class.isAssignableFrom(type)) {
+			// List接口使用ArrayList作为默认实现
 			type = (Class<T>) ArrayList.class;
-		} else if (type.isAssignableFrom(Set.class)) {
+		} else if (Set.class.isAssignableFrom(type)) {
+			// Set接口使用HashSet作为默认实现
 			type = (Class<T>) HashSet.class;
+		} else if (Queue.class.isAssignableFrom(type) || Deque.class.isAssignableFrom(type)) {
+			// Queue和Deque接口使用LinkedList作为默认实现，更适合队列操作
+			type = (Class<T>) LinkedList.class;
+		} else if (Collection.class.isAssignableFrom(type)) {
+			// 通用Collection接口使用ArrayList作为默认实现
+			type = (Class<T>) ArrayList.class;
 		}
 
 		try {
