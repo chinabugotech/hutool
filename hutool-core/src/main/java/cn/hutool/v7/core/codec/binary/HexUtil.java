@@ -175,7 +175,7 @@ public class HexUtil extends Hex {
 	 * @since 5.7.4
 	 */
 	public static int hexToInt(final String value) {
-		return Integer.parseInt(value, 16);
+		return Integer.parseInt(removeHexPrefix(value), 16);
 	}
 
 	/**
@@ -197,7 +197,7 @@ public class HexUtil extends Hex {
 	 * @since 5.7.4
 	 */
 	public static long hexToLong(final String value) {
-		return Long.parseLong(value, 16);
+		return Long.parseLong(removeHexPrefix(value), 16);
 	}
 
 	/**
@@ -223,7 +223,7 @@ public class HexUtil extends Hex {
 		if (null == hexStr) {
 			return null;
 		}
-		return new BigInteger(hexStr, 16);
+		return new BigInteger(removeHexPrefix(hexStr), 16);
 	}
 
 	/**
@@ -263,4 +263,24 @@ public class HexUtil extends Hex {
 		return builder.toString();
 	}
 
+	/**
+	 * 移除Hex字符串前缀，前缀包括：0x, 0X, #
+	 *
+	 * @param hexStr 16进制字符串
+	 * @return 移除前缀后的字符串
+	 */
+	private static String removeHexPrefix(final String hexStr) {
+		if (StrUtil.length(hexStr) > 1) {
+			final char c0 = hexStr.charAt(0);
+			switch (c0) {
+				case '0':
+					if (hexStr.charAt(1) == 'x' || hexStr.charAt(1) == 'X') {
+						return hexStr.substring(2);
+					}
+				case '#':
+					return hexStr.substring(1);
+			}
+		}
+		return hexStr;
+	}
 }

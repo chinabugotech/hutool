@@ -20,7 +20,10 @@ import cn.hutool.v7.core.codec.binary.HexUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * HexUtil单元测试
@@ -36,22 +39,22 @@ public class HexUtilTest {
 		final String hex = HexUtil.encodeStr(str, CharsetUtil.UTF_8);
 		final String decodedStr = HexUtil.decodeStr(hex);
 
-		Assertions.assertEquals(str, decodedStr);
+		assertEquals(str, decodedStr);
 	}
 
 	@Test
 	public void issueI50MI6Test(){
 		final String s = HexUtil.encodeStr("烟".getBytes(StandardCharsets.UTF_16BE));
-		Assertions.assertEquals("70df", s);
+		assertEquals("70df", s);
 	}
 
 	@Test
 	public void toUnicodeHexTest() {
 		String unicodeHex = HexUtil.toUnicodeHex('\u2001');
-		Assertions.assertEquals("\\u2001", unicodeHex);
+		assertEquals("\\u2001", unicodeHex);
 
 		unicodeHex = HexUtil.toUnicodeHex('你');
-		Assertions.assertEquals("\\u4f60", unicodeHex);
+		assertEquals("\\u4f60", unicodeHex);
 	}
 
 	@Test
@@ -86,20 +89,50 @@ public class HexUtilTest {
 	public void formatHexTest(){
 		final String hex = "e8c670380cb220095268f40221fc748fa6ac39d6e930e63c30da68bad97f885d";
 		final String formatHex = HexUtil.format(hex);
-		Assertions.assertEquals("e8 c6 70 38 0c b2 20 09 52 68 f4 02 21 fc 74 8f a6 ac 39 d6 e9 30 e6 3c 30 da 68 ba d9 7f 88 5d", formatHex);
+		assertEquals("e8 c6 70 38 0c b2 20 09 52 68 f4 02 21 fc 74 8f a6 ac 39 d6 e9 30 e6 3c 30 da 68 ba d9 7f 88 5d", formatHex);
 	}
 
 	@Test
 	public void formatHexTest2(){
 		final String hex = "e8c670380cb220095268f40221fc748fa6";
 		final String formatHex = HexUtil.format(hex, "0x");
-		Assertions.assertEquals("0xe8 0xc6 0x70 0x38 0x0c 0xb2 0x20 0x09 0x52 0x68 0xf4 0x02 0x21 0xfc 0x74 0x8f 0xa6", formatHex);
+		assertEquals("0xe8 0xc6 0x70 0x38 0x0c 0xb2 0x20 0x09 0x52 0x68 0xf4 0x02 0x21 0xfc 0x74 0x8f 0xa6", formatHex);
 	}
 
 	@Test
 	public void decodeHexTest(){
 		final String s = HexUtil.encodeStr("6");
 		final String s1 = HexUtil.decodeStr(s);
-		Assertions.assertEquals("6", s1);
+		assertEquals("6", s1);
+	}
+
+	@Test
+	public void hexToIntTest() {
+		final String hex1 = "FF";
+		assertEquals(255, HexUtil.hexToInt(hex1));
+		final String hex2 = "0xFF";
+		assertEquals(255, HexUtil.hexToInt(hex2));
+		final String hex3 = "#FF";
+		assertEquals(255, HexUtil.hexToInt(hex3));
+	}
+
+	@Test
+	public void hexToLongTest() {
+		final String hex1 = "FF";
+		assertEquals(255L, HexUtil.hexToLong(hex1));
+		final String hex2 = "0xFF";
+		assertEquals(255L, HexUtil.hexToLong(hex2));
+		final String hex3 = "#FF";
+		assertEquals(255L, HexUtil.hexToLong(hex3));
+	}
+
+	@Test
+	public void toBigIntegerTest() {
+		final String hex1 = "FF";
+		assertEquals(new BigInteger("FF", 16), HexUtil.toBigInteger(hex1));
+		final String hex2 = "0xFF";
+		assertEquals(new BigInteger("FF", 16), HexUtil.toBigInteger(hex2));
+		final String hex3 = "#FF";
+		assertEquals(new BigInteger("FF", 16), HexUtil.toBigInteger(hex3));
 	}
 }
