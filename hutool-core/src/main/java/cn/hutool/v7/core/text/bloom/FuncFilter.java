@@ -16,7 +16,12 @@
 
 package cn.hutool.v7.core.text.bloom;
 
+import cn.hutool.v7.core.lang.Assert;
+
 import java.io.Serial;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.function.Function;
 
 /**
@@ -33,26 +38,69 @@ public class FuncFilter extends AbstractFilter {
 	 * 创建FuncFilter
 	 *
 	 * @param size     最大值
-	 * @param hashFunc Hash函数
+	 * @param hashFuncs Hash函数
 	 * @return FuncFilter
 	 */
-	public static FuncFilter of(final int size, final Function<String, Number> hashFunc) {
-		return new FuncFilter(size, hashFunc);
+	@SafeVarargs
+	public static FuncFilter of(final int size, final Function<String, Number>... hashFuncs) {
+		return new FuncFilter(size, hashFuncs);
 	}
 
-	private final Function<String, Number> hashFunc;
+	// 允许接收多个哈希函数
+	private final List<Function<String, Number>> hashFuncs;
 
 	/**
 	 * @param size     最大值
-	 * @param hashFunc Hash函数
+	 * @param hashFuncs Hash函数
 	 */
-	public FuncFilter(final int size, final Function<String, Number> hashFunc) {
+	@SafeVarargs
+	public FuncFilter(final int size, final Function<String, Number>... hashFuncs) {
 		super(size);
-		this.hashFunc = hashFunc;
+		Assert.notEmpty(hashFuncs, "Hash functions must not be empty");
+		this.hashFuncs = Collections.unmodifiableList(Arrays.asList(hashFuncs));
+	}
+
+	/**
+	 *兼容父类，如果存在多个哈希函数，就使用第一个
+	 *
+	 * @param str 字符串
+	 */
+	@Override
+	public int hash(final String str) {
+		return hash(str, hashFuncs.get(0));
+	}
+
+	/**
+	 *
+	 * @param str 字符串
+	 * @param hashFunc 哈希函数
+	 * @return HashCode 指定哈希函数的计算结果
+	 */
+	public int hash(final String str, final Function<String, Number> hashFunc) {
+		// 通过位运算获取正数
+		return (hashFunc.apply(str).intValue() & 0x7FFFFFFF) % size;
 	}
 
 	@Override
-	public int hash(final String str) {
-		return hashFunc.apply(str).intValue() % size;
+	public boolean contains(final String str) {
+		for (final Function<String, Number> hashFunc : hashFuncs) {
+			if (!bitSet.get(hash(str, hashFunc))) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	@Override
+	public boolean add(final String str) {
+		boolean add = false;
+		for (final Function<String, Number> hashFunc : hashFuncs) {
+			int hash = hash(str,  hashFunc);
+			if (!bitSet.get(hash)) {
+				bitSet.set(hash);
+				add = true;
+			}
+		}
+		return add;
 	}
 }

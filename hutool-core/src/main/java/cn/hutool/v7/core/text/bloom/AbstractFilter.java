@@ -30,7 +30,7 @@ public abstract class AbstractFilter implements BloomFilter {
 	@Serial
 	private static final long serialVersionUID = 1L;
 
-	private final BitSet bitSet;
+	protected final BitSet bitSet;
 	/**
 	 * 容量
 	 */
@@ -50,12 +50,12 @@ public abstract class AbstractFilter implements BloomFilter {
 
 	@Override
 	public boolean contains(final String str) {
-		return bitSet.get(Math.abs(hash(str)));
+		return bitSet.get(hash(str));
 	}
 
 	@Override
 	public boolean add(final String str) {
-		final int hash = Math.abs(hash(str));
+		final int hash = hash(str);
 		if (bitSet.get(hash)) {
 			return false;
 		}
