@@ -16,13 +16,13 @@
 
 package cn.hutool.v7.poi.word;
 
-import org.apache.poi.common.usermodel.PictureType;
-import cn.hutool.v7.core.io.file.FileUtil;
+import cn.hutool.v7.core.array.ArrayUtil;
 import cn.hutool.v7.core.io.IORuntimeException;
 import cn.hutool.v7.core.io.IoUtil;
+import cn.hutool.v7.core.io.file.FileUtil;
 import cn.hutool.v7.core.lang.Assert;
-import cn.hutool.v7.core.array.ArrayUtil;
 import cn.hutool.v7.poi.POIException;
+import org.apache.poi.common.usermodel.PictureType;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.util.Units;
 import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
@@ -30,7 +30,6 @@ import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
 
-import java.awt.Font;
 import java.io.*;
 
 /**
@@ -51,7 +50,7 @@ public class Word07Writer implements Closeable {
 	 */
 	protected boolean isClosed;
 
-	// region ----- Constructor start
+	// region ----- Constructor
 
 	/**
 	 * 构造
@@ -111,14 +110,15 @@ public class Word07Writer implements Closeable {
 		return this;
 	}
 
+	// region ----- addText
 	/**
 	 * 增加一个段落
 	 *
-	 * @param font  字体信息{@link Font}
+	 * @param font  字体信息{@link FontStyle}
 	 * @param texts 段落中的文本，支持多个文本作为一个段落
 	 * @return this
 	 */
-	public Word07Writer addText(final Font font, final String... texts) {
+	public Word07Writer addText(final FontStyle font, final String... texts) {
 		return addText(null, font, texts);
 	}
 
@@ -126,11 +126,11 @@ public class Word07Writer implements Closeable {
 	 * 增加一个段落
 	 *
 	 * @param align 段落对齐方式{@link ParagraphAlignment}
-	 * @param font  字体信息{@link Font}
+	 * @param font  字体信息{@link FontStyle}
 	 * @param texts 段落中的文本，支持多个文本作为一个段落
 	 * @return this
 	 */
-	public Word07Writer addText(final ParagraphAlignment align, final Font font, final String... texts) {
+	public Word07Writer addText(final ParagraphAlignment align, final FontStyle font, final String... texts) {
 		final XWPFParagraph p = this.doc.createParagraph();
 		if (null != align) {
 			p.setAlignment(align);
@@ -141,15 +141,13 @@ public class Word07Writer implements Closeable {
 				run = p.createRun();
 				run.setText(text);
 				if (null != font) {
-					run.setFontFamily(font.getFamily());
-					run.setFontSize(font.getSize());
-					run.setBold(font.isBold());
-					run.setItalic(font.isItalic());
+					font.fill(run);
 				}
 			}
 		}
 		return this;
 	}
+	// endregion
 
 	/**
 	 * 增加表格数据
@@ -164,6 +162,7 @@ public class Word07Writer implements Closeable {
 		return this;
 	}
 
+	// region ----- addPicture
 	/**
 	 * 增加图片，单独成段落
 	 *
@@ -249,7 +248,9 @@ public class Word07Writer implements Closeable {
 		}
 		return this;
 	}
+	// endregion
 
+	// region ----- flush
 	/**
 	 * 将Excel Workbook刷出到预定义的文件<br>
 	 * 如果用户未自定义输出的文件，将抛出{@link NullPointerException}<br>
@@ -308,6 +309,7 @@ public class Word07Writer implements Closeable {
 		}
 		return this;
 	}
+	// endregion
 
 	/**
 	 * 关闭Word文档<br>

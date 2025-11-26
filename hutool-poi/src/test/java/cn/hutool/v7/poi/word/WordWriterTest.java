@@ -40,8 +40,8 @@ public class WordWriterTest {
 	@Disabled
 	public void writeTest() {
 		final Word07Writer writer = new Word07Writer();
-		writer.addText(new Font("方正小标宋简体", Font.PLAIN, 22), "我是第一部分", "我是第二部分");
-		writer.addText(new Font("宋体", Font.PLAIN, 22), "我是正文第一部分", "我是正文第二部分");
+		writer.addText(new FontStyle("方正小标宋简体", Font.PLAIN, 22), "我是第一部分", "我是第二部分");
+		writer.addText(new FontStyle("宋体", Font.PLAIN, 22), "我是正文第一部分", "我是正文第二部分");
 		writer.flush(FileUtil.file("e:/wordWrite.docx"));
 		writer.close();
 		Console.log("OK");
@@ -60,7 +60,7 @@ public class WordWriterTest {
 
 	@Test
 	@Disabled
-	public void writeTableTest(){
+	public void writeTableTest() {
 		final Word07Writer writer = new Word07Writer();
 		final Map<String, Object> map = new LinkedHashMap<>();
 		map.put("姓名", "张三");
@@ -94,9 +94,9 @@ public class WordWriterTest {
 		final ArrayList<Map<String, Object>> mapArrayList = ListUtil.of(data, data2);
 
 		// 添加段落（标题）
-		writer.addText(new Font("方正小标宋简体", Font.PLAIN, 22), "我是第一部分");
+		writer.addText(new FontStyle("方正小标宋简体", Font.PLAIN, 22), "我是第一部分");
 		// 添加段落（正文）
-		writer.addText(new Font("宋体", Font.PLAIN, 13), "我是正文第一部分");
+		writer.addText(new FontStyle("宋体", Font.PLAIN, 13), "我是正文第一部分");
 		writer.addTable(mapArrayList);
 		// 写出到文件
 		writer.flush(FileUtil.file("d:/test/a.docx"));
@@ -105,7 +105,7 @@ public class WordWriterTest {
 	}
 
 	@Test
-	public void overflowTest(){
+	public void overflowTest() {
 		final Word07Writer word07Writer = new Word07Writer();
 		final List<Object> list = ListUtil.of(false);
 		final List<Object> list2 = ListUtil.of(false);
@@ -117,23 +117,23 @@ public class WordWriterTest {
 
 	@Test
 	@Disabled
-	public void writeBeanAsTableTest(){
+	public void writeBeanAsTableTest() {
 		final List<Vo> of = ListUtil.of(
-				new Vo("测试1", new BigDecimal(12), new BigDecimal(2)),
-				new Vo("测试2", new BigDecimal(13), new BigDecimal(2)),
-				new Vo("测试3", new BigDecimal(15), new BigDecimal(3)),
-				new Vo("测试4", new BigDecimal(112), new BigDecimal(5))
+			new Vo("测试1", new BigDecimal(12), new BigDecimal(2)),
+			new Vo("测试2", new BigDecimal(13), new BigDecimal(2)),
+			new Vo("测试3", new BigDecimal(15), new BigDecimal(3)),
+			new Vo("测试4", new BigDecimal(112), new BigDecimal(5))
 		);
 
 		WordUtil.getWriter()
-				.addTable(of)
-				.flush(FileUtil.file("d:/test/beanValueTest.docx"))
-				.close();
+			.addTable(of)
+			.flush(FileUtil.file("d:/test/beanValueTest.docx"))
+			.close();
 	}
 
 	@Data
 	@AllArgsConstructor
-	private static class Vo{
+	private static class Vo {
 		private String name;
 		private BigDecimal amount;
 		private BigDecimal onYear;
