@@ -32,7 +32,7 @@ public class SieveCacheTest {
 
 	@Test
 	public void evictionLogicTest() {
-		SieveCache<String, String> cache = new SieveCache<>(3);
+		final SieveCache<String, String> cache = new SieveCache<>(3);
 
 		cache.put("A", "A");
 		cache.put("B", "B");
@@ -52,7 +52,7 @@ public class SieveCacheTest {
 
 	@Test
 	public void expiryTest() {
-		SieveCache<String, String> cache = new SieveCache<>(3);
+		final SieveCache<String, String> cache = new SieveCache<>(3);
 		cache.put("k1", "v1", 100);
 		cache.put("k2", "v2", 10000);
 
@@ -66,7 +66,7 @@ public class SieveCacheTest {
 	@Test
 	public void listenerTest() {
 		final AtomicInteger removeCount = new AtomicInteger();
-		SieveCache<Integer, Integer> cache = new SieveCache<>(2);
+		final SieveCache<Integer, Integer> cache = new SieveCache<>(2);
 
 		cache.setListener((key, value) -> {
 			removeCount.incrementAndGet();
@@ -81,9 +81,9 @@ public class SieveCacheTest {
 
 	@Test
 	public void concurrencyPressureTest() throws InterruptedException {
-		int threadCount = 20;
-		int loopCount = 2000;
-		int capacity = 100;
+		final int threadCount = 20;
+		final int loopCount = 2000;
+		final int capacity = 100;
 
 		final SieveCache<String, String> cache = new SieveCache<>(capacity);
 		final CountDownLatch latch = new CountDownLatch(threadCount);
@@ -93,14 +93,14 @@ public class SieveCacheTest {
 			new Thread(() -> {
 				try {
 					for (int j = 0; j < loopCount; j++) {
-						String key = String.valueOf(RandomUtil.randomInt(0, 1000));
+						final String key = String.valueOf(RandomUtil.randomInt(0, 1000));
 						if (RandomUtil.randomBoolean()) {
 							cache.put(key, "val-" + key);
 						} else {
 							cache.get(key);
 						}
 					}
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					errorCount.incrementAndGet();
 				} finally {
 					latch.countDown();
@@ -114,7 +114,7 @@ public class SieveCacheTest {
 		Assertions.assertTrue(cache.size() <= capacity, "缓存大小不应超过容量");
 
 		int iteratorCount = 0;
-		for (String ignored : cache) {
+		for (final String ignored : cache) {
 			iteratorCount++;
 		}
 		Assertions.assertEquals(cache.size(), iteratorCount, "迭代器数量与 size() 应一致");
@@ -126,8 +126,8 @@ public class SieveCacheTest {
 	 */
 	@Test
 	public void scanResistanceTest() {
-		int capacity = 10;
-		SieveCache<Integer, Integer> cache = new SieveCache<>(capacity);
+		final int capacity = 10;
+		final SieveCache<Integer, Integer> cache = new SieveCache<>(capacity);
 
 		// 填满热点数据
 		for (int i = 0; i < capacity; i++) {

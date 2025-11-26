@@ -33,6 +33,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * 淘汰时，使用 {@code hand} 指针从尾部扫描，淘汰 {@code visited=false} 的节点。<br>
  * 新加入节点 {@code visited = false} 且置于头部，Hand 指针扫描时会优先淘汰它，提供抗扫描能力。<br>
  * </p>
+ * 来自：<a href="https://github.com/chinabugotech/hutool/pull/4157">pr#4157@Github</a>
  *
  * @param <K> 键类型
  * @param <V> 值类型
@@ -61,7 +62,7 @@ public class SieveCache<K, V> extends LockedCache<K, V> {
 	 *
 	 * @param capacity 容量
 	 */
-	public SieveCache(int capacity) {
+	public SieveCache(final int capacity) {
 		this(capacity, 0);
 	}
 
@@ -71,7 +72,7 @@ public class SieveCache<K, V> extends LockedCache<K, V> {
 	 * @param capacity 容量
 	 * @param timeout  默认超时时间，单位：毫秒
 	 */
-	public SieveCache(int capacity, long timeout) {
+	public SieveCache(int capacity, final long timeout) {
 		if (Integer.MAX_VALUE == capacity) {
 			capacity -= 1;
 		}
@@ -85,7 +86,7 @@ public class SieveCache<K, V> extends LockedCache<K, V> {
 	}
 
 	@Override
-	protected void putWithoutLock(K key, V object, long timeout) {
+	protected void putWithoutLock(final K key, final V object, final long timeout) {
 		final Mutable<K> keyObj = MutableObj.of(key);
 		SieveCacheObj<K, V> co = (SieveCacheObj<K, V>) cacheMap.get(keyObj);
 
@@ -116,7 +117,7 @@ public class SieveCache<K, V> extends LockedCache<K, V> {
 	 * @param oldNode 旧节点
 	 * @param newNode 新节点
 	 */
-	private void replaceNode(SieveCacheObj<K, V> oldNode, SieveCacheObj<K, V> newNode) {
+	private void replaceNode(final SieveCacheObj<K, V> oldNode, final SieveCacheObj<K, V> newNode) {
 		newNode.prev = oldNode.prev;
 		newNode.next = oldNode.next;
 
@@ -144,7 +145,7 @@ public class SieveCache<K, V> extends LockedCache<K, V> {
 	}
 
 	@Override
-	protected CacheObj<K, V> getOrRemoveExpiredWithoutLock(K key) {
+	protected CacheObj<K, V> getOrRemoveExpiredWithoutLock(final K key) {
 		final Mutable<K> keyObj = MutableObj.of(key);
 		final SieveCacheObj<K, V> co = (SieveCacheObj<K, V>) cacheMap.get(keyObj);
 
@@ -160,7 +161,7 @@ public class SieveCache<K, V> extends LockedCache<K, V> {
 	}
 
 	@Override
-	protected CacheObj<K, V> removeWithoutLock(K key) {
+	protected CacheObj<K, V> removeWithoutLock(final K key) {
 		final Mutable<K> keyObj = MutableObj.of(key);
 		final SieveCacheObj<K, V> co = (SieveCacheObj<K, V>) cacheMap.remove(keyObj);
 		if (co != null) {
@@ -223,7 +224,7 @@ public class SieveCache<K, V> extends LockedCache<K, V> {
 	 *
 	 * @param node 节点
 	 */
-	private void addToHead(SieveCacheObj<K, V> node) {
+	private void addToHead(final SieveCacheObj<K, V> node) {
 		node.next = head;
 		node.prev = null;
 		if (head != null) {
@@ -240,7 +241,7 @@ public class SieveCache<K, V> extends LockedCache<K, V> {
 	 *
 	 * @param node 节点
 	 */
-	private void removeNode(SieveCacheObj<K, V> node) {
+	private void removeNode(final SieveCacheObj<K, V> node) {
 		if (node == hand) {
 			hand = node.prev;
 		}
