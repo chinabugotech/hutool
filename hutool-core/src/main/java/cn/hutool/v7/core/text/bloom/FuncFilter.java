@@ -22,7 +22,7 @@ import java.io.Serial;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.function.Function;
+import java.util.function.ToIntFunction;
 
 /**
  * 基于Hash函数方法的{@link BloomFilter}
@@ -37,31 +37,31 @@ public class FuncFilter extends AbstractFilter {
 	/**
 	 * 创建FuncFilter
 	 *
-	 * @param size     最大值
+	 * @param size      最大值
 	 * @param hashFuncs Hash函数
 	 * @return FuncFilter
 	 */
 	@SafeVarargs
-	public static FuncFilter of(final int size, final Function<String, Number>... hashFuncs) {
+	public static FuncFilter of(final int size, final ToIntFunction<String>... hashFuncs) {
 		return new FuncFilter(size, hashFuncs);
 	}
 
 	// 允许接收多个哈希函数
-	private final List<Function<String, Number>> hashFuncs;
+	private final List<ToIntFunction<String>> hashFuncs;
 
 	/**
-	 * @param size     最大值
+	 * @param size      最大值
 	 * @param hashFuncs Hash函数
 	 */
 	@SafeVarargs
-	public FuncFilter(final int size, final Function<String, Number>... hashFuncs) {
+	public FuncFilter(final int size, final ToIntFunction<String>... hashFuncs) {
 		super(size);
 		Assert.notEmpty(hashFuncs, "Hash functions must not be empty");
 		this.hashFuncs = Collections.unmodifiableList(Arrays.asList(hashFuncs));
 	}
 
 	/**
-	 *兼容父类，如果存在多个哈希函数，就使用第一个
+	 * 兼容父类，如果存在多个哈希函数，就使用第一个
 	 *
 	 * @param str 字符串
 	 */
@@ -72,18 +72,18 @@ public class FuncFilter extends AbstractFilter {
 
 	/**
 	 *
-	 * @param str 字符串
+	 * @param str      字符串
 	 * @param hashFunc 哈希函数
 	 * @return HashCode 指定哈希函数的计算结果
 	 */
-	public int hash(final String str, final Function<String, Number> hashFunc) {
+	public int hash(final String str, final ToIntFunction<String> hashFunc) {
 		// 通过位运算获取正数
-		return (hashFunc.apply(str).intValue() & 0x7FFFFFFF) % size;
+		return (hashFunc.applyAsInt(str) & 0x7FFFFFFF) % size;
 	}
 
 	@Override
 	public boolean contains(final String str) {
-		for (final Function<String, Number> hashFunc : hashFuncs) {
+		for (final ToIntFunction<String> hashFunc : hashFuncs) {
 			if (!bitSet.get(hash(str, hashFunc))) {
 				return false;
 			}
@@ -94,8 +94,9 @@ public class FuncFilter extends AbstractFilter {
 	@Override
 	public boolean add(final String str) {
 		boolean add = false;
-		for (final Function<String, Number> hashFunc : hashFuncs) {
-			int hash = hash(str,  hashFunc);
+		int hash;
+		for (final ToIntFunction<String> hashFunc : hashFuncs) {
+			hash = hash(str, hashFunc);
 			if (!bitSet.get(hash)) {
 				bitSet.set(hash);
 				add = true;

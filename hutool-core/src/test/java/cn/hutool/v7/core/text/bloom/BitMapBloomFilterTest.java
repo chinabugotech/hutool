@@ -65,7 +65,7 @@ public class BitMapBloomFilterTest {
 
 	@Test
 	public void combinedMultiHashTest() {
-		FuncFilter multiHashFuncFilter = FuncFilter.of(SIZE,
+		final FuncFilter multiHashFuncFilter = FuncFilter.of(SIZE,
 			HashUtil::bkdrHash,
 			HashUtil::apHash,
 			HashUtil::djbHash
@@ -84,9 +84,9 @@ public class BitMapBloomFilterTest {
 			HashUtil::djbHash
 		);
 
-		String s1 = "你好世界";
-		String s2 = "双亲委派";
-		String s3 = "测试工程师";
+		final String s1 = "你好世界";
+		final String s2 = "双亲委派";
+		final String s3 = "测试工程师";
 
 		filter.add(s1);
 		filter.add(s2);
