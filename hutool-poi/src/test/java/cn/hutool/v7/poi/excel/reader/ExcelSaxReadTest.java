@@ -39,6 +39,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 /**
  * Excel sax方式读取
  *
@@ -49,12 +51,12 @@ public class ExcelSaxReadTest {
 	@Test
 	public void excel07Test() {
 		// 工具化快速读取
-		ExcelUtil.readBySax("aaa.xlsx", 0, createRowHandler());
+		ExcelUtil.readBySax("aaa.xlsx", 1, createRowHandler());
 	}
 
 	@Test
 	void readEndByExceptionTest(){
-		ExcelUtil.readBySax("aaa.xlsx", 0, (sheetIndex, rowIndex, rowList) -> {
+		ExcelUtil.readBySax("aaa.xlsx", 1, (sheetIndex, rowIndex, rowList) -> {
 			if (rowIndex == 1) {
 				throw new StopReadException();
 			}
@@ -84,7 +86,7 @@ public class ExcelSaxReadTest {
 	@Test
 	public void excel07FromStreamTest() {
 		// issue#1225 非markSupport的流读取会错误
-		ExcelUtil.readBySax(IoUtil.toStream(FileUtil.file("aaa.xlsx")), 0, createRowHandler());
+		ExcelUtil.readBySax(IoUtil.toStream(FileUtil.file("aaa.xlsx")), 1, createRowHandler());
 	}
 
 	@Test
@@ -125,12 +127,12 @@ public class ExcelSaxReadTest {
 
 	@Test
 	public void readBySaxTest() {
-		ExcelUtil.readBySax("blankAndDateTest.xlsx", "0", createRowHandler());
+		ExcelUtil.readBySax("blankAndDateTest.xlsx", "1", createRowHandler());
 	}
 
 	@Test
 	public void readBySaxByRidTest() {
-		ExcelUtil.readBySax("blankAndDateTest.xlsx", 0, createRowHandler());
+		ExcelUtil.readBySax("blankAndDateTest.xlsx", 1, createRowHandler());
 	}
 
 	@Test
@@ -198,7 +200,7 @@ public class ExcelSaxReadTest {
 				rows.add("");
 			}
 		});
-		Assertions.assertEquals(50L, rows.get(3));
+		assertEquals(50L, rows.get(3));
 	}
 
 	@Test
@@ -206,14 +208,14 @@ public class ExcelSaxReadTest {
 		// since 6.0.0修改
 		// 默认不在行尾对齐单元格，因此只读取了有第二个值的行
 		final List<Object> rows = new ArrayList<>();
-		ExcelUtil.readBySax("data_for_sax_test.xlsx", 0, (i, i1, list) -> {
+		ExcelUtil.readBySax("data_for_sax_test.xlsx", 1, (i, i1, list) -> {
 			if(list.size() > 1){
 				rows.add(list.get(1));
 			}
 		});
 
 		final FormulaCellValue value = (FormulaCellValue) rows.get(1);
-		Assertions.assertEquals(50L, value.getResult());
+		assertEquals(50L, value.getResult());
 	}
 
 	@Test
@@ -223,26 +225,26 @@ public class ExcelSaxReadTest {
 				(i, i1, list) -> rows.add(StrUtil.toString(list.get(0)))
 		);
 
-		Assertions.assertEquals("2020-10-09 00:00:00", rows.get(1));
+		assertEquals("2020-10-09 00:00:00", rows.get(1));
 		// 非日期格式不做转换
-		Assertions.assertEquals("112233", rows.get(2));
-		Assertions.assertEquals("1000.0", rows.get(3));
-		Assertions.assertEquals("2012-12-21 00:00:00", rows.get(4));
+		assertEquals("112233", rows.get(2));
+		assertEquals("1000.0", rows.get(3));
+		assertEquals("2012-12-21 00:00:00", rows.get(4));
 	}
 
 	@Test
 	public void dateReadXlsxTest() {
 		final List<String> rows = new ArrayList<>();
-		ExcelUtil.readBySax("data_for_sax_test.xlsx", 0,
+		ExcelUtil.readBySax("data_for_sax_test.xlsx", 1,
 				(i, i1, list) -> rows.add(StrUtil.toString(list.get(0)))
 		);
 
-		Assertions.assertEquals("2020-10-09 00:00:00", rows.get(1));
+		assertEquals("2020-10-09 00:00:00", rows.get(1));
 		// 非日期格式不做转换
-		Assertions.assertEquals("112233", rows.get(2));
+		assertEquals("112233", rows.get(2));
 		// 读取实际值，而非带有格式处理过的值
-		Assertions.assertEquals("1000.0", rows.get(3));
-		Assertions.assertEquals("2012-12-21 00:00:00", rows.get(4));
+		assertEquals("1000.0", rows.get(3));
+		assertEquals("2012-12-21 00:00:00", rows.get(4));
 	}
 
 	@Test
@@ -258,9 +260,9 @@ public class ExcelSaxReadTest {
 		final File file = FileUtil.file("aaa.xlsx");
 
 		final List<List<Object>> list = ListUtil.of();
-		ExcelUtil.readBySax(file, 0, (sheetIndex, rowIndex, rowList) -> list.add(rowList));
+		ExcelUtil.readBySax(file, 1, (sheetIndex, rowIndex, rowList) -> list.add(rowList));
 
-		Assertions.assertEquals("[, 女, , 43.22]", list.get(3).toString());
+		assertEquals("[, 女, , 43.22]", list.get(3).toString());
 	}
 
 	@Test
@@ -286,6 +288,6 @@ public class ExcelSaxReadTest {
 			}
 		});
 		//总共2个sheet页，读取所有sheet时，一共执行doAfterAllAnalysed2次。
-		Assertions.assertEquals(2, doAfterAllAnalysedTime.intValue());
+		assertEquals(2, doAfterAllAnalysedTime.intValue());
 	}
 }

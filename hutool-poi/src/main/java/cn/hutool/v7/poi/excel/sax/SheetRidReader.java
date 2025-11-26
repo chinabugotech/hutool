@@ -35,9 +35,9 @@ import java.util.Map;
 
 /**
  * 在Sax方式读取Excel时，读取sheet标签中sheetId和rid的对应关系，类似于:
- * <pre>
- * &lt;sheet name="Sheet6" sheetId="4" r:id="rId6"/&gt;
- * </pre>
+ * <pre>{@code
+ *   <sheet name="Sheet6" sheetId="4" r:id="rId6"/>
+ * }</pre>
  * <p>
  * 读取结果为：
  *
@@ -101,21 +101,6 @@ public class SheetRidReader extends DefaultHandler {
 	}
 
 	/**
-	 * 根据sheetId获取rid，从0开始
-	 *
-	 * @param sheetId Sheet的ID，从0开始
-	 * @return rid，从0开始
-	 * @since 5.5.5
-	 */
-	public Integer getRidBySheetIdBase0(final int sheetId) {
-		final Integer rid = getRidBySheetId(sheetId + 1);
-		if (null != rid) {
-			return rid - 1;
-		}
-		return null;
-	}
-
-	/**
 	 * 根据sheet name获取rid，从1开始
 	 *
 	 * @param sheetName Sheet的name
@@ -123,21 +108,6 @@ public class SheetRidReader extends DefaultHandler {
 	 */
 	public Integer getRidByName(final String sheetName) {
 		return NAME_RID_MAP.get(sheetName);
-	}
-
-	/**
-	 * 根据sheet name获取rid，从0开始
-	 *
-	 * @param sheetName Sheet的name
-	 * @return rid，从0开始
-	 * @since 5.5.5
-	 */
-	public Integer getRidByNameBase0(final String sheetName) {
-		final Integer rid = getRidByName(sheetName);
-		if (null != rid) {
-			return rid - 1;
-		}
-		return null;
 	}
 
 	/**

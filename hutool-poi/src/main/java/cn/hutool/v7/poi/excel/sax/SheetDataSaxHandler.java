@@ -33,9 +33,9 @@ import java.util.List;
 /**
  * sheetData标签内容读取处理器
  *
- * <pre>
- * &lt;sheetData&gt;&lt;/sheetData&gt;
- * </pre>
+ * <pre>{@code
+ *     <sheetData></sheetData>
+ * }</pre>
  *
  * @since 5.5.3
  */
@@ -60,7 +60,7 @@ public class SheetDataSaxHandler extends DefaultHandler {
 	/**
 	 * sheet索引，从0开始
 	 */
-	protected int sheetIndex;
+	protected int rid;
 	/**
 	 * 当前非空行索引，从0开始
 	 */
@@ -274,7 +274,7 @@ public class SheetDataSaxHandler extends DefaultHandler {
 			padCell(curCoordinate, maxCellCoordinate, true);
 		}
 
-		rowHandler.handle(sheetIndex, rowNumber, rowCellList);
+		rowHandler.handle(rid, rowNumber, rowCellList);
 
 		// 一行结束
 		// 新建一个新列，之前的列抛弃（可能被回收或rowHandler处理）
@@ -319,7 +319,7 @@ public class SheetDataSaxHandler extends DefaultHandler {
 	 */
 	private void addCellValue(final int index, final Object value) {
 		this.rowCellList.add(index, value);
-		this.rowHandler.handleCell(this.sheetIndex, this.rowNumber, index, value, this.xssfCellStyle);
+		this.rowHandler.handleCell(this.rid, this.rowNumber, index, value, this.xssfCellStyle);
 	}
 
 	/**

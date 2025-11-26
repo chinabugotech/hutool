@@ -18,32 +18,17 @@ package cn.hutool.v7.poi.excel.sax;
 
 import cn.hutool.v7.core.io.IoUtil;
 import cn.hutool.v7.core.lang.Assert;
-import cn.hutool.v7.core.util.ObjUtil;
 import cn.hutool.v7.core.text.StrUtil;
-import cn.hutool.v7.poi.excel.sax.handler.RowHandler;
+import cn.hutool.v7.core.util.ObjUtil;
 import cn.hutool.v7.poi.POIException;
+import cn.hutool.v7.poi.excel.sax.handler.RowHandler;
 import org.apache.poi.hssf.eventusermodel.EventWorkbookBuilder.SheetRecordCollectingListener;
-import org.apache.poi.hssf.eventusermodel.FormatTrackingHSSFListener;
-import org.apache.poi.hssf.eventusermodel.HSSFEventFactory;
-import org.apache.poi.hssf.eventusermodel.HSSFListener;
-import org.apache.poi.hssf.eventusermodel.HSSFRequest;
-import org.apache.poi.hssf.eventusermodel.MissingRecordAwareHSSFListener;
+import org.apache.poi.hssf.eventusermodel.*;
 import org.apache.poi.hssf.eventusermodel.dummyrecord.LastCellOfRowDummyRecord;
 import org.apache.poi.hssf.eventusermodel.dummyrecord.MissingCellDummyRecord;
 import org.apache.poi.hssf.model.HSSFFormulaParser;
-import org.apache.poi.hssf.record.BOFRecord;
-import org.apache.poi.hssf.record.BlankRecord;
-import org.apache.poi.hssf.record.BoolErrRecord;
-import org.apache.poi.hssf.record.BoundSheetRecord;
-import org.apache.poi.hssf.record.CellValueRecordInterface;
-import org.apache.poi.hssf.record.EOFRecord;
-import org.apache.poi.hssf.record.FormulaRecord;
-import org.apache.poi.hssf.record.LabelRecord;
-import org.apache.poi.hssf.record.LabelSSTRecord;
-import org.apache.poi.hssf.record.NumberRecord;
+import org.apache.poi.hssf.record.*;
 import org.apache.poi.hssf.record.Record;
-import org.apache.poi.hssf.record.SSTRecord;
-import org.apache.poi.hssf.record.StringRecord;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
@@ -55,7 +40,7 @@ import java.util.List;
 
 /**
  * Excel2003格式的事件-用户模型方式读取器，在Hutool中，统一将此归类为Sax读取<br>
- * 参考：http://www.cnblogs.com/wshsdlau/p/5643862.html
+ * 参考：<a href="http://www.cnblogs.com/wshsdlau/p/5643862.html">POI Sax 事件驱动解析Excel2003文件</a>
  *
  * @author Looly
  */
@@ -148,7 +133,7 @@ public class Excel03SaxReader implements HSSFListener, ExcelSaxReader<Excel03Sax
 	 * @throws POIException IO异常包装
 	 */
 	public Excel03SaxReader read(final POIFSFileSystem fs, final String idOrRidOrSheetName) throws POIException {
-		this.rid = getSheetIndex(idOrRidOrSheetName);
+		this.rid = getRid(idOrRidOrSheetName);
 
 		formatListener = new FormatTrackingHSSFListener(new MissingRecordAwareHSSFListener(this));
 		final HSSFRequest request = new HSSFRequest();
@@ -177,7 +162,7 @@ public class Excel03SaxReader implements HSSFListener, ExcelSaxReader<Excel03Sax
 	 *
 	 * @return sheet序号
 	 */
-	public int getSheetIndex() {
+	public int getRid() {
 		return this.rid;
 	}
 
@@ -396,7 +381,7 @@ public class Excel03SaxReader implements HSSFListener, ExcelSaxReader<Excel03Sax
 	 * @return sheet索引，从0开始
 	 * @since 5.5.5
 	 */
-	private int getSheetIndex(final String idOrRidOrSheetName) {
+	private int getRid(final String idOrRidOrSheetName) {
 		Assert.notBlank(idOrRidOrSheetName, "id or rid or sheetName must be not blank!");
 
 		// rid直接处理
