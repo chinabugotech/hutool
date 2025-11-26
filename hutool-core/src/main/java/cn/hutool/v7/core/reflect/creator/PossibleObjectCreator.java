@@ -46,7 +46,7 @@ import java.util.*;
  *
  * @param <T> 对象类型
  */
-public class PossibleObjectCreator<T> implements ObjectCreator<T> {
+public record PossibleObjectCreator<T>(Class<T> clazz) implements ObjectCreator<T> {
 
 	/**
 	 * 创建默认的对象实例化器
@@ -58,8 +58,6 @@ public class PossibleObjectCreator<T> implements ObjectCreator<T> {
 	public static <T> PossibleObjectCreator<T> of(final Class<T> clazz) {
 		return new PossibleObjectCreator<>(clazz);
 	}
-
-	final Class<T> clazz;
 
 	/**
 	 * 构造
@@ -120,20 +118,34 @@ public class PossibleObjectCreator<T> implements ObjectCreator<T> {
 	}
 
 	/**
-	 * 某些特殊接口的实例化按照默认实现进行
+	 * 对于某些特殊的接口，按照其默认实现实例化，例如：
+	 * <pre>
+	 *     Map       -》 HashMap
+	 *     List      -》 ArrayList
+	 *     Set       -》 HashSet
+	 *     Queue     -》 LinkedList
+	 *     Deque     -》 LinkedList
+	 *     Collection-》 ArrayList
+	 * </pre>
 	 *
 	 * @param type 类型
 	 * @return 默认类型
 	 */
 	private static Class<?> resolveType(final Class<?> type) {
-		if (type.isAssignableFrom(AbstractMap.class)) {
-			return HashMap.class;
-		} else if (type.isAssignableFrom(List.class)) {
-			return ArrayList.class;
-		} else if (type == SortedSet.class) {
-			return TreeSet.class;
-		} else if (type.isAssignableFrom(Set.class)) {
-			return HashSet.class;
+		if (Object.class != type) {
+			if (type.isAssignableFrom(AbstractMap.class)) {
+				return HashMap.class;
+			} else if (type.isAssignableFrom(List.class)) {
+				return ArrayList.class;
+			} else if (type == SortedSet.class) {
+				return TreeSet.class;
+			} else if (type.isAssignableFrom(Set.class)) {
+				return HashSet.class;
+			} else if (type.isAssignableFrom(Queue.class)) {
+				return LinkedList.class;
+			} else if (type.isAssignableFrom(Deque.class)) {
+				return LinkedList.class;
+			}
 		}
 
 		return type;

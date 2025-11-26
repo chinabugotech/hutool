@@ -133,9 +133,11 @@ public class ConstructorUtil {
 	 * 对于某些特殊的接口，按照其默认实现实例化，例如：
 	 * <pre>
 	 *     Map       -》 HashMap
-	 *     Collction -》 ArrayList
 	 *     List      -》 ArrayList
 	 *     Set       -》 HashSet
+	 *     Queue     -》 LinkedList
+	 *     Deque     -》 LinkedList
+	 *     Collection-》 ArrayList
 	 * </pre>
 	 *
 	 * @param <T>  对象类型

@@ -16,42 +16,42 @@
 
 package cn.hutool.v7.core.reflect;
 
+import cn.hutool.v7.core.date.Week;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import cn.hutool.v7.core.date.Week;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.Collection;
-import java.util.Hashtable;
-import java.util.Map;
+import java.util.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ConstructorUtilTest {
 	@Test
 	public void noneStaticInnerClassTest() {
 		final ReflectTestBeans.NoneStaticClass testAClass = ConstructorUtil.newInstanceIfPossible(ReflectTestBeans.NoneStaticClass.class);
-		Assertions.assertNotNull(testAClass);
-		Assertions.assertEquals(2, testAClass.getA());
+		assertNotNull(testAClass);
+		assertEquals(2, testAClass.getA());
 	}
 
 	@Test
 	public void newInstanceIfPossibleTest(){
 		//noinspection ConstantConditions
 		final int intValue = ConstructorUtil.newInstanceIfPossible(int.class);
-		Assertions.assertEquals(0, intValue);
+		assertEquals(0, intValue);
 
 		final Integer integer = ConstructorUtil.newInstanceIfPossible(Integer.class);
-		Assertions.assertEquals(Integer.valueOf(0), integer);
+		assertEquals(Integer.valueOf(0), integer);
 
 		final Map<?, ?> map = ConstructorUtil.newInstanceIfPossible(Map.class);
-		Assertions.assertNotNull(map);
+		assertNotNull(map);
 
 		final Collection<?> collection = ConstructorUtil.newInstanceIfPossible(Collection.class);
-		Assertions.assertNotNull(collection);
+		assertNotNull(collection);
 
 		final Week week = ConstructorUtil.newInstanceIfPossible(Week.class);
-		Assertions.assertEquals(Week.SUNDAY, week);
+		assertEquals(Week.SUNDAY, week);
 
 		final int[] intArray = ConstructorUtil.newInstanceIfPossible(int[].class);
 		Assertions.assertArrayEquals(new int[0], intArray);
@@ -61,20 +61,20 @@ public class ConstructorUtilTest {
 	void newInstanceTest() {
 		final TestBean testBean = ConstructorUtil.newInstance(TestBean.class);
 		Assertions.assertNull(testBean.getA());
-		Assertions.assertEquals(0, testBean.getB());
+		assertEquals(0, testBean.getB());
 	}
 
 	@Test
 	void newInstanceAllArgsTest() {
 		final TestBean testBean = ConstructorUtil.newInstance(TestBean.class, "aValue", 1);
-		Assertions.assertEquals("aValue", testBean.getA());
-		Assertions.assertEquals(1, testBean.getB());
+		assertEquals("aValue", testBean.getA());
+		assertEquals(1, testBean.getB());
 	}
 
 	@Test
 	void newInstanceHashtableTest() {
 		final Hashtable<?, ?> testBean = ConstructorUtil.newInstance(Hashtable.class);
-		Assertions.assertNotNull(testBean);
+		assertNotNull(testBean);
 	}
 
 	@Data
@@ -83,5 +83,44 @@ public class ConstructorUtilTest {
 	private static class TestBean{
 		private String a;
 		private int b;
+	}
+
+	@Test
+	public void newInstanceIfPossibleTest2() {
+		// 测试Object.class不应该被错误地实例化为HashMap，应该返回Object实例
+		final Object objectInstance = ConstructorUtil.newInstanceIfPossible(Object.class);
+		assertNotNull(objectInstance);
+		assertEquals(Object.class, objectInstance.getClass());
+
+		// 测试Map.class能够正确实例化为HashMap
+		final Map<?, ?> mapInstance = ConstructorUtil.newInstanceIfPossible(Map.class);
+		assertNotNull(mapInstance);
+		assertInstanceOf(HashMap.class, mapInstance);
+
+		// 测试Collection.class能够正确实例化为ArrayList
+		final Collection<?> collectionInstance = ConstructorUtil.newInstanceIfPossible(Collection.class);
+		assertNotNull(collectionInstance);
+		assertInstanceOf(ArrayList.class, collectionInstance);
+
+
+		// 测试List.class能够正确实例化为ArrayList
+		final List<?> listInstance = ConstructorUtil.newInstanceIfPossible(List.class);
+		assertNotNull(listInstance);
+		assertInstanceOf(ArrayList.class, listInstance);
+
+		// 测试Set.class能够正确实例化为HashSet
+		final Set<?> setInstance = ConstructorUtil.newInstanceIfPossible(Set.class);
+		assertNotNull(setInstance);
+		assertInstanceOf(HashSet.class, setInstance);
+
+		// 测试Queue接口能够正确实例化为LinkedList
+		final Queue<?> queueInstance = ConstructorUtil.newInstanceIfPossible(Queue.class);
+		assertNotNull(queueInstance);
+		assertInstanceOf(LinkedList.class, queueInstance);
+
+		// 测试Deque接口能够正确实例化为LinkedList
+		final Deque<?> dequeInstance = ConstructorUtil.newInstanceIfPossible(Deque.class);
+		assertNotNull(dequeInstance);
+		assertInstanceOf(LinkedList.class, dequeInstance);
 	}
 }
