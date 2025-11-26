@@ -51,7 +51,7 @@ public record FontStyle(Font font, Color color) {
 		run.setBold(font.isBold());
 		run.setItalic(font.isItalic());
 		if (null != color) {
-			run.setColor(String.format("%02X", color.getRGB()));
+			run.setColor(String.format("%06X", color.getRGB() & 0xFFFFFF));
 		}
 	}
 }
