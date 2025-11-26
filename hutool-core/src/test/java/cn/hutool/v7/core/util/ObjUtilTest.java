@@ -20,6 +20,7 @@ import cn.hutool.v7.core.collection.ListUtil;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import cn.hutool.v7.core.convert.ConvertUtil;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -30,8 +31,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.function.Function;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * test for {@link ObjUtil}
@@ -43,23 +43,23 @@ public class ObjUtilTest {
 	public void equalsTest() {
 		Object a = null;
 		Object b = null;
-		Assertions.assertTrue(ObjUtil.equals(a, b));
+		assertTrue(ObjUtil.equals(a, b));
 
 		a = new BigDecimal("1.1");
 		b = new BigDecimal("1.10");
-		Assertions.assertTrue(ObjUtil.equals(a, b));
+		assertTrue(ObjUtil.equals(a, b));
 
 		a = 127;
 		b = 127;
-		Assertions.assertTrue(ObjUtil.equals(a, b));
+		assertTrue(ObjUtil.equals(a, b));
 
 		a = 128;
 		b = 128;
-		Assertions.assertTrue(ObjUtil.equals(a, b));
+		assertTrue(ObjUtil.equals(a, b));
 
 		a = LocalDateTime.of(2022, 5, 29, 22, 11);
 		b = LocalDateTime.of(2022, 5, 29, 22, 11);
-		Assertions.assertTrue(ObjUtil.equals(a, b));
+		assertTrue(ObjUtil.equals(a, b));
 
 		a = 1;
 		b = 1.0;
@@ -86,20 +86,20 @@ public class ObjUtilTest {
 
 	@Test
 	public void containsTest(){
-		Assertions.assertTrue(ObjUtil.contains(new int[]{1,2,3,4,5}, 1));
+		assertTrue(ObjUtil.contains(new int[]{1,2,3,4,5}, 1));
 		assertFalse(ObjUtil.contains(null, 1));
-		Assertions.assertTrue(ObjUtil.contains("123", "3"));
+		assertTrue(ObjUtil.contains("123", "3"));
 		final Map<Integer, Integer> map = new HashMap<>();
 		map.put(1, 1);
 		map.put(2, 2);
-		Assertions.assertTrue(ObjUtil.contains(map, 1));
-		Assertions.assertTrue(ObjUtil.contains(Arrays.asList(1, 2, 3).iterator(), 2));
+		assertTrue(ObjUtil.contains(map, 1));
+		assertTrue(ObjUtil.contains(Arrays.asList(1, 2, 3).iterator(), 2));
 	}
 
 	@SuppressWarnings("ConstantConditions")
 	@Test
 	public void isNullTest() {
-		Assertions.assertTrue(ObjUtil.isNull(null));
+		assertTrue(ObjUtil.isNull(null));
 	}
 
 	@SuppressWarnings("ConstantConditions")
@@ -110,12 +110,12 @@ public class ObjUtilTest {
 
 	@Test
 	public void isEmptyTest() {
-		Assertions.assertTrue(ObjUtil.isEmpty(null));
-		Assertions.assertTrue(ObjUtil.isEmpty(new int[0]));
-		Assertions.assertTrue(ObjUtil.isEmpty(""));
-		Assertions.assertTrue(ObjUtil.isEmpty(Collections.emptyList()));
-		Assertions.assertTrue(ObjUtil.isEmpty(Collections.emptyMap()));
-		Assertions.assertTrue(ObjUtil.isEmpty(Collections.emptyIterator()));
+		assertTrue(ObjUtil.isEmpty(null));
+		assertTrue(ObjUtil.isEmpty(new int[0]));
+		assertTrue(ObjUtil.isEmpty(""));
+		assertTrue(ObjUtil.isEmpty(Collections.emptyList()));
+		assertTrue(ObjUtil.isEmpty(Collections.emptyMap()));
+		assertTrue(ObjUtil.isEmpty(Collections.emptyIterator()));
 	}
 
 	@Test
@@ -208,18 +208,18 @@ public class ObjUtilTest {
 	public void isBasicTypeTest(){
 		final int a = 1;
 		final boolean basicType = ObjUtil.isBasicType(a);
-		Assertions.assertTrue(basicType);
+		assertTrue(basicType);
 	}
 
 	@Test
 	public void isValidIfNumberTest() {
-		Assertions.assertTrue(ObjUtil.isValidIfNumber(null));
+		assertTrue(ObjUtil.isValidIfNumber(null));
 		assertFalse(ObjUtil.isValidIfNumber(Double.NEGATIVE_INFINITY));
 		assertFalse(ObjUtil.isValidIfNumber(Double.NaN));
-		Assertions.assertTrue(ObjUtil.isValidIfNumber(Double.MIN_VALUE));
+		assertTrue(ObjUtil.isValidIfNumber(Double.MIN_VALUE));
 		assertFalse(ObjUtil.isValidIfNumber(Float.NEGATIVE_INFINITY));
 		assertFalse(ObjUtil.isValidIfNumber(Float.NaN));
-		Assertions.assertTrue(ObjUtil.isValidIfNumber(Float.MIN_VALUE));
+		assertTrue(ObjUtil.isValidIfNumber(Float.MIN_VALUE));
 	}
 
 	@Test
@@ -301,4 +301,63 @@ public class ObjUtilTest {
 	@SuppressWarnings("unused")
 	private interface TypeArgument<A, B> {}
 
+	@Test
+	public void testContainsElementToStringReturnsNull() {
+		final Object problematicElement = new CharSequence() {
+			@Override
+			public int length() {
+				return 0;
+			}
+
+			@Override
+			public char charAt(final int index) {
+				return 0;
+			}
+
+			@SuppressWarnings("DataFlowIssue")
+			@NotNull
+			@Override
+			public CharSequence subSequence(final int start, final int end) {
+				return null;
+			}
+
+			@SuppressWarnings("NullableProblems")
+			@Override
+			public String toString() {
+				return null;
+			}
+		};
+		assertFalse(ObjUtil.contains("test", problematicElement)); //不会抛异常
+	}
+
+	@Test
+	public void testContainsElementToStringInvalidSyntax() {
+		//字符串包含自定义User对象不符合语义
+		assertFalse(ObjUtil.contains("User[id=123]", new User(123)));
+	}
+
+
+	static class User{
+		private int id;
+		public User(final int id) {
+			this.id = id;
+		}
+		@Override
+		public String toString() {
+			return "User[" +
+				"id=" + id +
+				']';
+		}
+	}
+
+	@Test
+	public void testContainsCharSequenceSupported() {
+		//contains方法支持String、StringBuilder、StringBuffer
+		final StringBuilder stringBuilder = new StringBuilder("hello world");
+		final StringBuffer stringBuffer = new StringBuffer("hello world");
+		final String str = "hello world";
+		assertTrue((ObjUtil.contains(stringBuilder, "world")));
+		assertTrue(ObjUtil.contains(stringBuffer, "hello"));
+		assertTrue(ObjUtil.contains(str, "hello"));
+	}
 }

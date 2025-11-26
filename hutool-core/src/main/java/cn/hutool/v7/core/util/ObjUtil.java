@@ -153,11 +153,23 @@ public class ObjUtil {
 		if (obj == null) {
 			return false;
 		}
-		if (obj instanceof String) {
-			if (element == null) {
+		if (obj instanceof CharSequence) {
+			if (!(element instanceof CharSequence)) {
 				return false;
 			}
-			return ((String) obj).contains(element.toString());
+			final String elementStr;
+			try {
+				elementStr = element.toString();
+				// 检查 toString() 返回 null 的情况
+			} catch (final Exception e) {
+				// 如果toString抛异常，认为不包含
+				return false;
+			}
+			//noinspection ConstantValue
+			if(null == elementStr){
+				return false;
+			}
+			return obj.toString().contains(elementStr);
 		}
 		if (obj instanceof Collection) {
 			return ((Collection<?>) obj).contains(element);
