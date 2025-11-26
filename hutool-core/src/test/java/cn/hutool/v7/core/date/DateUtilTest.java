@@ -1149,4 +1149,31 @@ public class DateUtilTest {
 		final DateTime dt = DateUtil.parse(dateStr1);
 		assertEquals("2025-07-28 20:00:00", dt.toString());
 	}
+
+	@Test
+	public void cellingAmPmTest(){
+		final String dateStr2 = "2020-02-29 10:59:34";
+		final Date date2 = DateUtil.parse(dateStr2);
+
+
+		DateTime dateTime = DateUtil.ceiling(date2, DateField.AM_PM, false);
+		assertEquals("2020-02-29 11:59:59.999", dateTime.toString(DateFormatPool.NORM_DATETIME_MS_PATTERN));
+
+		dateTime = DateUtil.ceiling(date2, DateField.AM_PM, true);
+		assertEquals("2020-02-29 11:59:59.000", dateTime.toString(DateFormatPool.NORM_DATETIME_MS_PATTERN));
+	}
+
+	@Test void roundAmPmTest() {
+		final String dateStr = "2020-02-29 13:59:34";
+		final Date date = DateUtil.parse(dateStr);
+
+		final DateTime dateTime = DateUtil.round(date, DateField.AM_PM);
+		assertEquals("2020-02-29 12:59:59.000", dateTime.toString(DateFormatPool.NORM_DATETIME_MS_PATTERN));
+
+		final String dateStr2 = "2020-02-29 18:59:34";
+		final Date date2 = DateUtil.parse(dateStr2);
+
+		final DateTime dateTime2 = DateUtil.round(date2, DateField.AM_PM);
+		assertEquals("2020-02-29 23:59:59.000", dateTime2.toString(DateFormatPool.NORM_DATETIME_MS_PATTERN));
+	}
 }
