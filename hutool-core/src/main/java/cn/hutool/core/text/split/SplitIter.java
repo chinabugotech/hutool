@@ -71,29 +71,28 @@ public class SplitIter extends ComputeIter<String> implements Serializable {
 			return text.substring(offset);
 		}
 
-		final int start = finder.start(offset);
-		// 无分隔符，结束
-		if (start < 0) {
-			// 如果不再有分隔符，但是遗留了字符，则单独作为一个段
-			if (offset <= text.length()) {
-				final String result = text.substring(offset);
-				if (false == ignoreEmpty || false == result.isEmpty()) {
-					// 返回非空串
-					offset = Integer.MAX_VALUE;
-					return result;
+		String result = null;
+		int start;
+		do {
+			start = finder.start(offset);
+			// 无分隔符，结束
+			if (start < 0) {
+				// 如果不再有分隔符，但是遗留了字符，则单独作为一个段
+				if (offset <= text.length()) {
+					result = text.substring(offset);
+					if (!ignoreEmpty || !result.isEmpty()) {
+						// 返回非空串
+						offset = Integer.MAX_VALUE;
+						return result;
+					}
 				}
+				return null;
 			}
-			return null;
-		}
 
-		// 找到新的分隔符位置
-		final String result = text.substring(offset, start);
-		offset = finder.end(start);
-
-		if (ignoreEmpty && result.isEmpty()) {
-			// 发现空串且需要忽略时，跳过之
-			return computeNext();
-		}
+			// 找到新的分隔符位置
+			result = text.substring(offset, start);
+			offset = finder.end(start);
+		} while (ignoreEmpty && result.isEmpty()); // 空串则继续循环
 
 		count++;
 		return result;

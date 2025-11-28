@@ -6,6 +6,7 @@ import cn.hutool.core.text.finder.PatternFinder;
 import cn.hutool.core.text.finder.StrFinder;
 import org.junit.jupiter.api.Test;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -152,5 +153,19 @@ public class SplitIterTest {
 			final List<String> strings = splitIter.toList(false);
 			assertEquals(1, strings.size());
 		});
+	}
+
+	@Test
+	public void issue4169Test() {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < 20000; i++) { // 1万次连续分隔符，模拟递归深度风险场景
+			sb.append(",");
+		}
+		sb.append("test");
+
+		SplitIter iter = new SplitIter(sb.toString(), new StrFinder(",",false), 0, true);
+		List<String> result = iter.toList(false);
+
+		assertEquals(Collections.singletonList("test"), result);
 	}
 }
