@@ -24,9 +24,9 @@ import java.io.InputStream;
 
 /**
  * Sax方式读取Excel接口，提供一些共用方法
- * @author Looly
  *
  * @param <T> 子对象类型，用于标记返回值this
+ * @author Looly
  * @since 3.2.0
  */
 public interface ExcelSaxReader<T> {
@@ -41,29 +41,41 @@ public interface ExcelSaxReader<T> {
 	String SHEET_NAME_PREFIX = "sheetName:";
 
 	/**
-	 * 开始读取Excel
+	 * 开始从文件中读取Excel
 	 *
-	 * @param file Excel文件
-	 * @param idOrRidOrSheetName Excel中的sheet id或者rid编号或sheet名称，rid必须加rId前缀，例如rId1，如果为-1处理所有编号的sheet
+	 * @param file               Excel文件
+	 * @param idOrRidOrSheetName Excel中的sheet id或者rid编号或sheet名称，规则如下：
+	 *                           <ul>
+	 *                             <li>如果为-1，处理所有编号的sheet</li>
+	 *                             <li>如果为rId开头，例如rId1，表示读取指定编号的sheet，从1计数，即rId1表示第一个sheet</li>
+	 *                             <li>如果为sheet名称，例如sheet1，直接读取名车给对应sheet</li>
+	 *                             <li>如果为纯数字，在03中表示index，从0开始，07中表示sheet id，从1开始</li>
+	 *                           </ul>
 	 * @return this
 	 * @throws POIException POI异常
 	 */
 	T read(File file, String idOrRidOrSheetName) throws POIException;
 
 	/**
-	 * 开始读取Excel，读取结束后并不关闭流
+	 * 开始从流中读取Excel，读取结束后并不关闭流
 	 *
-	 * @param in Excel流
-	 * @param idOrRidOrSheetName Excel中的sheet id或者rid编号，rid必须加rId前缀，例如rId1，如果为-1处理所有编号的sheet
+	 * @param in                 Excel流
+	 * @param idOrRidOrSheetName Excel中的sheet id或者rid编号或sheet名称，规则如下：
+	 *                           <ul>
+	 *                             <li>如果为-1，处理所有编号的sheet</li>
+	 *                             <li>如果为rId开头，例如rId1，表示读取指定编号的sheet，从1计数，即rId1表示第一个sheet</li>
+	 *                             <li>如果为sheet名称，例如sheet1，直接读取名车给对应sheet</li>
+	 *                             <li>如果为纯数字，在03中表示index，从0开始，07中表示sheet id，从1开始</li>
+	 *                           </ul>
 	 * @return this
 	 * @throws POIException POI异常
 	 */
 	T read(InputStream in, String idOrRidOrSheetName) throws POIException;
 
 	/**
-	 * 开始读取Excel，读取所有sheet
+	 * 开始从路径中读取Excel，读取所有sheet
 	 *
-	 * @param path Excel文件路径
+	 * @param path Excel文件路径，如果是相对路径，则相对classpath
 	 * @return this
 	 * @throws POIException POI异常
 	 */
@@ -72,7 +84,7 @@ public interface ExcelSaxReader<T> {
 	}
 
 	/**
-	 * 开始读取Excel，读取所有sheet
+	 * 开始从文件中读取Excel，读取所有sheet
 	 *
 	 * @param file Excel文件
 	 * @return this
@@ -83,7 +95,7 @@ public interface ExcelSaxReader<T> {
 	}
 
 	/**
-	 * 开始读取Excel，读取所有sheet，读取结束后并不关闭流
+	 * 开始从流中读取Excel，读取所有sheet，读取结束后并不关闭流
 	 *
 	 * @param in Excel包流
 	 * @return this
@@ -94,22 +106,28 @@ public interface ExcelSaxReader<T> {
 	}
 
 	/**
-	 * 开始读取Excel
+	 * 开始从路径中读取Excel
 	 *
-	 * @param path 文件路径
-	 * @param idOrRidOrSheetName Excel中的sheet id或者rid编号或sheet名称，rid必须加rId前缀，例如rId1，如果为-1处理所有编号的sheet
+	 * @param path    文件路径，如果是相对路径，则相对classpath
+	 * @param idOrRid Excel中的sheet id或者rid编号，rid必须加rId前缀，例如rId1，如果为-1处理所有编号的sheet
 	 * @return this
 	 * @throws POIException POI异常
 	 */
-	default T read(final String path, final int idOrRidOrSheetName) throws POIException {
-		return read(FileUtil.file(path), idOrRidOrSheetName);
+	default T read(final String path, final int idOrRid) throws POIException {
+		return read(FileUtil.file(path), idOrRid);
 	}
 
 	/**
 	 * 开始读取Excel
 	 *
-	 * @param path 文件路径
-	 * @param idOrRidOrSheetName Excel中的sheet id或者rid编号或sheet名称，rid必须加rId前缀，例如rId1，如果为-1处理所有编号的sheet
+	 * @param path               文件路径
+	 * @param idOrRidOrSheetName Excel中的sheet id或者rid编号或sheet名称，规则如下：
+	 *                           <ul>
+	 *                             <li>如果为-1，处理所有编号的sheet</li>
+	 *                             <li>如果为rId开头，例如rId1，表示读取指定编号的sheet，从1计数，即rId1表示第一个sheet</li>
+	 *                             <li>如果为sheet名称，例如sheet1，直接读取名车给对应sheet</li>
+	 *                             <li>如果为纯数字，在03中表示index，从0开始，07中表示sheet id，从1开始</li>
+	 *                           </ul>
 	 * @return this
 	 * @throws POIException POI异常
 	 */
@@ -118,26 +136,34 @@ public interface ExcelSaxReader<T> {
 	}
 
 	/**
-	 * 开始读取Excel
+	 * 开始从文件中读取Excel
 	 *
-	 * @param file Excel文件
-	 * @param rid Excel中的sheet rid编号，如果为-1处理所有编号的sheet
+	 * @param file    Excel文件
+	 * @param idOrRid Excel中的sheet id或者rid编号，规则如下：
+	 *                           <ul>
+	 *                             <li>如果为-1，处理所有编号的sheet</li>
+	 *                             <li>如果为纯数字，在03中表示index，从0开始，07中表示sheet id，从1开始</li>
+	 *                           </ul>
 	 * @return this
 	 * @throws POIException POI异常
 	 */
-	default T read(final File file, final int rid) throws POIException{
-		return read(file, String.valueOf(rid));
+	default T read(final File file, final int idOrRid) throws POIException {
+		return read(file, String.valueOf(idOrRid));
 	}
 
 	/**
-	 * 开始读取Excel，读取结束后并不关闭流
+	 * 开始从流中读取Excel，读取结束后并不关闭流
 	 *
-	 * @param in Excel流
-	 * @param rid Excel中的sheet rid编号，如果为-1处理所有编号的sheet
+	 * @param in      Excel流
+	 * @param idOrRid Excel中的sheet id或者rid编号，规则如下：
+	 *                           <ul>
+	 *                             <li>如果为-1，处理所有编号的sheet</li>
+	 *                             <li>如果为纯数字，在03中表示index，从0开始，07中表示sheet id，从1开始</li>
+	 *                           </ul>
 	 * @return this
 	 * @throws POIException POI异常
 	 */
-	default T read(final InputStream in, final int rid) throws POIException{
-		return read(in, String.valueOf(rid));
+	default T read(final InputStream in, final int idOrRid) throws POIException {
+		return read(in, String.valueOf(idOrRid));
 	}
 }

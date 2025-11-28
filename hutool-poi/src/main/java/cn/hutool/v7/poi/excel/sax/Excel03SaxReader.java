@@ -133,7 +133,7 @@ public class Excel03SaxReader implements HSSFListener, ExcelSaxReader<Excel03Sax
 	 * @throws POIException IO异常包装
 	 */
 	public Excel03SaxReader read(final POIFSFileSystem fs, final String idOrRidOrSheetName) throws POIException {
-		this.sheetIndex = getSheetIndex(idOrRidOrSheetName);
+		initSheetIndexOrSheetName(idOrRidOrSheetName);
 
 		formatListener = new FormatTrackingHSSFListener(new MissingRecordAwareHSSFListener(this));
 		final HSSFRequest request = new HSSFRequest();
@@ -373,33 +373,33 @@ public class Excel03SaxReader implements HSSFListener, ExcelSaxReader<Excel03Sax
 	/**
 	 * 获取sheet索引，从0开始
 	 * <ul>
-	 *     <li>Excel03中没有rid概念，如果传入'rId'开头，直接去除rId前缀，按照sheetIndex对待</li>
+	 *     <li>Excel03中没有rid概念，如果传入'rId'开头，rid从1开始计数，直接去除rId前缀并减1，转换为sheetIndex</li>
 	 *     <li>传入纯数字，表示sheetIndex</li>
+	 *     <li>传入sheet名称，例如'sheet1'，则读取sheetName，sheetIndex使用-1表示。</li>
 	 * </ul>
 	 *
-	 * @param idOrRidOrSheetName Excel中的sheet id或者rid编号或sheet名称，从0开始，rid必须加rId前缀，例如rId0，如果为-1处理所有编号的sheet
-	 * @return sheet索引，从0开始
+	 * @param idOrRidOrSheetName Excel中的sheet id或者rid编号或sheet名称，从0开始，rid必须加rId前缀，例如rId1，从1开始，如果为-1处理所有编号的sheet
 	 * @since 5.5.5
 	 */
-	private int getSheetIndex(final String idOrRidOrSheetName) {
+	private void initSheetIndexOrSheetName(final String idOrRidOrSheetName) {
 		Assert.notBlank(idOrRidOrSheetName, "id or rid or sheetName must be not blank!");
 
 		// rid直接处理
 		if (StrUtil.startWithIgnoreCase(idOrRidOrSheetName, RID_PREFIX)) {
-			return Integer.parseInt(StrUtil.removePrefixIgnoreCase(idOrRidOrSheetName, RID_PREFIX));
+			// rid从1开始计数，此处转换为从0开始的索引
+			this.sheetIndex = Integer.parseInt(StrUtil.removePrefixIgnoreCase(idOrRidOrSheetName, RID_PREFIX)) - 1;
 		} else if(StrUtil.startWithIgnoreCase(idOrRidOrSheetName, SHEET_NAME_PREFIX)){
 			// since 5.7.10，支持任意名称
 			this.sheetName = StrUtil.removePrefixIgnoreCase(idOrRidOrSheetName, SHEET_NAME_PREFIX);
 		} else {
+			// 传入纯数字，表示sheetIndex
 			try {
-				return Integer.parseInt(idOrRidOrSheetName);
+				this.sheetIndex = Integer.parseInt(idOrRidOrSheetName);
 			} catch (final NumberFormatException ignore) {
 				// 如果用于传入非数字，按照sheet名称对待
 				this.sheetName = idOrRidOrSheetName;
 			}
 		}
-
-		return -1;
 	}
 	// ---------------------------------------------------------------------------------------------- Private method end
 }

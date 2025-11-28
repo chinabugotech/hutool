@@ -20,6 +20,7 @@ import cn.hutool.v7.core.lang.Console;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -151,5 +152,52 @@ public class ArrangementTest {
 		assertArrayEquals(new String[]{"1"}, all.get(0));
 		assertArrayEquals(new String[]{"1", "2"}, all.get(3));
 		assertArrayEquals(new String[]{"1", "2", "3"}, all.get(9));
+	}
+
+	// ----------------------------------------------------
+	// 迭代器测试
+	// ----------------------------------------------------
+	@Test
+	public void iteratorTest() {
+		final Arrangement arrangement = new Arrangement(new String[]{"1", "2", "3"});
+
+		// 测试 m=2 的情况
+		final List<String[]> iterResult = new ArrayList<>();
+		for (final String[] perm : arrangement.iterate(2)) {
+			iterResult.add(perm);
+		}
+
+		assertEquals(6, iterResult.size());
+		assertArrayEquals(new String[]{"1", "2"}, iterResult.get(0));
+		assertArrayEquals(new String[]{"1", "3"}, iterResult.get(1));
+		assertArrayEquals(new String[]{"2", "1"}, iterResult.get(2));
+		assertArrayEquals(new String[]{"2", "3"}, iterResult.get(3));
+		assertArrayEquals(new String[]{"3", "1"}, iterResult.get(4));
+		assertArrayEquals(new String[]{"3", "2"}, iterResult.get(5));
+	}
+
+	@Test
+	public void iteratorFullTest() {
+		final Arrangement arrangement = new Arrangement(new String[]{"1", "2", "3"});
+
+		// 测试全排列的情况
+		final List<String[]> iterResult = new ArrayList<>();
+		for (final String[] perm : arrangement.iterate(3)) {
+			iterResult.add(perm);
+		}
+
+		assertEquals(6, iterResult.size());
+	}
+
+	@Test
+	public void iteratorBoundaryTest() {
+		final Arrangement arrangement = new Arrangement(new String[]{"1", "2", "3"});
+
+		// 测试 m > n 的情况
+		final List<String[]> iterResult = new ArrayList<>();
+		for (final String[] perm : arrangement.iterate(5)) {
+			iterResult.add(perm);
+		}
+		assertTrue(iterResult.isEmpty());
 	}
 }

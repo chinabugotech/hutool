@@ -16,8 +16,6 @@
 
 package cn.hutool.v7.core.math;
 
-import cn.hutool.v7.core.array.ArrayUtil;
-
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.*;
@@ -74,7 +72,7 @@ public class Arrangement implements Serializable {
 		long result = 1;
 		// 从 n 到 n-m+1 逐个乘
 		for (int i = 0; i < m; i++) {
-			long next = result * (n - i);
+			final long next = result * (n - i);
 			// 溢出检测
 			if (next < result) {
 				throw new ArithmeticException("Overflow computing A(" + n + "," + m + ")");
@@ -149,11 +147,11 @@ public class Arrangement implements Serializable {
 			return Collections.singletonList(new String[0]);
 		}
 
-		long estimated = count(datas.length, m);
-		int capacity = estimated > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int) estimated;
+		final long estimated = count(datas.length, m);
+		final int capacity = estimated > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int) estimated;
 
-		List<String[]> result = new ArrayList<>(capacity);
-		boolean[] visited = new boolean[datas.length];
+		final List<String[]> result = new ArrayList<>(capacity);
+		final boolean[] visited = new boolean[datas.length];
 		dfs(new String[m], 0, visited, result);
 		return result;
 	}
@@ -194,7 +192,7 @@ public class Arrangement implements Serializable {
 	 * @param m 选择的元素个数
 	 * @return 排列迭代器
 	 */
-	public Iterable<String[]> iterate(int m) {
+	public Iterable<String[]> iterate(final int m) {
 		return () -> new ArrangementIterator(datas, m);
 	}
 
@@ -208,10 +206,18 @@ public class Arrangement implements Serializable {
 
 		private final String[] datas;
 		private final int m;
+		private final int n;
 		private final boolean[] visited;
 		private final String[] buffer;
-		private final Deque<Integer> stack = new ArrayDeque<>();
-		boolean end = false;
+
+		// 每一层记录当前尝试的下标，-1表示还未尝试
+		private final int[] indices;
+		private int depth;
+		private boolean end;
+
+		// 预取下一个元素
+		private String[] nextItem;
+		private boolean nextPrepared;
 
 		/**
 		 * 构造函数
@@ -219,62 +225,137 @@ public class Arrangement implements Serializable {
 		 * @param datas 数据数组
 		 * @param m     选择的元素个数
 		 */
-		ArrangementIterator(String[] datas, int m) {
+		ArrangementIterator(final String[] datas, final int m) {
 			this.datas = datas;
 			this.m = m;
-			this.visited = new boolean[datas.length];
-			this.buffer = new String[m];
-			// 初始化 dfs 栈
-			stack.push(0);
+			this.n = datas.length;
+			this.visited = new boolean[n];
+			this.nextItem = null;
+			this.nextPrepared = false;
+
+			if (m < 0 || m > n) {
+				// 无效或无解，直接结束
+				this.indices = new int[Math.max(1, m)];
+				this.buffer = new String[Math.max(1, m)];
+				this.depth = -1;
+				this.end = true;
+			} else if (m == 0) {
+				// m == 0: 只返回一个空数组
+				this.indices = new int[0];
+				this.buffer = new String[0];
+				this.depth = 0;
+				this.end = false;
+			} else {
+				this.indices = new int[m];
+				Arrays.fill(this.indices, -1);
+				this.buffer = new String[m];
+				this.depth = 0;
+				this.end = false;
+			}
 		}
 
 		@Override
 		public boolean hasNext() {
-			return !end;
+			if (end) {
+				return false;
+			}
+			if (nextPrepared) {
+				return nextItem != null;
+			}
+			prepareNext();
+			return nextItem != null;
 		}
 
 		@Override
 		public String[] next() {
-			while (!stack.isEmpty()) {
-				int depth = stack.size() - 1;
+			if (end && !nextPrepared) {
+				throw new NoSuchElementException();
+			}
+			if (!nextPrepared) {
+				prepareNext();
+			}
+			if (nextItem == null) {
+				throw new NoSuchElementException();
+			}
+			final String[] ret = nextItem;
+			// 清除预取缓存，下一次需要重新准备
+			nextItem = null;
+			nextPrepared = false;
+			// 如果m == 0，该项是唯一项，迭代结束
+			if (m == 0) {
+				end = true;
+			}
+			return ret;
+		}
 
-				int idx = stack.pop();
-				if (idx >= datas.length) {
-					// 这一层遍历结束
-					if (!stack.isEmpty()) {
-						int prev = stack.pop();
-						stack.push(prev + 1);
+		/**
+		 * 将状态推进到下一个可返回的排列并把它放入 nextItem。
+		 * 如果无更多排列，则将 end=true 并把 nextItem 置为 null。
+		 */
+		private void prepareNext() {
+			// 已经准备过或已结束
+			if (nextPrepared || end) {
+				nextPrepared = true;
+				return;
+			}
+
+			// special-case m == 0
+			if (m == 0) {
+				nextItem = new String[0];
+				nextPrepared = true;
+				// do not set end here; end will be set after returning this element in next()
+				return;
+			}
+
+			// 非递归模拟DFS，直到找到一个可返回的排列或穷尽
+			while (depth >= 0) {
+				final int start = indices[depth] + 1;
+				boolean found = false;
+				for (int i = start; i < n; i++) {
+					if (!visited[i]) {
+						// 如果当前层之前有选过一个元素，要先取消之前选中的 visited
+						if (indices[depth] != -1) {
+							visited[indices[depth]] = false;
+						}
+						indices[depth] = i;
+						visited[i] = true;
+						buffer[depth] = datas[i];
+						found = true;
+						break;
 					}
+				}
+
+				if (!found) {
+					// 本层没有可用元素，回溯
+					if (indices[depth] != -1) {
+						visited[indices[depth]] = false;
+						indices[depth] = -1;
+					}
+					depth--;
 					continue;
 				}
 
-				// 如果该元素未使用
-				if (!visited[idx]) {
-					visited[idx] = true;
-					buffer[depth] = datas[idx];
-
-					if (depth == m - 1) {
-						// 输出一个排列
-						visited[idx] = false;
-
-						// 下一次从 idx+1 继续
-						stack.push(idx + 1);
-
-						return Arrays.copyOf(buffer, m);
-					} else {
-						// 继续下一层
-						stack.push(idx + 1); // 当前层下一个起点
-						stack.push(0);       // 下一层起点
-						continue;
+				// 若已达到输出深度，准备输出（但不抛出）
+				if (depth == m - 1) {
+					nextItem = Arrays.copyOf(buffer, m);
+					// 取消当前visited，为下一次在同一层寻找下一个候选做准备
+					visited[indices[depth]] = false;
+					// 保持 depth 不变（下一次 prepare 会从 indices[depth]+1 开始寻找）
+					nextPrepared = true;
+					return;
+				} else {
+					// 向下一层深入：初始化下一层为-1并继续循环
+					depth++;
+					if (depth < m) {
+						indices[depth] = -1;
 					}
 				}
-
-				// 已访问则跳过
-				stack.push(idx + 1);
 			}
 
+			// 若循环结束，说明已经穷尽所有可能
 			end = true;
-			return null;
+			nextItem = null;
+			nextPrepared = true;
 		}
 	}
 
@@ -286,7 +367,7 @@ public class Arrangement implements Serializable {
 	 * @param visited 标记数组，记录哪些索引已经被使用了
 	 * @param result  结果集
 	 */
-	private void dfs(String[] current, int depth, boolean[] visited, List<String[]> result) {
+	private void dfs(final String[] current, final int depth, final boolean[] visited, final List<String[]> result) {
 		if (depth == current.length) {
 			result.add(Arrays.copyOf(current, current.length));
 			return;
