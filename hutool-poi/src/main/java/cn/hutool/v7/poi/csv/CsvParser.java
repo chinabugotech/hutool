@@ -119,7 +119,7 @@ public final class CsvParser extends ComputeIter<CsvRow> implements Closeable, S
 	/**
 	 * 读取下一行数据
 	 *
-	 * @return CsvRow，{@code null}表示
+	 * @return CsvRow，{@code null}表示读取结束
 	 * @throws IORuntimeException IO读取异常
 	 */
 	public CsvRow nextRow() throws IORuntimeException {
