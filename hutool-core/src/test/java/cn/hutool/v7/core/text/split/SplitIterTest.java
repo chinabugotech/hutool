@@ -23,8 +23,11 @@ import cn.hutool.v7.core.text.finder.StrFinder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SplitIterTest {
 
@@ -38,7 +41,7 @@ public class SplitIterTest {
 				Integer.MAX_VALUE,
 				false
 		);
-		Assertions.assertEquals(6, splitIter.toList(false).size());
+		assertEquals(6, splitIter.toList(false).size());
 	}
 
 	@Test
@@ -51,7 +54,7 @@ public class SplitIterTest {
 				Integer.MAX_VALUE,
 				false
 		);
-		Assertions.assertEquals(4, splitIter.toList(false).size());
+		assertEquals(4, splitIter.toList(false).size());
 	}
 
 	@Test
@@ -65,7 +68,7 @@ public class SplitIterTest {
 		);
 
 		final List<String> strings = splitIter.toList(false);
-		Assertions.assertEquals(4, strings.size());
+		assertEquals(4, strings.size());
 	}
 
 	@Test
@@ -79,10 +82,10 @@ public class SplitIterTest {
 		);
 
 		final List<String> strings = splitIter.toList(true);
-		Assertions.assertEquals(3, strings.size());
-		Assertions.assertEquals("a", strings.get(0));
-		Assertions.assertEquals("efedsfs", strings.get(1));
-		Assertions.assertEquals("ddf", strings.get(2));
+		assertEquals(3, strings.size());
+		assertEquals("a", strings.get(0));
+		assertEquals("efedsfs", strings.get(1));
+		assertEquals("ddf", strings.get(2));
 	}
 
 	@Test
@@ -96,7 +99,7 @@ public class SplitIterTest {
 		);
 
 		final List<String> strings = splitIter.toList(false);
-		Assertions.assertEquals(3, strings.size());
+		assertEquals(3, strings.size());
 	}
 
 	@Test
@@ -110,7 +113,7 @@ public class SplitIterTest {
 		);
 
 		final List<String> strings = splitIter.toList(false);
-		Assertions.assertEquals(3, strings.size());
+		assertEquals(3, strings.size());
 	}
 
 	@Test
@@ -123,7 +126,7 @@ public class SplitIterTest {
 		);
 
 		final List<String> strings = splitIter.toList(false);
-		Assertions.assertEquals(4, strings.size());
+		assertEquals(4, strings.size());
 	}
 
 	@Test
@@ -136,7 +139,7 @@ public class SplitIterTest {
 		);
 
 		final List<String> strings = splitIter.toList(false);
-		Assertions.assertEquals(3, strings.size());
+		assertEquals(3, strings.size());
 	}
 
 	@Test
@@ -149,7 +152,7 @@ public class SplitIterTest {
 		);
 
 		final List<String> strings = splitIter.toList(false);
-		Assertions.assertEquals(1, strings.size());
+		assertEquals(1, strings.size());
 	}
 
 	// 切割字符串是空字符串时报错
@@ -164,7 +167,21 @@ public class SplitIterTest {
 			);
 
 			final List<String> strings = splitIter.toList(false);
-			Assertions.assertEquals(1, strings.size());
+			assertEquals(1, strings.size());
 		});
+	}
+
+	@Test
+	public void issue4169Test() {
+		final StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < 20000; i++) { // 1万次连续分隔符，模拟递归深度风险场景
+			sb.append(",");
+		}
+		sb.append("test");
+
+		final SplitIter iter = new SplitIter(sb.toString(), new StrFinder(",",false), 0, true);
+		final List<String> result = iter.toList(false);
+
+		assertEquals(Collections.singletonList("test"), result);
 	}
 }

@@ -16,7 +16,6 @@
 
 package cn.hutool.v7.core.codec.binary;
 
-import cn.hutool.v7.core.text.CharUtil;
 import cn.hutool.v7.core.text.StrUtil;
 
 import java.awt.Color;
@@ -249,16 +248,42 @@ public class HexUtil extends Hex {
 	 * @param prefix 自定义前缀，如0x
 	 * @return 格式化后的字符串
 	 */
-	public static String format(final String hexStr, String prefix) {
+	public static String format(final String hexStr, final String prefix) {
+		return format(hexStr, prefix, StrUtil.SPACE);
+	}
+
+	/**
+	 * 格式化Hex字符串，结果为每2位加一个空格，类似于：
+	 * <pre>
+	 *     e8 8c 67 03 80 cb 22 00 95 26 8f
+	 * </pre>
+	 *
+	 * @param hexStr    Hex字符串
+	 * @param prefix    自定义前缀，如0x
+	 * @param separator 自定义分隔符，如空格
+	 * @return 格式化后的字符串
+	 */
+	public static String format(final String hexStr, String prefix, String separator) {
+		if (StrUtil.isEmpty(hexStr)) {
+			return StrUtil.EMPTY;
+		}
 		if (null == prefix) {
 			prefix = StrUtil.EMPTY;
+		}
+		if (null == separator) {
+			separator = StrUtil.SPACE;
 		}
 
 		final int length = hexStr.length();
 		final StringBuilder builder = StrUtil.builder(length + length / 2 + (length / 2 * prefix.length()));
-		builder.append(prefix).append(hexStr.charAt(0)).append(hexStr.charAt(1));
-		for (int i = 2; i < length - 1; i += 2) {
-			builder.append(CharUtil.SPACE).append(prefix).append(hexStr.charAt(i)).append(hexStr.charAt(i + 1));
+		for (int i = 0; i < length; i++) {
+			if (i % 2 == 0) {
+				if (i != 0) {
+					builder.append(separator);
+				}
+				builder.append(prefix);
+			}
+			builder.append(hexStr.charAt(i));
 		}
 		return builder.toString();
 	}

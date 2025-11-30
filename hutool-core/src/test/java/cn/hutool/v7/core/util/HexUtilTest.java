@@ -135,4 +135,34 @@ public class HexUtilTest {
 		final String hex3 = "#FF";
 		assertEquals(new BigInteger("FF", 16), HexUtil.toBigInteger(hex3));
 	}
+
+	@Test
+	public void testFormatEmpty() {
+		final String result = HexUtil.format("");
+		assertEquals("", result);
+	}
+
+	@Test
+	public void testFormatSingleChar() {
+		final String result = HexUtil.format("1");
+		assertEquals("1", result);
+	}
+
+	@Test
+	public void testFormatOddLength() {
+		final String result = HexUtil.format("123");
+		assertEquals("12 3", result);
+	}
+
+	@Test
+	public void testFormatWithPrefixSingleChar() {
+		final String result = HexUtil.format("1", "0x");
+		assertEquals("0x1", result);
+	}
+
+	@Test
+	public void testFormatWithPrefixOddLength() {
+		final String result = HexUtil.format("123", "0x");
+		assertEquals("0x12 0x3", result);
+	}
 }
