@@ -16,7 +16,6 @@
 
 package cn.hutool.v7.json;
 
-import lombok.Data;
 import cn.hutool.v7.core.collection.ListUtil;
 import cn.hutool.v7.core.date.DateTime;
 import cn.hutool.v7.core.date.DateUtil;
@@ -24,6 +23,7 @@ import cn.hutool.v7.core.map.MapUtil;
 import cn.hutool.v7.json.test.bean.Price;
 import cn.hutool.v7.json.test.bean.UserA;
 import cn.hutool.v7.json.test.bean.UserC;
+import lombok.Data;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -381,5 +381,11 @@ public class JSONUtilTest {
 		final Long userId = 10101010L;
 		final String jsonStr = JSONUtil.toJsonStr(userId);
 		assertEquals("10101010", jsonStr);
+	}
+
+	@Test
+	void parseEmptyTest(){
+		final JSON parse = JSONUtil.parse("");
+		assertNull(parse);
 	}
 }

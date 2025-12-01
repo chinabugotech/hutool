@@ -83,4 +83,34 @@ public class CalculatorTest {
 		result = calculator1.calculate("0+50/100X(1/0.5)");
 		assertEquals(1D, result);
 	}
+
+	@Test
+	public void scientificNotationPlusTest() {
+		// 测试科学记数法中的 + 号是否被正确处理
+		final double conversion = Calculator.conversion("1e+3");
+		assertEquals(1000.0, conversion, 0.001);
+
+		// 更复杂的科学记数法表达式
+		final double conversion2 = Calculator.conversion("2.5e+2 + 1.0e-1");
+		assertEquals(250.1, conversion2, 0.001);
+	}
+
+	@Test
+	public void unaryOperatorConsistencyTest() {
+		// 测试连续的一元运算符：双重负号--3，等同于 -( -3 ) = 3
+		final double conversion = Calculator.conversion("--3");
+		assertEquals(3.0, conversion, 0.001);
+
+		// 测试连续的一元运算符：正号后跟负号，等同于 +( -3 ) = -3
+		final double conversion2 = Calculator.conversion("+-3");
+		assertEquals(-3.0, conversion2, 0.001);
+
+		// 测试表达式开始的一元+运算符
+		final double conversion3 = Calculator.conversion("+3");
+		assertEquals(3.0, conversion3, 0.001);
+
+		// 测试表达式开始的一元-运算符
+		final double conversion4 = Calculator.conversion("-3");
+		assertEquals(-3.0, conversion4, 0.001);
+	}
 }
