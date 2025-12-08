@@ -430,6 +430,9 @@ public class ListUtil {
 	 * @since 4.0.6
 	 */
 	public static <T> List<T> reverseNew(final List<T> list) {
+		if (null == list) {
+			return null;
+		}
 		List<T> list2 = ObjUtil.clone(list);
 		if (null == list2) {
 			// 不支持clone
