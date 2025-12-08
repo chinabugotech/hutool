@@ -1,14 +1,16 @@
 package cn.hutool.v7.core.cache.impl;
 
 import cn.hutool.v7.core.cache.Cache;
-import cn.hutool.v7.core.cache.CacheStats;
-import cn.hutool.v7.core.cache.SmartCache;
+import cn.hutool.v7.core.cache.smart.CacheStats;
+import cn.hutool.v7.core.cache.smart.SmartCache;
 import cn.hutool.v7.core.collection.CollUtil;
 import cn.hutool.v7.core.collection.iter.CopiedIter;
 import cn.hutool.v7.core.collection.partition.Partition;
+import cn.hutool.v7.core.exception.HutoolException;
 import cn.hutool.v7.core.func.SerSupplier;
 import cn.hutool.v7.core.map.MapUtil;
 import cn.hutool.v7.core.text.StrUtil;
+
 import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.*;
@@ -18,6 +20,8 @@ import java.util.function.Function;
 /**
  * 智能缓存实现
  *
+ * @param <K> 缓存键类型
+ * @param <V> 缓存值类型
  * @author Nic
  */
 public class SmartCacheImpl<K, V> implements SmartCache<K, V> {
@@ -42,17 +46,26 @@ public class SmartCacheImpl<K, V> implements SmartCache<K, V> {
 	private final Map<K, CompletableFuture<V>> pendingRefreshes = new ConcurrentHashMap<>();
 
 	/**
-	 * 构造器
+	 * 构造函数
+	 *
+	 * @param delegate           底层缓存实现
+	 * @param name               缓存名称
+	 * @param enableStats        是否启用统计信息
+	 * @param enableAsyncRefresh 是否启用异步刷新
+	 * @param warmUpBatchSize    warmUpBatchSize
+	 * @param refreshTimeout     刷新超时时间
+	 * @param refreshExecutor    刷新执行器
+	 * @param cacheLoader        缓存加载器
 	 */
 	public SmartCacheImpl(
-		Cache<K, V> delegate,
-		String name,
-		boolean enableStats,
-		boolean enableAsyncRefresh,
-		int warmUpBatchSize,
-		Duration refreshTimeout,
-		ExecutorService refreshExecutor,
-		Function<K, V> cacheLoader) {
+		final Cache<K, V> delegate,
+		final String name,
+		final boolean enableStats,
+		final boolean enableAsyncRefresh,
+		final int warmUpBatchSize,
+		final Duration refreshTimeout,
+		final ExecutorService refreshExecutor,
+		final Function<K, V> cacheLoader) {
 
 		this.delegate = delegate;
 		this.name = name;
@@ -68,7 +81,7 @@ public class SmartCacheImpl<K, V> implements SmartCache<K, V> {
 	// ========== 实现Cache接口方法 ==========
 
 	@Override
-	public void put(K key, V object, long timeout) {
+	public void put(final K key, final V object, final long timeout) {
 		lock.writeLock().lock();
 		try {
 			delegate.put(key, object, timeout);
@@ -81,12 +94,12 @@ public class SmartCacheImpl<K, V> implements SmartCache<K, V> {
 	}
 
 	@Override
-	public void put(K key, V object) {
+	public void put(final K key, final V object) {
 		put(key, object, 0);
 	}
 
 	@Override
-	public V get(K key, boolean isUpdateLastAccess) {
+	public V get(final K key, final boolean isUpdateLastAccess) {
 		lock.readLock().lock();
 		try {
 			V value = delegate.get(key, isUpdateLastAccess);
@@ -99,16 +112,16 @@ public class SmartCacheImpl<K, V> implements SmartCache<K, V> {
 
 					// 如果有缓存加载器，尝试加载
 					if (cacheLoader != null) {
-						long startTime = System.nanoTime();
+						final long startTime = System.nanoTime();
 						try {
 							value = cacheLoader.apply(key);
 							if (value != null) {
 								delegate.put(key, value);
 								stats.recordLoadSuccess(System.nanoTime() - startTime);
 							}
-						} catch (Exception e) {
+						} catch (final Exception e) {
 							stats.recordLoadFailure();
-							throw new CacheException("Failed to load cache value for key: " + key, e);
+							throw new HutoolException("Failed to load cache value for key: " + key, e);
 						}
 					}
 				}
@@ -121,10 +134,11 @@ public class SmartCacheImpl<K, V> implements SmartCache<K, V> {
 	}
 
 	@Override
-	public V get(K key) {
+	public V get(final K key) {
 		return get(key, false);
 	}
 
+	@SuppressWarnings("NullableProblems")
 	@Override
 	public Iterator<V> iterator() {
 		return delegate.iterator();
@@ -134,7 +148,7 @@ public class SmartCacheImpl<K, V> implements SmartCache<K, V> {
 	public int prune() {
 		lock.writeLock().lock();
 		try {
-			int pruned = delegate.prune();
+			final int pruned = delegate.prune();
 			if (enableStats && pruned > 0) {
 				for (int i = 0; i < pruned; i++) {
 					stats.recordEviction();
@@ -158,7 +172,7 @@ public class SmartCacheImpl<K, V> implements SmartCache<K, V> {
 	}
 
 	@Override
-	public void remove(K key) {
+	public void remove(final K key) {
 		lock.writeLock().lock();
 		try {
 			delegate.remove(key);
@@ -225,7 +239,7 @@ public class SmartCacheImpl<K, V> implements SmartCache<K, V> {
 	}
 
 	@Override
-	public boolean containsKey(K key) {
+	public boolean containsKey(final K key) {
 		lock.readLock().lock();
 		try {
 			return delegate.containsKey(key);
@@ -237,17 +251,17 @@ public class SmartCacheImpl<K, V> implements SmartCache<K, V> {
 	// ========== 实现SmartCache接口方法 ==========
 
 	@Override
-	public Map<K, V> getAll(Collection<K> keys) {
+	public Map<K, V> getAll(final Collection<K> keys) {
 		if (CollUtil.isEmpty(keys)) {
 			return Collections.emptyMap();
 		}
 
 		lock.readLock().lock();
 		try {
-			Map<K, V> result = new HashMap<>(keys.size());
+			final Map<K, V> result = new HashMap<>(keys.size());
 
-			for (K key : keys) {
-				V value = get(key);
+			for (final K key : keys) {
+				final V value = get(key);
 				if (value != null) {
 					result.put(key, value);
 				}
@@ -260,14 +274,14 @@ public class SmartCacheImpl<K, V> implements SmartCache<K, V> {
 	}
 
 	@Override
-	public void putAll(Map<? extends K, ? extends V> map) {
+	public void putAll(final Map<? extends K, ? extends V> map) {
 		if (MapUtil.isEmpty(map)) {
 			return;
 		}
 
 		lock.writeLock().lock();
 		try {
-			for (Map.Entry<? extends K, ? extends V> entry : map.entrySet()) {
+			for (final Map.Entry<? extends K, ? extends V> entry : map.entrySet()) {
 				delegate.put(entry.getKey(), entry.getValue());
 			}
 
@@ -280,7 +294,7 @@ public class SmartCacheImpl<K, V> implements SmartCache<K, V> {
 	}
 
 	@Override
-	public CompletableFuture<V> refreshAsync(K key) {
+	public CompletableFuture<V> refreshAsync(final K key) {
 		if (!enableAsyncRefresh) {
 			throw new UnsupportedOperationException("Async refresh is not enabled");
 		}
@@ -290,15 +304,15 @@ public class SmartCacheImpl<K, V> implements SmartCache<K, V> {
 		}
 
 		// 检查是否已经有正在进行的刷新
-		CompletableFuture<V> pending = pendingRefreshes.get(key);
+		final CompletableFuture<V> pending = pendingRefreshes.get(key);
 		if (pending != null) {
 			return pending;
 		}
 
 		CompletableFuture<V> future = CompletableFuture.supplyAsync(() -> {
 			try {
-				long startTime = System.nanoTime();
-				V newValue = cacheLoader.apply(key);
+				final long startTime = System.nanoTime();
+				final V newValue = cacheLoader.apply(key);
 
 				if (newValue != null) {
 					lock.writeLock().lock();
@@ -313,7 +327,7 @@ public class SmartCacheImpl<K, V> implements SmartCache<K, V> {
 				}
 
 				return newValue;
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				if (enableStats) {
 					stats.recordLoadFailure();
 				}
@@ -335,26 +349,26 @@ public class SmartCacheImpl<K, V> implements SmartCache<K, V> {
 	}
 
 	@Override
-	public int warmUp(Collection<K> keys) {
+	public int warmUp(final Collection<K> keys) {
 		if (cacheLoader == null || CollUtil.isEmpty(keys)) {
 			return 0;
 		}
 
 		int warmedUp = 0;
-		Collection<List<K>> batches = new Partition<>(new ArrayList<>(keys), warmUpBatchSize);
+		final Collection<List<K>> batches = new Partition<>(new ArrayList<>(keys), warmUpBatchSize);
 
-		for (List<K> batch : batches) {
+		for (final List<K> batch : batches) {
 			lock.writeLock().lock();
 			try {
-				for (K key : batch) {
+				for (final K key : batch) {
 					if (!delegate.containsKey(key)) {
 						try {
-							V value = cacheLoader.apply(key);
+							final V value = cacheLoader.apply(key);
 							if (value != null) {
 								delegate.put(key, value);
 								warmedUp++;
 							}
-						} catch (Exception e) {
+						} catch (final Exception e) {
 							// 忽略单个键的加载失败，继续处理其他键
 						}
 					}
@@ -372,12 +386,12 @@ public class SmartCacheImpl<K, V> implements SmartCache<K, V> {
 	}
 
 	@Override
-	public V computeIfAbsent(K key, Function<K, V> mappingFunction) {
+	public V computeIfAbsent(final K key, final Function<K, V> mappingFunction) {
 		lock.writeLock().lock();
 		try {
 			V value = delegate.get(key);
 			if (value == null && mappingFunction != null) {
-				long startTime = System.nanoTime();
+				final long startTime = System.nanoTime();
 				try {
 					value = mappingFunction.apply(key);
 					if (value != null) {
@@ -388,11 +402,11 @@ public class SmartCacheImpl<K, V> implements SmartCache<K, V> {
 							stats.setCacheSize(delegate.size());
 						}
 					}
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					if (enableStats) {
 						stats.recordLoadFailure();
 					}
-					throw new CacheException("Failed to compute value for key: " + key, e);
+					throw new HutoolException("Failed to compute value for key: " + key, e);
 				}
 			}
 
@@ -403,13 +417,13 @@ public class SmartCacheImpl<K, V> implements SmartCache<K, V> {
 	}
 
 	@Override
-	public V computeIfPresent(K key, Function<K, V> remappingFunction) {
+	public V computeIfPresent(final K key, final Function<K, V> remappingFunction) {
 		lock.writeLock().lock();
 		try {
 			if (delegate.containsKey(key) && remappingFunction != null) {
-				long startTime = System.nanoTime();
+				final long startTime = System.nanoTime();
 				try {
-					V newValue = remappingFunction.apply(key);
+					final V newValue = remappingFunction.apply(key);
 					if (newValue != null) {
 						delegate.put(key, newValue);
 
@@ -418,11 +432,11 @@ public class SmartCacheImpl<K, V> implements SmartCache<K, V> {
 						}
 					}
 					return newValue;
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					if (enableStats) {
 						stats.recordLoadFailure();
 					}
-					throw new CacheException("Failed to compute value for key: " + key, e);
+					throw new HutoolException("Failed to compute value for key: " + key, e);
 				}
 			}
 			return null;
@@ -455,7 +469,7 @@ public class SmartCacheImpl<K, V> implements SmartCache<K, V> {
 		lock.writeLock().lock();
 		try {
 			// 创建新的统计实例，保留缓存大小
-			long currentSize = stats.getCacheSize();
+			final long currentSize = stats.getCacheSize();
 			stats.setCacheSize(currentSize);
 		} finally {
 			lock.writeLock().unlock();
@@ -468,19 +482,21 @@ public class SmartCacheImpl<K, V> implements SmartCache<K, V> {
 	}
 
 	@Override
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = StrUtil.defaultIfBlank(name, "SmartCache");
 	}
 
 	/**
 	 * 获取底层缓存
+	 *
+	 * @return 底层缓存实例
 	 */
 	public Cache<K, V> getDelegate() {
 		return delegate;
 	}
 
 	@Override
-	public V get(K key, boolean isUpdateLastAccess, long timeout, SerSupplier<V> valueFactory) {
+	public V get(final K key, final boolean isUpdateLastAccess, final long timeout, final SerSupplier<V> valueFactory) {
 		if (key == null) {
 			throw new NullPointerException("Key must not be null");
 		}
@@ -502,7 +518,7 @@ public class SmartCacheImpl<K, V> implements SmartCache<K, V> {
 				value = delegate.get(key, isUpdateLastAccess);
 				if (value == null) {
 					// 记录加载开始时间，用于统计
-					long loadStartTime = System.nanoTime();
+					final long loadStartTime = System.nanoTime();
 					try {
 						// 调用工厂方法创建新值
 						value = valueFactory.get();
@@ -527,13 +543,13 @@ public class SmartCacheImpl<K, V> implements SmartCache<K, V> {
 							}
 							// 注意：此时并未将null值存入缓存，下次请求仍会触发加载
 						}
-					} catch (Exception e) {
+					} catch (final Exception e) {
 						if (enableStats) {
 							stats.recordLoadFailure();
 						}
 						// 可以根据需要决定是抛出异常，还是返回null。
 						// 为了保持接口的健壮性，这里将异常包装后抛出。
-						throw new CacheException("Failed to load value for key: " + key, e);
+						throw new HutoolException("Failed to load value for key: " + key, e);
 					}
 				}
 				// 无论新值是否由当前线程创建，写锁块结束时，value变量中已经有了最终结果。
@@ -556,18 +572,5 @@ public class SmartCacheImpl<K, V> implements SmartCache<K, V> {
 			lock.readLock().unlock();
 		}
 		return new CacheObjIterator<>(copiedIterator);
-	}
-
-	/**
-	 * 自定义缓存异常
-	 */
-	public static class CacheException extends RuntimeException {
-		public CacheException(String message) {
-			super(message);
-		}
-
-		public CacheException(String message, Throwable cause) {
-			super(message, cause);
-		}
 	}
 }

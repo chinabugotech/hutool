@@ -1,5 +1,8 @@
 package cn.hutool.v7.core.cache;
 
+import cn.hutool.v7.core.cache.smart.SmartCache;
+import cn.hutool.v7.core.cache.smart.SmartCacheBuilder;
+import cn.hutool.v7.core.cache.smart.SmartCacheUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
