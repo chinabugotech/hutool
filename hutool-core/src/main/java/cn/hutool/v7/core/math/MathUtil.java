@@ -339,7 +339,15 @@ public class MathUtil {
 	 * @return 最小公倍数
 	 */
 	public static int multiple(final int m, final int n) {
-		return m * n / gcd(m, n);
+		// 先计算最大公约数
+		final int gcd = gcd(m, n);
+		// 使用长整型避免溢出，再转换回整型
+		final long result = (long) m / gcd * (long) n;
+		// 检查结果是否在int范围内
+		if (result > Integer.MAX_VALUE || result < Integer.MIN_VALUE) {
+			throw new ArithmeticException("Integer overflow: " + m + " * " + n + " / " + gcd);
+		}
+		return (int) result;
 	}
 
 	private static int mathSubNode(final int selectNum, final int minNum) {
