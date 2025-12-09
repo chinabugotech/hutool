@@ -701,17 +701,43 @@ public class NumberUtil extends NumberValidator {
 
 	/**
 	 * 获得数字对应的二进制字符串
+	 * <ul>
+	 *     <li>Integer/Long：直接使用 JDK 内置方法转换</li>
+	 *     <li>Byte/Short：转换为无符号整数后补充前导零至对应位数（Byte=8位，Short=16位）</li>
+	 *     <li>Float/Double：使用 IEEE 754 标准格式转换，Float=32位，Double=64位</li>
+	 * </ul>
 	 *
-	 * @param number 数字
+	 * @param number 待转换的Number对象（支持Integer、Long、Byte、Short、Float、Double）
 	 * @return 二进制字符串
 	 */
 	public static String getBinaryStr(final Number number) {
-		if (number instanceof Long) {
-			return Long.toBinaryString((Long) number);
-		} else if (number instanceof Integer) {
-			return Integer.toBinaryString((Integer) number);
-		} else {
+		Assert.notNull(number, "Number must be not null!");
+
+		// 根据Number的实际类型处理
+		if (number instanceof Integer) {
+			return Integer.toBinaryString(number.intValue());
+		} else if (number instanceof Long) {
 			return Long.toBinaryString(number.longValue());
+		} else if (number instanceof Byte) {
+			// Byte是8位，补前导0至8位
+			return String.format("%8s", Integer.toBinaryString(number.byteValue() & 0xFF)).replace(' ', '0');
+		} else if (number instanceof Short) {
+			// Short是16位，补前导0至16位
+			return String.format("%16s", Integer.toBinaryString(number.shortValue() & 0xFFFF)).replace(' ', '0');
+		} else if (number instanceof Float) {
+			// Float转换为IEEE 754 32位二进制
+			final int floatBits = Float.floatToIntBits(number.floatValue());
+			return String.format("%32s", Integer.toBinaryString(floatBits)).replace(' ', '0');
+		} else if (number instanceof Double) {
+			// Double转换为IEEE 754 64位二进制
+			final long doubleBits = Double.doubleToLongBits(number.doubleValue());
+			return String.format("%64s", Long.toBinaryString(doubleBits)).replace(' ', '0');
+		} else if (number instanceof BigInteger) {
+			// 大数整数类型
+			return ((BigInteger) number).toString(2);
+		} else {
+			// 不支持的类型（如BigInteger、BigDecimal需额外处理）
+			throw new IllegalArgumentException("Number not support：" + number.getClass().getName());
 		}
 	}
 

@@ -834,4 +834,11 @@ public class NumberUtilTest {
 		final Number number = NumberUtil.parseNumber("12,234,456");
 		assertEquals(new BigDecimal(12234456), number);
 	}
+
+	@Test
+	public void testGetFloatBinaryStr() {
+		// 获取浮点数的 IEEE 754 原始比特位字符串
+		final String result = NumberUtil.getBinaryStr(3.5);
+		assertEquals("0100000000001100000000000000000000000000000000000000000000000000", result);
+	}
 }
