@@ -16,7 +16,6 @@
 
 package cn.hutool.v7.core.collection;
 
-import lombok.*;
 import cn.hutool.v7.core.collection.iter.IterUtil;
 import cn.hutool.v7.core.collection.set.SetUtil;
 import cn.hutool.v7.core.comparator.CompareUtil;
@@ -25,11 +24,13 @@ import cn.hutool.v7.core.lang.Console;
 import cn.hutool.v7.core.map.Dict;
 import cn.hutool.v7.core.map.MapUtil;
 import cn.hutool.v7.core.text.StrUtil;
+import lombok.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -1417,5 +1418,22 @@ public class CollUtilTest {
 		final List<String> list = ListUtil.of("foo");
 		final int idx = CollUtil.lastIndexOf(list, item -> item.equals("foo"));
 		assertEquals(0, idx);
+	}
+
+	@Test
+	void issueIDBU9HTest(){
+		final List<ToolTest> list = new ArrayList<>();
+		final ToolTest t1 = new ToolTest("a");
+		final ToolTest t2 = new ToolTest("b");
+		list.add(t1);
+		list.add(t2);
+		final Map<String, ToolTest> map = list.stream().collect(Collectors.toMap(ToolTest::getName, Function.identity(), (k1, k2) -> k2));
+		CollUtil.subtract(map.keySet(), map.keySet());
+	}
+
+	@Data
+	@AllArgsConstructor
+	private static class ToolTest {
+		private String name;
 	}
 }
