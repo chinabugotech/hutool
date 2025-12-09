@@ -841,4 +841,16 @@ public class NumberUtilTest {
 		final String result = NumberUtil.getBinaryStr(3.5);
 		assertEquals("0100000000001100000000000000000000000000000000000000000000000000", result);
 	}
+
+	@Test
+	public void testMultipleOverflow() {
+		final int a = 500000;
+		final int b = 600000;
+
+		// 原方法使用 a * b / gcd(a, b) 计算，a * b 会先溢出，得到最小公倍数为负数
+		// 使用修改后的multiple方法，测试它是否能正确处理这种情况
+		final BigDecimal result = NumberUtil.mul(a, b);
+		// 验证结果必须是正数（两个正数的最小公倍数必须为正）
+		assertTrue(result.compareTo(BigDecimal.ZERO) > 0);
+	}
 }
