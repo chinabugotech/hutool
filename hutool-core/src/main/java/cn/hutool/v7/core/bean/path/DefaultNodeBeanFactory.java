@@ -140,6 +140,14 @@ public class DefaultNodeBeanFactory implements NodeBeanFactory<Object> {
 		if ("$".equals(name)) {
 			return bean;
 		}
+
+		if(bean instanceof Collection){
+			if("*".equals(name)){
+				// issue#IDC78B@Gitee 支持数组的*取值
+				return bean;
+			}
+		}
+
 		Object value = DynaBean.of(bean).get(name);
 		if (null == value && StrUtil.lowerFirst(ClassUtil.getClassName(bean, true)).equals(name)) {
 			// 如果bean类名与属性名相同，则返回bean本身
