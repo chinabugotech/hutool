@@ -27,6 +27,7 @@ import cn.hutool.v7.core.comparator.PropertyComparator;
 import cn.hutool.v7.core.lang.Assert;
 import cn.hutool.v7.core.lang.Validator;
 import cn.hutool.v7.core.lang.page.PageInfo;
+import cn.hutool.v7.core.reflect.ConstructorUtil;
 import cn.hutool.v7.core.util.ObjUtil;
 
 import java.util.*;
@@ -114,8 +115,8 @@ public class ListUtil {
 	 * 新建一个List<br>
 	 * 提供的参数为null时返回空{@link ArrayList}
 	 *
-	 * @param <T>        集合元素类型
-	 * @param isLinked   是否新建LinkedList
+	 * @param <T>         集合元素类型
+	 * @param isLinked    是否新建LinkedList
 	 * @param enumeration {@link Enumeration}
 	 * @return ArrayList对象
 	 * @since 3.0.8
@@ -238,12 +239,12 @@ public class ListUtil {
 	/**
 	 * 获取一个只包含一个元素的List，不可变
 	 *
-	 * @param <T>   元素类型
+	 * @param <T>     元素类型
 	 * @param element 元素
 	 * @return 只包含一个元素的List
 	 * @since 6.0.0
 	 */
-	public static <T> List<T> singleton(final T element){
+	public static <T> List<T> singleton(final T element) {
 		return Collections.singletonList(element);
 	}
 
@@ -497,12 +498,12 @@ public class ListUtil {
 	/**
 	 * 在指定位置设置元素。当index小于List的长度时，替换指定位置的值，否则追加{@code paddingElement}直到到达index后，设置值
 	 *
-	 * @param <T>     元素类型
-	 * @param list    List列表
-	 * @param index   位置
-	 * @param element 新元素
+	 * @param <T>            元素类型
+	 * @param list           List列表
+	 * @param index          位置
+	 * @param element        新元素
 	 * @param paddingElement 填充的值
-	 * @param indexLimit 最大索引限制
+	 * @param indexLimit     最大索引限制
 	 * @return 原List
 	 * @since 5.8.28
 	 */
@@ -512,7 +513,7 @@ public class ListUtil {
 		if (index < size) {
 			list.set(index, element);
 		} else {
-			if(indexLimit > 0){
+			if (indexLimit > 0) {
 				// issue#3286, 增加安全检查
 				Validator.checkIndexLimit(index, indexLimit);
 			}
@@ -541,41 +542,47 @@ public class ListUtil {
 	 * 截取集合的部分<br>
 	 * 此方法与{@link List#subList(int, int)} 不同在于子列表是新的副本，操作子列表不会影响原列表。
 	 *
-	 * @param <T>           集合元素类型
-	 * @param list          被截取的数组
-	 * @param begionInclude 开始位置（包含）
-	 * @param endExclude    结束位置（不包含）
-	 * @param step          步进
+	 * @param <T>          集合元素类型
+	 * @param list         被截取的数组
+	 * @param startInclude 开始位置（包含）
+	 * @param endExclude   结束位置（不包含）
+	 * @param step         步进
 	 * @return 截取后的数组，当开始位置超过最大时，返回空的List
 	 * @since 4.0.6
 	 */
-	public static <T> List<T> sub(final List<T> list, int begionInclude, int endExclude, int step) {
+	@SuppressWarnings("unchecked")
+	public static <T> List<T> sub(final List<T> list, int startInclude, int endExclude, int step) {
 		if (list == null) {
 			return null;
 		}
 
+		List<T> result = ConstructorUtil.newInstanceIfPossible(list.getClass());
+		if (null == result) {
+			result = new ArrayList<>(0);
+		}
+
 		if (list.isEmpty()) {
-			return new ArrayList<>(0);
+			return result;
 		}
 
 		final int size = list.size();
-		if (begionInclude < 0) {
-			begionInclude += size;
+		if (startInclude < 0) {
+			startInclude += size;
 		}
 		if (endExclude < 0) {
 			endExclude += size;
 		}
-		if (begionInclude == size) {
-			return new ArrayList<>(0);
+		if (startInclude == size) {
+			return result;
 		}
-		if (begionInclude > endExclude) {
-			final int tmp = begionInclude;
-			begionInclude = endExclude;
+		if (startInclude > endExclude) {
+			final int tmp = startInclude;
+			startInclude = endExclude;
 			endExclude = tmp;
 		}
 		if (endExclude > size) {
-			if (begionInclude >= size) {
-				return new ArrayList<>(0);
+			if (startInclude >= size) {
+				return result;
 			}
 			endExclude = size;
 		}
@@ -584,8 +591,7 @@ public class ListUtil {
 			step = 1;
 		}
 
-		final List<T> result = new ArrayList<>();
-		for (int i = begionInclude; i < endExclude; i += step) {
+		for (int i = startInclude; i < endExclude; i += step) {
 			result.add(list.get(i));
 		}
 		return result;
@@ -630,7 +636,7 @@ public class ListUtil {
 	 * @return 分段列表
 	 * @since 5.4.5
 	 */
-	public static <T> List<List<T>> 	partition(final List<T> list, final int size) {
+	public static <T> List<List<T>> partition(final List<T> list, final int size) {
 		if (CollUtil.isEmpty(list)) {
 			return empty();
 		}

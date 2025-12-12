@@ -16,8 +16,10 @@
 
 package cn.hutool.v7.json;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 /**
  * JSON路径单元测试
@@ -31,9 +33,9 @@ public class JSONPathTest {
 	public void getByPathTest() {
 		final String json = "[{\"id\":\"1\",\"name\":\"xingming\"},{\"id\":\"2\",\"name\":\"mingzi\"}]";
 		Object value = JSONUtil.parseArray(json).getByPath("[0].name", Object.class);
-		Assertions.assertEquals("xingming", value);
+		assertEquals("xingming", value);
 		value = JSONUtil.parseArray(json).getByPath("[1].name", Object.class);
-		Assertions.assertEquals("mingzi", value);
+		assertEquals("mingzi", value);
 	}
 
 	@Test
@@ -41,6 +43,21 @@ public class JSONPathTest {
 		final String str = "{'accountId':111}";
 		final JSON json = JSONUtil.parse(str);
 		final Long accountId = JSONUtil.getByPath(json, "$.accountId", 0L);
-		Assertions.assertEquals(111L, accountId.longValue());
+		assertEquals(111L, accountId.longValue());
+	}
+
+	@Test
+	void issueIDC78BTest() {
+		final String json = "{\"actionMessage\":{\"alertResults\":[],\"decodeFeas\":[{\"body\":{\"lats\":[{\"begin\":4260,\"text\":\"呵呵\"},{\"begin\":4260,\"text\":\"你好 \"}]}}]}}";
+		final JSON json1 = JSONUtil.parse(json);
+		final JSON byPath = json1.getByPath("$.actionMessage.decodeFeas[0].body.lats[*]");
+		assertInstanceOf(JSONArray.class, byPath);
+		assertEquals(2, byPath.size());
+
+		final JSON byPath2 = json1.getByPath("$.actionMessage.decodeFeas[0].body.lats[*].text");
+		assertInstanceOf(JSONArray.class, byPath2);
+		assertEquals(2, byPath2.size());
+		assertEquals("呵呵", byPath2.asJSONArray().getStr(0));
+		assertEquals("你好 ", byPath2.asJSONArray().getStr(1));
 	}
 }

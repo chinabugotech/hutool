@@ -22,6 +22,7 @@ import cn.hutool.v7.core.lang.Validator;
 import cn.hutool.v7.core.lang.mutable.MutableEntry;
 import cn.hutool.v7.json.serializer.impl.ArrayTypeAdapter;
 import cn.hutool.v7.json.serializer.impl.IterTypeAdapter;
+import cn.hutool.v7.json.support.InternalJSONUtil;
 import cn.hutool.v7.json.writer.JSONWriter;
 
 import java.io.Serial;
@@ -117,6 +118,7 @@ public class JSONArray extends ListWrapper<JSON> implements JSON, JSONGetter<Int
 	}
 
 	// region ----- addValue
+
 	/**
 	 * 加入{@code null}元素，如果设置中忽略null值，则忽略
 	 *
@@ -255,7 +257,7 @@ public class JSONArray extends ListWrapper<JSON> implements JSON, JSONGetter<Int
 
 		// 越界则追加到指定位置
 		final int size = size();
-		if(index == size){
+		if (index == size) {
 			add(element);
 			return null;
 		}
@@ -329,6 +331,18 @@ public class JSONArray extends ListWrapper<JSON> implements JSON, JSONGetter<Int
 	@SuppressWarnings("unchecked")
 	public <T> List<T> toList(final Class<T> elementType) {
 		return (List<T>) IterTypeAdapter.INSTANCE.deserialize(this, ArrayList.class, elementType);
+	}
+
+	/**
+	 * 截取子JSONArray，不修改原JSONArray，生成新的JSONArray
+	 *
+	 * @param startInclude 起始位置，包含此位置
+	 * @param endExclude   结束位置，不包含此位置
+	 * @param step         步长，默认为1
+	 * @return 截取后的JSONArray对象，如果原始数组为空则返回一个空的JSONArray
+	 */
+	public JSONArray sub(final int startInclude, final int endExclude, final int step) {
+		return InternalJSONUtil.sub(this, startInclude, endExclude, step);
 	}
 
 	/**

@@ -25,6 +25,7 @@ import cn.hutool.v7.core.text.CharUtil;
 import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.core.util.ObjUtil;
 import cn.hutool.v7.json.JSON;
+import cn.hutool.v7.json.JSONArray;
 import cn.hutool.v7.json.JSONConfig;
 import cn.hutool.v7.json.JSONFactory;
 import cn.hutool.v7.json.serializer.JSONMapper;
@@ -204,6 +205,58 @@ public final class InternalJSONUtil {
 			}
 		}
 		return rawHashMap;
+	}
+
+	/**
+	 * 根据给定的JSONArray，截取子数组，包含startInclude，不包含endExclude
+	 *
+	 * @param jsonArray    JSONArray 对象
+	 * @param startInclude 起始位置，包含此位置
+	 * @param endExclude   结束位置，不包含此位置
+	 * @param step         步长，默认为1
+	 * @return 截取后的JSONArray对象，如果原始数组为空则返回一个空的JSONArray
+	 */
+	public static JSONArray sub(final JSONArray jsonArray, int startInclude, int endExclude, int step) {
+		if (jsonArray == null) {
+			return null;
+		}
+
+		if (jsonArray.isEmpty()) {
+			return new JSONArray(0, jsonArray.getFactory());
+		}
+
+		final int size = jsonArray.size();
+		if (startInclude < 0) {
+			startInclude += size;
+		}
+		if (endExclude < 0) {
+			endExclude += size;
+		}
+		if (startInclude == size) {
+			return new JSONArray(0, jsonArray.getFactory());
+		}
+		if (startInclude > endExclude) {
+			final int tmp = startInclude;
+			startInclude = endExclude;
+			endExclude = tmp;
+		}
+		if (endExclude > size) {
+			if (startInclude >= size) {
+				return new JSONArray(0, jsonArray.getFactory());
+			}
+			endExclude = size;
+		}
+
+		if (step < 1) {
+			step = 1;
+		}
+
+		final int resultLength = (int) Math.ceil((endExclude - startInclude) / (double) step);
+		final JSONArray result = new JSONArray(resultLength, jsonArray.getFactory());
+		for (int i = startInclude; i < endExclude; i += step) {
+			result.add(jsonArray.get(i));
+		}
+		return result;
 	}
 
 	// --------------------------------------------------------------------------------------------- Private method start

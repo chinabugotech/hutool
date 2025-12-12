@@ -127,7 +127,23 @@ public class JSONNodeBeanFactory implements NodeBeanFactory<JSON> {
 		if (bean instanceof JSONObject) {
 			return ((JSONObject) bean).get(name);
 		} else if (bean instanceof JSONArray) {
-			return ((JSONArray) bean).get(Integer.parseInt(name));
+			if("*".equals(name)){
+				// issue#IDC78B@Gitee 支持数组的*取值
+				return bean;
+			}
+			try{
+				final int index = Integer.parseInt(name);
+				// 数字返回对应的下标元素
+				return ((JSONArray) bean).get(index);
+			} catch(final NumberFormatException e){
+				// 非数字，则认为是key，返回JSONArray中每个元素key对应的value
+				return ((JSONArray) bean).stream().map(jsonEle -> {
+					if(jsonEle instanceof JSONObject){
+						return ((JSONObject) jsonEle).get(name);
+					}
+					throw new UnsupportedOperationException("Can not get by name for: " + jsonEle.getClass());
+				}).collect(JSONArrayCollector.toJSONArray(bean.getFactory()));
+			}
 		}
 
 		throw new UnsupportedOperationException("Can not get by name for: " + bean.getClass());
@@ -143,7 +159,7 @@ public class JSONNodeBeanFactory implements NodeBeanFactory<JSON> {
 	 */
 	private Object getValueByRangeNode(final JSON bean, final RangeNode node) {
 		if (bean instanceof JSONArray) {
-			return CollUtil.sub((JSONArray) bean, node.getStart(), node.getEnd(), node.getStep());
+			return ((JSONArray) bean).sub(node.getStart(), node.getEnd(), node.getStep());
 		}
 
 		throw new UnsupportedOperationException("Can not get range value for: " + bean.getClass());

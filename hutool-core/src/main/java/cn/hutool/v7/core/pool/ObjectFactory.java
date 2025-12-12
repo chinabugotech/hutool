@@ -18,7 +18,7 @@ package cn.hutool.v7.core.pool;
 
 /**
  * 对象工厂接口，用于自定义对象创建、验证和销毁<br>
- * 来自：https://github.com/DanielYWoo/fast-object-pool/
+ * 来自：<a href="https://github.com/DanielYWoo/fast-object-pool/">fast-object-pool</a>
  *
  * @param <T> 对象类型
  * @author Daniel

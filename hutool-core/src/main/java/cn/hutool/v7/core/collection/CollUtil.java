@@ -838,30 +838,30 @@ public class CollUtil {
 	/**
 	 * 截取列表的部分
 	 *
-	 * @param <T>   集合元素类型
-	 * @param list  被截取的数组
-	 * @param start 开始位置（包含）
-	 * @param end   结束位置（不包含）
-	 * @param step  步进
+	 * @param <T>          集合元素类型
+	 * @param list         被截取的数组
+	 * @param startInclude 开始位置（包含）
+	 * @param endExclude   结束位置（不包含）
+	 * @param step         步进
 	 * @return 截取后的数组，当开始位置超过最大时，返回空的List
 	 * @see ListUtil#sub(List, int, int, int)
 	 * @since 4.0.6
 	 */
-	public static <T> List<T> sub(final List<T> list, final int start, final int end, final int step) {
-		return ListUtil.sub(list, start, end, step);
+	public static <T> List<T> sub(final List<T> list, final int startInclude, final int endExclude, final int step) {
+		return ListUtil.sub(list, startInclude, endExclude, step);
 	}
 
 	/**
 	 * 截取集合的部分
 	 *
-	 * @param <T>        集合元素类型
-	 * @param collection 被截取的数组
-	 * @param start      开始位置（包含）
-	 * @param end        结束位置（不包含）
+	 * @param <T>          集合元素类型
+	 * @param collection   被截取的数组
+	 * @param startInclude 开始位置（包含）
+	 * @param endExclude   结束位置（不包含）
 	 * @return 截取后的数组，当开始位置超过最大时，返回null
 	 */
-	public static <T> List<T> sub(final Collection<T> collection, final int start, final int end) {
-		return sub(collection, start, end, 1);
+	public static <T> List<T> sub(final Collection<T> collection, final int startInclude, final int endExclude) {
+		return sub(collection, startInclude, endExclude, 1);
 	}
 
 	/**
@@ -869,19 +869,19 @@ public class CollUtil {
 	 *
 	 * @param <T>        集合元素类型
 	 * @param collection 被截取的数组
-	 * @param start      开始位置（包含）
-	 * @param end        结束位置（不包含）
+	 * @param startInclude      开始位置（包含）
+	 * @param endExclude        结束位置（不包含）
 	 * @param step       步进
 	 * @return 截取后的数组，当开始位置超过最大时，返回空集合
 	 * @since 4.0.6
 	 */
-	public static <T> List<T> sub(final Collection<T> collection, final int start, final int end, final int step) {
+	public static <T> List<T> sub(final Collection<T> collection, final int startInclude, final int endExclude, final int step) {
 		if (isEmpty(collection)) {
 			return ListUtil.empty();
 		}
 
 		final List<T> list = collection instanceof List ? (List<T>) collection : ListUtil.of(collection);
-		return sub(list, start, end, step);
+		return sub(list, startInclude, endExclude, step);
 	}
 	// endregion
 
@@ -1399,12 +1399,12 @@ public class CollUtil {
 	 * 将两个列表的元素按照索引一一配对，通过指定的函数进行合并，返回一个新的结果列表。
 	 * 新列表的长度将以两个输入列表中较短的那个为准。
 	 *
-	 * @param <A>    第一个列表的元素类型
-	 * @param <B>    第二个列表的元素类型
-	 * @param <R>    结果列表的元素类型
-	 * @param collectionA  第一个列表
-	 * @param collectionB  第二个列表
-	 * @param zipper 合并函数，接收来自listA和listB的两个元素，返回一个结果元素
+	 * @param <A>         第一个列表的元素类型
+	 * @param <B>         第二个列表的元素类型
+	 * @param <R>         结果列表的元素类型
+	 * @param collectionA 第一个列表
+	 * @param collectionB 第二个列表
+	 * @param zipper      合并函数，接收来自listA和listB的两个元素，返回一个结果元素
 	 * @return 合并后的新列表
 	 * @since 5.8.42
 	 */
@@ -1419,7 +1419,7 @@ public class CollUtil {
 		final Iterator<A> aIterator = collectionA.iterator();
 		final Iterator<B> bIterator = collectionB.iterator();
 
-		while(size-- > 0) {
+		while (size-- > 0) {
 			result.add(zipper.apply(aIterator.next(), bIterator.next()));
 		}
 		return result;
