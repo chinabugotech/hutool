@@ -1941,33 +1941,33 @@ public class ArrayUtil extends PrimitiveArrayUtil {
 	 *
 	 * @param <T>   数组元素类型
 	 * @param array 数组，不允许为空
-	 * @param start 开始位置（包括）
-	 * @param end   结束位置（不包括）
+	 * @param beginInclude 开始位置（包括）
+	 * @param endExclude   结束位置（不包括）
 	 * @return 新的数组
 	 * @see Arrays#copyOfRange(Object[], int, int)
 	 * @since 4.2.2
 	 */
-	public static <T> T[] sub(final T[] array, int start, int end) {
+	public static <T> T[] sub(final T[] array, int beginInclude, int endExclude) {
 		Assert.notNull(array, "array must be not null !");
 		final int length = length(array);
-		if (start < 0) {
-			start += length;
+		if (beginInclude < 0) {
+			beginInclude += length;
 		}
-		if (end < 0) {
-			end += length;
+		if (endExclude < 0) {
+			endExclude += length;
 		}
-		if (start > end) {
-			final int tmp = start;
-			start = end;
-			end = tmp;
+		if (beginInclude > endExclude) {
+			final int tmp = beginInclude;
+			beginInclude = endExclude;
+			endExclude = tmp;
 		}
-		if (start >= length) {
+		if (beginInclude >= length) {
 			return newArray(array.getClass().getComponentType(), 0);
 		}
-		if (end > length) {
-			end = length;
+		if (endExclude > length) {
+			endExclude = length;
 		}
-		return Arrays.copyOfRange(array, start, end);
+		return Arrays.copyOfRange(array, beginInclude, endExclude);
 	}
 
 	/**
@@ -2343,4 +2343,6 @@ public class ArrayUtil extends PrimitiveArrayUtil {
 		}
 		return true;
 	}
+
+
 }

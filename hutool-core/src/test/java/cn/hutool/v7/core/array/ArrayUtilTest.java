@@ -857,6 +857,118 @@ public class ArrayUtilTest {
 	}
 
 	@Test
+	public void subGenericTest() {
+		// 测试 String 数组
+		final String[] strArray = {"a", "b", "c", "d", "e"};
+		assertArrayEquals(new String[]{}, ArrayUtil.sub(strArray, 2, 2));
+		assertArrayEquals(new String[]{}, ArrayUtil.sub(strArray, 5, 5));
+		assertArrayEquals(new String[]{"a", "b", "c", "d", "e"}, ArrayUtil.sub(strArray, 0, 5));
+		assertArrayEquals(new String[]{"a", "b", "c", "d", "e"}, ArrayUtil.sub(strArray, 5, 0));
+		assertArrayEquals(new String[]{"a"}, ArrayUtil.sub(strArray, 0, 1));
+		assertArrayEquals(new String[]{"e"}, ArrayUtil.sub(strArray, 4, 5));
+		assertArrayEquals(new String[]{"b", "c", "d"}, ArrayUtil.sub(strArray, 1, 4));
+		assertArrayEquals(new String[]{"b", "c", "d"}, ArrayUtil.sub(strArray, 4, 1));
+		assertArrayEquals(new String[]{"b", "c", "d"}, ArrayUtil.sub(strArray, 1, -1));
+		assertArrayEquals(new String[]{"b", "c", "d"}, ArrayUtil.sub(strArray, -1, 1));
+		assertArrayEquals(new String[]{"b", "c", "d"}, ArrayUtil.sub(strArray, -4, -1));
+
+		// 测试 Integer 数组
+		final Integer[] intArray = {1, 2, 3, 4, 5};
+		assertArrayEquals(new Integer[]{}, ArrayUtil.sub(intArray, 2, 2));
+		assertArrayEquals(new Integer[]{}, ArrayUtil.sub(intArray, 5, 5));
+		assertArrayEquals(new Integer[]{1, 2, 3, 4, 5}, ArrayUtil.sub(intArray, 0, 5));
+		assertArrayEquals(new Integer[]{1, 2, 3, 4, 5}, ArrayUtil.sub(intArray, 5, 0));
+		assertArrayEquals(new Integer[]{1}, ArrayUtil.sub(intArray, 0, 1));
+		assertArrayEquals(new Integer[]{5}, ArrayUtil.sub(intArray, 4, 5));
+		assertArrayEquals(new Integer[]{2, 3, 4}, ArrayUtil.sub(intArray, 1, 4));
+		assertArrayEquals(new Integer[]{2, 3, 4}, ArrayUtil.sub(intArray, 4, 1));
+		assertArrayEquals(new Integer[]{2, 3, 4}, ArrayUtil.sub(intArray, 1, -1));
+		assertArrayEquals(new Integer[]{2, 3, 4}, ArrayUtil.sub(intArray, -1, 1));
+		assertArrayEquals(new Integer[]{2, 3, 4}, ArrayUtil.sub(intArray, -4, -1));
+
+		// 测试边界情况
+		assertArrayEquals(new String[]{"a", "b", "c", "d", "e"}, ArrayUtil.sub(strArray, 0, 10));
+		assertArrayEquals(new String[]{}, ArrayUtil.sub(strArray, 10, 15));
+		assertArrayEquals(new String[]{"d", "e"}, ArrayUtil.sub(strArray, 3, 10));
+		assertArrayEquals(new String[]{"a", "b"}, ArrayUtil.sub(strArray, -5, 2));
+		assertArrayEquals(new String[]{"d", "e"}, ArrayUtil.sub(strArray, 3, 10));
+
+		// 测试负索引转换
+		assertArrayEquals(new String[]{"a", "b", "c", "d", "e"}, ArrayUtil.sub(strArray, -5, 5));
+		assertArrayEquals(new String[]{"e"}, ArrayUtil.sub(strArray, -1, 5));
+		assertArrayEquals(new String[]{"a"}, ArrayUtil.sub(strArray, -5, -4));
+
+		// 测试单元素数组
+		final String[] singleArray = {"single"};
+		assertArrayEquals(new String[]{}, ArrayUtil.sub(singleArray, 0, 0));
+		assertArrayEquals(new String[]{}, ArrayUtil.sub(singleArray, 1, 1));
+		assertArrayEquals(new String[]{"single"}, ArrayUtil.sub(singleArray, 0, 1));
+		assertArrayEquals(new String[]{"single"}, ArrayUtil.sub(singleArray, 0, 5));
+		assertArrayEquals(new String[]{}, ArrayUtil.sub(singleArray, -1, -1));
+		assertArrayEquals(new String[]{"single"}, ArrayUtil.sub(singleArray, -1, 1));
+
+		// 测试空数组
+		final String[] emptyArray = {};
+		assertArrayEquals(new String[]{}, ArrayUtil.sub(emptyArray, 0, 0));
+		assertArrayEquals(new String[]{}, ArrayUtil.sub(emptyArray, 0, 1));
+	}
+
+	@Test
+	public void subGenericTestForObjectArray() {
+		// 测试 String 数组
+		final Object strArray = new String[]{"a", "b", "c", "d", "e"};
+		assertArrayEquals(new String[]{}, (String[])ArrayUtil.sub(strArray, 2, 2));
+		assertArrayEquals(new String[]{}, (String[])ArrayUtil.sub(strArray, 5, 5));
+		assertArrayEquals(new String[]{"a", "b", "c", "d", "e"}, (String[])ArrayUtil.sub(strArray, 0, 5));
+		assertArrayEquals(new String[]{"a", "b", "c", "d", "e"}, (String[])ArrayUtil.sub(strArray, 5, 0));
+		assertArrayEquals(new String[]{"a"}, (String[])ArrayUtil.sub(strArray, 0, 1));
+		assertArrayEquals(new String[]{"e"}, (String[])ArrayUtil.sub(strArray, 4, 5));
+		assertArrayEquals(new String[]{"b", "c", "d"}, (String[])ArrayUtil.sub(strArray, 1, 4));
+		assertArrayEquals(new String[]{"b", "c", "d"}, (String[])ArrayUtil.sub(strArray, 4, 1));
+		assertArrayEquals(new String[]{"b", "c", "d"}, (String[])ArrayUtil.sub(strArray, 1, -1));
+		assertArrayEquals(new String[]{"b", "c", "d"}, (String[])ArrayUtil.sub(strArray, -1, 1));
+		assertArrayEquals(new String[]{"b", "c", "d"}, (String[])ArrayUtil.sub(strArray, -4, -1));
+
+		// 测试边界情况
+		assertArrayEquals(new String[]{"a", "b", "c", "d", "e"}, (String[])ArrayUtil.sub(strArray, 0, 10));
+		assertArrayEquals(new String[]{}, (String[])ArrayUtil.sub(strArray, 10, 15));
+		assertArrayEquals(new String[]{"d", "e"}, (String[])ArrayUtil.sub(strArray, 3, 10));
+		assertArrayEquals(new String[]{"a", "b"}, (String[])ArrayUtil.sub(strArray, -5, 2));
+		assertArrayEquals(new String[]{"d", "e"}, (String[])ArrayUtil.sub(strArray, 3, 10));
+
+		// 测试负索引转换
+		assertArrayEquals(new String[]{"a", "b", "c", "d", "e"}, (String[])ArrayUtil.sub(strArray, -5, 5));
+		assertArrayEquals(new String[]{"e"}, (String[])ArrayUtil.sub(strArray, -1, 5));
+		assertArrayEquals(new String[]{"a"}, (String[])ArrayUtil.sub(strArray, -5, -4));
+
+		// 测试单元素数组
+		final Object singleArray = new String[]{"single"};
+		assertArrayEquals(new String[]{}, (String[])ArrayUtil.sub(singleArray, 0, 0));
+		assertArrayEquals(new String[]{}, (String[])ArrayUtil.sub(singleArray, 1, 1));
+		assertArrayEquals(new String[]{"single"}, (String[])ArrayUtil.sub(singleArray, 0, 1));
+		assertArrayEquals(new String[]{"single"}, (String[])ArrayUtil.sub(singleArray, 0, 5));
+		assertArrayEquals(new String[]{}, (String[])ArrayUtil.sub(singleArray, -1, -1));
+		assertArrayEquals(new String[]{"single"}, (String[])ArrayUtil.sub(singleArray, -1, 1));
+
+		// 测试空数组
+		final Object emptyArray = new String[]{};
+		assertArrayEquals(new String[]{}, (String[])ArrayUtil.sub(emptyArray, 0, 0));
+		assertArrayEquals(new String[]{}, (String[])ArrayUtil.sub(emptyArray, 0, 1));
+	}
+
+	@Test
+	public void subGenericExceptionTest() {
+		// 测试空指针异常
+		assertThrows(IllegalArgumentException.class, () -> ArrayUtil.sub((String[]) null, 0, 1));
+
+		// 测试正常调用不应抛出异常
+		final String[] strArray = {"a", "b", "c"};
+		assertDoesNotThrow(() -> ArrayUtil.sub(strArray, 0, 3));
+		assertDoesNotThrow(() -> ArrayUtil.sub(strArray, -3, 3));
+		assertDoesNotThrow(() -> ArrayUtil.sub(strArray, 0, 10));
+	}
+
+	@Test
 	public void isSortedTest() {
 		final Integer[] a = {1, 1, 2, 2, 2, 3, 3};
 		Assertions.assertTrue(ArrayUtil.isSorted(a));

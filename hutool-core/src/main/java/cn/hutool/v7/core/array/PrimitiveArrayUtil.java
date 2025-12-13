@@ -26,7 +26,17 @@ import java.util.Arrays;
 import java.util.Random;
 
 /**
- * 原始类型数组工具类
+ * 原始类型数组工具类，原始类型数据包括：
+ * <ol>
+ *     <li>{@code int[]}</li>
+ *     <li>{@code long[]}</li>
+ *     <li>{@code double[]}</li>
+ *     <li>{@code float[]}</li>
+ *     <li>{@code short[]}</li>
+ *     <li>{@code char[]}</li>
+ *     <li>{@code byte[]}</li>
+ *     <li>{@code boolean[]}</li>
+ * </ol>
  *
  * @author Looly
  * @since 5.5.2
