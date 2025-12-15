@@ -26,7 +26,7 @@ import javax.security.sasl.SaslServer;
 import java.util.Map;
 
 /**
- * 解简单认证和安全层（SASL）工具类
+ * 简单认证和安全层（SASL）工具类
  *
  * @author Looly
  * @since 6.0.0

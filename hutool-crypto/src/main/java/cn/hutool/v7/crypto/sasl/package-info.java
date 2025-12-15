@@ -15,6 +15,6 @@
  */
 
 /**
- * 解简单认证和安全层（SASL）封装，一般用于保证通信安全
+ * 简单认证和安全层（SASL）封装，一般用于保证通信安全
  */
 package cn.hutool.v7.crypto.sasl;
