@@ -1194,4 +1194,247 @@ public class ArrayUtilTest {
 
 		assertNotEquals(Arrays.toString(initialArray), Arrays.toString(shuffledArray));
 	}
+
+	@Test
+	public void swapTest() {
+		// 正常交换场景
+		final String[] array = {"a", "b", "c", "d"};
+		final String[] swapped = ArrayUtil.swap(array, 1, 2);
+
+		// 验证交换后的数组内容
+		assertArrayEquals(new String[]{"a", "c", "b", "d"}, swapped);
+		// 验证返回的是同一个数组对象
+		assertSame(array, swapped);
+		// 验证原数组也被修改
+		assertArrayEquals(new String[]{"a", "c", "b", "d"}, array);
+	}
+
+	@Test
+	public void swapTestBoundaryIndices() {
+		// 边界索引交换：第一个和最后一个元素
+		final Integer[] array = {1, 2, 3, 4, 5};
+		final Integer[] swapped = ArrayUtil.swap(array, 0, 4);
+
+		assertArrayEquals(new Integer[]{5, 2, 3, 4, 1}, swapped);
+		assertSame(array, swapped);
+	}
+
+	@Test
+	public void swapTestSameIndex() {
+		// 相同索引交换，数组应保持不变
+		final String[] array = {"x", "y", "z"};
+		final String[] swapped = ArrayUtil.swap(array, 1, 1);
+
+		assertArrayEquals(new String[]{"x", "y", "z"}, swapped);
+		assertSame(array, swapped);
+	}
+
+	@Test
+	public void swapTestEmptyArray() {
+		// 空数组应该抛出异常
+		final String[] emptyArray = {};
+		final IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+				() -> ArrayUtil.swap(emptyArray, 0, 1));
+
+		assertEquals("Array must not empty !", exception.getMessage());
+	}
+
+	@Test
+	public void swapTestNullArray() {
+		// null数组应该抛出异常
+		final String[] nullArray = null;
+		final IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+				() -> ArrayUtil.swap(nullArray, 0, 1));
+
+		assertEquals("Array must not empty !", exception.getMessage());
+	}
+
+	@Test
+	public void swapTestNegativeIndex() {
+		// 负索引应该抛出异常
+		final Integer[] array = {1, 2, 3};
+		final ArrayIndexOutOfBoundsException exception = assertThrows(ArrayIndexOutOfBoundsException.class,
+				() -> ArrayUtil.swap(array, -1, 1));
+
+		assertTrue(exception.getMessage().contains("-1"));
+	}
+
+	@Test
+	public void swapTestIndexOutOfBounds() {
+		// 越界索引应该抛出异常
+		final String[] array = {"a", "b", "c"};
+		final ArrayIndexOutOfBoundsException exception = assertThrows(ArrayIndexOutOfBoundsException.class,
+				() -> ArrayUtil.swap(array, 0, 5));
+
+		assertTrue(exception.getMessage().contains("5"));
+	}
+
+	@Test
+	public void swapTestMultipleTypes() {
+		// 测试不同类型数组的交换
+		final Integer[] intArray = {1, 2, 3};
+		final Integer[] swappedInt = ArrayUtil.swap(intArray, 0, 2);
+		assertArrayEquals(new Integer[]{3, 2, 1}, swappedInt);
+
+		final Double[] doubleArray = {1.1, 2.2, 3.3};
+		final Double[] swappedDouble = ArrayUtil.swap(doubleArray, 1, 2);
+		assertArrayEquals(new Double[]{1.1, 3.3, 2.2}, swappedDouble);
+
+		final Boolean[] boolArray = {true, false, true};
+		final Boolean[] swappedBool = ArrayUtil.swap(boolArray, 0, 1);
+		assertArrayEquals(new Boolean[]{false, true, true}, swappedBool);
+	}
+
+	// region ----- getComponentType tests
+
+	@Test
+	public void getComponentTypeObjectTestWithObjectArray() {
+		// 测试 Object 数组
+		final Object[] objectArray = new Object[]{"test", 123};
+		final Class<?> result = ArrayUtil.getComponentType(objectArray);
+		assertEquals(Object.class, result, "Object[] 应返回 Object.class");
+	}
+
+	@Test
+	public void getComponentTypeObjectTestWithStringArray() {
+		// 测试 String 数组
+		final String[] stringArray = new String[]{"a", "b", "c"};
+		final Class<?> result = ArrayUtil.getComponentType(stringArray);
+		assertEquals(String.class, result, "String[] 应返回 String.class");
+	}
+
+	@Test
+	public void getComponentTypeObjectTestWithPrimitiveIntArray() {
+		// 测试基本类型 int 数组
+		final int[] intArray = new int[]{1, 2, 3};
+		final Class<?> result = ArrayUtil.getComponentType(intArray);
+		assertEquals(int.class, result, "int[] 应返回 int.class");
+	}
+
+	@Test
+	public void getComponentTypeObjectTestWithIntegerArray() {
+		// 测试包装类型 Integer 数组
+		final Integer[] integerArray = new Integer[]{1, 2, 3};
+		final Class<?> result = ArrayUtil.getComponentType(integerArray);
+		assertEquals(Integer.class, result, "Integer[] 应返回 Integer.class");
+	}
+
+	@Test
+	public void getComponentTypeObjectTestWithNonArrayObject() {
+		// 测试非数组对象
+		final String nonArray = "not an array";
+		final Class<?> result = ArrayUtil.getComponentType(nonArray);
+		assertNull(result, "非数组对象应返回 null");
+	}
+
+	@Test
+	public void getComponentTypeObjectTestWithEmptyArray() {
+		// 测试空数组
+		final String[] emptyArray = new String[0];
+		final Class<?> result = ArrayUtil.getComponentType(emptyArray);
+		assertEquals(String.class, result, "空 String 数组应返回 String.class");
+	}
+
+	@Test
+	public void getComponentTypeObjectTestWithMultiDimensionalArray() {
+		// 测试多维数组
+		final int[][] multiDimArray = new int[2][3];
+		final Class<?> result = ArrayUtil.getComponentType(multiDimArray);
+		assertEquals(int[].class, result, "int[][] 应返回 int[].class");
+	}
+
+	@Test
+	public void getComponentTypeClassTestWithObjectArrayClass() {
+		// 测试 Object 数组 Class
+		final Class<?> result = ArrayUtil.getComponentType(Object[].class);
+		assertEquals(Object.class, result, "Object[].class 应返回 Object.class");
+	}
+
+	@Test
+	public void getComponentTypeClassTestWithStringArrayClass() {
+		// 测试 String 数组 Class
+		final Class<?> result = ArrayUtil.getComponentType(String[].class);
+		assertEquals(String.class, result, "String[].class 应返回 String.class");
+	}
+
+	@Test
+	public void getComponentTypeClassTestWithPrimitiveIntArrayClass() {
+		// 测试基本类型 int 数组 Class
+		final Class<?> result = ArrayUtil.getComponentType(int[].class);
+		assertEquals(int.class, result, "int[].class 应返回 int.class");
+	}
+
+	@Test
+	public void getComponentTypeClassTestWithIntegerArrayClass() {
+		// 测试包装类型 Integer 数组 Class
+		final Class<?> result = ArrayUtil.getComponentType(Integer[].class);
+		assertEquals(Integer.class, result, "Integer[].class 应返回 Integer.class");
+	}
+
+	@Test
+	public void getComponentTypeClassTestWithNonArrayClass() {
+		// 测试非数组 Class
+		final Class<?> result = ArrayUtil.getComponentType(String.class);
+		assertNull(result, "String.class 应返回 null");
+	}
+
+	@Test
+	public void getComponentTypeClassTestWithMultiDimensionalArrayClass() {
+		// 测试多维数组 Class
+		final Class<?> result = ArrayUtil.getComponentType(int[][].class);
+		assertEquals(int[].class, result, "int[][].class 应返回 int[].class");
+	}
+
+	@Test
+	public void getComponentTypeClassTestWithPrimitiveArrayType() {
+		// 测试所有基本类型数组
+		assertEquals(boolean.class, ArrayUtil.getComponentType(boolean[].class));
+		assertEquals(byte.class, ArrayUtil.getComponentType(byte[].class));
+		assertEquals(char.class, ArrayUtil.getComponentType(char[].class));
+		assertEquals(short.class, ArrayUtil.getComponentType(short[].class));
+		assertEquals(int.class, ArrayUtil.getComponentType(int[].class));
+		assertEquals(long.class, ArrayUtil.getComponentType(long[].class));
+		assertEquals(float.class, ArrayUtil.getComponentType(float[].class));
+		assertEquals(double.class, ArrayUtil.getComponentType(double[].class));
+	}
+
+	@Test
+	public void getComponentTypeClassTestWithCustomObjectArray() {
+		// 测试自定义对象数组
+		final Class<?> result = ArrayUtil.getComponentType(ArrayUtil[].class);
+		assertEquals(ArrayUtil.class, result, "ArrayUtil[].class 应返回 ArrayUtil.class");
+	}
+	// endregion
+
+	// region ----- getArrayType tests
+	@Test
+	void testGetArrayTypeForPrimitive() {
+		assertEquals(int[].class, ArrayUtil.getArrayType(int.class));
+		assertEquals(double[].class, ArrayUtil.getArrayType(double.class));
+		assertEquals(boolean[].class, ArrayUtil.getArrayType(boolean.class));
+	}
+
+	@Test
+	void testGetArrayTypeForObject() {
+		assertEquals(String[].class, ArrayUtil.getArrayType(String.class));
+		assertEquals(Integer[].class, ArrayUtil.getArrayType(Integer.class));
+	}
+
+	@Test
+	void testGetArrayTypeForInterface() {
+		assertEquals(Runnable[].class, ArrayUtil.getArrayType(Runnable.class));
+		assertEquals(Comparable[].class, ArrayUtil.getArrayType(Comparable.class));
+	}
+
+	@Test
+	void testGetArrayTypeForAbstractClass() {
+		assertEquals(Number[].class, ArrayUtil.getArrayType(Number.class));
+	}
+
+	@Test
+	void testGetArrayTypeForNull() {
+		assertNull(ArrayUtil.getArrayType(null));
+	}
+	// endregion
 }
+

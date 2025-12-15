@@ -587,6 +587,9 @@ public class ArrayUtil extends PrimitiveArrayUtil {
 	 * @since 3.2.2
 	 */
 	public static Class<?> getArrayType(final Class<?> componentType) {
+		if(null == componentType) {
+			return null;
+		}
 		return Array.newInstance(componentType, 0).getClass();
 	}
 
