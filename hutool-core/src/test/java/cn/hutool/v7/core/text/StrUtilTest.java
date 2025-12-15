@@ -350,6 +350,16 @@ public class StrUtilTest {
 	}
 
 	@Test
+	public void testMoveLocalCyclicShift() {
+		//Case 1:"12"右移动4位
+		final String result1 = StrUtil.move("12345", 0, 2, 4);
+		assertEquals("12345", result1);
+		//Case 2:"12"左移1位
+		final String result2 = StrUtil.move("12345", 0, 2, -1);
+		assertEquals("34512", result2);
+	}
+
+	@Test
 	public void removePrefixIgnorecaseTest() {
 		final String a = "aaabbb";
 		String prefix = "aaa";

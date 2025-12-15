@@ -1620,8 +1620,8 @@ public class CharSequenceUtil extends StrValidator {
 	 * @param str        字符串
 	 * @param partLength 每等份的长度
 	 * @return 切分后的数组
-	 * @since 3.0.6
 	 * @see SplitUtil#splitByLength(CharSequence, int)
+	 * @since 3.0.6
 	 */
 	public static String[] cut(final CharSequence str, final int partLength) {
 		return SplitUtil.splitByLength(str, partLength);
@@ -3696,7 +3696,7 @@ public class CharSequenceUtil extends StrValidator {
 	/**
 	 * 将字符串转为小写
 	 *
-	 * @param str 被转的字符串
+	 * @param str    被转的字符串
 	 * @param locale Locale
 	 * @return 转换后的字符串
 	 * @see String#toLowerCase()
@@ -3706,7 +3706,7 @@ public class CharSequenceUtil extends StrValidator {
 		if (null == str) {
 			return null;
 		}
-		if(str.isEmpty()){
+		if (str.isEmpty()) {
 			return EMPTY;
 		}
 		return str.toString().toLowerCase(locale);
@@ -3727,7 +3727,7 @@ public class CharSequenceUtil extends StrValidator {
 	/**
 	 * 将字符串转为大写
 	 *
-	 * @param str 被转的字符串
+	 * @param str    被转的字符串
 	 * @param locale Locale
 	 * @return 转换后的字符串
 	 * @see String#toUpperCase()
@@ -3737,7 +3737,7 @@ public class CharSequenceUtil extends StrValidator {
 		if (null == str) {
 			return null;
 		}
-		if(str.isEmpty()){
+		if (str.isEmpty()) {
 			return EMPTY;
 		}
 		return str.toString().toUpperCase();
@@ -3967,14 +3967,14 @@ public class CharSequenceUtil extends StrValidator {
 	 * 创建StringBuilder对象
 	 *
 	 * @param strEditor 编辑器，用于对每个字符串进行编辑
-	 * @param strs 待处理的字符串列表
+	 * @param strs      待处理的字符串列表
 	 * @return StringBuilder对象
 	 * @since 5.8.42
 	 */
-	public static StringBuilder builder(final Function<CharSequence, CharSequence> strEditor, final CharSequence... strs){
+	public static StringBuilder builder(final Function<CharSequence, CharSequence> strEditor, final CharSequence... strs) {
 		final StringBuilder sb = new StringBuilder();
 		for (final CharSequence str : strs) {
-			sb.append(strEditor.apply( str));
+			sb.append(strEditor.apply(str));
 		}
 		return sb;
 	}
@@ -4105,27 +4105,31 @@ public class CharSequenceUtil extends StrValidator {
 			return toStringOrNull(str);
 		}
 		final int len = str.length();
+		// 参数校验
+		if (startInclude < 0 || endExclude > len || startInclude > endExclude) {
+			throw new IndexOutOfBoundsException("Invalid range: [" + startInclude + ", " + endExclude + ")");
+		}
+
 		if (Math.abs(moveLength) > len) {
 			// 循环位移，当越界时循环
 			moveLength = moveLength % len;
 		}
-		final StringBuilder strBuilder = new StringBuilder(len);
-		if (moveLength > 0) {
-			final int endAfterMove = Math.min(endExclude + moveLength, str.length());
-			strBuilder.append(str.subSequence(0, startInclude))//
-				.append(str.subSequence(endExclude, endAfterMove))//
-				.append(str.subSequence(startInclude, endExclude))//
-				.append(str.subSequence(endAfterMove, str.length()));
-		} else if (moveLength < 0) {
-			final int startAfterMove = Math.max(startInclude + moveLength, 0);
-			strBuilder.append(str.subSequence(0, startAfterMove))//
-				.append(str.subSequence(startInclude, endExclude))//
-				.append(str.subSequence(startAfterMove, startInclude))//
-				.append(str.subSequence(endExclude, str.length()));
-		} else {
-			return toStringOrNull(str);
+		// 分离“移动块”和“剩余轨道”
+		final String block = str.subSequence(startInclude, endExclude).toString();
+		final String rest = new StringBuilder(str).delete(startInclude, endExclude).toString();
+
+		final int restLen = rest.length();
+		if (restLen == 0) {
+			return str.toString(); // 全选时位移无意义
 		}
-		return strBuilder.toString();
+		// 计算循环周期：剩余字符数 + 1（代表块可以存在的不同位置点）
+		final int totalPositions = restLen + 1;
+		// 计算移动后的新位置 (处理正负数)
+		final int newPos = (startInclude + moveLength % totalPositions + totalPositions) % totalPositions;
+		// 重新组装
+		return rest.substring(0, newPos) + // 放入新位置前的剩余字符
+			block +                     // 放入整体块
+			rest.substring(newPos); // 放入剩下的剩余字符
 	}
 
 	/**
