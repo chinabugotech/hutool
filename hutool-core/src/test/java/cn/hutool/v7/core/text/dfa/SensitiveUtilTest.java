@@ -18,11 +18,12 @@ package cn.hutool.v7.core.text.dfa;
 
 import cn.hutool.v7.core.collection.ListUtil;
 import lombok.Data;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SensitiveUtilTest {
 
@@ -39,7 +40,7 @@ public class SensitiveUtilTest {
 		bean.setNum(100);
 		SensitiveUtil.init(wordList);
 		final String beanStr = SensitiveUtil.sensitiveFilter(bean.getStr(), true, null);
-		Assertions.assertEquals("我有一颗$****，***的", beanStr);
+		assertEquals("我有一颗$****，***的", beanStr);
 	}
 
 	@Data
@@ -53,6 +54,13 @@ public class SensitiveUtilTest {
 		SensitiveUtil.init(ListUtil.view("赵", "赵阿", "赵阿三"));
 
 		final String result = SensitiveUtil.sensitiveFilter("赵阿三在做什么。", true, null);
-		Assertions.assertEquals("***在做什么。", result);
+		assertEquals("***在做什么。", result);
+	}
+
+	@Test
+	void issue4182Test(){
+		SensitiveUtil.init(ListUtil.view("12宝宝龙", "34皮卡丘"));
+		final String s = SensitiveUtil.sensitiveFilter("creator_user_id=2000907612345839744");
+		assertEquals("creator_user_id=2000907612345839744", s);
 	}
 }
