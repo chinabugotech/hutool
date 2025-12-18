@@ -41,6 +41,15 @@ public class BeanPath implements Serializable {
 	 */
 	private static final char[] EXP_CHARS = {CharUtil.DOT, CharUtil.BRACKET_START, CharUtil.BRACKET_END};
 
+	/**
+	 * 转义字符映射：转义后的字符 -> 占位符（使用Unicode私有区末尾字符，更不常用）
+	 */
+	private static final char[][] ESCAPE_CHARS = {
+		{'\'', '\uF8FF'},  // \' -> '\uF8FF'
+		{':', '\uF8FE'},    // \: -> '\uF8FE'
+		{',', '\uF8FD'}     // \, -> '\uF8FD'
+	};
+
 	private boolean isStartWith = false;
 	protected List<String> patternParts;
 
@@ -147,7 +156,8 @@ public class BeanPath implements Serializable {
 			subBean = this.get(patternParts, bean, true);
 		}
 
-		final Object newSubBean = BeanUtil.setFieldValue(subBean, patternParts.get(patternParts.size() - 1), value);
+		final Object newSubBean = BeanUtil.setFieldValue(subBean, 
+				restoreEscapes(patternParts.get(patternParts.size() - 1)), value);
 		if(newSubBean != subBean){
 			// 对象变更，重新加入
 			this.set(bean, getParentParts(patternParts), nextNumberPart, newSubBean);
@@ -301,11 +311,44 @@ public class BeanPath implements Serializable {
 				}
 			}
 		} else {
-			// 数字或普通字符串
-			return BeanUtil.getFieldValue(bean, expression);
+			// 数字或普通字符串，还原转义占位符
+			final String realExpression = restoreEscapes(expression);
+			return BeanUtil.getFieldValue(bean, realExpression);
 		}
 
 		return null;
+	}
+
+	/**
+	 * 还原转义占位符为真实字符
+	 *
+	 * @param str 包含占位符的字符串
+	 * @return 还原后的字符串
+	 */
+	private static String restoreEscapes(final String str) {
+		if (str == null) {
+			return null;
+		}
+		String result = str;
+		for (final char[] escape : ESCAPE_CHARS) {
+			result = result.replace(escape[1], escape[0]);
+		}
+		return result;
+	}
+
+	/**
+	 * 查找转义字符对应的占位符
+	 *
+	 * @param c 被转义的字符
+	 * @return 占位符，未找到返回0
+	 */
+	private static char getEscapePlaceholder(final char c) {
+		for (final char[] escape : ESCAPE_CHARS) {
+			if (escape[0] == c) {
+				return escape[1];
+			}
+		}
+		return 0;
 	}
 
 	/**
@@ -327,6 +370,18 @@ public class BeanPath implements Serializable {
 				// 忽略开头的$符，表示当前对象
 				isStartWith = true;
 				continue;
+			}
+
+			// 统一处理转义字符：\' \: \,
+			if ('\\' == c && i + 1 < length) {
+				final char nextChar = expression.charAt(i + 1);
+				final char placeholder = getEscapePlaceholder(nextChar);
+				if (placeholder != 0) {
+					// 转义字符转换为占位符
+					builder.append(placeholder);
+					i++; // 跳过下一个字符
+					continue;
+				}
 			}
 
 			if ('\'' == c) {

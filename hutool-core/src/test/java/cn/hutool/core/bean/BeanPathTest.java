@@ -149,6 +149,181 @@ public class BeanPathTest {
 		assertEquals("[1, 2, 3]", result.toString());
 	}
 
+	/**
+	 * 测试key中包含冒号（使用转义）
+	 */
+	@Test
+	public void keyWithColonTest() {
+		final Map<String, Object> map = new HashMap<>();
+		map.put("a:b", "value1");
+		map.put("time:12:30", "value2");
+
+		// 使用 \: 转义冒号
+		BeanPath beanPath = BeanPath.create("a\\:b");
+		assertEquals("value1", beanPath.get(map));
+
+		beanPath = BeanPath.create("time\\:12\\:30");
+		assertEquals("value2", beanPath.get(map));
+	}
+
+	/**
+	 * 测试key中包含逗号（使用转义）
+	 */
+	@Test
+	public void keyWithCommaTest() {
+		final Map<String, Object> map = new HashMap<>();
+		map.put("a,b", "value1");
+		map.put("x,y,z", "value2");
+
+		// 使用 \, 转义逗号
+		BeanPath beanPath = BeanPath.create("a\\,b");
+		assertEquals("value1", beanPath.get(map));
+
+		beanPath = BeanPath.create("x\\,y\\,z");
+		assertEquals("value2", beanPath.get(map));
+	}
+
+	/**
+	 * 测试key中包含转义单引号
+	 */
+	@Test
+	public void keyWithEscapedQuoteTest() {
+		final Map<String, Object> map = new HashMap<>();
+		map.put("it's", "value1");
+		map.put("test'key", "value2");
+
+		// 使用 \' 转义单引号
+		BeanPath beanPath = BeanPath.create("['it\\'s']");
+		assertEquals("value1", beanPath.get(map));
+
+		beanPath = BeanPath.create("['test\\'key']");
+		assertEquals("value2", beanPath.get(map));
+	}
+
+	/**
+	 * 测试嵌套使用包含特殊字符的key
+	 */
+	@Test
+	public void nestedSpecialKeyTest() {
+		final Map<String, Object> map = new HashMap<>();
+		final Map<String, Object> inner = new HashMap<>();
+		inner.put("key:1", "innerValue");
+		map.put("outer,key", inner);
+
+		// 嵌套访问包含特殊字符的key（使用转义）
+		BeanPath beanPath = BeanPath.create("outer\\,key.key\\:1");
+		assertEquals("innerValue", beanPath.get(map));
+	}
+
+	/**
+	 * 测试切片表达式仍然正常工作
+	 */
+	@Test
+	public void sliceExpressionTest() {
+		final List<String> list = new ArrayList<>();
+		list.add("a");
+		list.add("b");
+		list.add("c");
+		list.add("d");
+		list.add("e");
+
+		final Map<String, Object> map = new HashMap<>();
+		map.put("items", list);
+
+		// 切片表达式仍然有效
+		BeanPath beanPath = BeanPath.create("items[1:3]");
+		Object result = beanPath.get(map);
+		assertEquals("[b, c]", result.toString());
+	}
+
+	/**
+	 * 测试多选索引表达式仍然正常工作
+	 */
+	@Test
+	public void multiIndexExpressionTest() {
+		final List<String> list = new ArrayList<>();
+		list.add("a");
+		list.add("b");
+		list.add("c");
+		list.add("d");
+
+		final Map<String, Object> map = new HashMap<>();
+		map.put("items", list);
+
+		// 多选索引表达式仍然有效
+		BeanPath beanPath = BeanPath.create("items[0,2]");
+		Object result = beanPath.get(map);
+		assertEquals("[a, c]", result.toString());
+	}
+
+	/**
+	 * 测试set方法支持包含冒号的key
+	 */
+	@Test
+	public void setKeyWithColonTest() {
+		final Map<String, Object> map = new HashMap<>();
+
+		// 使用转义冒号的key进行set
+		BeanPath beanPath = BeanPath.create("a\\:b");
+		beanPath.set(map, "value1");
+		assertEquals("value1", map.get("a:b"));
+
+		// 再次验证get
+		assertEquals("value1", beanPath.get(map));
+	}
+
+	/**
+	 * 测试set方法支持包含逗号的key
+	 */
+	@Test
+	public void setKeyWithCommaTest() {
+		final Map<String, Object> map = new HashMap<>();
+
+		// 使用转义逗号的key进行set
+		BeanPath beanPath = BeanPath.create("x\\,y\\,z");
+		beanPath.set(map, "value2");
+		assertEquals("value2", map.get("x,y,z"));
+
+		// 再次验证get
+		assertEquals("value2", beanPath.get(map));
+	}
+
+	/**
+	 * 测试set方法支持包含单引号的key
+	 */
+	@Test
+	public void setKeyWithQuoteTest() {
+		final Map<String, Object> map = new HashMap<>();
+
+		// 使用转义单引号的key进行set
+		BeanPath beanPath = BeanPath.create("it\\'s");
+		beanPath.set(map, "value3");
+		assertEquals("value3", map.get("it's"));
+
+		// 再次验证get
+		assertEquals("value3", beanPath.get(map));
+	}
+
+	/**
+	 * 测试set方法支持嵌套特殊字符key
+	 */
+	@Test
+	public void setNestedSpecialKeyTest() {
+		final Map<String, Object> map = new HashMap<>();
+
+		// 嵌套设置包含特殊字符的key
+		BeanPath beanPath = BeanPath.create("outer\\,key.inner\\:key");
+		beanPath.set(map, "nestedValue");
+
+		// 验证结构
+		@SuppressWarnings("unchecked")
+		Map<String, Object> outer = (Map<String, Object>) map.get("outer,key");
+		assertEquals("nestedValue", outer.get("inner:key"));
+
+		// 再次验证get
+		assertEquals("nestedValue", beanPath.get(map));
+	}
+
 	@Data
 	static class MyUser {
 		private String[] hobby;
