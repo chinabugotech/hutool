@@ -46,11 +46,14 @@ public class RecordUtil {
 	 * 获取Record类中所有字段名称，getter方法名与字段同名
 	 *
 	 * @param recordClass Record类
-	 * @return 字段数组
+	 * @return 字段数组，如果类不是Record，则返回null
 	 */
 	@SuppressWarnings("unchecked")
 	public static Map.Entry<String, Type>[] getRecordComponents(final Class<?> recordClass) {
 		final RecordComponent[] components = recordClass.getRecordComponents();
+		if(null == components){
+			return null;
+		}
 		final Map.Entry<String, Type>[] entries = new Map.Entry[components.length];
 		for (int i = 0; i < components.length; i++) {
 			entries[i] = new AbstractMap.SimpleEntry<>(components[i].getName(), components[i].getGenericType());
