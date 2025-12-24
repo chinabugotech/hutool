@@ -700,7 +700,7 @@ public class ThreadUtil {
 	 */
 	public static Thread getMainThread() {
 		for (final Thread thread : getThreads()) {
-			if (thread.getId() == 1) {
+			if (thread.getId() == 1 || "main".equals(thread.getName())) {
 				return thread;
 			}
 		}
