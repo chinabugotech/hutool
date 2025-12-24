@@ -108,10 +108,6 @@ public class Models {
 		DOUBAO_1_5_PRO_32K("doubao-1.5-pro-32k-250115"),
 		DOUBAO_1_5_PRO_256K("doubao-1.5-pro-256k-250115"),
 		DOUBAO_1_5_LITE_32K("doubao-1.5-lite-32k-250115"),
-		DEEPSEEK_R1("deepseek-r1-250120"),
-		DEEPSEEK_R1_DISTILL_QWEN_32B("deepseek-r1-distill-qwen-32b-250120"),
-		DEEPSEEK_R1_DISTILL_QWEN_7B("deepseek-r1-distill-qwen-7b-250120"),
-		DEEPSEEK_V3("deepseek-v3-241226"),
 		DOUBAO_PRO_4K_240515("doubao-pro-4k-240515"),
 		DOUBAO_PRO_4K_CHARACTER_240728("doubao-pro-4k-character-240728"),
 		DOUBAO_PRO_4K_FUNCTIONCALL_240615("doubao-pro-4k-functioncall-240615"),
@@ -126,7 +122,12 @@ public class Models {
 		DOUBAO_LITE_4K_PRETRAIN_CHARACTER_240516("doubao-lite-4k-pretrain-character-240516"),
 		DOUBAO_LITE_32K_240828("doubao-lite-32k-240828"),
 		DOUBAO_LITE_32K_CHARACTER_241015("doubao-lite-32k-character-241015"),
-		DOUBAO_LITE_128K_240828("240828"),
+		DOUBAO_LITE_128K_240828("doubao-lite-128k-240828"),
+		// deepseek的模型
+		DEEPSEEK_R1("deepseek-r1-250120"),
+		DEEPSEEK_R1_DISTILL_QWEN_32B("deepseek-r1-distill-qwen-32b-250120"),
+		DEEPSEEK_R1_DISTILL_QWEN_7B("deepseek-r1-distill-qwen-7b-250120"),
+		DEEPSEEK_V3("deepseek-v3-241226"),
 		MOONSHOT_V1_8K("moonshot-v1-8k"),
 		MOONSHOT_V1_32K("moonshot-v1-32k"),
 		MOONSHOT_V1_128K("moonshot-v1-128k"),
@@ -140,10 +141,10 @@ public class Models {
 		DOUBAO_EMBEDDING_TEXT_240715("doubao-embedding-text-240715"),
 		DOUBAO_EMBEDDING_VISION("doubao-embedding-vision-241215"),
 		DOUBAO_SEEDREAM_3_0_T2I("doubao-seedream-3-0-t2i-250415"),
-		Doubao_Seedance_1_0_lite_t2v("doubao-seedance-1-0-lite-t2v-250428"),
-		Doubao_Seedance_1_0_lite_i2v("doubao-seedance-1-0-lite-i2v-250428"),
-		Wan2_1_14B_t2v("wan2-1-14b-t2v-250225"),
-		Wan2_1_14B_i2v("wan2-1-14b-i2v-250225");
+		DOUBAO_SEEDDANCE_1_0_LITE_T2V("doubao-seedance-1-0-lite-t2v-250428"),
+		DOUBAO_SEEDDANCE_1_0_lite_I2V("doubao-seedance-1-0-lite-i2v-250428"),
+		WAN2_1_14B_T2V("wan2-1-14b-t2v-250225"),
+		WAN2_1_14B_I2V("wan2-1-14b-i2v-250225");
 
 		private final String model;
 
@@ -173,7 +174,7 @@ public class Models {
 		GROK_2_IMAGE_LATEST("grok-2-image-1212"),
 		GROK_2_IMAGE("grok-2-image-1212"),
 		GROK_2_IMAGE_1212("grok-2-image-1212"),
-		grok_2_latest("grok-2-1212"),
+		GROK_2_LATEST("grok-2-1212"),
 		GROK_2("grok-2-1212"),
 		GROK_2_1212("grok-2-1212"),
 		GROK_2_VISION_1212("grok-2-vision-1212"),
