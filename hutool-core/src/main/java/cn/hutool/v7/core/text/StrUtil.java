@@ -288,6 +288,36 @@ public class StrUtil extends CharSequenceUtil implements StrPool {
 		return new String(ArrayUtil.reverse(str.toCharArray()));
 	}
 
+	/**
+	 * 反转字符串<br>
+	 * 例如：abcd =》dcba
+	 * <p>
+	 * 该方法按Unicode code point进行反转，支持Unicode字符的正确反转
+	 * 确保复杂字符不会被拆分，如表情符号等多字节字符
+	 * </p>
+	 * @param str 被反转的字符串
+	 * @return 反转后的字符串，如果输入为null则返回null
+	 * @since 5.8.43
+	 */
+	public static String reverseByCodePoint(String str) {
+		if (null == str) {
+			return null;
+		}
+
+		//按Unicode code point方式进行反转处理
+		StringBuilder result = new StringBuilder();
+		for (int i = str.length(); i > 0; ) {
+			//获取指定位置前的code point
+			int codePoint = str.codePointBefore(i);
+			//根据code point的字符数量调整索引位置
+			i -= Character.charCount(codePoint);
+			//将code point追加到结果中
+			result.appendCodePoint(codePoint);
+		}
+
+		return result.toString();
+	}
+
 	// ------------------------------------------------------------------------ fill
 
 	/**
