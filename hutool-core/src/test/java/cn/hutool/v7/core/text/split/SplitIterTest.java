@@ -16,10 +16,7 @@
 
 package cn.hutool.v7.core.text.split;
 
-import cn.hutool.v7.core.text.finder.CharFinder;
-import cn.hutool.v7.core.text.finder.LengthFinder;
-import cn.hutool.v7.core.text.finder.PatternFinder;
-import cn.hutool.v7.core.text.finder.StrFinder;
+import cn.hutool.v7.core.text.finder.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -32,39 +29,39 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class SplitIterTest {
 
 	@Test
-	public void splitByCharTest(){
+	public void splitByCharTest() {
 		final String str1 = "a, ,,efedsfs,   ddf,";
 
 		//不忽略""
 		final SplitIter splitIter = new SplitIter(str1,
-				new CharFinder(',', false),
-				Integer.MAX_VALUE,
-				false
+			new CharFinder(',', false),
+			Integer.MAX_VALUE,
+			false
 		);
 		assertEquals(6, splitIter.toList(false).size());
 	}
 
 	@Test
-	public void splitByCharIgnoreCaseTest(){
+	public void splitByCharIgnoreCaseTest() {
 		final String str1 = "a, ,,eAedsas,   ddf,";
 
 		//不忽略""
 		final SplitIter splitIter = new SplitIter(str1,
-				new CharFinder('a', true),
-				Integer.MAX_VALUE,
-				false
+			new CharFinder('a', true),
+			Integer.MAX_VALUE,
+			false
 		);
 		assertEquals(4, splitIter.toList(false).size());
 	}
 
 	@Test
-	public void splitByCharIgnoreEmptyTest(){
+	public void splitByCharIgnoreEmptyTest() {
 		final String str1 = "a, ,,efedsfs,   ddf,";
 
 		final SplitIter splitIter = new SplitIter(str1,
-				new CharFinder(',', false),
-				Integer.MAX_VALUE,
-				true
+			new CharFinder(',', false),
+			Integer.MAX_VALUE,
+			true
 		);
 
 		final List<String> strings = splitIter.toList(false);
@@ -72,13 +69,13 @@ public class SplitIterTest {
 	}
 
 	@Test
-	public void splitByCharTrimTest(){
+	public void splitByCharTrimTest() {
 		final String str1 = "a, ,,efedsfs,   ddf,";
 
 		final SplitIter splitIter = new SplitIter(str1,
-				new CharFinder(',', false),
-				Integer.MAX_VALUE,
-				true
+			new CharFinder(',', false),
+			Integer.MAX_VALUE,
+			true
 		);
 
 		final List<String> strings = splitIter.toList(true);
@@ -89,13 +86,13 @@ public class SplitIterTest {
 	}
 
 	@Test
-	public void splitByStrTest(){
+	public void splitByStrTest() {
 		final String str1 = "a, ,,efedsfs,   ddf,";
 
 		final SplitIter splitIter = new SplitIter(str1,
-				StrFinder.of("e", false),
-				Integer.MAX_VALUE,
-				true
+			StrFinder.of("e", false),
+			Integer.MAX_VALUE,
+			true
 		);
 
 		final List<String> strings = splitIter.toList(false);
@@ -103,13 +100,13 @@ public class SplitIterTest {
 	}
 
 	@Test
-	public void splitByPatternTest(){
+	public void splitByPatternTest() {
 		final String str1 = "a, ,,efedsfs,   ddf,";
 
 		final SplitIter splitIter = new SplitIter(str1,
-				new PatternFinder(Pattern.compile("\\s")),
-				Integer.MAX_VALUE,
-				true
+			new PatternFinder(Pattern.compile("\\s")),
+			Integer.MAX_VALUE,
+			true
 		);
 
 		final List<String> strings = splitIter.toList(false);
@@ -117,12 +114,12 @@ public class SplitIterTest {
 	}
 
 	@Test
-	public void splitByLengthTest(){
+	public void splitByLengthTest() {
 		final String text = "1234123412341234";
 		final SplitIter splitIter = new SplitIter(text,
-				new LengthFinder(4),
-				Integer.MAX_VALUE,
-				false
+			new LengthFinder(4),
+			Integer.MAX_VALUE,
+			false
 		);
 
 		final List<String> strings = splitIter.toList(false);
@@ -130,12 +127,12 @@ public class SplitIterTest {
 	}
 
 	@Test
-	public void splitLimitTest(){
+	public void splitLimitTest() {
 		final String text = "55:02:18";
 		final SplitIter splitIter = new SplitIter(text,
-				new CharFinder(':'),
-				3,
-				false
+			new CharFinder(':'),
+			3,
+			false
 		);
 
 		final List<String> strings = splitIter.toList(false);
@@ -143,12 +140,12 @@ public class SplitIterTest {
 	}
 
 	@Test
-	public void splitToSingleTest(){
+	public void splitToSingleTest() {
 		final String text = "";
 		final SplitIter splitIter = new SplitIter(text,
-				new CharFinder(':'),
-				3,
-				false
+			new CharFinder(':'),
+			3,
+			false
 		);
 
 		final List<String> strings = splitIter.toList(false);
@@ -157,8 +154,8 @@ public class SplitIterTest {
 
 	// 切割字符串是空字符串时报错
 	@Test
-	public void splitByEmptyTest(){
-		Assertions.assertThrows(IllegalArgumentException.class, ()->{
+	public void splitByEmptyTest() {
+		Assertions.assertThrows(IllegalArgumentException.class, () -> {
 			final String text = "aa,bb,cc";
 			final SplitIter splitIter = new SplitIter(text,
 				StrFinder.of("", false),
@@ -173,15 +170,28 @@ public class SplitIterTest {
 
 	@Test
 	public void issue4169Test() {
-		final StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < 20000; i++) { // 1万次连续分隔符，模拟递归深度风险场景
-			sb.append(",");
-		}
-		sb.append("test");
+		// 1万次连续分隔符，模拟递归深度风险场景
+		String sb = ",".repeat(20000) + "test";
 
-		final SplitIter iter = new SplitIter(sb.toString(), new StrFinder(",",false), 0, true);
+		final SplitIter iter = new SplitIter(sb, new StrFinder(",", false), 0, true);
 		final List<String> result = iter.toList(false);
 
 		assertEquals(Collections.singletonList("test"), result);
 	}
+
+	@Test
+	public void issueIDFN7YTest() {
+		final String text = "a,b,c";
+		final TextFinder finder = new StrFinder(",", false);
+		final SplitIter splitIter = new SplitIter(text, finder, 0, false);
+
+		List<String> firstResult = splitIter.toList(false);
+		assertEquals(3, firstResult.size());
+
+		splitIter.reset();
+		List<String> secondResult = splitIter.toList(false);
+		assertEquals(3, secondResult.size());
+		assertEquals(firstResult, secondResult);
+	}
+
 }

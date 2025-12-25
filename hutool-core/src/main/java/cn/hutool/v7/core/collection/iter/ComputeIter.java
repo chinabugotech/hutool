@@ -80,6 +80,14 @@ public abstract class ComputeIter<T> implements Iterator<T> {
 	}
 
 	/**
+	 * 重置状态，用于再次遍历
+	 */
+	public void reset() {
+		this.finished = false;
+		this.next = null;
+	}
+
+	/**
 	 * 手动结束遍历器，用于关闭操作等
 	 */
 	public void finish(){

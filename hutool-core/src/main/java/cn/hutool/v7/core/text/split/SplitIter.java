@@ -119,7 +119,9 @@ public class SplitIter extends ComputeIter<String> implements Serializable {
 	/**
 	 * 重置
 	 */
+	@Override
 	public void reset() {
+		super.reset();
 		this.finder.reset();
 		this.offset = 0;
 		this.count = 0;
