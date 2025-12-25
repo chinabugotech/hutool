@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * HexUtil单元测试
@@ -59,23 +59,29 @@ public class HexUtilTest {
 
 	@Test
 	public void isHexNumberTest() {
-		Assertions.assertTrue(HexUtil.isHexNumber("0"));
-		Assertions.assertTrue(HexUtil.isHexNumber("002c"));
+		assertTrue(HexUtil.isHexNumber("0"));
+		assertTrue(HexUtil.isHexNumber("002c"));
 
 		String a = "0x3544534F444";
-		Assertions.assertTrue(HexUtil.isHexNumber(a));
+		assertTrue(HexUtil.isHexNumber(a));
 
 		// https://gitee.com/chinabugotech/hutool/issues/I62H7K
 		a = "0x0000000000000001158e460913d00000";
-		Assertions.assertTrue(HexUtil.isHexNumber(a));
+		assertTrue(HexUtil.isHexNumber(a));
 
 		// 错误的
 		a = "0x0000001000T00001158e460913d00000";
-		Assertions.assertFalse(HexUtil.isHexNumber(a));
+		assertFalse(HexUtil.isHexNumber(a));
 
 		// 错误的,https://github.com/chinabugotech/hutool/issues/2857
 		a = "-1";
-		Assertions.assertFalse(HexUtil.isHexNumber(a));
+		assertFalse(HexUtil.isHexNumber(a));
+	}
+
+	@Test
+	public void isHexNumberTestForEmpty() {
+		assertFalse(HexUtil.isHexNumber(""));
+		assertFalse(HexUtil.isHexNumber(null));
 	}
 
 	@Test

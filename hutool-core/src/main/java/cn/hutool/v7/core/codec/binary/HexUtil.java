@@ -96,6 +96,9 @@ public class HexUtil extends Hex {
 	 * @return 是否为16进制
 	 */
 	public static boolean isHexNumber(final String value) {
+		if (StrUtil.isEmpty(value)) {
+			return false;
+		}
 		if (StrUtil.startWith(value, '-')) {
 			// issue#2875
 			return false;
