@@ -107,8 +107,8 @@ public record PossibleObjectCreator<T>(Class<T> clazz) implements ObjectCreator<
 			if (0 == parameterTypes.length) {
 				continue;
 			}
-			ReflectUtil.setAccessible(constructor);
 			try {
+				ReflectUtil.setAccessible(constructor);
 				return constructor.newInstance(ClassUtil.getDefaultValues(parameterTypes));
 			} catch (final Exception ignore) {
 				// 构造出错时继续尝试下一种构造方式
