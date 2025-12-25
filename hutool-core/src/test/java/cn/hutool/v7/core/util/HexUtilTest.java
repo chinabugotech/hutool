@@ -165,4 +165,53 @@ public class HexUtilTest {
 		final String result = HexUtil.format("123", "0x");
 		assertEquals("0x12 0x3", result);
 	}
+
+	@Test
+	public void hexToFloatTest() {
+		//测试正常浮点数值
+		float value1 = 1.5f;
+		String hex1 = HexUtil.toHex(value1);
+		assertEquals(value1, HexUtil.hexToFloat(hex1));
+
+		//测试负数
+		float value2 = -1.5f;
+		String hex2 = HexUtil.toHex(value2);
+		assertEquals(value2, HexUtil.hexToFloat(hex2));
+
+		//测试科学计数法值
+		float value3 = 1.23456789e-5f;
+		String hex3 = HexUtil.toHex(value3);
+		assertEquals(value3, HexUtil.hexToFloat(hex3));
+
+		//测试十六进制前缀
+		assertEquals(1.5f, HexUtil.hexToFloat("0x3fc00000"));
+		assertEquals(1.5f, HexUtil.hexToFloat("#3fc00000"));
+	}
+
+	@Test
+	public void hexToDoubleTest() {
+		//测试正常双精度浮点数值
+		double value1 = 1.5;
+		String hex1 = HexUtil.toHex(value1);
+		assertEquals(value1, HexUtil.hexToDouble(hex1));
+
+		//测试负数
+		double value3 = -1.5;
+		String hex3 = HexUtil.toHex(value3);
+		assertEquals(value3, HexUtil.hexToDouble(hex3));
+
+		//测试高精度数值
+		double value4 = Math.PI;
+		String hex4 = HexUtil.toHex(value4);
+		assertEquals(value4, HexUtil.hexToDouble(hex4));
+
+		//测试科学计数法值
+		double value5 = 1.23456789012345e-10;
+		String hex5 = HexUtil.toHex(value5);
+		assertEquals(value5, HexUtil.hexToDouble(hex5));
+
+		//测试十六进制前缀
+		assertEquals(1.5, HexUtil.hexToDouble("0x3ff8000000000000"));
+		assertEquals(1.5, HexUtil.hexToDouble("#3ff8000000000000"));
+	}
 }

@@ -200,6 +200,46 @@ public class HexUtil extends Hex {
 	}
 
 	/**
+	 * 转为16进制字符串
+	 *
+	 * @param value float值
+	 * @return 16进制字符串
+	 */
+	public static String toHex(float value) {
+		return Integer.toHexString(Float.floatToIntBits(value));
+	}
+
+	/**
+	 * 16进制字符串转为float
+	 *
+	 * @param value 16进制字符串
+	 * @return 16进制字符串float值
+	 */
+	public static float hexToFloat(String value) {
+		return Float.intBitsToFloat(Integer.parseUnsignedInt(removeHexPrefix(value), 16));
+	}
+
+	/**
+	 * 转为16进制字符串
+	 *
+	 * @param value double值
+	 * @return 16进制字符串
+	 */
+	public static String toHex(double value) {
+		return Long.toHexString(Double.doubleToLongBits(value));
+	}
+
+	/**
+	 * 16进制字符串转为double
+	 *
+	 * @param value 16进制字符串
+	 * @return 16进制字符串double值
+	 */
+	public static double hexToDouble(String value) {
+		return Double.longBitsToDouble(Long.parseUnsignedLong(removeHexPrefix(value), 16));
+	}
+
+	/**
 	 * 将byte值转为16进制并添加到{@link StringBuilder}中
 	 *
 	 * @param builder     {@link StringBuilder}
