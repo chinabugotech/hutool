@@ -30,8 +30,7 @@ import java.util.concurrent.TimeUnit;
  * 比如：我们可以记录多段代码耗时时间，然后一次性打印（StopWatch提供了一个prettyString()函数用于按照指定格式打印出耗时）
  *
  * <p>
- * 此工具来自：https://github.com/spring-projects/spring-framework/blob/master/spring-core/src/main/java/org/springframework/util/StopWatch.java
- *
+ * 此工具来自：<a href="https://github.com/spring-projects/spring-framework/blob/master/spring-core/src/main/java/org/springframework/util/StopWatch.java">StopWatch</a>
  * <p>
  * 使用方法如下：
  *
@@ -195,7 +194,7 @@ public class StopWatch {
 			throw new IllegalStateException("Can't stop StopWatch: it's not running");
 		}
 
-		final long lastTime = System.nanoTime() - this.startTimeNanos;
+		final long lastTime = Math.max(System.nanoTime() - this.startTimeNanos, 0);
 		this.totalTimeNanos += lastTime;
 		this.lastTaskInfo = new TaskInfo(this.currentTaskName, lastTime);
 		if (null != this.taskList) {
