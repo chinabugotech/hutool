@@ -17,6 +17,7 @@
 package cn.hutool.v7.core.math;
 
 import cn.hutool.v7.core.array.ArrayUtil;
+import cn.hutool.v7.core.convert.ConvertUtil;
 import cn.hutool.v7.core.text.CharUtil;
 import cn.hutool.v7.core.text.StrUtil;
 
@@ -369,6 +370,9 @@ public class NumberParser {
 			// issue#I79VS7
 			numberStr = StrUtil.subSuf(numberStr, 1);
 		}
+
+		// issue@4197@Github 转为半角
+		numberStr = ConvertUtil.toDBC(numberStr);
 
 		try {
 			final NumberFormat format = NumberFormat.getInstance(locale);
