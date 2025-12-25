@@ -35,11 +35,11 @@ public class DateBetween implements Serializable {
 	/**
 	 * 开始日期
 	 */
-	private final Date begin;
+	private final long begin;
 	/**
 	 * 结束日期
 	 */
-	private final Date end;
+	private final long end;
 
 	/**
 	 * 创建<br>
@@ -94,11 +94,11 @@ public class DateBetween implements Serializable {
 
 		if (isAbs && begin.after(end)) {
 			// 间隔只为正数的情况下，如果开始日期晚于结束日期，置换之
-			this.begin = end;
-			this.end = begin;
+			this.begin = end.getTime();
+			this.end = begin.getTime();
 		} else {
-			this.begin = begin;
-			this.end = end;
+			this.begin = begin.getTime();
+			this.end = end.getTime();
 		}
 	}
 
@@ -110,7 +110,7 @@ public class DateBetween implements Serializable {
 	 * @return 时长差
 	 */
 	public long between(final DateUnit unit) {
-		final long diff = end.getTime() - begin.getTime();
+		final long diff = end - begin;
 		return diff / unit.getMillis();
 	}
 
@@ -183,8 +183,8 @@ public class DateBetween implements Serializable {
 	 *
 	 * @return 获取开始时间
 	 */
-	public Date getBegin() {
-		return begin;
+	public Date getBeginDate() {
+		return DateUtil.date(begin);
 	}
 
 	/**
@@ -192,8 +192,8 @@ public class DateBetween implements Serializable {
 	 *
 	 * @return 结束日期
 	 */
-	public Date getEnd() {
-		return end;
+	public Date getEndDate() {
+		return DateUtil.date(end);
 	}
 
 	/**
