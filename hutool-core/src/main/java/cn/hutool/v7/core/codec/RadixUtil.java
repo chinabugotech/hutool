@@ -16,6 +16,8 @@
 
 package cn.hutool.v7.core.codec;
 
+import cn.hutool.v7.core.lang.Assert;
+
 /**
  * 进制转换工具类，可以转换为任意进制
  * <p>
@@ -108,12 +110,18 @@ public class RadixUtil {
 	 * @return long
 	 */
 	public static long decode(final String radixs, final String encodeStr) {
+		Assert.notNull(radixs, "radixs must not be null");
+		Assert.notEmpty(encodeStr, "encodeStr must not be empty");
+
 		//目标是多少进制
 		final int rl = radixs.length();
+		Assert.isTrue(rl >= 2, "radixs must be at least 2 characters");
 		long res = 0L;
 
 		for (final char c : encodeStr.toCharArray()) {
-			res = res * rl + radixs.indexOf(c);
+			final int idx = radixs.indexOf(c);
+			Assert.isTrue(idx >= 0, "Illegal character '" + c + "' for radixs");
+			res = res * rl + idx;
 		}
 		return res;
 	}
