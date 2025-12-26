@@ -19,7 +19,7 @@ package cn.hutool.v7.core.text;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class CharUtilTest {
 
@@ -27,7 +27,7 @@ public class CharUtilTest {
 	public void trimTest() {
 		//此字符串中的第一个字符为不可见字符: '\u202a'
 		final String str = "‪C:/Users/maple/Desktop/tone.txt";
-		Assertions.assertEquals('\u202a', str.charAt(0));
+		assertEquals('\u202a', str.charAt(0));
 		Assertions.assertTrue(CharUtil.isBlankChar(str.charAt(0)));
 	}
 
@@ -66,16 +66,16 @@ public class CharUtilTest {
 
 	@Test
 	public void toCloseCharTest(){
-		Assertions.assertEquals('②', CharUtil.toCloseChar('2'));
-		Assertions.assertEquals('Ⓜ', CharUtil.toCloseChar('M'));
-		Assertions.assertEquals('ⓡ', CharUtil.toCloseChar('r'));
+		assertEquals('②', CharUtil.toCloseChar('2'));
+		assertEquals('Ⓜ', CharUtil.toCloseChar('M'));
+		assertEquals('ⓡ', CharUtil.toCloseChar('r'));
 	}
 
 	@Test
 	public void toCloseByNumberTest(){
-		Assertions.assertEquals('②', CharUtil.toCloseByNumber(2));
-		Assertions.assertEquals('⑫', CharUtil.toCloseByNumber(12));
-		Assertions.assertEquals('⑳', CharUtil.toCloseByNumber(20));
+		assertEquals('②', CharUtil.toCloseByNumber(2));
+		assertEquals('⑫', CharUtil.toCloseByNumber(12));
+		assertEquals('⑳', CharUtil.toCloseByNumber(20));
 	}
 
 	@SuppressWarnings("UnnecessaryUnicodeEscape")
@@ -86,5 +86,12 @@ public class CharUtilTest {
 
 		c = '\u2800';
 		Assertions.assertTrue(CharUtil.isBlankChar(c));
+	}
+
+	@Test
+	public void issueIDFNHETest(){
+		//Console.log(CharUtil.toCloseByNumber(0)); //此时会打印"⑟"
+		assertThrows(IllegalArgumentException.class, () -> CharUtil.toCloseByNumber(0));
+		assertThrows(IllegalArgumentException.class, () -> CharUtil.toCloseByNumber(-1));
 	}
 }
