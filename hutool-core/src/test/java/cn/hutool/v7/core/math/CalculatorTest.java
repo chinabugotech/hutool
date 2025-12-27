@@ -113,4 +113,36 @@ public class CalculatorTest {
 		final double conversion4 = Calculator.conversion("-3");
 		assertEquals(-3.0, conversion4, 0.001);
 	}
+
+	@Test
+	public void percentOperatorTest() {
+		//基础 % 运算
+		assertEquals(1.0, Calculator.conversion("10 % 3"), 0.001);
+
+		// % 运算符后跟连续的一元运算符的情况
+		assertEquals(1.0, Calculator.conversion("10 % +-3"), 0.001);
+		assertEquals(1.0, Calculator.conversion("10 % -3"), 0.001);
+
+		// 带括号的 % 后一元负号
+		assertEquals(1.0, Calculator.conversion("10 % (-3)"), 0.001);
+
+		// % 与 * / 的优先级测试
+		assertEquals(2.0, Calculator.conversion("10 * 5 % 3"), 0.001);
+		assertEquals(1.0, Calculator.conversion("20 / 5 % 3"), 0.001);
+
+		//连续 % 运算
+		assertEquals(2.0, Calculator.conversion("100 % 7 % 3"), 0.001);
+
+		// % 与 + - 混合运算
+		assertEquals(13.0, Calculator.conversion("10 + 15 % 4"), 0.001);
+
+		//负数操作数的 % 运算
+		assertEquals(-1.0, Calculator.conversion("-10 % 3"), 0.001);
+
+		// 两个负数的 % 运算
+		assertEquals(-1.0, Calculator.conversion("-10 % -3"), 0.001);
+
+		// 小数的 % 运算
+		assertEquals(0.9, Calculator.conversion("10.5 % 3.2"), 0.001);
+	}
 }
