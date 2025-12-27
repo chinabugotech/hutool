@@ -4,8 +4,8 @@ import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.cron.pattern.CronPattern;
 import cn.hutool.v7.cron.task.CronTask;
 import cn.hutool.v7.cron.task.Task;
-import cn.hutool.v7.log.Log;
 
+import java.io.Serial;
 import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.locks.Lock;
 
@@ -18,7 +18,8 @@ import java.util.concurrent.locks.Lock;
  * @author Looly
  */
 public class TriggerQueueTaskTable extends TaskTable {
-	private static final Log log = Log.get();
+	@Serial
+	private static final long serialVersionUID = 1L;
 
 	private final PriorityBlockingQueue<TriggerTime> triggerQueue;
 
