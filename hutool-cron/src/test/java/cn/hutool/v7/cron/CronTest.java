@@ -14,15 +14,16 @@
  * limitations under the License.
  */
 
-package cn.hutool.v7.cron.demo;
+package cn.hutool.v7.cron;
 
 import cn.hutool.v7.core.lang.Console;
 import cn.hutool.v7.core.thread.ThreadUtil;
-import cn.hutool.v7.cron.CronUtil;
-import cn.hutool.v7.cron.TaskExecutor;
 import cn.hutool.v7.cron.listener.TaskListener;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * 定时任务样例
@@ -96,13 +97,11 @@ public class CronTest {
 	}
 
 	@Test
-	@Disabled
 	public void isValidExpressionTest() {
-		Console.log(CronUtil.isValidExpression("5 * * * *"));
-		Console.log(CronUtil.isValidExpression("3-18 5 * * * *"));
-		Console.log(CronUtil.isValidExpression(""));
-		Console.log(CronUtil.isValidExpression(null));
-		Console.log(CronUtil.isValidExpression("A B C D E F"));
-
+		assertTrue(CronUtil.isValidExpression("5 * * * *"));
+		assertTrue(CronUtil.isValidExpression("3-18 5 * * * *"));
+		assertFalse(CronUtil.isValidExpression(""));
+		assertFalse(CronUtil.isValidExpression(null));
+		assertFalse(CronUtil.isValidExpression("A B C D E F"));
 	}
 }

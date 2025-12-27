@@ -80,7 +80,12 @@ public class TaskManager implements Serializable {
 		synchronized (this.launchers) {
 			this.launchers.add(launcher);
 		}
-		this.scheduler.threadExecutor.execute(launcher);
+		if(this.scheduler.isStarted()){
+			this.scheduler.threadExecutor.execute(launcher);
+		} else {
+			// 调度任务已停止，直接去除任务
+			notifyLauncherCompleted(launcher);
+		}
 		return launcher;
 	}
 
@@ -119,7 +124,12 @@ public class TaskManager implements Serializable {
 		synchronized (this.executors) {
 			this.executors.add(executor);
 		}
-		this.scheduler.threadExecutor.execute(executor);
+		if(this.scheduler.isStarted()){
+			this.scheduler.threadExecutor.execute(executor);
+		} else{
+			// 调度任务已停止，直接去除任务
+			notifyExecutorCompleted(executor);
+		}
 		return executor;
 	}
 

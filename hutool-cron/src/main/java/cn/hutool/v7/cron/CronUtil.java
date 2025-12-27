@@ -48,7 +48,7 @@ public class CronUtil {
 
 	private static final Lock lock = new ReentrantLock();
 	private static final Scheduler scheduler = new Scheduler();
-	private static Setting crontabSetting;
+	private static Setting cronSetting;
 
 	/**
 	 * 自定义定时任务配置文件
@@ -56,7 +56,7 @@ public class CronUtil {
 	 * @param cronSetting 定时任务配置文件
 	 */
 	public static void setCronSetting(final Setting cronSetting) {
-		crontabSetting = cronSetting;
+		CronUtil.cronSetting = cronSetting;
 	}
 
 	/**
@@ -65,11 +65,7 @@ public class CronUtil {
 	 * @param cronSettingPath 定时任务配置文件路径（相对绝对都可）
 	 */
 	public static void setCronSetting(final String cronSettingPath) {
-		try {
-			crontabSetting = new Setting(cronSettingPath, Setting.DEFAULT_CHARSET, false);
-		} catch (final SettingException | NoResourceException e) {
-			// ignore setting file parse error and no config error
-		}
+		cronSetting = new Setting(cronSettingPath, Setting.DEFAULT_CHARSET, false);
 	}
 
 	/**
@@ -165,19 +161,19 @@ public class CronUtil {
 
 		lock.lock();
 		try {
-			if (null == crontabSetting) {
+			if (null == cronSetting) {
 				// 尝试查找config/cron.setting
-				setCronSetting(CRONTAB_CONFIG_PATH);
+				setCronSettingQuietly(CRONTAB_CONFIG_PATH);
 			}
 			// 尝试查找cron.setting
-			if (null == crontabSetting) {
-				setCronSetting(CRONTAB_CONFIG_PATH2);
+			if (null == cronSetting) {
+				setCronSettingQuietly(CRONTAB_CONFIG_PATH2);
 			}
 		} finally {
 			lock.unlock();
 		}
 
-		schedule(crontabSetting);
+		schedule(cronSetting);
 		scheduler.start(isDaemon);
 	}
 
@@ -188,9 +184,9 @@ public class CronUtil {
 	public static void restart() {
 		lock.lock();
 		try {
-			if (null != crontabSetting) {
+			if (null != cronSetting) {
 				//重新读取配置文件
-				crontabSetting.load();
+				cronSetting.load();
 			}
 			if (scheduler.isStarted()) {
 				//关闭并清除已有任务
@@ -201,7 +197,7 @@ public class CronUtil {
 		}
 
 		//重新加载任务
-		schedule(crontabSetting);
+		schedule(cronSetting);
 		//重新启动
 		scheduler.start();
 	}
@@ -232,4 +228,16 @@ public class CronUtil {
 		}
 	}
 
+	/**
+	 * 自定义定时任务配置文件路径
+	 *
+	 * @param cronSettingPath 定时任务配置文件路径（相对绝对都可）
+	 */
+	private static void setCronSettingQuietly(final String cronSettingPath) {
+		try {
+			setCronSetting(cronSettingPath);
+		} catch (final SettingException | NoResourceException e) {
+			// ignore setting file parse error and no config error
+		}
+	}
 }
