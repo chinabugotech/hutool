@@ -544,4 +544,11 @@ public class CharSequenceUtilTest {
 	void concatTest() {
 		assertEquals("abc", CharSequenceUtil.concat(true, "a", "b", "c"));
 	}
+
+	@Test
+	public void issueTest() {
+		final String s = "abc";
+		final String r = StrUtil.limitByteLength(s, CharsetUtil.UTF_8, 2, 4, true);
+		assertEquals("ab", r);
+	}
 }

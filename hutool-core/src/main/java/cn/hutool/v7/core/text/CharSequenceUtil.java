@@ -3600,7 +3600,7 @@ public class CharSequenceUtil extends StrValidator {
 	 * @param charset        指定编码
 	 * @param maxBytesLength 最大字节数
 	 * @param factor         速算因子，取该编码下单个字符的最大可能字节数
-	 * @param appendDots     截断后是否追加省略号(...)
+	 * @param appendDots     截断后是否追加省略号...，如果maxBytesLength小于省略号长度，则不添加...
 	 * @return 限制后的长度
 	 */
 	public static String limitByteLength(final CharSequence str, final Charset charset, final int maxBytesLength,
@@ -3614,9 +3614,11 @@ public class CharSequenceUtil extends StrValidator {
 			return toStringOrNull(str);
 		}
 		//限制字节数
+		final int dotsBytesLength = "...".getBytes(charset).length;
 		final int limitBytes;
-		if (appendDots) {
-			limitBytes = maxBytesLength - "...".getBytes(charset).length;
+		// issue#IDFTJS 修正截断后追加省略号...导致超出限制长度的问题
+		if (appendDots && maxBytesLength > dotsBytesLength) {
+			limitBytes = maxBytesLength - dotsBytesLength;
 		} else {
 			limitBytes = maxBytesLength;
 		}
@@ -3628,7 +3630,7 @@ public class CharSequenceUtil extends StrValidator {
 		decoder.decode(bb, cb, true);
 		decoder.flush(cb);
 		final String result = new String(cb.array(), 0, cb.position());
-		if (appendDots) {
+		if (appendDots && maxBytesLength > dotsBytesLength) {
 			return result + "...";
 		}
 		return result;
