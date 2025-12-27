@@ -22,6 +22,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 public class StrMatcherTest {
 
 	@Test
@@ -53,5 +55,13 @@ public class StrMatcherTest {
 		//Console.log(match);
 		Assertions.assertEquals("小明", match.get("name"));
 		Assertions.assertEquals("20", match.get("year"));
+	}
+
+	@Test
+	public void issueIDFNF7Test() {
+		assertThrows(
+			IllegalArgumentException.class,
+			() -> new StrMatcher("${a}${b}")
+		);
 	}
 }

@@ -93,8 +93,9 @@ public class StrMatcher {
 	 *
 	 * @param pattern 表达式，使用${XXXX}作为变量占位符
 	 * @return 表达式
+	 * @throws IllegalArgumentException 连续变量不支持，例如：${a}${b}
 	 */
-	private static List<String> parse(final String pattern) {
+	private static List<String> parse(final String pattern) throws IllegalArgumentException {
 		final List<String> patterns = new ArrayList<>();
 		final int length = pattern.length();
 		char c = 0;
@@ -107,6 +108,13 @@ public class StrMatcher {
 			if (inVar) {
 				part.append(c);
 				if ('}' == c) {
+					if (!patterns.isEmpty()) {
+						final String lastPart = patterns.get(patterns.size() - 1);
+						if (StrUtil.isWrap(lastPart, "${", "}")) {
+							// issue#IDFNF7 连续变量会导致歧义，例如：${a}${b} 不支持
+							throw new IllegalArgumentException(StrUtil.format("Consecutive variables '{}{}' are not supported", lastPart, part.toString()));
+						}
+					}
 					// 变量结束
 					inVar = false;
 					patterns.add(part.toString());
