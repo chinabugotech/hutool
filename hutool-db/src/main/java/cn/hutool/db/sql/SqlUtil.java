@@ -33,7 +33,7 @@ public class SqlUtil {
 	/**
 	 * SQL中的in语句部分的正则
 	 */
-	private static final Pattern PATTERN_IN_CLAUSE = PatternPool.get("\\s+in\\s+[(]", Pattern.CASE_INSENSITIVE);
+	private static final Pattern PATTERN_IN_CLAUSE = PatternPool.get("\\s+in\\s+[(]$", Pattern.CASE_INSENSITIVE);
 
 	/**
 	 * 构件相等条件的where语句<br>
