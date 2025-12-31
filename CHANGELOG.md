@@ -1,7 +1,7 @@
 
 # 🚀Changelog
 -------------------------------------------------------------------------------------------------------------
-# 5.8.43(2025-12-27)
+# 5.8.43(2025-12-31)
 
 ### 🐣新特性
 * 【core   】      `ColorUtil`颜色名称DARKGOLD、LIGHTGOLD新增蛇形命名匹配（pr#1400@Github）
@@ -32,6 +32,7 @@
 * 【ai         】  修复`BaseAIService`发送请求方法中try/catch块捕获的应该是Exception而不是自定义的AIException（pr#1430@Gitee）
 * 【core       】  修复`StrUtil.truncateByByteLength`在限制长度小于...时报错问题（issue#IDFTJS@Gitee）
 * 【core       】  修复`Calculator.conversion`方法计算包含%连接一元运算符的计算表达式的结果时逻辑缺陷（pr#4191@Github）
+* 【db         】  修复`SqlUtil.PATTERN_IN_CLAUSE`逻辑缺陷导致in语句参数不正确的问题（pr#4203@Github）
 
 -------------------------------------------------------------------------------------------------------------
 # 5.8.42(2025-11-28)
