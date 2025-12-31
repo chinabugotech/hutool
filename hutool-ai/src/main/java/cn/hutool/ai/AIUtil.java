@@ -21,6 +21,7 @@ import cn.hutool.ai.core.AIService;
 import cn.hutool.ai.core.Message;
 import cn.hutool.ai.model.deepseek.DeepSeekService;
 import cn.hutool.ai.model.doubao.DoubaoService;
+import cn.hutool.ai.model.gemini.GeminiService;
 import cn.hutool.ai.model.grok.GrokService;
 import cn.hutool.ai.model.hutool.HutoolService;
 import cn.hutool.ai.model.openai.OpenaiService;
@@ -112,6 +113,17 @@ public class AIUtil {
 	 */
 	public static OpenaiService getOpenAIService(final AIConfig config) {
 		return getAIService(config, OpenaiService.class);
+	}
+
+	/**
+	 * 获取Gemini模型服务
+	 *
+	 * @param config 创建的AI服务模型的配置
+	 * @return GeminiService
+	 * @since 5.8.43
+	 */
+	public static GeminiService getGeminiService(final AIConfig config) {
+		return getAIService(config, GeminiService.class);
 	}
 
 	/**
