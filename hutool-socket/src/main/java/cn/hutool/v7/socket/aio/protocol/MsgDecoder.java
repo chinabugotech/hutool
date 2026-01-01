@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-package cn.hutool.v7.socket.protocol;
+package cn.hutool.v7.socket.aio.protocol;
+
+import cn.hutool.v7.socket.SocketRuntimeException;
+import cn.hutool.v7.socket.aio.AioSession;
 
 import java.nio.ByteBuffer;
-
-import cn.hutool.v7.socket.aio.AioSession;
 
 /**
  * 消息解码器
@@ -34,6 +35,7 @@ public interface MsgDecoder<T> {
 	 * @param session 本次需要解码的session
 	 * @param readBuffer 待处理的读buffer
 	 * @return 本次解码成功后封装的业务消息对象, 返回null则表示解码未完成
+	 * @throws SocketRuntimeException 解码失败时抛出此异常
 	 */
-	T decode(AioSession session, ByteBuffer readBuffer);
+	T decode(AioSession session, ByteBuffer readBuffer) throws SocketRuntimeException;
 }

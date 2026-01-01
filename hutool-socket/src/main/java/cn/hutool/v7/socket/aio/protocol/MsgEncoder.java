@@ -14,10 +14,27 @@
  * limitations under the License.
  */
 
+package cn.hutool.v7.socket.aio.protocol;
+
+import cn.hutool.v7.socket.SocketRuntimeException;
+import cn.hutool.v7.socket.aio.AioSession;
+
+import java.nio.ByteBuffer;
+
 /**
- * 消息协议接口及实现
+ * 消息编码器
  *
+ * @param <T> 编码前后的数据类型
  * @author Looly
- *
  */
-package cn.hutool.v7.socket.protocol;
+public interface MsgEncoder<T> {
+	/**
+	 * 编码数据用于写出
+	 *
+	 * @param session     本次需要解码的session
+	 * @param writeBuffer 待处理的读buffer
+	 * @param data        写出的数据
+	 * @throws SocketRuntimeException 编码失败时抛出此异常
+	 */
+	void encode(AioSession session, ByteBuffer writeBuffer, T data) throws SocketRuntimeException;
+}

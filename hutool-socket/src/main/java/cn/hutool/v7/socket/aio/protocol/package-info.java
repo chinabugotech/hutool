@@ -14,19 +14,10 @@
  * limitations under the License.
  */
 
-package cn.hutool.v7.socket.protocol;
-
 /**
- * 协议接口<br>
- * 通过实现此接口完成消息的编码和解码
- *
- * <p>
- * 所有Socket使用相同协议对象，类成员变量和对象成员变量易造成并发读写问题。
- * </p>
+ * 消息协议接口及实现
  *
  * @author Looly
- * @param <T> 消息类型
+ *
  */
-public interface Protocol<T> extends MsgEncoder<T>, MsgDecoder<T> {
-
-}
+package cn.hutool.v7.socket.aio.protocol;
