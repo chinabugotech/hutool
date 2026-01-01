@@ -110,11 +110,10 @@ public class ObjectMapper {
 			// JSONTokener
 			mapFromResourceBundle((ResourceBundle) source, jsonObject, filter);
 		} else if (RecordUtil.isRecord(source.getClass())) {
-			mapFromBean(source, jsonObject);
+			mapFromBean(source, jsonObject,filter);
 		} else if (BeanUtil.isReadableBean(source.getClass())) {
 			// 普通Bean
-			// TODO 过滤器对Bean无效，需补充。
-			mapFromBean(source, jsonObject);
+			mapFromBean(source, jsonObject,filter);
 		}
 
 		// 跳过空对象
@@ -263,7 +262,18 @@ public class ObjectMapper {
 	 * @param bean       Bean对象
 	 * @param jsonObject {@link JSONObject}
 	 */
+	@Deprecated
 	private static void mapFromBean(Object bean, JSONObject jsonObject) {
 		BeanUtil.beanToMap(bean, jsonObject, InternalJSONUtil.toCopyOptions(jsonObject.getConfig()));
+	}
+
+	/**
+	 * 从Bean转换（可添加过滤器）
+	 * @param bean Bean对象
+	 * @param jsonObject {@link JSONObject}
+	 * @param filter {@link Filter}
+	 */
+	private static void mapFromBean(Object bean, JSONObject jsonObject,Filter<MutablePair<String,Object>> filter) {
+		BeanUtil.beanToMap(bean, jsonObject, InternalJSONUtil.toCopyOptions(jsonObject.getConfig(), filter));
 	}
 }
