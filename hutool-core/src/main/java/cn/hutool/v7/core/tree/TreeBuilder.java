@@ -171,6 +171,9 @@ public class TreeBuilder<E> implements Builder<MapTree<E>> {
 	 */
 	public <T> TreeBuilder<E> append(final Iterable<T> list, final NodeParser<T, E> nodeParser) {
 		checkBuilt();
+		if(null == list){
+			return this;
+		}
 
 		final TreeNodeConfig config = this.root.getConfig();
 		final Iterator<T> iterator = list.iterator();

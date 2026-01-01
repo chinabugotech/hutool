@@ -195,6 +195,9 @@ public class TreeUtil {
 	 * @since 5.2.4
 	 */
 	public static <T> MapTree<T> getNode(final MapTree<T> node, final T id) {
+		if (null == node) {
+			return null;
+		}
 		if (ObjUtil.equals(id, node.getId())) {
 			return node;
 		}
@@ -312,7 +315,7 @@ public class TreeUtil {
 	}
 
 	/**
-	 * 深度优先,遍历树,将树换为数组
+	 * 深度或广度优先,遍历树,将树换为数组
 	 *
 	 * @param root       树的根节点
 	 * @param broadFirst 是否广度优先遍历

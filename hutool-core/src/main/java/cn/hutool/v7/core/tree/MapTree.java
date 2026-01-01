@@ -249,7 +249,10 @@ public class MapTree<T> extends LinkedHashMap<String, Object> implements Node<T>
 				consumer.accept(node);
 				final List<MapTree<T>> children = node.getChildren();
 				if (CollUtil.isNotEmpty(children)) {
-					children.forEach(stack::push);
+					// 修正点：逆序压栈，使第一个子节点最后入栈，从而最先被处理
+					for (int i = children.size() - 1; i >= 0; i--) {
+						stack.push(children.get(i));
+					}
 				}
 			}
 		}
