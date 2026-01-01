@@ -5,15 +5,15 @@ import cn.hutool.v7.core.io.IORuntimeException;
 import cn.hutool.v7.core.io.IoUtil;
 import cn.hutool.v7.core.lang.Assert;
 import cn.hutool.v7.core.lang.Opt;
+import cn.hutool.v7.core.thread.ThreadUtil;
 import cn.hutool.v7.log.Log;
+import cn.hutool.v7.socket.SocketRuntimeException;
 import cn.hutool.v7.socket.udp.protocol.UdpDecoder;
 import cn.hutool.v7.socket.udp.protocol.UdpEncoder;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.SocketException;
+import java.net.*;
 import java.util.concurrent.*;
 import java.util.function.Consumer;
 
@@ -25,16 +25,64 @@ import java.util.function.Consumer;
 public class UdpSession<T> implements Closeable {
 	private static final Log log = Log.get();
 
+	/**
+	 * 创建UDP客户端会话
+	 *
+	 * @param host    远程主机地址
+	 * @param port    端口号
+	 * @param encoder 编码器
+	 * @param <T>     消息类型
+	 * @return UDP会话
+	 */
+	public static <T> UdpSession<T> ofClient(final String host, final int port, final UdpEncoder<T> encoder) {
+		final UdpSession<T> udpSession;
+		try {
+			udpSession = new UdpSession<>(new DatagramSocket(), encoder, null);
+		} catch (final SocketException e) {
+			throw new SocketRuntimeException(e);
+		}
+		return udpSession.setRemoteAddress(new InetSocketAddress(host, port));
+	}
+
+	/**
+	 * 创建UDP服务端会话
+	 *
+	 * @param bindAddress 绑定地址和端口
+	 * @param decoder     解码器
+	 * @param <T>         消息类型
+	 * @return UDP会话
+	 */
+	public static <T> UdpSession<T> ofServer(final SocketAddress bindAddress, final UdpDecoder<T> decoder) {
+		return ofServer(bindAddress, decoder, ThreadUtil.newExecutor(10));
+	}
+
+	/**
+	 * 创建UDP服务端会话
+	 *
+	 * @param bindAddress 绑定地址和端口
+	 * @param decoder     解码器
+	 * @param executor   执行器
+	 * @param <T>         消息类型
+	 * @return UDP会话
+	 */
+	public static <T> UdpSession<T> ofServer(final SocketAddress bindAddress, final UdpDecoder<T> decoder, final ExecutorService executor) {
+		try {
+			return new UdpSession<>(new DatagramSocket(bindAddress), null, decoder)
+				.setExecutor(executor);
+		} catch (final SocketException e) {
+			throw new SocketRuntimeException(e);
+		}
+	}
+
 	private final DatagramSocket socket;
 	private final UdpEncoder<T> encoder;
 	private final UdpDecoder<T> decoder;
 
-	// ====== 线程 ======
-	private ExecutorService executor;      // 接收循环
+	private volatile ExecutorService executor;
 
-	// ====== 回调 ======
-	private Consumer<T> msgHandler;
-	private Consumer<Throwable> errorHandler;
+	private volatile InetSocketAddress remoteAddress;
+	private volatile Consumer<T> msgHandler;
+	private volatile Consumer<Throwable> errorHandler;
 
 	/**
 	 * 缓存大小
@@ -53,6 +101,29 @@ public class UdpSession<T> implements Closeable {
 		this.encoder = encoder;
 		this.decoder = decoder;
 		bufferSize = IoUtil.DEFAULT_LARGE_BUFFER_SIZE;
+	}
+
+	/**
+	 * 设置执行器
+	 *
+	 * @param executor 执行器
+	 * @return this
+	 */
+	public UdpSession<T> setExecutor(final ExecutorService executor) {
+		this.executor = Assert.notNull(executor);
+		return this;
+	}
+
+	/**
+	 * 设置远程地址
+	 * <p>仅作为客户端时需要设置</p>
+	 *
+	 * @param remoteAddress 远程地址
+	 * @return this
+	 */
+	public UdpSession<T> setRemoteAddress(final InetSocketAddress remoteAddress) {
+		this.remoteAddress = remoteAddress;
+		return this;
 	}
 
 	/**
@@ -97,7 +168,7 @@ public class UdpSession<T> implements Closeable {
 	public void send(final T data) throws IORuntimeException {
 		Assert.notNull(encoder, "Encoder can not be null when send data");
 		final byte[] payload = encoder.encode(data);
-		final DatagramPacket packet = new DatagramPacket(payload, payload.length);
+		final DatagramPacket packet = new DatagramPacket(payload, payload.length, remoteAddress);
 		try {
 			socket.send(packet);
 		} catch (final IOException e) {
@@ -158,6 +229,9 @@ public class UdpSession<T> implements Closeable {
 	 * @return this
 	 */
 	public UdpSession<T> start() {
+		if(null == executor) {
+			executor = ThreadUtil.newExecutor();
+		}
 		executor.submit(this::receiveLoop);
 		return this;
 	}
