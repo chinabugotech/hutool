@@ -33,7 +33,7 @@ import java.util.Properties;
 /**
  * 邮件账户对象
  *
- * @author Luxiaolei
+ * @author Looly
  */
 public class MailAccount implements Serializable {
 	@Serial

@@ -1,20 +1,39 @@
+/*
+ * Copyright (c) 2026 Hutool Team.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package cn.hutool.v7.socket.udp;
 
 import cn.hutool.v7.core.codec.binary.HexUtil;
 import cn.hutool.v7.core.io.IORuntimeException;
 import cn.hutool.v7.core.io.IoUtil;
 import cn.hutool.v7.core.lang.Assert;
-import cn.hutool.v7.core.lang.Opt;
 import cn.hutool.v7.core.thread.ThreadUtil;
 import cn.hutool.v7.log.Log;
-import cn.hutool.v7.socket.SocketRuntimeException;
 import cn.hutool.v7.socket.udp.protocol.UdpDecoder;
 import cn.hutool.v7.socket.udp.protocol.UdpEncoder;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.net.*;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.SocketAddress;
+import java.net.SocketException;
+import java.util.Optional;
 import java.util.concurrent.*;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 /**
@@ -25,63 +44,15 @@ import java.util.function.Consumer;
 public class UdpSession<T> implements Closeable {
 	private static final Log log = Log.get();
 
-	/**
-	 * 创建UDP客户端会话
-	 *
-	 * @param host    远程主机地址
-	 * @param port    端口号
-	 * @param encoder 编码器
-	 * @param <T>     消息类型
-	 * @return UDP会话
-	 */
-	public static <T> UdpSession<T> ofClient(final String host, final int port, final UdpEncoder<T> encoder) {
-		final UdpSession<T> udpSession;
-		try {
-			udpSession = new UdpSession<>(new DatagramSocket(), encoder, null);
-		} catch (final SocketException e) {
-			throw new SocketRuntimeException(e);
-		}
-		return udpSession.setRemoteAddress(new InetSocketAddress(host, port));
-	}
-
-	/**
-	 * 创建UDP服务端会话
-	 *
-	 * @param bindAddress 绑定地址和端口
-	 * @param decoder     解码器
-	 * @param <T>         消息类型
-	 * @return UDP会话
-	 */
-	public static <T> UdpSession<T> ofServer(final SocketAddress bindAddress, final UdpDecoder<T> decoder) {
-		return ofServer(bindAddress, decoder, ThreadUtil.newExecutor(10));
-	}
-
-	/**
-	 * 创建UDP服务端会话
-	 *
-	 * @param bindAddress 绑定地址和端口
-	 * @param decoder     解码器
-	 * @param executor   执行器
-	 * @param <T>         消息类型
-	 * @return UDP会话
-	 */
-	public static <T> UdpSession<T> ofServer(final SocketAddress bindAddress, final UdpDecoder<T> decoder, final ExecutorService executor) {
-		try {
-			return new UdpSession<>(new DatagramSocket(bindAddress), null, decoder)
-				.setExecutor(executor);
-		} catch (final SocketException e) {
-			throw new SocketRuntimeException(e);
-		}
-	}
-
 	private final DatagramSocket socket;
 	private final UdpEncoder<T> encoder;
 	private final UdpDecoder<T> decoder;
 
 	private volatile ExecutorService executor;
+	private volatile ScheduledExecutorService scheduler;
 
-	private volatile InetSocketAddress remoteAddress;
-	private volatile Consumer<T> msgHandler;
+	private volatile SocketAddress remoteAddress;
+	private volatile BiConsumer<T, UdpContext> msgHandler;
 	private volatile Consumer<Throwable> errorHandler;
 
 	/**
@@ -121,7 +92,7 @@ public class UdpSession<T> implements Closeable {
 	 * @param remoteAddress 远程地址
 	 * @return this
 	 */
-	public UdpSession<T> setRemoteAddress(final InetSocketAddress remoteAddress) {
+	public UdpSession<T> setRemoteAddress(final SocketAddress remoteAddress) {
 		this.remoteAddress = remoteAddress;
 		return this;
 	}
@@ -132,7 +103,7 @@ public class UdpSession<T> implements Closeable {
 	 * @param msgHandler 接收到的UDP消息的处理逻辑
 	 * @return this
 	 */
-	public UdpSession<T> setMsgHandler(final Consumer<T> msgHandler) {
+	public UdpSession<T> setMsgHandler(final BiConsumer<T, UdpContext> msgHandler) {
 		this.msgHandler = msgHandler;
 		return this;
 	}
@@ -166,6 +137,17 @@ public class UdpSession<T> implements Closeable {
 	 * @throws IORuntimeException IO异常
 	 */
 	public void send(final T data) throws IORuntimeException {
+		send(data, this.remoteAddress);
+	}
+
+	/**
+	 * 发送数据到指定地址
+	 *
+	 * @param data          发送的数据包
+	 * @param remoteAddress 远程地址
+	 * @throws IORuntimeException IO异常
+	 */
+	public void send(final T data, final SocketAddress remoteAddress) throws IORuntimeException {
 		Assert.notNull(encoder, "Encoder can not be null when send data");
 		final byte[] payload = encoder.encode(data);
 		final DatagramPacket packet = new DatagramPacket(payload, payload.length, remoteAddress);
@@ -187,7 +169,21 @@ public class UdpSession<T> implements Closeable {
 	}
 
 	/**
-	 * 启动定时心跳（需配合 idleTimeout 使用）
+	 * 启动定时心跳任务，定时发送心跳包（用户实现 heartbeat 消息类型）
+	 *
+	 * @param heartbeatMsg 心跳消息
+	 * @param interval     间隔时间
+	 * @return 定时任务
+	 */
+	public ScheduledFuture<?> scheduleHeartbeat(final T heartbeatMsg, final long interval) {
+		if (null == this.scheduler) {
+			this.scheduler = ThreadUtil.newScheduledExecutor(1);
+		}
+		return scheduleHeartbeat(heartbeatMsg, interval, this.scheduler);
+	}
+
+	/**
+	 * 启动定时心跳任务，定时发送心跳包（用户实现 heartbeat 消息类型）
 	 *
 	 * @param heartbeatMsg 心跳消息
 	 * @param interval     间隔时间
@@ -216,11 +212,14 @@ public class UdpSession<T> implements Closeable {
 
 	@Override
 	public void close() {
-		IoUtil.closeQuietly(socket);
 		if (null != this.executor) {
 			this.executor.shutdown();
 			this.executor = null;
 		}
+		if (null != this.scheduler) {
+			this.scheduler.shutdown();
+		}
+		IoUtil.closeQuietly(socket);
 	}
 
 	/**
@@ -229,7 +228,8 @@ public class UdpSession<T> implements Closeable {
 	 * @return this
 	 */
 	public UdpSession<T> start() {
-		if(null == executor) {
+		Assert.notNull(decoder, "Decoder can not be null when start receive loop");
+		if (null == executor) {
 			executor = ThreadUtil.newExecutor();
 		}
 		executor.submit(this::receiveLoop);
@@ -257,7 +257,7 @@ public class UdpSession<T> implements Closeable {
 					continue;
 				}
 
-				onMessage(decoder.decode(data));
+				onMessage(decoder.decode(data), new UdpContext(packet.getSocketAddress()));
 			} catch (final SocketException e) {
 				onError(e);
 				break; // socket closed
@@ -270,12 +270,12 @@ public class UdpSession<T> implements Closeable {
 		close();
 	}
 
-	private void onMessage(final T msg) {
-		safeInvoke(() -> Opt.of(this.msgHandler).ifPresent(c -> c.accept(msg)));
+	private void onMessage(final T msg, final UdpContext context) {
+		safeInvoke(() -> Optional.of(this.msgHandler).ifPresent(c -> c.accept(msg, context)));
 	}
 
 	private void onError(final Throwable e) {
-		safeInvoke(() -> Opt.of(this.errorHandler).ifPresent(c -> c.accept(e)));
+		safeInvoke(() -> Optional.of(this.errorHandler).ifPresent(c -> c.accept(e)));
 	}
 
 	private void safeInvoke(final Runnable task) {

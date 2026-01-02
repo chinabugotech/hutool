@@ -33,6 +33,7 @@ import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -91,13 +92,13 @@ class UdpSessionTest {
 	}
 
 	/**
-	 * 测试 ofClient 工厂方法
+	 * 测试 ofSender 工厂方法
 	 */
 	@SuppressWarnings("resource")
 	@Test
-	void testOfClient() {
+	void testOfSender() {
 		// 正常情况
-		final UdpSession<String> session = UdpSession.ofClient(TEST_HOST, TEST_PORT, new StringUdpEncoder());
+		final UdpSession<String> session = UdpUtil.ofSender(TEST_HOST, TEST_PORT, new StringUdpEncoder());
 		assertNotNull(session);
 		assertTrue(session.isOpen());
 
@@ -106,7 +107,7 @@ class UdpSessionTest {
 
 		// 测试异常情况 - 无效的端口号
 		assertThrows(IllegalArgumentException.class, () -> {
-			UdpSession.ofClient(TEST_HOST, -1, new StringUdpEncoder());
+			UdpUtil.ofSender(TEST_HOST, -1, new StringUdpEncoder());
 		});
 	}
 
@@ -118,14 +119,14 @@ class UdpSessionTest {
 	void testOfServer() {
 		// 正常情况
 		final InetSocketAddress bindAddress = new InetSocketAddress(TEST_HOST, TEST_PORT_SERVER);
-		final UdpSession<String> session = UdpSession.ofServer(bindAddress, new StringUdpDecoder());
+		final UdpSession<String> session = UdpUtil.ofServer(bindAddress, new StringUdpDecoder());
 		assertNotNull(session);
 		assertTrue(session.isOpen());
 		session.close();
 
 		// 测试异常情况 - 无效的绑定地址
 		assertThrows(SocketRuntimeException.class, () -> {
-			UdpSession.ofServer(new InetSocketAddress("invalid.host", 9999), new StringUdpDecoder());
+			UdpUtil.ofServer(new InetSocketAddress("invalid.host", 9999), new StringUdpDecoder());
 		});
 	}
 
@@ -167,8 +168,7 @@ class UdpSessionTest {
 	void testSetMsgHandler() {
 		final UdpSession<String> session = new UdpSession<>(testSocket, new StringUdpEncoder(), new StringUdpDecoder());
 
-		final Consumer<String> msgHandler = msg -> {
-		};
+		final BiConsumer<String, UdpContext> msgHandler = (msg, context) -> {};
 		final UdpSession<String> result = session.setMsgHandler(msgHandler);
 
 		assertEquals(session, result);
@@ -217,8 +217,8 @@ class UdpSessionTest {
 	 * 测试 send 方法 - 正常情况
 	 */
 	@Test
-	void testSend() throws IOException {
-		final UdpSession<String> session = UdpSession.ofClient(TEST_HOST, TEST_PORT, new StringUdpEncoder());
+	void testSend() {
+		final UdpSession<String> session = UdpUtil.ofSender(TEST_HOST, TEST_PORT, new StringUdpEncoder());
 
 		// 正常发送
 		assertDoesNotThrow(() -> session.send("test message"));
@@ -250,8 +250,8 @@ class UdpSessionTest {
 	 * 测试 sendHeartbeat 方法
 	 */
 	@Test
-	void testSendHeartbeat() throws IOException {
-		final UdpSession<String> session = UdpSession.ofClient(TEST_HOST, TEST_PORT, new StringUdpEncoder());
+	void testSendHeartbeat() {
+		final UdpSession<String> session = UdpUtil.ofSender(TEST_HOST, TEST_PORT, new StringUdpEncoder());
 
 		// 正常发送心跳
 		assertDoesNotThrow(() -> session.sendHeartbeat("heartbeat"));
@@ -265,7 +265,7 @@ class UdpSessionTest {
 	@Test
 	@Timeout(5)
 	void testScheduleHeartbeat() throws InterruptedException {
-		final UdpSession<String> session = UdpSession.ofClient(TEST_HOST, TEST_PORT, new StringUdpEncoder());
+		final UdpSession<String> session = UdpUtil.ofSender(TEST_HOST, TEST_PORT, new StringUdpEncoder());
 		final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 
 		try {
@@ -319,15 +319,15 @@ class UdpSessionTest {
 	@SuppressWarnings("WriteOnlyObject")
 	@Test
 	@Timeout(5)
-	void testStart() throws InterruptedException, SocketException {
+	void testStart() throws InterruptedException {
 		// 创建服务端会话用于接收消息
 		final InetSocketAddress serverAddress = new InetSocketAddress(TEST_HOST, TEST_PORT_SERVER);
-		final UdpSession<String> serverSession = UdpSession.ofServer(serverAddress, new StringUdpDecoder());
+		final UdpSession<String> serverSession = UdpUtil.ofServer(serverAddress, new StringUdpDecoder());
 
 		final AtomicInteger messageCount = new AtomicInteger(0);
 		final AtomicReference<String> receivedMessage = new AtomicReference<>();
 
-		serverSession.setMsgHandler(msg -> {
+		serverSession.setMsgHandler((msg, context) -> {
 			messageCount.incrementAndGet();
 			receivedMessage.set(msg);
 		});
@@ -336,7 +336,7 @@ class UdpSessionTest {
 		serverSession.start();
 
 		// 创建客户端并发送消息
-		final UdpSession<String> clientSession = UdpSession.ofClient(TEST_HOST, TEST_PORT_SERVER, new StringUdpEncoder());
+		final UdpSession<String> clientSession = UdpUtil.ofSender(TEST_HOST, TEST_PORT_SERVER, new StringUdpEncoder());
 		clientSession.send("test message");
 
 		// 等待消息处理
@@ -400,18 +400,18 @@ class UdpSessionTest {
 		};
 
 		final InetSocketAddress serverAddress = new InetSocketAddress(TEST_HOST, TEST_PORT_SERVER);
-		final UdpSession<String> serverSession = UdpSession.ofServer(serverAddress, strictDecoder);
+		final UdpSession<String> serverSession = UdpUtil.ofServer(serverAddress, strictDecoder);
 
 		final AtomicInteger validMessageCount = new AtomicInteger(0);
 		final AtomicInteger invalidMessageCount = new AtomicInteger(0);
 
-		serverSession.setMsgHandler(msg -> validMessageCount.incrementAndGet());
+		serverSession.setMsgHandler((msg, context) -> validMessageCount.incrementAndGet());
 
 		// 启动接收循环
 		serverSession.start();
 
-		// 创建客户端
-		final UdpSession<String> clientSession = UdpSession.ofClient(TEST_HOST, TEST_PORT_SERVER, new StringUdpEncoder());
+		// 创建无状态客户端
+		final UdpSession<String> clientSession = UdpUtil.ofSender(TEST_HOST, TEST_PORT_SERVER, new StringUdpEncoder());
 
 		// 发送过短的消息（应该被过滤掉）
 		clientSession.send("123"); // 只有3个字节
@@ -458,7 +458,7 @@ class UdpSessionTest {
 	@Test
 	@Timeout(10)
 	void testConcurrentOperations() throws InterruptedException {
-		final UdpSession<String> session = UdpSession.ofClient(TEST_HOST, TEST_PORT, new StringUdpEncoder());
+		final UdpSession<String> session = UdpUtil.ofSender(TEST_HOST, TEST_PORT, new StringUdpEncoder());
 
 		final int threadCount = 5;
 		final CountDownLatch startLatch = new CountDownLatch(1);

@@ -18,6 +18,7 @@ package cn.hutool.v7.socket.nio;
 
 import cn.hutool.v7.core.io.IORuntimeException;
 import cn.hutool.v7.log.LogUtil;
+import cn.hutool.v7.socket.ChannelUtil;
 
 import java.io.IOException;
 import java.nio.channels.CompletionHandler;

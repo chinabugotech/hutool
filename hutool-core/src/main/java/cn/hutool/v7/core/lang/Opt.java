@@ -59,6 +59,7 @@ public class Opt<T> {
 		return t;
 	}
 
+	// region ----- of
 	/**
 	 * 返回一个包裹里元素不可能为空的{@code Opt}
 	 *
@@ -133,6 +134,7 @@ public class Opt<T> {
 	public static <T> Opt<T> of(final Optional<? extends T> optional) {
 		return ofNullable(optional.orElse(null));
 	}
+	// endregion
 
 	/**
 	 * 包裹里实际的元素
@@ -149,6 +151,7 @@ public class Opt<T> {
 		this.value = value;
 	}
 
+	// region ----- get
 	/**
 	 * 返回包裹里的元素，取不到则为{@code null}，注意！！！此处和{@link java.util.Optional#get()}不同的一点是本方法并不会抛出{@code NoSuchElementException}
 	 *
@@ -175,6 +178,7 @@ public class Opt<T> {
 		}
 		return this.value;
 	}
+	// endregion
 
 	/**
 	 * 判断包裹里元素的值是否不存在，不存在为 {@code true}，否则为{@code false}
@@ -276,13 +280,26 @@ public class Opt<T> {
 	 */
 	public Opt<T> ifPresent(final SerConsumer<? super T> action) {
 		if (isPresent()) {
-			try {
-				action.accepting(value);
-			} catch (final Throwable e) {
-				this.throwable = e;
-			}
+			action.accept(value);
 		}
 		return this;
+	}
+
+	/**
+	 * 如果包裹里元素的值存在，就执行对应的操作集，并返回本身
+	 * 如果不存在，返回一个空的{@code Opt}
+	 *
+	 * <p>属于 {@link #ifPresent(SerConsumer)}的动态拓展
+	 *
+	 * @param actions 值存在时执行的操作，动态参数，可传入数组，当数组为一个空数组时并不会抛出 {@code NPE}
+	 * @return this
+	 * @throws NullPointerException 如果值存在，并且传入的操作集中的元素为 {@code null}
+	 * @author VampireAchao
+	 */
+	@SafeVarargs
+	public final Opt<T> ifPresents(final SerConsumer<T>... actions) throws NullPointerException {
+		return ifPresent(Stream.of(actions).reduce(SerConsumer::andThen).orElseGet(() -> o -> {
+		}));
 	}
 
 	/**
@@ -318,16 +335,13 @@ public class Opt<T> {
 	 * 如果不存在，返回一个空的{@code Opt}
 	 * @throws NullPointerException 如果给定的操作为 {@code null}，抛出 {@code NPE}
 	 */
-	@SuppressWarnings("unchecked")
 	public <U> Opt<U> map(final SerFunction<? super T, ? extends U> mapper) {
 		Objects.requireNonNull(mapper);
-		if (isFail()) {
-			return (Opt<U>) this;
-		} else if (isEmpty()) {
+		if(!isPresent()){
 			return empty();
-		} else {
-			return Opt.ofTry(() -> mapper.applying(value));
 		}
+
+		return Opt.ofNullable(mapper.apply(value));
 	}
 
 	/**
@@ -362,40 +376,6 @@ public class Opt<T> {
 	}
 
 	/**
-	 * 如果包裹里元素的值存在，就执行对应的操作集，并返回本身
-	 * 如果不存在，返回一个空的{@code Opt}
-	 *
-	 * <p>属于 {@link #ifPresent(SerConsumer)}的动态拓展
-	 *
-	 * @param actions 值存在时执行的操作，动态参数，可传入数组，当数组为一个空数组时并不会抛出 {@code NPE}
-	 * @return this
-	 * @throws NullPointerException 如果值存在，并且传入的操作集中的元素为 {@code null}
-	 * @author VampireAchao
-	 */
-	@SafeVarargs
-	public final Opt<T> ifPresents(final SerConsumer<T>... actions) throws NullPointerException {
-		return ifPresent(Stream.of(actions).reduce(SerConsumer::andThen).orElseGet(() -> o -> {
-		}));
-	}
-
-	/**
-	 * 如果包裹里元素的值存在，就返回本身，如果不存在，则使用传入的操作执行后获得的 {@code Opt}
-	 *
-	 * @param supplier 不存在时的操作
-	 * @return 如果包裹里元素的值存在，就返回本身，如果不存在，则使用传入的函数执行后获得的 {@code Opt}
-	 * @throws NullPointerException 如果传入的操作为空，或者传入的操作执行后返回值为空，则抛出 {@code NPE}
-	 */
-	public Opt<T> or(final SerSupplier<? extends Opt<? extends T>> supplier) {
-		Objects.requireNonNull(supplier);
-		if (isPresent()) {
-			return this;
-		} else {
-			@SuppressWarnings("unchecked") final Opt<T> r = (Opt<T>) supplier.get();
-			return Objects.requireNonNull(r);
-		}
-	}
-
-	/**
 	 * 如果包裹里元素的值存在，就返回一个包含该元素的 {@link Stream},
 	 * 否则返回一个空元素的 {@link Stream}
 	 *
@@ -415,6 +395,24 @@ public class Opt<T> {
 		}
 	}
 
+	// region ----- or
+	/**
+	 * 如果包裹里元素的值存在，就返回本身，如果不存在，则使用传入的操作执行后获得的 {@code Opt}
+	 *
+	 * @param supplier 不存在时的操作
+	 * @return 如果包裹里元素的值存在，就返回本身，如果不存在，则使用传入的函数执行后获得的 {@code Opt}
+	 * @throws NullPointerException 如果传入的操作为空，或者传入的操作执行后返回值为空，则抛出 {@code NPE}
+	 */
+	public Opt<T> or(final SerSupplier<? extends Opt<? extends T>> supplier) {
+		Objects.requireNonNull(supplier);
+		if (isPresent()) {
+			return this;
+		} else {
+			@SuppressWarnings("unchecked") final Opt<T> r = (Opt<T>) supplier.get();
+			return Objects.requireNonNull(r);
+		}
+	}
+
 	/**
 	 * 如果包裹里元素的值存在，则返回该值，否则返回传入的{@code other}
 	 *
@@ -423,17 +421,6 @@ public class Opt<T> {
 	 */
 	public T orElse(final T other) {
 		return isPresent() ? value : other;
-	}
-
-	/**
-	 * 异常则返回另一个可选值
-	 *
-	 * @param other 可选值
-	 * @return 如果未发生异常，则返回该值，否则返回传入的{@code other}
-	 * @since 5.7.17
-	 */
-	public T exceptionOrElse(final T other) {
-		return isFail() ? other : value;
 	}
 
 	/**
@@ -501,6 +488,18 @@ public class Opt<T> {
 			throw exceptionSupplier.get();
 		}
 	}
+
+	/**
+	 * 异常则返回另一个可选值
+	 *
+	 * @param other 可选值
+	 * @return 如果未发生异常，则返回该值，否则返回传入的{@code other}
+	 * @since 5.7.17
+	 */
+	public T exceptionOrElse(final T other) {
+		return isFail() ? other : value;
+	}
+	// endregion
 
 	/**
 	 * 转换为 {@link Optional}对象

@@ -20,32 +20,18 @@ import cn.hutool.v7.core.io.IORuntimeException;
 import cn.hutool.v7.core.util.RuntimeUtil;
 
 import java.io.IOException;
-import java.lang.Thread.UncaughtExceptionHandler;
 import java.time.Duration;
-import java.util.concurrent.Callable;
-import java.util.concurrent.CompletionService;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.Phaser;
-import java.util.concurrent.CyclicBarrier;
-import java.util.concurrent.ExecutorCompletionService;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.RejectedExecutionHandler;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.function.Supplier;
 
 /**
  * 线程池工具
  *
- * @author luxiaolei
+ * @author Looly
  */
 public class ThreadUtil {
 
+	// region ----- newExecutor
 	/**
 	 * 获得一个新的线程池，默认的策略如下：
 	 * <pre>
@@ -212,11 +198,13 @@ public class ThreadUtil {
 		return ExecutorBuilder.of()
 			.setCorePoolSize(nThreads).setMaxPoolSize(nThreads)
 			.setWorkQueue(new LinkedBlockingQueue<>(maximumQueueSize))
-			.setThreadFactory(createThreadFactory(threadNamePrefix))
+			.setThreadFactory(newThreadFactory(threadNamePrefix))
 			.setHandler(handler)
 			.build();
 	}
+	// endregion
 
+	// region ----- execute
 	/**
 	 * 直接在公共线程池中执行线程
 	 *
@@ -264,6 +252,7 @@ public class ThreadUtil {
 	public static Future<?> execAsync(final Runnable runnable) {
 		return GlobalThreadPool.submit(runnable);
 	}
+	// endregion
 
 	/**
 	 * 新建一个CompletionService，调用其submit方法可以异步执行多个任务，最后调用take方法按照完成的顺序获得其结果。<br>
@@ -580,7 +569,7 @@ public class ThreadUtil {
 	 * @param isInheritable 是否为子线程提供从父线程那里继承的值
 	 * @return 本地线程
 	 */
-	public static <T> ThreadLocal<T> createThreadLocal(final boolean isInheritable) {
+	public static <T> ThreadLocal<T> newThreadLocal(final boolean isInheritable) {
 		if (isInheritable) {
 			return new InheritableThreadLocal<>();
 		} else {
@@ -597,10 +586,11 @@ public class ThreadUtil {
 	 * @see ThreadLocal#withInitial(Supplier)
 	 * @since 5.6.7
 	 */
-	public static <T> ThreadLocal<T> createThreadLocal(final Supplier<? extends T> supplier) {
+	public static <T> ThreadLocal<T> newThreadLocal(final Supplier<? extends T> supplier) {
 		return ThreadLocal.withInitial(supplier);
 	}
 
+	// region ----- newThreadFactory
 	/**
 	 * 创建ThreadFactoryBuilder
 	 *
@@ -608,7 +598,7 @@ public class ThreadUtil {
 	 * @see ThreadFactoryBuilder#build()
 	 * @since 4.1.13
 	 */
-	public static ThreadFactoryBuilder createThreadFactoryBuilder() {
+	public static ThreadFactoryBuilder newThreadFactoryBuilder() {
 		return ThreadFactoryBuilder.of();
 	}
 
@@ -620,9 +610,49 @@ public class ThreadUtil {
 	 * @see ThreadFactoryBuilder#build()
 	 * @since 5.8.0
 	 */
-	public static ThreadFactory createThreadFactory(final String threadNamePrefix) {
+	public static ThreadFactory newThreadFactory(final String threadNamePrefix) {
 		return ThreadFactoryBuilder.of().setNamePrefix(threadNamePrefix).build();
 	}
+
+	/**
+	 * 创建线程工厂
+	 *
+	 * @param prefix   线程名前缀
+	 * @param isDaemon 是否守护线程
+	 * @return {@link ThreadFactory}
+	 * @since 4.0.0
+	 */
+	public static ThreadFactory newNamedThreadFactory(final String prefix, final boolean isDaemon) {
+		return new NamedThreadFactory(prefix, isDaemon);
+	}
+
+	/**
+	 * 创建线程工厂
+	 *
+	 * @param prefix      线程名前缀
+	 * @param threadGroup 线程组，可以为null
+	 * @param isDaemon    是否守护线程
+	 * @return {@link ThreadFactory}
+	 * @since 4.0.0
+	 */
+	public static ThreadFactory newNamedThreadFactory(final String prefix, final ThreadGroup threadGroup, final boolean isDaemon) {
+		return new NamedThreadFactory(prefix, threadGroup, isDaemon);
+	}
+
+	/**
+	 * 创建线程工厂
+	 *
+	 * @param prefix      线程名前缀
+	 * @param threadGroup 线程组，可以为null
+	 * @param isDaemon    是否守护线程
+	 * @param handler     未捕获异常处理
+	 * @return {@link ThreadFactory}
+	 * @since 4.0.0
+	 */
+	public static ThreadFactory newNamedThreadFactory(final String prefix, final ThreadGroup threadGroup, final boolean isDaemon, final Thread.UncaughtExceptionHandler handler) {
+		return new NamedThreadFactory(prefix, threadGroup, isDaemon, handler);
+	}
+	// endregion
 
 	/**
 	 * 结束线程，调用此方法后，线程将抛出 {@link InterruptedException}异常
@@ -728,45 +758,6 @@ public class ThreadUtil {
 	}
 
 	/**
-	 * 创建线程工厂
-	 *
-	 * @param prefix   线程名前缀
-	 * @param isDaemon 是否守护线程
-	 * @return {@link ThreadFactory}
-	 * @since 4.0.0
-	 */
-	public static ThreadFactory newNamedThreadFactory(final String prefix, final boolean isDaemon) {
-		return new NamedThreadFactory(prefix, isDaemon);
-	}
-
-	/**
-	 * 创建线程工厂
-	 *
-	 * @param prefix      线程名前缀
-	 * @param threadGroup 线程组，可以为null
-	 * @param isDaemon    是否守护线程
-	 * @return {@link ThreadFactory}
-	 * @since 4.0.0
-	 */
-	public static ThreadFactory newNamedThreadFactory(final String prefix, final ThreadGroup threadGroup, final boolean isDaemon) {
-		return new NamedThreadFactory(prefix, threadGroup, isDaemon);
-	}
-
-	/**
-	 * 创建线程工厂
-	 *
-	 * @param prefix      线程名前缀
-	 * @param threadGroup 线程组，可以为null
-	 * @param isDaemon    是否守护线程
-	 * @param handler     未捕获异常处理
-	 * @return {@link ThreadFactory}
-	 * @since 4.0.0
-	 */
-	public static ThreadFactory newNamedThreadFactory(final String prefix, final ThreadGroup threadGroup, final boolean isDaemon, final UncaughtExceptionHandler handler) {
-		return new NamedThreadFactory(prefix, threadGroup, isDaemon, handler);
-	}
-
-	/**
 	 * 阻塞当前线程，保证在main方法中执行不被退出
 	 *
 	 * @param obj 对象所在线程
@@ -802,6 +793,7 @@ public class ThreadUtil {
 		}
 	}
 
+	// region ----- schedule
 	/**
 	 * 创建{@link ScheduledThreadPoolExecutor}
 	 *
@@ -809,7 +801,7 @@ public class ThreadUtil {
 	 * @return {@link ScheduledThreadPoolExecutor}
 	 * @since 5.5.8
 	 */
-	public static ScheduledThreadPoolExecutor createScheduledExecutor(final int corePoolSize) {
+	public static ScheduledThreadPoolExecutor newScheduledExecutor(final int corePoolSize) {
 		return new ScheduledThreadPoolExecutor(corePoolSize);
 	}
 
@@ -862,7 +854,7 @@ public class ThreadUtil {
 													final TimeUnit timeUnit,
 													final boolean fixedRateOrFixedDelay) {
 		if (null == executor) {
-			executor = createScheduledExecutor(2);
+			executor = newScheduledExecutor(2);
 		}
 		if (fixedRateOrFixedDelay) {
 			executor.scheduleAtFixedRate(command, initialDelay, period, timeUnit);
@@ -872,4 +864,5 @@ public class ThreadUtil {
 
 		return executor;
 	}
+	// endregion
 }

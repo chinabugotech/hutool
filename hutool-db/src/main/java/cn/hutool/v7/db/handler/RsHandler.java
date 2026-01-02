@@ -32,7 +32,7 @@ import java.sql.SQLException;
  * @see NumberHandler
  * @see PageResultHandler
  *
- * @author Luxiaolei
+ * @author Looly
  *
  * @param <T> 处理后的对象类型
  */
