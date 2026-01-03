@@ -472,7 +472,7 @@
 		<dependency>
 			<groupId>org.hibernate.validator</groupId>
 			<artifactId>hibernate-validator</artifactId>
-			<version>9.0.1.Final</version>
+			<version>9.1.0.Final</version>
 			<scope>test</scope>
 			<exclusions>
 				<exclusion>
