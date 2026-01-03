@@ -16,23 +16,15 @@
 
 package cn.hutool.v7.extra.management;
 
+import cn.hutool.v7.core.cache.SimpleCache;
 import cn.hutool.v7.core.convert.ConvertUtil;
-import cn.hutool.v7.core.lang.Singleton;
+import cn.hutool.v7.core.func.SerSupplier;
 import cn.hutool.v7.core.util.ObjUtil;
 
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
 import java.io.PrintWriter;
-import java.lang.management.ClassLoadingMXBean;
-import java.lang.management.CompilationMXBean;
-import java.lang.management.GarbageCollectorMXBean;
-import java.lang.management.ManagementFactory;
-import java.lang.management.MemoryMXBean;
-import java.lang.management.MemoryManagerMXBean;
-import java.lang.management.MemoryPoolMXBean;
-import java.lang.management.OperatingSystemMXBean;
-import java.lang.management.RuntimeMXBean;
-import java.lang.management.ThreadMXBean;
+import java.lang.management.*;
 import java.util.List;
 
 /**
@@ -42,6 +34,8 @@ import java.util.List;
  * @author Looly
  */
 public class ManagementUtil {
+
+	private static final SimpleCache<Class<?>, Object> POOL = new SimpleCache<>();
 
 	// ----- Java运行时环境信息 -----/
 	/**
@@ -296,7 +290,7 @@ public class ManagementUtil {
 	 * @return {@link JvmSpecInfo}对象
 	 */
 	public static JvmSpecInfo getJvmSpecInfo() {
-		return Singleton.get(JvmSpecInfo.class);
+		return (JvmSpecInfo) POOL.get(JvmSpecInfo.class, (SerSupplier<Object>) JvmSpecInfo::new);
 	}
 
 	/**
@@ -305,7 +299,7 @@ public class ManagementUtil {
 	 * @return {@link JvmInfo}对象
 	 */
 	public static JvmInfo getJvmInfo() {
-		return Singleton.get(JvmInfo.class);
+		return (JvmInfo) POOL.get(JvmInfo.class, (SerSupplier<Object>) JvmInfo::new);
 	}
 
 	/**
@@ -314,7 +308,7 @@ public class ManagementUtil {
 	 * @return {@link JavaSpecInfo}对象
 	 */
 	public static JavaSpecInfo getJavaSpecInfo() {
-		return Singleton.get(JavaSpecInfo.class);
+		return (JavaSpecInfo) POOL.get(JavaSpecInfo.class, (SerSupplier<Object>) JavaSpecInfo::new);
 	}
 
 	/**
@@ -323,7 +317,7 @@ public class ManagementUtil {
 	 * @return {@link JavaInfo}对象
 	 */
 	public static JavaInfo getJavaInfo() {
-		return Singleton.get(JavaInfo.class);
+		return (JavaInfo) POOL.get(JavaInfo.class, (SerSupplier<Object>) JavaInfo::new);
 	}
 
 	/**
@@ -332,7 +326,7 @@ public class ManagementUtil {
 	 * @return {@link JavaRuntimeInfo}对象
 	 */
 	public static JavaRuntimeInfo getJavaRuntimeInfo() {
-		return Singleton.get(JavaRuntimeInfo.class);
+		return (JavaRuntimeInfo) POOL.get(JavaRuntimeInfo.class, (SerSupplier<Object>) JavaRuntimeInfo::new);
 	}
 
 	/**
@@ -341,7 +335,7 @@ public class ManagementUtil {
 	 * @return {@code OsInfo}对象
 	 */
 	public static OsInfo getOsInfo() {
-		return Singleton.get(OsInfo.class);
+		return (OsInfo) POOL.get(OsInfo.class, (SerSupplier<Object>) OsInfo::new);
 	}
 
 	/**
@@ -350,7 +344,7 @@ public class ManagementUtil {
 	 * @return {@code UserInfo}对象
 	 */
 	public static UserInfo getUserInfo() {
-		return Singleton.get(UserInfo.class);
+		return (UserInfo) POOL.get(UserInfo.class, (SerSupplier<Object>) UserInfo::new);
 	}
 
 	/**
@@ -359,7 +353,7 @@ public class ManagementUtil {
 	 * @return {@link HostInfo}对象
 	 */
 	public static HostInfo getHostInfo() {
-		return Singleton.get(HostInfo.class);
+		return (HostInfo) POOL.get(HostInfo.class, (SerSupplier<Object>) HostInfo::new);
 	}
 
 	/**
@@ -368,7 +362,7 @@ public class ManagementUtil {
 	 * @return {@link RuntimeInfo}对象
 	 */
 	public static RuntimeInfo getRuntimeInfo() {
-		return Singleton.get(RuntimeInfo.class);
+		return (RuntimeInfo) POOL.get(RuntimeInfo.class, (SerSupplier<Object>) RuntimeInfo::new);
 	}
 
 	/**
