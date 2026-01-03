@@ -29,7 +29,7 @@ public class LogUtil {
 	private static final String FQCN = LogUtil.class.getName();
 
 	// ----------------------------------------------------------- Log method start
-	// ------------------------ Trace
+	// region ----- Trace
 
 	/**
 	 * Trace等级日志，小于debug<br>
@@ -52,8 +52,9 @@ public class LogUtil {
 	public static void trace(final Log log, final String format, final Object... arguments) {
 		log.trace(FQCN, null, format, arguments);
 	}
+	// endregion
 
-	// ------------------------ debug
+	// region ----- debug
 
 	/**
 	 * Debug等级日志，小于Info<br>
@@ -76,8 +77,9 @@ public class LogUtil {
 	public static void debug(final Log log, final String format, final Object... arguments) {
 		log.debug(FQCN, null, format, arguments);
 	}
+	// endregion
 
-	// ------------------------ info
+	// region ----- info
 
 	/**
 	 * Info等级日志，小于Warn<br>
@@ -100,8 +102,9 @@ public class LogUtil {
 	public static void info(final Log log, final String format, final Object... arguments) {
 		log.info(FQCN, null, format, arguments);
 	}
+	// endregion
 
-	// ------------------------ warn
+	// region ----- warn
 
 	/**
 	 * Warn等级日志，小于Error<br>
@@ -148,8 +151,9 @@ public class LogUtil {
 	public static void warn(final Log log, final Throwable e, final String format, final Object... arguments) {
 		log.warn(FQCN, e, format, arguments);
 	}
+	// endregion
 
-	// ------------------------ error
+	// region ----- error
 
 	/**
 	 * Error等级日志<br>
@@ -216,8 +220,9 @@ public class LogUtil {
 	public static void error(final Log log, final Throwable e, final String format, final Object... arguments) {
 		log.error(FQCN, e, format, arguments);
 	}
+	// endregion
 
-	// ------------------------ Log
+	// region ----- Log
 
 	/**
 	 * 打印日志<br>
@@ -230,6 +235,5 @@ public class LogUtil {
 	public static void log(final Level level, final Throwable t, final String format, final Object... arguments) {
 		LogFactory.getLog(CallerUtil.getCallerCaller()).log(FQCN, level, t, format, arguments);
 	}
-
-	// ----------------------------------------------------------- Log method end
+	// endregion
 }
