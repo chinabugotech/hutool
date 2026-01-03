@@ -192,6 +192,30 @@ public final class InternalJSONUtil {
 	}
 
 	/**
+	 * 将 {@link JSONConfig} 的参数和过滤器 {@link Filter}转换为 Bean 拷贝所需的 {@link CopyOptions}
+	 *
+	 * @param config {@link JSONConfig}
+	 * @param filter {@link Filter}
+	 * @return {@link CopyOptions}
+	 */
+	static CopyOptions toCopyOptions(JSONConfig config, Filter<MutablePair<String, Object>> filter) {
+		CopyOptions copyOptions = CopyOptions.create()
+			.setIgnoreCase(config.isIgnoreCase())
+			.setIgnoreError(config.isIgnoreError())
+			.setIgnoreNullValue(config.isIgnoreNullValue())
+			.setTransientSupport(config.isTransientSupport());
+
+		if (filter != null) {
+			copyOptions.setPropertiesFilter((field, value) -> {
+				MutablePair<String, Object> pair = new MutablePair<>(field.getName(), value);
+				return filter.accept(pair);
+			});
+		}
+
+		return copyOptions;
+	}
+
+	/**
 	 * 根据配置创建对应的原始Map
 	 *
 	 * @param capacity 初始大小
