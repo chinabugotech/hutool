@@ -134,10 +134,11 @@ public class UdpSession<T> implements Closeable {
 	 * 发送数据
 	 *
 	 * @param data 发送的数据包
+	 * @return this
 	 * @throws IORuntimeException IO异常
 	 */
-	public void send(final T data) throws IORuntimeException {
-		send(data, this.remoteAddress);
+	public UdpSession<T> send(final T data) throws IORuntimeException {
+		return send(data, this.remoteAddress);
 	}
 
 	/**
@@ -145,9 +146,10 @@ public class UdpSession<T> implements Closeable {
 	 *
 	 * @param data          发送的数据包
 	 * @param remoteAddress 远程地址
+	 * @return this
 	 * @throws IORuntimeException IO异常
 	 */
-	public void send(final T data, final SocketAddress remoteAddress) throws IORuntimeException {
+	public UdpSession<T> send(final T data, final SocketAddress remoteAddress) throws IORuntimeException {
 		Assert.notNull(encoder, "Encoder can not be null when send data");
 		final byte[] payload = encoder.encode(data);
 		final DatagramPacket packet = new DatagramPacket(payload, payload.length, remoteAddress);
@@ -156,6 +158,7 @@ public class UdpSession<T> implements Closeable {
 		} catch (final IOException e) {
 			throw new IORuntimeException(e);
 		}
+		return this;
 	}
 
 	/**
@@ -163,9 +166,10 @@ public class UdpSession<T> implements Closeable {
 	 *
 	 * @param heartbeatMsg 心跳消息
 	 * @throws IORuntimeException IO异常
+	 * @return this
 	 */
-	public void sendHeartbeat(final T heartbeatMsg) throws IORuntimeException {
-		send(heartbeatMsg);
+	public UdpSession<T> sendHeartbeat(final T heartbeatMsg) throws IORuntimeException {
+		return send(heartbeatMsg);
 	}
 
 	/**
@@ -190,6 +194,7 @@ public class UdpSession<T> implements Closeable {
 	 * @param scheduler    定时线程
 	 * @return 定时任务
 	 */
+	@SuppressWarnings("resource")
 	public ScheduledFuture<?> scheduleHeartbeat(final T heartbeatMsg, final long interval, final ScheduledExecutorService scheduler) {
 		return scheduler.scheduleAtFixedRate(() -> {
 			try {

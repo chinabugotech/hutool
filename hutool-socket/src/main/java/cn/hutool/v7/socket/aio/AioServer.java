@@ -26,6 +26,7 @@ import cn.hutool.v7.socket.SocketConfig;
 import java.io.Closeable;
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.net.SocketAddress;
 import java.net.SocketOption;
 import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousChannelGroup;
@@ -68,7 +69,7 @@ public class AioServer implements Closeable {
 	 * @param config  {@link SocketConfig} 配置项
 	 */
 	@SuppressWarnings("resource")
-	public AioServer(final InetSocketAddress address, final SocketConfig config) {
+	public AioServer(final SocketAddress address, final SocketConfig config) {
 		this.config = config;
 		init(address);
 	}
@@ -79,7 +80,7 @@ public class AioServer implements Closeable {
 	 * @param address 地址和端口
 	 * @return this
 	 */
-	public AioServer init(final InetSocketAddress address) {
+	public AioServer init(final SocketAddress address) {
 		try {
 			this.group = AsynchronousChannelGroup.withFixedThreadPool(//
 					config.getThreadPoolSize(), // 默认线程池大小

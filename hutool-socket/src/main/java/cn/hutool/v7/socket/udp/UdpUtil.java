@@ -37,6 +37,21 @@ public class UdpUtil {
 
 	// region ----- client
 	/**
+	 * 通过UDP发送消息
+	 *
+	 * @param <T>     消息类型
+	 * @param host    目标主机地址
+	 * @param port    目标端口号
+	 * @param message 要发送的消息内容
+	 * @param encoder 消息编码器，用于将指定类型的消息转为bytes
+	 */
+	public static <T> void sendByUdp(final String host, final int port, final T message, final UdpEncoder<T> encoder) {
+		try (final UdpSession<T> session = UdpUtil.ofSender(host, port, encoder)) {
+			session.send(message);
+		}
+	}
+
+	/**
 	 * 创建UDP客户端消息发送器，发送器没有状态，没有连接，不会接收消息，只是单纯发送
 	 *
 	 * @param host    远程主机地址

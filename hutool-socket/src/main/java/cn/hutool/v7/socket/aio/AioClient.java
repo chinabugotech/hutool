@@ -21,7 +21,7 @@ import cn.hutool.v7.socket.SocketConfig;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.net.InetSocketAddress;
+import java.net.SocketAddress;
 import java.net.SocketOption;
 import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousSocketChannel;
@@ -42,7 +42,7 @@ public class AioClient implements Closeable {
 	 * @param address  地址
 	 * @param ioAction IO处理类
 	 */
-	public AioClient(final InetSocketAddress address, final IoAction<ByteBuffer> ioAction) {
+	public AioClient(final SocketAddress address, final IoAction<ByteBuffer> ioAction) {
 		this(address, ioAction, new SocketConfig());
 	}
 
@@ -53,7 +53,7 @@ public class AioClient implements Closeable {
 	 * @param ioAction IO处理类
 	 * @param config   配置项
 	 */
-	public AioClient(final InetSocketAddress address, final IoAction<ByteBuffer> ioAction, final SocketConfig config) {
+	public AioClient(final SocketAddress address, final IoAction<ByteBuffer> ioAction, final SocketConfig config) {
 		this(createChannel(address, config.getThreadPoolSize()), ioAction, config);
 	}
 
@@ -79,6 +79,7 @@ public class AioClient implements Closeable {
 	 * @return this
 	 * @throws IOException IO异常
 	 */
+	@SuppressWarnings("resource")
 	public <T> AioClient setOption(final SocketOption<T> name, final T value) throws IOException {
 		this.session.getChannel().setOption(name, value);
 		return this;
@@ -131,7 +132,7 @@ public class AioClient implements Closeable {
 	 * @param poolSize 线程池大小
 	 * @return this
 	 */
-	private static AsynchronousSocketChannel createChannel(final InetSocketAddress address, final int poolSize) {
+	private static AsynchronousSocketChannel createChannel(final SocketAddress address, final int poolSize) {
 		return ChannelUtil.connect(ChannelUtil.createFixedGroup(poolSize), address);
 	}
 	// ------------------------------------------------------------------------------------- Private method end

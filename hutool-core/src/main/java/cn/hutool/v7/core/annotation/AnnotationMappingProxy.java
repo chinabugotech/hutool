@@ -67,7 +67,7 @@ public final class AnnotationMappingProxy<T extends Annotation> implements Invoc
 	 * @return 代理对象
 	 */
 	@SuppressWarnings("unchecked")
-	public static <A extends Annotation> A create(final Class<? extends A> annotationType, final AnnotationMapping<A> mapping) {
+	public static <A extends Annotation> A of(final Class<? extends A> annotationType, final AnnotationMapping<A> mapping) {
 		Objects.requireNonNull(annotationType);
 		Objects.requireNonNull(mapping);
 		final AnnotationMappingProxy<A> invocationHandler = new AnnotationMappingProxy<>(mapping);

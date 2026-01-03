@@ -633,12 +633,12 @@ public class AnnotatedElementUtil {
 		}
 		collector = ObjUtil.defaultIfNull(collector, RepeatableAnnotationCollector.none());
 		if (resolved) {
-			return RepeatableMetaAnnotatedElement.create(
-				collector, element, (source, annotation) -> ResolvedAnnotationMapping.create((ResolvedAnnotationMapping)source, annotation, true)
+			return RepeatableMetaAnnotatedElement.of(
+				collector, element, (source, annotation) -> ResolvedAnnotationMapping.of((ResolvedAnnotationMapping)source, annotation, true)
 			);
 		}
-		return RepeatableMetaAnnotatedElement.create(
-			collector, element, (source, annotation) -> GenericAnnotationMapping.create(annotation, Objects.isNull(source))
+		return RepeatableMetaAnnotatedElement.of(
+			collector, element, (source, annotation) -> GenericAnnotationMapping.of(annotation, Objects.isNull(source))
 		);
 	}
 
@@ -676,8 +676,8 @@ public class AnnotatedElementUtil {
 	 * @return {@link MetaAnnotatedElement}实例
 	 */
 	static MetaAnnotatedElement<ResolvedAnnotationMapping> getResolvedMetaElementCache(final AnnotatedElement element) {
-		return RESOLVED_ELEMENT_CACHE.computeIfAbsent(element, ele -> MetaAnnotatedElement.create(
-			element, (source, annotation) -> ResolvedAnnotationMapping.create(source, annotation, true)
+		return RESOLVED_ELEMENT_CACHE.computeIfAbsent(element, ele -> MetaAnnotatedElement.of(
+			element, (source, annotation) -> ResolvedAnnotationMapping.of(source, annotation, true)
 		));
 	}
 
@@ -688,8 +688,8 @@ public class AnnotatedElementUtil {
 	 * @return {@link MetaAnnotatedElement}实例
 	 */
 	static MetaAnnotatedElement<GenericAnnotationMapping> getMetaElementCache(final AnnotatedElement element) {
-		return ELEMENT_CACHE.computeIfAbsent(element, ele -> MetaAnnotatedElement.create(
-			element, (source, annotation) -> GenericAnnotationMapping.create(annotation, Objects.isNull(source))
+		return ELEMENT_CACHE.computeIfAbsent(element, ele -> MetaAnnotatedElement.of(
+			element, (source, annotation) -> GenericAnnotationMapping.of(annotation, Objects.isNull(source))
 		));
 	}
 
@@ -700,8 +700,8 @@ public class AnnotatedElementUtil {
 	 * @return {@link MetaAnnotatedElement}实例
 	 */
 	static RepeatableMetaAnnotatedElement<ResolvedAnnotationMapping> getResolvedRepeatableMetaElementCache(final AnnotatedElement element) {
-		return RESOLVED_REPEATABLE_ELEMENT_CACHE.computeIfAbsent(element, ele -> RepeatableMetaAnnotatedElement.create(
-			element, (source, annotation) -> ResolvedAnnotationMapping.create(source, annotation, true)
+		return RESOLVED_REPEATABLE_ELEMENT_CACHE.computeIfAbsent(element, ele -> RepeatableMetaAnnotatedElement.of(
+			element, (source, annotation) -> ResolvedAnnotationMapping.of(source, annotation, true)
 		));
 	}
 
@@ -712,8 +712,8 @@ public class AnnotatedElementUtil {
 	 * @return {@link MetaAnnotatedElement}实例
 	 */
 	static RepeatableMetaAnnotatedElement<GenericAnnotationMapping> getRepeatableMetaElementCache(final AnnotatedElement element) {
-		return REPEATABLE_ELEMENT_CACHE.computeIfAbsent(element, ele -> RepeatableMetaAnnotatedElement.create(
-			element, (source, annotation) -> GenericAnnotationMapping.create(annotation, Objects.isNull(source))
+		return REPEATABLE_ELEMENT_CACHE.computeIfAbsent(element, ele -> RepeatableMetaAnnotatedElement.of(
+			element, (source, annotation) -> GenericAnnotationMapping.of(annotation, Objects.isNull(source))
 		));
 	}
 

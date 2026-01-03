@@ -40,7 +40,7 @@ public class GenericAnnotationMapping implements AnnotationMapping<Annotation> {
 	 * @param isRoot     是否根注解
 	 * @return {@code GenericAnnotationMapping}实例
 	 */
-	public static GenericAnnotationMapping create(final Annotation annotation, final boolean isRoot) {
+	public static GenericAnnotationMapping of(final Annotation annotation, final boolean isRoot) {
 		return new GenericAnnotationMapping(annotation, isRoot);
 	}
 

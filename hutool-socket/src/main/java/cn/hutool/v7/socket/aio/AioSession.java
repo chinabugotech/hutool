@@ -18,8 +18,8 @@ package cn.hutool.v7.socket.aio;
 
 import cn.hutool.v7.core.io.IORuntimeException;
 import cn.hutool.v7.core.io.IoUtil;
+import cn.hutool.v7.socket.ChannelUtil;
 import cn.hutool.v7.socket.SocketConfig;
-import cn.hutool.v7.socket.SocketUtil;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -109,7 +109,7 @@ public class AioSession implements Closeable{
 	 * @return 远程主机（客户端）地址和端口
 	 */
 	public SocketAddress getRemoteAddress() {
-		return SocketUtil.getRemoteAddress(this.channel);
+		return ChannelUtil.getRemoteAddress(this.channel);
 	}
 
 	/**

@@ -22,11 +22,8 @@ import cn.hutool.v7.core.thread.ThreadFactoryBuilder;
 import cn.hutool.v7.socket.nio.Operation;
 
 import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.nio.channels.AsynchronousChannelGroup;
-import java.nio.channels.AsynchronousSocketChannel;
-import java.nio.channels.SelectableChannel;
-import java.nio.channels.Selector;
+import java.net.SocketAddress;
+import java.nio.channels.*;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -36,6 +33,37 @@ import java.util.concurrent.ExecutionException;
  * @since 5.8.2
  */
 public class ChannelUtil {
+
+	/**
+	 * 获取远程端的地址信息，包括host和端口<br>
+	 * null表示channel为null或者远程主机未连接
+	 *
+	 * @param channel {@link AsynchronousSocketChannel}
+	 * @return 远程端的地址信息，包括host和端口，null表示channel为null或者远程主机未连接
+	 * @throws IORuntimeException IO异常
+	 */
+	public static SocketAddress getRemoteAddress(final AsynchronousSocketChannel channel) throws IORuntimeException {
+		try {
+			return (null == channel) ? null : channel.getRemoteAddress();
+		} catch (final ClosedChannelException e) {
+			// Channel未打开或已关闭，返回null表示未连接
+			return null;
+		} catch (final IOException e) {
+			throw new IORuntimeException(e);
+		}
+	}
+
+	/**
+	 * 远程主机是否处于连接状态<br>
+	 * 通过判断远程地址获取成功与否判断
+	 *
+	 * @param channel {@link AsynchronousSocketChannel}
+	 * @return 远程主机是否处于连接状态
+	 * @throws IORuntimeException IO异常
+	 */
+	public static boolean isConnected(final AsynchronousSocketChannel channel) throws IORuntimeException {
+		return null != getRemoteAddress(channel);
+	}
 
 	/**
 	 * 注册通道的指定操作到指定Selector上
@@ -84,7 +112,7 @@ public class ChannelUtil {
 	 * @param address 地址信息，包括地址和端口
 	 * @return {@link AsynchronousSocketChannel}
 	 */
-	public static AsynchronousSocketChannel connect(final AsynchronousChannelGroup group, final InetSocketAddress address) {
+	public static AsynchronousSocketChannel connect(final AsynchronousChannelGroup group, final SocketAddress address) {
 		final AsynchronousSocketChannel channel;
 		try {
 			channel = AsynchronousSocketChannel.open(group);

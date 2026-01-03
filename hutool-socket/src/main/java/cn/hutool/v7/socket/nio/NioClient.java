@@ -25,6 +25,7 @@ import cn.hutool.v7.socket.SocketRuntimeException;
 import java.io.Closeable;
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.net.SocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
@@ -61,7 +62,7 @@ public class NioClient implements Closeable {
 	 * @param address 服务器地址
 	 */
 	@SuppressWarnings("resource")
-	public NioClient(final InetSocketAddress address) {
+	public NioClient(final SocketAddress address) {
 		init(address);
 	}
 
@@ -71,7 +72,7 @@ public class NioClient implements Closeable {
 	 * @param address 地址和端口
 	 * @return this
 	 */
-	public NioClient init(final InetSocketAddress address) {
+	public NioClient init(final SocketAddress address) {
 		try {
 			//创建一个SocketChannel对象，配置成非阻塞模式
 			this.channel = SocketChannel.open();

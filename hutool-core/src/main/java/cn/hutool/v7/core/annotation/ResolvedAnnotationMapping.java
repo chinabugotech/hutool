@@ -133,8 +133,8 @@ public class ResolvedAnnotationMapping implements AnnotationMapping<Annotation> 
 	 * @param resolveAnnotationAttribute 是否解析注解属性，为{@code true}时获得的注解皆支持属性覆盖与属性别名机制
 	 * @return 注解映射对象
 	 */
-	public static ResolvedAnnotationMapping create(final Annotation annotation, final boolean resolveAnnotationAttribute) {
-		return create(null, annotation, resolveAnnotationAttribute);
+	public static ResolvedAnnotationMapping of(final Annotation annotation, final boolean resolveAnnotationAttribute) {
+		return of(null, annotation, resolveAnnotationAttribute);
 	}
 
 	/**
@@ -146,7 +146,7 @@ public class ResolvedAnnotationMapping implements AnnotationMapping<Annotation> 
 	 * @param resolveAnnotationAttribute 是否解析注解属性，为{@code true}时获得的注解皆支持属性覆盖与属性别名机制
 	 * @return 注解映射对象
 	 */
-	public static ResolvedAnnotationMapping create(
+	public static ResolvedAnnotationMapping of(
 		final ResolvedAnnotationMapping source, final Annotation annotation, final boolean resolveAnnotationAttribute) {
 		return new ResolvedAnnotationMapping(source, annotation, resolveAnnotationAttribute);
 	}
@@ -280,7 +280,7 @@ public class ResolvedAnnotationMapping implements AnnotationMapping<Annotation> 
 		if (Objects.isNull(proxied)) {
 			synchronized (this) {
 				if (Objects.isNull(proxied)) {
-					proxied = AnnotationMappingProxy.create(annotationType(), this);
+					proxied = AnnotationMappingProxy.of(annotationType(), this);
 				}
 			}
 		}

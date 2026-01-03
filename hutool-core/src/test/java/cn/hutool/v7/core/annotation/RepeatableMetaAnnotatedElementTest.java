@@ -45,24 +45,24 @@ public class RepeatableMetaAnnotatedElementTest {
 
 	@Test
 	public void testEquals() {
-		final AnnotatedElement element = RepeatableMetaAnnotatedElement.create(Foo.class, RESOLVED_MAPPING_FACTORY);
+		final AnnotatedElement element = RepeatableMetaAnnotatedElement.of(Foo.class, RESOLVED_MAPPING_FACTORY);
 		Assertions.assertNotEquals(null, element);
-		Assertions.assertEquals(element, RepeatableMetaAnnotatedElement.create(Foo.class, RESOLVED_MAPPING_FACTORY));
-		Assertions.assertNotEquals(element, RepeatableMetaAnnotatedElement.create(Foo.class, MAPPING_FACTORY));
-		Assertions.assertNotEquals(element, RepeatableMetaAnnotatedElement.create(Annotation1.class, MAPPING_FACTORY));
+		Assertions.assertEquals(element, RepeatableMetaAnnotatedElement.of(Foo.class, RESOLVED_MAPPING_FACTORY));
+		Assertions.assertNotEquals(element, RepeatableMetaAnnotatedElement.of(Foo.class, MAPPING_FACTORY));
+		Assertions.assertNotEquals(element, RepeatableMetaAnnotatedElement.of(Annotation1.class, MAPPING_FACTORY));
 	}
 
 	@Test
 	public void testHashCode() {
-		final int hashCode = RepeatableMetaAnnotatedElement.create(Foo.class, RESOLVED_MAPPING_FACTORY).hashCode();
-		Assertions.assertEquals(hashCode, RepeatableMetaAnnotatedElement.create(Foo.class, RESOLVED_MAPPING_FACTORY).hashCode());
-		Assertions.assertNotEquals(hashCode, RepeatableMetaAnnotatedElement.create(Foo.class, MAPPING_FACTORY).hashCode());
-		Assertions.assertNotEquals(hashCode, RepeatableMetaAnnotatedElement.create(Annotation1.class, MAPPING_FACTORY).hashCode());
+		final int hashCode = RepeatableMetaAnnotatedElement.of(Foo.class, RESOLVED_MAPPING_FACTORY).hashCode();
+		Assertions.assertEquals(hashCode, RepeatableMetaAnnotatedElement.of(Foo.class, RESOLVED_MAPPING_FACTORY).hashCode());
+		Assertions.assertNotEquals(hashCode, RepeatableMetaAnnotatedElement.of(Foo.class, MAPPING_FACTORY).hashCode());
+		Assertions.assertNotEquals(hashCode, RepeatableMetaAnnotatedElement.of(Annotation1.class, MAPPING_FACTORY).hashCode());
 	}
 
 	@Test
 	public void testIsAnnotationPresent() {
-		final AnnotatedElement element = RepeatableMetaAnnotatedElement.create(
+		final AnnotatedElement element = RepeatableMetaAnnotatedElement.of(
 			RepeatableAnnotationCollector.standard(), Foo.class, (s, a) -> new GenericAnnotationMapping(a, Objects.isNull(s))
 		);
 		Assertions.assertTrue(element.isAnnotationPresent(Annotation1.class));
@@ -73,7 +73,7 @@ public class RepeatableMetaAnnotatedElementTest {
 
 	@Test
 	public void testGetAnnotations() {
-		final AnnotatedElement element = RepeatableMetaAnnotatedElement.create(
+		final AnnotatedElement element = RepeatableMetaAnnotatedElement.of(
 			RepeatableAnnotationCollector.standard(), Foo.class, (s, a) -> new GenericAnnotationMapping(a, Objects.isNull(s))
 		);
 		final List<Class<? extends Annotation>> annotationTypes = Arrays.stream(element.getAnnotations())
@@ -89,7 +89,7 @@ public class RepeatableMetaAnnotatedElementTest {
 
 	@Test
 	public void testGetAnnotation() {
-		final AnnotatedElement element = RepeatableMetaAnnotatedElement.create(
+		final AnnotatedElement element = RepeatableMetaAnnotatedElement.of(
 			RepeatableAnnotationCollector.standard(), Foo.class, (s, a) -> new GenericAnnotationMapping(a, Objects.isNull(s))
 		);
 
@@ -108,7 +108,7 @@ public class RepeatableMetaAnnotatedElementTest {
 
 	@Test
 	public void testGetAnnotationsByType() {
-		final AnnotatedElement element = RepeatableMetaAnnotatedElement.create(
+		final AnnotatedElement element = RepeatableMetaAnnotatedElement.of(
 			RepeatableAnnotationCollector.standard(), Foo.class, (s, a) -> new GenericAnnotationMapping(a, Objects.isNull(s))
 		);
 
@@ -127,7 +127,7 @@ public class RepeatableMetaAnnotatedElementTest {
 
 	@Test
 	public void testGetDeclaredAnnotations() {
-		final AnnotatedElement element = RepeatableMetaAnnotatedElement.create(
+		final AnnotatedElement element = RepeatableMetaAnnotatedElement.of(
 			RepeatableAnnotationCollector.standard(), Foo.class, (s, a) -> new GenericAnnotationMapping(a, Objects.isNull(s))
 		);
 		final List<Class<? extends Annotation>> annotationTypes = Arrays.stream(element.getDeclaredAnnotations())
@@ -143,7 +143,7 @@ public class RepeatableMetaAnnotatedElementTest {
 
 	@Test
 	public void testGetDeclaredAnnotation() {
-		final AnnotatedElement element = RepeatableMetaAnnotatedElement.create(
+		final AnnotatedElement element = RepeatableMetaAnnotatedElement.of(
 			RepeatableAnnotationCollector.standard(), Foo.class, (s, a) -> new GenericAnnotationMapping(a, Objects.isNull(s))
 		);
 
@@ -156,7 +156,7 @@ public class RepeatableMetaAnnotatedElementTest {
 
 	@Test
 	public void testGetDeclaredAnnotationsByType() {
-		final AnnotatedElement element = RepeatableMetaAnnotatedElement.create(
+		final AnnotatedElement element = RepeatableMetaAnnotatedElement.of(
 			RepeatableAnnotationCollector.standard(), Foo.class, (s, a) -> new GenericAnnotationMapping(a, Objects.isNull(s))
 		);
 
@@ -176,7 +176,7 @@ public class RepeatableMetaAnnotatedElementTest {
 	@Test
 	public void testGetElement() {
 		final AnnotatedElement element = Foo.class;
-		final RepeatableMetaAnnotatedElement<GenericAnnotationMapping> repeatableMetaAnnotatedElement = RepeatableMetaAnnotatedElement.create(
+		final RepeatableMetaAnnotatedElement<GenericAnnotationMapping> repeatableMetaAnnotatedElement = RepeatableMetaAnnotatedElement.of(
 			RepeatableAnnotationCollector.standard(), element, (s, a) -> new GenericAnnotationMapping(a, Objects.isNull(s))
 		);
 		Assertions.assertSame(element, repeatableMetaAnnotatedElement.getElement());
@@ -184,7 +184,7 @@ public class RepeatableMetaAnnotatedElementTest {
 
 	@Test
 	public void testIterator() {
-		final RepeatableMetaAnnotatedElement<GenericAnnotationMapping> element = RepeatableMetaAnnotatedElement.create(
+		final RepeatableMetaAnnotatedElement<GenericAnnotationMapping> element = RepeatableMetaAnnotatedElement.of(
 			RepeatableAnnotationCollector.standard(), Foo.class, (s, a) -> new GenericAnnotationMapping(a, Objects.isNull(s))
 		);
 		int count = 0;
