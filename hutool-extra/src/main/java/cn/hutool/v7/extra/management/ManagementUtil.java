@@ -37,10 +37,7 @@ import java.util.List;
 
 /**
  * Java的JMX（Java Management Extensions）相关封装工具类。<br>
- * JMX就是Java管理扩展，用来管理和监测 Java 程序。最常用到的就是对于 JVM 的监测和管理，比如 JVM 内存、CPU 使用率、线程数、垃圾收集情况等等。<br>
- * 参考：
- * <a href="http://blog.csdn.net/zhongweijian/article/details/7619383">http://blog.csdn.net/zhongweijian/article/details/7619383</a><br>
- * <a href="https://zhuanlan.zhihu.com/p/166530442">https://zhuanlan.zhihu.com/p/166530442</a>
+ * JMX就是Java管理扩展，用来管理和监测 Java 程序。最常用到的就是对于 JVM 的监测和管理，比如 JVM 内存、CPU 使用率、线程数、垃圾收集情况等等。
  *
  * @author Looly
  */
