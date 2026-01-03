@@ -16,13 +16,12 @@
 
 package cn.hutool.v7.extra.mq.engine.rabbitmq;
 
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.DeliverCallback;
 import cn.hutool.v7.core.io.IoUtil;
 import cn.hutool.v7.extra.mq.Consumer;
 import cn.hutool.v7.extra.mq.MQException;
-import cn.hutool.v7.extra.mq.Message;
 import cn.hutool.v7.extra.mq.MessageHandler;
+import cn.hutool.v7.extra.mq.SimpleMessage;
+import com.rabbitmq.client.Channel;
 
 import java.io.IOException;
 import java.util.Map;
@@ -62,22 +61,10 @@ public class RabbitMQConsumer implements Consumer {
 	public void subscribe(final MessageHandler messageHandler) {
 		queueDeclare(false, false, false, null);
 
-		final DeliverCallback deliverCallback = (consumerTag, delivery) ->
-			messageHandler.handle(new Message() {
-			@Override
-			public String topic() {
-				return consumerTag;
-			}
-
-			@Override
-			public byte[] content() {
-				return delivery.getBody();
-			}
-		});
-
 		try {
-			this.channel.basicConsume(this.topic, true, deliverCallback, consumerTag -> {
-			});
+			this.channel.basicConsume(this.topic, true,
+				(consumerTag, delivery) -> messageHandler.handle(new SimpleMessage(consumerTag, delivery.getBody())),
+				consumerTag -> {});
 		} catch (final IOException e) {
 			throw new MQException(e);
 		}

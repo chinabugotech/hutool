@@ -16,10 +16,7 @@
 
 package cn.hutool.v7.extra.mq.engine;
 
-import cn.hutool.v7.extra.mq.Consumer;
-import cn.hutool.v7.extra.mq.MQConfig;
-import cn.hutool.v7.extra.mq.Message;
-import cn.hutool.v7.extra.mq.Producer;
+import cn.hutool.v7.extra.mq.*;
 import cn.hutool.v7.extra.mq.engine.mica.MicaMqttEngine;
 import org.junit.jupiter.api.Test;
 
@@ -33,60 +30,40 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  */
 class MicaMqttEngineTest {
 
-    @Test
-    void testMicaMqttEngineCreation() {
-        // 创建MQTT引擎
-        final MicaMqttEngine engine = new MicaMqttEngine();
+	@Test
+	void testMicaMqttEngineCreation() {
+		// 创建MQTT引擎
+		final MicaMqttEngine engine = new MicaMqttEngine();
 
-        // 初始化配置
-        final MQConfig config = MQConfig.of("tcp://localhost:1883");
-        final MQEngine initializedEngine = engine.init(config);
+		// 初始化配置
+		final MQConfig config = MQConfig.of("tcp://localhost:1883");
+		final MQEngine initializedEngine = engine.init(config);
 
-        // 验证引擎初始化成功
-        assertNotNull(initializedEngine);
-        assertNotNull(initializedEngine.getProducer());
-        assertNotNull(initializedEngine.getConsumer());
-    }
+		// 验证引擎初始化成功
+		assertNotNull(initializedEngine);
+		assertNotNull(initializedEngine.getProducer());
+		assertNotNull(initializedEngine.getConsumer());
+	}
 
-    @Test
-    void testMicaMqttProducer() {
-        final MicaMqttEngine engine = new MicaMqttEngine();
-        final MQConfig config = MQConfig.of("tcp://localhost:1883");
-        engine.init(config);
+	@Test
+	void testMicaMqttProducer() {
+		final MicaMqttEngine engine = new MicaMqttEngine();
+		final MQConfig config = MQConfig.of("tcp://localhost:1883");
+		engine.init(config);
 
-        final Producer producer = engine.getProducer();
-        assertNotNull(producer);
-        // 这里不实际发送消息，因为需要真实的MQTT broker
-    }
+		final Producer producer = engine.getProducer();
+		assertNotNull(producer);
+		// 这里不实际发送消息，因为需要真实的MQTT broker
+	}
 
-    @Test
-    void testMicaMqttConsumer() {
-        final MicaMqttEngine engine = new MicaMqttEngine();
-        final MQConfig config = MQConfig.of("tcp://localhost:1883");
-        engine.init(config);
+	@Test
+	void testMicaMqttConsumer() {
+		final MicaMqttEngine engine = new MicaMqttEngine();
+		final MQConfig config = MQConfig.of("tcp://localhost:1883");
+		engine.init(config);
 
-        final Consumer consumer = engine.getConsumer();
-        assertNotNull(consumer);
-        // 这里不实际订阅消息，因为需要真实的MQTT broker
-    }
-
-    @Test
-    void testMessageInterfaceImplementation() {
-        // 测试消息接口的实现
-        final Message testMessage = new Message() {
-            @Override
-            public String topic() {
-                return "test/topic";
-            }
-
-            @Override
-            public byte[] content() {
-                return "Hello MQTT".getBytes();
-            }
-        };
-
-        assertNotNull(testMessage);
-        assertNotNull(testMessage.topic());
-        assertNotNull(testMessage.content());
-    }
+		final Consumer consumer = engine.getConsumer();
+		assertNotNull(consumer);
+		// 这里不实际订阅消息，因为需要真实的MQTT broker
+	}
 }

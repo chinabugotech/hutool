@@ -16,10 +16,7 @@
 
 package cn.hutool.v7.extra.mq.engine.mica;
 
-import cn.hutool.v7.extra.mq.Consumer;
-import cn.hutool.v7.extra.mq.MQException;
-import cn.hutool.v7.extra.mq.Message;
-import cn.hutool.v7.extra.mq.MessageHandler;
+import cn.hutool.v7.extra.mq.*;
 import org.dromara.mica.mqtt.codec.MqttQoS;
 import org.dromara.mica.mqtt.core.client.MqttClient;
 
@@ -78,7 +75,7 @@ public class MicaMqttConsumer implements Consumer {
 
 		// 订阅topic并设置消息处理器
 		this.mqttClient.subscribe(this.topic, mqttQoS, (context, topic, message, payload) -> {
-			messageHandler.handle(new MicaMqttMessage(topic, payload));
+			messageHandler.handle(new SimpleMessage(topic, payload));
 		});
 	}
 
@@ -94,14 +91,5 @@ public class MicaMqttConsumer implements Consumer {
 				throw new IOException("Failed to close MQTT consumer", e);
 			}
 		}
-	}
-
-	/**
-	 * MQTT消息包装类
-	 *
-	 * @author Looly
-	 * @since 7.0.0
-	 */
-	private record MicaMqttMessage(String topic, byte[] content) implements Message {
 	}
 }

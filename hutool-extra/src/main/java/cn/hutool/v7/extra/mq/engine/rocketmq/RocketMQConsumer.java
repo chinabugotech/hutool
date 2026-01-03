@@ -16,15 +16,12 @@
 
 package cn.hutool.v7.extra.mq.engine.rocketmq;
 
+import cn.hutool.v7.extra.mq.*;
 import org.apache.rocketmq.client.consumer.MQPushConsumer;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
 import org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.common.message.MessageExt;
-import cn.hutool.v7.extra.mq.Consumer;
-import cn.hutool.v7.extra.mq.MQException;
-import cn.hutool.v7.extra.mq.Message;
-import cn.hutool.v7.extra.mq.MessageHandler;
 
 import java.io.IOException;
 
@@ -66,7 +63,7 @@ public class RocketMQConsumer implements Consumer {
 	public void subscribe(final MessageHandler messageHandler) {
 		this.consumer.registerMessageListener((MessageListenerConcurrently) (msgs, context) -> {
 			for (final MessageExt msg : msgs) {
-				messageHandler.handle(new RocketMQMessage(msg));
+				messageHandler.handle(new SimpleMessage(msg.getTopic(), msg.getBody()));
 			}
 			return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
 		});
@@ -76,31 +73,6 @@ public class RocketMQConsumer implements Consumer {
 	public void close() throws IOException {
 		if (null != this.consumer) {
 			this.consumer.shutdown();
-		}
-	}
-
-	/**
-	 * RocketMQ消息包装
-	 *
-	 * @author Looly
-	 * @since 6.0.0
-	 */
-	private static class RocketMQMessage implements Message {
-		private final MessageExt messageExt;
-
-		private RocketMQMessage(final MessageExt messageExt) {
-			this.messageExt = messageExt;
-		}
-
-
-		@Override
-		public String topic() {
-			return messageExt.getTopic();
-		}
-
-		@Override
-		public byte[] content() {
-			return messageExt.getBody();
 		}
 	}
 }

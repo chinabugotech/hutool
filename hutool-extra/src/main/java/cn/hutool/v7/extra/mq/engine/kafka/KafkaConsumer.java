@@ -16,12 +16,12 @@
 
 package cn.hutool.v7.extra.mq.engine.kafka;
 
-import org.apache.kafka.clients.consumer.ConsumerRecord;
 import cn.hutool.v7.core.collection.ListUtil;
 import cn.hutool.v7.core.io.IoUtil;
 import cn.hutool.v7.extra.mq.Consumer;
-import cn.hutool.v7.extra.mq.Message;
 import cn.hutool.v7.extra.mq.MessageHandler;
+import cn.hutool.v7.extra.mq.SimpleMessage;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 
 import java.io.IOException;
 import java.time.Duration;
@@ -73,7 +73,7 @@ public class KafkaConsumer implements Consumer {
 	 * @param topicPattern topic{@link Pattern}
 	 * @return this
 	 */
-	public KafkaConsumer setTopicPattern(final Pattern topicPattern){
+	public KafkaConsumer setTopicPattern(final Pattern topicPattern) {
 		this.consumer.subscribe(topicPattern);
 		return this;
 	}
@@ -81,41 +81,12 @@ public class KafkaConsumer implements Consumer {
 	@Override
 	public void subscribe(final MessageHandler messageHandler) {
 		for (final ConsumerRecord<String, byte[]> record : this.consumer.poll(Duration.ofMillis(3000))) {
-			messageHandler.handle(new ConsumerRecordMessage(record));
+			messageHandler.handle(new SimpleMessage(record.topic(), record.value()));
 		}
 	}
 
 	@Override
 	public void close() throws IOException {
 		IoUtil.nullSafeClose(this.consumer);
-	}
-
-	/**
-	 * 消费者记录包装为消息
-	 *
-	 * @author looly
-	 */
-	private static class ConsumerRecordMessage implements Message {
-
-		private final ConsumerRecord<String, byte[]> record;
-
-		/**
-		 * 构造
-		 *
-		 * @param record {@link ConsumerRecord}
-		 */
-		private ConsumerRecordMessage(final ConsumerRecord<String, byte[]> record) {
-			this.record = record;
-		}
-
-		@Override
-		public String topic() {
-			return record.topic();
-		}
-
-		@Override
-		public byte[] content() {
-			return record.value();
-		}
 	}
 }
