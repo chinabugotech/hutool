@@ -98,7 +98,7 @@ public class MapUtil extends MapGetUtil {
 		return isEmpty(map) ? defaultMap : map;
 	}
 
-	// ----------------------------------------------------------------------------------------------- new HashMap
+	// region ----- new Map
 
 	/**
 	 * 新建一个HashMap
@@ -240,8 +240,9 @@ public class MapUtil extends MapGetUtil {
 
 		return result;
 	}
+	// endregion
 
-	// ----------------------------------------------------------------------------------------------- value of
+	// region ----- of
 
 	/**
 	 * 将单一键值对转换为Map
@@ -420,6 +421,78 @@ public class MapUtil extends MapGetUtil {
 	}
 
 	/**
+	 * 返回一个空Map
+	 *
+	 * @param <K> 键类型
+	 * @param <V> 值类型
+	 * @return 空Map
+	 * @see Collections#emptyMap()
+	 * @since 5.3.1
+	 */
+	public static <K, V> Map<K, V> empty() {
+		return Collections.emptyMap();
+	}
+
+	/**
+	 * 根据传入的Map类型不同，返回对应类型的空Map，支持类型包括：
+	 *
+	 * <pre>
+	 *     1. NavigableMap
+	 *     2. SortedMap
+	 *     3. Map
+	 * </pre>
+	 *
+	 * @param <K>      键类型
+	 * @param <V>      值类型
+	 * @param <T>      Map类型
+	 * @param mapClass Map类型，null返回默认的Map
+	 * @return 空Map
+	 * @since 5.3.1
+	 */
+	@SuppressWarnings("unchecked")
+	public static <K, V, T extends Map<K, V>> T empty(final Class<?> mapClass) {
+		if (null == mapClass) {
+			return (T) Collections.emptyMap();
+		}
+		if (NavigableMap.class == mapClass) {
+			return (T) Collections.emptyNavigableMap();
+		} else if (SortedMap.class == mapClass) {
+			return (T) Collections.emptySortedMap();
+		} else if (Map.class == mapClass) {
+			return (T) Collections.emptyMap();
+		}
+
+		// 不支持空集合的集合类型
+		throw new IllegalArgumentException(StrUtil.format("[{}] is not support to get empty!", mapClass));
+	}
+
+	/**
+	 * 返回一个初始大小为0的HashMap(初始为0，可加入元素)
+	 *
+	 * @param <K> 键类型
+	 * @param <V> 值类型
+	 * @return 初始大小为0的HashMap
+	 */
+	public static <K, V> Map<K, V> zero() {
+		return new HashMap<>(0, 1);
+	}
+
+	/**
+	 * 返回一个只包含一个键值对的Map，不可变
+	 *
+	 * @param key   键
+	 * @param value 值
+	 * @param <K>   键类型
+	 * @param <V>   值类型
+	 * @return Map
+	 */
+	public static <K, V> Map<K, V> singleton(final K key, final V value) {
+		return Collections.singletonMap(key, value);
+	}
+	// endregion
+
+	// region ----- to
+	/**
 	 * 行转列，合并相同的键，值合并为列表<br>
 	 * 将Map列表中相同key的值组成列表做为Map的value<br>
 	 * 是{@link #toMapList(Map)}的逆方法<br>
@@ -561,9 +634,9 @@ public class MapUtil extends MapGetUtil {
 		}
 		return result;
 	}
+	// endregion
 
-	// ----------------------------------------------------------------------------------------------- join
-
+	// region ----- join
 	/**
 	 * 将map转成字符串
 	 *
@@ -650,8 +723,9 @@ public class MapUtil extends MapGetUtil {
 			.append(otherParams)
 			.toString();
 	}
+	// endregion
 
-	// ----------------------------------------------------------------------------------------------- filter
+	// region ----- filter
 
 	/**
 	 * 编辑Map<br>
@@ -711,26 +785,6 @@ public class MapUtil extends MapGetUtil {
 		return edit(map, t -> predicate.test(t) ? t : null);
 	}
 
-
-	/**
-	 * 通过biFunction自定义一个规则，此规则将原Map中的元素转换成新的元素，生成新的Map返回<br>
-	 * 变更过程通过传入的 {@link BiFunction} 实现来返回一个值可以为不同类型的 {@link Map}
-	 *
-	 * @param map        原有的map
-	 * @param biFunction {@code lambda}，参数包含{@code key},{@code value}，返回值会作为新的{@code value}
-	 * @param <K>        {@code key}的类型
-	 * @param <V>        {@code value}的类型
-	 * @param <R>        新的，修改后的{@code value}的类型
-	 * @return 值可以为不同类型的 {@link Map}
-	 * @since 5.8.0
-	 */
-	public static <K, V, R> Map<K, R> map(final Map<K, V> map, final BiFunction<K, V, R> biFunction) {
-		if (null == map || null == biFunction) {
-			return MapUtil.newHashMap();
-		}
-		return map.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, m -> biFunction.apply(m.getKey(), m.getValue())));
-	}
-
 	/**
 	 * 过滤Map保留指定键值对，如果键不存在跳过
 	 *
@@ -758,6 +812,26 @@ public class MapUtil extends MapGetUtil {
 			}
 		}
 		return map2;
+	}
+	// endregion
+
+	/**
+	 * 通过biFunction自定义一个规则，此规则将原Map中的元素转换成新的元素，生成新的Map返回<br>
+	 * 变更过程通过传入的 {@link BiFunction} 实现来返回一个值可以为不同类型的 {@link Map}
+	 *
+	 * @param map        原有的map
+	 * @param biFunction {@code lambda}，参数包含{@code key},{@code value}，返回值会作为新的{@code value}
+	 * @param <K>        {@code key}的类型
+	 * @param <V>        {@code value}的类型
+	 * @param <R>        新的，修改后的{@code value}的类型
+	 * @return 值可以为不同类型的 {@link Map}
+	 * @since 5.8.0
+	 */
+	public static <K, V, R> Map<K, R> map(final Map<K, V> map, final BiFunction<K, V, R> biFunction) {
+		if (null == map || null == biFunction) {
+			return MapUtil.newHashMap();
+		}
+		return map.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, m -> biFunction.apply(m.getKey(), m.getValue())));
 	}
 
 	/**
@@ -808,6 +882,7 @@ public class MapUtil extends MapGetUtil {
 		return result;
 	}
 
+	// region ----- sort
 	/**
 	 * 排序已有Map，Key有序的Map，使用默认Key排序方式（字母顺序）
 	 *
@@ -867,6 +942,7 @@ public class MapUtil extends MapGetUtil {
 		map.entrySet().stream().sorted(entryComparator).forEachOrdered(e -> result.put(e.getKey(), e.getValue()));
 		return result;
 	}
+	// endregion
 
 	/**
 	 * 创建代理Map<br>
@@ -907,7 +983,7 @@ public class MapUtil extends MapGetUtil {
 		return Collections.unmodifiableMap(map);
 	}
 
-	// ----------------------------------------------------------------------------------------------- builder
+	// region ----- builder
 
 	/**
 	 * 创建链接调用map
@@ -944,39 +1020,7 @@ public class MapUtil extends MapGetUtil {
 	public static <K, V> MapBuilder<K, V> builder(final K k, final V v) {
 		return (builder(new HashMap<K, V>())).put(k, v);
 	}
-
-	/**
-	 * 获取Map的部分key生成新的Map
-	 *
-	 * @param <K>  Key类型
-	 * @param <V>  Value类型
-	 * @param map  Map
-	 * @param keys 键列表
-	 * @return 新Map，只包含指定的key
-	 * @since 4.0.6
-	 */
-	@SuppressWarnings("unchecked")
-	public static <K, V> Map<K, V> getAny(final Map<K, V> map, final K... keys) {
-		return filter(map, entry -> ArrayUtil.contains(keys, entry.getKey()));
-	}
-
-	/**
-	 * 去掉Map中指定key的键值对，修改原Map
-	 *
-	 * @param <K>  Key类型
-	 * @param <V>  Value类型
-	 * @param <T>  Map类型
-	 * @param map  Map
-	 * @param keys 键列表
-	 * @return 修改后的key
-	 */
-	@SuppressWarnings("unchecked")
-	public static <K, V, T extends Map<K, V>> T removeAny(final T map, final K... keys) {
-		for (final K key : keys) {
-			map.remove(key);
-		}
-		return map;
-	}
+	// endregion
 
 	/**
 	 * 重命名键<br>
@@ -1001,6 +1045,42 @@ public class MapUtil extends MapGetUtil {
 		}
 		return map;
 	}
+
+	/**
+	 * 获取Map的部分key生成新的Map
+	 *
+	 * @param <K>  Key类型
+	 * @param <V>  Value类型
+	 * @param map  Map
+	 * @param keys 键列表
+	 * @return 新Map，只包含指定的key
+	 * @since 4.0.6
+	 */
+	@SuppressWarnings("unchecked")
+	public static <K, V> Map<K, V> getAny(final Map<K, V> map, final K... keys) {
+		return filter(map, entry -> ArrayUtil.contains(keys, entry.getKey()));
+	}
+
+	// region ----- remove
+	/**
+	 * 去掉Map中指定key的键值对，修改原Map
+	 *
+	 * @param <K>  Key类型
+	 * @param <V>  Value类型
+	 * @param <T>  Map类型
+	 * @param map  Map
+	 * @param keys 键列表
+	 * @return 修改后的key
+	 */
+	@SuppressWarnings("unchecked")
+	public static <K, V, T extends Map<K, V>> T removeAny(final T map, final K... keys) {
+		for (final K key : keys) {
+			map.remove(key);
+		}
+		return map;
+	}
+
+
 
 	/**
 	 * 去除Map中值为{@code null}的键值对<br>
@@ -1049,76 +1129,7 @@ public class MapUtil extends MapGetUtil {
 		map.entrySet().removeIf(predicate);
 		return map;
 	}
-
-	/**
-	 * 返回一个空Map
-	 *
-	 * @param <K> 键类型
-	 * @param <V> 值类型
-	 * @return 空Map
-	 * @see Collections#emptyMap()
-	 * @since 5.3.1
-	 */
-	public static <K, V> Map<K, V> empty() {
-		return Collections.emptyMap();
-	}
-
-	/**
-	 * 返回一个初始大小为0的HashMap(初始为0，可加入元素)
-	 *
-	 * @param <K> 键类型
-	 * @param <V> 值类型
-	 * @return 初始大小为0的HashMap
-	 */
-	public static <K, V> Map<K, V> zero() {
-		return new HashMap<>(0, 1);
-	}
-
-	/**
-	 * 返回一个只包含一个键值对的Map，不可变
-	 *
-	 * @param key   键
-	 * @param value 值
-	 * @param <K>   键类型
-	 * @param <V>   值类型
-	 * @return Map
-	 */
-	public static <K, V> Map<K, V> singleton(final K key, final V value) {
-		return Collections.singletonMap(key, value);
-	}
-
-	/**
-	 * 根据传入的Map类型不同，返回对应类型的空Map，支持类型包括：
-	 *
-	 * <pre>
-	 *     1. NavigableMap
-	 *     2. SortedMap
-	 *     3. Map
-	 * </pre>
-	 *
-	 * @param <K>      键类型
-	 * @param <V>      值类型
-	 * @param <T>      Map类型
-	 * @param mapClass Map类型，null返回默认的Map
-	 * @return 空Map
-	 * @since 5.3.1
-	 */
-	@SuppressWarnings("unchecked")
-	public static <K, V, T extends Map<K, V>> T empty(final Class<?> mapClass) {
-		if (null == mapClass) {
-			return (T) Collections.emptyMap();
-		}
-		if (NavigableMap.class == mapClass) {
-			return (T) Collections.emptyNavigableMap();
-		} else if (SortedMap.class == mapClass) {
-			return (T) Collections.emptySortedMap();
-		} else if (Map.class == mapClass) {
-			return (T) Collections.emptyMap();
-		}
-
-		// 不支持空集合的集合类型
-		throw new IllegalArgumentException(StrUtil.format("[{}] is not support to get empty!", mapClass));
-	}
+	// endregion
 
 	/**
 	 * 清除一个或多个Map集合内的元素，每个Map调用clear()方法
@@ -1133,6 +1144,7 @@ public class MapUtil extends MapGetUtil {
 		}
 	}
 
+	// region ----- valuesOfKeys
 	/**
 	 * 从Map中获取指定键列表对应的值列表<br>
 	 * 如果key在map中不存在或key对应值为null，则返回值列表对应位置的值也为null
@@ -1182,6 +1194,7 @@ public class MapUtil extends MapGetUtil {
 		}
 		return values;
 	}
+	// endregion
 
 	/**
 	 * 将键和值转换为{@link AbstractMap.SimpleImmutableEntry}<br>
@@ -1215,6 +1228,7 @@ public class MapUtil extends MapGetUtil {
 			new AbstractMap.SimpleEntry<>(key, value);
 	}
 
+	// region ----- putAll
 	/**
 	 * 将列表按照给定的键生成器规则和值生成器规则，加入到给定的Map中
 	 *
@@ -1290,6 +1304,7 @@ public class MapUtil extends MapGetUtil {
 		}
 		return resultMap;
 	}
+	// endregion
 
 	/**
 	 * 根据给定的entry列表，根据entry的key进行分组;
@@ -1400,6 +1415,7 @@ public class MapUtil extends MapGetUtil {
 		}
 	}
 
+	// region ----- flatten
 	/**
 	 * 将多层级Map处理为一个层级Map类型
 	 *
@@ -1440,4 +1456,5 @@ public class MapUtil extends MapGetUtil {
 
 		return flatMap;
 	}
+	// endregion
 }
