@@ -184,11 +184,7 @@ public final class InternalJSONUtil {
 	 * @since 5.8.0
 	 */
 	static CopyOptions toCopyOptions(JSONConfig config) {
-		return CopyOptions.create()
-				.setIgnoreCase(config.isIgnoreCase())
-				.setIgnoreError(config.isIgnoreError())
-				.setIgnoreNullValue(config.isIgnoreNullValue())
-				.setTransientSupport(config.isTransientSupport());
+		return toCopyOptions(config, null);
 	}
 
 	/**
@@ -197,6 +193,7 @@ public final class InternalJSONUtil {
 	 * @param config {@link JSONConfig}
 	 * @param filter {@link Filter}
 	 * @return {@link CopyOptions}
+	 * @since 5.8.43
 	 */
 	static CopyOptions toCopyOptions(JSONConfig config, Filter<MutablePair<String, Object>> filter) {
 		CopyOptions copyOptions = CopyOptions.create()
