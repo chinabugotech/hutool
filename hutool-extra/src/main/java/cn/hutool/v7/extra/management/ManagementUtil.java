@@ -429,24 +429,35 @@ public class ManagementUtil {
 	 * @param out {@link PrintWriter}输出流
 	 */
 	public static void dumpSystemInfo(final PrintWriter out) {
+		// 预先初始化所有对象，避免computeIfAbsent的递归调用
+		final JvmSpecInfo jvmSpecInfo = getJvmSpecInfo();
+		final JvmInfo jvmInfo = getJvmInfo();
+		final JavaSpecInfo javaSpecInfo = getJavaSpecInfo();
+		final JavaInfo javaInfo = getJavaInfo();
+		final JavaRuntimeInfo javaRuntimeInfo = getJavaRuntimeInfo();
+		final OsInfo osInfo = getOsInfo();
+		final UserInfo userInfo = getUserInfo();
+		final HostInfo hostInfo = getHostInfo();
+		final RuntimeInfo runtimeInfo = getRuntimeInfo();
+
 		out.println("--------------");
-		out.println(getJvmSpecInfo());
+		out.println(jvmSpecInfo);
 		out.println("--------------");
-		out.println(getJvmInfo());
+		out.println(jvmInfo);
 		out.println("--------------");
-		out.println(getJavaSpecInfo());
+		out.println(javaSpecInfo);
 		out.println("--------------");
-		out.println(getJavaInfo());
+		out.println(javaInfo);
 		out.println("--------------");
-		out.println(getJavaRuntimeInfo());
+		out.println(javaRuntimeInfo);
 		out.println("--------------");
-		out.println(getOsInfo());
+		out.println(osInfo);
 		out.println("--------------");
-		out.println(getUserInfo());
+		out.println(userInfo);
 		out.println("--------------");
-		out.println(getHostInfo());
+		out.println(hostInfo);
 		out.println("--------------");
-		out.println(getRuntimeInfo());
+		out.println(runtimeInfo);
 		out.println("--------------");
 		out.flush();
 	}
