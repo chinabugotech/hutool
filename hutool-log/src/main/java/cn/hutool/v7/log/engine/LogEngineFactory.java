@@ -17,7 +17,6 @@
 package cn.hutool.v7.log.engine;
 
 import cn.hutool.v7.core.io.resource.ResourceUtil;
-import cn.hutool.v7.core.lang.Singleton;
 import cn.hutool.v7.core.reflect.ConstructorUtil;
 import cn.hutool.v7.core.spi.SpiUtil;
 import cn.hutool.v7.log.LogFactory;
@@ -38,6 +37,7 @@ import java.net.URL;
  */
 public class LogEngineFactory {
 
+	private static volatile LogEngine defaultLogEngine;
 	/**
 	 * issue#I7PHNT，嵌套使用Singleton.get时在JDK9+会引起Recursive update问题，此处日志单独使用单例
 	 */
@@ -46,7 +46,7 @@ public class LogEngineFactory {
 	}
 
 	/**
-	 * 根据用户引入的模板引擎jar，自动创建对应的模板引擎对象<br>
+	 * 根据用户引入的日志引擎jar，自动创建对应的模板引擎对象<br>
 	 * 获得的是单例的TemplateEngine
 	 *
 	 * @return 单例的TemplateEngine
@@ -86,7 +86,7 @@ public class LogEngineFactory {
 	 * @see ConsoleLogEngine
 	 */
 	public static void setDefaultEngine(final LogEngine logEngine) {
-		Singleton.put(LogEngineFactory.class.getName(), logEngine);
+		defaultLogEngine = logEngine;
 		logEngine.createLog(LogEngineFactory.class).debug("Custom Use [{}] Logger.", logEngine.getName());
 	}
 
@@ -122,6 +122,10 @@ public class LogEngineFactory {
 	 * @return 日志实现类
 	 */
 	private static LogEngine doCreateEngine() {
+		if(null != defaultLogEngine) {
+			return defaultLogEngine;
+		}
+
 		final LogEngine engine = SpiUtil.loadFirstAvailable(LogEngine.class);
 		if (null != engine) {
 			return engine;
