@@ -60,7 +60,7 @@
 
 		<net.version>3.11.1</net.version>
 		<emoji-java.version>5.1.1</emoji-java.version>
-		<spring-boot.version>3.5.3</spring-boot.version>
+		<spring-boot.version>4.0.1</spring-boot.version>
 		<oshi.version>6.9.0</oshi.version>
 		<byte-buddy.version>1.17.8</byte-buddy.version>
 		<commons-compress.version>1.28.0</commons-compress.version>
@@ -68,10 +68,11 @@
 		<jaxb-runtime.version>4.0.6</jaxb-runtime.version>
 
 		<!-- mq client versions -->
-		<kafka.version>4.1.0</kafka.version>
+		<kafka.version>4.1.1</kafka.version>
 		<rabbitmq.version>5.26.0</rabbitmq.version>
-		<rocketmq.version>5.3.3</rocketmq.version>
-		<activemq.version>6.1.7</activemq.version>
+		<rocketmq.version>5.4.0</rocketmq.version>
+		<activemq.version>6.2.0</activemq.version>
+		<mica.version>2.5.11</mica.version>
 	</properties>
 
 	<dependencies>
@@ -556,6 +557,12 @@
 			<groupId>org.apache.activemq</groupId>
 			<artifactId>activemq-client</artifactId>
 			<version>${activemq.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.dromara.mica-mqtt</groupId>
+			<artifactId>mica-mqtt-client</artifactId>
+			<version>${mica.version}</version>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
