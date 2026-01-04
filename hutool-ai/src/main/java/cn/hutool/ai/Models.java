@@ -213,7 +213,7 @@ public class Models {
 		GEMINI_2_5_FLASH_PREVIEW_TTS("gemini-2.5-flash-preview-tts"),
 		VEO_2_0_GENERATE_001("veo-2.0-generate-001"),
 		VEO_3_0_FAST_GENERATE_001("veo-3.0-fast-generate-001"),
-		veo_3_0_generate_001("veo-3.0-generate-001"),
+		VEO_3_0_GENERATE_001("veo-3.0-generate-001"),
 		VEO_3_1_FAST_GENERATE_PREVIEW("veo-3.1-fast-generate-preview"),
 		VEO_3_1_GENERATE_PREVIEW("veo-3.1-generate-preview"),
 		IMAGEN_4_0_GENERATE_001("imagen-4.0-generate-001"),
