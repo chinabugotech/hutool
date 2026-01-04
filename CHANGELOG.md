@@ -1,7 +1,7 @@
 
 # 🚀Changelog
 -------------------------------------------------------------------------------------------------------------
-# 5.8.43(2026-01-03)
+# 5.8.43(2026-01-04)
 
 ### 🐣新特性
 * 【core   】      `ColorUtil`颜色名称DARKGOLD、LIGHTGOLD新增蛇形命名匹配（pr#1400@Github）
@@ -15,6 +15,7 @@
 * 【core   】      `DataBetween`类的构造函数中做 defensive copy（pr#1426@Gitee）
 * 【core   】      `RadixUtil.decode`添加校验（pr#1422@Gitee）
 * 【core   】      `CharUtil.toCloseByNumber`增加下边界检查（pr#1421@Gitee）
+* 【ai     】      增加`gemini`支持（pr#4205@Github）
 
 ### 🐞Bug修复
 * 【core       】  修复`Calculator.conversion`方法计算包含科学计数法表达式的值时逻辑有误，结果不符合预期（pr#4172@Github）
