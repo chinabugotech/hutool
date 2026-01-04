@@ -24,7 +24,7 @@ import cn.hutool.v7.ai.core.AIServiceProvider;
  * 创建Gemini服务实现类
  *
  * @author elichow
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class GeminiProvider implements AIServiceProvider {
 

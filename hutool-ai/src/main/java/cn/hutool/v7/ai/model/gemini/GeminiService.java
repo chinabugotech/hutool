@@ -29,7 +29,7 @@ import java.util.function.Consumer;
  * Gemini服务支持的扩展接口
  *
  * @author elichow
- * @since 6.0.0
+ * @since 7.0.0
  */
 public interface GeminiService extends AIService {
 

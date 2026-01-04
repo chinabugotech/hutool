@@ -51,7 +51,7 @@ import java.util.function.Consumer;
  * Gemini服务，AI具体功能的实现
  *
  * @author elichow
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class GeminiServiceImpl extends BaseAIService implements GeminiService {
 
@@ -66,7 +66,7 @@ public class GeminiServiceImpl extends BaseAIService implements GeminiService {
 	}
 
 	private String getEndpoint(final boolean stream) {
-		String action = stream ? STREAM_GENERATE_CONTENT : GENERATE_CONTENT;
+		final String action = stream ? STREAM_GENERATE_CONTENT : GENERATE_CONTENT;
 		return "/models/" + config.getModel() + action;
 	}
 
@@ -93,14 +93,14 @@ public class GeminiServiceImpl extends BaseAIService implements GeminiService {
 	}
 
 	@Override
-	public String chatMultimodal(String prompt, final List<String> mediaList) {
+	public String chatMultimodal(final String prompt, final List<String> mediaList) {
 		final Map<String, Object> paramMap = buildMultimodalRequestMap(prompt, mediaList);
 		final Response response = sendPost(getEndpoint(false), JSONUtil.toJsonStr(paramMap));
 		return response.bodyStr();
 	}
 
 	@Override
-	public void chatMultimodal(String prompt, final List<String> mediaList, final Consumer<String> callback) {
+	public void chatMultimodal(final String prompt, final List<String> mediaList, final Consumer<String> callback) {
 		final Map<String, Object> paramMap = buildMultimodalRequestMap(prompt, mediaList);
 		final String endpoint = getEndpoint(true) + "?alt=sse";
 		ThreadUtil.newThread(() -> sendPostStream(endpoint, paramMap, callback), "gemini-m-sse").start();
@@ -121,28 +121,28 @@ public class GeminiServiceImpl extends BaseAIService implements GeminiService {
 	}
 
 	@Override
-	public String predictImage(String prompt) {
+	public String predictImage(final String prompt) {
 		final Map<String, Object> paramMap = buildPredictImageRequestMap(prompt);
 		final Response response = sendPost(getPredictImageEndpoint(), JSONUtil.toJsonStr(paramMap));
 		return response.bodyStr();
 	}
 
 	@Override
-	public String predictVideo(String prompt) {
+	public String predictVideo(final String prompt) {
 		final Map<String, Object> paramMap = buildPredictVideoRequestMap(prompt);
 		final Response response = sendPost(getPredictVideoEndpoint(), JSONUtil.toJsonStr(paramMap));
 		return response.bodyStr();
 	}
 
 	@Override
-	public String getVideoOperation(String operationName) {
-		String endPoint = "/" + operationName;
+	public String getVideoOperation(final String operationName) {
+		final String endPoint = "/" + operationName;
 		final Response response = sendGet(endPoint);
 		return response.bodyStr();
 	}
 
 	@Override
-	public void downLoadVideo(String videoUri, String filePath) {
+	public void downLoadVideo(final String videoUri, final String filePath) {
 		if (StrUtil.isBlank(videoUri)) {
 			throw new AIException("Video URI is empty");
 		}
@@ -159,14 +159,14 @@ public class GeminiServiceImpl extends BaseAIService implements GeminiService {
 	}
 
 	@Override
-	public String textToSpeech(String prompt) {
+	public String textToSpeech(final String prompt) {
 		final Map<String, Object> paramMap = buildTextToSpeechRequestMap(prompt);
 		final Response response = sendPost(getEndpoint(false), JSONUtil.toJsonStr(paramMap));
 		return response.bodyStr();
 	}
 
 	@Override
-	public String textToSpeech(String prompt, String voice) {
+	public String textToSpeech(final String prompt, final String voice) {
 		final Map<String, Object> voiceConfig = MapUtil.of("prebuilt_voice_config", MapUtil.of("voice_name", voice));
 		config.putAdditionalConfigByKey("speech_config", MapUtil.of("voice_config", voiceConfig));
 		return this.textToSpeech(prompt);
@@ -188,7 +188,7 @@ public class GeminiServiceImpl extends BaseAIService implements GeminiService {
 				.setReadTimeout(config.getTimeout());
 			final ClientEngine engine = ClientEngineFactory.createEngine().init(clientConfig);
 
-			String metadata = JSONUtil.toJsonStr(MapUtil.of("file", MapUtil.of("display_name", file.getName())));
+			final String metadata = JSONUtil.toJsonStr(MapUtil.of("file", MapUtil.of("display_name", file.getName())));
 			final Request initRequest = HttpUtil.createRequest(getUploadBaseUrl(), Method.POST)
 				.header("x-goog-api-key", config.getApiKey())
 				.header("X-Goog-Upload-Protocol", "resumable")
@@ -198,8 +198,8 @@ public class GeminiServiceImpl extends BaseAIService implements GeminiService {
 				.header("Content-Type", "application/json")
 				.body(metadata);
 
-			String sessionUrl;
-			try (Response initRes = engine.send(initRequest)) {
+			final String sessionUrl;
+			try (final Response initRes = engine.send(initRequest)) {
 				sessionUrl = initRes.header("X-Goog-Upload-URL");
 			}
 
@@ -212,20 +212,20 @@ public class GeminiServiceImpl extends BaseAIService implements GeminiService {
 				.header("X-Goog-Upload-Offset", "0")
 				.header("Content-Length", String.valueOf(file.length()));
 
-			FileResource fileResource = new FileResource(file);
+			final FileResource fileResource = new FileResource(file);
 
-			HttpResource httpResource = new HttpResource(fileResource, mimeType);
+			final HttpResource httpResource = new HttpResource(fileResource, mimeType);
 
 			uploadRequest.body(new ResourceBody(httpResource));
 
-			try (Response uploadRes = engine.send(uploadRequest)) {
+			try (final Response uploadRes = engine.send(uploadRequest)) {
 				if (uploadRes.isOk()) {
 					return uploadRes.bodyStr();
 				} else {
 					throw new AIException("Upload failed with status: " + uploadRes.getStatus());
 				}
 			}
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			throw new AIException("Gemini upload failed: " + e.getMessage(), e);
 		}
 	}
@@ -281,7 +281,7 @@ public class GeminiServiceImpl extends BaseAIService implements GeminiService {
 	 * 动态根据 API 配置生成 Upload 地址
 	 */
 	private String getUploadBaseUrl() {
-		String apiUrl = config.getApiUrl();
+		final String apiUrl = config.getApiUrl();
 		//自动提取域名部分
 		if (StrUtil.contains(apiUrl, "generativelanguage.googleapis.com")) {
 			return "https://generativelanguage.googleapis.com/upload/v1beta/files";
@@ -290,7 +290,7 @@ public class GeminiServiceImpl extends BaseAIService implements GeminiService {
 		try {
 			final URL url = new URL(apiUrl);
 			return new URL(url.getProtocol(), url.getHost(), url.getPort(), UPLOAD_BASE_URL).toString();
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			return apiUrl.replace("/models/", "/upload/v1beta/files").split("/models")[0];
 		}
 	}
@@ -300,7 +300,7 @@ public class GeminiServiceImpl extends BaseAIService implements GeminiService {
 		final List<Map<String, Object>> contents = new ArrayList<>();
 		Map<String, Object> systemInstruction = null;
 
-		for (Message msg : messages) {
+		for (final Message msg : messages) {
 			if ("system".equalsIgnoreCase(msg.getRole())) {
 				systemInstruction = MapUtil.ofEntries(MapUtil.entry("parts",
 					Collections.singletonList(MapUtil.ofEntries(MapUtil.entry("text", msg.getContent())))));
@@ -319,12 +319,12 @@ public class GeminiServiceImpl extends BaseAIService implements GeminiService {
 		return paramMap;
 	}
 
-	private Map<String, Object> buildMultimodalRequestMap(String prompt, final List<String> mediaList) {
+	private Map<String, Object> buildMultimodalRequestMap(final String prompt, final List<String> mediaList) {
 		final List<Map<String, Object>> parts = new ArrayList<>();
 		parts.add(MapUtil.ofEntries(MapUtil.entry("text", prompt)));
 
 		if (mediaList != null && !mediaList.isEmpty()) {
-			for (String media : mediaList) {
+			for (final String media : mediaList) {
 				if (StrUtil.isBlank(media)) {
 					continue;
 				}
@@ -336,7 +336,7 @@ public class GeminiServiceImpl extends BaseAIService implements GeminiService {
 						fileUri = "https://generativelanguage.googleapis.com/v1beta/" + media;
 					}
 					//直接从服务端获取该文件上传时真实记录的 mimeType
-					String realMimeType = getRemoteFileMimeType(fileUri);
+					final String realMimeType = getRemoteFileMimeType(fileUri);
 					parts.add(MapUtil.ofEntries(
 						MapUtil.entry("file_data", MapUtil.ofEntries(
 							MapUtil.entry("mime_type", realMimeType),
@@ -359,7 +359,7 @@ public class GeminiServiceImpl extends BaseAIService implements GeminiService {
 								MapUtil.entry("data", Base64.encode(bytes))
 							))
 						));
-					} catch (Exception e) {
+					} catch (final Exception e) {
 						throw new AIException("Failed to download media from URL: " + media, e.getMessage());
 					}
 				} else {
@@ -387,7 +387,7 @@ public class GeminiServiceImpl extends BaseAIService implements GeminiService {
 		return paramMap;
 	}
 
-	private Map<String, Object> buildPredictVideoRequestMap(String prompt) {
+	private Map<String, Object> buildPredictVideoRequestMap(final String prompt) {
 		final Map<String, Object> instance = new HashMap<>();
 		instance.put("prompt", prompt);
 
@@ -406,7 +406,7 @@ public class GeminiServiceImpl extends BaseAIService implements GeminiService {
 		return paramMap;
 	}
 
-	private Map<String, Object> buildPredictImageRequestMap(String prompt) {
+	private Map<String, Object> buildPredictImageRequestMap(final String prompt) {
 		final Map<String, Object> instance = new HashMap<>();
 		instance.put("prompt", prompt);
 
@@ -433,7 +433,7 @@ public class GeminiServiceImpl extends BaseAIService implements GeminiService {
 		return paramMap;
 	}
 
-	private Map<String, Object> buildTextToSpeechRequestMap(String prompt) {
+	private Map<String, Object> buildTextToSpeechRequestMap(final String prompt) {
 		final Map<String, Object> paramMap = new HashMap<>();
 		final Map<String, Object> part = new HashMap<>();
 		part.put("text", prompt);
@@ -462,21 +462,21 @@ public class GeminiServiceImpl extends BaseAIService implements GeminiService {
 	 * @param fileUri 文件URI
 	 * @return MIME类型
 	 */
-	private String getRemoteFileMimeType(String fileUri) {
+	private String getRemoteFileMimeType(final String fileUri) {
 		try {
 			HttpGlobalConfig.setTimeout(config.getTimeout());
-			Request httpRequest = HttpUtil.createGet(fileUri)
+			final Request httpRequest = HttpUtil.createGet(fileUri)
 				.header(HeaderName.ACCEPT, "application/json")
 				.header("x-goog-api-key", config.getApiKey());
-			String responseBody = httpRequest.send().bodyStr();
+			final String responseBody = httpRequest.send().bodyStr();
 			final JSONObject json = JSONUtil.parseObj(responseBody);
 
 			//提取服务端的mimeType
-			String mimeType = json.getStr("mimeType");
+			final String mimeType = json.getStr("mimeType");
 			if (StrUtil.isNotBlank(mimeType)) {
 				return mimeType;
 			}
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			throw new AIException("Failed to get remote file MIME type", e.getMessage());
 		}
 		return "application/octet-stream";
@@ -503,7 +503,7 @@ public class GeminiServiceImpl extends BaseAIService implements GeminiService {
 	}
 
 	@Override
-	protected Response sendPost(String endpoint, String paramJson) {
+	protected Response sendPost(final String endpoint, final String paramJson) {
 		//链式构建请求
 		try {
 			//设置超时3分钟
@@ -527,11 +527,11 @@ public class GeminiServiceImpl extends BaseAIService implements GeminiService {
 	 * @param callback 流式数据回调函数
 	 */
 	@Override
-	protected void sendPostStream(String endpoint, final Map<String, Object> paramMap, final Consumer<String> callback) {
+	protected void sendPostStream(final String endpoint, final Map<String, Object> paramMap, final Consumer<String> callback) {
 		HttpURLConnection connection = null;
 		try {
 			// 创建连接
-			URL apiUrl = new URL(config.getApiUrl() + endpoint);
+			final URL apiUrl = new URL(config.getApiUrl() + endpoint);
 			connection = (HttpURLConnection) apiUrl.openConnection();
 			connection.setRequestMethod(Method.POST.name());
 			connection.setRequestProperty(HeaderName.CONTENT_TYPE.getValue(), "application/json");
@@ -542,21 +542,21 @@ public class GeminiServiceImpl extends BaseAIService implements GeminiService {
 			//设置连接超时
 			connection.setConnectTimeout(config.getTimeout());
 			// 发送请求体
-			try (OutputStream os = connection.getOutputStream()) {
-				String jsonInputString = JSONUtil.toJsonStr(paramMap);
+			try (final OutputStream os = connection.getOutputStream()) {
+				final String jsonInputString = JSONUtil.toJsonStr(paramMap);
 				os.write(jsonInputString.getBytes());
 				os.flush();
 			}
 
 			// 读取流式响应
-			try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+			try (final BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
 				String line;
 				while ((line = reader.readLine()) != null) {
 					// 调用回调函数处理每一行数据
 					callback.accept(line);
 				}
 			}
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			callback.accept("{\"error\": \"" + e.getMessage() + "\"}");
 		} finally {
 			// 关闭连接

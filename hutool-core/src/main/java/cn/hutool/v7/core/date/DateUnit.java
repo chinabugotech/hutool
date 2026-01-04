@@ -81,7 +81,7 @@ public enum DateUnit {
 	 */
 	public static DateUnit of(final ChronoUnit unit) {
 		return switch (unit) {
-			case MICROS -> DateUnit.MS;
+			case MILLIS -> DateUnit.MS;
 			case SECONDS -> DateUnit.SECOND;
 			case MINUTES -> DateUnit.MINUTE;
 			case HOURS -> DateUnit.HOUR;
@@ -100,7 +100,7 @@ public enum DateUnit {
 	 */
 	public static ChronoUnit toChronoUnit(final DateUnit unit) {
 		return switch (unit) {
-			case MS -> ChronoUnit.MICROS;
+			case MS -> ChronoUnit.MILLIS;
 			case SECOND -> ChronoUnit.SECONDS;
 			case MINUTE -> ChronoUnit.MINUTES;
 			case HOUR -> ChronoUnit.HOURS;
