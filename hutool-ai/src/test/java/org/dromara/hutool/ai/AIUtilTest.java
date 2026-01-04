@@ -21,6 +21,7 @@ import org.dromara.hutool.ai.core.AIService;
 import org.dromara.hutool.ai.core.Message;
 import org.dromara.hutool.ai.model.deepseek.DeepSeekService;
 import org.dromara.hutool.ai.model.doubao.DoubaoService;
+import org.dromara.hutool.ai.model.gemini.GeminiService;
 import org.dromara.hutool.ai.model.grok.GrokService;
 import org.dromara.hutool.ai.model.hutool.HutoolService;
 import org.dromara.hutool.ai.model.openai.OpenaiService;
@@ -75,6 +76,12 @@ class AIUtilTest {
 	void getOpenAIService() {
 		final OpenaiService openAIService = AIUtil.getOpenAIService(new AIConfigBuilder(ModelName.OPENAI.getValue()).setApiKey(key).build());
 		assertNotNull(openAIService);
+	}
+
+	@Test
+	void getGeminiService() {
+		final GeminiService geminiService = AIUtil.getGeminiService(new AIConfigBuilder(ModelName.GEMINI.getValue()).setApiKey(key).build());
+		assertNotNull(geminiService);
 	}
 
 	@Test

@@ -3,3 +3,4 @@ org.dromara.hutool.ai.model.deepseek.DeepSeekConfig
 org.dromara.hutool.ai.model.openai.OpenaiConfig
 org.dromara.hutool.ai.model.doubao.DoubaoConfig
 org.dromara.hutool.ai.model.grok.GrokConfig
+org.dromara.hutool.ai.model.gemini.GeminiConfig

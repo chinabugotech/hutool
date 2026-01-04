@@ -21,6 +21,7 @@ import org.dromara.hutool.ai.core.AIService;
 import org.dromara.hutool.ai.core.Message;
 import org.dromara.hutool.ai.model.deepseek.DeepSeekService;
 import org.dromara.hutool.ai.model.doubao.DoubaoService;
+import org.dromara.hutool.ai.model.gemini.GeminiService;
 import org.dromara.hutool.ai.model.grok.GrokService;
 import org.dromara.hutool.ai.model.hutool.HutoolService;
 import org.dromara.hutool.ai.model.openai.OpenaiService;
@@ -112,6 +113,17 @@ public class AIUtil {
 	 */
 	public static OpenaiService getOpenAIService(final AIConfig config) {
 		return getAIService(config, OpenaiService.class);
+	}
+
+	/**
+	 * 获取Gemini模型服务
+	 *
+	 * @param config 创建的AI服务模型的配置
+	 * @return GeminiService
+	 * @since 6.0.0
+	 */
+	public static GeminiService getGeminiService(final AIConfig config) {
+		return getAIService(config, GeminiService.class);
 	}
 
 	/**
