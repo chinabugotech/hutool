@@ -14,56 +14,27 @@
  * limitations under the License.
  */
 
-package cn.hutool.v7.ai;
+package cn.hutool.v7.ai.model.gemini;
+
+
+import cn.hutool.v7.ai.core.AIConfig;
+import cn.hutool.v7.ai.core.AIServiceProvider;
 
 /**
- * 模型厂商的名称（不指具体的模型）
+ * 创建Gemini服务实现类
  *
  * @author elichow
  * @since 6.0.0
  */
-public enum ModelName {
-	/**
-	 * hutool
-	 */
-	HUTOOL("hutool"),
-	/**
-	 * deepSeek
-	 */
-	DEEPSEEK("deepSeek"),
-	/**
-	 * openai
-	 */
-	OPENAI("openai"),
-	/**
-	 * doubao
-	 */
-	DOUBAO("doubao"),
-	/**
-	 * grok
-	 */
-	GROK("grok"),
-	/**
-	 * ollama
-	 */
-	OLLAMA("ollama"),
-	/**
-	 * gemini
-	 */
-	GEMINI("gemini");
+public class GeminiProvider implements AIServiceProvider {
 
-	private final String value;
-
-	ModelName(final String value) {
-		this.value = value;
+	@Override
+	public String getServiceName() {
+		return "gemini";
 	}
 
-	/**
-	 * 获取值
-	 *
-	 * @return 值
-	 */
-	public String getValue() {
-		return value;
+	@Override
+	public GeminiService create(final AIConfig config) {
+		return new GeminiServiceImpl(config);
 	}
 }

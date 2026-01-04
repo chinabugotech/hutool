@@ -14,56 +14,39 @@
  * limitations under the License.
  */
 
-package cn.hutool.v7.ai;
+package cn.hutool.v7.ai.model.gemini;
+
+import cn.hutool.v7.ai.Models;
+import cn.hutool.v7.ai.core.BaseAIConfig;
+
 
 /**
- * 模型厂商的名称（不指具体的模型）
+ * Gemini配置类，初始化API接口地址，设置默认的模型
  *
  * @author elichow
  * @since 6.0.0
  */
-public enum ModelName {
-	/**
-	 * hutool
-	 */
-	HUTOOL("hutool"),
-	/**
-	 * deepSeek
-	 */
-	DEEPSEEK("deepSeek"),
-	/**
-	 * openai
-	 */
-	OPENAI("openai"),
-	/**
-	 * doubao
-	 */
-	DOUBAO("doubao"),
-	/**
-	 * grok
-	 */
-	GROK("grok"),
-	/**
-	 * ollama
-	 */
-	OLLAMA("ollama"),
-	/**
-	 * gemini
-	 */
-	GEMINI("gemini");
+public class GeminiConfig extends BaseAIConfig {
 
-	private final String value;
+	// Google Generative AI 的基础 URL
+	private final String API_URL = "https://generativelanguage.googleapis.com/v1beta";
 
-	ModelName(final String value) {
-		this.value = value;
+	// 默认模型
+	private final String DEFAULT_MODEL = Models.Gemini.GEMINI_2_5_FLASH.getModel();
+
+	public GeminiConfig() {
+		setApiUrl(API_URL);
+		setModel(DEFAULT_MODEL);
 	}
 
-	/**
-	 * 获取值
-	 *
-	 * @return 值
-	 */
-	public String getValue() {
-		return value;
+	public GeminiConfig(String apiKey) {
+		this();
+		setApiKey(apiKey);
 	}
+
+	@Override
+	public String getModelName() {
+		return "gemini";
+	}
+
 }

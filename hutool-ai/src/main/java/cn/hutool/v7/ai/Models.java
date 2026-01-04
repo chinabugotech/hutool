@@ -141,8 +141,8 @@ public class Models {
 		DOUBAO_EMBEDDING_TEXT_240715("doubao-embedding-text-240715"),
 		DOUBAO_EMBEDDING_VISION("doubao-embedding-vision-241215"),
 		DOUBAO_SEEDREAM_3_0_T2I("doubao-seedream-3-0-t2i-250415"),
-		DOUBAO_SEEDDANCE_1_0_LITE_T2V("doubao-seedance-1-0-lite-t2v-250428"),
-		DOUBAO_SEEDDANCE_1_0_lite_I2V("doubao-seedance-1-0-lite-i2v-250428"),
+		DOUBAO_SEEDANCE_1_0_LITE_T2V("doubao-seedance-1-0-lite-t2v-250428"),
+		DOUBAO_SEEDANCE_1_0_LITE_I2V("doubao-seedance-1-0-lite-i2v-250428"),
 		WAN2_1_14B_T2V("wan2-1-14b-t2v-250225"),
 		WAN2_1_14B_I2V("wan2-1-14b-i2v-250225");
 
@@ -210,6 +210,44 @@ public class Models {
 		private final String model;
 
 		Ollama(final String model) {
+			this.model = model;
+		}
+
+		public String getModel() {
+			return model;
+		}
+	}
+
+	// Gemini的模型
+	public enum Gemini {
+		GEMINI_2_5_PRO_PREVIEW_TTS("gemini-2.5-pro-preview-tts"),
+		GEMINI_2_5_FLASH_PREVIEW_TTS("gemini-2.5-flash-preview-tts"),
+		VEO_2_0_GENERATE_001("veo-2.0-generate-001"),
+		VEO_3_0_FAST_GENERATE_001("veo-3.0-fast-generate-001"),
+		VEO_3_0_GENERATE_001("veo-3.0-generate-001"),
+		VEO_3_1_FAST_GENERATE_PREVIEW("veo-3.1-fast-generate-preview"),
+		VEO_3_1_GENERATE_PREVIEW("veo-3.1-generate-preview"),
+		IMAGEN_4_0_GENERATE_001("imagen-4.0-generate-001"),
+		IMAGEN_4_0_ULTRA_GENERATE_001("imagen-4.0-ultra-generate-001"),
+		IMAGEN_4_0_FAST_GENERATE_001("imagen-4.0-fast-generate-001"),
+		IMAGEN_3_0_GENERATE_002("imagen-3.0-generate-002"),
+		GEMINI_3_PRO_PREVIEW("gemini-3-pro-preview"),
+		GEMINI_3_FLASH("gemini-3-flash"),
+		GEMINI_2_5_PRO("gemini-2.5-pro"),
+		GEMINI_2_5_FLASH("gemini-2.5-flash"),
+		GEMINI_2_5_FLASH_LITE("gemini-2.5-flash-lite"),
+		GEMINI_2_5_FLASH_IMAGE("gemini-2.5-flash-image"),
+		GEMINI_2_0_FLASH("gemini-2.0-flash"),
+		GEMINI_2_0_FLASH_LITE("gemini-2.0-flash-lite"),
+		GEMINI_2_0_PRO_EXP("gemini-2.0-pro-exp"),
+		GEMINI_1_5_FLASH("gemini-1.5-flash"),
+		GEMINI_1_5_PRO("gemini-1.5-pro"),
+		GEMINI_1_5_FLASH_8B("gemini-1.5-flash-8b"),
+		GEMINI_1_0_PRO("gemini-1.0-pro");
+
+		private final String model;
+
+		Gemini(final String model) {
 			this.model = model;
 		}
 

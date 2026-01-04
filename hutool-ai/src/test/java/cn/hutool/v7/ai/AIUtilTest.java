@@ -21,6 +21,7 @@ import cn.hutool.v7.ai.core.AIService;
 import cn.hutool.v7.ai.core.Message;
 import cn.hutool.v7.ai.model.deepseek.DeepSeekService;
 import cn.hutool.v7.ai.model.doubao.DoubaoService;
+import cn.hutool.v7.ai.model.gemini.GeminiService;
 import cn.hutool.v7.ai.model.grok.GrokService;
 import cn.hutool.v7.ai.model.hutool.HutoolService;
 import cn.hutool.v7.ai.model.openai.OpenaiService;
@@ -75,6 +76,12 @@ class AIUtilTest {
 	void getOpenAIService() {
 		final OpenaiService openAIService = AIUtil.getOpenAIService(new AIConfigBuilder(ModelName.OPENAI.getValue()).setApiKey(key).build());
 		assertNotNull(openAIService);
+	}
+
+	@Test
+	void getGeminiService() {
+		final GeminiService geminiService = AIUtil.getGeminiService(new AIConfigBuilder(ModelName.GEMINI.getValue()).setApiKey(key).build());
+		assertNotNull(geminiService);
 	}
 
 	@Test
