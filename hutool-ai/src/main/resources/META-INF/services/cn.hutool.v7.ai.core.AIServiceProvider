@@ -20,3 +20,4 @@ cn.hutool.v7.ai.model.openai.OpenaiProvider
 cn.hutool.v7.ai.model.doubao.DoubaoProvider
 cn.hutool.v7.ai.model.grok.GrokProvider
 cn.hutool.v7.ai.model.ollama.OllamaProvider
+cn.hutool.v7.ai.model.gemini.GeminiProvider

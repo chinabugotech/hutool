@@ -128,7 +128,7 @@ class DoubaoServiceTest {
 	@Disabled
 	void videoTasks() {
 		final DoubaoService doubaoService = AIServiceFactory.getAIService(new AIConfigBuilder(ModelName.DOUBAO.getValue())
-			.setApiKey(key).setModel(Models.Doubao.DOUBAO_SEEDDANCE_1_0_lite_I2V.getModel()).build(), DoubaoService.class);
+			.setApiKey(key).setModel(Models.Doubao.DOUBAO_SEEDANCE_1_0_LITE_I2V.getModel()).build(), DoubaoService.class);
 		final String videoTasks = doubaoService.videoTasks("生成一段动画视频，主角是大耳朵图图，一个活泼可爱的小男孩。视频中图图在公园里玩耍，" +
 			"画面采用明亮温暖的卡通风格，色彩鲜艳，动作流畅。背景音乐轻快活泼，带有冒险感，音效包括鸟叫声、欢笑声和山洞回声。", "https://img2.baidu.com/it/u=862000265,4064861820&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1544");
 		assertNotNull(videoTasks);//cgt-20250306170051-6r9gk
