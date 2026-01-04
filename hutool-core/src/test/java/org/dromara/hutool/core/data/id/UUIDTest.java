@@ -29,12 +29,22 @@ public class UUIDTest {
 	 * 测试UUID是否存在重复问题
 	 */
 	@Test
-	public void fastUUIDTest(){
+	public void fastUUIDTest() {
 		final Set<String> set = new ConcurrentHashSet<>(100);
-		ThreadUtil.concurrencyTest(100, ()-> set.add(UUID.fastUUID().toString()));
+		ThreadUtil.concurrencyTest(100, () -> set.add(UUID.fastUUID().toString()));
 		Assertions.assertEquals(100, set.size());
 		//Console.log(set);
 	}
 
+
+	@Test
+	public void repeatUUIDUtilTest() {
+		for (int i = 0; i < 10; i++) {
+			String current = IdUtil.simpleUUID();
+			String preHalf = current.substring(0, current.length() / 2);
+			String sufHalf = current.substring(current.length() / 2);
+			Assertions.assertNotEquals(preHalf, sufHalf);
+		}
+	}
 
 }
