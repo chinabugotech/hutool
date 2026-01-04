@@ -35,6 +35,7 @@
 * 【core       】  修复`Calculator.conversion`方法计算包含%连接一元运算符的计算表达式的结果时逻辑缺陷（pr#4191@Github）
 * 【db         】  修复`SqlUtil.PATTERN_IN_CLAUSE`逻辑缺陷导致in语句参数不正确的问题（pr#4203@Github）
 * 【json       】  修复`ObjectMapper`过滤器对Bean复制无效的问题（pr#1431@Gitee）
+* 【core       】  修复`DateUnit`毫秒转换问题（issue#4209@Github）
 
 -------------------------------------------------------------------------------------------------------------
 # 5.8.42(2025-11-28)
