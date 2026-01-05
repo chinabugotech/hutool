@@ -25,6 +25,8 @@ import java.util.function.Supplier;
  * @author luxiaolei
  */
 public class ThreadUtil {
+	/** 主线程名称 **/
+	public static final String MAIN_THREAD_NAME = "main";
 
 	/**
 	 * 新建一个线程池，默认的策略如下：
@@ -551,7 +553,7 @@ public class ThreadUtil {
 	 */
 	public static Thread getMainThread() {
 		for (Thread thread : getThreads()) {
-			if (thread.getId() == 1) {
+			if (1 == thread.getId() || MAIN_THREAD_NAME.equals(thread.getName())) {
 				return thread;
 			}
 		}

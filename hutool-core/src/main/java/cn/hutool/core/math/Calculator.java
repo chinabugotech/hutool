@@ -101,7 +101,8 @@ public class Calculator {
 				count++;
 			}
 		}
-		if (count > 1 || (count == 1 && !isOperator(arr[currentIndex]))) {// 最后一个字符不是括号或者其他运算符的则加入后缀式栈中
+		//新增防止数组越界
+		if (count > 1 || (count == 1 && currentIndex < arr.length && !isOperator(arr[currentIndex]))) {// 最后一个字符不是括号或者其他运算符的则加入后缀式栈中
 			postfixStack.push(new String(arr, currentIndex, count));
 		}
 
@@ -150,6 +151,14 @@ public class Calculator {
 	 * @return 结果
 	 */
 	private BigDecimal calculate(String firstValue, String secondValue, char currentOp) {
+		final BigDecimal first = NumberUtil.toBigDecimal(firstValue);
+		final BigDecimal second = NumberUtil.toBigDecimal(secondValue);
+
+		//添加除零检查并提供明确错误信息
+		if ((currentOp == '/' || currentOp == '%') && second.compareTo(BigDecimal.ZERO) == 0) {
+			throw new ArithmeticException("Division by zero: cannot divide " + firstValue + " by zero");
+		}
+
 		final BigDecimal result;
 		switch (currentOp) {
 			case '+':
@@ -174,35 +183,90 @@ public class Calculator {
 	}
 
 	/**
-	 * 将表达式中负数的符号更改
-	 *
-	 * @param expression 例如-2+-1*(-3E-2)-(-1) 被转为 ~2+~1*(~3E~2)-(~1)
-	 * @return 转换后的字符串
+	 * 将表达式中的一元负号转换为内部标记（~），便于后续解析。
+	 * 规则说明：
+	 *  - 科学计数法整体识别为数字，e/E 后的 + 或 - 属于指数符号，不参与一元符号折叠。
+	 *  - 一元 + / - 仅在表达式开头或运算符、左括号之后生效；可折叠连续符号，如 --3、+-3 -> ~3。
+	 * 示例：
+	 *  - 输入：-2+-1*(-3E-2)-(-1)
+	 *  - 输出：~2+~1*(~3E~2)-(~1)
 	 */
 	private static String transform(String expression) {
 		expression = StrUtil.cleanBlank(expression);
 		expression = StrUtil.removeSuffix(expression, "=");
 		final char[] arr = expression.toCharArray();
+
+		final StringBuilder out = new StringBuilder(arr.length);
 		for (int i = 0; i < arr.length; i++) {
-			if (arr[i] == '-') {
-				if (i == 0) {
-					arr[i] = '~';
-				} else {
-					char c = arr[i - 1];
-					if (c == '+' || c == '-' || c == '*' || c == '/' || c == '(' || c == 'E' || c == 'e') {
-						arr[i] = '~';
+			char c = arr[i];
+
+			// 把x或X当作 *
+			if (CharUtil.equals(c, 'x', true)) {
+				out.append('*');
+				continue;
+			}
+
+			// 若是'+'或'-'，需要判断是指数符号、二元运算符还是一元运算符序列
+			if (c == '+' || c == '-') {
+				// 如果前一个已写入的字符为'e'或'E'，则视作科学计数法的符号
+				int outLen = out.length();
+				if (outLen > 0) {
+					char prevOut = out.charAt(outLen - 1);
+					if (prevOut == 'e' || prevOut == 'E') {
+						// 在e/E 后：
+						// '+' 可以安全丢弃（1e+3 == 1e3）
+						// '-' 必须保留但不能被当作二元运算符，故用'~'临时替代，后续再还原为'-'
+						if (c == '-') {
+							out.append('~');
+						}
+						continue;
 					}
 				}
-			} else if(CharUtil.equals(arr[i], 'x', true)){
-				// issue#3787 x转换为*
-				arr[i] = '*';
+
+				// 查找前一个非空字符（原串中的），用于判断是否为一元上下文
+				int j = i - 1;
+				while (j >= 0 && Character.isWhitespace(arr[j])) j--;
+				boolean unaryContext = (j < 0) || isPrevCharOperatorOrLeftParen(arr[j]);
+
+				if (unaryContext) {
+					// 收集连续的一系列 + 或 -（例如 --+ - -> 合并为一个净符号）
+					int k = i;
+					int minusCount = 0;
+					while (k < arr.length && (arr[k] == '+' || arr[k] == '-')) {
+						if (arr[k] == '-') minusCount++;
+						k++;
+					}
+					boolean netNegative = (minusCount % 2 == 1);
+					if (netNegative) {
+						// 用~标记一元负号（与原实现保持兼容）
+						out.append('~');
+					}
+					i = k - 1;
+				} else {
+					//二元运算符，直接写入 + 或 -
+					out.append(c);
+				}
+				continue;
 			}
+			//其它字符（包括数字、字母、括号、e、E、小数点等）直接追加
+			out.append(c);
 		}
-		if (arr[0] == '~' && (arr.length > 1 && arr[1] == '(')) {
-			arr[0] = '-';
-			return "0" + new String(arr);
+
+		// 特殊处理：如果开头为 "~("，原实现会将其转为 "0~(" 形式改为以0开始的负括号处理
+		final String result = out.toString();
+		final char[] resArr = result.toCharArray();
+		if (resArr.length >= 2 && resArr[0] == '~' && resArr[1] == '(') {
+			resArr[0] = '-';
+			return "0" + new String(resArr);
 		} else {
-			return new String(arr);
+			return result;
 		}
+	}
+
+	/**
+	 * 判断给定位置前一个非空字符是否为运算符或左括号（用于判定是否为一元上下文）
+	 */
+	private static boolean isPrevCharOperatorOrLeftParen(char c) {
+		return c == '%' || c == '+' || c == '-' || c == '*' || c == '/' || c == '(';
 	}
 }

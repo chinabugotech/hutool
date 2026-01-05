@@ -37,4 +37,17 @@ public class StrMatcherTest {
 		assertEquals("小明", match.get("name"));
 		assertEquals("20", match.get("year"));
 	}
+
+	@Test
+	public void issueIDFNF7Test() {
+		StrMatcher strMatcher = new StrMatcher("${a}${b}");
+
+		//final Map<String, String> match = strMatcher.match("XY");
+		//Console.log(match); // 此时会输出："{b=XY}"
+
+		assertThrows(
+			IllegalArgumentException.class,
+			() -> strMatcher.match("XY")
+		);
+	}
 }

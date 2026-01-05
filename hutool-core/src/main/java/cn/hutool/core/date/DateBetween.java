@@ -74,13 +74,17 @@ public class DateBetween implements Serializable {
 		Assert.notNull(begin, "Begin date is null !");
 		Assert.notNull(end, "End date is null !");
 
+		// defensive copy
+		Date b = new Date(begin.getTime());
+		Date e = new Date(end.getTime());
+
 		if (isAbs && begin.after(end)) {
 			// 间隔只为正数的情况下，如果开始日期晚于结束日期，置换之
-			this.begin = end;
-			this.end = begin;
+			this.begin = e;
+			this.end = b;
 		} else {
-			this.begin = begin;
-			this.end = end;
+			this.begin = b;
+			this.end = e;
 		}
 	}
 

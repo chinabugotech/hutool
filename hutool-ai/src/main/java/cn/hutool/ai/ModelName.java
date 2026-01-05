@@ -47,7 +47,11 @@ public enum ModelName {
 	/**
 	 * ollama
 	 */
-	OLLAMA("ollama");
+	OLLAMA("ollama"),
+	/**
+	 * gemini
+	 */
+	GEMINI("gemini");
 
 	private final String value;
 

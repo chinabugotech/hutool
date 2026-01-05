@@ -14,9 +14,9 @@ import java.util.Set;
 public class BooleanUtil {
 
 	/** 表示为真的字符串 */
-	private static final Set<String> TRUE_SET = CollUtil.newHashSet("true", "yes", "y", "t", "ok", "1", "on", "是", "对", "真", "對", "√");
+	private static final Set<String> TRUE_SET = CollUtil.newHashSet("true", "yes", "y", "t", "ok", "correct", "success", "on", "1", "是", "对", "真", "對", "正确", "开", "开启", "√", "☑");
 	/** 表示为假的字符串 */
-	private static final Set<String> FALSE_SET = CollUtil.newHashSet("false", "no", "n", "f", "0", "off", "否", "错", "假", "錯", "×");
+	private static final Set<String> FALSE_SET = CollUtil.newHashSet("false", "no", "n", "f", "wrong", "fail", "off", "0", "否", "错", "假", "錯", "错误", "关", "关闭", "×", "☒");
 
 	/**
 	 * 取相反值

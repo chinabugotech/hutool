@@ -9,7 +9,11 @@
 	<parent>
 		<groupId>cn.hutool</groupId>
 		<artifactId>hutool-parent</artifactId>
+<<<<<<< HEAD
 		<version>5.8.43-SNAPSHOT</version>
+=======
+		<version>5.8.43</version>
+>>>>>>> v5-dev
 	</parent>
 
 	<artifactId>hutool-extra</artifactId>
@@ -462,14 +466,14 @@
 		<dependency>
 			<groupId>org.mozilla</groupId>
 			<artifactId>rhino</artifactId>
-			<version>1.7.14</version>
+			<version>1.7.15.1</version>
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>QLExpress</artifactId>
-			<version>3.3.3</version>
+			<version>3.3.4</version>
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>
@@ -477,7 +481,7 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-compress</artifactId>
-			<version>1.26.0</version>
+			<version>1.28.0</version>
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>

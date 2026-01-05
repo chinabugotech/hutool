@@ -51,7 +51,7 @@ public class NumberUtilTest {
 	}
 
 	@Test
-	public void addBlankTest(){
+	public void addBlankTest() {
 		final BigDecimal result = NumberUtil.add("123", " ");
 		assertEquals(new BigDecimal("123"), result);
 	}
@@ -193,7 +193,7 @@ public class NumberUtilTest {
 
 	@Test
 	public void decimalFormatNaNTest() {
-		assertThrows(IllegalArgumentException.class, ()->{
+		assertThrows(IllegalArgumentException.class, () -> {
 			final Double a = 0D;
 			final Double b = 0D;
 
@@ -204,7 +204,7 @@ public class NumberUtilTest {
 
 	@Test
 	public void decimalFormatNaNTest2() {
-		assertThrows(IllegalArgumentException.class, ()->{
+		assertThrows(IllegalArgumentException.class, () -> {
 			final Double a = 0D;
 			final Double b = 0D;
 
@@ -223,7 +223,7 @@ public class NumberUtilTest {
 	@Test
 	public void isValidNumberTest() {
 		boolean validNumber = NumberUtil.isValidNumber(1);
-        assertTrue(validNumber);
+		assertTrue(validNumber);
 	}
 
 	@Test
@@ -261,13 +261,13 @@ public class NumberUtilTest {
 
 	@Test
 	public void maxTest() {
-		final int max = NumberUtil.max(5,4,3,6,1);
+		final int max = NumberUtil.max(5, 4, 3, 6, 1);
 		assertEquals(6, max);
 	}
 
 	@Test
 	public void minTest() {
-		final int min = NumberUtil.min(5,4,3,6,1);
+		final int min = NumberUtil.min(5, 4, 3, 6, 1);
 		assertEquals(1, min);
 	}
 
@@ -312,7 +312,7 @@ public class NumberUtilTest {
 
 	@Test
 	public void parseIntTest3() {
-		assertThrows(NumberFormatException.class, ()->{
+		assertThrows(NumberFormatException.class, () -> {
 			final int v1 = NumberUtil.parseInt("d");
 			assertEquals(0, v1);
 		});
@@ -336,7 +336,7 @@ public class NumberUtilTest {
 	}
 
 	@Test
-	public void parseNumberTest4(){
+	public void parseNumberTest4() {
 		assertThrows(NumberFormatException.class, () -> {
 			// issue#I5M55F
 			// 科学计数法忽略支持，科学计数法一般用于表示非常小和非常大的数字，这类数字转换为int后精度丢失，没有意义。
@@ -357,7 +357,7 @@ public class NumberUtilTest {
 	}
 
 	@Test
-	public void parseNumberTest2(){
+	public void parseNumberTest2() {
 		// issue#I5M55F
 		final String numberStr = "429900013E20220812163344551";
 		final Number number = NumberUtil.parseNumber(numberStr);
@@ -366,7 +366,7 @@ public class NumberUtilTest {
 	}
 
 	@Test
-	public void parseNumberTest3(){
+	public void parseNumberTest3() {
 
 		// -------------------------- Parse failed -----------------------
 
@@ -485,7 +485,7 @@ public class NumberUtilTest {
 	}
 
 	@Test
-	public void factorialTest(){
+	public void factorialTest() {
 		long factorial = NumberUtil.factorial(0);
 		assertEquals(1, factorial);
 
@@ -503,7 +503,7 @@ public class NumberUtilTest {
 	}
 
 	@Test
-	public void factorialTest2(){
+	public void factorialTest2() {
 		long factorial = NumberUtil.factorial(new BigInteger("0")).longValue();
 		assertEquals(1, factorial);
 
@@ -521,7 +521,7 @@ public class NumberUtilTest {
 	}
 
 	@Test
-	public void mulTest(){
+	public void mulTest() {
 		final BigDecimal mul = NumberUtil.mul(new BigDecimal("10"), null);
 		assertEquals(BigDecimal.ZERO, mul);
 	}
@@ -537,7 +537,7 @@ public class NumberUtilTest {
 	}
 
 	@Test
-	public void generateRandomNumberTest(){
+	public void generateRandomNumberTest() {
 		final int[] ints = NumberUtil.generateRandomNumber(10, 20, 5);
 		assertEquals(5, ints.length);
 		final Set<?> set = Convert.convert(Set.class, ints);
@@ -545,7 +545,7 @@ public class NumberUtilTest {
 	}
 
 	@Test
-	public void toStrTest(){
+	public void toStrTest() {
 		assertEquals("1", NumberUtil.toStr(new BigDecimal("1.0000000000")));
 		assertEquals("0", NumberUtil.toStr(NumberUtil.sub(new BigDecimal("9600.00000"), new BigDecimal("9600.00000"))));
 		assertEquals("0", NumberUtil.toStr(NumberUtil.sub(new BigDecimal("9600.0000000000"), new BigDecimal("9600.000000"))));
@@ -553,7 +553,7 @@ public class NumberUtilTest {
 	}
 
 	@Test
-	public void generateRandomNumberTest2(){
+	public void generateRandomNumberTest2() {
 		// 检查边界
 		final int[] ints = NumberUtil.generateRandomNumber(1, 8, 7);
 		assertEquals(7, ints.length);
@@ -562,21 +562,21 @@ public class NumberUtilTest {
 	}
 
 	@Test
-	public void toPlainNumberTest(){
+	public void toPlainNumberTest() {
 		final String num = "5344.34234e3";
 		final String s = new BigDecimal(num).toPlainString();
 		assertEquals("5344342.34", s);
 	}
 
 	@Test
-	public void generateBySetTest(){
+	public void generateBySetTest() {
 		final Integer[] integers = NumberUtil.generateBySet(10, 100, 5);
 		assertEquals(5, integers.length);
 	}
 
 	@Test
-	public void isOddOrEvenTest(){
-		final int[] a = { 0, 32, -32, 123, -123 };
+	public void isOddOrEvenTest() {
+		final int[] a = {0, 32, -32, 123, -123};
 		assertFalse(NumberUtil.isOdd(a[0]));
 		assertTrue(NumberUtil.isEven(a[0]));
 
@@ -594,12 +594,12 @@ public class NumberUtilTest {
 	}
 
 	@Test
-	public void divIntegerTest(){
+	public void divIntegerTest() {
 		assertEquals(1001013, NumberUtil.div(100101300, (Number) 100).intValue());
 	}
 
 	@Test
-	public void isDoubleTest(){
+	public void isDoubleTest() {
 		assertFalse(NumberUtil.isDouble(null));
 		assertFalse(NumberUtil.isDouble(""));
 		assertFalse(NumberUtil.isDouble("  "));
@@ -621,20 +621,20 @@ public class NumberUtilTest {
 		assertTrue(NumberUtil.isPrimes(2147483647));
 		assertFalse(NumberUtil.isPrimes(2147483646));
 	}
-	
+
 	@Test
-	public void range(){
-		assertFalse(NumberUtil.isIn(new BigDecimal("1"),new BigDecimal("2"),new BigDecimal("12")));
-		assertTrue(NumberUtil.isIn(new BigDecimal("1"),new BigDecimal("1"),new BigDecimal("2")));
-		assertTrue(NumberUtil.isIn(new BigDecimal("1"),new BigDecimal("0"),new BigDecimal("2")));
-		assertFalse(NumberUtil.isIn(new BigDecimal("0.23"),new BigDecimal("0.12"),new BigDecimal("0.22")));
-		assertTrue(NumberUtil.isIn(new BigDecimal("-0.12"),new BigDecimal("-0.3"),new BigDecimal("0")));
+	public void range() {
+		assertFalse(NumberUtil.isIn(new BigDecimal("1"), new BigDecimal("2"), new BigDecimal("12")));
+		assertTrue(NumberUtil.isIn(new BigDecimal("1"), new BigDecimal("1"), new BigDecimal("2")));
+		assertTrue(NumberUtil.isIn(new BigDecimal("1"), new BigDecimal("0"), new BigDecimal("2")));
+		assertFalse(NumberUtil.isIn(new BigDecimal("0.23"), new BigDecimal("0.12"), new BigDecimal("0.22")));
+		assertTrue(NumberUtil.isIn(new BigDecimal("-0.12"), new BigDecimal("-0.3"), new BigDecimal("0")));
 	}
 
 	@Test
 	public void issueI79VS7Test() {
 		final String value = "+0.003";
-		if(NumberUtil.isNumber(value)) {
+		if (NumberUtil.isNumber(value)) {
 			assertEquals(0.003, NumberUtil.parseNumber(value).doubleValue(), 0);
 		}
 	}
@@ -700,8 +700,27 @@ public class NumberUtilTest {
 	}
 
 	@Test
-	void issueIC1MXETest(){
+	void issueIC1MXETest() {
 		final boolean equals = NumberUtil.equals(104557543L, 104557544);
 		assertFalse(equals);
+	}
+
+	@Test
+	public void testMultipleOverflow() {
+		int a = 500000;
+		int b = 600000;
+
+		// 原方法使用 a * b / gcd(a, b) 计算，a * b 会先溢出，得到最小公倍数为负数
+		// 使用修改后的multiple方法，测试它是否能正确处理这种情况
+		int result = NumberUtil.multiple(a, b);
+		// 验证结果必须是正数（两个正数的最小公倍数必须为正）
+		assertTrue(result > 0);
+	}
+
+	@Test
+	public void testGetFloatBinaryStr() {
+		// 获取浮点数的 IEEE 754 原始比特位字符串
+		final String result = NumberUtil.getBinaryStr(3.5);
+		assertEquals("0100000000001100000000000000000000000000000000000000000000000000", result);
 	}
 }

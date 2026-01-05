@@ -4,3 +4,4 @@ cn.hutool.ai.model.openai.OpenaiConfig
 cn.hutool.ai.model.doubao.DoubaoConfig
 cn.hutool.ai.model.grok.GrokConfig
 cn.hutool.ai.model.ollama.OllamaConfig
+cn.hutool.ai.model.gemini.GeminiConfig

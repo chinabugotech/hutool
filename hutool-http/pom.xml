@@ -9,7 +9,11 @@
 	<parent>
 		<groupId>cn.hutool</groupId>
 		<artifactId>hutool-parent</artifactId>
+<<<<<<< HEAD
 		<version>5.8.43-SNAPSHOT</version>
+=======
+		<version>5.8.43</version>
+>>>>>>> v5-dev
 	</parent>
 
 	<artifactId>hutool-http</artifactId>

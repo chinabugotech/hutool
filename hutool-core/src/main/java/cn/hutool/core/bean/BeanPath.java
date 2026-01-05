@@ -192,6 +192,17 @@ public class BeanPath implements Serializable {
 		String patternPart;
 		for (int i = 0; i < length; i++) {
 			patternPart = patternParts.get(i);
+			
+			// 支持通配符 * 语法，用于获取集合或数组中所有元素的指定字段
+			if ("*".equals(patternPart)) {
+				// 如果当前对象是集合或数组，且后面还有路径部分，则展开处理
+				if (i < length - 1 && (subBean instanceof Collection || ArrayUtil.isArray(subBean))) {
+					return getByWildcard(subBean, patternParts, i + 1, length);
+				}
+				// 如果 * 是最后一个部分，直接返回当前集合/数组
+				return subBean;
+			}
+			
 			subBean = getFieldValue(subBean, patternPart);
 			if (null == subBean) {
 				// 支持表达式的第一个对象为Bean本身（若用户定义表达式$开头，则不做此操作）
@@ -204,6 +215,49 @@ public class BeanPath implements Serializable {
 			}
 		}
 		return subBean;
+	}
+
+	/**
+	 * 处理通配符 * 的情况，对集合或数组中的每个元素应用剩余路径
+	 *
+	 * @param collectionOrArray 集合或数组对象
+	 * @param patternParts      完整的表达式分段列表
+	 * @param startIndex        剩余路径的起始索引
+	 * @param endIndex          路径的结束索引
+	 * @return 结果列表
+	 */
+	private Object getByWildcard(final Object collectionOrArray, final List<String> patternParts, 
+	                              final int startIndex, final int endIndex) {
+		final List<Object> results = new ArrayList<>();
+		
+		// 获取剩余的路径部分
+		final List<String> remainingParts = patternParts.subList(startIndex, endIndex);
+		
+		if (collectionOrArray instanceof Collection) {
+			// 处理集合
+			for (Object item : (Collection<?>) collectionOrArray) {
+				if (item != null) {
+					final Object value = get(remainingParts, item, false);
+					if (value != null) {
+						results.add(value);
+					}
+				}
+			}
+		} else if (ArrayUtil.isArray(collectionOrArray)) {
+			// 处理数组
+			final int arrayLength = ArrayUtil.length(collectionOrArray);
+			for (int i = 0; i < arrayLength; i++) {
+				final Object item = ArrayUtil.get(collectionOrArray, i);
+				if (item != null) {
+					final Object value = get(remainingParts, item, false);
+					if (value != null) {
+						results.add(value);
+					}
+				}
+			}
+		}
+		
+		return results.isEmpty() ? null : results;
 	}
 
 	@SuppressWarnings("unchecked")

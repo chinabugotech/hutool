@@ -2,6 +2,7 @@ package cn.hutool.bloomfilter;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.IoUtil;
+import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.HashUtil;
 
@@ -32,7 +33,9 @@ public class BitSetBloomFilter implements BloomFilter {
 	 * @param k 哈希函数的个数，等同每条记录要占用的bit数，此处值取值为1~8
 	 */
 	public BitSetBloomFilter(int c, int n, int k) {
-		this.hashFunctionNumber = k;
+		Assert.isTrue(c > 0, "Parameter c must be positive");
+		Assert.isTrue(n > 0, "Parameter n must be positive");
+		this.hashFunctionNumber = Assert.checkBetween(k, 1, 8,"hashFunctionNumber must be between 1 and 8");
 		this.bitSetSize = (int) Math.ceil(c * k);
 		this.addedElements = n;
 		this.bitSet = new BitSet(this.bitSetSize);

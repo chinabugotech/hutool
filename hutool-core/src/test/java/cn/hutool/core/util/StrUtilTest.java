@@ -1,6 +1,5 @@
 package cn.hutool.core.util;
 
-import cn.hutool.core.lang.Console;
 import cn.hutool.core.lang.Dict;
 import org.junit.jupiter.api.Test;
 
@@ -312,6 +311,32 @@ public class StrUtilTest {
 		assertEquals(a, pre);
 		pre = StrUtil.subBefore(a, 'k', true);
 		assertEquals(a, pre);
+	}
+
+	/**
+	 * 测试字符串反转功能，特别是对特殊字符的处理
+	 * 验证普通字符、中文字符以及Unicode代理对字符的反转行为
+	 */
+	@Test
+	public void reverseByCodePointSpecialCharactersTest() {
+		//普通情况-英文字符
+		assertEquals("dcba", StrUtil.reverseByCodePoint("abcd"));
+
+		//普通情况-中文字符
+		assertEquals("界世好你", StrUtil.reverseByCodePoint("你好世界"));
+
+		//保证Unicode字符语义正确，类似emoji、组合字符
+		//A😊B
+		String emojiStr = "A\uD83D\uDE0AB";
+		String reversedEmoji = StrUtil.reverseByCodePoint(emojiStr);
+		//B😊A
+		assertEquals("B\uD83D\uDE0AA", reversedEmoji);
+
+		//A🇨🇳B
+		String surrogate = "A\uD83C\uDDE8\uD83C\uDDF3B";
+		String reversedSurrogate = StrUtil.reverseByCodePoint(surrogate);
+		//B🇨🇳A
+		assertNotEquals("B\uD83C\uDDE8\uD83C\uDDF3A", reversedSurrogate);
 	}
 
 	@Test
@@ -693,5 +718,12 @@ public class StrUtilTest {
 		final String str = "This is English";
 		final String ret = StrUtil.truncateByByteLength(str, StandardCharsets.ISO_8859_1, 10, 1, false);
 		assertEquals("This is En", ret);
+	}
+
+	@Test
+	public void issueTest() {
+		final String s = "abc";
+		final String r = StrUtil.truncateByByteLength(s, CharsetUtil.CHARSET_UTF_8, 2, 4, true);
+		assertEquals("ab", r);
 	}
 }

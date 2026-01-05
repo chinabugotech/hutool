@@ -575,7 +575,7 @@ public class CollUtil {
 				}
 			}
 
-			if (false == foundCurrentElement) {
+			if (!foundCurrentElement) {
 				return false;
 			}
 		}
@@ -1805,7 +1805,7 @@ public class CollUtil {
 	 * @return 是否为空
 	 */
 	public static boolean isEmpty(Enumeration<?> enumeration) {
-		return null == enumeration || false == enumeration.hasMoreElements();
+		return null == enumeration || !enumeration.hasMoreElements();
 	}
 
 	/**
@@ -2336,7 +2336,7 @@ public class CollUtil {
 	 */
 	public static <T> List<T> addAllIfNotContains(List<T> list, List<T> otherList) {
 		for (T t : otherList) {
-			if (false == list.contains(t)) {
+			if (!list.contains(t)) {
 				list.add(t);
 			}
 		}
@@ -2841,7 +2841,7 @@ public class CollUtil {
 
 			@Override
 			public int hash32(T t) {
-				if (null == t || false == BeanUtil.isBean(t.getClass())) {
+				if (null == t || !BeanUtil.isBean(t.getClass())) {
 					// 非Bean放在同一子分组中
 					return 0;
 				}

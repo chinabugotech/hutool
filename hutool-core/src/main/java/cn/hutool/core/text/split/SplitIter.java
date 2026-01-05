@@ -105,6 +105,7 @@ public class SplitIter extends ComputeIter<String> implements Serializable {
 		this.finder.reset();
 		this.offset = 0;
 		this.count = 0;
+		resetState();
 	}
 
 	/**

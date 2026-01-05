@@ -27,6 +27,9 @@ public class HexUtil {
 	 * @return 是否为16进制
 	 */
 	public static boolean isHexNumber(String value) {
+		if (StrUtil.isEmpty(value)) {
+			return false;
+		}
 		if (StrUtil.startWith(value, '-')) {
 			// issue#2875
 			return false;
@@ -327,6 +330,46 @@ public class HexUtil {
 	 */
 	public static long hexToLong(String value) {
 		return Long.parseLong(removeHexPrefix(value), 16);
+	}
+
+	/**
+	 * 转为16进制字符串
+	 *
+	 * @param value float值
+	 * @return 16进制字符串
+	 */
+	public static String toHex(float value) {
+		return Integer.toHexString(Float.floatToIntBits(value));
+	}
+
+	/**
+	 * 16进制字符串转为float
+	 *
+	 * @param value 16进制字符串
+	 * @return 16进制字符串float值
+	 */
+	public static float hexToFloat(String value) {
+		return Float.intBitsToFloat(Integer.parseUnsignedInt(removeHexPrefix(value), 16));
+	}
+
+	/**
+	 * 转为16进制字符串
+	 *
+	 * @param value double值
+	 * @return 16进制字符串
+	 */
+	public static String toHex(double value) {
+		return Long.toHexString(Double.doubleToLongBits(value));
+	}
+
+	/**
+	 * 16进制字符串转为double
+	 *
+	 * @param value 16进制字符串
+	 * @return 16进制字符串double值
+	 */
+	public static double hexToDouble(String value) {
+		return Double.longBitsToDouble(Long.parseUnsignedLong(removeHexPrefix(value), 16));
 	}
 
 	/**

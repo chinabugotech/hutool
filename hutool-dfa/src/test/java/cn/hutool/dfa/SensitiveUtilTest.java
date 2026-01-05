@@ -39,4 +39,15 @@ public class SensitiveUtilTest {
 		String result = SensitiveUtil.sensitiveFilter("赵阿三在做什么。", true, null);
 		assertEquals("***在做什么。", result);
 	}
+
+	@Test
+	void issue4182Test(){
+		extracted();
+		final String s = SensitiveUtil.sensitiveFilter("creator_user_id=2000907612345839744");
+		assertEquals("creator_user_id=2000907612345839744", s);
+	}
+
+	private static void extracted() {
+		SensitiveUtil.init(ListUtil.of("12宝宝龙", "34皮卡丘"));
+	}
 }

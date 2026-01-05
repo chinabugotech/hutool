@@ -65,7 +65,7 @@ public enum DateUnit {
 	 */
 	public static DateUnit of(ChronoUnit unit) {
 		switch (unit) {
-			case MICROS:
+			case MILLIS:
 				return DateUnit.MS;
 			case SECONDS:
 				return DateUnit.SECOND;
@@ -91,7 +91,7 @@ public enum DateUnit {
 	public static ChronoUnit toChronoUnit(DateUnit unit) {
 		switch (unit) {
 			case MS:
-				return ChronoUnit.MICROS;
+				return ChronoUnit.MILLIS;
 			case SECOND:
 				return ChronoUnit.SECONDS;
 			case MINUTE:

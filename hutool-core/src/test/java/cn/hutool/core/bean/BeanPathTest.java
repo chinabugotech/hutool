@@ -139,6 +139,16 @@ public class BeanPathTest {
 		assertEquals("[LOL, KFC, COFFE]", ArrayUtil.toString(myUser.getHobby()));
 	}
 
+	@Test
+	public void wildcardTest() {
+		// 测试通配符 * 语法
+		final BeanPath pattern = BeanPath.create("userInfo.examInfoDict[*].id");
+		final Object result = pattern.get(tempMap);
+		
+		// 应该返回一个包含所有 examInfoDict 元素的 id 的列表
+		assertEquals("[1, 2, 3]", result.toString());
+	}
+
 	@Data
 	static class MyUser {
 		private String[] hobby;

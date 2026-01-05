@@ -46,6 +46,11 @@ public class StrMatcher {
 		int to;
 		for (String part : patterns) {
 			if (StrUtil.isWrap(part, "${", "}")) {
+				// 禁止连续变量，例如${a}${b}
+				if (key != null) {
+					throw new IllegalArgumentException(
+						"Consecutive variables like ${a}${b} are not supported");
+				}
 				// 变量
 				key = StrUtil.sub(part, 2, part.length() - 1);
 			} else {

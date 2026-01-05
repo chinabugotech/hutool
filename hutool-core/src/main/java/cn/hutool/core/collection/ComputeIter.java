@@ -70,4 +70,12 @@ public abstract class ComputeIter<T> implements Iterator<T> {
 		this.finished = true;
 		this.next = null;
 	}
+
+	/**
+	 * 重置状态，用于再次遍历
+	 */
+	public void resetState() {
+		this.finished = false;
+		this.next = null;
+	}
 }

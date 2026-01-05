@@ -171,8 +171,9 @@ public class StopWatch {
 		}
 
 		final long lastTime = System.nanoTime() - this.startTimeNanos;
-		this.totalTimeNanos += lastTime;
-		this.lastTaskInfo = new TaskInfo(this.currentTaskName, lastTime);
+		final long safeLastTime = Math.max(0, lastTime);
+		this.totalTimeNanos += safeLastTime;
+		this.lastTaskInfo = new TaskInfo(this.currentTaskName, safeLastTime);
 		if (null != this.taskList) {
 			this.taskList.add(this.lastTaskInfo);
 		}

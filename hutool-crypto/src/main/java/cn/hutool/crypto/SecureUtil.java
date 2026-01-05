@@ -608,7 +608,7 @@ public class SecureUtil {
 	 * SHA256加密，生成16进制SHA256字符串<br>
 	 *
 	 * @param data 数据
-	 * @return SHA1字符串
+	 * @return SHA256字符串
 	 * @since 4.3.2
 	 */
 	public static String sha256(InputStream data) {
@@ -735,7 +735,7 @@ public class SecureUtil {
 	 */
 	public static HMac hmacSha1(byte[] key) {
 		if (ArrayUtil.isEmpty(key)) {
-			key = generateKey(HmacAlgorithm.HmacMD5.getValue()).getEncoded();
+			key = generateKey(HmacAlgorithm.HmacSHA1.getValue()).getEncoded();
 		}
 		return new HMac(HmacAlgorithm.HmacSHA1, key);
 	}
@@ -778,7 +778,7 @@ public class SecureUtil {
 	 */
 	public static HMac hmacSha256(byte[] key) {
 		if (ArrayUtil.isEmpty(key)) {
-			key = generateKey(HmacAlgorithm.HmacMD5.getValue()).getEncoded();
+			key = generateKey(HmacAlgorithm.HmacSHA256.getValue()).getEncoded();
 		}
 		return new HMac(HmacAlgorithm.HmacSHA256, key);
 	}
@@ -1162,7 +1162,7 @@ public class SecureUtil {
 	/**
 	 * 祖冲之算法集（ZUC-128算法）实现，基于BouncyCastle实现。
 	 *
-	 * @param key 密钥
+	 * @param key 密钥，长度16bytes
 	 * @param iv  加盐，长度16bytes，{@code null}是随机加盐
 	 * @return {@link ZUC}
 	 * @since 5.7.12
@@ -1174,8 +1174,8 @@ public class SecureUtil {
 	/**
 	 * 祖冲之算法集（ZUC-256算法）实现，基于BouncyCastle实现。
 	 *
-	 * @param key 密钥
-	 * @param iv  加盐，长度25bytes，{@code null}是随机加盐
+	 * @param key 密钥，长度32bytes
+	 * @param iv  加盐，长度16bytes，{@code null}是随机加盐
 	 * @return {@link ZUC}
 	 * @since 5.7.12
 	 */

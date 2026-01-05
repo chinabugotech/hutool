@@ -378,4 +378,27 @@ public class CharSequenceUtilTest {
 		assertEquals("a", CharSequenceUtil.stripAll("aba", "ab", "ba"));
 		assertEquals("a", CharSequenceUtil.stripAll("abababa", "ab", "ba"));
 	}
+
+	@Test
+	public void moveTest() {
+		//Case 1: "12"右移4位，回到原位置
+		String result1 = CharSequenceUtil.move("12345", 0, 2, 4);
+		assertEquals("12345", result1);
+
+		//Case 2: "12"左移 1 位
+		String result2 = CharSequenceUtil.move("12345", 0, 2, -1);
+		assertEquals("34512", result2);
+
+		//Case 3: "12"右移 1 位
+		String result3 = CharSequenceUtil.move("12345", 0, 2, 1);
+		assertEquals("31245", result3);
+
+		//Case 4: "12"左移 2 位
+		String result4 = CharSequenceUtil.move("12345", 0, 2, -2);
+		assertEquals("34125", result4);
+
+		//Case 5: "12"右移 5 位 (超周期 1 次)，等效于右移 1 位
+		String result5 = CharSequenceUtil.move("12345", 0, 2, 5);
+		assertEquals("31245", result5);
+	}
 }

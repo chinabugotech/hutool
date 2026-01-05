@@ -1,5 +1,7 @@
 package cn.hutool.core.util;
 
+import cn.hutool.core.text.*;
+
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.nio.ByteBuffer;
@@ -9,12 +11,6 @@ import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CodingErrorAction;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
-
-import cn.hutool.core.text.CharSequenceUtil;
-import cn.hutool.core.text.StrBuilder;
-import cn.hutool.core.text.StrFormatter;
-import cn.hutool.core.text.StrPool;
-import cn.hutool.core.text.TextSimilarity;
 
 /**
  * 字符串工具类
@@ -292,7 +288,7 @@ public class StrUtil extends CharSequenceUtil implements StrPool {
 	 *
 	 * @param obj 对象
 	 * @return {@link String }
-     * @author Junwei Xu
+	 * @author Junwei Xu
 	 */
 	public static String toStringOrEmpty(Object obj) {
 		// obj为空时, 返回 null 或 "null" 都不适用部分场景, 此处返回 "" 空字符串
@@ -369,11 +365,42 @@ public class StrUtil extends CharSequenceUtil implements StrPool {
 	 * @return 反转后的字符串
 	 * @since 3.0.9
 	 */
-	public static String reverse(String str) {
+	public static String reverse(final String str) {
+		if (isBlank(str)) {
+			return str;
+		}
+		return new String(ArrayUtil.reverse(str.toCharArray()));
+	}
+
+	/**
+	 * 反转字符串<br>
+	 * 例如：abcd =》dcba
+	 * <p>
+	 * 该方法按Unicode code point进行反转，支持Unicode字符的正确反转
+	 * 确保复杂字符不会被拆分，如表情符号等多字节字符
+	 * </p>
+	 *
+	 * @param str 被反转的字符串
+	 * @return 反转后的字符串，如果输入为null则返回null
+	 * @since 5.8.43
+	 */
+	public static String reverseByCodePoint(String str) {
 		if (null == str) {
 			return null;
 		}
-		return new String(ArrayUtil.reverse(str.toCharArray()));
+
+		//按Unicode code point方式进行反转处理
+		StringBuilder result = new StringBuilder();
+		for (int i = str.length(); i > 0; ) {
+			//获取指定位置前的code point
+			int codePoint = str.codePointBefore(i);
+			//根据code point的字符数量调整索引位置
+			i -= Character.charCount(codePoint);
+			//将code point追加到结果中
+			result.appendCodePoint(codePoint);
+		}
+
+		return result.toString();
 	}
 
 	// ------------------------------------------------------------------------ fill
@@ -510,29 +537,31 @@ public class StrUtil extends CharSequenceUtil implements StrPool {
 	 * 此方法用于截取总bytes数不超过指定长度，如果字符出没有超出原样输出，如果超出了，则截取掉超出部分，并可选添加...，
 	 * 但是添加“...”后总长度也不超过限制长度。
 	 *
-	 * @param str        原始字符串
-	 * @param charset    指定编码
-	 * @param maxBytes   最大字节数
-	 * @param factor     速算因子，取该编码下单个字符的最大可能字节数
-	 * @param appendDots 截断后是否追加省略号(...)
+	 * @param str            原始字符串
+	 * @param charset        指定编码
+	 * @param maxBytesLength 最大字节数
+	 * @param factor         速算因子，取该编码下单个字符的最大可能字节数
+	 * @param appendDots     截断后是否追加省略号...，如果maxBytesLength小于省略号长度，则不添加...
 	 * @return 截断后的字符串
 	 */
-	public static String truncateByByteLength(String str, Charset charset, int maxBytes, int factor,
-			boolean appendDots) {
+	public static String truncateByByteLength(String str, Charset charset, int maxBytesLength, int factor,
+											  boolean appendDots) {
 		//字符数*速算因子<=最大字节数
-		if (str == null || str.length() * factor <= maxBytes) {
+		if (str == null || str.length() * factor <= maxBytesLength) {
 			return str;
 		}
 		final byte[] sba = str.getBytes(charset);
-		if (sba.length <= maxBytes) {
+		if (sba.length <= maxBytesLength) {
 			return str;
 		}
 		//限制字节数
+		final int dotsBytesLength = "...".getBytes(charset).length;
 		final int limitBytes;
-		if (appendDots) {
-			limitBytes = maxBytes - "...".getBytes(charset).length;
+		// issue#IDFTJS 修正截断后追加省略号...导致超出限制长度的问题
+		if (appendDots && maxBytesLength > dotsBytesLength) {
+			limitBytes = maxBytesLength - "...".getBytes(charset).length;
 		} else {
-			limitBytes = maxBytes;
+			limitBytes = maxBytesLength;
 		}
 		final ByteBuffer bb = ByteBuffer.wrap(sba, 0, limitBytes);
 		final CharBuffer cb = CharBuffer.allocate(limitBytes);
@@ -542,7 +571,7 @@ public class StrUtil extends CharSequenceUtil implements StrPool {
 		decoder.decode(bb, cb, true);
 		decoder.flush(cb);
 		final String result = new String(cb.array(), 0, cb.position());
-		if (appendDots) {
+		if (appendDots && maxBytesLength > dotsBytesLength) {
 			return result + "...";
 		}
 		return result;

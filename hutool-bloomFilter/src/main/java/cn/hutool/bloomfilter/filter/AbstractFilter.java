@@ -48,12 +48,13 @@ public abstract class AbstractFilter implements BloomFilter {
 	 */
 	public void init(long maxValue, int machineNum) {
 		this.size = Assert.checkBetween(maxValue, 1, Integer.MAX_VALUE);
+		final int capacity = (int) ((this.size + machineNum - 1) / machineNum);
 		switch (machineNum) {
 		case BitMap.MACHINE32:
-			bm = new IntMap((int) (size / machineNum));
+			bm = new IntMap(capacity);
 			break;
 		case BitMap.MACHINE64:
-			bm = new LongMap((int) (size / machineNum));
+			bm = new LongMap(capacity);
 			break;
 		default:
 			throw new RuntimeException("Error Machine number!");

@@ -71,4 +71,11 @@ public class CharUtilTest {
 		c = '\u2800';
 		assertTrue(CharUtil.isBlankChar(c));
 	}
+
+	@Test
+	public void issueIDFNHETest(){
+		//Console.log(CharUtil.toCloseByNumber(0)); //此时会打印"⑟"
+		assertThrows(IllegalArgumentException.class, () -> CharUtil.toCloseByNumber(0));
+		assertThrows(IllegalArgumentException.class, () -> CharUtil.toCloseByNumber(-1));
+	}
 }

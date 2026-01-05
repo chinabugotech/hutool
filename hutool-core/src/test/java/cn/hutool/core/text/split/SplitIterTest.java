@@ -1,12 +1,8 @@
 package cn.hutool.core.text.split;
 
-import cn.hutool.core.text.finder.CharFinder;
-import cn.hutool.core.text.finder.LengthFinder;
-import cn.hutool.core.text.finder.PatternFinder;
-import cn.hutool.core.text.finder.StrFinder;
+import cn.hutool.core.text.finder.*;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -168,5 +164,20 @@ public class SplitIterTest {
 		List<String> result = iter.toList(false);
 
 		assertEquals(Collections.singletonList("test"), result);
+	}
+
+	@Test
+	public void issueIDFN7YTest() {
+		final String text = "a,b,c";
+		final TextFinder finder = new StrFinder(",", false);
+		final SplitIter splitIter = new SplitIter(text, finder, 0, false);
+
+		List<String> firstResult = splitIter.toList(false);
+		assertEquals(3, firstResult.size());
+
+		splitIter.reset();
+		List<String> secondResult = splitIter.toList(false);
+		assertEquals(3, secondResult.size());
+		assertEquals(firstResult, secondResult);
 	}
 }

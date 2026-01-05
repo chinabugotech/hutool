@@ -50,4 +50,27 @@ public class JSONPathTest {
 		assertNotNull(accountIds);
 		assertArrayEquals(new Long[]{1L, 2L, 3L}, accountIds.toArray());
 	}
+
+	@Test
+	public void getByPathWithWildcardTest() {
+		// 测试通配符 [*] 语法
+		JSONObject root = new JSONObject()
+			.put("actionMessage", new JSONObject()
+				.put("alertResults", new JSONArray())
+				.put("decodeFeas", new JSONArray()
+					.put(new JSONObject()
+						.put("body", new JSONObject()
+							.put("lats", new JSONArray()
+								.put(new JSONObject().put("begin", 4260).put("text", "呵呵"))
+								.put(new JSONObject().put("begin", 4260).put("text", "你好 "))
+							)
+						)
+					)
+				)
+			);
+
+		Object byPath = JSONUtil.getByPath(root, "$.actionMessage.decodeFeas[0].body.lats[*].text");
+		assertNotNull(byPath);
+		assertEquals("[呵呵, 你好 ]", byPath.toString());
+	}
 }

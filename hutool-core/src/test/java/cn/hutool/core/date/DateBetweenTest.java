@@ -96,4 +96,17 @@ public class DateBetweenTest {
 		long result = DateUtil.betweenYear(sdate, edate, false);
 		assertEquals(0, result);
 	}
+
+	@Test
+	public void issueIDFVKGTest() {
+		Date b = new Date(1609459200000L); // 2021-01-01 00:00:00
+		Date e = new Date(1609545600000L); // 2021-01-02 00:00:00
+		DateBetween db = new DateBetween(b, e);
+
+		// 修改原始 date
+		b.setTime(0L); // 1970-01-01
+
+		// 期望 DateBetween 不受影响，间隔仍为 1 天
+		assertEquals(1, db.between(DateUnit.DAY));
+	}
 }

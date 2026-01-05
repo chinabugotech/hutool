@@ -34,6 +34,11 @@ public class JdkUtil {
 	public static final boolean IS_AT_LEAST_JDK17;
 
 	/**
+	 * 是否大于等于JDK25
+	 */
+	public static final boolean IS_AT_LEAST_JDK25;
+
+	/**
 	 * 是否Android环境
 	 */
 	public static final boolean IS_ANDROID;
@@ -43,6 +48,7 @@ public class JdkUtil {
 		JVM_VERSION = _getJvmVersion();
 		IS_JDK8 = 8 == JVM_VERSION;
 		IS_AT_LEAST_JDK17 = JVM_VERSION >= 17;
+		IS_AT_LEAST_JDK25 = JVM_VERSION >= 25;
 
 		// JVM名称
 		final String jvmName = _getJvmName();

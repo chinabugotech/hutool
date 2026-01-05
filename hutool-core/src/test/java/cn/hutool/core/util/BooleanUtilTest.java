@@ -9,15 +9,41 @@ public class BooleanUtilTest {
 	public void toBooleanTest() {
 		assertTrue(BooleanUtil.toBoolean("true"));
 		assertTrue(BooleanUtil.toBoolean("yes"));
+		assertTrue(BooleanUtil.toBoolean("y"));
 		assertTrue(BooleanUtil.toBoolean("t"));
 		assertTrue(BooleanUtil.toBoolean("OK"));
+		assertTrue(BooleanUtil.toBoolean("correct"));
+		assertTrue(BooleanUtil.toBoolean("success"));
 		assertTrue(BooleanUtil.toBoolean("1"));
 		assertTrue(BooleanUtil.toBoolean("On"));
 		assertTrue(BooleanUtil.toBoolean("是"));
 		assertTrue(BooleanUtil.toBoolean("对"));
 		assertTrue(BooleanUtil.toBoolean("真"));
+		assertTrue(BooleanUtil.toBoolean("對"));
+		assertTrue(BooleanUtil.toBoolean("正确"));
+		assertTrue(BooleanUtil.toBoolean("开"));
+		assertTrue(BooleanUtil.toBoolean("开启"));
+		assertTrue(BooleanUtil.toBoolean("√"));
+		assertTrue(BooleanUtil.toBoolean("☑"));
 
 		assertFalse(BooleanUtil.toBoolean("false"));
+		assertFalse(BooleanUtil.toBoolean("no"));
+		assertFalse(BooleanUtil.toBoolean("n"));
+		assertFalse(BooleanUtil.toBoolean("f"));
+		assertFalse(BooleanUtil.toBoolean("off"));
+		assertFalse(BooleanUtil.toBoolean("wrong"));
+		assertFalse(BooleanUtil.toBoolean("fail"));
+		assertFalse(BooleanUtil.toBoolean("0"));
+		assertFalse(BooleanUtil.toBoolean("Off"));
+		assertFalse(BooleanUtil.toBoolean("否"));
+		assertFalse(BooleanUtil.toBoolean("错"));
+		assertFalse(BooleanUtil.toBoolean("假"));
+		assertFalse(BooleanUtil.toBoolean("錯"));
+		assertFalse(BooleanUtil.toBoolean("错误"));
+		assertFalse(BooleanUtil.toBoolean("关"));
+		assertFalse(BooleanUtil.toBoolean("关闭"));
+		assertFalse(BooleanUtil.toBoolean("×"));
+		assertFalse(BooleanUtil.toBoolean("☒"));
 		assertFalse(BooleanUtil.toBoolean("6455434"));
 		assertFalse(BooleanUtil.toBoolean(""));
 	}

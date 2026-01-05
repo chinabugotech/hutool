@@ -9,6 +9,8 @@ import lombok.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -323,7 +325,7 @@ public class CollUtilTest {
 	public void filterTest2() {
 		final ArrayList<String> list = CollUtil.newArrayList("a", "b", "c");
 
-		final ArrayList<String> filtered = CollUtil.filter(list, t -> false == "a".equals(t));
+		final ArrayList<String> filtered = CollUtil.filter(list, t -> !"a".equals(t));
 
 		// 原地过滤
 		assertSame(list, filtered);
@@ -1531,5 +1533,22 @@ public class CollUtilTest {
 		final Animal cat1 = CollUtil.findOne(list, (t) -> t.getName().equals("cat"));
 		assertNotNull(cat1);
 		assertEquals("cat", cat1.getName());
+	}
+
+	@Test
+	void issueIDBU9HTest(){
+		List<ToolTest> list = new ArrayList<>();
+		ToolTest t1 = new ToolTest("a");
+		ToolTest t2 = new ToolTest("b");
+		list.add(t1);
+		list.add(t2);
+		Map<String, ToolTest> map = list.stream().collect(Collectors.toMap(ToolTest::getName, Function.identity(), (k1, k2) -> k2));
+		CollectionUtil.subtract(map.keySet(), map.keySet());
+	}
+
+	@Data
+	@AllArgsConstructor
+	private static class ToolTest {
+		private String name;
 	}
 }

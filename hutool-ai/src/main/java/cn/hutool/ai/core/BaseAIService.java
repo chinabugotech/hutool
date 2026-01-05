@@ -66,7 +66,7 @@ public class BaseAIService {
 				httpRequest.setProxy(config.getProxy());
 			}
 			return httpRequest.execute();
-		} catch (final AIException e) {
+		} catch (final Exception e) {
 			throw new AIException("Failed to send GET request: " + e.getMessage(), e);
 		}
 	}
@@ -90,7 +90,7 @@ public class BaseAIService {
 				httpRequest.setProxy(config.getProxy());
 			}
 			return httpRequest.execute();
-		} catch (final AIException e) {
+		} catch (final Exception e) {
 			throw new AIException("Failed to send POST request：" + e.getMessage(), e);
 		}
 
@@ -116,7 +116,7 @@ public class BaseAIService {
 				httpRequest.setProxy(config.getProxy());
 			}
 			return httpRequest.execute();
-		} catch (final AIException e) {
+		} catch (final Exception e) {
 			throw new AIException("Failed to send POST request：" + e.getMessage(), e);
 		}
 	}

@@ -1,6 +1,43 @@
 
 # 🚀Changelog
 -------------------------------------------------------------------------------------------------------------
+# 5.8.43(2026-01-04)
+
+### 🐣新特性
+* 【core   】      `ColorUtil`颜色名称DARKGOLD、LIGHTGOLD新增蛇形命名匹配（pr#1400@Github）
+* 【core   】      添加`BeanPath`方法中对“*”的处理逻辑（pr#1412@Gitee）
+* 【core   】      `StrUtil`添加`reverseByCodePoint`方法（pr#4187@Github）
+* 【core   】      `JdkUtil`添加`IS_AT_LEAST_JDK25`
+* 【core   】      `HexUtil.toHex`添加对float和double的支持，并提供反向方法（pr#4193@Github）
+* 【core   】      增强`BitSetBloomFilter`构造器的参数有效性校验逻辑（pr#4194@Github）
+* 【core   】      `HexUtil.isHexNumber`增加空检查（pr#1420@Gitee）
+* 【core   】      `BooleanUtil`增加中文、英文及符号布尔值的识别能力（pr#1429@Gitee）
+* 【core   】      `DataBetween`类的构造函数中做 defensive copy（pr#1426@Gitee）
+* 【core   】      `RadixUtil.decode`添加校验（pr#1422@Gitee）
+* 【core   】      `CharUtil.toCloseByNumber`增加下边界检查（pr#1421@Gitee）
+* 【ai     】      增加`gemini`支持（pr#4205@Github）
+
+### 🐞Bug修复
+* 【core       】  修复`Calculator.conversion`方法计算包含科学计数法表达式的值时逻辑有误，结果不符合预期（pr#4172@Github）
+* 【core       】  修复`NumberUtil.getBinaryStr`方法计算Double等丢失小数问题（pr#1411@Gitee）
+* 【core       】  修复`MathUtil.multiple`方法在大整数乘法运算中整数溢出风险（pr#4174@Github）
+* 【core       】  修复`CharSequenceUtil.move`方法在局部循环位移中输出不符合预期问题（issue#IDD181@Gitee）
+* 【bloomFilter】  修复`AbstractFilter`的`init`方法在`maxValue`小于`machineNum`时导致数组越界异常（pr#4189@Github）
+* 【ai         】  修复`Models`枚举命名大小写混用问题（pr#4185@Github）
+* 【core       】  修复`ThreadUtil.getMainThread`在JDK25中返回null的问题（pr#1416@Gitee）
+* 【core       】  修复`NumberUtil.parseNumber`使用中文逗号导致识别问题（issue#4197@Github）
+* 【crypto     】  修复`SecureUtil.hmacSha1`和`hmacSha256`生成随机密钥时存在逻辑问题（pr#4199@Github）
+* 【core       】  修复`StopWatch.stop`时间回拨时计算结果为负的问题（pr#1417@Gitee）
+* 【core       】  修复`SplitIter.reset`后无法重新迭代的问题（pr#1418@Gitee）
+* 【core       】  修复`StrMatcher`连续变量解析导致的歧义问题（pr#1419@Gitee）
+* 【ai         】  修复`BaseAIService`发送请求方法中try/catch块捕获的应该是Exception而不是自定义的AIException（pr#1430@Gitee）
+* 【core       】  修复`StrUtil.truncateByByteLength`在限制长度小于...时报错问题（issue#IDFTJS@Gitee）
+* 【core       】  修复`Calculator.conversion`方法计算包含%连接一元运算符的计算表达式的结果时逻辑缺陷（pr#4191@Github）
+* 【db         】  修复`SqlUtil.PATTERN_IN_CLAUSE`逻辑缺陷导致in语句参数不正确的问题（pr#4203@Github）
+* 【json       】  修复`ObjectMapper`过滤器对Bean复制无效的问题（pr#1431@Gitee）
+* 【core       】  修复`DateUnit`毫秒转换问题（issue#4209@Github）
+
+-------------------------------------------------------------------------------------------------------------
 # 5.8.42(2025-11-28)
 
 ### 🐣新特性

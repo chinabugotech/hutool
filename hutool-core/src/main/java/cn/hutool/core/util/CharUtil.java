@@ -385,7 +385,7 @@ public class CharUtil implements CharPool {
 	 * @since 5.6.2
 	 */
 	public static char toCloseByNumber(int number) {
-		if (number > 20) {
+		if (number < 1 || number > 20) {
 			throw new IllegalArgumentException("Number must be [1-20]");
 		}
 		return (char) ('①' + number - 1);

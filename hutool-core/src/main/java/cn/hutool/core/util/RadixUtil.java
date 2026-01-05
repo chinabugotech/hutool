@@ -92,12 +92,22 @@ public class RadixUtil {
 	 * @return long
 	 */
 	public static long decode(String radixs, String encodeStr) {
+		if (radixs == null || radixs.length() < 2) {
+			throw new IllegalArgumentException("radixs must contain at least 2 characters");
+		}
+		if (encodeStr == null || encodeStr.isEmpty()) {
+			throw new IllegalArgumentException("encodeStr is null or empty");
+		}
 		//目标是多少进制
 		int rl = radixs.length();
 		long res = 0L;
 
 		for (char c : encodeStr.toCharArray()) {
-			res = res * rl + radixs.indexOf(c);
+			int idx = radixs.indexOf(c);
+			if (idx < 0) {
+				throw new IllegalArgumentException("Illegal character '" + c + "' for radixs");
+			}
+			res = res * rl + idx;
 		}
 		return res;
 	}
