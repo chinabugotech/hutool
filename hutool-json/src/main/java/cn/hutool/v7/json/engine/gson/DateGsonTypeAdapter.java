@@ -25,7 +25,7 @@ import java.util.Date;
 
 /**
  * 日期序列化描述<br>
- * 参考：https://stackoverflow.com/questions/41979086/how-to-serialize-date-to-long-using-gson
+ * 参考：<a href="https://stackoverflow.com/questions/41979086/how-to-serialize-date-to-long-using-gson">how-to-serialize-date-to-long-using-gson</a>
  *
  * @author Looly
  * @since 6.0.0
