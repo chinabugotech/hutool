@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.db;
 
+import cn.hutool.v7.core.lang.Console;
 import cn.hutool.v7.core.map.MapUtil;
 import cn.hutool.v7.db.sql.NamedSql;
 import org.junit.jupiter.api.Assertions;
@@ -165,5 +166,12 @@ public class NamedSqlTest {
 
 		assertEquals("INSERT INTO users (id, name) VALUES (?), (?)", namedSql.getSql());
 		assertArrayEquals(new Object[]{new Object[]{1, "looly"}, new Object[]{2, "xxxtea"}}, namedSql.getParamArray());
+	}
+
+	@Test
+	void issue4200(){
+		final HashMap<String, Object> paramMap = MapUtil.of("number", new int[]{1, 2, 3});
+		final NamedSql namedSql = new NamedSql("select case when  1 in (1) and 2 = any(:number) then 1 else 0 end", paramMap);
+		Console.log(namedSql.getSql());
 	}
 }
