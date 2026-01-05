@@ -47,19 +47,24 @@
 		<module>hutool-socket</module>
 		<module>hutool-swing</module>
 		<module>hutool-ai</module>
+		<!-- 性能测试，此模块不发布 -->
+		<module>hutool-jmh</module>
 	</modules>
 
 	<properties>
-		<project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>utf-8</project.reporting.outputEncoding>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<maven.compiler.encoding>UTF-8</maven.compiler.encoding>
 		<Automatic-Module-Name>cn.hutool.v7</Automatic-Module-Name>
+		<!-- 兼容旧版 Maven -->
+		<argLine>-Dfile.encoding=UTF-8</argLine>
 
 		<!-- versions -->
 		<compile.version>17</compile.version>
-		<junit.version>6.0.0</junit.version>
+		<junit.version>6.0.1</junit.version>
 		<lombok.version>1.18.42</lombok.version>
-		<kotlin-version>2.2.20</kotlin-version>
-		<bouncycastle.version>1.82</bouncycastle.version>
+		<kotlin-version>2.3.0</kotlin-version>
+		<bouncycastle.version>1.83</bouncycastle.version>
 	</properties>
 
 	<dependencies>
@@ -217,7 +222,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>versions-maven-plugin</artifactId>
-				<version>2.19.1</version>
+				<version>2.20.1</version>
 				<configuration>
 					<generateBackupPoms>false</generateBackupPoms>
 				</configuration>
@@ -257,7 +262,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-source-plugin</artifactId>
-						<version>3.3.1</version>
+						<version>3.4.0</version>
 						<executions>
 							<execution>
 								<id>oss</id>

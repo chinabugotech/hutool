@@ -38,7 +38,7 @@ public class KClassUtilTest {
 		final List<?> constructors = KClassUtil.getConstructors(TestKBean.class);
 		Assertions.assertEquals(1, constructors.size());
 
-		Assertions.assertEquals("kotlin.reflect.jvm.internal.KFunctionImpl",
+		Assertions.assertEquals("kotlin.reflect.jvm.internal.DescriptorKFunction",
 			constructors.get(0).getClass().getName());
 	}
 

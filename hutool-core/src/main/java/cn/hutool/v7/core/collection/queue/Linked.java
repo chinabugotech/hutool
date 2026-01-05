@@ -20,7 +20,7 @@ package cn.hutool.v7.core.collection.queue;
  * Linked接口定义了一个链式数据结构的通用接口<br>
  * 链式结构中每个元素都包含两个指针，分别指向前一个元素和后一个元素。
  *
- * @param <T> 泛型参数，表示链式结构中元素的类型，必须继承自Linked<T>接口
+ * @param <T> 泛型参数，表示链式结构中元素的类型，必须继承自{@code Linked<T>}接口
  * @author Looly
  */
 public interface Linked<T extends Linked<T>> {
