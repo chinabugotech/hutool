@@ -19,9 +19,7 @@ package cn.hutool.v7.swing;
 import cn.hutool.v7.core.text.StrUtil;
 
 import javax.print.PrintService;
-import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
-import javax.print.attribute.standard.*;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
@@ -98,7 +96,7 @@ public class PrintUtil {
 	 *
 	 * @param printable   可打印内容
 	 * @param printerName 打印机名称(可选)
-	 * @param attributes  打印属性(可选)
+	 * @param attributes  打印属性(可选)，建议使用{@link PrintAttributeBuilder}
 	 */
 	public static void print(final Printable printable, final String printerName, PrintRequestAttributeSet attributes) {
 		try {
@@ -112,17 +110,7 @@ public class PrintUtil {
 			}
 
 			if (attributes == null) {
-				attributes = new HashPrintRequestAttributeSet();
-				// 打印纸张大小
-				attributes.add(MediaSizeName.ISO_A4);
-				// 打印方向
-				attributes.add(OrientationRequested.PORTRAIT);
-				// 打印质量
-				attributes.add(PrintQuality.NORMAL);
-				// 打印颜色
-				attributes.add(Chromaticity.COLOR);
-				// 打印份数
-				attributes.add(new Copies(1));
+				attributes = colorA4(job.getPrintService(), 1);
 			}
 
 			job.setPrintable(printable);
@@ -130,5 +118,39 @@ public class PrintUtil {
 		} catch (final PrinterException e) {
 			throw new SwingException(e);
 		}
+	}
+
+	/**
+	 * 创建用于彩色A4打印的打印属性集
+	 *
+	 * @param printer 打印服务对象
+	 * @param copies 份数
+	 * @return 包含A4纸张、彩色打印、纵向打印、高质量打印设置的打印属性集
+	 */
+	public static PrintRequestAttributeSet colorA4(final PrintService printer, final int copies) {
+		return PrintAttributeBuilder.of(printer)
+			.a4Paper() // A4纸张
+			.color() // 彩色打印
+			.portrait() // 纵向打印
+			.copies(copies) // 份数
+			.highQuality() // 高质量打印
+			.build();
+	}
+
+	/**
+	 * 创建用于横向彩色A4打印的打印属性集
+	 *
+	 * @param printer 打印服务对象
+	 * @param copies 份数
+	 * @return 包含A4纸张、彩色打印、横向打印、高质量打印设置的打印属性集
+	 */
+	public static PrintRequestAttributeSet landscapeColorA4(final PrintService printer, final int copies) {
+		return PrintAttributeBuilder.of(printer)
+			.a4Paper() // A4纸张
+			.color() // 彩色打印
+			.landscape() // 横向打印
+			.copies(copies) // 份数
+			.highQuality() // 高质量打印
+			.build();
 	}
 }

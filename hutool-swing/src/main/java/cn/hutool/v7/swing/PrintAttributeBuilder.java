@@ -51,6 +51,16 @@ public class PrintAttributeBuilder implements Builder<PrintRequestAttributeSet> 
 	@Serial
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * 创建打印属性构建器
+	 *
+	 * @param printer 打印服务对象
+	 * @return 打印属性构建器实例
+	 */
+	public static PrintAttributeBuilder of(final PrintService printer) {
+		return new PrintAttributeBuilder(printer);
+	}
+
 	private final PrintService printer;
 	private final HashPrintRequestAttributeSet attributes;
 	private final Set<Class<? extends Attribute>> supportedAttrs;
@@ -99,18 +109,47 @@ public class PrintAttributeBuilder implements Builder<PrintRequestAttributeSet> 
 	}
 
 	/**
-	 * 强制 A4 纸（若不支持则尝试 Letter 或忽略）
+	 * 强制 A4纸（210 mm × 297 mm）
 	 *
 	 * @return this，用于链式调用
 	 */
 	public PrintAttributeBuilder a4Paper() {
+		return mediaSize(MediaSizeName.ISO_A4);
+	}
+
+	/**
+	 * 强制 A3纸（297 mm × 420 mm）（若不支持则尝试 Letter 或忽略）
+	 *
+	 * @return this，用于链式调用
+	 */
+	public PrintAttributeBuilder a3Paper() {
+		return mediaSize(MediaSizeName.ISO_A3);
+	}
+
+	/**
+	 * 设置纸张类型
+	 * <pre>{@code
+	 *  A0: 841 mm × 1189 mm
+	 *  A1: 594 mm × 841 mm
+	 *  A2: 420 mm × 594 mm
+	 *  A3: 297 mm × 420 mm
+	 *  A4: 210 mm × 297 mm
+	 *  A5: 148 mm × 210 mm
+	 *  A6: 105 mm × 148 mm
+	 *  A7: 74 mm × 105 mm
+	 *  A8: 52 mm × 74 mm
+	 *  A9: 37 mm × 52 mm
+	 *  A10: 26 mm × 37 mm
+	 * }</pre>
+	 *
+	 * @param mediaSizeName {@link MediaSizeName}
+	 * @return this，用于链式调用
+	 */
+	public PrintAttributeBuilder mediaSize(final MediaSizeName mediaSizeName) {
 		if (support(MediaSizeName.class)) {
 			final MediaSizeName[] sizes = getSupportedValues(MediaSizeName.class);
-			if (ArrayUtil.contains(sizes, MediaSizeName.ISO_A4)) {
-				attributes.add(MediaSizeName.ISO_A4);
-			} else if (ArrayUtil.contains(sizes, MediaSizeName.NA_LETTER)) {
-				// 降级到 Letter（美标）
-				attributes.add(MediaSizeName.NA_LETTER);
+			if (ArrayUtil.contains(sizes, mediaSizeName)) {
+				attributes.add(mediaSizeName);
 			}
 		}
 		return this;
@@ -125,9 +164,8 @@ public class PrintAttributeBuilder implements Builder<PrintRequestAttributeSet> 
 	 * @return 当前PrintAttributeBuilder实例，支持链式调用
 	 */
 	public PrintAttributeBuilder landscape() {
-		if (support(OrientationRequested.class) &&
-			supportsValue(OrientationRequested.LANDSCAPE)) {
-			attributes.add(OrientationRequested.LANDSCAPE);
+		if (support(OrientationRequested.class)) {
+			addAttribute(OrientationRequested.LANDSCAPE);
 		}
 		return this;
 	}
@@ -142,24 +180,23 @@ public class PrintAttributeBuilder implements Builder<PrintRequestAttributeSet> 
 	 * @return 当前 PrintAttributeBuilder 实例，支持链式调用
 	 */
 	public PrintAttributeBuilder portrait() {
-		if (support(OrientationRequested.class) &&
-			supportsValue(OrientationRequested.PORTRAIT)) {
-			attributes.add(OrientationRequested.PORTRAIT);
+		if (support(OrientationRequested.class)) {
+			addAttribute(OrientationRequested.PORTRAIT);
 		}
 		return this;
 	}
 
 	/**
-	 * 双面打印（若支持则启用，否则自动降级为单面并告警）
+	 * 双面打印（若支持则启用，否则自动降级为单面）
 	 *
 	 * @return this
 	 */
 	public PrintAttributeBuilder duplex() {
 		if (support(Sides.class)) {
 			final Sides[] sides = getSupportedValues(Sides.class);
-			if (Arrays.asList(sides).contains(Sides.DUPLEX)) {
+			if (ArrayUtil.contains(sides, Sides.DUPLEX)) {
 				attributes.add(Sides.DUPLEX);
-			} else if (Arrays.asList(sides).contains(Sides.TUMBLE)) {
+			} else if (ArrayUtil.contains(sides, Sides.TUMBLE)) {
 				attributes.add(Sides.TUMBLE);
 			} else {
 				attributes.add(Sides.ONE_SIDED);
@@ -176,8 +213,7 @@ public class PrintAttributeBuilder implements Builder<PrintRequestAttributeSet> 
 	 * @return this，用于链式调用
 	 */
 	public PrintAttributeBuilder oneSided() {
-		attributes.add(Sides.ONE_SIDED);
-		return this;
+		return addAttribute(Sides.ONE_SIDED);
 	}
 
 	/**
@@ -186,9 +222,8 @@ public class PrintAttributeBuilder implements Builder<PrintRequestAttributeSet> 
 	 * @return this，用于链式调用。
 	 */
 	public PrintAttributeBuilder monochrome() {
-		if (support(Chromaticity.class) &&
-			supportsValue(Chromaticity.MONOCHROME)) {
-			attributes.add(Chromaticity.MONOCHROME);
+		if (support(Chromaticity.class)) {
+			doAddAttribute(Chromaticity.MONOCHROME);
 		}
 		return this;
 	}
@@ -199,9 +234,8 @@ public class PrintAttributeBuilder implements Builder<PrintRequestAttributeSet> 
 	 * @return this，用于链式调用。
 	 */
 	public PrintAttributeBuilder color() {
-		if (support(Chromaticity.class) &&
-			supportsValue(Chromaticity.COLOR)) {
-			attributes.add(Chromaticity.COLOR);
+		if (support(Chromaticity.class)) {
+			doAddAttribute(Chromaticity.COLOR);
 		}
 		return this;
 	}
@@ -212,9 +246,8 @@ public class PrintAttributeBuilder implements Builder<PrintRequestAttributeSet> 
 	 * @return this，用于链式调用。
 	 */
 	public PrintAttributeBuilder collated() {
-		if (support(SheetCollate.class) &&
-			supportsValue(SheetCollate.COLLATED)) {
-			attributes.add(SheetCollate.COLLATED);
+		if (support(SheetCollate.class)) {
+			doAddAttribute(SheetCollate.COLLATED);
 		}
 		return this;
 	}
@@ -225,9 +258,8 @@ public class PrintAttributeBuilder implements Builder<PrintRequestAttributeSet> 
 	 * @return this，用于链式调用。
 	 */
 	public PrintAttributeBuilder uncollated() {
-		if (support(SheetCollate.class) &&
-			supportsValue(SheetCollate.UNCOLLATED)) {
-			attributes.add(SheetCollate.UNCOLLATED);
+		if (support(SheetCollate.class)) {
+			doAddAttribute(SheetCollate.UNCOLLATED);
 		}
 		return this;
 	}
@@ -238,9 +270,8 @@ public class PrintAttributeBuilder implements Builder<PrintRequestAttributeSet> 
 	 * @return this，用于链式调用。
 	 */
 	public PrintAttributeBuilder highQuality() {
-		if (support(PrintQuality.class) &&
-			supportsValue(PrintQuality.HIGH)) {
-			attributes.add(PrintQuality.HIGH);
+		if (support(PrintQuality.class)) {
+			doAddAttribute(PrintQuality.HIGH);
 		}
 		return this;
 	}
@@ -251,9 +282,8 @@ public class PrintAttributeBuilder implements Builder<PrintRequestAttributeSet> 
 	 * @return this，用于链式调用。
 	 */
 	public PrintAttributeBuilder draftMode() {
-		if (support(PrintQuality.class) &&
-			supportsValue(PrintQuality.DRAFT)) {
-			attributes.add(PrintQuality.DRAFT);
+		if (support(PrintQuality.class)) {
+			doAddAttribute(PrintQuality.DRAFT);
 		}
 		return this;
 	}
@@ -264,9 +294,8 @@ public class PrintAttributeBuilder implements Builder<PrintRequestAttributeSet> 
 	 * @return this，用于链式调用。
 	 */
 	public PrintAttributeBuilder manualTray() {
-		if (support(MediaTray.class) &&
-			supportsValue(MediaTray.MANUAL)) {
-			attributes.add(MediaTray.MANUAL);
+		if (support(MediaTray.class)) {
+			doAddAttribute(MediaTray.MANUAL);
 		}
 		return this;
 	}
@@ -281,6 +310,17 @@ public class PrintAttributeBuilder implements Builder<PrintRequestAttributeSet> 
 	public PrintAttributeBuilder pageRange(final int from, final int to) {
 		// PageRanges 通常都支持
 		attributes.add(new PageRanges(Math.max(1, from), Math.max(from, to)));
+		return this;
+	}
+
+	/**
+	 * 添加打印属性
+	 *
+	 * @param attr 要添加的打印属性对象
+	 * @return this，用于链式调用
+	 */
+	public PrintAttributeBuilder addAttribute(final Attribute attr) {
+		doAddAttribute(attr);
 		return this;
 	}
 
@@ -324,6 +364,20 @@ public class PrintAttributeBuilder implements Builder<PrintRequestAttributeSet> 
 		}
 	}
 
+	/**
+	 * 添加打印属性
+	 *
+	 * @param attr 要添加的打印属性对象
+	 * @return {@code true}表示支持属性，添加成功，否则返回{@code false}
+	 */
+	private boolean doAddAttribute(final Attribute attr) {
+		if (supportsValue(attr)) {
+			attributes.add(attr);
+			return true;
+		}
+		return false;
+	}
+
 	private boolean support(final Class<? extends Attribute> attrClass) {
 		return supportedAttrs.contains(attrClass);
 	}
@@ -351,7 +405,7 @@ public class PrintAttributeBuilder implements Builder<PrintRequestAttributeSet> 
 		final Object vals = printer.getSupportedAttributeValues(
 			value.getCategory(), null, null);
 		if (vals instanceof final Attribute[] arr) {
-			return Arrays.asList(arr).contains(value);
+			return ArrayUtil.contains(arr, value);
 		}
 		return false;
 	}
