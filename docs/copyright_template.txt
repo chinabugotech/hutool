@@ -1,4 +1,4 @@
-Copyright (c) $originalComment.match("Copyright \(c\) (\d+)", 1, "-", "$today.year")$today.year Hutool Team.
+Copyright (c) 2013-$originalComment.match("Copyright \(c\) (\d+)", 1, "-", "$today.year")$today.year Hutool Team.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

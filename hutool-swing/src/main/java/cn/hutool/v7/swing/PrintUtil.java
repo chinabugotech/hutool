@@ -1,3 +1,19 @@
+/*
+ * Copyright (c) 2013-2026 Hutool Team.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package cn.hutool.v7.swing;
 
 import cn.hutool.v7.core.text.StrUtil;
@@ -42,9 +58,9 @@ public class PrintUtil {
 	 * @param printerName 打印机名称
 	 * @return 对应的打印机，未找到返回null
 	 */
-	public static PrintService getPrinter(String printerName) {
-		PrintService[] printers = getPrinters();
-		for (PrintService printer : printers) {
+	public static PrintService getPrinter(final String printerName) {
+		final PrintService[] printers = getPrinters();
+		for (final PrintService printer : printers) {
 			if (printer.getName().equals(printerName)) {
 				return printer;
 			}
@@ -58,12 +74,12 @@ public class PrintUtil {
 	 * @param printer 打印机
 	 * @return 是否可用
 	 */
-	public static boolean isPrinterAvailable(PrintService printer) {
+	public static boolean isPrinterAvailable(final PrintService printer) {
 		try {
-			PrinterJob job = PrinterJob.getPrinterJob();
+			final PrinterJob job = PrinterJob.getPrinterJob();
 			job.setPrintService(printer);
 			return true;
-		} catch (PrinterException e) {
+		} catch (final PrinterException e) {
 			return false;
 		}
 	}
@@ -73,7 +89,7 @@ public class PrintUtil {
 	 *
 	 * @param printable 可打印内容
 	 */
-	public static void print(Printable printable) {
+	public static void print(final Printable printable) {
 		print(printable, null, null);
 	}
 
@@ -84,12 +100,12 @@ public class PrintUtil {
 	 * @param printerName 打印机名称(可选)
 	 * @param attributes  打印属性(可选)
 	 */
-	public static void print(Printable printable, String printerName, PrintRequestAttributeSet attributes) {
+	public static void print(final Printable printable, final String printerName, PrintRequestAttributeSet attributes) {
 		try {
-			PrinterJob job = PrinterJob.getPrinterJob();
+			final PrinterJob job = PrinterJob.getPrinterJob();
 
 			if (StrUtil.isNotEmpty(printerName)) {
-				PrintService printer = getPrinter(printerName);
+				final PrintService printer = getPrinter(printerName);
 				if (printer != null) {
 					job.setPrintService(printer);
 				}
@@ -111,7 +127,7 @@ public class PrintUtil {
 
 			job.setPrintable(printable);
 			job.print(attributes);
-		} catch (PrinterException e) {
+		} catch (final PrinterException e) {
 			throw new SwingException(e);
 		}
 	}
