@@ -52,7 +52,7 @@ public class WordTree extends HashMap<Character, WordTree> {
 	 *
 	 * @param words 初始关键词
 	 * @return WordTree
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static WordTree of(final String... words) {
 		final WordTree wordTree = new WordTree(words.length);

@@ -21,7 +21,7 @@ package cn.hutool.v7.json.writer;
  * 考虑到在JS或其他环境中，Long超过一定长度会丢失精度，因此针对Long类型值，可选写出规则
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public enum NumberWriteMode {
 	/**

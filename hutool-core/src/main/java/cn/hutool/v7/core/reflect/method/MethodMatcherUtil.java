@@ -36,7 +36,7 @@ import java.util.stream.Stream;
  * 方法匹配器工具类，用于基于各种预设条件创建方法匹配器。
  *
  * @author huangchengxing
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class MethodMatcherUtil {
 

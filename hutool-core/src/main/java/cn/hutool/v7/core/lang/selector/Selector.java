@@ -22,7 +22,7 @@ package cn.hutool.v7.core.lang.selector;
  *
  * @param <T> 选择对象类型
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 @FunctionalInterface
 public interface Selector<T> {

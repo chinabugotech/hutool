@@ -316,7 +316,7 @@ public class ArrayUtil extends PrimitiveArrayUtil {
 	 * @return 是否存在 {@code null} 或空对象
 	 * @throws IllegalArgumentException 如果提供的args的item存在数组或集合，抛出异常
 	 * @author dazer
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	@SafeVarargs
 	public static <T> boolean hasEmptyVarargs(final T... args) {
@@ -351,7 +351,7 @@ public class ArrayUtil extends PrimitiveArrayUtil {
 	 * @return 是否都为空
 	 * @throws IllegalArgumentException 如果提供的args的item存在数组或集合，抛出异常
 	 * @author dazer
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	@SafeVarargs
 	public static <T> boolean isAllEmptyVarargs(final T... args) {
@@ -708,7 +708,7 @@ public class ArrayUtil extends PrimitiveArrayUtil {
 	 * @param index 位置，大于等于长度则追加，否则替换
 	 * @param value 新值
 	 * @return 新数组或原有数组
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static <A> A setOrPadding(final A array, final int index, final Object value) {
 		if (index == 0 && isEmpty(array)) {
@@ -727,7 +727,7 @@ public class ArrayUtil extends PrimitiveArrayUtil {
 	 * @param value        新值
 	 * @param paddingValue 填充值
 	 * @return 新数组或原有数组
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static <A, E> A setOrPadding(final A array, final int index, final E value, final E paddingValue) {
 		if (index == 0 && isEmpty(array)) {
@@ -2143,7 +2143,7 @@ public class ArrayUtil extends PrimitiveArrayUtil {
 	 * @param array      数组
 	 * @param comparator 比较器，需要自己处理null值比较
 	 * @return 数组是否有序
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static <T> boolean isSorted(final T[] array, final Comparator<? super T> comparator) {
 		if (isEmpty(array) || null == comparator) {
@@ -2173,7 +2173,7 @@ public class ArrayUtil extends PrimitiveArrayUtil {
 	 * @param array 数组
 	 * @return 数组是否有序
 	 * @throws NullPointerException 如果数组元素含有null值
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static <T extends Comparable<? super T>> boolean isSorted(final T[] array) {
 		if (isEmpty(array)) {
@@ -2254,7 +2254,7 @@ public class ArrayUtil extends PrimitiveArrayUtil {
 	 * @param array      数组
 	 * @param comparator 比较器，需要自己处理null值比较
 	 * @return 数组是否升序
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static <T> boolean isSortedASC(final T[] array, final Comparator<? super T> comparator) {
 		if (isEmpty(array) || null == comparator) {
@@ -2279,7 +2279,7 @@ public class ArrayUtil extends PrimitiveArrayUtil {
 	 * @param array      数组
 	 * @param comparator 比较器，需要自己处理null值比较
 	 * @return 数组是否降序
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static <T> boolean isSortedDESC(final T[] array, final Comparator<? super T> comparator) {
 		if (isEmpty(array) || null == comparator) {
@@ -2304,7 +2304,7 @@ public class ArrayUtil extends PrimitiveArrayUtil {
 	 * @param <T>   数组元素类型
 	 * @param array 数组
 	 * @return 数组是否有相同元素
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static <T> Boolean hasSameElement(final T[] array) {
 		if (isEmpty(array)) {

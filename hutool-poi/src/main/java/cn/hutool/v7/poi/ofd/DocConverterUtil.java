@@ -37,7 +37,7 @@ import java.nio.file.Path;
  * 具体见:https://toscode.gitee.com/ofdrw/ofdrw/blob/master/ofdrw-converter/doc/CONVERTER.md
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class DocConverterUtil {
 

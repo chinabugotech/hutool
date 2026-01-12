@@ -26,7 +26,7 @@ import java.nio.charset.Charset;
  * 基于字符串的InputStream
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class StrInputStream extends ByteArrayInputStream {
 

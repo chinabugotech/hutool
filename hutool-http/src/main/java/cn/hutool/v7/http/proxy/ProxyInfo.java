@@ -28,7 +28,7 @@ import java.util.List;
  * 代理信息，提供代理选择器和代理验证
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class ProxyInfo {
 

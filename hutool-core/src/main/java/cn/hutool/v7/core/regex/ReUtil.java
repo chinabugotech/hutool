@@ -778,7 +778,7 @@ public class ReUtil {
 	 * @param regex   正则
 	 * @param content 字符串
 	 * @return 位置集合，{@code null}表示未找到
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static List<MatchResult> allIndexOf(final String regex, final CharSequence content) {
 		if (null == regex || null == content) {
@@ -795,7 +795,7 @@ public class ReUtil {
 	 * @param pattern 模式
 	 * @param content 字符串
 	 * @return 位置集合，{@code null}表示未找到
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static List<MatchResult> allIndexOf(final Pattern pattern, final CharSequence content) {
 		List<MatchResult> results = null;

@@ -28,7 +28,7 @@ import java.util.function.Supplier;
  *
  * @author kongweiguang
  * @see RetryableTask
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class RetryUtil {
 

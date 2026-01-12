@@ -32,7 +32,7 @@ import java.lang.reflect.Type;
  * Throwable类型适配器，用于将Throwable对象转换为JSON对象
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class ThrowableTypeAdapter implements MatcherJSONSerializer<Throwable>, MatcherJSONDeserializer<Throwable> {
 

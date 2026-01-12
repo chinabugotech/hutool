@@ -24,7 +24,7 @@ import java.util.Map;
  * AI配置类
  *
  * @author elichow
- * @since 6.0.0
+ * @since 7.0.0
  */
 public interface AIConfig {
 
@@ -32,7 +32,7 @@ public interface AIConfig {
 	 * 获取模型（厂商）名称
 	 *
 	 * @return 模型（厂商）名称
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	default String getModelName() {
 		return this.getClass().getSimpleName();
@@ -42,7 +42,7 @@ public interface AIConfig {
 	 * 设置apiKey
 	 *
 	 * @param apiKey apiKey
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	void setApiKey(String apiKey);
 
@@ -50,7 +50,7 @@ public interface AIConfig {
 	 * 获取apiKey
 	 *
 	 * @return apiKey
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	String getApiKey();
 
@@ -58,7 +58,7 @@ public interface AIConfig {
 	 * 设置apiUrl
 	 *
 	 * @param apiUrl api请求地址
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	void setApiUrl(String apiUrl);
 
@@ -66,7 +66,7 @@ public interface AIConfig {
 	 * 获取apiUrl
 	 *
 	 * @return apiUrl
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	String getApiUrl();
 
@@ -74,7 +74,7 @@ public interface AIConfig {
 	 * 设置model
 	 *
 	 * @param model model
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	void setModel(String model);
 
@@ -82,7 +82,7 @@ public interface AIConfig {
 	 * 返回model
 	 *
 	 * @return model
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	String getModel();
 
@@ -91,7 +91,7 @@ public interface AIConfig {
 	 *
 	 * @param key   参数字段
 	 * @param value 参数值
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	void putAdditionalConfigByKey(String key, Object value);
 
@@ -100,7 +100,7 @@ public interface AIConfig {
 	 *
 	 * @param key 参数字段
 	 * @return 参数值
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	Object getAdditionalConfigByKey(String key);
 
@@ -108,7 +108,7 @@ public interface AIConfig {
 	 * 获取动态参数列表
 	 *
 	 * @return 参数列表Map
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	Map<String, Object> getAdditionalConfigMap();
 
@@ -116,7 +116,7 @@ public interface AIConfig {
 	 * 设置连接超时时间
 	 *
 	 * @param timeout 连接超时时间
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	void setTimeout(int timeout);
 
@@ -124,7 +124,7 @@ public interface AIConfig {
 	 * 获取连接超时时间
 	 *
 	 * @return timeout
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	int getTimeout();
 
@@ -132,7 +132,7 @@ public interface AIConfig {
 	 * 设置读取超时时间
 	 *
 	 * @param readTimeout 连接超时时间
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	void setReadTimeout(int readTimeout);
 
@@ -140,7 +140,7 @@ public interface AIConfig {
 	 * 获取读取超时时间
 	 *
 	 * @return readTimeout
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	int getReadTimeout();
 

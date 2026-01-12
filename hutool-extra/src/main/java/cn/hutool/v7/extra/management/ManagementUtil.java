@@ -263,7 +263,7 @@ public class ManagementUtil {
 	 * MBeanServer是负责管理MBean的，一般一个JVM只有一个MBeanServer，所有的MBean都要注册到MBeanServer上，并通过 MBeanServer 对外提供服务。
 	 *
 	 * @return {@link MBeanServer}
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static MBeanServer getMBeanServer() {
 		return ManagementFactory.getPlatformMBeanServer();
@@ -274,7 +274,7 @@ public class ManagementUtil {
 	 *
 	 * @param mBean Mbean对象
 	 * @param name  MBean 的唯一标示
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static void registerMBean(final Object mBean, final ObjectName name) {
 		try {

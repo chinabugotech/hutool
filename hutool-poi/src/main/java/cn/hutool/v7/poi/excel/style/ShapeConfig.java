@@ -27,7 +27,7 @@ import java.io.Serializable;
  * 用于在Excel中定义形状的样式，包括形状类型、线条样式、线条宽度、线条颜色、填充颜色等
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class ShapeConfig implements Serializable {
 	@Serial

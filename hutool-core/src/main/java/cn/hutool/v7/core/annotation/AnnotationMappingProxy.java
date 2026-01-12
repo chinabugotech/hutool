@@ -39,7 +39,7 @@ import java.util.stream.Stream;
  * @param <T> 注解类型
  * @author huangchengxing
  * @see AnnotationMapping
- * @since 6.0.0
+ * @since 7.0.0
  */
 public final class AnnotationMappingProxy<T extends Annotation> implements InvocationHandler {
 

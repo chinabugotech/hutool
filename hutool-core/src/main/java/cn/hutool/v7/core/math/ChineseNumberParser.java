@@ -27,7 +27,7 @@ import java.math.RoundingMode;
  * 中文数字或金额解析类
  *
  * @author fanqun, Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class ChineseNumberParser {
 

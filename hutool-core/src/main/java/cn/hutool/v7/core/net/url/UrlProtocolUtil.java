@@ -26,7 +26,7 @@ import java.net.URL;
  * 用于判断URL的协议类型，如jar或file等
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class UrlProtocolUtil {
 	/**
@@ -77,7 +77,7 @@ public class UrlProtocolUtil {
 	 *
 	 * @param url {@link URL}
 	 * @return 是否为文件
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static boolean isFileURL(final URL url) {
 		Assert.notNull(url, "URL must be not null");
@@ -91,7 +91,7 @@ public class UrlProtocolUtil {
 	 *
 	 * @param url {@link URL}
 	 * @return 是否为文件
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static boolean isVfsURL(final URL url) {
 		Assert.notNull(url, "URL must be not null");

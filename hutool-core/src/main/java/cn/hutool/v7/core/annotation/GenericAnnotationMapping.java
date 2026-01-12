@@ -29,7 +29,7 @@ import java.util.stream.Stream;
  * {@link AnnotationMapping}的基本实现，仅仅是简单包装了注解对象
  *
  * @author huangchengxing
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class GenericAnnotationMapping implements AnnotationMapping<Annotation> {
 

@@ -27,7 +27,7 @@ import java.util.regex.Pattern;
  * Content-Type解析工具
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class ContentTypeUtil {
 

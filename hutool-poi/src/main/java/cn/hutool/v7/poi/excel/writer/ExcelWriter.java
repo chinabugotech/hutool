@@ -808,7 +808,7 @@ public class ExcelWriter extends ExcelBase<ExcelWriter, ExcelWriteConfig> {
 	 * @param clientAnchor 图片的位置和大小信息
 	 * @return this
 	 * @author vhukze
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public ExcelWriter writePic(final File imgFile, final SimpleClientAnchor clientAnchor) {
 		return writePic(imgFile, ExcelPicUtil.getPicType(imgFile), clientAnchor);
@@ -823,7 +823,7 @@ public class ExcelWriter extends ExcelBase<ExcelWriter, ExcelWriteConfig> {
 	 * @param clientAnchor 图片的位置和大小信息
 	 * @return this
 	 * @author vhukze
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public ExcelWriter writePic(final File imgFile, final ExcelPicType imgType, final SimpleClientAnchor clientAnchor) {
 		return writePic(FileUtil.readBytes(imgFile), imgType, clientAnchor);
@@ -838,7 +838,7 @@ public class ExcelWriter extends ExcelBase<ExcelWriter, ExcelWriteConfig> {
 	 * @param clientAnchor 图片的位置和大小信息
 	 * @return this
 	 * @author vhukze
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public ExcelWriter writePic(final byte[] pictureData, final ExcelPicType imgType, final SimpleClientAnchor clientAnchor) {
 		ExcelDrawingUtil.drawingPic(this.sheet, pictureData, imgType, clientAnchor);
@@ -850,7 +850,7 @@ public class ExcelWriter extends ExcelBase<ExcelWriter, ExcelWriteConfig> {
 	 *
 	 * @param clientAnchor 绘制区域信息
 	 * @return this
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public ExcelWriter writeLineShape(final SimpleClientAnchor clientAnchor) {
 		return writeSimpleShape(clientAnchor, ShapeConfig.of());
@@ -864,7 +864,7 @@ public class ExcelWriter extends ExcelBase<ExcelWriter, ExcelWriteConfig> {
 	 * @param lineWidth    线条粗细
 	 * @param lineColor    线条颜色
 	 * @return this
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public ExcelWriter writeLineShape(final SimpleClientAnchor clientAnchor, final LineStyle lineStyle, final int lineWidth, final Color lineColor) {
 		return writeSimpleShape(clientAnchor, ShapeConfig.of().setLineStyle(lineStyle).setLineWidth(lineWidth).setLineColor(lineColor));
@@ -876,7 +876,7 @@ public class ExcelWriter extends ExcelBase<ExcelWriter, ExcelWriteConfig> {
 	 * @param clientAnchor 绘制区域信息
 	 * @param shapeConfig  形状配置，包括形状类型、线条样式、线条宽度、线条颜色、填充颜色等
 	 * @return this
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public ExcelWriter writeSimpleShape(final SimpleClientAnchor clientAnchor, final ShapeConfig shapeConfig) {
 		ExcelDrawingUtil.drawingSimpleShape(this.sheet, clientAnchor, shapeConfig);

@@ -33,7 +33,7 @@ import java.io.IOException;
  * XML SAX方式读取器
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class XmlSaxReader {
 

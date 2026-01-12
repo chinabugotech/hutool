@@ -188,7 +188,7 @@ public class SetUtil {
 	 *
 	 * @param <T> 元素类型
 	 * @return 空的List
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static <T> Set<T> zero() {
 		return new HashSet<>(0, 1);
@@ -200,7 +200,7 @@ public class SetUtil {
 	 * @param <T>     元素类型
 	 * @param element 元素
 	 * @return 只包含一个元素的Set
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static <T> Set<T> singleton(final T element) {
 		return Collections.singleton(element);
@@ -211,7 +211,7 @@ public class SetUtil {
 	 *
 	 * @param <T> 元素类型
 	 * @return 空的List
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static <T> Set<T> zeroLinked() {
 		return new LinkedHashSet<>(0, 1);
@@ -224,7 +224,7 @@ public class SetUtil {
 	 * @param c   集合
 	 * @return 只读集合
 	 * @see Collections#unmodifiableSet(Set)
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static <T> Set<T> unmodifiable(final Set<? extends T> c) {
 		if (null == c) {

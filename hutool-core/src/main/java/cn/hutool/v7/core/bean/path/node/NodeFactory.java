@@ -23,7 +23,7 @@ import cn.hutool.v7.core.text.StrUtil;
  * 节点简单工厂
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class NodeFactory {
 

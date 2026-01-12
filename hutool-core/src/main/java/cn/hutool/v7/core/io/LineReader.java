@@ -42,7 +42,7 @@ import java.util.Iterator;
  * 读出后就是{@code a=12}
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class LineReader extends ReaderWrapper implements Iterable<String> {
 

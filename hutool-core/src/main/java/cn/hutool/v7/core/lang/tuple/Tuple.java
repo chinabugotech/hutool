@@ -46,7 +46,7 @@ public class Tuple implements Iterable<Object>, Serializable, Cloneable {
 	 *
 	 * @param members 成员数组
 	 * @return Tuple
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static Tuple of(final Object... members) {
 		return new Tuple(members);

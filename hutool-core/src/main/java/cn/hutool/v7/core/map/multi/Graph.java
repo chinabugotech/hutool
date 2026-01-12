@@ -28,7 +28,7 @@ import java.util.function.Predicate;
  *
  * @param <T> 节点类型
  * @author huangchengxing
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class Graph<T> extends SetValueMap<T, T> {
 	@Serial

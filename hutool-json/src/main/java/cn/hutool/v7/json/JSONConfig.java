@@ -323,7 +323,7 @@ public class JSONConfig implements Serializable {
 	 * 获取Number写出模式
 	 *
 	 * @return Number写出模式
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public NumberWriteMode getNumberWriteMode() {
 		return numberWriteMode;
@@ -335,7 +335,7 @@ public class JSONConfig implements Serializable {
 	 *
 	 * @param numberWriteMode Number写出模式
 	 * @return this
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public JSONConfig setNumberWriteMode(final NumberWriteMode numberWriteMode) {
 		this.numberWriteMode = numberWriteMode;

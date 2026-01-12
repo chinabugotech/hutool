@@ -331,7 +331,7 @@ public class SymmetricCrypto implements SymmetricEncryptor, SymmetricDecryptor, 
 	 * @param data 被加密的bytes
 	 * @param salt 加盐值，如果为{@code null}不设置，否则生成带Salted__头的密文数据
 	 * @return 加密后的bytes
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public byte[] encrypt(final byte[] data, final byte[] salt) {
 		byte[] result;

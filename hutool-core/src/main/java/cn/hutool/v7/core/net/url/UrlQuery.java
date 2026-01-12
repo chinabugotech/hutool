@@ -150,7 +150,7 @@ public class UrlQuery {
 	 *
 	 * @param encodeMode 编码模式
 	 * @return this
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public UrlQuery setEncodeMode(final EncodeMode encodeMode) {
 		this.encodeMode = encodeMode;
@@ -420,7 +420,7 @@ public class UrlQuery {
 	 * 根据不同场景以及不同环境，对Query中的name和value采用不同的编码策略
 	 *
 	 * @author Looly
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public enum EncodeMode {
 		/**

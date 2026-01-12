@@ -20,7 +20,7 @@ package cn.hutool.v7.http.client;
  * 针对HttpClient5和HttpClient4的配置
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class ApacheHttpClientConfig extends ClientConfig {
 

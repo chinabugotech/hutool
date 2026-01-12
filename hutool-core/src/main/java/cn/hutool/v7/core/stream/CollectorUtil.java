@@ -355,7 +355,7 @@ public class CollectorUtil {
 	 * @param <T>       输入元素类型
 	 * @param <K>       元素的键类型
 	 * @return 收集器
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static <T, K> Collector<T, List<T>, EntryStream<K, T>> toEntryStream(
 		final Function<? super T, ? extends K> keyMapper) {
@@ -371,7 +371,7 @@ public class CollectorUtil {
 	 * @param <K>         元素的键类型
 	 * @param <V>         元素的值类型
 	 * @return 收集器
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static <T, K, V> Collector<T, List<T>, EntryStream<K, V>> toEntryStream(
 		final Function<? super T, ? extends K> keyMapper, final Function<? super T, ? extends V> valueMapper) {
@@ -385,7 +385,7 @@ public class CollectorUtil {
 	 *
 	 * @param <T> 输入元素类型
 	 * @return 收集器
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static <T> Collector<T, ?, EasyStream<T>> toEasyStream() {
 		return transform(ArrayList::new, EasyStream::of);
@@ -406,7 +406,7 @@ public class CollectorUtil {
 	 * @param <T>         输入元素类型
 	 * @param <C>         中间收集输入元素的集合类型
 	 * @return 收集器
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static <T, R, C extends Collection<T>> Collector<T, C, R> transform(
 		final Supplier<C> collFactory, final Function<C, R> mapper) {
@@ -433,7 +433,7 @@ public class CollectorUtil {
 	 * @param <R>    返回值类型
 	 * @param <T>    输入元素类型
 	 * @return 收集器
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static <T, R> Collector<T, List<T>, R> transform(final Function<List<T>, R> mapper) {
 		return transform(ArrayList::new, mapper);

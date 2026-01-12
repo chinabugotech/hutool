@@ -23,7 +23,7 @@ import cn.hutool.v7.core.lang.Assert;
  * 根据请求的路径精确匹配路由，并调用对应的处理器，如果没有定义处理器，使用默认处理器
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class RouteHttpHandler implements HttpHandler {
 

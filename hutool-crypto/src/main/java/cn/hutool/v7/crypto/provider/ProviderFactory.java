@@ -24,7 +24,7 @@ import java.security.Provider;
  * spi定义在：META-INF/services/cn.hutool.v7.crypto.provider.ProviderFactory
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public interface ProviderFactory {
 

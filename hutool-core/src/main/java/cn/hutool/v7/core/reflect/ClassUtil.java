@@ -516,7 +516,7 @@ public class ClassUtil {
 	 *
 	 * @param clazz 类
 	 * @return 是否实现序列化接口{@link Serializable}
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static boolean isSerializable(final Class<?> clazz) {
 		return Serializable.class.isAssignableFrom(clazz);

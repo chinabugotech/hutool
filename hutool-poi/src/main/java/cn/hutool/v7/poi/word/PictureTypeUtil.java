@@ -23,7 +23,7 @@ import cn.hutool.v7.core.io.file.FileNameUtil;
  * 图片类型工具类
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class PictureTypeUtil {
 

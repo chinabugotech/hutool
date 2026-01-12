@@ -39,7 +39,7 @@ import java.util.TimeZone;
  * Gson引擎实现
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class GsonEngine extends AbstractJSONEngine implements Wrapper<Gson> {
 

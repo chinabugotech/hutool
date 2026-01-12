@@ -36,7 +36,7 @@ import java.util.function.Consumer;
  * openai服务，AI具体功能的实现
  *
  * @author elichow
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class OpenaiServiceImpl extends BaseAIService implements OpenaiService {
 

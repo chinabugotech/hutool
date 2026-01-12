@@ -26,7 +26,7 @@ import java.time.Instant;
  * OkHttp Cookie实现
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class OkCookie extends SimpleWrapper<Cookie> implements CookieSpi {
 

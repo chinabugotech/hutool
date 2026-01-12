@@ -20,7 +20,7 @@ package cn.hutool.v7.core.text.placeholder.segment;
  * 字符串模板-固定文本 Segment
  *
  * @author emptypoint
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class LiteralSegment implements StrTemplateSegment {
 	/**

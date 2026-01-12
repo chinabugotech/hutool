@@ -143,7 +143,7 @@ public class HttpGlobalConfig implements Serializable {
 	 * 设置是否从响应正文中的meta标签获取编码信息
 	 *
 	 * @param customGetCharsetFromContent 是否从响应正文中的meta标签获取编码信息
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	synchronized public static void setGetCharsetFromContent(final boolean customGetCharsetFromContent){
 		getCharsetFromContent = customGetCharsetFromContent;
@@ -153,7 +153,7 @@ public class HttpGlobalConfig implements Serializable {
 	 * 是否从响应正文中的meta标签获取编码信息
 	 *
 	 * @return 是否从响应正文中的meta标签获取编码信息
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static boolean isGetCharsetFromContent(){
 		return getCharsetFromContent;

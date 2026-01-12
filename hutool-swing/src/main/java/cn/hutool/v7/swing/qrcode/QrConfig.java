@@ -397,7 +397,7 @@ public class QrConfig {
 	/**
 	 * 获取二维码logo圆角弧度，0~1，为长宽占比
 	 * @return 二维码logo圆角弧度，0~1，为长宽占比
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public double getImgRound() {
 		return imgRound;
@@ -407,7 +407,7 @@ public class QrConfig {
 	 * 设置二维码logo圆角弧度，0~1，为长宽占比
 	 * @param imgRound 二维码logo圆角弧度，0~1，为长宽占比
 	 * @return this
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public QrConfig setImgRound(final double imgRound) {
 		this.imgRound = imgRound;

@@ -28,7 +28,7 @@ import java.util.Map;
  * 根据请求的路径精确匹配路由，并调用对应的处理器
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class PathTrie {
 

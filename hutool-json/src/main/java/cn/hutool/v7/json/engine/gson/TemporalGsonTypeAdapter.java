@@ -28,7 +28,7 @@ import java.time.temporal.TemporalAccessor;
  * 时间相关对象序列化描述
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class TemporalGsonTypeAdapter implements GsonTypeAdapter<TemporalAccessor> {
 

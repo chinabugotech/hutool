@@ -29,7 +29,7 @@ import java.util.Properties;
  * Kafka引擎
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class KafkaEngine implements MQEngine {
 

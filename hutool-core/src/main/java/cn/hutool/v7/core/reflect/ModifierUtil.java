@@ -167,7 +167,7 @@ public class ModifierUtil {
 	 *
 	 * @param method 方法，如果为{@code null}返回{@code false}
 	 * @return 是否为default方法
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static boolean isDefault(final Method method) {
 		return null != method && method.isDefault();

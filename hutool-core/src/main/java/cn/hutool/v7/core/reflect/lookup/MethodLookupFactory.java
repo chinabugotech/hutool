@@ -29,7 +29,7 @@ import java.lang.reflect.Method;
  * 参考：https://blog.csdn.net/u013202238/article/details/108687086
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class MethodLookupFactory implements LookupFactory {
 

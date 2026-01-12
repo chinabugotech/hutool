@@ -22,7 +22,7 @@ import java.util.Collection;
  * 有边界限制的集合，边界集合有最大容量限制
  *
  * @param <E> 元素类型
- * @since 6.0.0
+ * @since 7.0.0
  */
 public interface BoundedCollection<E> extends Collection<E> {
 

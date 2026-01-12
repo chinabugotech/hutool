@@ -27,7 +27,7 @@ import org.apache.poi.xssf.usermodel.XSSFDataValidation;
  * Excel数据验证相关工具
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class DataValidationUtil {
 

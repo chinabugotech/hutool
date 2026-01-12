@@ -27,7 +27,7 @@ import cn.hutool.v7.poi.excel.cell.NullCell;
  * 复合单元格值，用于根据单元格类型读取不同的值
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class CompositeCellValue implements CellValue<Object> {
 

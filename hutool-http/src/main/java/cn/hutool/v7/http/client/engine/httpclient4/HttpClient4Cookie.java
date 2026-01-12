@@ -27,7 +27,7 @@ import java.time.Instant;
  * HttpClient4 Cookie实现
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class HttpClient4Cookie extends SimpleWrapper<Cookie> implements CookieSpi {
 

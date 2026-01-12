@@ -23,7 +23,7 @@ import cn.hutool.v7.core.lang.Assert;
  * 在嵌套对象转换中，如果涉及子对象的转换，使用根转换器转换
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public abstract class ConverterWithRoot implements Converter {
 

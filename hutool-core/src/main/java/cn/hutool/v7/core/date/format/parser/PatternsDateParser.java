@@ -30,7 +30,7 @@ import java.util.Locale;
  * 传入的日期格式会逐个尝试，直到解析成功，返回{@link Calendar}对象，否则抛出{@link DateException}异常。
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class PatternsDateParser implements DateParser, Serializable {
 	@Serial

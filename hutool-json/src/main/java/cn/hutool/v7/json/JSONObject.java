@@ -189,7 +189,7 @@ public class JSONObject extends MapWrapper<String, JSON> implements JSON, JSONGe
 	 * @param value 值
 	 * @return this.
 	 * @throws JSONException 如果给定键为{@code null}或者键对应的值存在且为非JSONArray
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public JSONObject append(final String key, final Object value) throws JSONException {
 		final Object object = this.getObj(key);

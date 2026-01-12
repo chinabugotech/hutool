@@ -48,7 +48,7 @@ import java.security.ProtectionDomain;
  * <p>此类旨在通过类描述信息和类名查找对应的类，如动态加载类等。</p>
  *
  * @author Dubbo
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class ClassDescUtil {
 

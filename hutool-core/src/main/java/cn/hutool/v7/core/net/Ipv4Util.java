@@ -520,7 +520,7 @@ public class Ipv4Util implements Ipv4Pool {
 	 * @param ipNum IP地址数值形式
 	 * @return 是否为内网IP
 	 * @see #isInnerIP(String)
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static boolean isInnerIP(final long ipNum) {
 		return isBetween(ipNum, IPV4_A_PRIVATE_NUM_MIN, IPV4_A_PRIVATE_NUM_MAX)
@@ -541,7 +541,7 @@ public class Ipv4Util implements Ipv4Pool {
 	 *
 	 * @param ipAddress IP地址，点分十进制
 	 * @return 是否为公网IP
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static boolean isPublicIP(final String ipAddress) {
 		return isPublicIP(ipv4ToLong(ipAddress));
@@ -553,7 +553,7 @@ public class Ipv4Util implements Ipv4Pool {
 	 * @param ipNum IP地址数值形式
 	 * @return 是否为公网IP
 	 * @see #isPublicIP(String)
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static boolean isPublicIP(final long ipNum) {
 		return isBetween(ipNum, IPV4_A_PUBLIC_1_NUM_MIN, IPV4_A_PUBLIC_1_NUM_MAX)
@@ -577,7 +577,7 @@ public class Ipv4Util implements Ipv4Pool {
 	 * @param ip       ip地址，Long类型
 	 * @param position 指定位置，取值范围：[1,4]
 	 * @return ip地址指定部分的十进制值
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static int getPartOfIp(final long ip, final int position) {
 		return switch (position) {

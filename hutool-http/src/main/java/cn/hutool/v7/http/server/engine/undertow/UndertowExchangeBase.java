@@ -22,7 +22,7 @@ import io.undertow.server.HttpServerExchange;
  * Undertow请求对象基类，用于获取原始Undertow请求对象
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class UndertowExchangeBase {
 

@@ -29,7 +29,7 @@ import cn.hutool.v7.core.text.StrUtil;
  *
  * @author aoshiguchen
  * @author emptypoint
- * @since 6.0.0
+ * @since 7.0.0
  */
 public interface Ipv4Pool {
 

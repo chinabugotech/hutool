@@ -141,7 +141,7 @@ public class UrlResource implements Resource, Serializable {
 	 *
 	 * @param relativePath 相对路径
 	 * @return 子资源
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public UrlResource createRelative(final String relativePath) {
 		return new UrlResource(UrlUtil.getURL(getUrl(), relativePath));

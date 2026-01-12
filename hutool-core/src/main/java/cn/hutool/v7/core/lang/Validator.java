@@ -1266,7 +1266,7 @@ public class Validator {
 	 *
 	 * @param index 索引
 	 * @param limit 限制大小
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static void checkIndexLimit(final int index, final int limit) {
 		// issue#3286, 增加安全检查，最多增加10倍

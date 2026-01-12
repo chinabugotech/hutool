@@ -164,7 +164,7 @@ public class MultiResource implements Resource, Iterable<Resource>, Iterator<Res
 	 *
 	 * @param iterable 资源列表
 	 * @return this
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public MultiResource addAll(final Iterable<? extends Resource> iterable) {
 		iterable.forEach((this::add));

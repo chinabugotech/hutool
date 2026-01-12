@@ -37,7 +37,7 @@ import java.util.Map;
  * 相关规范见：<a href="https://www.rfc-editor.org/rfc/rfc5987">rfc5987</a>
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class HttpHeaderUtil {
 

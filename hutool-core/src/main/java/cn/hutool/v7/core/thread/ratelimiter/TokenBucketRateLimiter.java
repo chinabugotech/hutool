@@ -38,7 +38,7 @@ import java.util.concurrent.TimeUnit;
  * </p>
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class TokenBucketRateLimiter extends SemaphoreRateLimiter implements Closeable {
 

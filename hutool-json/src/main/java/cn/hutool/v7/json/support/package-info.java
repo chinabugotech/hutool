@@ -18,6 +18,6 @@
  * JSON的支持类，如用于转换和BeanPath操作的对象，还有用于格式化的对象等
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 package cn.hutool.v7.json.support;

@@ -60,7 +60,7 @@ import java.util.function.Predicate;
  * @param <T> 边界值类型
  * @author huangchengxing
  * @see Bound
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class BoundedRange<T extends Comparable<? super T>> implements SerPredicate<T> {
 	@Serial

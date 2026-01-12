@@ -25,7 +25,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * Config基础类，定义模型配置的基本属性
  *
  * @author elichow
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class BaseAIConfig implements AIConfig {
 

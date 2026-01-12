@@ -25,7 +25,7 @@ import java.sql.SQLException;
  *
  * @param <R> 一行数据处理后的结果类型
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 @FunctionalInterface
 public interface RowHandler<R> {

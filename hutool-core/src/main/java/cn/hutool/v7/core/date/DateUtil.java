@@ -104,7 +104,7 @@ public class DateUtil {
 	 *
 	 * @param date {@link XMLGregorianCalendar}，如果传入{@code null}，返回{@code null}
 	 * @return 时间对象
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static DateTime date(final XMLGregorianCalendar date) {
 		if (date == null) {

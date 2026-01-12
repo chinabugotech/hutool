@@ -128,7 +128,7 @@ public class VfsResource implements Resource {
 	 * 获取物理文件对象
 	 *
 	 * @return 物理文件对象
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public File getFile(){
 		return MethodUtil.invoke(virtualFile, VIRTUAL_FILE_METHOD_GET_PHYSICAL_FILE);

@@ -593,7 +593,7 @@ public class NumberUtil extends NumberValidator {
 	 * @param number 值
 	 * @param scale  保留小数位数
 	 * @return 千分位数字
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static String formatThousands(final double number, final int scale) {
 		final NumberFormat format = NumberFormat.getNumberInstance();
@@ -1106,7 +1106,7 @@ public class NumberUtil extends NumberValidator {
 	 *
 	 * @param numberStr 数字字符串
 	 * @return {@link BigInteger}
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static BigInteger parseBigInteger(final String numberStr) {
 		return NumberParser.INSTANCE.parseBigInteger(numberStr);
@@ -1286,7 +1286,7 @@ public class NumberUtil extends NumberValidator {
 	 * @return int值
 	 * @throws NumberFormatException 数字格式异常
 	 * @see Integer#parseInt(String, int)
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static int parseInt(final char[] chars, final int radix) throws NumberFormatException {
 		return NumberParser.INSTANCE.parseInt(chars, radix);
@@ -1599,7 +1599,7 @@ public class NumberUtil extends NumberValidator {
 	 *
 	 * @param n 数字
 	 * @return 是否为0
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static boolean isZero(final Number n) {
 		Assert.notNull(n);
@@ -1635,7 +1635,7 @@ public class NumberUtil extends NumberValidator {
 	 * @param num [1,3999]的正整数
 	 * @return 罗马数字
 	 * @author dazer
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static String intToRoman(final int num) {
 		return RomanNumberFormatter.intToRoman(num);
@@ -1648,7 +1648,7 @@ public class NumberUtil extends NumberValidator {
 	 * @return 整数
 	 * @throws IllegalArgumentException 如果传入非罗马字符串，抛出异常
 	 * @author dazer
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static int romanToInt(final String roman) {
 		return RomanNumberFormatter.romanToInt(roman);

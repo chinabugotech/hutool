@@ -28,7 +28,7 @@ import java.util.function.UnaryOperator;
  *
  * @param <T> 流元素类型
  * @author VampireAchao
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class IterateSpliterator<T> extends Spliterators.AbstractSpliterator<T> {
 

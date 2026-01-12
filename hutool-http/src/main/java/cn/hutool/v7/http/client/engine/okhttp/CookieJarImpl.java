@@ -30,7 +30,7 @@ import java.util.List;
  * CookieJar实现，用于OkHttp3
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  * @param cookieStore Cookie存储器，用于自定义Cookie存储实现
  */
 public record CookieJarImpl(CookieStoreSpi cookieStore) implements CookieJar {

@@ -71,7 +71,7 @@ public interface Archiver extends Closeable {
 	 * @param fileNameEditor 文件名编辑器
 	 * @param filter 文件过滤器，指定哪些文件或目录可以加入，{@link Predicate#test(Object)}为{@code true}保留，null表示全部加入
 	 * @return this
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	Archiver add(File file, String path, Function<String, String> fileNameEditor, Predicate<File> filter);
 

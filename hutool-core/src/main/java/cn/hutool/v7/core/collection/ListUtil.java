@@ -230,7 +230,7 @@ public class ListUtil {
 	 *
 	 * @param <T> 元素类型
 	 * @return 空的List
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static <T> List<T> zero() {
 		return new ArrayList<>(0);
@@ -242,7 +242,7 @@ public class ListUtil {
 	 * @param <T>     元素类型
 	 * @param element 元素
 	 * @return 只包含一个元素的List
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static <T> List<T> singleton(final T element) {
 		return Collections.singletonList(element);
@@ -718,7 +718,7 @@ public class ListUtil {
 	 * @param <T> 元素类型
 	 * @param c   集合
 	 * @return 只读集合
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static <T> List<T> unmodifiable(final List<? extends T> c) {
 		if (null == c) {
@@ -755,7 +755,7 @@ public class ListUtil {
 	 * @param deleteCount 删除个数，必须是正整数
 	 * @param items       放入的元素
 	 * @return 结果列表
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	@SafeVarargs
 	public static <T> List<T> splice(final List<T> list, int start, int deleteCount, final T... items) {

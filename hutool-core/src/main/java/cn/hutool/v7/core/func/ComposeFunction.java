@@ -29,7 +29,7 @@ import java.util.function.Function;
  * @param <B> 第一个函数的返回类型（第二个函数有的参数类型）
  * @param <C> 最终结果类型
  * @author Guava
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class ComposeFunction<A, B, C> implements Function<A, C>, Serializable {
 	@Serial

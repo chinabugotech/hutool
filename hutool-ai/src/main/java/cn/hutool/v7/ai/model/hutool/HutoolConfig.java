@@ -23,7 +23,7 @@ import cn.hutool.v7.ai.core.BaseAIConfig;
  * Hutool配置类，初始化API接口地址，设置默认的模型
  *
  * @author elichow
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class HutoolConfig extends BaseAIConfig {
 

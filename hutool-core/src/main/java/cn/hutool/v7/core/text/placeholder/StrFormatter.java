@@ -83,7 +83,7 @@ public class StrFormatter {
 	 * @param bean       参数Bean
 	 * @param ignoreNull 是否忽略 {@code null} 值，忽略则 {@code null} 值对应的变量不被替换，否则替换为""
 	 * @return 格式化后的文本
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static String formatByBean(final CharSequence template, final Object bean, final boolean ignoreNull) {
 		if (null == template) {

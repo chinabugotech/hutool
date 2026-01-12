@@ -187,7 +187,7 @@ public class FieldUtil {
 	 * @param fieldPredicate field过滤器，过滤掉不需要的field，{@link Predicate#test(Object)}为{@code true}保留，null表示全部保留
 	 * @return 字段列表
 	 * @throws SecurityException 当安全管理器存在且拒绝访问时抛出
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static Field[] getDeclaredFields(final Class<?> beanClass, final Predicate<Field> fieldPredicate) throws SecurityException {
 		Assert.notNull(beanClass);

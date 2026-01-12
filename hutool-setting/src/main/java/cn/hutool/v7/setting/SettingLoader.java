@@ -118,7 +118,7 @@ public class SettingLoader {
 	 *
 	 * @param valueEditor 编辑器函数
 	 * @return this
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public SettingLoader setValueEditor(final ValueEditor valueEditor) {
 		this.valueEditor = valueEditor;

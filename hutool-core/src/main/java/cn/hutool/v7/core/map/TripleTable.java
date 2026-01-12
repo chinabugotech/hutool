@@ -35,7 +35,7 @@ import java.util.List;
  * @param <M> 中值类型
  * @param <R> 右值类型
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class TripleTable<L, M, R> implements Iterable<Triple<L, M, R>>, Serializable {
 	@Serial

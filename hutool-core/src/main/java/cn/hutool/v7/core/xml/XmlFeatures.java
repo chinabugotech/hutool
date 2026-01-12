@@ -21,7 +21,7 @@ package cn.hutool.v7.core.xml;
  * 见：https://blog.spoock.com/2018/10/23/java-xxe/
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class XmlFeatures {
 

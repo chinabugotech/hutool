@@ -23,7 +23,7 @@ import java.io.Serializable;
  * JSON引擎配置
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class JSONEngineConfig implements Serializable {
 	@Serial

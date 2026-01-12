@@ -33,7 +33,7 @@ import java.nio.charset.CodingErrorAction;
  * 通过一个 Writer和一个CharsetDecoder实现将字节数据输出为字符数据。可以通过不同的构造函数配置缓冲区大小和是否立即写入。
  * 来自：https://github.com/subchen/jetbrick-commons/blob/master/src/main/java/jetbrick/io/stream/WriterOutputStream.java
  *
- * @since 6.0.0
+ * @since 7.0.0
  * @author subchen
  */
 public class WriterOutputStream extends OutputStream {

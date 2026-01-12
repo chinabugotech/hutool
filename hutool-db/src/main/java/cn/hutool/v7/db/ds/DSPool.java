@@ -36,7 +36,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * 每次获得一个数据源则缓存在pool中，确保数据源保持单例状态。
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class DSPool implements Closeable {
 

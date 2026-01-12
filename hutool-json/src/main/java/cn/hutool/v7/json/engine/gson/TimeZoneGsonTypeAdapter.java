@@ -25,7 +25,7 @@ import java.util.TimeZone;
  * 时区序列化描述
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class TimeZoneGsonTypeAdapter implements GsonTypeAdapter<TimeZone> {
 

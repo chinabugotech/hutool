@@ -263,7 +263,7 @@ public class TreeUtil {
 	 * @param includeCurrentNode 是否包含当前节点的名称
 	 * @param fieldFunc          获取父节点名称的函数
 	 * @return 所有父节点字段值列表，node为null返回空List
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static <T, E> List<E> getParents(final MapTree<T> node, final boolean includeCurrentNode, final Function<MapTree<T>, E> fieldFunc) {
 		final List<E> result = new ArrayList<>();

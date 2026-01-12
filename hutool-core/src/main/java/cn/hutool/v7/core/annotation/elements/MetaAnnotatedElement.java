@@ -47,7 +47,7 @@ import java.util.function.BiFunction;
  *
  * @author huangchengxing
  * @see ResolvedAnnotationMapping
- * @since 6.0.0
+ * @since 7.0.0
  * @param <T> AnnotationMapping类型
  */
 public class MetaAnnotatedElement<T extends AnnotationMapping<Annotation>> implements AnnotatedElement, Iterable<T> {

@@ -30,7 +30,7 @@ import java.io.Reader;
  * JSONTokener及其读取流的JSON序列化器实现
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class TokenerSerializer implements MatcherJSONSerializer<Object> {
 

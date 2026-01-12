@@ -37,7 +37,7 @@ import java.util.function.UnaryOperator;
  * @param <A> 数组类型
  * @param <E> 数组元素类型
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class ArrayWrapper<A, E> implements Wrapper<A>, Iterable<E> {
 
@@ -290,7 +290,7 @@ public class ArrayWrapper<A, E> implements Wrapper<A>, Iterable<E> {
 	 * @param index 位置
 	 * @param value 新元素或新数组
 	 * @return this
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	@SuppressWarnings("unchecked")
 	public ArrayWrapper<A, E> setOrPadding(final int index, final E value) {
@@ -304,7 +304,7 @@ public class ArrayWrapper<A, E> implements Wrapper<A>, Iterable<E> {
 	 * @param value 新元素或新数组
 	 * @param paddingElement 填充
 	 * @return this
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public ArrayWrapper<A, E> setOrPadding(final int index, final E value, final E paddingElement) {
 		return setOrPadding(index, value, paddingElement, (this.length + 1) * 10);
@@ -318,7 +318,7 @@ public class ArrayWrapper<A, E> implements Wrapper<A>, Iterable<E> {
 	 * @param paddingElement 填充
 	 * @param indexLimit 索引限制
 	 * @return this
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public ArrayWrapper<A, E> setOrPadding(final int index, final E value, final E paddingElement, final int indexLimit) {
 		if (index < this.length) {
@@ -579,7 +579,7 @@ public class ArrayWrapper<A, E> implements Wrapper<A>, Iterable<E> {
 	 * @param comparator 比较器
 	 * @return 数组是否有序
 	 * @throws NullPointerException 如果数组元素含有null值
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public boolean isSorted(final Comparator<E> comparator) {
 		if (isEmpty()) {

@@ -20,7 +20,7 @@ package cn.hutool.v7.db.driver;
  * 常用数据库驱动名
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public interface DriverNames {
 

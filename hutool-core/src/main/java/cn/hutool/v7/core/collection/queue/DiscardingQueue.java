@@ -25,7 +25,7 @@ import java.util.Queue;
  * 始终为空的队列，所有新增节点都丢弃
  *
  * @author Guava, Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class DiscardingQueue extends AbstractQueue<Object> {
 	private static final DiscardingQueue INSTANCE = new DiscardingQueue();

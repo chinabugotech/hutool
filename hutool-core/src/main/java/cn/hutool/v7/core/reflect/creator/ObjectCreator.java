@@ -21,7 +21,7 @@ package cn.hutool.v7.core.reflect.creator;
  * 也叫对象初始化器。
  *
  * @param <T> 对象类型
- * @since 6.0.0
+ * @since 7.0.0
  */
 public interface ObjectCreator<T> {
 	/**

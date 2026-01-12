@@ -34,7 +34,7 @@ import java.util.*;
  * 这个类提供了一种方便的方式来访问和操作数据库元数据，是对DatabaseMetaData的简单封装。
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class DatabaseMetaDataWrapper extends SimpleWrapper<DatabaseMetaData> {
 

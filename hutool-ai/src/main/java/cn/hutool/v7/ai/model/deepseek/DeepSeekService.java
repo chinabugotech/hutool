@@ -24,7 +24,7 @@ import java.util.function.Consumer;
  * deepSeek支持的扩展接口
  *
  * @author elichow
- * @since 6.0.0
+ * @since 7.0.0
  */
 public interface DeepSeekService extends AIService {
 
@@ -33,7 +33,7 @@ public interface DeepSeekService extends AIService {
 	 *
 	 * @param prompt 题词
 	 * @return AI的回答
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	String beta(String prompt);
 
@@ -41,7 +41,7 @@ public interface DeepSeekService extends AIService {
 	 * 模型beta功能-SSE流式输出
 	 * @param prompt 题词
 	 * @param callback 流式数据回调函数
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	void beta(String prompt, final Consumer<String> callback);
 
@@ -49,7 +49,7 @@ public interface DeepSeekService extends AIService {
 	 * 列出所有模型列表
 	 *
 	 * @return model列表
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	String models();
 
@@ -57,7 +57,7 @@ public interface DeepSeekService extends AIService {
 	 * 查询余额
 	 *
 	 * @return 余额
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	String balance();
 }

@@ -31,7 +31,7 @@ import cn.hutool.v7.extra.mq.engine.MQEngine;
  * RocketMQ引擎
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class RocketMQEngine implements MQEngine {
 

@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
  * XML相关常量
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class XmlConstants {
 	/**

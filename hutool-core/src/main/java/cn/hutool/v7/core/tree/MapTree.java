@@ -225,7 +225,7 @@ public class MapTree<T> extends LinkedHashMap<String, Object> implements Node<T>
 	 *
 	 * @param consumer 节点处理器
 	 * @param broadFirst 是否广度优先遍历
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public void walk(final Consumer<MapTree<T>> consumer, final boolean broadFirst) {
 		if (broadFirst) { // 广度优先遍历

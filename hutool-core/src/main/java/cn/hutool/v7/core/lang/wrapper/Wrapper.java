@@ -21,7 +21,7 @@ package cn.hutool.v7.core.lang.wrapper;
  *
  * @param <T> 原始对象类型
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public interface Wrapper<T> {
 	/**

@@ -105,7 +105,7 @@ public class JSONUtil {
 	 *
 	 * @param value 值
 	 * @return JSONPrimitive对象
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static JSONPrimitive ofPrimitive(final Object value) {
 		return JSONFactory.getInstance().ofPrimitive(value);
@@ -124,7 +124,7 @@ public class JSONUtil {
 	 * @param value  值
 	 * @param config 配置
 	 * @return JSONPrimitive对象
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static JSONPrimitive ofPrimitive(final Object value, final JSONConfig config) {
 		return JSONFactory.of(config, null).ofPrimitive(value);

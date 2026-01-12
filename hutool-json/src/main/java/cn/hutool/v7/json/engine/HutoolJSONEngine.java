@@ -30,7 +30,7 @@ import java.lang.reflect.Type;
  * Hutool自身实现的JSON引擎
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class HutoolJSONEngine extends AbstractJSONEngine {
 

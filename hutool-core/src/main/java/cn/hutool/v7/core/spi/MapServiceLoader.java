@@ -45,7 +45,7 @@ import java.util.Properties;
  *
  * @param <S> 服务类型
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class MapServiceLoader<S> extends AbsServiceLoader<S> {
 

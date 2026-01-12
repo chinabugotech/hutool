@@ -24,7 +24,7 @@ import java.io.OutputStream;
  * BitMatrix渲染接口
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public interface BitMatrixRender {
 

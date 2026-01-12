@@ -40,7 +40,7 @@ import java.util.Collection;
  * 服务端请求对象，用于获取请求参数等
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public interface ServerRequest {
 

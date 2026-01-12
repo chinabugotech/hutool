@@ -294,7 +294,7 @@ public class MapUtil extends MapGetUtil {
 	 * @return LinkedHashMap
 	 * @see Dict#ofKvs(Object...)
 	 * @see Dict#ofKvs(Object...)
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	@SuppressWarnings("unchecked")
 	public static <K, V> Map<K, V> ofKvs(final boolean isLinked, final Object... keysAndValues) {
@@ -1105,7 +1105,7 @@ public class MapUtil extends MapGetUtil {
 	 * @param map   Map
 	 * @param value 给定值
 	 * @return map
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static <K, V> Map<K, V> removeByValue(final Map<K, V> map, final V value) {
 		return removeIf(map, entry -> ObjUtil.equals(value, entry.getValue()));
@@ -1120,7 +1120,7 @@ public class MapUtil extends MapGetUtil {
 	 * @param map       Map
 	 * @param predicate 移除条件，当{@link Predicate#test(Object)}为{@code true}时移除
 	 * @return map
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static <K, V> Map<K, V> removeIf(final Map<K, V> map, final Predicate<Entry<K, V>> predicate) {
 		if (isEmpty(map)) {
@@ -1364,7 +1364,7 @@ public class MapUtil extends MapGetUtil {
 	 * @param <K>       键类型
 	 * @param <V>       值类型
 	 * @return value值
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static <K, V> V firstMatchValue(final Map<K, V> map, final Predicate<Entry<K, V>> predicate) {
 		final Entry<K, V> kvEntry = firstMatch(map, predicate);
@@ -1382,7 +1382,7 @@ public class MapUtil extends MapGetUtil {
 	 * @param <K>       键类型
 	 * @param <V>       值类型
 	 * @return entry
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static <K, V> Entry<K, V> firstMatch(final Map<K, V> map, final Predicate<Entry<K, V>> predicate) {
 		if (isNotEmpty(map)) {

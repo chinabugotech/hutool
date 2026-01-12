@@ -1029,7 +1029,7 @@ public class FileUtil {
 	 * @param out 流
 	 * @return 写出的流byte数
 	 * @throws IORuntimeException IO异常
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static long copy(final File src, final OutputStream out) throws IORuntimeException {
 		// check
@@ -2713,7 +2713,7 @@ public class FileUtil {
 	 *
 	 * @param file 目录或文件
 	 * @return 路径File，如果不存在返回null
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static File getParent(final File file) {
 		return getParent(file, 1);

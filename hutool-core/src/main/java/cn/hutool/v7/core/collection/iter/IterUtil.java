@@ -149,7 +149,7 @@ public class IterUtil {
 	 *
 	 * @param strs 字符串列表
 	 * @return 批量判断字符串是否全部为空白
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static boolean hasBlank(final Iterable<? extends CharSequence> strs) {
 		if (CollUtil.isEmpty(strs)) {
@@ -166,7 +166,7 @@ public class IterUtil {
 	/**
 	 * @param strs 字符串列表
 	 * @return 批量判断字符串是否全部为空白
-	 * @since 6.0.1
+	 * @since 7.0.0
 	 */
 	public static boolean isAllBlank(final Iterable<? extends CharSequence> strs) {
 		if (CollUtil.isNotEmpty(strs)) {
@@ -648,7 +648,7 @@ public class IterUtil {
 	 * @param iter      集合
 	 * @param predicate 过滤器接口，删除{@link Predicate#test(Object)}为{@code true}的元素
 	 * @return 编辑后的集合
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static <E> Iterator<E> remove(final Iterator<E> iter, final Predicate<E> predicate) {
 		if (null == iter || null == predicate) {
@@ -762,7 +762,7 @@ public class IterUtil {
 	 * @param subIter 第一个Iterable对象，即子集合。
 	 * @param iter    第二个Iterable对象，可以为任何实现了Iterable接口的集合。
 	 * @return 如果subIter是iter的子集合，则返回true；否则返回false。
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static boolean isSub(final Iterable<?> subIter, final Iterable<?> iter) {
 		// 如果两个Iterable对象引用相同，则肯定是一个的子集合

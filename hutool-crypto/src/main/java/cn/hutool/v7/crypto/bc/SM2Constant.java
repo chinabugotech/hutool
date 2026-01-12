@@ -25,7 +25,7 @@ import org.bouncycastle.jce.spec.ECParameterSpec;
  * SM2常量
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class SM2Constant {
 	/**

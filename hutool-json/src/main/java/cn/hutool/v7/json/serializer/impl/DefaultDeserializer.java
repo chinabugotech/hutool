@@ -26,7 +26,7 @@ import java.lang.reflect.Type;
  * 默认反序列化器，用于处理未匹配的JSON类型。
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class DefaultDeserializer implements JSONDeserializer<Object> {
 

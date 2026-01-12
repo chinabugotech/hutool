@@ -1037,7 +1037,7 @@ public class ZipUtil {
 	 * @param jarFileUrl jar文件路径
 	 * @return {@link JarFile}
 	 * @throws IORuntimeException IO异常
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static JarFile ofJar(String jarFileUrl) throws IORuntimeException{
 		Assert.notBlank(jarFileUrl, "Jar file url is blank!");

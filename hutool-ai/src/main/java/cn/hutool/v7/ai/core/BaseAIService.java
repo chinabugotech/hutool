@@ -35,7 +35,7 @@ import java.util.function.Consumer;
  * 基础AIService，包含基公共参数和公共方法
  *
  * @author elichow
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class BaseAIService {
 

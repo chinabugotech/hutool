@@ -39,7 +39,7 @@ import java.lang.reflect.Type;
  * Bean对象适配器，将Bean对象序列化为JSONObject，反序列化为Bean对象
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class BeanTypeAdapter implements MatcherJSONSerializer<Object>, MatcherJSONDeserializer<Object> {
 

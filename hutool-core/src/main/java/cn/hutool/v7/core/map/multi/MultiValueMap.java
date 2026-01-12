@@ -44,7 +44,7 @@ import java.util.stream.Collectors;
  * @see CollectionValueMap
  * @see ListValueMap
  * @see SetValueMap
- * @since 6.0.0
+ * @since 7.0.0
  */
 public interface MultiValueMap<K, V> extends Map<K, Collection<V>> {
 

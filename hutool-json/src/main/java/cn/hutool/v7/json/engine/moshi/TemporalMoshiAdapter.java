@@ -30,7 +30,7 @@ import java.time.temporal.TemporalAccessor;
  * 时间类型适配器，用于处理时间类型的序列化与反序列化
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class TemporalMoshiAdapter extends JsonAdapter<TemporalAccessor> {
 

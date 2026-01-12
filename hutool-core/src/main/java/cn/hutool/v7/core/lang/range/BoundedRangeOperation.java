@@ -25,7 +25,7 @@ import java.util.Objects;
  * 边界区间的操作工具，如子区间、合并区间等
  *
  * @author huangchengxing
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class BoundedRangeOperation {
 

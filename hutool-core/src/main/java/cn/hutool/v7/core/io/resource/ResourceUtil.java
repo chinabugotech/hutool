@@ -255,7 +255,7 @@ public class ResourceUtil {
 	 *
 	 * @param url URL
 	 * @return {@link Resource} 资源对象
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static Resource getResource(final URL url) {
 		if(UrlProtocolUtil.isJarURL(url)){
@@ -271,7 +271,7 @@ public class ResourceUtil {
 	 *
 	 * @param file {@link File}
 	 * @return {@link Resource} 资源对象
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static Resource getResource(final File file) {
 		return new FileResource(file);

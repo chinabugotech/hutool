@@ -27,7 +27,7 @@ import java.util.Map;
  * 用于直接获取字符串模板
  *
  * @author cdy
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class SimpleStringCodeResolver implements CodeResolver {
 

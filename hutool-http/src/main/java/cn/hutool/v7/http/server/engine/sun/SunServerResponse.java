@@ -35,7 +35,7 @@ import java.util.Map;
  * SunHttp服务器响应对象
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class SunServerResponse extends SunServerExchangeBase implements ServerResponse {
 

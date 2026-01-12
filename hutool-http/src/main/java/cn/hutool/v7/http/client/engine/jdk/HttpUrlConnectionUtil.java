@@ -35,7 +35,7 @@ import java.net.URLConnection;
  * 针对{@link HttpURLConnection}相关工具
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class HttpUrlConnectionUtil {
 

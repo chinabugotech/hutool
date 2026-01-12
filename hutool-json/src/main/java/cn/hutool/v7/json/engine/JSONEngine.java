@@ -31,7 +31,7 @@ import java.io.*;
  * <p>{@link #init(JSONEngineConfig)}用于使用公共配置，初始化引擎。</p>
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public interface JSONEngine {
 

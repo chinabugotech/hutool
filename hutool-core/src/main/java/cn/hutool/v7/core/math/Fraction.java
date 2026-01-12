@@ -33,7 +33,7 @@ import java.util.Objects;
  * <p>
  * 此类来自：Apache Commons Lang3
  *
- * @since 6.0.0
+ * @since 7.0.0
  */
 public final class Fraction extends Number implements Comparable<Fraction> {
 	@Serial

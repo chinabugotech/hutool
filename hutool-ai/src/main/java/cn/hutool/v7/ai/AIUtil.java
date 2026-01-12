@@ -32,7 +32,7 @@ import java.util.List;
  * AI工具类
  *
  * @author elichow
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class AIUtil {
 
@@ -42,7 +42,7 @@ public class AIUtil {
 	 * @param config 创建的AI服务模型的配置
 	 * @param clazz  AI模型服务类
 	 * @return AIModelService的实现类实例
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 * @param <T> AIService实现类
 	 */
 	public static <T extends AIService> T getAIService(final AIConfig config, final Class<T> clazz) {
@@ -54,7 +54,7 @@ public class AIUtil {
 	 *
 	 * @param config 创建的AI服务模型的配置
 	 * @return AIModelService 其中只有公共方法
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static AIService getAIService(final AIConfig config) {
 		return getAIService(config, AIService.class);
@@ -65,7 +65,7 @@ public class AIUtil {
 	 *
 	 * @param config 创建的AI服务模型的配置
 	 * @return HutoolService
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static HutoolService getHutoolService(final AIConfig config) {
 		return getAIService(config, HutoolService.class);
@@ -76,7 +76,7 @@ public class AIUtil {
 	 *
 	 * @param config 创建的AI服务模型的配置
 	 * @return DeepSeekService
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static DeepSeekService getDeepSeekService(final AIConfig config) {
 		return getAIService(config, DeepSeekService.class);
@@ -87,7 +87,7 @@ public class AIUtil {
 	 *
 	 * @param config 创建的AI服务模型的配置
 	 * @return DoubaoService
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static DoubaoService getDoubaoService(final AIConfig config) {
 		return getAIService(config, DoubaoService.class);
@@ -98,7 +98,7 @@ public class AIUtil {
 	 *
 	 * @param config 创建的AI服务模型的配置
 	 * @return GrokService
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static GrokService getGrokService(final AIConfig config) {
 		return getAIService(config, GrokService.class);
@@ -109,7 +109,7 @@ public class AIUtil {
 	 *
 	 * @param config 创建的AI服务模型的配置
 	 * @return OpenAIService
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static OpenaiService getOpenAIService(final AIConfig config) {
 		return getAIService(config, OpenaiService.class);
@@ -120,7 +120,7 @@ public class AIUtil {
 	 *
 	 * @param config 创建的AI服务模型的配置
 	 * @return GeminiService
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static GeminiService getGeminiService(final AIConfig config) {
 		return getAIService(config, GeminiService.class);
@@ -132,7 +132,7 @@ public class AIUtil {
 	 * @param config 创建的AI服务模型的配置
 	 * @param prompt 需要对话的内容
 	 * @return AI模型返回的Response响应字符串
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static String chat(final AIConfig config, final String prompt) {
 		return getAIService(config).chat(prompt);
@@ -144,7 +144,7 @@ public class AIUtil {
 	 * @param config   创建的AI服务模型的配置
 	 * @param messages 由目前为止的对话组成的消息列表，可以设置role，content。详细参考官方文档
 	 * @return AI模型返回的Response响应字符串
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static String chat(final AIConfig config, final List<Message> messages) {
 		return getAIService(config).chat(messages);

@@ -228,7 +228,7 @@ public class Word07Writer implements Closeable {
 	 * @param height   图片统一高度
 	 * @param picFiles 图片列表
 	 * @return this
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public Word07Writer addPictures(final int width, final int height, final File... picFiles) {
 		final XWPFParagraph paragraph = doc.createParagraph();

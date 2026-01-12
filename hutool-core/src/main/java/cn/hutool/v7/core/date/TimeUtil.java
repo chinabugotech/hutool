@@ -41,7 +41,7 @@ import java.util.function.Function;
  * @author Looly
  * @see DateUtil java7及其以下版本，使用Date工具类
  * @see DateFormatPool 常用格式工具类
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class TimeUtil extends TemporalAccessorUtil {
 	/**
@@ -549,7 +549,7 @@ public class TimeUtil extends TemporalAccessorUtil {
 	 *
 	 * @param time 日期时间
 	 * @return 月初的开始时间
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static LocalDateTime beginOfMonth(final LocalDateTime time) {
 		return beginOfDay(beginOfMonth(time.toLocalDate()));
@@ -560,7 +560,7 @@ public class TimeUtil extends TemporalAccessorUtil {
 	 *
 	 * @param date 日期
 	 * @return 月初的开始时间
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static LocalDate beginOfMonth(final LocalDate date) {
 		return date.with(TemporalAdjusters.firstDayOfMonth());
@@ -572,7 +572,7 @@ public class TimeUtil extends TemporalAccessorUtil {
 	 * @param time                日期时间
 	 * @param truncateMillisecond 是否毫秒归零
 	 * @return 月底的结束时间
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static LocalDateTime endOfMonth(final LocalDateTime time, final boolean truncateMillisecond) {
 		return endOfDay(endOfMonth(time.toLocalDate()), truncateMillisecond);
@@ -583,7 +583,7 @@ public class TimeUtil extends TemporalAccessorUtil {
 	 *
 	 * @param date 日期
 	 * @return 月底的结束时间
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static LocalDate endOfMonth(final LocalDate date) {
 		return date.with(TemporalAdjusters.lastDayOfMonth());
@@ -594,7 +594,7 @@ public class TimeUtil extends TemporalAccessorUtil {
 	 *
 	 * @param time 日期时间
 	 * @return 一年的开始时间
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static LocalDateTime beginOfYear(final LocalDateTime time) {
 		return beginOfDay(beginOfYear(time.toLocalDate()));
@@ -605,7 +605,7 @@ public class TimeUtil extends TemporalAccessorUtil {
 	 *
 	 * @param date 日期
 	 * @return 一年的开始时间
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static LocalDate beginOfYear(final LocalDate date) {
 		return date.with(TemporalAdjusters.firstDayOfYear());
@@ -617,7 +617,7 @@ public class TimeUtil extends TemporalAccessorUtil {
 	 * @param time                日期时间
 	 * @param truncateMillisecond 是否毫秒归零
 	 * @return 一年的结束时间
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static LocalDateTime endOfYear(final LocalDateTime time, final boolean truncateMillisecond) {
 		return endOfDay(endOfYear(time.toLocalDate()), truncateMillisecond);
@@ -628,7 +628,7 @@ public class TimeUtil extends TemporalAccessorUtil {
 	 *
 	 * @param date 日期
 	 * @return 一年的结束时间
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static LocalDate endOfYear(final LocalDate date) {
 		return date.with(TemporalAdjusters.lastDayOfYear());
@@ -740,7 +740,7 @@ public class TimeUtil extends TemporalAccessorUtil {
 	 *
 	 * @param pattern 格式，如yyyy-MM-dd
 	 * @return {@link DateTimeFormatter}
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static DateTimeFormatter ofPattern(final String pattern) {
 		return new DateTimeFormatterBuilder()

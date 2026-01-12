@@ -24,7 +24,7 @@ import java.util.zip.ZipEntry;
  * Zip安全相关工具类，如检查Zip bomb漏洞等
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class ZipSecurityUtil {
 

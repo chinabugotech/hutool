@@ -74,7 +74,7 @@ public class ReferenceUtil {
 	 * @param <T> 对象类型
 	 * @param obj Reference对象
 	 * @return 原始对象 or {@code null}
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static <T> T get(final Reference<T> obj) {
 		return ObjUtil.apply(obj, Reference::get);
@@ -86,7 +86,7 @@ public class ReferenceUtil {
 	 * @param <T> 对象类型
 	 * @param obj Ref对象
 	 * @return 原始对象 or {@code null}
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static <T> T get(final Ref<T> obj) {
 		return ObjUtil.apply(obj, Ref::get);

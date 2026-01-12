@@ -29,7 +29,7 @@ import java.util.zip.GZIPInputStream;
  * 通过注册指定Accept-Encoding的流，来包装响应内容流，从而支持特殊压缩算法
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public enum GlobalCompressStreamRegister {
 	/**

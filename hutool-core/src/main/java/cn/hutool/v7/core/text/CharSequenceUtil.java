@@ -158,7 +158,7 @@ public class CharSequenceUtil extends StrValidator {
 	 * @param <T> 字符串类型
 	 * @param str 被转换的字符串
 	 * @return 转换后的字符串
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static <T extends CharSequence> T nullIfBlank(final T str) {
 		return isBlank(str) ? null : str;
@@ -206,7 +206,7 @@ public class CharSequenceUtil extends StrValidator {
 	 * @param defaultSupplier 为空时的默认值提供者
 	 * @return 被检查对象不为 {@code null} 返回处理后的结果，否则返回 {@link Supplier#get()} 提供的默认值
 	 * @see ObjUtil#defaultIfNull(Object, Function, Supplier)
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static <T extends CharSequence, R> R defaultIfNull(final T source, final Function<? super T, ? extends R> handler, final Supplier<? extends R> defaultSupplier) {
 		return ObjUtil.defaultIfNull(source, handler, defaultSupplier);
@@ -523,7 +523,7 @@ public class CharSequenceUtil extends StrValidator {
 	 * @param str      给定字符串
 	 * @param prefixes 需要检测的开始字符串
 	 * @return 给定字符串是否以任何一个字符串开始
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static boolean startWithAnyIgnoreCase(final CharSequence str, final CharSequence... prefixes) {
 		if (isEmpty(str) || ArrayUtil.isEmpty(prefixes)) {
@@ -944,7 +944,7 @@ public class CharSequenceUtil extends StrValidator {
 	 * @param start   起始位置，如果小于0，从0开始查找
 	 * @param end     终止位置，如果超过str.length()则默认查找到字符串末尾
 	 * @return 位置
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static int indexOf(final CharSequence text, final Predicate<Character> matcher, final int start, final int end) {
 		if (isEmpty(text)) {
@@ -1543,7 +1543,7 @@ public class CharSequenceUtil extends StrValidator {
 	 * @param prefix 前缀
 	 * @param suffix 后缀
 	 * @return 处理后的字符串
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static String stripAll(final CharSequence str, final CharSequence prefix, final CharSequence suffix) {
 		return stripAll(str, prefix, suffix, false);
@@ -1575,7 +1575,7 @@ public class CharSequenceUtil extends StrValidator {
 	 * @param suffix     后缀
 	 * @param ignoreCase 是否忽略大小写
 	 * @return 处理后的字符串
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static String stripAll(final CharSequence str, final CharSequence prefix, final CharSequence suffix, final boolean ignoreCase) {
 		if (isEmpty(str)) {
@@ -3474,7 +3474,7 @@ public class CharSequenceUtil extends StrValidator {
 	 * @param index    位置，-1表示最后一个字符
 	 * @param operator 替换逻辑，给定原字符，返回新字符
 	 * @return 替换后的字符串
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static String replaceAt(final CharSequence str, int index, final UnaryOperator<Character> operator) {
 		if (str == null) {
@@ -3526,7 +3526,7 @@ public class CharSequenceUtil extends StrValidator {
 	 *
 	 * @param cs a 字符串
 	 * @return 字符串的长度，如果为{@code null}返回0
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static int codeLength(final CharSequence cs) {
 		return cs == null ? 0 : cs.toString().codePointCount(0, cs.length());
@@ -3702,7 +3702,7 @@ public class CharSequenceUtil extends StrValidator {
 	 * @param locale Locale
 	 * @return 转换后的字符串
 	 * @see String#toLowerCase()
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static String toLowerCase(final CharSequence str, final Locale locale) {
 		if (null == str) {
@@ -3733,7 +3733,7 @@ public class CharSequenceUtil extends StrValidator {
 	 * @param locale Locale
 	 * @return 转换后的字符串
 	 * @see String#toUpperCase()
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static String toUpperCase(final CharSequence str, final Locale locale) {
 		if (null == str) {
@@ -4233,7 +4233,7 @@ public class CharSequenceUtil extends StrValidator {
 	 * @param str         字符串
 	 * @param isCodePoint 是否为Unicode码点（即支持emoji等多char字符）
 	 * @return 字符数组
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static int[] toChars(final CharSequence str, final boolean isCodePoint) {
 		if (null == str) {

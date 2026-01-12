@@ -102,7 +102,7 @@ public class GraphicsUtil {
 	 * @param compareColor     对比颜色，用于计算颜色与对比颜色的色差，色差小于minColorDistance则重新生成颜色
 	 * @param minColorDistance 随机生成的颜色与对比颜色的最小色差，小于此值则重新生成颜色
 	 * @return 画笔对象
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static Graphics drawStringColourful(final Graphics g, final String str, final Font font,
 											   final int width, final int height, final Color compareColor, final int minColorDistance) {
@@ -134,7 +134,7 @@ public class GraphicsUtil {
 	 * @param width  字符串总宽度
 	 * @param height 字符串背景的高度
 	 * @return 画笔对象
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static Graphics drawString(final Graphics g, final String str, final Font font, final Color color, final int width, final int height) {
 		// 抗锯齿

@@ -28,7 +28,7 @@ import java.util.Date;
  * 参考：<a href="https://stackoverflow.com/questions/41979086/how-to-serialize-date-to-long-using-gson">how-to-serialize-date-to-long-using-gson</a>
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class DateGsonTypeAdapter implements GsonTypeAdapter<Date> {
 

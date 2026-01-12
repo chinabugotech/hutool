@@ -110,7 +110,7 @@ public class JavaInfo implements Serializable {
 	 *
 	 * @return 版本
 	 * @author dazer
-	 * @since 6.0.1
+	 * @since 7.0.0
 	 */
 	public final int getVersionIntSimple() {
 		if (version == null) {

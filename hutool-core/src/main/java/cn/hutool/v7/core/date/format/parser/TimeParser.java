@@ -34,7 +34,7 @@ import java.io.Serializable;
  * </pre>
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class TimeParser implements PredicateDateParser, Serializable {
 	@Serial

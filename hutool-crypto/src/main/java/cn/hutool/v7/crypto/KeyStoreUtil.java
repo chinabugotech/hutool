@@ -32,7 +32,7 @@ import java.security.Provider;
  * {@link KeyStore} 相关工具类
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class KeyStoreUtil {
 
@@ -115,7 +115,7 @@ public class KeyStoreUtil {
 	 * @param keyFile  证书文件
 	 * @param password 密码，null表示无密码
 	 * @return {@link KeyStore}
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static KeyStore readKeyStore(final File keyFile, final char[] password) {
 		final String suffix = FileNameUtil.getSuffix(keyFile);

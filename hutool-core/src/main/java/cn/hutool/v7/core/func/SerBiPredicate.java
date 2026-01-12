@@ -28,7 +28,7 @@ import java.util.function.BiPredicate;
  * @param <T> 参数1的类型
  * @param <U> 参数2的类型
  * @author VampireAchao
- * @since 6.0.0
+ * @since 7.0.0
  */
 @FunctionalInterface
 public interface SerBiPredicate<T, U> extends BiPredicate<T, U>, Serializable {

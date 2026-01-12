@@ -26,7 +26,7 @@ import java.util.function.UnaryOperator;
  * 按照断言，除去字符串头尾部的断言为真的字符，如果字符串是{@code null}，依然返回{@code null}。
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class StrTrimer implements UnaryOperator<CharSequence>, Serializable {
 	@Serial
@@ -96,7 +96,7 @@ public class StrTrimer implements UnaryOperator<CharSequence>, Serializable {
 	 * 去除模式
 	 *
 	 * @author Looly
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public enum TrimMode {
 		/**

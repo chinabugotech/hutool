@@ -141,7 +141,7 @@ public class ZipWriter implements Closeable {
 	 *
 	 * @param method 压缩方式，支持{@link ZipOutputStream#DEFLATED}和{@link ZipOutputStream#STORED}
 	 * @return this
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public ZipWriter setMethod(final int method) {
 		this.out.setMethod(method);

@@ -65,7 +65,7 @@ import java.util.stream.Stream;
  * 若存在多个父接口，则其扫描顺序遵循从{@link Class#getInterfaces()}获得该接口的顺序。
  *
  * @author huangchengxing
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class HierarchicalAnnotatedElements implements AnnotatedElement, Iterable<AnnotatedElement> {
 

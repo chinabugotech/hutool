@@ -25,6 +25,6 @@
  * 概念见：https://www.explainthis.io/zh-hans/swe/rate-limiter
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 package cn.hutool.v7.core.thread.ratelimiter;

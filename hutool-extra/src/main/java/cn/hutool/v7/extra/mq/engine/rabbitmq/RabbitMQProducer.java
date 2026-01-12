@@ -30,7 +30,7 @@ import java.util.Map;
  * RabbitMQ消息生产者
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class RabbitMQProducer implements Producer {
 

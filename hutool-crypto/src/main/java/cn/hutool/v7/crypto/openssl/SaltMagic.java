@@ -32,7 +32,7 @@ import java.util.Arrays;
  * 用于在OpenSSL生成的密文中，提取加盐值等相关信息
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class SaltMagic {
 	/**

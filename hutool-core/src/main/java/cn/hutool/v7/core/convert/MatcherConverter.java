@@ -26,7 +26,7 @@ import java.lang.reflect.Type;
  * 实现此接口同样可以不判断断言而直接转换
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public interface MatcherConverter extends Converter {
 

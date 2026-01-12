@@ -199,7 +199,7 @@ public class RandomUtil {
 	 * @param length 长度
 	 * @param random {@link Random}
 	 * @return bytes
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static byte[] randomBytes(final int length, Random random) {
 		if (null == random) {

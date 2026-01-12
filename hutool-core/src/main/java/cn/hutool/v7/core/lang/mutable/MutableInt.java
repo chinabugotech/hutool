@@ -108,7 +108,7 @@ public class MutableInt extends Number implements Comparable<MutableInt>, Mutabl
 	 * 先加1, 再获取值
 	 *
 	 * @return +1后的值
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public int incrementAndGet() {
 		return ++value;
@@ -118,7 +118,7 @@ public class MutableInt extends Number implements Comparable<MutableInt>, Mutabl
 	 * 先获取原来的值, 再加1
 	 *
 	 * @return 原始值
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public int getAndIncrement() {
 		return value++;
@@ -128,7 +128,7 @@ public class MutableInt extends Number implements Comparable<MutableInt>, Mutabl
 	 * 先减1, 再获取值
 	 *
 	 * @return -1后的值
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public int decrementAndGet() {
 		return --value;
@@ -138,7 +138,7 @@ public class MutableInt extends Number implements Comparable<MutableInt>, Mutabl
 	 * 先获取原来的值, 再减1
 	 *
 	 * @return 原始值
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public int getAndDecrement() {
 		return value--;

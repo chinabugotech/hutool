@@ -30,7 +30,7 @@ import java.lang.reflect.Type;
  * {@link JSONPrimitive}相关类型反序列化器
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class JSONPrimitiveDeserializer implements MatcherJSONDeserializer<Object> {
 

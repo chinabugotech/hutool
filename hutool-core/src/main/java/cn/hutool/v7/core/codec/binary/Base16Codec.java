@@ -137,7 +137,7 @@ public class Base16Codec implements Encoder<byte[], char[]>, Decoder<CharSequenc
 	 *
 	 * @param b byte
 	 * @return hex char
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public char hexDigit(final int b) {
 		return alphabets[b & 0x0f];

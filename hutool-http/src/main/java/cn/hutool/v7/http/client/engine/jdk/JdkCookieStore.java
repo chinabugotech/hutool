@@ -30,7 +30,7 @@ import java.util.List;
  * JDK CookieStore实现
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class JdkCookieStore extends SimpleWrapper<CookieStoreSpi> implements CookieStore {
 	/**

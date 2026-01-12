@@ -24,7 +24,7 @@ import java.io.Serial;
  * 时间相关序列化模块
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class HutoolModule extends SimpleModule {
 	@Serial

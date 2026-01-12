@@ -30,7 +30,7 @@ import java.util.Date;
  * 日期格式化适配器，用于moshi序列化与反序列化日期
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class DateMoshiAdapter extends JsonAdapter<Date> {
 

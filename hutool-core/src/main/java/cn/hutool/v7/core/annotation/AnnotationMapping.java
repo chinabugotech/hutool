@@ -25,7 +25,7 @@ import java.lang.reflect.Method;
  * @param <T> 注解类型
  * @author huangchengxing
  * @see AnnotationMappingProxy
- * @since 6.0.0
+ * @since 7.0.0
  */
 public interface AnnotationMapping<T extends Annotation> extends Annotation {
 

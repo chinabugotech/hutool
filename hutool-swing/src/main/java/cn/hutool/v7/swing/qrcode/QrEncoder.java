@@ -27,7 +27,7 @@ import com.google.zxing.common.BitMatrix;
  * 二维码（条形码等）编码器，用于将文本内容转换为二维码
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class QrEncoder implements Encoder<CharSequence, BitMatrix> {
 

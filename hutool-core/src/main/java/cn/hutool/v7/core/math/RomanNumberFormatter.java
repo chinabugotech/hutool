@@ -22,7 +22,7 @@ import cn.hutool.v7.core.text.StrUtil;
  * 数字和罗马数字转换
  *
  * @author dazer
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class RomanNumberFormatter {
 
@@ -42,7 +42,7 @@ public class RomanNumberFormatter {
 	 * @param num [1,3999]的正整数
 	 * @return 罗马数字
 	 * @author dazer
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static String intToRoman(final int num) {
 		if (num > 3999 || num < 1) {
@@ -66,7 +66,7 @@ public class RomanNumberFormatter {
 	 * @return 整数
 	 * @throws IllegalArgumentException 如果传入非罗马字符串，抛出异常
 	 * @author dazer
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static int romanToInt(final String roman) {
 		int result = 0;

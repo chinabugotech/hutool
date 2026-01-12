@@ -24,7 +24,7 @@ import org.apache.poi.ss.util.CellReference;
  * 通过自定义样式集合，可根据单元格不同、值的不同设置不同的样式
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public interface StyleSet {
 

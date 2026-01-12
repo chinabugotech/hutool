@@ -23,7 +23,7 @@ import java.util.Arrays;
  * 用于将给定字符串或字符赋值count次，然后拼接
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class StrRepeater {
 	private final int countOrLength;

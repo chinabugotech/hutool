@@ -37,7 +37,7 @@ import java.util.Map;
  * Map类型适配器，用于将JSON对象和Map对象互转。
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class MapTypeAdapter implements MatcherJSONSerializer<Map<?, ?>>, MatcherJSONDeserializer<Map<?, ?>> {
 

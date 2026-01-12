@@ -41,7 +41,7 @@ import java.util.regex.Pattern;
  * 模板上下文，记录了模板中变量所在的Cell
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class TemplateContext {
 
@@ -113,7 +113,7 @@ public class TemplateContext {
 	 *
 	 * @param rowDataBean 一行数据的键值对
 	 * @param isListVar   是否为列表填充，列表填充会自动指向下一列，否则填充结束后删除变量
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public void fill(final Object rowDataBean, final boolean isListVar) {
 		final Map<String, Cell> varMap = this.varMap;

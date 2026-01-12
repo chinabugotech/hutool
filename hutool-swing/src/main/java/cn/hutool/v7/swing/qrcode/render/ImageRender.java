@@ -31,7 +31,7 @@ import java.io.OutputStream;
  * 二维码图片渲染器
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class ImageRender implements BitMatrixRender {
 

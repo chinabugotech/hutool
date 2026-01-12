@@ -22,7 +22,7 @@ package cn.hutool.v7.core.lang.wrapper;
  *
  * @param <T> 被包装对象类型
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class SimpleWrapper<T> implements Wrapper<T> {
 

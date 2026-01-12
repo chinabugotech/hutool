@@ -276,7 +276,7 @@ public class HttpUtil {
 	 * @param headers 头信息的Map
 	 * @param name    header名
 	 * @return header值
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static String header(final Map<String, ? extends Collection<String>> headers, final String name) {
 		Collection<String> values = headers.get(name);

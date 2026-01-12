@@ -27,7 +27,7 @@ import java.util.function.Predicate;
  *
  * @param <T> 元素类型
  * @author emptypoint
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class DropWhileSpliterator<T> implements Spliterator<T> {
 

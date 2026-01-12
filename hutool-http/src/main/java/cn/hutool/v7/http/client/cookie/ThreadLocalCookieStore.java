@@ -25,7 +25,7 @@ import java.util.List;
  * 见：https://stackoverflow.com/questions/16305486/cookiemanager-for-multiple-threads
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class ThreadLocalCookieStore implements CookieStoreSpi {
 

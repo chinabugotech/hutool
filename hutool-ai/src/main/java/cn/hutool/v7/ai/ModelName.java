@@ -20,7 +20,7 @@ package cn.hutool.v7.ai;
  * 模型厂商的名称（不指具体的模型）
  *
  * @author elichow
- * @since 6.0.0
+ * @since 7.0.0
  */
 public enum ModelName {
 	/**

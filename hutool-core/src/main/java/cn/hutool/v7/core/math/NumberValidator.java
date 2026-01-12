@@ -24,7 +24,7 @@ import cn.hutool.v7.core.text.CharUtil;
  * 数字检查器
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class NumberValidator {
 
@@ -163,7 +163,7 @@ public class NumberValidator {
 	 * @param s 校验的字符串, 只能含有 正负号、数字字符 和 {@literal X/x}
 	 * @return 是否为 {@link Integer}类型
 	 * @see Integer#decode(String)
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static boolean isInteger(final String s) {
 		if (!isNumber(s)) {
@@ -189,7 +189,7 @@ public class NumberValidator {
 	 *
 	 * @param s 校验的字符串, 只能含有 正负号、数字字符、{@literal X/x} 和 后缀{@literal L/l}
 	 * @return 是否为 {@link Long}类型
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 * @since 4.0.0
 	 */
 	public static boolean isLong(final String s) {

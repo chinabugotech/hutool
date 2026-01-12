@@ -20,7 +20,7 @@ package cn.hutool.v7.core.lang.range;
  * 边界类型枚举
  *
  * @author huangchengxing
- * @since 6.0.0
+ * @since 7.0.0
  */
 public enum BoundType {
 

@@ -194,7 +194,7 @@ public class JSONWriter implements Appendable, Flushable, Closeable {
 	 *
 	 * @param pair 键值对
 	 * @return this
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	@SuppressWarnings("resource")
 	public JSONWriter writeField(final MutableEntry<Object, Object> pair) {

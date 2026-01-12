@@ -589,7 +589,7 @@ public class CalendarUtil {
 	 * @param calendar {@link Calendar}
 	 * @param field    表示日期的哪个部分的枚举 {@link DateField}
 	 * @return 某个部分的值
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	@SuppressWarnings("MagicConstant")
 	public static int getField(final Calendar calendar, final DateField field) {
@@ -815,7 +815,7 @@ public class CalendarUtil {
 	 *
 	 * @param calendar {@link Calendar}
 	 * @return 是否为本月最后一天
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static boolean isFirstDayOfMonth(final Calendar calendar) {
 		return 1 == calendar.get(Calendar.DAY_OF_MONTH);

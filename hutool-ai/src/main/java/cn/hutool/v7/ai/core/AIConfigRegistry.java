@@ -26,7 +26,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * AIConfig实现类的加载器
  *
  * @author elichow
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class AIConfigRegistry {
 

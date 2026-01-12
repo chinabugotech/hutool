@@ -33,7 +33,7 @@ import java.util.Map;
  * Map.Entry序列化和反序列化器，用于将JSON对象和Map.Entry对象互转。
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class EntryTypeAdapter implements MatcherJSONSerializer<Map.Entry<?, ?>>, MatcherJSONDeserializer<Map.Entry<?, ?>> {
 

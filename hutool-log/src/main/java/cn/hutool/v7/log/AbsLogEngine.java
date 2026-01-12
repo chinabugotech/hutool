@@ -23,7 +23,7 @@ import cn.hutool.v7.log.engine.LogEngine;
  * 提供保存日志框架名称和checkLogExist方法
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public abstract class AbsLogEngine implements LogEngine {
 

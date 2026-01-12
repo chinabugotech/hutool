@@ -32,7 +32,7 @@ import java.security.Provider;
  * 此工具用于管理可信任的证书等信息
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class TrustManagerUtil {
 
@@ -46,7 +46,7 @@ public class TrustManagerUtil {
 	 * 此方法主要用于获取自签证书的{@link X509TrustManager}
 	 *
 	 * @return {@link X509TrustManager} or {@code null}
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static X509TrustManager getDefaultTrustManager() {
 		return getTrustManager(null, null);
@@ -59,7 +59,7 @@ public class TrustManagerUtil {
 	 * @param keyStore  {@link KeyStore}
 	 * @param provider  算法提供者，如bc，{@code null}表示默认
 	 * @return {@link X509TrustManager} or {@code null}
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static X509TrustManager getTrustManager(final KeyStore keyStore, final Provider provider) {
 		return getTrustManager(keyStore, null, provider);
@@ -73,7 +73,7 @@ public class TrustManagerUtil {
 	 * @param algorithm 算法名称，如"SunX509"，{@code null}表示默认SunX509
 	 * @param provider  算法提供者，如bc，{@code null}表示默认SunJSSE
 	 * @return {@link X509TrustManager} or {@code null}
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static X509TrustManager getTrustManager(final KeyStore keyStore, final String algorithm,
 												   final Provider provider) {
@@ -92,7 +92,7 @@ public class TrustManagerUtil {
 	 * 此方法主要用于获取自签证书的{@link TrustManager}
 	 *
 	 * @return {@link X509TrustManager} or {@code null}
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static TrustManager[] getDefaultTrustManagers() {
 		return getTrustManagers(null);
@@ -104,7 +104,7 @@ public class TrustManagerUtil {
 	 *
 	 * @param keyStore  {@link KeyStore}
 	 * @return {@link TrustManager} or {@code null}
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static TrustManager[] getTrustManagers(final KeyStore keyStore) {
 		return getTrustManagers(keyStore, null, null);
@@ -118,7 +118,7 @@ public class TrustManagerUtil {
 	 * @param algorithm 算法名称，如"SunX509"，{@code null}表示默认SunX509
 	 * @param provider  算法提供者，如bc，{@code null}表示默认SunJSSE
 	 * @return {@link TrustManager} or {@code null}
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static TrustManager[] getTrustManagers(final KeyStore keyStore, final String algorithm,
 												  final Provider provider) {
@@ -132,7 +132,7 @@ public class TrustManagerUtil {
 	 * @param algorithm 算法名称，如"SunX509"，{@code null}表示默认SunX509
 	 * @param provider  算法提供者，如bc，{@code null}表示默认SunJSSE
 	 * @return {@link TrustManager} or {@code null}
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static TrustManagerFactory getTrustManagerFactory(final KeyStore keyStore, String algorithm,
 															 final Provider provider) {

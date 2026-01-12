@@ -47,7 +47,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * 此对象只封装将数据写出到Sheet中，并不刷新到文件
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class SheetDataWriter {
 

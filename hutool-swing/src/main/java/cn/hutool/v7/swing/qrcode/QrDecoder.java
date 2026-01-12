@@ -37,7 +37,7 @@ import java.util.Map;
  * 二维码（条形码等）解码器
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class QrDecoder implements Decoder<Image, String> {
 

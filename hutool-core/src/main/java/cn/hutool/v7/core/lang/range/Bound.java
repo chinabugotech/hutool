@@ -50,7 +50,7 @@ import java.util.function.Predicate;
  * @author huangchengxing
  * @see BoundType
  * @see BoundedRange
- * @since 6.0.0
+ * @since 7.0.0
  */
 public interface Bound<T extends Comparable<? super T>> extends Predicate<T>, Comparable<Bound<T>> {
 

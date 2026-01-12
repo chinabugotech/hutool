@@ -77,7 +77,7 @@ import java.util.stream.StreamSupport;
  * @author emptypoint
  * @author huangchengxing
  * @see java.util.stream.Stream
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class EasyStream<T> extends AbstractEnhancedWrappedStream<T, EasyStream<T>> {
 

@@ -26,7 +26,7 @@ import java.util.Objects;
  * @param <M> 中值类型
  * @param <R> 右值类型
  * @author kirno7
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class Triple<L, M, R> extends Pair<L, R> {
 	@Serial
@@ -42,7 +42,7 @@ public class Triple<L, M, R> extends Pair<L, R> {
 	 * @param middle 中值
 	 * @param right  右值
 	 * @return Triple
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static <L, M, R> Triple<L, M, R> of(final L left, final M middle, final R right) {
 		return new Triple<>(left, middle, right);

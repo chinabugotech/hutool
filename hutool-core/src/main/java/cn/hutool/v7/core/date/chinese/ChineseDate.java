@@ -404,7 +404,7 @@ public class ChineseDate {
 	 *
 	 * @param format 选择输出的标准格式
 	 * @return 获取的标准化农历日期
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public String toString(ChineseDateFormat format) {
 		if (null == format) {

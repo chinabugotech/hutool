@@ -25,7 +25,7 @@ import java.beans.Introspector;
  * 方法名相关工具，如生成Getter和Setter方法，获取其字段名等。
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class MethodNameUtil {
 

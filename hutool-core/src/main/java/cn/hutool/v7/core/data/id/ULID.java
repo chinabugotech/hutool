@@ -50,7 +50,7 @@ import java.util.Random;
  * }</pre>
  *
  * @author throwable，Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class ULID implements Comparable<ULID>, Serializable {
 	@Serial

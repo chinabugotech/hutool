@@ -61,7 +61,7 @@ import java.util.Date;
  *
  * @param <K> 键类型
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public interface TypeGetter<K> {
 	/*-------------------------- 基本类型 start -------------------------------*/

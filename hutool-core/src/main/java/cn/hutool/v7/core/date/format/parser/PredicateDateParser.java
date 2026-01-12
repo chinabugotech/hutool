@@ -23,7 +23,7 @@ import java.util.function.Predicate;
  * 通过实现{@link #test(Object)}方法判断字符串是否符合此解析器的规则，如果符合，则调用{@link #parse(CharSequence)}完成解析。
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public interface PredicateDateParser extends DateParser, Predicate<CharSequence> {
 }

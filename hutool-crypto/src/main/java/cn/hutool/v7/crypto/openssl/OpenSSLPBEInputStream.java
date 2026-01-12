@@ -30,7 +30,7 @@ import java.io.InputStream;
  * 来自：http://stackoverflow.com/questions/11783062/how-to-decrypt-an-encrypted-file-in-java-with-openssl-with-aes
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class OpenSSLPBEInputStream extends CipherInputStream {
 

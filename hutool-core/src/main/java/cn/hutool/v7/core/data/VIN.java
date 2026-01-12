@@ -48,7 +48,7 @@ import java.util.Map;
  * </ul>
  *
  * @author dax
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class VIN {
 	/**

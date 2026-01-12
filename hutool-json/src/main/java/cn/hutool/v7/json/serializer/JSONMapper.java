@@ -42,7 +42,7 @@ import java.util.Optional;
  * 序列化和反序列化定义于两个作用域，首先查找本类中定义的，如果没有，使用{@link TypeAdapterManager#getInstance()} 查找全局定义的。
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class JSONMapper implements Serializable {
 	@Serial

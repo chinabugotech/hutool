@@ -29,7 +29,7 @@ import java.nio.file.*;
  * 文件移动封装
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class PathMover {
 

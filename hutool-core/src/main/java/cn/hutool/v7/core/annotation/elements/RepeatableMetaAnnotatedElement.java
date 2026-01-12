@@ -51,7 +51,7 @@ import java.util.stream.Collectors;
  * 方法获得指定类型注解时，若该类型注解存在多个，仅能尽可能获得最先被扫描到的那一个。
  *
  * @author huangchengxing
- * @since 6.0.0
+ * @since 7.0.0
  * @see RepeatableAnnotationCollector
  * @param <T> AnnotationMapping类型
  */

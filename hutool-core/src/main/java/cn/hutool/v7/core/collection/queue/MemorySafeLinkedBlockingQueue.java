@@ -35,7 +35,7 @@ import java.util.function.Predicate;
  *
  * @param <E> 元素类型
  * @author incubator-shenyu
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class MemorySafeLinkedBlockingQueue<E> extends CheckedLinkedBlockingQueue<E> {
 	@Serial

@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  * MicaMqttEngine 测试
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 class MicaMqttEngineTest {
 

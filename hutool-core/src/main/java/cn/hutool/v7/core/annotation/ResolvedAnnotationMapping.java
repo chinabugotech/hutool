@@ -71,7 +71,7 @@ import java.util.stream.Stream;
  *
  * @author huangchengxing
  * @see MetaAnnotatedElement
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class ResolvedAnnotationMapping implements AnnotationMapping<Annotation> {
 

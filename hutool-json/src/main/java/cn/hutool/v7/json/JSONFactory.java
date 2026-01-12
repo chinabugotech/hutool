@@ -39,7 +39,7 @@ import java.util.function.Predicate;
  * JSON工厂类，用于JSON创建、解析、转换为Bean等功能
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class JSONFactory {
 

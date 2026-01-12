@@ -384,7 +384,7 @@ public class ThreadUtil {
 	 * 示例2：7个同学，集齐7个龙珠，7个同学一起召唤神龙；
 	 * 只需要：phaser.arrive(); --&gt; phaser.arriveAndAwaitAdvance() //等待其他的线程就位
 	 * 该示例，也可以用：{@link CyclicBarrier} 进行实现
-	 * @since 6.0.1
+	 * @since 7.0.0
 	 */
 	public static Phaser newPhaser(final int taskCount) {
 		return new Phaser(taskCount);
@@ -459,7 +459,7 @@ public class ThreadUtil {
 	 *
 	 * @param duration 挂起的时长
 	 * @return 被中断返回false，否则true
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static boolean sleep(final Duration duration) {
 		if (duration == null) {
@@ -508,7 +508,7 @@ public class ThreadUtil {
 	 *
 	 * @param duration 挂起的时长
 	 * @return 被中断返回false，否则true
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static boolean safeSleep(final Duration duration) {
 		if (duration == null) {
@@ -751,7 +751,7 @@ public class ThreadUtil {
 	 * 获取当前线程ID，即TID
 	 *
 	 * @return TID
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static long currentThreadId() {
 		return Thread.currentThread().getId();

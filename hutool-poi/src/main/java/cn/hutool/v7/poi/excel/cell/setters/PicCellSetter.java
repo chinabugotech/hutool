@@ -29,7 +29,7 @@ import java.io.File;
  * 图片单元格值设置器
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class PicCellSetter implements CellSetter {
 

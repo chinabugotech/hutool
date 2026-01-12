@@ -26,7 +26,7 @@ import java.io.OutputStream;
  * {@link Resource}类型的Http request body，主要发送资源文件中的内容
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class ResourceBody implements HttpBody {
 

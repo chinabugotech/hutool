@@ -1954,7 +1954,7 @@ public class ImgUtil {
 	 * @param imageStream {@link ImageInputStream}
 	 * @param type        图片类型
 	 * @return 宽和高
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static Pair<Integer, Integer> getWidthAndHeight(final InputStream imageStream, final String type) {
 		return getWidthAndHeight(getImageInputStream(imageStream), type);
@@ -1966,7 +1966,7 @@ public class ImgUtil {
 	 * @param imageStream {@link ImageInputStream}
 	 * @param type        图片类型
 	 * @return 宽和高
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static Pair<Integer, Integer> getWidthAndHeight(final ImageInputStream imageStream, final String type) {
 		final ImageReader reader = getReader(type);

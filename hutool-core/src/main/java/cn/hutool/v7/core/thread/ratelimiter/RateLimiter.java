@@ -21,7 +21,7 @@ package cn.hutool.v7.core.thread.ratelimiter;
  * 通过实现此接口以实现不同的限流策略，如令牌桶、分布式限流等
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public interface RateLimiter {
 

@@ -21,7 +21,7 @@ package cn.hutool.v7.core.text.placeholder.segment;
  * <p>例如，"?", "{}", "$$$"</p>
  *
  * @author emptypoint
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class SinglePlaceholderSegment extends AbstractPlaceholderSegment {
 

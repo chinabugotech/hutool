@@ -26,7 +26,7 @@ import java.util.Map;
  * Map的getXXX封装，提供针对通用型的value按照所需类型获取值
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class MapGetUtil {
 	/**

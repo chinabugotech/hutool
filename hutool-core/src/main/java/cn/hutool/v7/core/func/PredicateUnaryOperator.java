@@ -25,7 +25,7 @@ import java.util.function.UnaryOperator;
  *
  * @param <T> 被操作对象类型
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public interface PredicateUnaryOperator<T> extends Predicate<T>, UnaryOperator<T> {
 }

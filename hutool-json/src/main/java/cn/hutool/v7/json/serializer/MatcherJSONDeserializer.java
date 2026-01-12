@@ -26,7 +26,7 @@ import java.lang.reflect.Type;
  *
  * @param <V> 反序列化结果类型
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public interface MatcherJSONDeserializer<V> extends JSONDeserializer<V> {
 

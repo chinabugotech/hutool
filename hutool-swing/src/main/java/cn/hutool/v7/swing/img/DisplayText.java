@@ -27,7 +27,7 @@ import java.util.Objects;
  * 显示文本，用于保存在图片上绘图的文本信息，包括内容、字体、大小、位置和透明度等
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class DisplayText implements Serializable {
 	@Serial

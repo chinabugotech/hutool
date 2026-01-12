@@ -31,7 +31,7 @@ import java.util.concurrent.ExecutorService;
  * 简单的事件发布者实现，基于{@link Subscriber}和{@link Event}实现
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class SimpleEventPublisher implements EventPublisher {
 

@@ -39,7 +39,7 @@ import java.util.Set;
  * {@link PreparedStatement}构建器，构建结果为{@link StatementWrapper}
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class StatementBuilder implements Builder<StatementWrapper> {
 	@Serial
@@ -186,7 +186,7 @@ public class StatementBuilder implements Builder<StatementWrapper> {
 	 * 创建存储过程或函数调用的{@link StatementWrapper}
 	 *
 	 * @return StatementWrapper，{@code null}表示不执行
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public CallableStatement buildForCall() {
 		final String sql = this.boundSql.getSql();

@@ -27,7 +27,7 @@ import java.io.OutputStream;
  * {@link HttpBody}转换为{@link org.apache.hc.core5.http.HttpEntity}对象
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class HttpClient5BodyEntity extends AbstractHttpEntity {
 

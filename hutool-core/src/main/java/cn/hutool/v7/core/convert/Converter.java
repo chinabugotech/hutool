@@ -24,7 +24,7 @@ import java.lang.reflect.Type;
  * 类型转换接口函数，根据给定的值和目标类型，由用户自定义转换规则。
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 @FunctionalInterface
 public interface Converter {

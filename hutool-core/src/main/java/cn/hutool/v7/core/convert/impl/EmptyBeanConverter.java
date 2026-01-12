@@ -29,7 +29,7 @@ import java.lang.reflect.Type;
  * 空值或空对象转换器，转换结果为目标类型对象的实例化对象
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class EmptyBeanConverter extends AbstractConverter implements MatcherConverter, Serializable {
 	@Serial

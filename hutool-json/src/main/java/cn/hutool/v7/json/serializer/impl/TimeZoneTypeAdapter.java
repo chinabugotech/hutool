@@ -30,7 +30,7 @@ import java.util.TimeZone;
  * 时区类型适配器
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class TimeZoneTypeAdapter implements MatcherJSONSerializer<TimeZone>, MatcherJSONDeserializer<TimeZone> {
 

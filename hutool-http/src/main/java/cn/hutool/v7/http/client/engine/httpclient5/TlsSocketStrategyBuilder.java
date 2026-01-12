@@ -33,7 +33,7 @@ import java.io.Serial;
  * TLS Socket 策略构建器
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class TlsSocketStrategyBuilder implements Builder<TlsSocketStrategy> {
 	@Serial

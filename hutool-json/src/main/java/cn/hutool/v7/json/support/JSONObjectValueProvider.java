@@ -28,7 +28,7 @@ import java.lang.reflect.Type;
  * 兼容下划线模式的JSON转换为驼峰模式
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class JSONObjectValueProvider implements ValueProvider<String> {
 

@@ -36,7 +36,7 @@ import java.util.stream.*;
  * @see AbstractEnhancedWrappedStream
  * @see EasyStream
  * @see EntryStream
- * @since 6.0.0
+ * @since 7.0.0
  */
 public interface WrappedStream<T, S extends WrappedStream<T, S>> extends Stream<T>, Iterable<T> {
 

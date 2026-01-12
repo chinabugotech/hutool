@@ -41,7 +41,7 @@ public class ExcelPicUtil {
 	 *
 	 * @param picFile 图片文件
 	 * @return 图片类型，默认PNG
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static ExcelPicType getPicType(final File picFile) {
 		final String type = FileTypeUtil.getType(picFile);

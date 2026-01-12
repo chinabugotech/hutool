@@ -41,7 +41,7 @@ import java.util.stream.StreamSupport;
  * @param <T> 流中的元素类型
  * @param <S> {@link TransformableWrappedStream}的实现类类型
  * @author huangchengxing VampireAchao
- * @since 6.0.0
+ * @since 7.0.0
  */
 public interface TransformableWrappedStream<T, S extends TransformableWrappedStream<T, S>> extends WrappedStream<T, S> {
 
@@ -496,7 +496,7 @@ public interface TransformableWrappedStream<T, S extends TransformableWrappedStr
 	 *
 	 * @param <R> 函数执行后返回的List里面的类型
 	 * @return EasyStream 一个流
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	default <R> EasyStream<R> flat() {
 		return EasyStream.of(CollUtil.flat(nonNull().collect(Collectors.toList())));

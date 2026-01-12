@@ -27,7 +27,7 @@ import java.io.*;
  * 同步流，可将包装的流同步为ByteArrayInputStream，以便持有内容并关闭原流
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class SyncInputStream extends FilterInputStream {
 

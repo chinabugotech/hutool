@@ -18,6 +18,6 @@
  * Bean路径，通过路径表达式查找或设置对象或子对象中的值
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 package cn.hutool.v7.core.bean.path;

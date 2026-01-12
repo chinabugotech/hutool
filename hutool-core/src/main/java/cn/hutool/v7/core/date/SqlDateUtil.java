@@ -26,7 +26,7 @@ import java.sql.Timestamp;
  * 考虑到JDK9+模块化后，java.sql并非默认引入模块，因此将相关内容单独封装为工具，避免类找不到问题。
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class SqlDateUtil {
 

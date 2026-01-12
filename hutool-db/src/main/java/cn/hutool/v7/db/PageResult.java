@@ -80,7 +80,7 @@ public class PageResult<T> extends ArrayList<T> {
 	 *
 	 * @param page  分页对象
 	 * @param total 结果总数
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public PageResult(final Page page, final int total) {
 		this(page.getPageNumber(), page.getPageSize(), total);

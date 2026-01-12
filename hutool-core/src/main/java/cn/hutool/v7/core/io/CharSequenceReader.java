@@ -27,7 +27,7 @@ import java.util.Objects;
  * 相比jdk的StringReader非线程安全，速度更快。
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class CharSequenceReader extends Reader {
 

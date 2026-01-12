@@ -28,7 +28,7 @@ import java.util.List;
  * Cron表达式的分片构建器
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public interface PartBuilder extends Builder<String> {
 

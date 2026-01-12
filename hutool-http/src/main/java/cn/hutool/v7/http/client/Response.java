@@ -37,7 +37,7 @@ import java.util.function.Consumer;
  * 响应内容接口，包括响应状态码、HTTP消息头、响应体等信息
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public interface Response extends Closeable {
 

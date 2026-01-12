@@ -26,7 +26,7 @@ import java.util.function.Predicate;
  * <p>借鉴自StreamEx</p>
  *
  * @author emptypoint
- * @since 6.0.0
+ * @since 7.0.0
  * @param <T> 元素类型
  */
 public class TakeWhileSpliterator<T> implements Spliterator<T> {

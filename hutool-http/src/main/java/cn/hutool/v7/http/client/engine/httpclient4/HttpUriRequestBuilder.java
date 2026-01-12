@@ -30,7 +30,7 @@ import cn.hutool.v7.http.meta.HeaderName;
  * HttpClient4请求构建器
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class HttpUriRequestBuilder implements EngineRequestBuilder<HttpUriRequest> {
 

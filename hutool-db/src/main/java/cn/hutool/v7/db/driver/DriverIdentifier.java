@@ -31,7 +31,7 @@ import java.util.List;
  * 部分驱动参考Druid实现
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class DriverIdentifier implements DriverNames {
 

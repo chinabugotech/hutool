@@ -24,7 +24,7 @@ import java.lang.reflect.Constructor;
  * 用于AIConfig的创建，创建同时支持链式设置参数
  *
  * @author elichow
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class AIConfigBuilder {
 
@@ -56,7 +56,7 @@ public class AIConfigBuilder {
 	 *
 	 * @param apiKey apiKey
 	 * @return config
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public synchronized AIConfigBuilder setApiKey(final String apiKey) {
 		if (apiKey != null) {
@@ -70,7 +70,7 @@ public class AIConfigBuilder {
 	 *
 	 * @param apiUrl API接口地址
 	 * @return config
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public synchronized AIConfigBuilder setApiUrl(final String apiUrl) {
 		if (apiUrl != null) {
@@ -84,7 +84,7 @@ public class AIConfigBuilder {
 	 *
 	 * @param model 具体model的名称
 	 * @return config
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public synchronized AIConfigBuilder setModel(final String model) {
 		if (model != null) {
@@ -99,7 +99,7 @@ public class AIConfigBuilder {
 	 * @param key   Request中的支持的属性名
 	 * @param value 设置的属性值
 	 * @return config
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public AIConfigBuilder putAdditionalConfig(final String key, final Object value) {
 		if (value != null) {
@@ -113,7 +113,7 @@ public class AIConfigBuilder {
 	 *
 	 * @param timeout 超时时间
 	 * @return config
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public synchronized AIConfigBuilder setTimeout(final int timeout) {
 		if (timeout > 0) {
@@ -127,7 +127,7 @@ public class AIConfigBuilder {
 	 *
 	 * @param readTimeout 取超时时间
 	 * @return config
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public synchronized AIConfigBuilder setReadTimeout(final int readTimeout) {
 		if (readTimeout > 0) {
@@ -152,7 +152,7 @@ public class AIConfigBuilder {
 	 * 返回config实例
 	 *
 	 * @return config
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public AIConfig build() {
 		return config;

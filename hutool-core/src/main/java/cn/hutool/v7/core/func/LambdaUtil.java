@@ -234,7 +234,7 @@ public class LambdaUtil {
 	 * @param <U>        参数2类型
 	 * @param <R>        返回值类型
 	 * @return {@link Function}
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static <T, U, R> Function<T, R> toFunction(final BiFunction<T, U, R> biFunction, final U param) {
 		return (t) -> biFunction.apply(t, param);
@@ -248,7 +248,7 @@ public class LambdaUtil {
 	 * @param <T>         参数类型
 	 * @param <U>         参数2类型
 	 * @return {@link Predicate}
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static <T, U> Predicate<T> toPredicate(final BiPredicate<T, U> biPredicate, final U param) {
 		return (t) -> biPredicate.test(t, param);
@@ -262,7 +262,7 @@ public class LambdaUtil {
 	 * @param <T>        参数类型
 	 * @param <U>        参数2类型
 	 * @return {@link Consumer}
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static <T, U> Consumer<T> toPredicate(final BiConsumer<T, U> biConsumer, final U param) {
 		return (t) -> biConsumer.accept(t, param);
@@ -273,7 +273,7 @@ public class LambdaUtil {
 	 *
 	 * @param funcType 函数接口类
 	 * @return {@link Method}
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static Method getInvokeMethod(final Class<?> funcType) {
 		// 获取Lambda函数

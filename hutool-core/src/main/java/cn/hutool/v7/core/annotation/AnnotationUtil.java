@@ -111,7 +111,7 @@ public class AnnotationUtil {
 	 *
 	 * @param element {@link AnnotatedElement}
 	 * @return 注解
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static Annotation[] getDeclaredAnnotations(final AnnotatedElement element) {
 		return DECLARED_ANNOTATIONS_CACHE.computeIfAbsent(element, AnnotatedElement::getDeclaredAnnotations);
@@ -215,7 +215,7 @@ public class AnnotationUtil {
 	 * @param annotationEle      {@link AnnotatedElement}，可以是Class、Method、Field、Constructor、ReflectPermission
 	 * @param annotationTypeName 注解类型完整类名
 	 * @return 是否包含指定注解
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	@SuppressWarnings({"rawtypes", "unchecked"})
 	public static boolean hasAnnotation(final AnnotatedElement annotationEle, final String annotationTypeName) {
@@ -441,7 +441,7 @@ public class AnnotationUtil {
 	 *
 	 * @param annotationType 注解类型
 	 * @return 注解属性
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static Method[] getAnnotationAttributes(final Class<? extends Annotation> annotationType) {
 		return Stream.of(MethodUtil.getDeclaredMethods(annotationType))
@@ -465,7 +465,7 @@ public class AnnotationUtil {
 	 *
 	 * @param attribute 方法对象
 	 * @return 是否
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static boolean isAnnotationAttribute(final Method attribute) {
 		return !MethodUtil.isEqualsMethod(attribute)

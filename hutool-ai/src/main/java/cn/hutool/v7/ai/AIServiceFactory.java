@@ -29,7 +29,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * 创建AIModelService的工厂类
  *
  * @author elichow
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class AIServiceFactory {
 
@@ -48,7 +48,7 @@ public class AIServiceFactory {
 	 *
 	 * @param config AIConfig配置
 	 * @return AI服务实例
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static AIService getAIService(final AIConfig config) {
 		return getAIService(config, AIService.class);
@@ -60,7 +60,7 @@ public class AIServiceFactory {
 	 * @param config AIConfig配置
 	 * @param clazz AI服务类
 	 * @return clazz对应的AI服务类实例
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 * @param <T> AI服务类
 	 */
 	@SuppressWarnings("unchecked")

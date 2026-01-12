@@ -26,7 +26,7 @@ import java.io.InputStream;
 /**
  * 行数计数器
  *
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class LineCounter implements Closeable {
 

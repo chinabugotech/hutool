@@ -32,7 +32,7 @@ import java.util.concurrent.ConcurrentMap;
  * @param <K> 键类型
  * @param <V> 值类型
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class WeakKeyConcurrentMap<K, V> extends ReferenceConcurrentMap<K, V> {
 	@Serial

@@ -42,7 +42,7 @@ import static cn.hutool.v7.core.text.placeholder.StrTemplate.Feature.*;
  * 字符串模板 格式化 和 反解析 抽象父类
  *
  * @author emptypoint
- * @since 6.0.0
+ * @since 7.0.0
  */
 public abstract class StrTemplate {
 	// region 静态属性和方法

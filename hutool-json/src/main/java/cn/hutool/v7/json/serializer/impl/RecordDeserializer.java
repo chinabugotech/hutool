@@ -29,7 +29,7 @@ import java.lang.reflect.Type;
  * Record反序列化器，用于将JSON对象转换为Record类型对象。
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class RecordDeserializer implements MatcherJSONDeserializer<Object> {
 

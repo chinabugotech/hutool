@@ -20,7 +20,7 @@ package cn.hutool.v7.db.driver.matcher;
  * 判断jdbc url的起始字符串匹配对应的驱动类名
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class StartsWithDriverMatcher implements DriverMatcher {
 

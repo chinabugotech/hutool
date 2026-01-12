@@ -304,7 +304,7 @@ public class ServletUtil {
 	 *
 	 * @param request 请求对象{@link HttpServletRequest}
 	 * @return header值
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static Map<String, Collection<String>> getHeadersMap(final HttpServletRequest request) {
 		final Map<String, Collection<String>> headerMap = new LinkedHashMap<>();

@@ -290,7 +290,7 @@ public class StrValidator {
 	 *
 	 * @param strs 字符串列表
 	 * @return 是否包含空字符串
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static boolean hasEmpty(final Iterable<? extends CharSequence> strs) {
 		if (CollUtil.isEmpty(strs)) {

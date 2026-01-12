@@ -31,7 +31,7 @@ import java.net.URL;
  * JDK Http请求构建器
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class JdkRequestBuilder implements EngineRequestBuilder<JdkHttpConnection> {
 

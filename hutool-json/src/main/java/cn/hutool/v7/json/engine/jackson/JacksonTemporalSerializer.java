@@ -30,7 +30,7 @@ import java.time.temporal.TemporalAccessor;
  * Jackson处理{@link TemporalAccessor}相关对象序列化描述
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class JacksonTemporalSerializer extends StdSerializer<TemporalAccessor> {
 	@Serial

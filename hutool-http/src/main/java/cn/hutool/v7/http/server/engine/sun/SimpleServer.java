@@ -163,7 +163,7 @@ public class SimpleServer {
 	 * @param path   路径，例如:/a/b 或者 a/b
 	 * @param action 处理器，包括请求和响应处理
 	 * @return this
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public SimpleServer addAction(final String path, final cn.hutool.v7.http.server.handler.HttpHandler action) {
 		return addHandler(path, exchange -> {

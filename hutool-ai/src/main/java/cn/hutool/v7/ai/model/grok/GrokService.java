@@ -27,7 +27,7 @@ import java.util.function.Consumer;
  * grok支持的扩展接口
  *
  * @author elichow
- * @since 6.0.0
+ * @since 7.0.0
  */
 public interface GrokService extends AIService {
 
@@ -37,7 +37,7 @@ public interface GrokService extends AIService {
 	 * @param prompt   题词
 	 * @param maxToken 最大token
 	 * @return AI回答
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	default String message(final String prompt, final int maxToken){
 		// 定义消息结构
@@ -53,7 +53,7 @@ public interface GrokService extends AIService {
 	 * @param prompt   题词
 	 * @param maxToken 最大token
 	 * @param callback 流式数据回调函数
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	default void message(final String prompt, final int maxToken, final Consumer<String> callback){
 		final List<Message> messages = new ArrayList<>();
@@ -68,7 +68,7 @@ public interface GrokService extends AIService {
 	 * @param messages messages 由对话组成的消息列表。如系统人设，背景信息等，用户自定义的信息
 	 * @param maxToken 最大token
 	 * @return AI回答
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	String message(List<Message> messages, int maxToken);
 
@@ -78,7 +78,7 @@ public interface GrokService extends AIService {
 	 * @param messages messages 由对话组成的消息列表。如系统人设，背景信息等，用户自定义的信息
 	 * @param maxToken 最大token
 	 * @param callback 流式数据回调函数
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	void message(List<Message> messages, int maxToken, final Consumer<String> callback);
 
@@ -89,7 +89,7 @@ public interface GrokService extends AIService {
 	 * @param images 图片列表/或者图片Base64编码图片列表(URI形式)
 	 * @param detail 手动设置图片的质量，取值范围high、low、auto,默认为auto
 	 * @return AI回答
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	String chatVision(String prompt, final List<String> images, String detail);
 
@@ -100,7 +100,7 @@ public interface GrokService extends AIService {
 	 * @param images 图片列表/或者图片Base64编码图片列表(URI形式)
 	 * @param detail 手动设置图片的质量，取值范围high、low、auto,默认为auto
 	 * @param callback 流式数据回调函数
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	void chatVision(String prompt, final List<String> images, String detail,final Consumer<String> callback);
 
@@ -110,7 +110,7 @@ public interface GrokService extends AIService {
 	 * @param prompt 题词
 	 * @param images 传入的图片列表地址/或者图片Base64编码图片列表(URI形式)
 	 * @return AI回答
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	default String chatVision(final String prompt, final List<String> images) {
 		return chatVision(prompt, images, GrokCommon.GrokVision.AUTO.getDetail());
@@ -122,7 +122,7 @@ public interface GrokService extends AIService {
 	 * @param prompt 题词
 	 * @param images 传入｜的图片列表地址/或者图片Base64编码图片列表(URI形式)
 	 * @param callback 流式数据回调函数
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	default void chatVision(final String prompt, final List<String> images, final Consumer<String> callback){
 		chatVision(prompt, images, GrokCommon.GrokVision.AUTO.getDetail(), callback);
@@ -132,7 +132,7 @@ public interface GrokService extends AIService {
 	 * 列出所有model列表
 	 *
 	 * @return model列表
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	String models();
 
@@ -141,7 +141,7 @@ public interface GrokService extends AIService {
 	 *
 	 * @param modelId model ID
 	 * @return model信息
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	String getModel(String modelId);
 
@@ -149,7 +149,7 @@ public interface GrokService extends AIService {
 	 * 列出所有语言model
 	 *
 	 * @return languageModel列表
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	String languageModels();
 
@@ -158,7 +158,7 @@ public interface GrokService extends AIService {
 	 *
 	 * @param modelId model ID
 	 * @return model信息
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	String getLanguageModel(String modelId);
 
@@ -167,7 +167,7 @@ public interface GrokService extends AIService {
 	 *
 	 * @param text 需要分词的内容
 	 * @return 分词结果
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	String tokenizeText(String text);
 
@@ -176,7 +176,7 @@ public interface GrokService extends AIService {
 	 *
 	 * @param requestId 延迟对话中的延迟请求ID
 	 * @return AI回答
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	String deferredCompletion(String requestId);
 
@@ -186,7 +186,7 @@ public interface GrokService extends AIService {
 	 *
 	 * @param prompt 题词
 	 * @return 包含生成图片的url
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	String imagesGenerations(String prompt);
 }

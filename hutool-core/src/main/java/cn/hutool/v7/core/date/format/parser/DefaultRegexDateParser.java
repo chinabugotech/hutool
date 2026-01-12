@@ -25,7 +25,7 @@ import java.util.regex.Pattern;
  * 通过使用预定义或自定义的正则规则，解析日期字符串
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class DefaultRegexDateParser implements PredicateDateParser {
 

@@ -315,7 +315,7 @@ public class PathUtil {
 	 * @param out 目标流
 	 * @return 拷贝bytes数
 	 * @throws IORuntimeException IO异常
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static long copy(final Path src, final OutputStream out) throws IORuntimeException {
 		Assert.notNull(src, "Source is null !");
@@ -695,7 +695,7 @@ public class PathUtil {
 	 * @return 是否相同
 	 * @throws IORuntimeException IO异常
 	 * @see Files#isSameFile(Path, Path)
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static boolean isSameFile(final Path file1, final Path file2) throws IORuntimeException {
 		try {
@@ -736,7 +736,7 @@ public class PathUtil {
 	 *
 	 * @param path 被检查的文件（非空）
 	 * @return 是否为其它类型文件
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static boolean isOther(final Path path) {
 		return getAttributes(path, false).isOther();
@@ -875,7 +875,7 @@ public class PathUtil {
 	 * @param dir    临时文件创建的所在目录
 	 * @return 临时文件
 	 * @throws IORuntimeException IO异常
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static Path createTempFile(final String prefix, final String suffix, final Path dir) throws IORuntimeException {
 		int exceptionsCount = 0;

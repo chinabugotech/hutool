@@ -30,7 +30,7 @@ import javax.sql.DataSource;
  * 主要提供数据源工厂的创建和数据源的获取
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class DSUtil {
 

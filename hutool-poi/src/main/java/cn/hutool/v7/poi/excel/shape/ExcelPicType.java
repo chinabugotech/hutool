@@ -28,7 +28,7 @@ import org.apache.poi.ss.usermodel.Workbook;
  * @see Workbook#PICTURE_TYPE_JPEG
  * @see Workbook#PICTURE_TYPE_PNG
  * @see Workbook#PICTURE_TYPE_DIB
- * @since 6.0.0
+ * @since 7.0.0
  */
 public enum ExcelPicType {
 	/**

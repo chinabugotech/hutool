@@ -23,7 +23,7 @@ import org.apache.poi.hssf.usermodel.HSSFShape;
  *
  * @author Looly
  * @see HSSFShape
- * @since 6.0.0
+ * @since 7.0.0
  */
 public enum LineStyle {
 	/**

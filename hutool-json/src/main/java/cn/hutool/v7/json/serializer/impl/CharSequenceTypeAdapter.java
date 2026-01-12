@@ -40,7 +40,7 @@ import java.lang.reflect.Type;
  * {@link CharSequence}适配器主要解决在JSON的get调用时，如果用户指定为字符串类型转换问题。
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class CharSequenceTypeAdapter implements MatcherJSONSerializer<CharSequence>, MatcherJSONDeserializer<CharSequence> {
 

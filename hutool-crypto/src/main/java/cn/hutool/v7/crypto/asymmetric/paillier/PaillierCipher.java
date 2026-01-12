@@ -29,7 +29,7 @@ import java.security.SecureRandom;
  * Paillier加密算法实现
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class PaillierCipher implements Cipher {
 

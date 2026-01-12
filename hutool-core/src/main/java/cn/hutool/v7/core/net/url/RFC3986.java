@@ -90,7 +90,7 @@ public class RFC3986 {
 	/**
 	 * query中的value编码器，严格模式，value中不能包含任何分隔符。
 	 *
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static final PercentCodec QUERY_PARAM_VALUE_STRICT = UNRESERVED;
 
@@ -103,7 +103,7 @@ public class RFC3986 {
 	/**
 	 * query中的key编码器，严格模式，key中不能包含任何分隔符。
 	 *
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static final PercentCodec QUERY_PARAM_NAME_STRICT = UNRESERVED;
 

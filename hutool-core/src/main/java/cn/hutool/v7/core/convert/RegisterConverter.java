@@ -53,7 +53,7 @@ import java.util.concurrent.atomic.AtomicReference;
  * </ol>
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class RegisterConverter extends ConverterWithRoot implements Serializable {
 	@Serial

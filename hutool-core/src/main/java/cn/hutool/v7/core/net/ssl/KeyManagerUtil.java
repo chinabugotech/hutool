@@ -28,7 +28,7 @@ import java.security.*;
  * 此工具用于读取和使用数字证书、对称密钥等相关信息
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class KeyManagerUtil {
 

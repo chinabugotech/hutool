@@ -30,7 +30,7 @@ import java.util.Map;
  * Pebble模板实现
  *
  * @author zooooooooy
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class PebbleTemplate implements Template {
 

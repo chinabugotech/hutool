@@ -24,7 +24,7 @@ import java.io.Serial;
  * Hutool工具类异常
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class HutoolException extends RuntimeException {
 	@Serial

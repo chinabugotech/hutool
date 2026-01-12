@@ -31,7 +31,7 @@ import java.util.Date;
  * 默认样式集合，定义了标题、数字、日期等默认样式
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class DefaultStyleSet implements StyleSet, Serializable {
 	@Serial

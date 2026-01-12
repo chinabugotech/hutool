@@ -29,7 +29,7 @@ import java.net.PasswordAuthentication;
  * </pre>
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  * @param auth 账号密码
  */
 public record BasicProxyAuthenticator(PasswordAuthentication auth) implements Authenticator {

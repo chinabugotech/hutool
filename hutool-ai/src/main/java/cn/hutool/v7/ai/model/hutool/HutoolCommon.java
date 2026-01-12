@@ -20,7 +20,7 @@ package cn.hutool.v7.ai.model.hutool;
  * hutool公共类
  *
  * @author elichow
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class HutoolCommon {
 

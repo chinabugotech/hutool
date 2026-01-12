@@ -23,7 +23,7 @@ import cn.hutool.v7.json.JSONFactory;
  * 简单的JSON上下文，用于在JSON序列化时提供配置项
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class SimpleJSONContext implements JSONContext {
 

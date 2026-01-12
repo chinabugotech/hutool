@@ -214,7 +214,7 @@ public class JdkHttpConnection implements HeaderOperation<JdkHttpConnection>, Cl
 	 * @param sslInfo {@link SSLInfo}
 	 * @return this
 	 * @throws HttpException KeyManagementException和NoSuchAlgorithmException异常包装
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public JdkHttpConnection setSSLInfo(final SSLInfo sslInfo) throws HttpException {
 		final HttpURLConnection conn = this.conn;

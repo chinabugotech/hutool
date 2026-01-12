@@ -23,7 +23,7 @@ import java.util.EventObject;
  * 基于事件源的事件实现
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class SourceEvent extends EventObject implements Event {
 	@Serial

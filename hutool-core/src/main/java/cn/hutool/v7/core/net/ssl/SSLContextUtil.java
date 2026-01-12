@@ -37,7 +37,7 @@ public class SSLContextUtil {
 	 * 获取默认的{@link SSLContext}
 	 *
 	 * @return {@link SSLContext}
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static SSLContext getDefault() {
 		try {

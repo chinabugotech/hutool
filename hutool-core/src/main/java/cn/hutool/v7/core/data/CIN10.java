@@ -27,7 +27,7 @@ import java.util.regex.Pattern;
  * 10位公民身份号码（Citizen Identification Number），一般用于台湾、澳门、香港
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class CIN10 {
 

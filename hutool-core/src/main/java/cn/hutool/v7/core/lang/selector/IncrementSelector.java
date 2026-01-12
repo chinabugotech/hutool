@@ -24,7 +24,7 @@ import java.util.ArrayList;
  *
  * @param <T> 元素类型
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class IncrementSelector<T> extends ArrayList<T> implements Selector<T> {
 	@Serial

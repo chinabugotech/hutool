@@ -339,7 +339,7 @@ public class TypeUtil {
 	 *
 	 * @param clazz 类
 	 * @return 泛型父类或接口数组
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static ParameterizedType[] getGenerics(final Class<?> clazz) {
 		final List<ParameterizedType> result = ListUtil.of(false);
@@ -489,7 +489,7 @@ public class TypeUtil {
 	 * @param rawType             原始类型，例如：List.class
 	 * @param actualTypeArguments 实际类型，例如：String.class
 	 * @return 泛型对象
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static Type createParameterizedType(final Type rawType, final Type... actualTypeArguments) {
 		return new ParameterizedTypeImpl(actualTypeArguments, null, rawType);

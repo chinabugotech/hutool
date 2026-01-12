@@ -34,7 +34,7 @@ import java.util.Calendar;
  * 日期类型适配器，用于将日期对象转换为给定格式或时间戳
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class CalendarTypeAdapter implements MatcherJSONSerializer<Calendar>, MatcherJSONDeserializer<Calendar> {
 

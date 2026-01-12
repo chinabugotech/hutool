@@ -21,7 +21,7 @@ package cn.hutool.v7.core.bean.path;
  *
  * @param <T> Bean类型
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public interface NodeBeanFactory<T> {
 

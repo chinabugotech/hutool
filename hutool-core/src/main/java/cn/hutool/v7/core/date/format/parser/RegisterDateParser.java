@@ -29,7 +29,7 @@ import java.util.List;
  * 默认的，可以调用{@link #INSTANCE}使用全局的解析器，亦或者通过构造自定义独立的注册解析器
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class RegisterDateParser implements DateParser, Serializable {
 	@Serial

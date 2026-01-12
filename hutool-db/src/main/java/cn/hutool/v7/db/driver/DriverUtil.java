@@ -39,7 +39,7 @@ public class DriverUtil {
 	 *
 	 * @param driverName  驱动类名
 	 * @return 驱动
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static Driver createDriver(final String driverName) {
 		return createDriver(driverName, null);
@@ -51,7 +51,7 @@ public class DriverUtil {
 	 * @param driverName  驱动类名
 	 * @param classLoader 类加载器
 	 * @return 驱动
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static Driver createDriver(final String driverName, final ClassLoader classLoader) {
 		final Class<?> driverClass = ClassUtil.forName(driverName, true, classLoader);

@@ -33,7 +33,7 @@ import java.net.URL;
  * 日志引擎简单工厂（静态工厂）类
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class LogEngineFactory {
 

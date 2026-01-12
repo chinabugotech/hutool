@@ -30,7 +30,7 @@ import java.util.function.Supplier;
  * smart-http-server引擎
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class SmartHttpServerEngine extends AbstractServerEngine {
 

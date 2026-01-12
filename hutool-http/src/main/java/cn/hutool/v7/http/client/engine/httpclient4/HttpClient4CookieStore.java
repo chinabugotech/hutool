@@ -33,7 +33,7 @@ import java.util.List;
  * Apache HttpClient4的Cookie存储器实现
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class HttpClient4CookieStore extends SimpleWrapper<CookieStoreSpi> implements CookieStore {
 

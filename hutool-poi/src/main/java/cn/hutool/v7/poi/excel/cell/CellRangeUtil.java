@@ -26,7 +26,7 @@ import org.apache.poi.ss.util.CellReference;
  * {@link CellRangeAddress} 表示表格的一个区域，通过定义起始行和列，以及结束行和列，圈定范围，如设置合并单元格等。
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class CellRangeUtil {
 

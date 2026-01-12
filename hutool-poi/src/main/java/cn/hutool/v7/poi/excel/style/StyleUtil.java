@@ -152,7 +152,7 @@ public class StyleUtil {
 	 * @param cellBorderStyle {@link CellBorderStyle}单元格边框样式和颜色
 	 *                        }
 	 * @return {@link CellStyle}
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static CellStyle setBorder(final CellStyle cellStyle, final CellBorderStyle cellBorderStyle) {
 		return cellBorderStyle.setTo(cellStyle);

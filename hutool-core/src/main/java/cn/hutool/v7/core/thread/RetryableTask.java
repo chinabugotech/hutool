@@ -32,7 +32,7 @@ import static java.util.Objects.nonNull;
  *
  * @param <T> 任务结果类型
  * @author kongweiguang
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class RetryableTask<T> {
 

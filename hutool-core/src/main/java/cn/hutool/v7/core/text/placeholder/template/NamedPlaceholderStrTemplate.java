@@ -35,7 +35,7 @@ import java.util.function.*;
  * <p>例如，"{1}", "{name}", "#{id}"</p>
  *
  * @author emptypoint
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class NamedPlaceholderStrTemplate extends StrTemplate {
 	/**

@@ -20,7 +20,7 @@ package cn.hutool.v7.ai;
  * 各模型厂商包含的model（指具体的模型）
  *
  * @author elichow
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class Models {
 

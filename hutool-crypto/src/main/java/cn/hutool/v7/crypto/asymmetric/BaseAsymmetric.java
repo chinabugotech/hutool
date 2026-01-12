@@ -69,7 +69,7 @@ public class BaseAsymmetric<T extends BaseAsymmetric<T>> implements Serializable
 	 *
 	 * @param algorithm 算法
 	 * @param keyPair   密钥对，包括私钥和公钥
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public BaseAsymmetric(final String algorithm, final KeyPair keyPair) {
 		init(algorithm, keyPair);
@@ -122,7 +122,7 @@ public class BaseAsymmetric<T extends BaseAsymmetric<T>> implements Serializable
 	 *
 	 * @param lock 自定义锁
 	 * @return this
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	@SuppressWarnings("unchecked")
 	public T setLock(final Lock lock) {

@@ -29,7 +29,7 @@ import java.util.function.Consumer;
  * openai支持的扩展接口
  *
  * @author elichow
- * @since 6.0.0
+ * @since 7.0.0
  */
 public interface OpenaiService extends AIService {
 
@@ -40,7 +40,7 @@ public interface OpenaiService extends AIService {
 	 * @param images 图片列表/或者图片Base64编码图片列表(URI形式)
 	 * @param detail 手动设置图片的质量，取值范围high、low、auto,默认为auto
 	 * @return AI回答
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	String chatVision(String prompt, final List<String> images, String detail);
 
@@ -51,7 +51,7 @@ public interface OpenaiService extends AIService {
 	 * @param images 图片列表/或者图片Base64编码图片列表(URI形式)
 	 * @param detail 手动设置图片的质量，取值范围high、low、auto,默认为auto
 	 * @param callback 流式数据回调函数
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	void chatVision(String prompt, final List<String> images, String detail,final Consumer<String> callback);
 
@@ -61,7 +61,7 @@ public interface OpenaiService extends AIService {
 	 * @param prompt 题词
 	 * @param images 传入的图片列表地址/或者图片Base64编码图片列表(URI形式)
 	 * @return AI回答
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	default String chatVision(final String prompt, final List<String> images) {
 		return chatVision(prompt, images, OpenaiCommon.OpenaiVision.AUTO.getDetail());
@@ -73,7 +73,7 @@ public interface OpenaiService extends AIService {
 	 * @param prompt 题词
 	 * @param images 传入的图片列表地址/或者图片Base64编码图片列表(URI形式)
 	 * @param callback 流式数据回调函数
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	default void chatVision(final String prompt, final List<String> images, final Consumer<String> callback){
 		chatVision(prompt, images, OpenaiCommon.OpenaiVision.AUTO.getDetail(), callback);
@@ -84,7 +84,7 @@ public interface OpenaiService extends AIService {
 	 *
 	 * @param prompt 题词
 	 * @return 包含生成图片的url
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	String imagesGenerations(String prompt);
 
@@ -95,7 +95,7 @@ public interface OpenaiService extends AIService {
 	 * @param image  需要编辑的图像必须是 PNG 格式
 	 * @param mask   如果提供，则是一个与编辑图像大小相同的遮罩图像应该是灰度图，白色表示需要编辑的区域，黑色表示不需要编辑的区域。
 	 * @return 包含生成图片的url
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	String imagesEdits(String prompt, final File image, final File mask);
 
@@ -105,7 +105,7 @@ public interface OpenaiService extends AIService {
 	 * @param prompt 题词
 	 * @param image  需要编辑的图像必须是 PNG 格式
 	 * @return 包含生成图片的url
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	default String imagesEdits(final String prompt, final File image) {
 		return imagesEdits(prompt, image, null);
@@ -116,7 +116,7 @@ public interface OpenaiService extends AIService {
 	 *
 	 * @param image 需要变形的图像必须是 PNG 格式
 	 * @return 包含生成图片的url
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	String imagesVariations(final File image);
 
@@ -126,7 +126,7 @@ public interface OpenaiService extends AIService {
 	 * @param input 需要转成语音的文本
 	 * @param voice AI的音色
 	 * @return 返回的音频mp3文件流
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	InputStream textToSpeech(String input, final OpenaiCommon.OpenaiSpeech voice);
 
@@ -135,7 +135,7 @@ public interface OpenaiService extends AIService {
 	 *
 	 * @param input 需要转成语音的文本
 	 * @return 返回的音频mp3文件流
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	default InputStream textToSpeech(final String input) {
 		return textToSpeech(input, OpenaiCommon.OpenaiSpeech.ALLOY);
@@ -146,7 +146,7 @@ public interface OpenaiService extends AIService {
 	 *
 	 * @param file 需要转成文本的音频文件
 	 * @return 返回的文本内容
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	String speechToText(final File file);
 
@@ -155,7 +155,7 @@ public interface OpenaiService extends AIService {
 	 *
 	 * @param input 需要向量化的内容
 	 * @return 处理后的向量信息
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	String embeddingText(String input);
 
@@ -166,7 +166,7 @@ public interface OpenaiService extends AIService {
 	 * @param text   需要检查的文本
 	 * @param imgUrl 需要检查的图片地址
 	 * @return AI返回结果
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	String moderations(String text, String imgUrl);
 
@@ -176,7 +176,7 @@ public interface OpenaiService extends AIService {
 	 *
 	 * @param text 需要检查的文本
 	 * @return AI返回结果
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	default String moderations(final String text) {
 		return moderations(text, null);
@@ -189,7 +189,7 @@ public interface OpenaiService extends AIService {
 	 * @param prompt          对话题词
 	 * @param reasoningEffort 推理程度
 	 * @return AI回答
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	default String chatReasoning(final String prompt, final String reasoningEffort){
 		final List<Message> messages = new ArrayList<>();
@@ -205,7 +205,7 @@ public interface OpenaiService extends AIService {
 	 * @param prompt          对话题词
 	 * @param reasoningEffort 推理程度
 	 * @param callback 流式数据回调函数
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	default void chatReasoning(final String prompt, final String reasoningEffort, final Consumer<String> callback){
 		final List<Message> messages = new ArrayList<>();
@@ -220,7 +220,7 @@ public interface OpenaiService extends AIService {
 	 *
 	 * @param prompt 对话题词
 	 * @return AI回答
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	default String chatReasoning(final String prompt) {
 		return chatReasoning(prompt, OpenaiCommon.OpenaiReasoning.MEDIUM.getEffort());
@@ -232,7 +232,7 @@ public interface OpenaiService extends AIService {
 	 *
 	 * @param prompt 对话题词
 	 * @param callback 流式数据回调函数
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	default void chatReasoning(final String prompt, final Consumer<String> callback) {
 		chatReasoning(prompt, OpenaiCommon.OpenaiReasoning.MEDIUM.getEffort(), callback);
@@ -245,7 +245,7 @@ public interface OpenaiService extends AIService {
 	 * @param messages        消息列表
 	 * @param reasoningEffort 推理程度
 	 * @return AI回答
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	String chatReasoning(final List<Message> messages, String reasoningEffort);
 
@@ -256,7 +256,7 @@ public interface OpenaiService extends AIService {
 	 * @param messages        消息列表
 	 * @param reasoningEffort 推理程度
 	 * @param callback 流式数据回调函数
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	void chatReasoning(final List<Message> messages, String reasoningEffort, final Consumer<String> callback);
 
@@ -266,7 +266,7 @@ public interface OpenaiService extends AIService {
 	 *
 	 * @param messages 消息列表
 	 * @return AI回答
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	default String chatReasoning(final List<Message> messages) {
 		return chatReasoning(messages, OpenaiCommon.OpenaiReasoning.MEDIUM.getEffort());
@@ -278,7 +278,7 @@ public interface OpenaiService extends AIService {
 	 *
 	 * @param messages 消息列表
 	 * @param callback 流式数据回调函数
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	default void chatReasoning(final List<Message> messages, final Consumer<String> callback) {
 		chatReasoning(messages, OpenaiCommon.OpenaiReasoning.MEDIUM.getEffort(), callback);

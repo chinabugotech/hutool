@@ -27,7 +27,7 @@ import java.util.function.Function;
  * Clob转String
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class ClobStringer implements Function<Object, String> {
 

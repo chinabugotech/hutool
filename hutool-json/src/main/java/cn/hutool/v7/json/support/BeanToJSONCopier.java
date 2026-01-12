@@ -31,7 +31,7 @@ import java.util.function.Predicate;
  * Bean转JSON对象复制器
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class BeanToJSONCopier implements Copier<JSONObject> {
 

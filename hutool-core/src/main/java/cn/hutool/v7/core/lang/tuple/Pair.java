@@ -28,7 +28,7 @@ import java.util.Objects;
  * @param <L> 左值类型
  * @param <R> 右值类型
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class Pair<L, R> implements Serializable, Cloneable {
 	@Serial
@@ -42,7 +42,7 @@ public class Pair<L, R> implements Serializable, Cloneable {
 	 * @param left  左值
 	 * @param right 右值
 	 * @return Pair
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static <L, R> Pair<L, R> of(final L left, final R right) {
 		return new Pair<>(left, right);

@@ -961,7 +961,7 @@ public class CollUtil {
 	 * @param collection 集合
 	 * @param predicate  过滤器，{@code null}返回原集合
 	 * @return 过滤后的数组
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static <T extends Collection<E>, E> T filter(final T collection, final Predicate<E> predicate) {
 		if (null == collection || null == predicate) {
@@ -2127,7 +2127,7 @@ public class CollUtil {
 	 * @param collection 集合
 	 * @param getter     getter方法引用
 	 * @return 分组列表
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static <T> List<List<T>> groupByFunc(final Collection<T> collection, final Function<T, ?> getter) {
 		return group(collection, new Hash32<>() {
@@ -2415,7 +2415,7 @@ public class CollUtil {
 	 * @param subCollection 第一个Iterable对象，即子集合。
 	 * @param collection    第二个Iterable对象，可以为任何实现了Iterable接口的集合。
 	 * @return 如果subCollection是collection的子集合，则返回true；否则返回false。
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static boolean isSub(final Collection<?> subCollection, final Collection<?> collection) {
 		if (size(subCollection) > size(collection)) {

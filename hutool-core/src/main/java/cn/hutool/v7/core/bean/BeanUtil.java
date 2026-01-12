@@ -316,7 +316,7 @@ public class BeanUtil {
 	 *
 	 * @param bean Bean
 	 * @return {@link BeanMap}
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static Map<String, Object> toBeanMap(final Object bean) {
 		return BeanMap.of(bean);

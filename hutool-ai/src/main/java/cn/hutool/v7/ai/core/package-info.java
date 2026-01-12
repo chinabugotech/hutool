@@ -18,7 +18,7 @@
  * AI相关基础类
  *
  * @author elichow
- * @since 6.0.0
+ * @since 7.0.0
  */
 
 package cn.hutool.v7.ai.core;

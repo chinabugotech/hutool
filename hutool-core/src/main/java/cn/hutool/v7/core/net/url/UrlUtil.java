@@ -244,7 +244,7 @@ public class UrlUtil {
 	 * @param relativePath 相对路径
 	 * @return 相对于URL的子路径URL
 	 * @throws IORuntimeException URL格式错误
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static URL getURL(final URL url, String relativePath) throws HutoolException {
 		// # 在文件路径中合法，但是在URL中非法，此处转义
@@ -644,7 +644,7 @@ public class UrlUtil {
 	 *
 	 * @param url URL
 	 * @return 长度
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static long size(final URL url) {
 		if (UrlProtocolUtil.isFileOrVfsURL(url)) {
@@ -680,7 +680,7 @@ public class UrlUtil {
 	 * 如果连接为JNLP方式，则打开缓存
 	 *
 	 * @param con {@link URLConnection}
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static void useCachesIfNecessary(final URLConnection con) {
 		con.setUseCaches(con.getClass().getSimpleName().startsWith("JNLP"));

@@ -60,7 +60,7 @@ public class ClassLoaderUtil {
 	 * 获取调用者的{@link ClassLoader}
 	 *
 	 * @return {@link ClassLoader}
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static ClassLoader getCallerClassLoader() {
 		return CallerUtil.getCallerCaller().getClassLoader();

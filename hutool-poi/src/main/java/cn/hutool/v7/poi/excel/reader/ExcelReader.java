@@ -366,7 +366,7 @@ public class ExcelReader extends ExcelBase<ExcelReader, ExcelReadConfig> {
 	 * 读取绘制的图片列表
 	 *
 	 * @return 图片列表
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public List<Picture> readPics() {
 		return ExcelPicUtil.getShapePics(this.sheet);

@@ -27,7 +27,7 @@ import java.util.*;
  * 通过反射方式，将一个Bean的操作转化为Map操作
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class BeanMap implements Map<String, Object> {
 

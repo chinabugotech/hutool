@@ -143,7 +143,7 @@ public class ExecutorBuilder implements Builder<ThreadPoolExecutor> {
 	 *
 	 * @param capacity 队列容量
 	 * @return this
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public ExecutorBuilder useLinkedBlockingQueue(final int capacity) {
 		return setWorkQueue(new LinkedBlockingQueue<>(capacity));

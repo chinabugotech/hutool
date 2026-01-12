@@ -57,7 +57,7 @@ import java.util.concurrent.TimeUnit;
  * Apache HttpClient5的HTTP请求引擎
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class HttpClient5Engine extends AbstractClientEngine {
 

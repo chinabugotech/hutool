@@ -34,7 +34,7 @@ import java.math.BigInteger;
  * </ul>
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class JSONPrimitive implements Wrapper<Object>, JSON {
 	@Serial

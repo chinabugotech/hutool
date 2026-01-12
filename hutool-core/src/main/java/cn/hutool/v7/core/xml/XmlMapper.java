@@ -34,7 +34,7 @@ import java.util.Map;
  * XML转换器，用于转换Map或Bean等
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class XmlMapper {
 

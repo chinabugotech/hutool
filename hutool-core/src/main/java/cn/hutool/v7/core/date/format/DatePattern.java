@@ -28,7 +28,7 @@ import java.util.concurrent.ConcurrentMap;
  * 日期格式表达式，用于解析和格式化日期时间。
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class DatePattern {
 

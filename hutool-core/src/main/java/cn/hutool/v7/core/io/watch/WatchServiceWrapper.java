@@ -37,7 +37,7 @@ import java.util.function.Predicate;
  * </ul>
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class WatchServiceWrapper extends SimpleWrapper<WatchService> implements WatchService, Serializable {
 	@Serial

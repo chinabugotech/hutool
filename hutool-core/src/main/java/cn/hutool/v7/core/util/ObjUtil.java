@@ -335,7 +335,7 @@ public class ObjUtil {
 	 * @param handler      非空时自定义的处理方法
 	 * @param defaultValue 为空时的默认返回值
 	 * @return 被检查对象不为 {@code null} 返回处理后的结果，否则返回默认值
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static <T, R> R defaultIfNull(final T object,
 										 final Function<? super T, ? extends R> handler, final R defaultValue) {
@@ -351,7 +351,7 @@ public class ObjUtil {
 	 * @param handler         非空时自定义的处理方法
 	 * @param defaultSupplier 为空时的默认值提供者
 	 * @return 被检查对象不为 {@code null} 返回处理后的结果，否则返回 {@link Supplier#get()} 提供的默认值
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static <T, R> R defaultIfNull(final T object,
 										 final Function<? super T, ? extends R> handler, final Supplier<? extends R> defaultSupplier) {

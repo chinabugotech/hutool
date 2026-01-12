@@ -23,7 +23,7 @@ import java.lang.annotation.*;
  * 即包含有可写字段的Bean使用此注解标记，如含有public的字段或setter方法
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

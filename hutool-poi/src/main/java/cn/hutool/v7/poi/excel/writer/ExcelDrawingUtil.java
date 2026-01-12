@@ -34,7 +34,7 @@ import java.awt.Color;
  * 用于辅助写出指定的图形
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class ExcelDrawingUtil {
 
@@ -47,7 +47,7 @@ public class ExcelDrawingUtil {
 	 * @param imgType      图片类型，对应poi中Workbook类中的图片类型2-7变量
 	 * @param clientAnchor 图片的位置和大小信息
 	 * @author vhukze
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static void drawingPic(final Sheet sheet, final byte[] pictureData,
 								  final ExcelPicType imgType, final SimpleClientAnchor clientAnchor) {
@@ -65,7 +65,7 @@ public class ExcelDrawingUtil {
 	 * @param sheet        {@link Sheet}
 	 * @param clientAnchor 绘制区域信息
 	 * @param shapeConfig  形状配置，包括形状类型、线条样式、线条宽度、线条颜色、填充颜色等
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static void drawingSimpleShape(final Sheet sheet, final SimpleClientAnchor clientAnchor, ShapeConfig shapeConfig) {
 		final Drawing<?> patriarch = sheet.createDrawingPatriarch();

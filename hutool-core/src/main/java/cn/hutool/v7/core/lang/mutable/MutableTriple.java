@@ -27,7 +27,7 @@ import java.io.Serial;
  * @param <M> 中值类型
  * @param <R> 右值类型
  * @author kirno7
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class MutableTriple<L, M, R> extends Triple<L, M, R> implements Mutable<MutableTriple<L, M, R>>{
 	@Serial
@@ -43,7 +43,7 @@ public class MutableTriple<L, M, R> extends Triple<L, M, R> implements Mutable<M
 	 * @param middle 中值
 	 * @param right  右值
 	 * @return MutableTriple
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static <L, M, R> MutableTriple<L, M, R> of(final L left, final M middle, final R right) {
 		return new MutableTriple<>(left, middle, right);

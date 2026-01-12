@@ -24,7 +24,7 @@ import org.apache.poi.ss.util.CellRangeAddress;
  * 合并单元格封装
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class MergedCell {
 

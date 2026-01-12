@@ -147,7 +147,7 @@ import java.util.stream.Stream;
  * @see RepeatableMetaAnnotatedElement
  * @see MetaAnnotatedElement
  * @see RepeatableAnnotationCollector
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class AnnotatedElementUtil {
 

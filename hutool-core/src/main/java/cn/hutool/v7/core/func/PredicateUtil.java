@@ -25,7 +25,7 @@ import java.util.stream.Stream;
  * 一些{@link Predicate}相关封装
  *
  * @author Looly VampireAchao
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class PredicateUtil {
 
@@ -45,7 +45,7 @@ public class PredicateUtil {
 	 * @param <T>       参数类型
 	 * @param predicate {@link Predicate}
 	 * @return 强转后的{@link Predicate}
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	@SuppressWarnings("unchecked")
 	static <T> Predicate<T> coerce(final Predicate<? super T> predicate) {

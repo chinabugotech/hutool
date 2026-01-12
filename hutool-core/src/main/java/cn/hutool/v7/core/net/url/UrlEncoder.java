@@ -26,7 +26,7 @@ import java.nio.charset.Charset;
  * URL编码器，提供百分号编码实现
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class UrlEncoder {
 

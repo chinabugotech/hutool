@@ -29,7 +29,7 @@ import java.util.Map;
  * Zip文件替换，用户替换源Zip文件，并生成新的文件
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class ZipReplacer implements Closeable {
 

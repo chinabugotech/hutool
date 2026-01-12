@@ -213,7 +213,7 @@ public class CellUtil {
 	 * @param y                  Y坐标，从0计数，即行号
 	 * @param isCreateIfNotExist 单元格不存在时是否创建
 	 * @return {@link Cell}
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static Cell getCell(final Sheet sheet, final int x, final int y, final boolean isCreateIfNotExist) {
 		final Row row = isCreateIfNotExist ? RowUtil.getOrCreateRow(sheet, y) : sheet.getRow(y);

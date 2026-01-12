@@ -160,7 +160,7 @@ public class ByteUtil {
 	 * @param byteOrder 端续
 	 * @param bytes     被填充的bytes
 	 * @return 填充后的bytes
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static byte[] fill(int intValue, final int start, final ByteOrder byteOrder, final byte[] bytes) {
 		final int offset = (ByteOrder.LITTLE_ENDIAN == byteOrder) ? 0 : (bytes.length - 1);
@@ -205,7 +205,7 @@ public class ByteUtil {
 	 * @param byteOrder 端续
 	 * @param bytes     被填充的bytes
 	 * @return 填充后的bytes
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static byte[] fill(long longValue, final int start, final ByteOrder byteOrder, final byte[] bytes) {
 		final int offset = (ByteOrder.LITTLE_ENDIAN == byteOrder) ? 0 : (bytes.length - 1);
@@ -654,7 +654,7 @@ public class ByteUtil {
 	 *
 	 * @param byteArrays 多个byte[]
 	 * @return 连接后的byte[]
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static byte[] concat(final byte[]... byteArrays) {
 		int totalLength = 0;

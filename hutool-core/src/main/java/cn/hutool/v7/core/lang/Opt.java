@@ -128,7 +128,7 @@ public class Opt<T> {
 	 * @param optional optional
 	 * @param <T>      包裹的元素类型
 	 * @return 一个包裹里元素可能为空的 {@code Opt}
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	@SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 	public static <T> Opt<T> of(final Optional<? extends T> optional) {

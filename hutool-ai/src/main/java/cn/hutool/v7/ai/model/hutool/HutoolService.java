@@ -27,7 +27,7 @@ import java.util.function.Consumer;
  * hutool支持的扩展接口
  *
  * @author elichow
- * @since 6.0.0
+ * @since 7.0.0
  */
 public interface HutoolService extends AIService {
 
@@ -38,7 +38,7 @@ public interface HutoolService extends AIService {
 	 * @param images 图片列表/或者图片Base64编码图片列表(URI形式)
 	 * @param detail 手动设置图片的质量，取值范围high、low、auto,默认为auto
 	 * @return AI回答
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	String chatVision(String prompt, final List<String> images, String detail);
 
@@ -49,7 +49,7 @@ public interface HutoolService extends AIService {
 	 * @param images 图片列表/或者图片Base64编码图片列表(URI形式)
 	 * @param detail 手动设置图片的质量，取值范围high、low、auto,默认为auto
 	 * @param callback 流式数据回调函数
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	void chatVision(String prompt, final List<String> images, String detail,final Consumer<String> callback);
 
@@ -59,7 +59,7 @@ public interface HutoolService extends AIService {
 	 * @param prompt 题词
 	 * @param images 传入的图片列表地址/或者图片Base64编码图片列表(URI形式)
 	 * @return AI回答
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	default String chatVision(final String prompt, final List<String> images) {
 		return chatVision(prompt, images, HutoolCommon.HutoolVision.AUTO.getDetail());
@@ -71,7 +71,7 @@ public interface HutoolService extends AIService {
 	 * @param prompt 题词
 	 * @param images 传入｜的图片列表地址/或者图片Base64编码图片列表(URI形式)
 	 * @param callback 流式数据回调函数
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	default void chatVision(final String prompt, final List<String> images, final Consumer<String> callback){
 		chatVision(prompt, images, HutoolCommon.HutoolVision.AUTO.getDetail(), callback);
@@ -82,7 +82,7 @@ public interface HutoolService extends AIService {
 	 *
 	 * @param text 需要分词的内容
 	 * @return 分词结果
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	String tokenizeText(String text);
 
@@ -91,7 +91,7 @@ public interface HutoolService extends AIService {
 	 *
 	 * @param prompt 题词
 	 * @return 包含生成图片的url
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	String imagesGenerations(String prompt);
 
@@ -101,7 +101,7 @@ public interface HutoolService extends AIService {
 	 * @param text  需要向量化的内容
 	 * @param image 需要向量化的图片地址/或者图片Base64编码图片(URI形式)
 	 * @return 处理后的向量信息
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	String embeddingVision(String text, String image);
 
@@ -111,7 +111,7 @@ public interface HutoolService extends AIService {
 	 * @param input 需要转成语音的文本
 	 * @param voice AI的音色
 	 * @return 返回的音频mp3文件流
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	InputStream tts(String input, final HutoolCommon.HutoolSpeech voice);
 
@@ -120,7 +120,7 @@ public interface HutoolService extends AIService {
 	 *
 	 * @param input 需要转成语音的文本
 	 * @return 返回的音频mp3文件流
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	default InputStream tts(final String input) {
 		return tts(input, HutoolCommon.HutoolSpeech.ALLOY);
@@ -131,7 +131,7 @@ public interface HutoolService extends AIService {
 	 *
 	 * @param file 需要转成文本的音频文件
 	 * @return 返回的文本内容
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	String stt(final File file);
 
@@ -142,7 +142,7 @@ public interface HutoolService extends AIService {
 	 * @param image       图片/或者图片Base64编码图片(URI形式)
 	 * @param videoParams 视频参数列表
 	 * @return 生成任务id
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	String videoTasks(String text, String image, final List<HutoolCommon.HutoolVideo> videoParams);
 
@@ -152,7 +152,7 @@ public interface HutoolService extends AIService {
 	 * @param text  文本提示词
 	 * @param image 图片/或者图片Base64编码图片(URI形式)
 	 * @return 生成任务id
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	default String videoTasks(final String text, final String image) {
 		return videoTasks(text, image, null);
@@ -163,7 +163,7 @@ public interface HutoolService extends AIService {
 	 *
 	 * @param taskId 通过创建生成视频任务返回的生成任务id
 	 * @return 生成任务信息
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	String getVideoTasksInfo(String taskId);
 

@@ -37,7 +37,7 @@ import java.util.stream.StreamSupport;
  * @param <K> 键类型
  * @param <V> 值类型
  * @author huangchengxing
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class EntryStream<K, V> extends AbstractEnhancedWrappedStream<Map.Entry<K, V>, EntryStream<K, V>> {
 

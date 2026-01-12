@@ -31,7 +31,7 @@ import java.util.function.Predicate;
  * 方法反射相关操作类。
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class MethodReflect {
 

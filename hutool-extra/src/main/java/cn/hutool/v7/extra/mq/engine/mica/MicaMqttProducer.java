@@ -27,7 +27,7 @@ import java.io.IOException;
  * MQTT协议消息生产者
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class MicaMqttProducer implements Producer {
 

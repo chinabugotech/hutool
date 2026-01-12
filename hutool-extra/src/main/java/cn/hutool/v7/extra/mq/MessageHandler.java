@@ -20,7 +20,7 @@ package cn.hutool.v7.extra.mq;
  * 消息处理器
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 @FunctionalInterface
 public interface MessageHandler {

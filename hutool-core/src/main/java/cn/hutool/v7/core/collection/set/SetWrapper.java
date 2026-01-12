@@ -32,7 +32,7 @@ import java.util.stream.Stream;
  *
  * @param <E> 元素类型
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class SetWrapper<E> extends SimpleWrapper<Set<E>> implements Set<E> {
 

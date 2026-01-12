@@ -21,7 +21,7 @@ package cn.hutool.v7.core.lang.range;
  *
  * @param <T> 边界值类型
  * @author huangchengxing
- * @since 6.0.0
+ * @since 7.0.0
  */
 class NoneLowerBound<T extends Comparable<? super T>> implements Bound<T> {
 	/**

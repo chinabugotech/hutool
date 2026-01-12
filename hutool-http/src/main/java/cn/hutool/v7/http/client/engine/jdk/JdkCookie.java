@@ -27,7 +27,7 @@ import java.time.Instant;
  * JDK Cookie实现
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class JdkCookie extends SimpleWrapper<HttpCookie> implements CookieSpi {
 

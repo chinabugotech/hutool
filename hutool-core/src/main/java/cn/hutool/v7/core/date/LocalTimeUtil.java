@@ -22,7 +22,7 @@ import java.time.LocalTime;
  * 针对 {@link LocalTime} 封装的一些工具方法
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class LocalTimeUtil {
 	/**

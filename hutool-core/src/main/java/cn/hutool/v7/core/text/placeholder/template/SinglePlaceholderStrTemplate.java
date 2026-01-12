@@ -35,7 +35,7 @@ import java.util.function.UnaryOperator;
  * <p>例如，"?", "{}", "$$$"</p>
  *
  * @author emptypoint
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class SinglePlaceholderStrTemplate extends StrTemplate {
 	/**

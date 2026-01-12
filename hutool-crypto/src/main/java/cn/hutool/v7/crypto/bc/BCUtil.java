@@ -127,7 +127,7 @@ public class BCUtil {
 	 * @param mode    模式
 	 * @param padding 补码方式
 	 * @return {@link BufferedBlockCipher}，无对应Cipher返回{@code null}
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static BufferedBlockCipher wrap(BlockCipher cipher, final Mode mode, final Padding padding) {
 		switch (mode) {

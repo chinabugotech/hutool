@@ -36,7 +36,7 @@ import java.util.Map;
  * Map.Entry反序列化器，用于将JSON对象转换为Map.Entry对象。
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class ArrayTypeAdapter implements MatcherJSONSerializer<Object>, MatcherJSONDeserializer<Object> {
 

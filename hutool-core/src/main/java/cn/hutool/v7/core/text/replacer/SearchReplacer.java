@@ -27,7 +27,7 @@ import java.io.Serial;
  * 查找给定的字符串，并全部替换为新的字符串，其它字符不变
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class SearchReplacer extends StrReplacer {
 	@Serial

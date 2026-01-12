@@ -23,7 +23,7 @@ import cn.hutool.v7.core.text.StrUtil;
  * 单元格位置{@link CellReference}工具类，提供包括行号转行名称、列号转列名称等功能。
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class CellReferenceUtil {
 	/**

@@ -254,7 +254,7 @@ public class CharsetUtil {
 	 * @param charset 指定的字符集，不允许为null。
 	 * @param action  对于不合法的字符或无法映射的字符的处理策略，不允许为null。
 	 * @return 配置好的CharsetEncoder实例。
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static CharsetEncoder newEncoder(final Charset charset, final CodingErrorAction action) {
 		return Assert.notNull(charset)
@@ -269,7 +269,7 @@ public class CharsetUtil {
 	 * @param charset 指定的字符集，不允许为null。
 	 * @param action  当遇到不合法的字符编码或不可映射字符时采取的行动，例如忽略、替换等。
 	 * @return 配置好的CharsetDecoder实例，用于解码字符。
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static CharsetDecoder newDecoder(final Charset charset, final CodingErrorAction action) {
 		return Assert.notNull(charset)

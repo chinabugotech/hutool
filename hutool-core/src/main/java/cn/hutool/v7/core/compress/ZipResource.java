@@ -25,7 +25,7 @@ import java.util.zip.ZipEntry;
  * Zip资源表示，如Zip流资源或Zip文件资源
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public interface ZipResource extends Closeable {
 

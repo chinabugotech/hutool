@@ -28,7 +28,7 @@ import cn.hutool.v7.json.*;
  * JSON节点Bean创建器
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class JSONNodeBeanFactory implements NodeBeanFactory<JSON> {
 

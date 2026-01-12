@@ -36,7 +36,7 @@ import java.sql.SQLException;
  * 池化的数据源，用于管理数据库连接
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class PooledDataSource extends AbstractDataSource {
 

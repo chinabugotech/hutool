@@ -27,7 +27,7 @@ import cn.hutool.v7.poi.excel.cell.CellUtil;
  * 读取Excel的Sheet，使用Consumer方式处理单元格
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class WalkSheetReader extends AbstractSheetReader<Void> {
 

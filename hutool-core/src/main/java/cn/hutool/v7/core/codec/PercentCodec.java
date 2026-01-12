@@ -89,7 +89,7 @@ public class PercentCodec implements Encoder<byte[], byte[]>, Serializable {
 	 *
 	 * @param c 字符
 	 * @return {@code true}表示安全，否则非安全字符
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public boolean isSafe(final char c) {
 		return this.safeCharacters.get(c);
@@ -180,7 +180,7 @@ public class PercentCodec implements Encoder<byte[], byte[]>, Serializable {
 	 * 由于{@link PercentCodec}本身应该是只读对象，因此将此对象的构建放在Builder中
 	 *
 	 * @author Looly
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static class Builder implements cn.hutool.v7.core.lang.builder.Builder<PercentCodec> {
 		@Serial

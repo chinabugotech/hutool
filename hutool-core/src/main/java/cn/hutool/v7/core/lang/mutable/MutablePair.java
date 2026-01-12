@@ -26,7 +26,7 @@ import java.io.Serial;
  * @param <L> 左值类型
  * @param <R> 右值类型
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class MutablePair<L, R> extends Pair<L, R> implements Mutable<MutablePair<L, R>>{
 	@Serial
@@ -40,7 +40,7 @@ public class MutablePair<L, R> extends Pair<L, R> implements Mutable<MutablePair
 	 * @param left   左值
 	 * @param right  右值
 	 * @return MutablePair
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static <L, R> MutablePair<L, R> of(final L left, final R right) {
 		return new MutablePair<>(left, right);

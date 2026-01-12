@@ -24,7 +24,7 @@ import com.google.gson.JsonSerializer;
  *
  * @param <T> 序列化对象类型
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public interface GsonTypeAdapter<T> extends JsonSerializer<T>, JsonDeserializer<T> {
 }

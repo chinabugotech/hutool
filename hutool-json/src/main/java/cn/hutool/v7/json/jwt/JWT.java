@@ -300,7 +300,7 @@ public class JWT implements RegisteredPayload<JWT> {
 	 * @param propertyType 需要提取的属性类型
 	 * @return 载荷信息
 	 * @throws ValidateException 传入的类型不匹配payload类型
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public <T> T getPayload(final String propertyName, final Type propertyType) {
 		return getPayload().getClaimsJson().get(propertyName, propertyType);

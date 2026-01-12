@@ -27,7 +27,7 @@ import java.util.function.Predicate;
  * 此类持有类中字段的缓存，如果字段在类中修改，则需要手动调用clearCaches方法清除缓存。
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class FieldReflect {
 

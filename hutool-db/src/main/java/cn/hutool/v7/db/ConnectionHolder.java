@@ -22,7 +22,7 @@ import java.sql.Connection;
  * 控制{@link Connection}获取和关闭
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public interface ConnectionHolder {
 	/**

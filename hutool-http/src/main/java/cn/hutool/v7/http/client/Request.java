@@ -51,7 +51,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * 此对象为无状态对象，与具体引擎不相关，因此可以复用。
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class Request implements HeaderOperation<Request> {
 

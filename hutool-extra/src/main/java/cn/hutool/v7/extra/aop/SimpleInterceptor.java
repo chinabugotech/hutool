@@ -23,7 +23,7 @@ import java.io.Serializable;
  * 简单拦截器，保存了被拦截的对象和Aspect实现
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class SimpleInterceptor implements Serializable {
 	@Serial

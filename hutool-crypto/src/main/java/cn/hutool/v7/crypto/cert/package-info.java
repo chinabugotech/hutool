@@ -18,6 +18,6 @@
  * 证书相关工具类
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 package cn.hutool.v7.crypto.cert;

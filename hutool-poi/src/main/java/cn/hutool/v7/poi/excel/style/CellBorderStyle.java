@@ -28,7 +28,7 @@ import java.io.Serializable;
  * 单元格边框样式和颜色封装，边框按照“上右下左”的顺序定义，与CSS一致
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class CellBorderStyle implements Serializable {
 	@Serial

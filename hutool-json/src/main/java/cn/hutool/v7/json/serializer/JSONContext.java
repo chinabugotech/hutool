@@ -22,7 +22,7 @@ import cn.hutool.v7.json.*;
  * JSON序列化上下文，用于获取当前JSON对象，以便在序列化过程中获取配置信息
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public interface JSONContext {
 

@@ -43,7 +43,7 @@ public class UrlPath {
 	 * 构建UrlPath
 	 *
 	 * @return UrlPath
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static UrlPath of() {
 		return new UrlPath();

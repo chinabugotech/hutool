@@ -37,7 +37,7 @@ import java.util.Map.Entry;
  * 邮件工具类，基于jakarta.mail封装
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class MailUtil {
 	/**

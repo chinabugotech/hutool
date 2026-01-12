@@ -33,7 +33,7 @@ import java.io.OutputStream;
  * 来自：http://stackoverflow.com/questions/11783062/how-to-decrypt-an-encrypted-file-in-java-with-openssl-with-aes
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class OpenSSLPBEOutputStream extends CipherOutputStream {
 	protected static final int WRITE_BLOCK_SIZE = 64 * 1024;

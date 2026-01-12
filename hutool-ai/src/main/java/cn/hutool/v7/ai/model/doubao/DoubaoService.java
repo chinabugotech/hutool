@@ -27,7 +27,7 @@ import java.util.function.Consumer;
  * doubao支持的扩展接口
  *
  * @author elichow
- * @since 6.0.0
+ * @since 7.0.0
  */
 public interface DoubaoService extends AIService {
 
@@ -37,7 +37,7 @@ public interface DoubaoService extends AIService {
 	 * @param prompt 提问
 	 * @param images 传入的图片列表地址/或者图片Base64编码图片列表(URI形式)
 	 * @return AI回答
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	default String chatVision(final String prompt, final List<String> images) {
 		return chatVision(prompt, images, DoubaoCommon.DoubaoVision.AUTO.getDetail());
@@ -49,7 +49,7 @@ public interface DoubaoService extends AIService {
 	 * @param prompt 提问
 	 * @param images 图片列表/或者图片Base64编码图片列表(URI形式)
 	 * @param callback 流式数据回调函数
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	default void chatVision(final String prompt, final List<String> images, final Consumer<String> callback) {
 		chatVision(prompt, images, DoubaoCommon.DoubaoVision.AUTO.getDetail(), callback);
@@ -62,7 +62,7 @@ public interface DoubaoService extends AIService {
 	 * @param images 图片列表/或者图片Base64编码图片列表(URI形式)
 	 * @param detail 手动设置图片的质量，取值范围high、low、auto,默认为auto
 	 * @return AI回答
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	String chatVision(String prompt, final List<String> images, String detail);
 
@@ -73,7 +73,7 @@ public interface DoubaoService extends AIService {
 	 * @param images 传入的图片列表地址/或者图片Base64编码图片列表(URI形式)
 	 * @param detail 手动设置图片的质量，取值范围high、low、auto,默认为auto
 	 * @param callback 流式数据回调函数
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	void chatVision(String prompt, final List<String> images, String detail, final Consumer<String> callback);
 
@@ -85,7 +85,7 @@ public interface DoubaoService extends AIService {
 	 * @param image       图片/或者图片Base64编码图片(URI形式)
 	 * @param videoParams 视频参数列表
 	 * @return 生成任务id
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	String videoTasks(String text, String image, final List<DoubaoCommon.DoubaoVideo> videoParams);
 
@@ -96,7 +96,7 @@ public interface DoubaoService extends AIService {
 	 * @param text  文本提示词
 	 * @param image 图片/或者图片Base64编码图片(URI形式)
 	 * @return 生成任务id
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	default String videoTasks(final String text, final String image) {
 		return videoTasks(text, image, null);
@@ -107,7 +107,7 @@ public interface DoubaoService extends AIService {
 	 *
 	 * @param taskId 通过创建生成视频任务返回的生成任务id
 	 * @return 生成任务信息
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	String getVideoTasksInfo(String taskId);
 
@@ -116,7 +116,7 @@ public interface DoubaoService extends AIService {
 	 *
 	 * @param input 需要向量化的内容列表，支持中文、英文
 	 * @return 处理后的向量信息
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	String embeddingText(String[] input);
 
@@ -126,7 +126,7 @@ public interface DoubaoService extends AIService {
 	 * @param text  需要向量化的内容
 	 * @param image 需要向量化的图片地址/或者图片Base64编码图片(URI形式)
 	 * @return 处理后的向量信息
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	String embeddingVision(String text, String image);
 
@@ -135,7 +135,7 @@ public interface DoubaoService extends AIService {
 	 *
 	 * @param messages 由对话组成的消息列表。如系统人设，背景信息等，用户自定义的信息
 	 * @return AI回答
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	String botsChat(final List<Message> messages);
 
@@ -144,7 +144,7 @@ public interface DoubaoService extends AIService {
 	 *
 	 * @param messages 由对话组成的消息列表。如系统人设，背景信息等，用户自定义的信息
 	 * @param callback 流式数据回调函数
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	void botsChat(final List<Message> messages, final Consumer<String> callback);
 
@@ -153,7 +153,7 @@ public interface DoubaoService extends AIService {
 	 *
 	 * @param text 需要分词的内容列表
 	 * @return 分词结果
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	String tokenization(String[] text);
 
@@ -164,7 +164,7 @@ public interface DoubaoService extends AIService {
 	 *
 	 * @param prompt chat内容
 	 * @return AI回答
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	default String batchChat(final String prompt){
 		final List<Message> messages = new ArrayList<>();
@@ -180,7 +180,7 @@ public interface DoubaoService extends AIService {
 	 *
 	 * @param messages 由对话组成的消息列表。如系统人设，背景信息等，用户自定义的信息
 	 * @return AI回答
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	String batchChat(final List<Message> messages);
 
@@ -192,7 +192,7 @@ public interface DoubaoService extends AIService {
 	 * @param messages 由对话组成的消息列表。如系统人设，背景信息等，用户自定义的信息
 	 * @param mode     上下文缓存的类型,详细参考官方文档 默认为session
 	 * @return 返回的缓存id
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	String createContext(final List<Message> messages, String mode);
 
@@ -203,7 +203,7 @@ public interface DoubaoService extends AIService {
 	 *
 	 * @param messages 由对话组成的消息列表。如系统人设，背景信息等，用户自定义的信息
 	 * @return 返回的缓存id
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	default String createContext(final List<Message> messages) {
 		return createContext(messages, DoubaoCommon.DoubaoContext.SESSION.getMode());
@@ -216,7 +216,7 @@ public interface DoubaoService extends AIService {
 	 * @param prompt    对话的内容题词
 	 * @param contextId 创建上下文缓存后获取的缓存id
 	 * @return AI的回答
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	default String chatContext(final String prompt, final String contextId){
 		final List<Message> messages = new ArrayList<>();
@@ -231,7 +231,7 @@ public interface DoubaoService extends AIService {
 	 * @param prompt    对话的内容题词
 	 * @param contextId 创建上下文缓存后获取的缓存id
 	 * @param callback 流式数据回调函数
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	default void chatContext(final String prompt, final String contextId, final Consumer<String> callback){
 		final List<Message> messages = new ArrayList<>();
@@ -246,7 +246,7 @@ public interface DoubaoService extends AIService {
 	 * @param messages  对话的信息  不支持最后一个元素的role设置为assistant。如使用session 缓存（mode设置为session）传入最新一轮对话的信息，无需传入历史信息
 	 * @param contextId 创建上下文缓存后获取的缓存id
 	 * @return AI的回答
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	String chatContext(final List<Message> messages, String contextId);
 
@@ -257,7 +257,7 @@ public interface DoubaoService extends AIService {
 	 * @param messages  对话的信息  不支持最后一个元素的role设置为assistant。如使用session 缓存（mode设置为session）传入最新一轮对话的信息，无需传入历史信息
 	 * @param contextId 创建上下文缓存后获取的缓存id
 	 * @param callback 流式数据回调函数
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	void chatContext(final List<Message> messages, String contextId, final Consumer<String> callback);
 
@@ -267,7 +267,7 @@ public interface DoubaoService extends AIService {
 	 *
 	 * @param prompt 题词
 	 * @return 包含生成图片的url
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	String imagesGenerations(String prompt);
 }

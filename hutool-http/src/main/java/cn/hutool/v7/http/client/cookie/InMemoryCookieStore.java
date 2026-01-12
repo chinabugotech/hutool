@@ -28,7 +28,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * 基于内存的Cookie存储实现，线程安全
  *
  * @author Looly
- * @since 6.0.0
+ * @since 7.0.0
  */
 public class InMemoryCookieStore implements CookieStoreSpi {
 	private static final Log LOG = Log.get();

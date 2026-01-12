@@ -137,7 +137,7 @@ public class CompareUtil {
 	 *
 	 * @param <E> 排序节点类型
 	 * @return 默认排序器
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static <E extends Comparable<? super E>> Comparator<E> naturalReverse() {
 		return Comparator.reverseOrder();
@@ -155,7 +155,7 @@ public class CompareUtil {
 	 * @param <E>        排序节点类型
 	 * @param comparator 排序器
 	 * @return 默认排序器
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static <E extends Comparable<? super E>> Comparator<E> reverse(final Comparator<E> comparator) {
 		return null == comparator ? naturalReverse() : comparator.reversed();
@@ -317,7 +317,7 @@ public class CompareUtil {
 	 * @param <T>          对象类型
 	 * @param <U>          数组对象类型
 	 * @return 索引比较器
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T, U> Comparator<T> comparingIndexed(final Function<? super T, ? extends U> keyExtractor, final Iterable<U> objs) {
@@ -350,7 +350,7 @@ public class CompareUtil {
 	 * @param t1  第一个值
 	 * @param t2  第二个值
 	 * @return 最小值
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static <T extends Comparable<? super T>> T min(final T t1, final T t2) {
 		return compare(t1, t2) <= 0 ? t1 : t2;
@@ -363,7 +363,7 @@ public class CompareUtil {
 	 * @param t1  第一个值
 	 * @param t2  第二个值
 	 * @return 最大值
-	 * @since 6.0.0
+	 * @since 7.0.0
 	 */
 	public static <T extends Comparable<? super T>> T max(final T t1, final T t2) {
 		return compare(t1, t2) >= 0 ? t1 : t2;
