@@ -2783,6 +2783,16 @@ public class NumberUtil {
 		// issue@4197@Github 转为半角
 		numberStr = Convert.toDBC(numberStr);
 
+		// issue#IDJ1NS@Gitee 处理科学计数法E+格式
+		// NumberFormat对E+格式支持不佳,使用BigDecimal直接解析
+		if (numberStr.contains("E") || numberStr.contains("e")) {
+			try {
+				return new BigDecimal(numberStr);
+			} catch (NumberFormatException e) {
+				// BigDecimal解析失败,继续使用NumberFormat尝试
+			}
+		}
+
 		try {
 			final NumberFormat format = NumberFormat.getInstance();
 			if (format instanceof DecimalFormat) {
