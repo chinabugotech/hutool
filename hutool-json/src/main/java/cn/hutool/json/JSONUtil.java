@@ -739,7 +739,7 @@ public class JSONUtil {
 	 * <li>map =》 JSONObject</li>
 	 * <li>standard property (Double, String, et al) =》 原对象</li>
 	 * <li>来自于java包 =》 字符串</li>
-	 * <li>其它 =》 尝试包装为JSONObject，否则返回{@code null}</li>
+	 * <li>其它 =》 尝试包装为JSONObject，如果{@link JSONConfig#isIgnoreError()}为true时返回{@code null}, 否则抛出异常</li>
 	 * </ul>
 	 *
 	 * @param object     被包装的对象
@@ -805,7 +805,11 @@ public class JSONUtil {
 			// 默认按照JSONObject对待
 			return new JSONObject(object, jsonConfig);
 		} catch (final Exception exception) {
-			return null;
+			// issue#4210 只有设置忽略错误时才返回null
+			if(jsonConfig.isIgnoreError()){
+				return null;
+			}
+			throw exception;
 		}
 	}
 
