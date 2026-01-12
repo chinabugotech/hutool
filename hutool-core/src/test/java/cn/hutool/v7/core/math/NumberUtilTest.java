@@ -529,6 +529,16 @@ public class NumberUtilTest {
 	}
 
 	@Test
+	void issueIDJ1NSTest(){
+		final String numberstr1 = "8.37095942E+9";
+		final BigDecimal result1 = (BigDecimal) NumberUtil.parseNumber(numberstr1);
+		final String numberstr2 = "8.37095942e+9";
+		final BigDecimal result2 = (BigDecimal) NumberUtil.parseNumber(numberstr2);
+		assertEquals(new BigDecimal("8370959420").toPlainString(), result1.toPlainString());
+		assertEquals(new BigDecimal("8370959420").toPlainString(), result2.toPlainString());
+	}
+
+	@Test
 	public void parseHexNumberTest() {
 		// 千位分隔符去掉
 		final int v1 = NumberUtil.parseNumber("0xff").intValue();

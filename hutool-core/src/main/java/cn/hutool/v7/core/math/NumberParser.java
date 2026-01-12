@@ -21,6 +21,7 @@ import cn.hutool.v7.core.convert.ConvertUtil;
 import cn.hutool.v7.core.text.CharUtil;
 import cn.hutool.v7.core.text.StrUtil;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -40,7 +41,7 @@ import java.util.Locale;
  *
  * <p>
  *     构造时可选是否将NaN转为0，默认为true。<br>
- *     参考：https://stackoverflow.com/questions/5876369/why-does-casting-double-nan-to-int-not-throw-an-exception-in-java
+ *     参考：<a href="https://stackoverflow.com/questions/5876369/why-does-casting-double-nan-to-int-not-throw-an-exception-in-java">why-does-casting-double-nan-to-int-not-throw-an-exception-in-java</a>
  * </p>
  *
  * @author Looly
@@ -373,6 +374,16 @@ public class NumberParser {
 
 		// issue@4197@Github 转为半角
 		numberStr = ConvertUtil.toDBC(numberStr);
+
+		// issue#IDJ1NS@Gitee 处理科学计数法E+格式
+		// NumberFormat对E+格式支持不佳,使用BigDecimal直接解析
+		if (StrUtil.containsIgnoreCase(numberStr, "e")) {
+			try {
+				return new BigDecimal(numberStr);
+			} catch (final NumberFormatException e) {
+				// BigDecimal解析失败,继续使用NumberFormat尝试
+			}
+		}
 
 		try {
 			final NumberFormat format = NumberFormat.getInstance(locale);
