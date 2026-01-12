@@ -389,6 +389,17 @@ public class NumberUtilTest {
 	}
 
 	@Test
+	public void parseNumberTest5() {
+		String numberstr1 = "8.37095942E+9";
+		Number result1 = NumberUtil.parseNumber(numberstr1);
+		// 转换成BigDecimal再输出完整数字
+		System.out.println(((BigDecimal) result1).toPlainString());
+		String numberstr2 = "8.37095942e+9";
+		Number result2 = NumberUtil.parseNumber(numberstr2);
+		System.out.println(((BigDecimal) result2).toPlainString());
+	}
+
+	@Test
 	public void parseHexNumberTest() {
 		// 千位分隔符去掉
 		final int v1 = NumberUtil.parseNumber("0xff").intValue();
