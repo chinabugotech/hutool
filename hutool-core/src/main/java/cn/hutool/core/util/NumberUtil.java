@@ -2785,7 +2785,7 @@ public class NumberUtil {
 
 		// issue#IDJ1NS@Gitee 处理科学计数法E+格式
 		// NumberFormat对E+格式支持不佳,使用BigDecimal直接解析
-		if (numberStr.contains("E") || numberStr.contains("e")) {
+		if (StrUtil.containsIgnoreCase(numberStr, "e")) {
 			try {
 				return new BigDecimal(numberStr);
 			} catch (NumberFormatException e) {

@@ -389,14 +389,13 @@ public class NumberUtilTest {
 	}
 
 	@Test
-	public void parseNumberTest5() {
-		String numberstr1 = "8.37095942E+9";
-		Number result1 = NumberUtil.parseNumber(numberstr1);
-		// 转换成BigDecimal再输出完整数字
-		System.out.println(((BigDecimal) result1).toPlainString());
-		String numberstr2 = "8.37095942e+9";
-		Number result2 = NumberUtil.parseNumber(numberstr2);
-		System.out.println(((BigDecimal) result2).toPlainString());
+	void issueIDJ1NSTest(){
+		final String numberstr1 = "8.37095942E+9";
+		final BigDecimal result1 = (BigDecimal) NumberUtil.parseNumber(numberstr1);
+		final String numberstr2 = "8.37095942e+9";
+		final BigDecimal result2 = (BigDecimal) NumberUtil.parseNumber(numberstr2);
+		assertEquals(new BigDecimal("8370959420").toPlainString(), result1.toPlainString());
+		assertEquals(new BigDecimal("8370959420").toPlainString(), result2.toPlainString());
 	}
 
 	@Test
