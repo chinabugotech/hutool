@@ -27,9 +27,10 @@ import java.nio.ByteOrder;
  * 除了卓越的性能外，他们还以算法生成而著称。
  *
  * <p>
- * 官方实现：https://github.com/jandrewrogers/MetroHash
- * 官方文档：http://www.jandrewrogers.com/2015/05/27/metrohash/
- * 来自：https://github.com/postamar/java-metrohash/
+ * 官方实现：<a href="https://github.com/jandrewrogers/MetroHash">MetroHash</a>
+ * 官方文档：<a href="http://www.jandrewrogers.com/2015/05/27/metrohash/">metrohash</a>
+ * 来自：<a href="https://github.com/postamar/java-metrohash/">java-metrohash</a>
+ *
  * @author Marius Posta
  */
 public class MetroHash128 extends AbstractMetroHash<MetroHash128> implements Hash128<byte[]> {
@@ -37,7 +38,7 @@ public class MetroHash128 extends AbstractMetroHash<MetroHash128> implements Has
 	/**
 	 * 创建 {@code MetroHash128}对象
 	 *
-	 * @param seed  种子
+	 * @param seed 种子
 	 * @return {@code MetroHash128}对象
 	 */
 	public static MetroHash128 of(final long seed) {

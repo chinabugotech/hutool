@@ -26,9 +26,10 @@ import java.nio.ByteOrder;
  * 除了卓越的性能外，他们还以算法生成而著称。
  *
  * <p>
- * 官方实现：https://github.com/jandrewrogers/MetroHash
- * 官方文档：http://www.jandrewrogers.com/2015/05/27/metrohash/
- * 来自：https://github.com/postamar/java-metrohash/
+ * 官方实现：<a href="https://github.com/jandrewrogers/MetroHash">MetroHash</a>
+ * 官方文档：<a href="http://www.jandrewrogers.com/2015/05/27/metrohash/">metrohash</a>
+ * 来自：<a href="https://github.com/postamar/java-metrohash/">java-metrohash</a>
+ *
  * @author Marius Posta
  */
 public class MetroHash64 extends AbstractMetroHash<MetroHash64> implements Hash64<byte[]> {
@@ -36,7 +37,7 @@ public class MetroHash64 extends AbstractMetroHash<MetroHash64> implements Hash6
 	/**
 	 * 创建 {@code MetroHash64}对象
 	 *
-	 * @param seed  种子
+	 * @param seed 种子
 	 * @return {@code MetroHash64}对象
 	 */
 	public static MetroHash64 of(final long seed) {
@@ -82,9 +83,9 @@ public class MetroHash64 extends AbstractMetroHash<MetroHash64> implements Hash6
 
 	@Override
 	public MetroHash64 write(final ByteBuffer output, final ByteOrder byteOrder) {
-		if(ByteOrder.LITTLE_ENDIAN == byteOrder){
+		if (ByteOrder.LITTLE_ENDIAN == byteOrder) {
 			writeLittleEndian(hash, output);
-		} else{
+		} else {
 			output.asLongBuffer().put(hash);
 		}
 		return this;

@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package cn.hutool.v7.core.codec;
+package cn.hutool.v7.core.codec.binary;
 
-import cn.hutool.v7.core.codec.binary.Base58;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

@@ -26,8 +26,8 @@ import java.util.Arrays;
  * 它们分别根据字串计算 64 和 128 位的散列值。这些算法不适用于加密，但适合用在散列表等处。
  *
  * <p>
- * 代码来自：https://github.com/rolandhe/string-tools<br>
- * 原始算法：https://github.com/google/cityhash
+ * 代码来自：<a href="https://github.com/rolandhe/string-tools">string-tools</a><br>
+ * 原始算法：<a href="https://github.com/google/cityhash">cityhash</a>
  *
  * @author hexiufeng
  * @since 5.2.5

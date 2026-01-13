@@ -208,7 +208,7 @@ public class HexUtil extends Hex {
 	 * @param value float值
 	 * @return 16进制字符串
 	 */
-	public static String toHex(float value) {
+	public static String toHex(final float value) {
 		return Integer.toHexString(Float.floatToIntBits(value));
 	}
 
@@ -218,7 +218,7 @@ public class HexUtil extends Hex {
 	 * @param value 16进制字符串
 	 * @return 16进制字符串float值
 	 */
-	public static float hexToFloat(String value) {
+	public static float hexToFloat(final String value) {
 		return Float.intBitsToFloat(Integer.parseUnsignedInt(removeHexPrefix(value), 16));
 	}
 
@@ -228,7 +228,7 @@ public class HexUtil extends Hex {
 	 * @param value double值
 	 * @return 16进制字符串
 	 */
-	public static String toHex(double value) {
+	public static String toHex(final double value) {
 		return Long.toHexString(Double.doubleToLongBits(value));
 	}
 
@@ -238,7 +238,7 @@ public class HexUtil extends Hex {
 	 * @param value 16进制字符串
 	 * @return 16进制字符串double值
 	 */
-	public static double hexToDouble(String value) {
+	public static double hexToDouble(final String value) {
 		return Double.longBitsToDouble(Long.parseUnsignedLong(removeHexPrefix(value), 16));
 	}
 
@@ -288,7 +288,7 @@ public class HexUtil extends Hex {
 	 * </pre>
 	 *
 	 * @param hexStr Hex字符串
-	 * @param prefix 自定义前缀，如0x
+	 * @param prefix 自定义前缀，如0x，此前缀每个16进制数前都添加
 	 * @return 格式化后的字符串
 	 */
 	public static String format(final String hexStr, final String prefix) {

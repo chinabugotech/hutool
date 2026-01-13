@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package cn.hutool.v7.core.codec;
+package cn.hutool.v7.core.codec.binary;
 
-import cn.hutool.v7.core.codec.binary.Base64;
 import cn.hutool.v7.core.util.ByteUtil;
 import cn.hutool.v7.core.util.CharsetUtil;
 import cn.hutool.v7.core.util.RandomUtil;

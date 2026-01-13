@@ -24,9 +24,9 @@ import java.nio.ByteOrder;
  * 除了卓越的性能外，他们还以算法生成而著称。
  *
  * <p>
- * 官方实现：https://github.com/jandrewrogers/MetroHash
- * 官方文档：http://www.jandrewrogers.com/2015/05/27/metrohash/
- * 来自：https://github.com/postamar/java-metrohash/
+ * 官方实现：<a href="https://github.com/jandrewrogers/MetroHash">MetroHash</a>
+ * 官方文档：<a href="http://www.jandrewrogers.com/2015/05/27/metrohash/">metrohash</a>
+ * 来自：<a href="https://github.com/postamar/java-metrohash/">java-metrohash</a>
  *
  * @param <R> 返回值类型，为this类型
  * @author Marius Posta
