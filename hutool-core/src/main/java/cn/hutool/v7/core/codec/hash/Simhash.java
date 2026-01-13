@@ -92,6 +92,9 @@ public class Simhash implements Hash64<Collection<? extends CharSequence>> {
 		final int[] weight = new int[bitNum];
 		long wordHash;
 		for (final CharSequence seg : segList) {
+			if(null == seg){
+				continue;
+			}
 			wordHash = MurmurHash.INSTANCE.hash64(seg);
 			for (int i = 0; i < bitNum; i++) {
 				if (((wordHash >> i) & 1) == 1)
