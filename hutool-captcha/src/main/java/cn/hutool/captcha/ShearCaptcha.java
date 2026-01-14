@@ -193,7 +193,6 @@ public class ShearCaptcha extends AbstractCaptcha {
 	 */
 	@SuppressWarnings("SameParameterValue")
 	private void drawInterfere(Graphics g, int x1, int y1, int x2, int y2, int thickness, Color c) {
-
 		// The thick line is in fact a filled polygon
 		g.setColor(c);
 		int dX = x2 - x1;

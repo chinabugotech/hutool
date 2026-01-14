@@ -110,6 +110,11 @@ public class LineCaptcha extends AbstractCaptcha {
 	 * @param g {@link Graphics2D}画笔
 	 */
 	private void drawInterfere(Graphics2D g) {
+		// issue#IDJQ15 自定义线条特征（粗细等）
+		if(null != this.stroke){
+			g.setStroke(this.stroke);
+		}
+
 		final ThreadLocalRandom random = RandomUtil.getRandom();
 		// 干扰线
 		for (int i = 0; i < this.interfereCount; i++) {

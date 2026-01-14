@@ -4,6 +4,7 @@
 # 5.8.44(2026-01-12)
 ### 🐣新特性
 * 【core   】      `NumberUtil.parseNumber`增加支持科学计数法（pr#4211@Github）
+* 【captcha】      `AbstractCaptcha`增加`setStroke`方法支持线条粗细（issue#IDJQ15@Gitee）
 
 ### 🐞Bug修复
 * 【json       】  修复`JSONUtil.wrap`忽略错误问题（issue#4210@Github）

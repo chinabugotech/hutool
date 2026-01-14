@@ -9,10 +9,7 @@ import cn.hutool.core.io.IORuntimeException;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.URLUtil;
 
-import java.awt.AlphaComposite;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Image;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -65,6 +62,7 @@ public abstract class AbstractCaptcha implements ICaptcha {
 	 * 文字透明度
 	 */
 	protected AlphaComposite textAlpha;
+	protected Stroke stroke;
 
 	/**
 	 * 构造，使用随机验证码生成器生成验证码
@@ -271,4 +269,13 @@ public abstract class AbstractCaptcha implements ICaptcha {
 		this.textAlpha = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, textAlpha);
 	}
 
+	/**
+	 * 设置画笔线条特征，如线条宽度等
+	 *
+	 * @param stroke 画笔
+	 * @since 5.8.44
+	 */
+	public void setStroke(Stroke stroke) {
+		this.stroke = stroke;
+	}
 }
