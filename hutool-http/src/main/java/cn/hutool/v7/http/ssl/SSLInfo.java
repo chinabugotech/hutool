@@ -166,7 +166,7 @@ public class SSLInfo {
 	}
 
 	/**
-	 * 设置{@link X509TrustManager}，新人所有则使用{@link TrustAnyTrustManager}
+	 * 设置{@link X509TrustManager}，信任所有则使用{@link TrustAnyTrustManager}
 	 *
 	 * @param trustManager {@link X509TrustManager}
 	 * @return this
