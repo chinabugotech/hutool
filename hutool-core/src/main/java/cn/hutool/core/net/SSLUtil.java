@@ -15,7 +15,7 @@ import javax.net.ssl.TrustManager;
 public class SSLUtil {
 
 	/**
-	 * 创建{@link SSLContext}，默认新人全部
+	 * 创建{@link SSLContext}，默认信任全部
 	 *
 	 * @param protocol     SSL协议，例如TLS等
 	 * @return {@link SSLContext}
