@@ -18,6 +18,7 @@ package cn.hutool.v7.core.net.url;
 
 import cn.hutool.v7.core.convert.ConvertUtil;
 import cn.hutool.v7.core.map.MapUtil;
+import cn.hutool.v7.core.text.CharUtil;
 import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.core.util.CharsetUtil;
 
@@ -178,9 +179,12 @@ public class UrlQueryUtil {
 		}
 
 		// 以&结尾则去除之
-		final int lastIndex = builder.length() - 1;
-		if ('&' == builder.charAt(lastIndex)) {
-			builder.delete(lastIndex, builder.length());
+		if (!builder.isEmpty()) {
+			final int lastIndex = builder.length() - 1;
+			if (CharUtil.AMP == builder.charAt(lastIndex)) {
+				//builder.delete(lastIndex, builder.length());
+				builder.deleteCharAt(lastIndex);
+			}
 		}
 		return builder.toString();
 	}

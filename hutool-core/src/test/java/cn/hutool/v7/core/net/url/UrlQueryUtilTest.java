@@ -166,4 +166,10 @@ public class UrlQueryUtilTest {
 		final String encodeResult = UrlQueryUtil.normalizeQuery("", CharsetUtil.UTF_8);
 		Assertions.assertEquals("", encodeResult);
 	}
+
+	@Test
+	void normalizeQueryEndWithAmpersand(){
+		final String encodeResult = UrlQueryUtil.normalizeQuery("参数&", CharsetUtil.UTF_8);
+		Assertions.assertEquals("%E5%8F%82%E6%95%B0=", encodeResult);
+	}
 }
