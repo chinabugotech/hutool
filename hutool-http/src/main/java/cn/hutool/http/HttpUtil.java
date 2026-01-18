@@ -5,6 +5,7 @@ import cn.hutool.core.convert.Convert;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.io.StreamProgress;
+import cn.hutool.core.lang.Assert;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.net.RFC3986;
 import cn.hutool.core.net.url.UrlQuery;
@@ -580,9 +581,11 @@ public class HttpUtil {
 		}
 
 		// 以&结尾则去除之
-		int lastIndex = builder.length() - 1;
-		if ('&' == builder.charAt(lastIndex)) {
-			builder.delTo(lastIndex);
+		if (!builder.isEmpty()) {
+			int lastIndex = builder.length() - 1;
+			if ('&' == builder.charAt(lastIndex)) {
+				builder.delTo(lastIndex);
+			}
 		}
 		return builder.toString();
 	}
@@ -883,6 +886,8 @@ public class HttpUtil {
 	 * @since 5.4.6
 	 */
 	public static String buildBasicAuth(String username, String password, Charset charset) {
+		Assert.notNull(username, "username must not be null");
+		Assert.notNull(password, "password must not be null");
 		final String data = username.concat(":").concat(password);
 		return "Basic " + Base64.encode(data, charset);
 	}

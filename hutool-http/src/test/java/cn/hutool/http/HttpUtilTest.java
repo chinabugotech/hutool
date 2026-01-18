@@ -328,6 +328,12 @@ public class HttpUtilTest {
 	}
 
 	@Test
+	public void normalizEampersandParamsTest() {
+		final String encodeResult = HttpUtil.normalizeParams("&", CharsetUtil.CHARSET_UTF_8);
+		assertEquals("", encodeResult);
+	}
+
+	@Test
 	public void getMimeTypeTest() {
 		final String mimeType = HttpUtil.getMimeType("aaa.aaa");
 		assertNull(mimeType);
