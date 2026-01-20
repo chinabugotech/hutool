@@ -247,7 +247,7 @@ public class MailAccount implements Serializable {
 	 * @param isAuth 是否需要用户名密码验证
 	 * @return this
 	 */
-	public MailAccount setAuth(final boolean isAuth) {
+	public MailAccount setAuth(final Boolean isAuth) {
 		this.auth = isAuth;
 		return this;
 	}
