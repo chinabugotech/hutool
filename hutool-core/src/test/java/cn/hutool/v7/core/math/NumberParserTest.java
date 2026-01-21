@@ -16,7 +16,6 @@
 
 package cn.hutool.v7.core.math;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -25,8 +24,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class NumberParserTest {
 	@Test
 	void parseLongTest() {
-		final long value = NumberParser.INSTANCE.parseLong("0.a");
-		Assertions.assertEquals(0L, value);
+		// 0.a是非法数字，抛出NumberFormatException
+		assertThrows(NumberFormatException.class, () -> NumberParser.INSTANCE.parseLong("0.a"));
 	}
 
 	@Test

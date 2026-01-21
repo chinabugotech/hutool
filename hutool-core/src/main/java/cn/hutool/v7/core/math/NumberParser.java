@@ -17,11 +17,9 @@
 package cn.hutool.v7.core.math;
 
 import cn.hutool.v7.core.array.ArrayUtil;
-import cn.hutool.v7.core.convert.ConvertUtil;
 import cn.hutool.v7.core.text.CharUtil;
 import cn.hutool.v7.core.text.StrUtil;
 
-import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -212,7 +210,9 @@ public class NumberParser {
 	 * @param numberStr 数字字符串
 	 * @return long
 	 */
-	public long parseLong(final String numberStr) {
+	public long parseLong(String numberStr) {
+		// 去除类型标记
+		numberStr = StrUtil.removeSuffixIgnoreCase(numberStr, "L");
 		if (isBlankOrNaN(numberStr)) {
 			return 0;
 		}
@@ -243,7 +243,9 @@ public class NumberParser {
 	 * @return long
 	 * @since 5.5.5
 	 */
-	public float parseFloat(final String numberStr) {
+	public float parseFloat(String numberStr) {
+		// 去除类型标记
+		numberStr = StrUtil.removeSuffixIgnoreCase(numberStr, "F");
 		if (isBlankOrNaN(numberStr)) {
 			return 0;
 		}
@@ -269,7 +271,9 @@ public class NumberParser {
 	 * @param numberStr 数字字符串
 	 * @return double
 	 */
-	public double parseDouble(final String numberStr) {
+	public double parseDouble(String numberStr) {
+		// 去除类型标记
+		numberStr = StrUtil.removeSuffixIgnoreCase(numberStr, "D");
 		if (isBlankOrNaN(numberStr)) {
 			return 0;
 		}
@@ -347,13 +351,20 @@ public class NumberParser {
 			return 0;
 		}
 
-		// 16进制
+		// 16进制，需要在结尾标识解析前判断16进制，如0xFF表示16进制数，末尾的F并不能标识类型
 		if (StrUtil.startWithIgnoreCase(numberStr, "0x")) {
-			// 0x04表示16进制数
-			return Long.parseLong(numberStr.substring(2), 16);
+			return parseLong(numberStr);
 		}
 
-		return doParse(numberStr);
+		// 以特殊字母结尾的数字，按照其对应类型解析返回
+		final char lastChar = Character.toUpperCase(numberStr.charAt(numberStr.length() - 1));
+		return switch (lastChar) {
+			case 'F' -> parseFloat(numberStr);
+			case 'D' -> parseDouble(numberStr);
+			case 'L' -> parseLong(numberStr);
+			default -> doParse(numberStr);
+		};
+
 	}
 
 	/**
@@ -362,42 +373,8 @@ public class NumberParser {
 	 *
 	 * @return 数字
 	 */
-	private Number doParse(String numberStr) {
-		Locale locale = this.locale;
-		if (null == locale) {
-			locale = Locale.getDefault(Locale.Category.FORMAT);
-		}
-		if (StrUtil.startWith(numberStr, CharUtil.PLUS)) {
-			// issue#I79VS7
-			numberStr = StrUtil.subSuf(numberStr, 1);
-		}
-
-		// issue@4197@Github 转为半角
-		numberStr = ConvertUtil.toDBC(numberStr);
-
-		// issue#IDJ1NS@Gitee 处理科学计数法E+格式
-		// NumberFormat对E+格式支持不佳,使用BigDecimal直接解析
-		if (StrUtil.containsIgnoreCase(numberStr, "e")) {
-			try {
-				return new BigDecimal(numberStr);
-			} catch (final NumberFormatException e) {
-				// BigDecimal解析失败,继续使用NumberFormat尝试
-			}
-		}
-
-		try {
-			final NumberFormat format = NumberFormat.getInstance(locale);
-			if (format instanceof DecimalFormat) {
-				// issue#1818@Github
-				// 当字符串数字超出double的长度时，会导致截断，此处使用BigDecimal接收
-				((DecimalFormat) format).setParseBigDecimal(true);
-			}
-			return format.parse(numberStr);
-		} catch (final ParseException e) {
-			final NumberFormatException nfe = new NumberFormatException(e.getMessage());
-			nfe.initCause(e);
-			throw nfe;
-		}
+	private Number doParse(final String numberStr) {
+		return NumberFormatUtil.parse(numberStr, this.locale);
 	}
 
 	/**

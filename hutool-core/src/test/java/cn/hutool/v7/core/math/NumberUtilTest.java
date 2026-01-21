@@ -108,14 +108,14 @@ public class NumberUtilTest {
 	@Test
 	public void isIntegerTest() {
 		final String[] validNumArr = {"0", "-0", "+0", "12", "+12", "1234567890", "2147483647", "-2147483648",
-				"0x012345678", "0X012345678", "0xabcdef", "-0xabcdef", "0x12abcdef", "0x7FFFFFFF", "-0x80000000",
-				"01234567", "017777777777", "-020000000000"
+			"0x012345678", "0X012345678", "0xabcdef", "-0xabcdef", "0x12abcdef", "0x7FFFFFFF", "-0x80000000",
+			"01234567", "017777777777", "-020000000000"
 		};
 		privateIsIntegerTest(validNumArr, true);
 
 		final String[] invalidNumArr = {null, "", "  ", "+", "+1.", ".1", "99L", "99D", "99F", "12.3", "123e1", "-12.3", "1.2.3",
-				"2147483648", "0x80000000", "020000000000", "-2147483649", "-0x80000001", "-020000000001", "-020000000001",
-				"a", "+a", "123abc", "09"
+			"2147483648", "0x80000000", "020000000000", "-2147483649", "-0x80000001", "-020000000001", "-020000000001",
+			"a", "+a", "123abc", "09"
 		};
 		privateIsIntegerTest(invalidNumArr, false);
 	}
@@ -129,20 +129,20 @@ public class NumberUtilTest {
 	@Test
 	public void isLongTest() {
 		final String[] validNumArr = {
-				"0", "0L", "-0L", "+0L", "12", "+12", "1234567890123456789", "99L",
-				"2147483648", "0x80000000", "020000000000", "-2147483649", "-0x80000001", "-020000000001", "-020000000001",
-				"9223372036854775807", "-9223372036854775808",
-				"0x0123456789", "0X0123456789", "0x123456789abcdef", "0xabcdef123456789", "0x7FFFFFFF", "-0x80000000",
-				"0x7fffffffffffffff", "-0x8000000000000000",
-				"01234567", "0777777777777777777777", "-01000000000000000000000"
+			"0", "0L", "-0L", "+0L", "12", "+12", "1234567890123456789", "99L",
+			"2147483648", "0x80000000", "020000000000", "-2147483649", "-0x80000001", "-020000000001", "-020000000001",
+			"9223372036854775807", "-9223372036854775808",
+			"0x0123456789", "0X0123456789", "0x123456789abcdef", "0xabcdef123456789", "0x7FFFFFFF", "-0x80000000",
+			"0x7fffffffffffffff", "-0x8000000000000000",
+			"01234567", "0777777777777777777777", "-01000000000000000000000"
 		};
 		privateIsLongTest(validNumArr, true);
 
 		final String[] invalidNumArr = {null, "", "  ", "+", "+1.", ".1", "99D", "99F", "12.3", "123e1", "-12.3", "1.2.3",
-				"a", "+a", "123abc", "09",
-				"9223372036854775808", "-9223372036854775809",
-				"0x8000000000000000", "-0x8000000000000001",
-				"01000000000000000000000", "-01000000000000000000001"
+			"a", "+a", "123abc", "09",
+			"9223372036854775808", "-9223372036854775809",
+			"0x8000000000000000", "-0x8000000000000001",
+			"01000000000000000000000", "-01000000000000000000001"
 		};
 		privateIsLongTest(invalidNumArr, false);
 	}
@@ -322,7 +322,7 @@ public class NumberUtilTest {
 
 	@Test
 	public void decimalFormatNaNTest() {
-		assertThrows(IllegalArgumentException.class, ()->{
+		assertThrows(IllegalArgumentException.class, () -> {
 			final Double a = 0D;
 			final Double b = 0D;
 
@@ -333,7 +333,7 @@ public class NumberUtilTest {
 
 	@Test
 	public void decimalFormatNaNTest2() {
-		assertThrows(IllegalArgumentException.class, ()->{
+		assertThrows(IllegalArgumentException.class, () -> {
 			final Double a = 0D;
 			final Double b = 0D;
 
@@ -384,21 +384,20 @@ public class NumberUtilTest {
 	}
 
 	@Test
-	void emptyToBigDecimalTest(){
-		assertThrows(IllegalArgumentException.class,()-> NumberUtil.toBigDecimal(""));
+	void emptyToBigDecimalTest() {
+		assertThrows(IllegalArgumentException.class, () -> NumberUtil.toBigDecimal(""));
 	}
 
 	@Test
-	void naNToBigDecimalTest(){
+	void naNToBigDecimalTest() {
 		assertEquals(BigDecimal.ZERO, NumberUtil.toBigDecimal("NaN"));
 	}
 
 	@Test
 	public void issue2878Test() throws ParseException {
 		// https://github.com/chinabugotech/hutool/issues/2878
-		// 当数字中包含一些非数字字符时，按照JDK的规则，不做修改。
-		final BigDecimal bigDecimal = NumberUtil.toBigDecimal("345.sdf");
-		assertEquals(NumberFormat.getInstance().parse("345.sdf"), bigDecimal.longValue());
+		// 当数字中包含一些非数字字符时，V7版本中抛出异常
+		assertThrows(NumberFormatException.class, () -> NumberUtil.toBigDecimal("345.sdf"));
 	}
 
 	@Test
@@ -419,19 +418,17 @@ public class NumberUtilTest {
 		number = NumberUtil.parseInt("   ");
 		assertEquals(0, number);
 
-		number = NumberUtil.parseInt("10F");
-		assertEquals(10, number);
-
-		number = NumberUtil.parseInt("22.4D");
-		assertEquals(22, number);
-
-		number = NumberUtil.parseInt("22.6D");
-		assertEquals(22, number);
+		// 浮点数解析为int时会造成精度丢失
+		assertThrows(NumberFormatException.class, () -> {
+			NumberUtil.parseInt("22.4D");
+		});
 
 		number = NumberUtil.parseInt("0");
 		assertEquals(0, number);
 
 		number = NumberUtil.parseInt(".123");
+		assertEquals(0, number);
+		number = NumberUtil.parseInt(".999");
 		assertEquals(0, number);
 	}
 
@@ -445,7 +442,7 @@ public class NumberUtilTest {
 
 	@Test
 	public void parseIntTest3() {
-		assertThrows(NumberFormatException.class, ()->{
+		assertThrows(NumberFormatException.class, () -> {
 			final int v1 = NumberUtil.parseInt("d");
 			assertEquals(0, v1);
 		});
@@ -453,7 +450,7 @@ public class NumberUtilTest {
 
 	@Test
 	public void parseIntTest4() {
-		assertThrows(NumberFormatException.class, ()->{
+		assertThrows(NumberFormatException.class, () -> {
 			// issue#I5M55F
 			// 科学计数法忽略支持，科学计数法一般用于表示非常小和非常大的数字，这类数字转换为int后精度丢失，没有意义。
 			final String numberStr = "429900013E20220812163344551";
@@ -471,9 +468,7 @@ public class NumberUtilTest {
 		assertEquals(456, NumberUtil.parseInt("abc", 456));
 
 		// -------------------------- Parse success -----------------------
-
-		assertEquals(123, NumberUtil.parseInt("123.abc", 789));
-
+		assertEquals(789, NumberUtil.parseInt("123.abc", 789));
 		assertEquals(123, NumberUtil.parseInt("123.3", null));
 
 	}
@@ -506,7 +501,7 @@ public class NumberUtilTest {
 	}
 
 	@Test
-	public void parseNumberTest3(){
+	public void parseNumberTest3() {
 
 		// -------------------------- Parse failed -----------------------
 
@@ -520,16 +515,16 @@ public class NumberUtilTest {
 
 		// -------------------------- Parse success -----------------------
 
-		assertEquals(123, NumberUtil.parseNumber("123.abc", 789).intValue());
+		assertEquals(789, NumberUtil.parseNumber("123.abc", 789).intValue());
 
 		assertEquals(123.3D, NumberUtil.parseNumber("123.3", (Number) null).doubleValue());
 
-		assertEquals(0.123D, NumberUtil.parseNumber("0.123.3", (Number) null).doubleValue());
+		assertNull(NumberUtil.parseNumber("0.123.3", (Number) null));
 
 	}
 
 	@Test
-	void issueIDJ1NSTest(){
+	void issueIDJ1NSTest() {
 		final String numberstr1 = "8.37095942E+9";
 		final BigDecimal result1 = (BigDecimal) NumberUtil.parseNumber(numberstr1);
 		final String numberstr2 = "8.37095942e+9";
@@ -567,14 +562,15 @@ public class NumberUtilTest {
 		number = NumberUtil.parseLong("   ");
 		assertEquals(0, number);
 
-		number = NumberUtil.parseLong("10F");
-		assertEquals(10, number);
+		// 明确float类型时，解析long报错，避免精度丢失问题
+		assertThrows(NumberFormatException.class, () -> {
+			NumberUtil.parseLong("10F");
+		});
 
-		number = NumberUtil.parseLong("22.4D");
-		assertEquals(22, number);
-
-		number = NumberUtil.parseLong("22.6D");
-		assertEquals(22, number);
+		// 明确double类型时，解析long报错，避免精度丢失问题
+		assertThrows(NumberFormatException.class, () -> {
+			NumberUtil.parseLong("22.4D");
+		});
 
 		number = NumberUtil.parseLong("0");
 		assertEquals(0, number);
@@ -702,11 +698,11 @@ public class NumberUtilTest {
 
 	@Test
 	public void rangeMinTest() {
-		assertThrows(NegativeArraySizeException.class, ()-> NumberUtil.range(0, Integer.MIN_VALUE));
+		assertThrows(NegativeArraySizeException.class, () -> NumberUtil.range(0, Integer.MIN_VALUE));
 	}
 
 	@Test
-	public void isPrimeTest(){
+	public void isPrimeTest() {
 		assertTrue(NumberUtil.isPrime(2));
 		assertTrue(NumberUtil.isPrime(3));
 		assertTrue(NumberUtil.isPrime(7));
@@ -718,6 +714,7 @@ public class NumberUtilTest {
 		assertFalse(NumberUtil.isPrime(296733));
 		assertFalse(NumberUtil.isPrime(20_4123_2399));
 	}
+
 	@Test
 	public void isPrimeTest2() {
 		assertTrue(NumberUtil.isPrime(2));
@@ -743,14 +740,15 @@ public class NumberUtilTest {
 		assertNull(NumberUtil.parseFloat("abc", null));
 
 		assertNull(NumberUtil.parseFloat("a123.33", null));
+		assertNull(NumberUtil.parseFloat("123.33a", null));
 
 		assertNull(NumberUtil.parseFloat("..123", null));
+
 
 		assertEquals(1233F, NumberUtil.parseFloat(StrUtil.EMPTY, 1233F));
 
 		// -------------------------- Parse success -----------------------
 
-		assertEquals(123.33F, NumberUtil.parseFloat("123.33a", null));
 
 		assertEquals(0.123F, NumberUtil.parseFloat(".123", null));
 
@@ -766,9 +764,9 @@ public class NumberUtilTest {
 		assertNull(NumberUtil.parseDouble("..123", null));
 		assertEquals(1233D, NumberUtil.parseDouble(StrUtil.EMPTY, 1233D));
 
+		assertThrows(NumberFormatException.class, () -> NumberUtil.parseDouble("123.33a"));
 		// -------------------------- Parse success -----------------------
 
-		assertEquals(123.33D, NumberUtil.parseDouble("123.33a", null));
 		assertEquals(0.123D, NumberUtil.parseDouble(".123", null));
 	}
 
@@ -798,10 +796,10 @@ public class NumberUtilTest {
 
 	@Test
 	void nullToZeroTest() {
-		assertEquals(0, NumberUtil.nullToZero((Integer)null));
-		assertEquals(0L, NumberUtil.nullToZero((Long)null));
-		assertEquals(0D, NumberUtil.nullToZero((Double)null));
-		assertEquals(0D, NumberUtil.nullToZero((Double)null));
+		assertEquals(0, NumberUtil.nullToZero((Integer) null));
+		assertEquals(0L, NumberUtil.nullToZero((Long) null));
+		assertEquals(0D, NumberUtil.nullToZero((Double) null));
+		assertEquals(0D, NumberUtil.nullToZero((Double) null));
 		assertEquals(0F, NumberUtil.nullToZero((Float) null));
 		assertEquals(0, NumberUtil.nullToZero((Short) null));
 		assertEquals(0, NumberUtil.nullToZero((Byte) null));

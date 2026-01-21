@@ -16,8 +16,9 @@
 
 package cn.hutool.v7.core.convert;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * https://github.com/chinabugotech/hutool/issues/3105
@@ -26,6 +27,6 @@ public class Issue3105Test {
 	@Test
 	void toLongTest() {
 		final Long aLong = ConvertUtil.toLong("0.a");
-		Assertions.assertEquals(0L, aLong);
+		assertNull(aLong);
 	}
 }

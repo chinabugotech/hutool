@@ -22,9 +22,12 @@ import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 
 public class IssueIALV38Test {
+
+	/**
+	 * V7版本变更，旧版本不会抛出异常，新版本中无法解析非正常数字
+	 */
 	@Test
-	void name() {
-		final Object o = ConvertUtil.convertWithCheck(BigDecimal.class, " 111啊", null, false);
-		Assertions.assertEquals(new BigDecimal("111"), o);
+	void convertWithCheckTest() {
+		Assertions.assertThrows(NumberFormatException.class, ()-> ConvertUtil.convertWithCheck(BigDecimal.class, " 111啊", null, false));
 	}
 }
