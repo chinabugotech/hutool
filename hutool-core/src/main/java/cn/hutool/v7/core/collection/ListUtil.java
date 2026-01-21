@@ -42,6 +42,7 @@ import java.util.function.Predicate;
  */
 public class ListUtil {
 
+	// region ----- of
 	/**
 	 * 新建一个{@link ArrayList}<br>
 	 * 如果提供的初始化数组为空，新建默认初始长度的List<br>
@@ -185,6 +186,54 @@ public class ListUtil {
 	}
 
 	/**
+	 * 新建一个CopyOnWriteArrayList
+	 *
+	 * @param <T>        集合元素类型
+	 * @param collection 集合
+	 * @return {@link CopyOnWriteArrayList}
+	 */
+	public static <T> CopyOnWriteArrayList<T> ofCopyOnWrite(final Collection<T> collection) {
+		return (null == collection) ? (new CopyOnWriteArrayList<>()) : (new CopyOnWriteArrayList<>(collection));
+	}
+
+	/**
+	 * 新建一个CopyOnWriteArrayList
+	 *
+	 * @param <T> 集合元素类型
+	 * @param ts  集合
+	 * @return {@link CopyOnWriteArrayList}
+	 */
+	@SafeVarargs
+	public static <T> CopyOnWriteArrayList<T> ofCopyOnWrite(final T... ts) {
+		return (null == ts) ? (new CopyOnWriteArrayList<>()) : (new CopyOnWriteArrayList<>(ts));
+	}
+
+	/**
+	 * 获取一个空List，这个空List不可变
+	 *
+	 * @param <T> 元素类型
+	 * @return 空的List
+	 * @see Collections#emptyList()
+	 * @since 5.2.6
+	 */
+	public static <T> List<T> empty() {
+		return Collections.emptyList();
+	}
+
+	/**
+	 * 获取一个初始大小为0的List，这个空List可变
+	 *
+	 * @param <T> 元素类型
+	 * @return 空的List
+	 * @since 7.0.0
+	 */
+	public static <T> List<T> zero() {
+		return new ArrayList<>(0);
+	}
+	// endregion
+
+	// region ----- view
+	/**
 	 * 数组转为一个不可变List<br>
 	 * 类似于Java9中的List.of<br>
 	 * 不同于Arrays.asList，此方法不允许修改数组
@@ -212,29 +261,7 @@ public class ListUtil {
 		}
 		return Collections.unmodifiableList(ts);
 	}
-
-	/**
-	 * 获取一个空List，这个空List不可变
-	 *
-	 * @param <T> 元素类型
-	 * @return 空的List
-	 * @see Collections#emptyList()
-	 * @since 5.2.6
-	 */
-	public static <T> List<T> empty() {
-		return Collections.emptyList();
-	}
-
-	/**
-	 * 获取一个初始大小为0的List，这个空List可变
-	 *
-	 * @param <T> 元素类型
-	 * @return 空的List
-	 * @since 7.0.0
-	 */
-	public static <T> List<T> zero() {
-		return new ArrayList<>(0);
-	}
+	// endregion
 
 	/**
 	 * 获取一个只包含一个元素的List，不可变
@@ -248,29 +275,7 @@ public class ListUtil {
 		return Collections.singletonList(element);
 	}
 
-	/**
-	 * 新建一个CopyOnWriteArrayList
-	 *
-	 * @param <T>        集合元素类型
-	 * @param collection 集合
-	 * @return {@link CopyOnWriteArrayList}
-	 */
-	public static <T> CopyOnWriteArrayList<T> ofCopyOnWrite(final Collection<T> collection) {
-		return (null == collection) ? (new CopyOnWriteArrayList<>()) : (new CopyOnWriteArrayList<>(collection));
-	}
-
-	/**
-	 * 新建一个CopyOnWriteArrayList
-	 *
-	 * @param <T> 集合元素类型
-	 * @param ts  集合
-	 * @return {@link CopyOnWriteArrayList}
-	 */
-	@SafeVarargs
-	public static <T> CopyOnWriteArrayList<T> ofCopyOnWrite(final T... ts) {
-		return (null == ts) ? (new CopyOnWriteArrayList<>()) : (new CopyOnWriteArrayList<>(ts));
-	}
-
+	// region ----- page
 	/**
 	 * 对指定List分页取值
 	 *
@@ -346,7 +351,9 @@ public class ListUtil {
 			pageInfo.nextPage();
 		}
 	}
+	// endregion
 
+	// region ----- sort
 	/**
 	 * 针对List自然排序，排序会修改原List
 	 *
@@ -403,7 +410,9 @@ public class ListUtil {
 	public static List<String> sortByPinyin(final List<String> list) {
 		return sort(list, new PinyinComparator());
 	}
+	// endregion
 
+	// region ----- reverse
 	/**
 	 * 反序给定List，会在原List基础上直接修改<br>
 	 * 注意此方法不支持不可编辑的列表
@@ -446,7 +455,9 @@ public class ListUtil {
 			return reverse(of(list));
 		}
 	}
+	// endregion
 
+	// region ----- setOrPadding
 	/**
 	 * 设置或增加元素。当index小于List的长度时，替换指定位置的值，否则在尾部追加
 	 *
@@ -524,7 +535,9 @@ public class ListUtil {
 		}
 		return list;
 	}
+	// endregion
 
+	// region ----- sub
 	/**
 	 * 截取集合的部分
 	 *
@@ -596,6 +609,7 @@ public class ListUtil {
 		}
 		return result;
 	}
+	// endregion
 
 	/**
 	 * 获取匹配规则定义中匹配到元素的最后位置<br>

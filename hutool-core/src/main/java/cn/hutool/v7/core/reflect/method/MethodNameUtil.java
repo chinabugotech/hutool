@@ -43,6 +43,18 @@ public class MethodNameUtil {
 	public static final String IS_PREFIX = "is";
 
 	/**
+	 * 将给定字符串的首字母转换为大写
+	 *
+	 * @param name 待处理的字符序列，可以是字符串或其他CharSequence实现
+	 * @return 首字母大写的字符串，如果输入为null则返回null
+	 * @see StrUtil#upperFirst(CharSequence)
+	 */
+	public static String capitalize(final CharSequence name) {
+		return StrUtil.upperFirst(name);
+	}
+
+
+	/**
 	 * 转换名称为标准的字段名称，规则为：
 	 * <ul>
 	 *     <li>首字母小写</li>
