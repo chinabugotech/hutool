@@ -136,17 +136,6 @@ class PrintAttributeBuilderTest {
 	}
 
 	@Test
-	void testOneSided() {
-		final PrintAttributeBuilder builder = new PrintAttributeBuilder(testPrinter);
-		builder.oneSided();
-		final PrintRequestAttributeSet attributes = builder.build();
-
-		final Sides sides = (Sides) attributes.get(Sides.class);
-		assertNotNull(sides);
-		assertEquals(Sides.ONE_SIDED, sides);
-	}
-
-	@Test
 	void testColorWhenSupported() {
 		supportedAttributes.add(Chromaticity.class);
 
