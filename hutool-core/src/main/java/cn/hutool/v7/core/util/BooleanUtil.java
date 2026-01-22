@@ -471,6 +471,9 @@ public class BooleanUtil {
 
 	/**
 	 * 对boolean数组取异或
+	 * 当前实现的语义为：当数组中 true 的数量为奇数时返回 true，数量为偶数时返回 false。
+	 * 注意：该方法并不是判断“是否恰好只有一个 true”，
+	 * 不适用于互斥条件校验（例如：多个条件只能有一个成立的场景）。
 	 *
 	 * <pre>
 	 *   BooleanUtil.xor(true, true)   = false
@@ -481,6 +484,7 @@ public class BooleanUtil {
 	 *   BooleanUtil.xor(true, true, false)  = false
 	 *   BooleanUtil.xor(true, false, false)  = true
 	 * </pre>
+	 * 如需判断“是否恰好只有一个 true”，请使用 {@link #exactlyOneTrue(boolean...)}。
 	 *
 	 * @param array {@code boolean}数组
 	 * @return 如果异或计算为true返回 {@code true}
@@ -528,6 +532,31 @@ public class BooleanUtil {
 		}
 
 		return result;
+	}
+
+	/**
+	 * 判断 boolean 数组中是否 恰好只有一个 元素为 true。
+	 * 常用于互斥条件校验场景，例如：
+	 * 多个角色只能同时存在一个
+	 * 多个条件只能命中一个分支
+	 * 与 {@link #xor(boolean...)} 不同，
+	 * 本方法在出现多个 true 时会直接返回 false。
+	 *
+	 * @param array boolean 数组
+	 * @return 当且仅当数组中恰好只有一个 true 时返回 true
+	 */
+	public static boolean exactlyOneTrue(final boolean... array) {
+		if (ArrayUtil.isEmpty(array)) {
+			throw new IllegalArgumentException("The Array must not be empty");
+		}
+
+		int count = 0;
+		for (final boolean b : array) {
+			if (b && ++count > 1) {
+				return false;
+			}
+		}
+		return count == 1;
 	}
 
 	/**
