@@ -106,4 +106,24 @@ public class BooleanUtilTest {
 		Boolean result = BooleanUtil.andOfWrap(boolean1, boolean2);
 		assertFalse(result);
 	}
+	@Test
+	public void testXorSemantics() {
+		// xor 的实际语义：true 的数量为奇数
+		assertTrue(BooleanUtil.xor(true, true, true));
+		assertFalse(BooleanUtil.xor(true, true));
+	}
+
+	@Test
+	public void testExactlyOneTrue() {
+		// 恰好只有一个 true
+		assertTrue(BooleanUtil.exactlyOneTrue(true, false, false));
+
+		// 多个 true，不符合互斥语义
+		assertFalse(BooleanUtil.exactlyOneTrue(true, true, false));
+		assertFalse(BooleanUtil.exactlyOneTrue(true, true, true));
+
+		// 没有 true
+		assertFalse(BooleanUtil.exactlyOneTrue(false, false, false));
+	}
+
 }
