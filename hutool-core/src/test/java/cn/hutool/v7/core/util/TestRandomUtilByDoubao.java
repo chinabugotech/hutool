@@ -26,7 +26,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.security.SecureRandom;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -199,7 +198,7 @@ public class TestRandomUtilByDoubao {
 		assertTrue(doubleInRange >= min && doubleInRange < max);
 
 		// 测试保留小数位数
-		final double doubleWithScale = RandomUtil.randomDouble(min, max, 2, RoundingMode.HALF_UP);
+		final double doubleWithScale = RandomUtil.randomDouble(min, max, 2);
 		// 验证小数位数不超过 2 位
 		final String doubleStr = String.valueOf(doubleWithScale);
 		int dotIndex = doubleStr.indexOf('.');
@@ -208,7 +207,7 @@ public class TestRandomUtilByDoubao {
 		}
 
 		// 测试无范围保留小数
-		final double doubleScaleOnly = RandomUtil.randomDouble(3, RoundingMode.HALF_UP);
+		final double doubleScaleOnly = RandomUtil.randomDouble(3);
 		final String scaleStr = String.valueOf(doubleScaleOnly);
 		dotIndex = scaleStr.indexOf('.');
 		if (dotIndex != -1) {

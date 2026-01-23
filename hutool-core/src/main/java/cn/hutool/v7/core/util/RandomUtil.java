@@ -426,18 +426,17 @@ public class RandomUtil {
 	}
 
 	/**
-	 * 获得指定范围内的随机数
+	 * 获得指定范围内的随机数<br>
+	 * 保留小数使用{@link RoundingMode#DOWN}是因为始终要保证随机数在指定范围内
 	 *
-	 * @param minInclude   最小数（包含）
-	 * @param maxExclude   最大数（不包含）
-	 * @param scale        保留小数位数
-	 * @param roundingMode 保留小数的模式 {@link RoundingMode}
+	 * @param minInclude 最小数（包含）
+	 * @param maxExclude 最大数（不包含）
+	 * @param scale      保留小数位数，使用{@link RoundingMode#DOWN}
 	 * @return 随机数
 	 * @since 4.0.8
 	 */
-	public static double randomDouble(final double minInclude, final double maxExclude, final int scale,
-									  final RoundingMode roundingMode) {
-		return NumberUtil.round(randomDouble(minInclude, maxExclude), scale, roundingMode).doubleValue();
+	public static double randomDouble(final double minInclude, final double maxExclude, final int scale) {
+		return NumberUtil.round(randomDouble(minInclude, maxExclude), scale, RoundingMode.DOWN).doubleValue();
 	}
 
 	/**
@@ -452,15 +451,15 @@ public class RandomUtil {
 	}
 
 	/**
-	 * 获得指定范围内的随机数
+	 * 获得指定范围内的随机数<br>
+	 * 保留小数使用{@link RoundingMode#DOWN}是因为始终要保证随机数在指定范围内
 	 *
-	 * @param scale        保留小数位数
-	 * @param roundingMode 保留小数的模式 {@link RoundingMode}
+	 * @param scale 保留小数位数，使用{@link RoundingMode#DOWN}
 	 * @return 随机数
 	 * @since 4.0.8
 	 */
-	public static double randomDouble(final int scale, final RoundingMode roundingMode) {
-		return NumberUtil.round(randomDouble(), scale, roundingMode).doubleValue();
+	public static double randomDouble(final int scale) {
+		return NumberUtil.round(randomDouble(), scale, RoundingMode.DOWN).doubleValue();
 	}
 
 	/**
@@ -476,16 +475,16 @@ public class RandomUtil {
 	}
 
 	/**
-	 * 获得指定范围内的随机数
+	 * 获得指定范围内的随机数<br>
+	 * 保留小数使用{@link RoundingMode#DOWN}是因为始终要保证随机数在指定范围内
 	 *
-	 * @param limit        限制随机数的范围，不包括这个数
-	 * @param scale        保留小数位数
-	 * @param roundingMode 保留小数的模式 {@link RoundingMode}
+	 * @param limit 限制随机数的范围，不包括这个数
+	 * @param scale 保留小数位数，使用{@link RoundingMode#DOWN}
 	 * @return 随机数
 	 * @since 4.0.8
 	 */
-	public static double randomDouble(final double limit, final int scale, final RoundingMode roundingMode) {
-		return NumberUtil.round(randomDouble(limit), scale, roundingMode).doubleValue();
+	public static double randomDouble(final double limit, final int scale) {
+		return NumberUtil.round(randomDouble(limit), scale, RoundingMode.DOWN).doubleValue();
 	}
 	// endregion
 
@@ -712,7 +711,7 @@ public class RandomUtil {
 	 */
 	public static String randomLettersAndNumbersWithoutStr(final int length, final String elemData) {
 		char[] baseChars = LETTERS_NUMBERS_CHARS;
-		if(StrUtil.isNotBlank(elemData)){
+		if (StrUtil.isNotBlank(elemData)) {
 			baseChars = ArrayUtil.removeElements(baseChars, elemData.toCharArray());
 		}
 		return randomString(baseChars, length);
@@ -728,7 +727,7 @@ public class RandomUtil {
 	 */
 	public static String randomLettersAndNumbersLowerWithoutStr(final int length, final String elemData) {
 		char[] baseChars = LETTERS_NUMBERS_LOWER_CHARS;
-		if(StrUtil.isNotBlank(elemData)){
+		if (StrUtil.isNotBlank(elemData)) {
 			baseChars = ArrayUtil.removeElements(baseChars, elemData.toLowerCase().toCharArray());
 		}
 		return randomString(baseChars, length);
@@ -846,11 +845,11 @@ public class RandomUtil {
 	 * 获得一个随机的字符串
 	 *
 	 * @param baseChars 随机字符选取的样本
-	 * @param length     字符串的长度
+	 * @param length    字符串的长度
 	 * @return 随机字符串
 	 */
 	public static char[] randomChars(final char[] baseChars, final int length) {
-		if(ArrayUtil.isEmpty(baseChars)){
+		if (ArrayUtil.isEmpty(baseChars)) {
 			throw new IllegalArgumentException("baseChars can not be empty !");
 		}
 		Assert.isTrue(length >= 1, "Length can not less than 1 !");

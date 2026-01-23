@@ -16,7 +16,6 @@
 
 package cn.hutool.v7.core.reflect.method;
 
-import lombok.Data;
 import cn.hutool.v7.core.array.ArrayUtil;
 import cn.hutool.v7.core.date.StopWatch;
 import cn.hutool.v7.core.lang.Console;
@@ -24,89 +23,79 @@ import cn.hutool.v7.core.lang.test.bean.ExamInfoDict;
 import cn.hutool.v7.core.reflect.ClassUtil;
 import cn.hutool.v7.core.reflect.ReflectTestBeans;
 import cn.hutool.v7.core.text.StrUtil;
-import cn.hutool.v7.core.util.JdkUtil;
-import org.junit.jupiter.api.Assertions;
+import lombok.Data;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Method;
 
-public class MethodUtilTest extends ReflectTestBeans {
+import static org.junit.jupiter.api.Assertions.*;
 
-	private static final boolean isGteJdk15 = getJavaVersion() >= 15;
-	/**
-	 * jdk版本：是否>= jdk15
-	 * jdk15: 删除了 object registerNatives
-	 * @return 反馈jdk版本，如：7、8、11、15、17
-	 * @author dazer
-	 */
-	private static int getJavaVersion() {
-		return JdkUtil.JVM_VERSION;
-	}
+public class MethodUtilTest extends ReflectTestBeans {
 
 	@Test
 	public void getMethodsTest() {
 		Method[] methods = MethodUtil.getMethods(ExamInfoDict.class);
-		Assertions.assertEquals(isGteJdk15 ? 19 : 20, methods.length);
+		assertTrue(methods.length >= 19 && methods.length <= 20);
 
 		//过滤器测试
 		methods = MethodUtil.getMethods(ExamInfoDict.class, t -> Integer.class.equals(t.getReturnType()));
 
-		Assertions.assertEquals(4, methods.length);
+		assertEquals(4, methods.length);
 		final Method method = methods[0];
-		Assertions.assertNotNull(method);
+		assertNotNull(method);
 
 		//null过滤器测试
 		methods = MethodUtil.getMethods(ExamInfoDict.class, null);
 
-		Assertions.assertEquals(isGteJdk15 ? 19 : 20, methods.length);
+		assertTrue(methods.length >= 19 && methods.length <= 20);
 		final Method method2 = methods[0];
-		Assertions.assertNotNull(method2);
+		assertNotNull(method2);
 	}
 
 	@Test
 	public void getMethodTest() {
 		Method method = MethodUtil.getMethod(ExamInfoDict.class, "getId");
-		Assertions.assertEquals("getId", method.getName());
-		Assertions.assertEquals(0, method.getParameterTypes().length);
+		assertEquals("getId", method.getName());
+		assertEquals(0, method.getParameterTypes().length);
 
 		method = MethodUtil.getMethod(ExamInfoDict.class, "getId", Integer.class);
-		Assertions.assertEquals("getId", method.getName());
-		Assertions.assertEquals(1, method.getParameterTypes().length);
+		assertEquals("getId", method.getName());
+		assertEquals(1, method.getParameterTypes().length);
 	}
 
 	@Test
 	public void getMethodIgnoreCaseTest() {
 		Method method = MethodUtil.getMethodIgnoreCase(ExamInfoDict.class, "getId");
-		Assertions.assertEquals("getId", method.getName());
-		Assertions.assertEquals(0, method.getParameterTypes().length);
+		assertEquals("getId", method.getName());
+		assertEquals(0, method.getParameterTypes().length);
 
 		method = MethodUtil.getMethodIgnoreCase(ExamInfoDict.class, "GetId");
-		Assertions.assertEquals("getId", method.getName());
-		Assertions.assertEquals(0, method.getParameterTypes().length);
+		assertEquals("getId", method.getName());
+		assertEquals(0, method.getParameterTypes().length);
 
 		method = MethodUtil.getMethodIgnoreCase(ExamInfoDict.class, "setanswerIs", Integer.class);
-		Assertions.assertEquals("setAnswerIs", method.getName());
-		Assertions.assertEquals(1, method.getParameterTypes().length);
+		assertEquals("setAnswerIs", method.getName());
+		assertEquals(1, method.getParameterTypes().length);
 	}
 
 	@Test
 	public void invokeTest() {
 		final AClass testClass = new AClass();
 		MethodUtil.invoke(testClass, "setA", 10);
-		Assertions.assertEquals(10, testClass.getA());
+		assertEquals(10, testClass.getA());
 	}
 
 	@Test
 	public void getDeclaredMethodsTest() {
 		Class<?> type = TestBenchClass.class;
 		Method[] methods = type.getDeclaredMethods();
-		Assertions.assertArrayEquals(methods, MethodUtil.getDeclaredMethods(type));
-		Assertions.assertSame(MethodUtil.getDeclaredMethods(type), MethodUtil.getDeclaredMethods(type));
+		assertArrayEquals(methods, MethodUtil.getDeclaredMethods(type));
+		assertSame(MethodUtil.getDeclaredMethods(type), MethodUtil.getDeclaredMethods(type));
 
 		type = Object.class;
 		methods = type.getDeclaredMethods();
-		Assertions.assertArrayEquals(methods, MethodUtil.getDeclaredMethods(type));
+		assertArrayEquals(methods, MethodUtil.getDeclaredMethods(type));
 	}
 
 	@Test
@@ -156,19 +145,26 @@ public class MethodUtilTest extends ReflectTestBeans {
 	public void getMethodsFromClassExtends() {
 		// 继承情况下，需解决方法去重问题
 		Method[] methods = MethodUtil.getMethods(C2.class);
-		Assertions.assertEquals(isGteJdk15 ? 14 : 15, methods.length);
+		// 在使用jacoco时，会多出jacocoInit方法，在此兼容
+		assertTrue(methods.length >= 14 && methods.length <= 15);
 
 		// 排除Object中的方法
 		// 3个方法包括类
 		methods = MethodUtil.getMethodsDirectly(C2.class, true, false);
-		Assertions.assertEquals(3, methods.length);
+		assertTrue(methods.length >= 3 && methods.length <= 4);
+
+		int index = 0;
+		if(methods[index].toString().contains("jacocoInit")){
+			// 引入jacoco后，会出jacocoInit方法，忽略之
+			index++;
+		}
 
 		// getA属于本类
-		Assertions.assertEquals("public void cn.hutool.v7.core.reflect.ReflectTestBeans$C2.getA()", methods[0].toString());
+		assertEquals("public void cn.hutool.v7.core.reflect.ReflectTestBeans$C2.getA()", methods[index].toString());
 		// getB属于父类
-		Assertions.assertEquals("public void cn.hutool.v7.core.reflect.ReflectTestBeans$C1.getB()", methods[1].toString());
+		assertEquals("public void cn.hutool.v7.core.reflect.ReflectTestBeans$C1.getB()", methods[index + 1].toString());
 		// getC属于接口中的默认方法
-		Assertions.assertEquals("public default void cn.hutool.v7.core.reflect.ReflectTestBeans$TestInterface1.getC()", methods[2].toString());
+		assertEquals("public default void cn.hutool.v7.core.reflect.ReflectTestBeans$TestInterface1.getC()", methods[index + 2].toString());
 	}
 
 	@Test
@@ -176,47 +172,47 @@ public class MethodUtilTest extends ReflectTestBeans {
 		// 对于接口，直接调用Class.getMethods方法获取所有方法，因为接口都是public方法
 		// 因此此处得到包括TestInterface1、TestInterface2、TestInterface3中一共4个方法
 		final Method[] methods = MethodUtil.getMethods(TestInterface3.class);
-		Assertions.assertEquals(4, methods.length);
+		assertEquals(4, methods.length);
 
 		// 接口里，调用getMethods和getPublicMethods效果相同
 		final Method[] publicMethods = MethodUtil.getPublicMethods(TestInterface3.class);
-		Assertions.assertArrayEquals(methods, publicMethods);
+		assertArrayEquals(methods, publicMethods);
 	}
 
 	@Test
 	public void getPublicMethod() {
 		final Method superPublicMethod = MethodUtil.getPublicMethod(TestSubClass.class, false, "publicMethod");
-		Assertions.assertNotNull(superPublicMethod);
+		assertNotNull(superPublicMethod);
 		final Method superPrivateMethod = MethodUtil.getPublicMethod(TestSubClass.class, false, "privateMethod");
-		Assertions.assertNull(superPrivateMethod);
+		assertNull(superPrivateMethod);
 
 		final Method publicMethod = MethodUtil.getPublicMethod(TestSubClass.class, false, "publicSubMethod");
-		Assertions.assertNotNull(publicMethod);
+		assertNotNull(publicMethod);
 		final Method privateMethod = MethodUtil.getPublicMethod(TestSubClass.class, false, "privateSubMethod");
-		Assertions.assertNull(privateMethod);
+		assertNull(privateMethod);
 	}
 
 	@Test
 	public void getDeclaredMethod() {
 		final Method noMethod = MethodUtil.getMethod(TestSubClass.class, "noMethod");
-		Assertions.assertNull(noMethod);
+		assertNull(noMethod);
 
 		final Method privateMethod = MethodUtil.getMethod(TestSubClass.class, "privateMethod");
-		Assertions.assertNotNull(privateMethod);
+		assertNotNull(privateMethod);
 		final Method publicMethod = MethodUtil.getMethod(TestSubClass.class, "publicMethod");
-		Assertions.assertNotNull(publicMethod);
+		assertNotNull(publicMethod);
 
 		final Method publicSubMethod = MethodUtil.getMethod(TestSubClass.class, "publicSubMethod");
-		Assertions.assertNotNull(publicSubMethod);
+		assertNotNull(publicSubMethod);
 		final Method privateSubMethod = MethodUtil.getMethod(TestSubClass.class, "privateSubMethod");
-		Assertions.assertNotNull(privateSubMethod);
+		assertNotNull(privateSubMethod);
 	}
 
 	@Test
 	public void issue2625Test(){
 		// 内部类继承的情况下父类方法会被定义为桥接方法，因此按照pr#1965@Github判断返回值的继承关系来代替判断桥接。
 		final Method getThis = MethodUtil.getMethod(A.C.class, "getThis");
-		Assertions.assertTrue(getThis.isBridge());
+		assertTrue(getThis.isBridge());
 	}
 
 	@SuppressWarnings("InnerClassMayBeStatic")
@@ -243,7 +239,7 @@ public class MethodUtilTest extends ReflectTestBeans {
 		final TestClass testClass = new TestClass();
 		final Method method = MethodUtil.getMethod(TestClass.class, "setA", int.class);
 		MethodUtil.invoke(testClass, method, 10);
-		Assertions.assertEquals(10, testClass.getA());
+		assertEquals(10, testClass.getA());
 	}
 
 	@Test
@@ -251,14 +247,14 @@ public class MethodUtilTest extends ReflectTestBeans {
 		final TestClass testClass = new TestClass();
 		final Method method = MethodUtil.getMethod(TestClass.class, "setA", int.class);
 		MethodUtil.invoke(testClass, method, "10");
-		Assertions.assertEquals(10, testClass.getA());
+		assertEquals(10, testClass.getA());
 	}
 
 	@Test
 	public void invokeMethodWithParamConvertFailedTest() {
 		final TestClass testClass = new TestClass();
 		final Method method = MethodUtil.getMethod(TestClass.class, "setA", int.class);
-		Assertions.assertThrows(IllegalArgumentException.class,
+		assertThrows(IllegalArgumentException.class,
 				() -> MethodUtil.invoke(testClass, method, "aaa"));
 	}
 }

@@ -23,7 +23,6 @@ import cn.hutool.v7.core.math.NumberUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.math.RoundingMode;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -46,7 +45,7 @@ public class RandomUtilTest {
 
 	@Test
 	public void randomDoubleTest() {
-		final double randomDouble = RandomUtil.randomDouble(0, 1, 0, RoundingMode.HALF_UP);
+		final double randomDouble = RandomUtil.randomDouble(0, 1, 0);
 		assertTrue(randomDouble <= 1);
 	}
 
@@ -136,7 +135,7 @@ public class RandomUtilTest {
 	@Test
 	public void testRandomDoubleWithScaleAndRoundingMode() {
 		// 测试基本功能：生成0到10之间的随机数，保留2位小数，四舍五入
-		final double result = RandomUtil.randomDouble(10.0, 2, RoundingMode.HALF_UP);
+		final double result = RandomUtil.randomDouble(10.0, 2);
 
 		// 验证结果在[0, 10)范围内
 		assertTrue(result >= 0.0 && result < 10.0,
@@ -159,17 +158,17 @@ public class RandomUtilTest {
 		final double limit = 5.0;
 
 		// 测试向上舍入
-		final double upResult = RandomUtil.randomDouble(limit, 2, RoundingMode.UP);
+		final double upResult = RandomUtil.randomDouble(limit, 2);
 		assertTrue(upResult >= 0.0 && upResult < limit,
 			"UP模式下随机数应该在[0, 5)范围内");
 
 		// 测试向下舍入
-		final double downResult = RandomUtil.randomDouble(limit, 2, RoundingMode.DOWN);
+		final double downResult = RandomUtil.randomDouble(limit, 2);
 		assertTrue(downResult >= 0.0 && downResult < limit,
 			"DOWN模式下随机数应该在[0, 5)范围内");
 
 		// 测试四舍五入
-		final double halfUpResult = RandomUtil.randomDouble(limit, 2, RoundingMode.HALF_UP);
+		final double halfUpResult = RandomUtil.randomDouble(limit, 2);
 		assertTrue(halfUpResult >= 0.0 && halfUpResult < limit,
 			"HALF_UP模式下随机数应该在[0, 5)范围内");
 	}
@@ -179,7 +178,7 @@ public class RandomUtilTest {
 	 */
 	@Test
 	public void testRandomDoubleWithZeroScale() {
-		final double result = RandomUtil.randomDouble(10.0, 0, RoundingMode.HALF_UP);
+		final double result = RandomUtil.randomDouble(10.0, 0);
 
 		// 验证结果在[0, 10)范围内
 		assertTrue(result >= 0.0 && result < 10.0,
@@ -195,7 +194,7 @@ public class RandomUtilTest {
 	 */
 	@Test
 	public void testRandomDoubleWithNullRoundingMode() {
-		final double result = RandomUtil.randomDouble(10.0, 2, null);
+		final double result = RandomUtil.randomDouble(10.0, 2);
 
 		// 验证结果在[0, 10)范围内
 		assertTrue(result >= 0.0 && result < 10.0,
@@ -215,7 +214,7 @@ public class RandomUtilTest {
 	 */
 	@Test
 	public void testRandomDoubleWithSmallLimit() {
-		final double result = RandomUtil.randomDouble(0.001, 5, RoundingMode.HALF_UP);
+		final double result = RandomUtil.randomDouble(0.001, 5);
 
 		// 验证结果在[0, 0.001)范围内
 		assertTrue(result >= 0.0 && result < 0.001,
@@ -227,7 +226,7 @@ public class RandomUtilTest {
 	 */
 	@Test
 	public void testRandomDoubleWithHighPrecision() {
-		final double result = RandomUtil.randomDouble(100.0, 10, RoundingMode.HALF_UP);
+		final double result = RandomUtil.randomDouble(100.0, 10);
 
 		// 验证结果在[0, 100)范围内
 		assertTrue(result >= 0.0 && result < 100.0,
