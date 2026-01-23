@@ -1,14 +1,14 @@
-<p style="text-align: center;">
+<p align="center">
     <a href="https://hutool.cn/"><img alt="" src="https://plus.hutool.cn/images/hutool.svg" width="45%"></a>
 </p>
-<p style="text-align: center;">
+<p align="center">
     <strong>🍬Make Java Sweet Again.</strong>
 </p>
-<p style="text-align: center;">
+<p align="center">
     👉 <a href="https://hutool.cn">https://hutool.cn/</a> 👈
 </p>
 
-<p style="text-align: center;text-decoration: none;">
+<p align="center">
     <a target="_blank" href="https://search.maven.org/artifact/cn.hutool/hutool-all">
         <img alt="" src="https://img.shields.io/maven-central/v/cn.hutool/hutool-all.svg?label=Maven%20Central" />
     </a>
