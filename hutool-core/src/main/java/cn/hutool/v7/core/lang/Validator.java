@@ -513,6 +513,19 @@ public class Validator {
 	}
 
 	/**
+	 * 辅助方法：检查字符串是否只包含数字
+	 *
+	 * @param str 字符串
+	 * @return 是否只包含数字
+	 */
+	public static boolean isNumeric(final String str) {
+		if (StrUtil.isBlank( str)) {
+			return false;
+		}
+		return isMatchRegex("\\d+", str);
+	}
+
+	/**
 	 * 是否包含数字
 	 *
 	 * @param value 当前字符串
@@ -621,14 +634,15 @@ public class Validator {
 
 	/**
 	 * 验证是否为可用邮箱地址<br>
-	 * 邮箱地址限制长度为254个字符，参考：https://stackoverflow.com/questions/386294/what-is-the-maximum-length-of-a-valid-email-address/44317754
+	 * 邮箱地址限制长度为254个字符，参考：
+	 * <a href="https://stackoverflow.com/questions/386294/what-is-the-maximum-length-of-a-valid-email-address/44317754">what-is-the-maximum-length-of-a-valid-email-address</a>
 	 *
 	 * @param value 值
 	 * @return true为可用邮箱地址
 	 */
 	public static boolean isEmail(final CharSequence value) {
 		final int codeLength = StrUtil.codeLength(value);
-		if(codeLength < 1 || codeLength > 254){
+		if (codeLength < 1 || codeLength > 254) {
 			return false;
 		}
 
@@ -1056,9 +1070,9 @@ public class Validator {
 //		final double doubleValue = value.doubleValue();
 //		return (doubleValue >= min.doubleValue()) && (doubleValue <= max.doubleValue());
 		// 通过 NumberUtil 转换为 BigDecimal，使用 BigDecimal 进行比较以保留精度
-		BigDecimal valBd = NumberUtil.toBigDecimal(value);
-		BigDecimal minBd = NumberUtil.toBigDecimal(min);
-		BigDecimal maxBd = NumberUtil.toBigDecimal(max);
+		final BigDecimal valBd = NumberUtil.toBigDecimal(value);
+		final BigDecimal minBd = NumberUtil.toBigDecimal(min);
+		final BigDecimal maxBd = NumberUtil.toBigDecimal(max);
 		return valBd.compareTo(minBd) >= 0 && valBd.compareTo(maxBd) <= 0;
 	}
 

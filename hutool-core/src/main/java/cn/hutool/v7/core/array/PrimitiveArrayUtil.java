@@ -22,8 +22,9 @@ import cn.hutool.v7.core.util.ObjUtil;
 import cn.hutool.v7.core.util.RandomUtil;
 
 import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.Random;
+import java.util.*;
+import java.util.function.Predicate;
+import java.util.function.UnaryOperator;
 
 /**
  * 原始类型数组工具类，原始类型数据包括：
@@ -1737,6 +1738,7 @@ public class PrimitiveArrayUtil {
 
 		return result;
 	}
+	// endregion
 
 	// region ----- removeEle
 
@@ -1858,6 +1860,568 @@ public class PrimitiveArrayUtil {
 	 */
 	public static boolean[] removeEle(final boolean[] array, final boolean element) throws IllegalArgumentException {
 		return remove(array, indexOf(array, element));
+	}
+	// endregion
+
+	// region ----- removeElements
+
+	/**
+	 * 从字符数组中移除指定的多个字符
+	 *
+	 * @param array    原始字符数组
+	 * @param elements 要移除的字符数组
+	 * @return 移除指定字符后的新数组
+	 * @since 7.0.0
+	 */
+	public static char[] removeElements(final char[] array, final char... elements) {
+		if (isEmpty(array) || isEmpty(elements)) {
+			return array;
+		}
+
+		return filter(array, t -> !ArrayUtil.contains(elements, t));
+	}
+
+	// ==================== byte 类型 ====================
+
+	/**
+	 * 从byte数组中移除指定的多个byte元素
+	 *
+	 * @param array    原始byte数组
+	 * @param elements 要移除的byte数组
+	 * @return 移除指定元素后的新数组
+	 * @since 7.0.0
+	 */
+	public static byte[] removeElements(final byte[] array, final byte... elements) {
+		if (isEmpty(array) || isEmpty(elements)) {
+			return array;
+		}
+
+		return filter(array, t -> !contains(elements, t));
+	}
+
+	// ==================== short 类型 ====================
+
+	/**
+	 * 从short数组中移除指定的多个short元素
+	 *
+	 * @param array    原始short数组
+	 * @param elements 要移除的short数组
+	 * @return 移除指定元素后的新数组
+	 * @since 7.0.0
+	 */
+	public static short[] removeElements(final short[] array, final short... elements) {
+		if (isEmpty(array) || isEmpty(elements)) {
+			return array;
+		}
+
+		return filter(array, t -> !contains(elements, t));
+	}
+
+	/**
+	 * 从int数组中移除指定的多个int元素
+	 *
+	 * @param array    原始int数组
+	 * @param elements 要移除的int数组
+	 * @return 移除指定元素后的新数组
+	 * @since 7.0.0
+	 */
+	public static int[] removeElements(final int[] array, final int... elements) {
+		if (isEmpty(array) || isEmpty(elements)) {
+			return array;
+		}
+
+		return filter(array, t -> !contains(elements, t));
+	}
+
+	/**
+	 * 从long数组中移除指定的多个long元素
+	 *
+	 * @param array    原始long数组
+	 * @param elements 要移除的long数组
+	 * @return 移除指定元素后的新数组
+	 * @since 7.0.0
+	 */
+	public static long[] removeElements(final long[] array, final long... elements) {
+		if (isEmpty(array) || isEmpty(elements)) {
+			return array;
+		}
+
+		return filter(array, t -> !contains(elements, t));
+	}
+
+	/**
+	 * 从float数组中移除指定的多个float元素
+	 *
+	 * @param array    原始float数组
+	 * @param elements 要移除的float数组
+	 * @return 移除指定元素后的新数组
+	 * @since 7.0.0
+	 */
+	public static float[] removeElements(final float[] array, final float... elements) {
+		if (isEmpty(array) || isEmpty(elements)) {
+			return array;
+		}
+
+		return filter(array, t -> !contains(elements, t));
+	}
+
+	/**
+	 * 从double数组中移除指定的多个double元素
+	 *
+	 * @param array    原始double数组
+	 * @param elements 要移除的double数组
+	 * @return 移除指定元素后的新数组
+	 * @since 7.0.0
+	 */
+	public static double[] removeElements(final double[] array, final double... elements) {
+		if (isEmpty(array) || isEmpty(elements)) {
+			return array;
+		}
+
+		return filter(array, t -> !contains(elements, t));
+	}
+
+	/**
+	 * 从boolean数组中移除指定的多个boolean元素
+	 *
+	 * @param array    原始boolean数组
+	 * @param elements 要移除的boolean数组
+	 * @return 移除指定元素后的新数组
+	 * @since 7.0.0
+	 */
+	public static boolean[] removeElements(final boolean[] array, final boolean... elements) {
+		if (isEmpty(array) || isEmpty(elements)) {
+			return array;
+		}
+
+		return filter(array, t -> !contains(elements, t));
+	}
+	// endregion
+
+	// region ----- edit and filter
+
+	/**
+	 * 对每个数组元素执行指定操作，返回操作后的元素<br>
+	 * 这个Editor实现可以实现以下功能：
+	 * <ol>
+	 *     <li>过滤出需要的对象，如果返回{@code null}则抛弃这个元素对象</li>
+	 *     <li>修改元素对象，返回修改后的对象</li>
+	 * </ol>
+	 *
+	 * @param array  数组
+	 * @param editor 编辑器接口，为 {@code null}则返回原数组
+	 * @return 编辑后的数组
+	 * @since 7.0.0
+	 */
+	public static char[] edit(final char[] array, final UnaryOperator<Character> editor) {
+		if (null == array || null == editor) {
+			return array;
+		}
+
+		final List<Character> resultList = new ArrayList<>(array.length);
+		Character modified;
+		for (final Character t : array) {
+			modified = editor.apply(t);
+			if (null != modified) {
+				resultList.add(modified);
+			}
+		}
+
+		// 将List转换为char[]数组
+		final int size = resultList.size();
+		final char[] resultArray = new char[size];
+		for (int i = 0; i < size; i++) {
+			resultArray[i] = resultList.get(i);
+		}
+
+		return resultArray;
+	}
+
+	/**
+	 * 对每个byte数组元素执行指定操作，返回操作后的元素<br>
+	 * 这个Editor实现可以实现以下功能：
+	 * <ol>
+	 *     <li>过滤出需要的对象，如果返回{@code null}则抛弃这个元素对象</li>
+	 *     <li>修改元素对象，返回修改后的对象</li>
+	 * </ol>
+	 *
+	 * @param array  数组
+	 * @param editor 编辑器接口，为 {@code null}则返回原数组
+	 * @return 编辑后的数组
+	 * @since 7.0.0
+	 */
+	public static byte[] edit(final byte[] array, final UnaryOperator<Byte> editor) {
+		if (null == array || null == editor) {
+			return array;
+		}
+
+		final List<Byte> resultList = new ArrayList<>(array.length);
+		Byte modified;
+		for (final Byte t : array) {
+			modified = editor.apply(t);
+			if (null != modified) {
+				resultList.add(modified);
+			}
+		}
+
+		// 将List转换为byte[]数组
+		final int size = resultList.size();
+		final byte[] resultArray = new byte[size];
+		for (int i = 0; i < size; i++) {
+			resultArray[i] = resultList.get(i);
+		}
+
+		return resultArray;
+	}
+
+	/**
+	 * 对每个short数组元素执行指定操作，返回操作后的元素<br>
+	 * 这个Editor实现可以实现以下功能：
+	 * <ol>
+	 *     <li>过滤出需要的对象，如果返回{@code null}则抛弃这个元素对象</li>
+	 *     <li>修改元素对象，返回修改后的对象</li>
+	 * </ol>
+	 *
+	 * @param array  数组
+	 * @param editor 编辑器接口，为 {@code null}则返回原数组
+	 * @return 编辑后的数组
+	 * @since 7.0.0
+	 */
+	public static short[] edit(final short[] array, final UnaryOperator<Short> editor) {
+		if (null == array || null == editor) {
+			return array;
+		}
+
+		final List<Short> resultList = new ArrayList<>(array.length);
+		Short modified;
+		for (final Short t : array) {
+			modified = editor.apply(t);
+			if (null != modified) {
+				resultList.add(modified);
+			}
+		}
+
+		// 将List转换为short[]数组
+		final int size = resultList.size();
+		final short[] resultArray = new short[size];
+		for (int i = 0; i < size; i++) {
+			resultArray[i] = resultList.get(i);
+		}
+
+		return resultArray;
+	}
+
+	/**
+	 * 对每个int数组元素执行指定操作，返回操作后的元素<br>
+	 * 这个Editor实现可以实现以下功能：
+	 * <ol>
+	 *     <li>过滤出需要的对象，如果返回{@code null}则抛弃这个元素对象</li>
+	 *     <li>修改元素对象，返回修改后的对象</li>
+	 * </ol>
+	 *
+	 * @param array  数组
+	 * @param editor 编辑器接口，为 {@code null}则返回原数组
+	 * @return 编辑后的数组
+	 * @since 7.0.0
+	 */
+	public static int[] edit(final int[] array, final UnaryOperator<Integer> editor) {
+		if (null == array || null == editor) {
+			return array;
+		}
+
+		final List<Integer> resultList = new ArrayList<>(array.length);
+		Integer modified;
+		for (final Integer t : array) {
+			modified = editor.apply(t);
+			if (null != modified) {
+				resultList.add(modified);
+			}
+		}
+
+		// 将List转换为int[]数组
+		final int size = resultList.size();
+		final int[] resultArray = new int[size];
+		for (int i = 0; i < size; i++) {
+			resultArray[i] = resultList.get(i);
+		}
+
+		return resultArray;
+	}
+
+	/**
+	 * 对每个long数组元素执行指定操作，返回操作后的元素<br>
+	 * 这个Editor实现可以实现以下功能：
+	 * <ol>
+	 *     <li>过滤出需要的对象，如果返回{@code null}则抛弃这个元素对象</li>
+	 *     <li>修改元素对象，返回修改后的对象</li>
+	 * </ol>
+	 *
+	 * @param array  数组
+	 * @param editor 编辑器接口，为 {@code null}则返回原数组
+	 * @return 编辑后的数组
+	 * @since 7.0.0
+	 */
+	public static long[] edit(final long[] array, final UnaryOperator<Long> editor) {
+		if (null == array || null == editor) {
+			return array;
+		}
+
+		final List<Long> resultList = new ArrayList<>(array.length);
+		Long modified;
+		for (final Long t : array) {
+			modified = editor.apply(t);
+			if (null != modified) {
+				resultList.add(modified);
+			}
+		}
+
+		// 将List转换为long[]数组
+		final int size = resultList.size();
+		final long[] resultArray = new long[size];
+		for (int i = 0; i < size; i++) {
+			resultArray[i] = resultList.get(i);
+		}
+
+		return resultArray;
+	}
+
+	/**
+	 * 对每个float数组元素执行指定操作，返回操作后的元素<br>
+	 * 这个Editor实现可以实现以下功能：
+	 * <ol>
+	 *     <li>过滤出需要的对象，如果返回{@code null}则抛弃这个元素对象</li>
+	 *     <li>修改元素对象，返回修改后的对象</li>
+	 * </ol>
+	 *
+	 * @param array  数组
+	 * @param editor 编辑器接口，为 {@code null}则返回原数组
+	 * @return 编辑后的数组
+	 * @since 7.0.0
+	 */
+	public static float[] edit(final float[] array, final UnaryOperator<Float> editor) {
+		if (null == array || null == editor) {
+			return array;
+		}
+
+		final List<Float> resultList = new ArrayList<>(array.length);
+		Float modified;
+		for (final Float t : array) {
+			modified = editor.apply(t);
+			if (null != modified) {
+				resultList.add(modified);
+			}
+		}
+
+		// 将List转换为float[]数组
+		final int size = resultList.size();
+		final float[] resultArray = new float[size];
+		for (int i = 0; i < size; i++) {
+			resultArray[i] = resultList.get(i);
+		}
+
+		return resultArray;
+	}
+
+	/**
+	 * 对每个double数组元素执行指定操作，返回操作后的元素<br>
+	 * 这个Editor实现可以实现以下功能：
+	 * <ol>
+	 *     <li>过滤出需要的对象，如果返回{@code null}则抛弃这个元素对象</li>
+	 *     <li>修改元素对象，返回修改后的对象</li>
+	 * </ol>
+	 *
+	 * @param array  数组
+	 * @param editor 编辑器接口，为 {@code null}则返回原数组
+	 * @return 编辑后的数组
+	 * @since 7.0.0
+	 */
+	public static double[] edit(final double[] array, final UnaryOperator<Double> editor) {
+		if (null == array || null == editor) {
+			return array;
+		}
+
+		final List<Double> resultList = new ArrayList<>(array.length);
+		Double modified;
+		for (final Double t : array) {
+			modified = editor.apply(t);
+			if (null != modified) {
+				resultList.add(modified);
+			}
+		}
+
+		// 将List转换为double[]数组
+		final int size = resultList.size();
+		final double[] resultArray = new double[size];
+		for (int i = 0; i < size; i++) {
+			resultArray[i] = resultList.get(i);
+		}
+
+		return resultArray;
+	}
+
+	/**
+	 * 对每个boolean数组元素执行指定操作，返回操作后的元素<br>
+	 * 这个Editor实现可以实现以下功能：
+	 * <ol>
+	 *     <li>过滤出需要的对象，如果返回{@code null}则抛弃这个元素对象</li>
+	 *     <li>修改元素对象，返回修改后的对象</li>
+	 * </ol>
+	 *
+	 * @param array  数组
+	 * @param editor 编辑器接口，为 {@code null}则返回原数组
+	 * @return 编辑后的数组
+	 * @since 7.0.0
+	 */
+	public static boolean[] edit(final boolean[] array, final UnaryOperator<Boolean> editor) {
+		if (null == array || null == editor) {
+			return array;
+		}
+
+		final List<Boolean> resultList = new ArrayList<>(array.length);
+		Boolean modified;
+		for (final Boolean t : array) {
+			modified = editor.apply(t);
+			if (null != modified) {
+				resultList.add(modified);
+			}
+		}
+
+		// 将List转换为boolean[]数组
+		final int size = resultList.size();
+		final boolean[] resultArray = new boolean[size];
+		for (int i = 0; i < size; i++) {
+			resultArray[i] = resultList.get(i);
+		}
+
+		return resultArray;
+	}
+
+	/**
+	 * 过滤数组元素<br>
+	 * 保留 {@link Predicate#test(Object)}为{@code true}的元素
+	 *
+	 * @param array     数组
+	 * @param predicate 过滤器接口，用于定义过滤规则，为{@code null}则返回原数组
+	 * @return 过滤后的数组
+	 * @since 7.0.0
+	 */
+	public static char[] filter(final char[] array, final Predicate<Character> predicate) {
+		if (null == array || null == predicate) {
+			return array;
+		}
+		return edit(array, t -> predicate.test(t) ? t : null);
+	}
+
+	/**
+	 * 过滤byte数组元素<br>
+	 * 保留 {@link Predicate#test(Object)}为{@code true}的元素
+	 *
+	 * @param array     数组
+	 * @param predicate 过滤器接口，用于定义过滤规则，为{@code null}则返回原数组
+	 * @return 过滤后的数组
+	 * @since 7.0.0
+	 */
+	public static byte[] filter(final byte[] array, final Predicate<Byte> predicate) {
+		if (null == array || null == predicate) {
+			return array;
+		}
+		return edit(array, t -> predicate.test(t) ? t : null);
+	}
+
+	/**
+	 * 过滤short数组元素<br>
+	 * 保留 {@link Predicate#test(Object)}为{@code true}的元素
+	 *
+	 * @param array     数组
+	 * @param predicate 过滤器接口，用于定义过滤规则，为{@code null}则返回原数组
+	 * @return 过滤后的数组
+	 * @since 7.0.0
+	 */
+	public static short[] filter(final short[] array, final Predicate<Short> predicate) {
+		if (null == array || null == predicate) {
+			return array;
+		}
+		return edit(array, t -> predicate.test(t) ? t : null);
+	}
+
+	/**
+	 * 过滤int数组元素<br>
+	 * 保留 {@link Predicate#test(Object)}为{@code true}的元素
+	 *
+	 * @param array     数组
+	 * @param predicate 过滤器接口，用于定义过滤规则，为{@code null}则返回原数组
+	 * @return 过滤后的数组
+	 * @since 7.0.0
+	 */
+	public static int[] filter(final int[] array, final Predicate<Integer> predicate) {
+		if (null == array || null == predicate) {
+			return array;
+		}
+		return edit(array, t -> predicate.test(t) ? t : null);
+	}
+
+	/**
+	 * 过滤long数组元素<br>
+	 * 保留 {@link Predicate#test(Object)}为{@code true}的元素
+	 *
+	 * @param array     数组
+	 * @param predicate 过滤器接口，用于定义过滤规则，为{@code null}则返回原数组
+	 * @return 过滤后的数组
+	 * @since 7.0.0
+	 */
+	public static long[] filter(final long[] array, final Predicate<Long> predicate) {
+		if (null == array || null == predicate) {
+			return array;
+		}
+		return edit(array, t -> predicate.test(t) ? t : null);
+	}
+
+	/**
+	 * 过滤float数组元素<br>
+	 * 保留 {@link Predicate#test(Object)}为{@code true}的元素
+	 *
+	 * @param array     数组
+	 * @param predicate 过滤器接口，用于定义过滤规则，为{@code null}则返回原数组
+	 * @return 过滤后的数组
+	 * @since 7.0.0
+	 */
+	public static float[] filter(final float[] array, final Predicate<Float> predicate) {
+		if (null == array || null == predicate) {
+			return array;
+		}
+		return edit(array, t -> predicate.test(t) ? t : null);
+	}
+
+	/**
+	 * 过滤double数组元素<br>
+	 * 保留 {@link Predicate#test(Object)}为{@code true}的元素
+	 *
+	 * @param array     数组
+	 * @param predicate 过滤器接口，用于定义过滤规则，为{@code null}则返回原数组
+	 * @return 过滤后的数组
+	 * @since 7.0.0
+	 */
+	public static double[] filter(final double[] array, final Predicate<Double> predicate) {
+		if (null == array || null == predicate) {
+			return array;
+		}
+		return edit(array, t -> predicate.test(t) ? t : null);
+	}
+
+	/**
+	 * 过滤boolean数组元素<br>
+	 * 保留 {@link Predicate#test(Object)}为{@code true}的元素
+	 *
+	 * @param array     数组
+	 * @param predicate 过滤器接口，用于定义过滤规则，为{@code null}则返回原数组
+	 * @return 过滤后的数组
+	 * @since 7.0.0
+	 */
+	public static boolean[] filter(final boolean[] array, final Predicate<Boolean> predicate) {
+		if (null == array || null == predicate) {
+			return array;
+		}
+		return edit(array, t -> predicate.test(t) ? t : null);
 	}
 	// endregion
 
@@ -2136,7 +2700,7 @@ public class PrimitiveArrayUtil {
 	}
 	// endregion
 
-	// region ------------------------------------------- min and max
+	// region ----- min and max
 
 	/**
 	 * 取最小值

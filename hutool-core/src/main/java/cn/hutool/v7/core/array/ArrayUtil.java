@@ -1015,7 +1015,7 @@ public class ArrayUtil extends PrimitiveArrayUtil {
 	}
 	// endregion
 
-	// region ----- filter
+	// region ----- edit and filter
 
 	/**
 	 * 对每个数组元素执行指定操作，返回操作后的元素<br>

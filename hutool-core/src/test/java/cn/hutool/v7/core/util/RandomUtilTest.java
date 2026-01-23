@@ -18,17 +18,15 @@ package cn.hutool.v7.core.util;
 
 import cn.hutool.v7.core.collection.ListUtil;
 import cn.hutool.v7.core.convert.ConvertUtil;
-import cn.hutool.v7.core.lang.Console;
+import cn.hutool.v7.core.lang.Validator;
 import cn.hutool.v7.core.math.NumberUtil;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.math.RoundingMode;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
-import java.util.regex.Pattern;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -50,12 +48,6 @@ public class RandomUtilTest {
 	public void randomDoubleTest() {
 		final double randomDouble = RandomUtil.randomDouble(0, 1, 0, RoundingMode.HALF_UP);
 		assertTrue(randomDouble <= 1);
-	}
-
-	@Test
-	@Disabled
-	public void randomBooleanTest() {
-		Console.log(RandomUtil.randomBoolean());
 	}
 
 	@Test
@@ -94,8 +86,8 @@ public class RandomUtilTest {
 
 	@Test
 	public void randomStringOfLengthTest(){
-		final String s = RandomUtil.randomString("123", -1);
-		assertNotNull(s);
+		assertThrows(IllegalArgumentException.class, () -> RandomUtil.randomString("123", 0));
+		assertThrows(IllegalArgumentException.class, () -> RandomUtil.randomString("123", -1));
 	}
 
 	@Test
@@ -114,27 +106,17 @@ public class RandomUtilTest {
 		// 测试生成长度为5的数字字符串
 		final String result1 = RandomUtil.randomNumbers(5);
 		assertEquals(5, result1.length(), "生成的字符串长度应该等于指定长度");
-		assertTrue(isNumeric(result1), "生成的字符串应该只包含数字");
+		assertTrue(Validator.isNumeric(result1), "生成的字符串应该只包含数字");
 
 		// 测试生成长度为10的数字字符串
 		final String result2 = RandomUtil.randomNumbers(10);
 		assertEquals(10, result2.length(), "生成的字符串长度应该等于指定长度");
-		assertTrue(isNumeric(result2), "生成的字符串应该只包含数字");
+		assertTrue(Validator.isNumeric(result2), "生成的字符串应该只包含数字");
 
 		// 测试生成长度为1的数字字符串
 		final String result3 = RandomUtil.randomNumbers(1);
 		assertEquals(1, result3.length(), "生成的字符串长度应该等于指定长度");
-		assertTrue(isNumeric(result3), "生成的字符串应该只包含数字");
-
-		// 测试生成长度为0的数字字符串（会被调整为1）
-		final String result4 = RandomUtil.randomNumbers(0);
-		assertEquals(1, result4.length(), "当长度为0时，应生成长度为1的字符串");
-		assertTrue(isNumeric(result4), "生成的字符串应该只包含数字");
-
-		// 测试生成长度为负数的数字字符串（会被调整为1）
-		final String result5 = RandomUtil.randomNumbers(-5);
-		assertEquals(1, result5.length(), "当长度为负数时，应生成长度为1的字符串");
-		assertTrue(isNumeric(result5), "生成的字符串应该只包含数字");
+		assertTrue(Validator.isNumeric(result3), "生成的字符串应该只包含数字");
 
 		// 验证多次生成的结果都不相同（概率性验证）
 		final String result6 = RandomUtil.randomNumbers(8);
@@ -142,19 +124,121 @@ public class RandomUtilTest {
 		// 由于是随机生成，不能保证一定不同，但大部分情况下应该不同
 		// 所以我们主要验证它们都符合预期格式
 		assertEquals(8, result6.length(), "生成的字符串长度应该等于指定长度");
-		assertTrue(isNumeric(result6), "生成的字符串应该只包含数字");
+		assertTrue(Validator.isNumeric(result6), "生成的字符串应该只包含数字");
 		assertEquals(8, result7.length(), "生成的字符串长度应该等于指定长度");
-		assertTrue(isNumeric(result7), "生成的字符串应该只包含数字");
+		assertTrue(Validator.isNumeric(result7), "生成的字符串应该只包含数字");
 	}
 
 	/**
-	 * 辅助方法：检查字符串是否只包含数字
+	 * 测试 randomDouble(double limit, int scale, RoundingMode roundingMode) 方法正常功能
+	 * 验证生成的随机数在正确范围内，并且精度符合要求
 	 */
-	private boolean isNumeric(final String str) {
-		if (str == null || str.isEmpty()) {
-			return false;
+	@Test
+	public void testRandomDoubleWithScaleAndRoundingMode() {
+		// 测试基本功能：生成0到10之间的随机数，保留2位小数，四舍五入
+		final double result = RandomUtil.randomDouble(10.0, 2, RoundingMode.HALF_UP);
+
+		// 验证结果在[0, 10)范围内
+		assertTrue(result >= 0.0 && result < 10.0,
+			"随机数应该在[0, 10)范围内，实际值：" + result);
+
+		// 验证小数点后最多2位数字
+		final String resultStr = String.valueOf(result);
+		if (resultStr.contains(".")) {
+			final int decimalPlaces = resultStr.length() - resultStr.indexOf('.') - 1;
+			assertTrue(decimalPlaces <= 2,
+				"小数位数应该不超过2位，实际：" + decimalPlaces);
 		}
-		final Pattern pattern = Pattern.compile("\\d+");
-		return pattern.matcher(str).matches();
+	}
+
+	/**
+	 * 测试不同的舍入模式
+	 */
+	@Test
+	public void testRandomDoubleWithDifferentRoundingModes() {
+		final double limit = 5.0;
+
+		// 测试向上舍入
+		final double upResult = RandomUtil.randomDouble(limit, 2, RoundingMode.UP);
+		assertTrue(upResult >= 0.0 && upResult < limit,
+			"UP模式下随机数应该在[0, 5)范围内");
+
+		// 测试向下舍入
+		final double downResult = RandomUtil.randomDouble(limit, 2, RoundingMode.DOWN);
+		assertTrue(downResult >= 0.0 && downResult < limit,
+			"DOWN模式下随机数应该在[0, 5)范围内");
+
+		// 测试四舍五入
+		final double halfUpResult = RandomUtil.randomDouble(limit, 2, RoundingMode.HALF_UP);
+		assertTrue(halfUpResult >= 0.0 && halfUpResult < limit,
+			"HALF_UP模式下随机数应该在[0, 5)范围内");
+	}
+
+	/**
+	 * 测试精度为0的情况
+	 */
+	@Test
+	public void testRandomDoubleWithZeroScale() {
+		final double result = RandomUtil.randomDouble(10.0, 0, RoundingMode.HALF_UP);
+
+		// 验证结果在[0, 10)范围内
+		assertTrue(result >= 0.0 && result < 10.0,
+			"随机数应该在[0, 10)范围内");
+
+		// 验证没有小数部分（整数）
+		assertEquals(Math.floor(result), result, 0.001,
+			"精度为0时应该返回整数");
+	}
+
+	/**
+	 * 测试舍入模式为null的情况（应使用默认的HALF_UP模式）
+	 */
+	@Test
+	public void testRandomDoubleWithNullRoundingMode() {
+		final double result = RandomUtil.randomDouble(10.0, 2, null);
+
+		// 验证结果在[0, 10)范围内
+		assertTrue(result >= 0.0 && result < 10.0,
+			"随机数应该在[0, 10)范围内");
+
+		// 验证小数位数不超过2位
+		final String resultStr = String.valueOf(result);
+		if (resultStr.contains(".")) {
+			final int decimalPlaces = resultStr.length() - resultStr.indexOf('.') - 1;
+			assertTrue(decimalPlaces <= 2,
+				"小数位数应该不超过2位，实际：" + decimalPlaces);
+		}
+	}
+
+	/**
+	 * 测试边界情况：limit为较小值
+	 */
+	@Test
+	public void testRandomDoubleWithSmallLimit() {
+		final double result = RandomUtil.randomDouble(0.001, 5, RoundingMode.HALF_UP);
+
+		// 验证结果在[0, 0.001)范围内
+		assertTrue(result >= 0.0 && result < 0.001,
+			"随机数应该在[0, 0.001)范围内，实际值：" + result);
+	}
+
+	/**
+	 * 测试较大精度的情况
+	 */
+	@Test
+	public void testRandomDoubleWithHighPrecision() {
+		final double result = RandomUtil.randomDouble(100.0, 10, RoundingMode.HALF_UP);
+
+		// 验证结果在[0, 100)范围内
+		assertTrue(result >= 0.0 && result < 100.0,
+			"随机数应该在[0, 100)范围内");
+
+		// 验证结果经过了精度处理
+		final String resultStr = String.valueOf(result);
+		if (resultStr.contains(".")) {
+			final int decimalPlaces = resultStr.length() - resultStr.indexOf('.') - 1;
+			assertTrue(decimalPlaces <= 10,
+				"小数位数应该不超过10位，实际：" + decimalPlaces);
+		}
 	}
 }

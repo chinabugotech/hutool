@@ -27,10 +27,12 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class RandomUtil {
 
+	// region ----- static Strings
 	/**
 	 * 用于随机选的数字
 	 */
 	public static final String NUMBERS = "0123456789";
+
 	/**
 	 * 用于随机选的大写字符
 	 */
@@ -51,6 +53,35 @@ public class RandomUtil {
 	 * 用于随机选的字符和数字（包括大写和小写字母）
 	 */
 	public static final String LETTERS_NUMBERS = LETTERS + NUMBERS;
+	// endregion
+
+	// region ----- static chars
+	/**
+	 * 用于随机选的数字
+	 */
+	private static final char[] NUMBERS_CHARS = NUMBERS.toCharArray();
+
+	/**
+	 * 用于随机选的大写字符
+	 */
+	private static final char[] LETTERS_UPPER_CHARS = LETTERS_UPPER.toCharArray();
+	/**
+	 * 用于随机选的小写字符
+	 */
+	private static final char[] LETTERS_LOWER_CHARS = LETTERS_LOWER.toCharArray();
+	/**
+	 * 用于随机选的字符（包含大写和小写）
+	 */
+	private static final char[] LETTERS_CHARS = LETTERS.toCharArray();
+	/**
+	 * 用于随机选的字符和数字（小写）
+	 */
+	private static final char[] LETTERS_NUMBERS_LOWER_CHARS = LETTERS_NUMBERS_LOWER.toCharArray();
+	/**
+	 * 用于随机选的字符和数字（包括大写和小写字母）
+	 */
+	private static final char[] LETTERS_NUMBERS_CHARS = LETTERS_NUMBERS.toCharArray();
+	// endregion
 
 	// region ----- get or create Random
 
@@ -274,7 +305,7 @@ public class RandomUtil {
 	 * @since 5.2.1
 	 */
 	public static int[] randomInts(final int length) {
-		final int[] range = NumberUtil.range(length);
+		final int[] range = NumberUtil.range(length - 1);
 		for (int i = 0; i < length; i++) {
 			final int random = randomInt(i, length);
 			ArrayUtil.swap(range, i, random);
@@ -648,7 +679,7 @@ public class RandomUtil {
 	 * @return 随机字符串
 	 */
 	public static String randomLettersAndNumbers(final int length) {
-		return randomString(LETTERS_NUMBERS, length);
+		return randomString(LETTERS_NUMBERS_CHARS, length);
 	}
 
 	/**
@@ -658,7 +689,7 @@ public class RandomUtil {
 	 * @return 随机字符串
 	 */
 	public static String randomLettersAndNumbersLower(final int length) {
-		return randomString(LETTERS_NUMBERS_LOWER, length);
+		return randomString(LETTERS_NUMBERS_LOWER_CHARS, length);
 	}
 
 	/**
@@ -669,34 +700,38 @@ public class RandomUtil {
 	 * @since 4.0.13
 	 */
 	public static String randomLettersAndNumbersUpper(final int length) {
-		return randomString(LETTERS_NUMBERS_LOWER, length).toUpperCase();
+		return randomString(LETTERS_NUMBERS_LOWER_CHARS, length).toUpperCase();
 	}
 
 	/**
 	 * 获得一个随机的字符串（只包含数字和字母） 并排除指定字符串
 	 *
 	 * @param length   字符串的长度
-	 * @param elemData 要排除的字符串,如：去重容易混淆的字符串，oO0、lL1、q9Q、pP，区分大小写
+	 * @param elemData 要排除的字符串,如：去重容易混淆的字符串，oO0、lL1、q9Q、pP，<b>区分</b>大小写
 	 * @return 随机字符串
 	 */
 	public static String randomLettersAndNumbersWithoutStr(final int length, final String elemData) {
-		String baseStr = LETTERS_NUMBERS;
-		baseStr = StrUtil.removeAll(baseStr, elemData.toCharArray());
-		return randomString(baseStr, length);
+		char[] baseChars = LETTERS_NUMBERS_CHARS;
+		if(StrUtil.isNotBlank(elemData)){
+			baseChars = ArrayUtil.removeElements(baseChars, elemData.toCharArray());
+		}
+		return randomString(baseChars, length);
 	}
 
 	/**
 	 * 获得一个随机的字符串（只包含数字和小写字母） 并排除指定字符串
 	 *
 	 * @param length   字符串的长度
-	 * @param elemData 要排除的字符串,如：去重容易混淆的字符串，oO0、lL1、q9Q、pP，不区分大小写
+	 * @param elemData 要排除的字符串,如：去重容易混淆的字符串，oO0、lL1、q9Q、pP，<b>不区分</b>大小写
 	 * @return 随机字符串
 	 * @since 5.8.28
 	 */
 	public static String randomLettersAndNumbersLowerWithoutStr(final int length, final String elemData) {
-		String baseStr = LETTERS_NUMBERS_LOWER;
-		baseStr = StrUtil.removeAll(baseStr, elemData.toLowerCase().toCharArray());
-		return randomString(baseStr, length);
+		char[] baseChars = LETTERS_NUMBERS_LOWER_CHARS;
+		if(StrUtil.isNotBlank(elemData)){
+			baseChars = ArrayUtil.removeElements(baseChars, elemData.toLowerCase().toCharArray());
+		}
+		return randomString(baseChars, length);
 	}
 
 	/**
@@ -706,7 +741,7 @@ public class RandomUtil {
 	 * @return 随机字符串
 	 */
 	public static String randomNumbers(final int length) {
-		return randomString(NUMBERS, length);
+		return randomString(NUMBERS_CHARS, length);
 	}
 
 	/**
@@ -716,7 +751,7 @@ public class RandomUtil {
 	 * @return 随机字符串
 	 */
 	public static String randomLetters(final int length) {
-		return randomString(LETTERS, length);
+		return randomString(LETTERS_CHARS, length);
 	}
 
 	/**
@@ -726,7 +761,7 @@ public class RandomUtil {
 	 * @return 随机字符串
 	 */
 	public static String randomLettersLower(final int length) {
-		return randomString(LETTERS_LOWER, length);
+		return randomString(LETTERS_LOWER_CHARS, length);
 	}
 
 	/**
@@ -736,7 +771,7 @@ public class RandomUtil {
 	 * @return 随机字符串
 	 */
 	public static String randomLettersUpper(final int length) {
-		return randomString(LETTERS_UPPER, length);
+		return randomString(LETTERS_UPPER_CHARS, length);
 	}
 
 	/**
@@ -746,21 +781,20 @@ public class RandomUtil {
 	 * @param length     字符串的长度
 	 * @return 随机字符串
 	 */
-	public static String randomString(final String baseString, int length) {
-		if (StrUtil.isEmpty(baseString)) {
-			return StrUtil.EMPTY;
-		}
-		if (length < 1) {
-			length = 1;
-		}
+	public static String randomString(final String baseString, final int length) {
+		Assert.notEmpty(baseString, "Base string can not be empty !");
+		return randomString(baseString.toCharArray(), length);
+	}
 
-		final StringBuilder sb = new StringBuilder(length);
-		final int baseLength = baseString.length();
-		for (int i = 0; i < length; i++) {
-			final int number = randomInt(baseLength);
-			sb.append(baseString.charAt(number));
-		}
-		return sb.toString();
+	/**
+	 * 获得一个随机的字符串
+	 *
+	 * @param baseString 随机字符选取的样本
+	 * @param length     字符串的长度
+	 * @return 随机字符串
+	 */
+	public static String randomString(final char[] baseString, final int length) {
+		return new String(randomChars(baseString, length));
 	}
 	// endregion
 
@@ -773,7 +807,7 @@ public class RandomUtil {
 	 * @since 3.1.2
 	 */
 	public static char randomNumber() {
-		return randomChar(NUMBERS);
+		return randomChar(NUMBERS_CHARS);
 	}
 
 	/**
@@ -783,7 +817,7 @@ public class RandomUtil {
 	 * @since 3.1.2
 	 */
 	public static char randomChar() {
-		return randomChar(LETTERS_NUMBERS_LOWER);
+		return randomChar(LETTERS_NUMBERS_LOWER_CHARS);
 	}
 
 	/**
@@ -795,6 +829,41 @@ public class RandomUtil {
 	 */
 	public static char randomChar(final String baseString) {
 		return baseString.charAt(randomInt(baseString.length()));
+	}
+
+	/**
+	 * 随机字符
+	 *
+	 * @param baseChars 随机字符选取的样本chars
+	 * @return 随机字符
+	 * @since 7.0.0
+	 */
+	public static char randomChar(final char[] baseChars) {
+		return baseChars[randomInt(baseChars.length)];
+	}
+
+	/**
+	 * 获得一个随机的字符串
+	 *
+	 * @param baseChars 随机字符选取的样本
+	 * @param length     字符串的长度
+	 * @return 随机字符串
+	 */
+	public static char[] randomChars(final char[] baseChars, final int length) {
+		if(ArrayUtil.isEmpty(baseChars)){
+			throw new IllegalArgumentException("baseChars can not be empty !");
+		}
+		Assert.isTrue(length >= 1, "Length can not less than 1 !");
+
+		// 预先将基础字符串转为字符数组，避免每次charAt调用
+		final int baseLength = baseChars.length;
+		final char[] result = new char[length];
+
+		for (int i = 0; i < length; i++) {
+			result[i] = baseChars[randomInt(baseLength)];
+		}
+
+		return result;
 	}
 	// endregion
 
