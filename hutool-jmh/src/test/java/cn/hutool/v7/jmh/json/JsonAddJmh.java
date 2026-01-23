@@ -53,7 +53,7 @@ public class JsonAddJmh {
 		Console.log("准备数据。。。");
 		testData = new ArrayList<>(10);
 		for (int i = 0; i < 10; i++) {
-			testData.add(RandomUtil.randomString(20));
+			testData.add(RandomUtil.randomLettersAndNumbers(20));
 		}
 
 		hutoolJSON = new JSONArray();

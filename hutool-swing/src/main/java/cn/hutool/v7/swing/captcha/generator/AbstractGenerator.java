@@ -42,7 +42,7 @@ public abstract class AbstractGenerator implements CodeGenerator {
 	 * @param count 生成验证码长度
 	 */
 	public AbstractGenerator(final int count) {
-		this(RandomUtil.BASE_CHAR_NUMBER_LOWER, count);
+		this(RandomUtil.LETTERS_NUMBERS_LOWER, count);
 	}
 
 	/**

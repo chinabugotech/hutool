@@ -63,6 +63,6 @@ public class DriverUtilTest {
 		map.put("jdbc:goldendb:", "com.goldendb.jdbc.Driver");
 
 		map.forEach((k, v) -> Assertions.assertEquals(v,
-			DriverUtil.identifyDriver(k + RandomUtil.randomStringLower(2))));
+			DriverUtil.identifyDriver(k + RandomUtil.randomLettersAndNumbersLower(2))));
 	}
 }

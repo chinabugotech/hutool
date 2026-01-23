@@ -55,6 +55,6 @@ public class TolerantMapTest {
 		map.put("tuesday", "星期二");
 
 		assert "星期二".equals(map.get("tuesday"));
-		assert "default".equals(map.get(RandomUtil.randomStringLower(6)));
+		assert "default".equals(map.get(RandomUtil.randomLettersAndNumbersLower(6)));
 	}
 }

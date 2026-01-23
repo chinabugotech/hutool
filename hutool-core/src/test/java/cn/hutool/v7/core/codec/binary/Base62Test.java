@@ -50,7 +50,7 @@ public class Base62Test {
 
 	@Test
 	public void encodeAndDecodeRandomTest() {
-		final String a = RandomUtil.randomStringLower(RandomUtil.randomInt(1000));
+		final String a = RandomUtil.randomLettersAndNumbersLower(RandomUtil.randomInt(1000));
 		final String encode = Base62.encode(a);
 		final String decodeStr = Base62.decodeStr(encode);
 		Assertions.assertEquals(a, decodeStr);
@@ -58,7 +58,7 @@ public class Base62Test {
 
 	@Test
 	public void encodeAndDecodeInvertedRandomTest() {
-		final String a = RandomUtil.randomStringLower(RandomUtil.randomInt(1000));
+		final String a = RandomUtil.randomLettersAndNumbersLower(RandomUtil.randomInt(1000));
 		final String encode = Base62.encodeInverted(a);
 		final String decodeStr = Base62.decodeStrInverted(encode);
 		Assertions.assertEquals(a, decodeStr);

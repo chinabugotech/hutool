@@ -192,7 +192,7 @@ public class KeyUtil {
 		}
 
 		if (null == password) {
-			password = RandomUtil.randomStringLower(32).toCharArray();
+			password = RandomUtil.randomLettersAndNumbersLower(32).toCharArray();
 		}
 		return generateKey(algorithm, SpecUtil.createPBEKeySpec(password));
 	}

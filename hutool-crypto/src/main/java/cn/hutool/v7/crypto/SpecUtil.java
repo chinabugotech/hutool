@@ -81,7 +81,7 @@ public class SpecUtil {
 	 */
 	public static PBEKeySpec createPBEKeySpec(char[] password) {
 		if (null == password) {
-			password = RandomUtil.randomStringLower(32).toCharArray();
+			password = RandomUtil.randomLettersAndNumbersLower(32).toCharArray();
 		}
 		return new PBEKeySpec(password);
 	}

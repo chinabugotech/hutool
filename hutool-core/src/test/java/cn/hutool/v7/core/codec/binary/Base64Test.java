@@ -32,7 +32,7 @@ public class Base64Test {
 
 	@Test
 	public void isTypeBase64Test(){
-		Assertions.assertTrue(Base64.isTypeBase64(Base64.encode(RandomUtil.randomStringLower(1000))));
+		Assertions.assertTrue(Base64.isTypeBase64(Base64.encode(RandomUtil.randomLettersAndNumbersLower(1000))));
 	}
 
 	@Test

@@ -51,7 +51,7 @@ public class JsonPutJmh {
 	public void setup() {
 		testData = new HashMap<>(100, 1);
 		for (int i = 0; i < 100; i++) {
-			testData.put(RandomUtil.randomString(10), RandomUtil.randomString(20));
+			testData.put(RandomUtil.randomLettersAndNumbers(10), RandomUtil.randomLettersAndNumbers(20));
 		}
 
 		hutoolJSON = new JSONObject();

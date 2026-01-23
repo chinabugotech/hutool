@@ -189,8 +189,8 @@ public class DbTest {
 
 	private Entity buildEntity() {
 		final Entity entity = Entity.of("act_ge_property");
-		entity.put("NAME_", RandomUtil.randomString(15));
-		entity.put("VALUE_", RandomUtil.randomString(50));
+		entity.put("NAME_", RandomUtil.randomLettersAndNumbers(15));
+		entity.put("VALUE_", RandomUtil.randomLettersAndNumbers(50));
 		entity.put("REV_", RandomUtil.randomInt());
 		return entity;
 	}

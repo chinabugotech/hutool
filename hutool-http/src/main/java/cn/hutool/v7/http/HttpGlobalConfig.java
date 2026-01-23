@@ -41,7 +41,7 @@ public class HttpGlobalConfig implements Serializable {
 	 * 底层调用：{@link HttpURLConnection#setConnectTimeout(int)} 同时设置: 连接超时
 	 */
 	private static int timeout = -1;
-	private static String boundary = "--------------------Hutool_" + RandomUtil.randomStringLower(16);
+	private static String boundary = "--------------------Hutool_" + RandomUtil.randomLettersAndNumbersLower(16);
 	private static int maxRedirects = 0;
 	private static boolean ignoreEOFError = true;
 	/**

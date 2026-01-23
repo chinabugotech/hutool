@@ -1,19 +1,3 @@
-/*
- * Copyright (c) 2013-2026 Hutool Team.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package cn.hutool.v7.core.util;
 
 import cn.hutool.v7.core.array.ArrayUtil;
@@ -46,19 +30,27 @@ public class RandomUtil {
 	/**
 	 * 用于随机选的数字
 	 */
-	public static final String BASE_NUMBER = "0123456789";
+	public static final String NUMBERS = "0123456789";
 	/**
-	 * 用于随机选的字符
+	 * 用于随机选的大写字符
 	 */
-	public static final String BASE_CHAR = "abcdefghijklmnopqrstuvwxyz";
+	public static final String LETTERS_UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	/**
+	 * 用于随机选的小写字符
+	 */
+	public static final String LETTERS_LOWER = "abcdefghijklmnopqrstuvwxyz";
+	/**
+	 * 用于随机选的字符（包含大写和小写）
+	 */
+	public static final String LETTERS = LETTERS_UPPER + LETTERS_LOWER;
 	/**
 	 * 用于随机选的字符和数字（小写）
 	 */
-	public static final String BASE_CHAR_NUMBER_LOWER = BASE_CHAR + BASE_NUMBER;
+	public static final String LETTERS_NUMBERS_LOWER = LETTERS_LOWER + NUMBERS;
 	/**
 	 * 用于随机选的字符和数字（包括大写和小写字母）
 	 */
-	public static final String BASE_CHAR_NUMBER = BASE_CHAR.toUpperCase() + BASE_CHAR_NUMBER_LOWER;
+	public static final String LETTERS_NUMBERS = LETTERS + NUMBERS;
 
 	// region ----- get or create Random
 
@@ -216,6 +208,7 @@ public class RandomUtil {
 	 * @return 随机的汉字字符
 	 * @since 5.7.15
 	 */
+	@SuppressWarnings("UnnecessaryUnicodeEscape")
 	public static char randomChinese() {
 		return (char) randomInt('\u4E00', '\u9FFF');
 	}
@@ -654,8 +647,8 @@ public class RandomUtil {
 	 * @param length 字符串的长度
 	 * @return 随机字符串
 	 */
-	public static String randomString(final int length) {
-		return randomString(BASE_CHAR_NUMBER, length);
+	public static String randomLettersAndNumbers(final int length) {
+		return randomString(LETTERS_NUMBERS, length);
 	}
 
 	/**
@@ -664,8 +657,8 @@ public class RandomUtil {
 	 * @param length 字符串的长度
 	 * @return 随机字符串
 	 */
-	public static String randomStringLower(final int length) {
-		return randomString(BASE_CHAR_NUMBER_LOWER, length);
+	public static String randomLettersAndNumbersLower(final int length) {
+		return randomString(LETTERS_NUMBERS_LOWER, length);
 	}
 
 	/**
@@ -675,8 +668,8 @@ public class RandomUtil {
 	 * @return 随机字符串
 	 * @since 4.0.13
 	 */
-	public static String randomStringUpper(final int length) {
-		return randomString(BASE_CHAR_NUMBER_LOWER, length).toUpperCase();
+	public static String randomLettersAndNumbersUpper(final int length) {
+		return randomString(LETTERS_NUMBERS_LOWER, length).toUpperCase();
 	}
 
 	/**
@@ -686,8 +679,8 @@ public class RandomUtil {
 	 * @param elemData 要排除的字符串,如：去重容易混淆的字符串，oO0、lL1、q9Q、pP，区分大小写
 	 * @return 随机字符串
 	 */
-	public static String randomStringWithoutStr(final int length, final String elemData) {
-		String baseStr = BASE_CHAR_NUMBER;
+	public static String randomLettersAndNumbersWithoutStr(final int length, final String elemData) {
+		String baseStr = LETTERS_NUMBERS;
 		baseStr = StrUtil.removeAll(baseStr, elemData.toCharArray());
 		return randomString(baseStr, length);
 	}
@@ -700,8 +693,8 @@ public class RandomUtil {
 	 * @return 随机字符串
 	 * @since 5.8.28
 	 */
-	public static String randomStringLowerWithoutStr(final int length, final String elemData) {
-		String baseStr = BASE_CHAR_NUMBER_LOWER;
+	public static String randomLettersAndNumbersLowerWithoutStr(final int length, final String elemData) {
+		String baseStr = LETTERS_NUMBERS_LOWER;
 		baseStr = StrUtil.removeAll(baseStr, elemData.toLowerCase().toCharArray());
 		return randomString(baseStr, length);
 	}
@@ -713,7 +706,37 @@ public class RandomUtil {
 	 * @return 随机字符串
 	 */
 	public static String randomNumbers(final int length) {
-		return randomString(BASE_NUMBER, length);
+		return randomString(NUMBERS, length);
+	}
+
+	/**
+	 * 获得一个随机只包含字母的字符串
+	 *
+	 * @param length 字符串的长度
+	 * @return 随机字符串
+	 */
+	public static String randomLetters(final int length) {
+		return randomString(LETTERS, length);
+	}
+
+	/**
+	 * 获得一个只包含小写字母的字符串
+	 *
+	 * @param length 字符串的长度
+	 * @return 随机字符串
+	 */
+	public static String randomLettersLower(final int length) {
+		return randomString(LETTERS_LOWER, length);
+	}
+
+	/**
+	 * 获得一个只包含大写字母的随机字符串
+	 *
+	 * @param length 随机字符串的长度
+	 * @return 随机字符串
+	 */
+	public static String randomLettersUpper(final int length) {
+		return randomString(LETTERS_UPPER, length);
 	}
 
 	/**
@@ -750,7 +773,7 @@ public class RandomUtil {
 	 * @since 3.1.2
 	 */
 	public static char randomNumber() {
-		return randomChar(BASE_NUMBER);
+		return randomChar(NUMBERS);
 	}
 
 	/**
@@ -760,7 +783,7 @@ public class RandomUtil {
 	 * @since 3.1.2
 	 */
 	public static char randomChar() {
-		return randomChar(BASE_CHAR_NUMBER_LOWER);
+		return randomChar(LETTERS_NUMBERS_LOWER);
 	}
 
 	/**
