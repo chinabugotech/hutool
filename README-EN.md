@@ -1,59 +1,32 @@
 <p align="center">
-    <a href="https://hutool.cn/"><img src="https://plus.hutool.cn/images/hutool.svg" width="45%"></a>
+    <a href="https://hutool.cn/"><img alt="hutool" src="https://plus.hutool.cn/images/hutool.svg" width="45%"></a>
 </p>
-<p align="center">
-    <strong>🍬Make Java Sweet Again.</strong>
-</p>
-<p align="center">
-    👉 <a href="https://hutool.cn">https://hutool.cn/</a> 👈
-</p>
+<h3 align="center">🍬Make Java Sweet Again.</h3>
+<h4 align="center">👉 <a href="https://hutool.cn">https://hutool.cn/</a> 👈</h4>
 
 <p align="center">
-    <a target="_blank" href="https://search.maven.org/artifact/org.dromara.hutool/hutool-all">
-        <img src="https://img.shields.io/maven-central/v/org.dromara.hutool/hutool-all.svg?label=Maven%20Central" />
-    </a>
-    <!-- -->
-    <a target="_blank" href="https://www.apache.org/licenses/LICENSE-2.0.html">
-        <img alt="" src="https://img.shields.io/:license-apache2.0-blue.svg?logo=apache" />
-    </a>
-    <!-- -->
-    <a target="_blank" href="https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html">
-        <img src="https://img.shields.io/badge/JDK-8+-green.svg" />
-    </a>
-    <!-- -->
-    <a target="_blank" href="https://app.travis-ci.com/chinabugotech/hutool">
-        <img src="https://api.travis-ci.com/chinabugotech/hutool.svg?branch=v5-master" />
-    </a>
-    <!-- -->
-    <a href="https://www.codacy.com/gh/dromara/hutool/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=dromara/hutool&amp;utm_campaign=Badge_Grade">
-        <img src="https://app.codacy.com/project/badge/Grade/8a6897d9de7440dd9de8804c28d2871d"/>
-    </a>
-    <!-- -->
-    <a href="https://codecov.io/gh/dromara/hutool">
-        <img src="https://codecov.io/gh/dromara/hutool/branch/v6-master/graph/badge.svg" />
-    </a>
-    <!-- -->
-    <a target="_blank" href='https://gitee.com/dromara/hutool/stargazers'>
-        <img src='https://gitee.com/dromara/hutool/badge/star.svg?theme=gvp' alt='star'/>
-    </a>
-    <!-- -->
-    <a target="_blank" href='https://github.com/chinabugotech/hutool'>
-        <img src="https://img.shields.io/github/stars/chinabugotech/hutool.svg?style=social" alt="github star"/>
-    </a>
-    <!-- -->
-    <a target="_blank" href='https://gitcode.com/chinabugotech/hutool'>
-        <img src="https://gitcode.com/chinabugotech/hutool/star/badge.svg" alt="gitcode star"/>
-    </a>
-    <!-- -->
-    <a href="https://deepwiki.com/chinabugotech/hutool">
-        <img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki">
-    </a>
+    <a href="https://central.sonatype.com/artifact/cn.hutool.v7/hutool-all"><img alt="maven-central" src="https://img.shields.io/maven-central/v/cn.hutool/hutool-all.svg?label=Maven%20Central" /></a>
+    <a href="https://www.apache.org/licenses/LICENSE-2.0.html"><img alt="LICENSE" src="https://img.shields.io/:license-apache2.0-blue.svg?logo=apache" /></a>
+    <a href="https://www.oracle.com/java/technologies/downloads/#java17"><img alt="jdk17" src="https://img.shields.io/badge/JDK-17+-green.svg" /></a>
+    <a href="https://app.travis-ci.com/chinabugotech/hutool"><img alt="travis-ci" src="https://api.travis-ci.com/chinabugotech/hutool.svg?branch=v5-master" /></a>
+    <a href="https://codecov.io/gh/chinabugotech/hutool"><img alt="" src="https://app.codacy.com/project/badge/Grade/8a6897d9de7440dd9de8804c28d2871d"/></a>
+    <a href="https://codecov.io/gh/cn/hutool"><img alt="" src="https://codecov.io/gh/chinabugotech/hutool/branch/v7-master/graph/badge.svg" /></a>
+    <a href='https://gitee.com/chinabugotech/hutool/stargazers'><img alt="star" src='https://gitee.com/chinabugotech/hutool/badge/star.svg'/></a>
+    <a href='https://github.com/chinabugotech/hutool'><img alt="github star" src="https://img.shields.io/github/stars/chinabugotech/hutool.svg?style=social"/></a>
+    <a href='https://gitcode.com/chinabugotech/hutool'><img src="https://gitcode.com/chinabugotech/hutool/star/badge.svg" alt="gitcode star"/></a>
+    <a href="https://deepwiki.com/chinabugotech/hutool"><img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki"></a>
 </p>
 
 <br/>
 <p align="center">
     <a href="https://qm.qq.com/q/YsLhyheHSA">
-    <img alt="" src="https://img.shields.io/badge/QQ%E7%BE%A4%E2%91%A7-667030118-orange"/></a>
+    <img alt="qq" src="https://img.shields.io/badge/QQ%E7%BE%A4%E2%91%A7-667030118-orange"/></a>
+</p>
+
+<br/>
+<p align="center">
+    <a href="https://qm.qq.com/q/YsLhyheHSA">
+    <img alt="qq" src="https://img.shields.io/badge/QQ%E7%BE%A4%E2%91%A7-667030118-orange"/></a>
 </p>
 
 -------------------------------------------------------------------------------
