@@ -1,44 +1,47 @@
 <p align="center">
-	<a href="https://hutool.cn/"><img src="https://plus.hutool.cn/images/hutool.svg" width="45%"></a>
+    <a href="https://hutool.cn/"><img src="https://plus.hutool.cn/images/hutool.svg" width="45%"></a>
 </p>
 <p align="center">
-	<strong>🍬Make Java Sweet Again.</strong>
+    <strong>🍬Make Java Sweet Again.</strong>
 </p>
 <p align="center">
-	👉 <a href="https://hutool.cn">https://hutool.cn/</a> 👈
+    👉 <a href="https://hutool.cn">https://hutool.cn/</a> 👈
 </p>
 
 <p align="center">
-	<a target="_blank" href="https://search.maven.org/artifact/org.dromara.hutool/hutool-all">
-		<img src="https://img.shields.io/maven-central/v/org.dromara.hutool/hutool-all.svg?label=Maven%20Central" />
-	</a>
-	<a target="_blank" href="https://www.apache.org/licenses/LICENSE-2.0.html">
-		<img alt="" src="https://img.shields.io/:license-apache2.0-blue.svg?logo=apache" />
-	</a>
-	<a target="_blank" href="https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html">
-		<img src="https://img.shields.io/badge/JDK-8+-green.svg" />
-	</a>
-	<a target="_blank" href="https://app.travis-ci.com/chinabugotech/hutool">
-		<img src="https://api.travis-ci.com/chinabugotech/hutool.svg?branch=v5-master" />
-	</a>
-	<a href="https://www.codacy.com/gh/dromara/hutool/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=dromara/hutool&amp;utm_campaign=Badge_Grade">
-		<img src="https://app.codacy.com/project/badge/Grade/8a6897d9de7440dd9de8804c28d2871d"/>
-	</a>
-	<a href="https://codecov.io/gh/dromara/hutool">
-		<img src="https://codecov.io/gh/dromara/hutool/branch/v6-master/graph/badge.svg" />
-	</a>
-	<a target="_blank" href="https://gitter.im/hutool/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge">
-		<img src="https://badges.gitter.im/hutool/Lobby.svg" />
-	</a>
-	<a target="_blank" href='https://gitee.com/dromara/hutool/stargazers'>
-		<img src='https://gitee.com/dromara/hutool/badge/star.svg?theme=gvp' alt='star'/>
-	</a>
-	<a target="_blank" href='https://github.com/chinabugotech/hutool'>
-		<img src="https://img.shields.io/github/stars/chinabugotech/hutool.svg?style=social" alt="github star"/>
-	</a>
-	<a target="_blank" href='https://gitcode.com/chinabugotech/hutool'>
-		<img src="https://gitcode.com/chinabugotech/hutool/star/badge.svg" alt="gitcode star"/>
-	</a>
+    <a target="_blank" href="https://search.maven.org/artifact/org.dromara.hutool/hutool-all">
+        <img src="https://img.shields.io/maven-central/v/org.dromara.hutool/hutool-all.svg?label=Maven%20Central" />
+    </a>
+    <a target="_blank" href="https://www.apache.org/licenses/LICENSE-2.0.html">
+        <img alt="" src="https://img.shields.io/:license-apache2.0-blue.svg?logo=apache" />
+    </a>
+    <a target="_blank" href="https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html">
+        <img src="https://img.shields.io/badge/JDK-8+-green.svg" />
+    </a>
+    <a target="_blank" href="https://app.travis-ci.com/chinabugotech/hutool">
+        <img src="https://api.travis-ci.com/chinabugotech/hutool.svg?branch=v5-master" />
+    </a>
+    <a href="https://www.codacy.com/gh/dromara/hutool/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=dromara/hutool&amp;utm_campaign=Badge_Grade">
+        <img src="https://app.codacy.com/project/badge/Grade/8a6897d9de7440dd9de8804c28d2871d"/>
+    </a>
+    <a href="https://codecov.io/gh/dromara/hutool">
+        <img src="https://codecov.io/gh/dromara/hutool/branch/v6-master/graph/badge.svg" />
+    </a>
+    <a target="_blank" href="https://gitter.im/hutool/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge">
+        <img src="https://badges.gitter.im/hutool/Lobby.svg" />
+    </a>
+    <a target="_blank" href='https://gitee.com/dromara/hutool/stargazers'>
+        <img src='https://gitee.com/dromara/hutool/badge/star.svg?theme=gvp' alt='star'/>
+    </a>
+    <a target="_blank" href='https://github.com/chinabugotech/hutool'>
+        <img src="https://img.shields.io/github/stars/chinabugotech/hutool.svg?style=social" alt="github star"/>
+    </a>
+    <a target="_blank" href='https://gitcode.com/chinabugotech/hutool'>
+        <img src="https://gitcode.com/chinabugotech/hutool/star/badge.svg" alt="gitcode star"/>
+    </a>
+    <a href="https://deepwiki.com/chinabugotech/hutool">
+        <img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki">
+    </a>
 </p>
 
 <br/>
@@ -54,35 +57,47 @@
 -------------------------------------------------------------------------------
 
 ## 📚Introduction
-**Hutool** is a small but comprehensive library of Java tools, achieved by encapsulation through static methods, reduce the cost of learning related APIs, increase productivity, and make Java as elegant as a functional programming language,let the Java be "sweet" too.
 
-**Hutool** tools and methods from each user's crafted, it covers all aspects of the underlying code of Java development, it is a powerful tool for large project development to solve small problems, but also the efficiency of small projects;
+**Hutool** is a small but comprehensive library of Java tools, achieved by encapsulation through static methods, reduce
+the cost of learning related APIs, increase productivity, and make Java as elegant as a functional programming
+language,let the Java be "sweet" too.
 
-**Hutool** is a project "util" package friendly alternative, it saves developers on the project of common classes and common tool methods of encapsulation time, so that development focus on business, at the same time can minimize the encapsulation is not perfect to avoid the bugs.
+**Hutool** tools and methods from each user's crafted, it covers all aspects of the underlying code of Java development,
+it is a powerful tool for large project development to solve small problems, but also the efficiency of small projects;
+
+**Hutool** is a project "util" package friendly alternative, it saves developers on the project of common classes and
+common tool methods of encapsulation time, so that development focus on business, at the same time can minimize the
+encapsulation is not perfect to avoid the bugs.
 
 ### 🎁Origin of the 'Hutool' name
 
-**Hutool = Hu + tool**，Is the original company project after the stripping of the underlying code of the open source library , "Hu" is the short name of the company , 'tool' that tool .
+**Hutool = Hu + tool**，Is the original company project after the stripping of the underlying code of the open source
+library , "Hu" is the short name of the company , 'tool' that tool .
 
-Hutool,' Hútú '(Chinese Pinyin)，On the one hand, it is simple and easy to understand, on the other hand, it means "hard to be confused".(note: confused means 'Hútú (糊涂)' in china )
+Hutool,' Hútú '(Chinese Pinyin)，On the one hand, it is simple and easy to understand, on the other hand, it means "hard
+to be confused".(note: confused means 'Hútú (糊涂)' in china )
 
 ### 🍺How Hutool is changing the way we code
 
-The goal of  **Hutool**  is to use a simple function instead of a complex piece of code, thus avoiding the problem of "copy and paste" code as much as possible and revolutionizing the way we write code.
+The goal of  **Hutool**  is to use a simple function instead of a complex piece of code, thus avoiding the problem of "
+copy and paste" code as much as possible and revolutionizing the way we write code.
 
 To calculate MD5 for example:
 
 - 👴【Before】Open a search engine -> search "Java MD5 encryption" -> open a blog -> copy and paste -> change it to work.
-- 👦【Now   】import Hutool -> SecureUtil.md5()
+- 👦【Now 】import Hutool -> SecureUtil.md5()
 
 Hutool exists to reduce code search costs and avoid bugs caused by imperfect code on the web.
 
 ### Thanks
+
 > this README is PR by [chengxian-yi](https://gitee.com/yichengxian)
 -------------------------------------------------------------------------------
 
 ## 🛠️Module
-A Java-based tool class for files, streams, encryption and decryption, transcoding, regular, thread, XML and other JDK methods for encapsulation，composing various Util tool classes, as well as providing the following modules：
+
+A Java-based tool class for files, streams, encryption and decryption, transcoding, regular, thread, XML and other JDK
+methods for encapsulation，composing various Util tool classes, as well as providing the following modules：
 
 | module         | description                                                                                                         |
 |----------------|---------------------------------------------------------------------------------------------------------------------|
@@ -117,20 +132,21 @@ Each module can be introduced individually, or all modules can be introduced by 
 
 -------------------------------------------------------------------------------
 
-
-
 ## 📦Install
 
 ### 🍊Maven
+
 ```xml
+
 <dependency>
-	<groupId>cn.hutool.v7</groupId>
-	<artifactId>hutool-all</artifactId>
-	<version>7.0.0-M5</version>
+    <groupId>cn.hutool.v7</groupId>
+    <artifactId>hutool-all</artifactId>
+    <version>7.0.0-M5</version>
 </dependency>
 ```
 
 ### 🍐Gradle
+
 ```
 implementation 'cn.hutool.v7:hutool-all:7.0.0-M5'
 ```
@@ -140,14 +156,15 @@ implementation 'cn.hutool.v7:hutool-all:7.0.0-M5'
 - [Maven Repo](https://repo1.maven.org/maven2/cn/hutool/v7/hutool-all/7.0.0-M5/)
 
 > 🔔️note:
-> Hutool 7.x supports JDK17 and is not tested on Android platforms, and cannot guarantee that all tool classes or tool methods are available.
+> Hutool 7.x supports JDK17 and is not tested on Android platforms, and cannot guarantee that all tool classes or tool
+> methods are available.
 > If your project uses JDK7, please use Hutool 4.x version.
 
 ### 🚽Compile and install
 
 Download the entire project source code
 
-gitee：[https://gitee.com/chinabugotech/hutool](https://gitee.com/chinabugotech/hutool) 
+gitee：[https://gitee.com/chinabugotech/hutool](https://gitee.com/chinabugotech/hutool)
 
 github:[https://github.com/chinabugotech/hutool](https://github.com/chinabugotech/hutool)
 
@@ -171,7 +188,8 @@ Hutool's source code is divided into two branches:
 
 ### 🐞Provide feedback or suggestions on bugs
 
-When submitting feedback, please indicate which JDK version, Hutool version, and related dependency library version you are using.
+When submitting feedback, please indicate which JDK version, Hutool version, and related dependency library version you
+are using.
 
 - [Gitee issue](https://gitee.com/chinabugotech/hutool/issues)
 - [Github issue](https://github.com/chinabugotech/hutool/issues)
@@ -179,12 +197,17 @@ When submitting feedback, please indicate which JDK version, Hutool version, and
 
 ### 🧬Principles of PR(pull request)
 
-Hutool welcomes anyone to contribute code to Hutool, but the author suffers from OCD and needs to submit a pr (pull request) that meets some specifications in order to care for the patient.：
+Hutool welcomes anyone to contribute code to Hutool, but the author suffers from OCD and needs to submit a pr (pull
+request) that meets some specifications in order to care for the patient.：
 
-1. Improve the comments, especially each new method should follow the Java documentation specification to indicate the method description, parameter description, return value description and other information, if necessary, please add unit tests, if you want, you can also add your name.
+1. Improve the comments, especially each new method should follow the Java documentation specification to indicate the
+   method description, parameter description, return value description and other information, if necessary, please add
+   unit tests, if you want, you can also add your name.
 2. Code indentation according to Eclipse.
 3. Newly added methods do not use third-party library methods，Unless the method tool is add to the '**extra module**'.
-4. Please pull request to the `v7-dev` branch. Hutool uses a new branch after 7.x: `v7-master` is the master branch, which indicates the version of the central library that has been released, and this branch does not allow pr or modifications.
+4. Please pull request to the `v7-dev` branch. Hutool uses a new branch after 7.x: `v7-master` is the master branch,
+   which indicates the version of the central library that has been released, and this branch does not allow pr or
+   modifications.
 
 -------------------------------------------------------------------------------
 
@@ -195,5 +218,5 @@ Hutool welcomes anyone to contribute code to Hutool, but the author suffers from
 ## 📌WeChat Official Account
 
 <div align="center">
-	<img src="https://dromara.org/img/qrcode/qrcode_1.png" height="150">
+    <img src="https://dromara.org/img/qrcode/qrcode_1.png" height="150">
 </div>

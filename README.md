@@ -39,6 +39,9 @@
     <a target="_blank" href='https://gitcode.com/chinabugotech/hutool'>
         <img src="https://gitcode.com/chinabugotech/hutool/star/badge.svg" alt="gitcode star"/>
     </a>
+    <a href="https://deepwiki.com/chinabugotech/hutool">
+        <img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki">
+    </a>
 </p>
 
 <br/>
