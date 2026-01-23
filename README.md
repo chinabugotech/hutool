@@ -12,34 +12,40 @@
     <a target="_blank" href="https://search.maven.org/artifact/cn.hutool/hutool-all">
         <img alt="" src="https://img.shields.io/maven-central/v/cn.hutool/hutool-all.svg?label=Maven%20Central" />
     </a>
+    <!-- -->
     <a target="_blank" href="https://www.apache.org/licenses/LICENSE-2.0.html">
         <img alt="" src="https://img.shields.io/:license-apache2.0-blue.svg?logo=apache" />
     </a>
+    <!-- -->
     <a target="_blank" href="https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html">
         <img alt="" src="https://img.shields.io/badge/JDK-8+-green.svg" />
     </a>
+    <!-- -->
     <a target="_blank" href="https://app.travis-ci.com/chinabugotech/hutool">
         <img alt="" src="https://api.travis-ci.com/chinabugotech/hutool.svg?branch=v5-master" />
     </a>
+    <!-- -->
     <a href="https://www.codacy.com/gh/chinabugotech/hutool/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=chinabugotech/hutool&amp;utm_campaign=Badge_Grade">
         <img alt="" src="https://app.codacy.com/project/badge/Grade/8a6897d9de7440dd9de8804c28d2871d"/>
     </a>
+    <!-- -->
     <a href="https://codecov.io/gh/cn/hutool">
         <img alt="" src="https://codecov.io/gh/chinabugotech/hutool/branch/v7-master/graph/badge.svg" />
     </a>
-    <a target="_blank" href="https://gitter.im/hutool/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge">
-        <img alt="" src="https://badges.gitter.im/hutool/Lobby.svg" />
-    </a>
+    <!-- -->
     <a target="_blank" href='https://gitee.com/chinabugotech/hutool/stargazers'>
         <img alt="star" src='https://gitee.com/chinabugotech/hutool/badge/star.svg'/>
     </a>
+    <!-- -->
     <a target="_blank" href='https://github.com/chinabugotech/hutool'>
         <img alt="github star" src="https://img.shields.io/github/stars/chinabugotech/hutool.svg?style=social"/>
     </a>
+    <!-- -->
     <a target="_blank" href='https://gitcode.com/chinabugotech/hutool'>
         <img src="https://gitcode.com/chinabugotech/hutool/star/badge.svg" alt="gitcode star"/>
     </a>
-    <a href="https://deepwiki.com/chinabugotech/hutool">
+    <!-- -->
+    <a href="https://deepwiki.com/agentscope-ai/agentscope-java">
         <img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki">
     </a>
 </p>
