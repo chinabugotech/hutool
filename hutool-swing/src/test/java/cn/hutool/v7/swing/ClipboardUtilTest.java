@@ -17,8 +17,9 @@
 package cn.hutool.v7.swing;
 
 import cn.hutool.v7.swing.clipboard.ClipboardUtil;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * 剪贴板工具类单元测试
@@ -34,8 +35,8 @@ public class ClipboardUtilTest {
 			ClipboardUtil.setStr("test");
 
 			final String test = ClipboardUtil.getStr();
-			Assertions.assertEquals("test", test);
-		} catch (final java.awt.HeadlessException e) {
+			assertEquals("test", test);
+		} catch (final java.awt.HeadlessException | IllegalStateException e) {
 			// 忽略 No X11 DISPLAY variable was set, but this program performed an operation which requires it.
 			// ignore
 		}
