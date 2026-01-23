@@ -17,6 +17,7 @@
 package cn.hutool.v7.core.text.split;
 
 import cn.hutool.v7.core.collection.ListUtil;
+import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.core.text.finder.PatternFinder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -30,6 +31,52 @@ import java.util.regex.Pattern;
  *
  */
 public class SplitUtilTest {
+
+	@Test
+	public void issueI6FKSITest(){
+		// issue:I6FKSI
+		Assertions.assertThrows(IllegalArgumentException.class, () -> SplitUtil.splitByLength("test length 0", 0));
+	}
+
+	@Test
+	public void splitToLongTest() {
+		final String str = "1,2,3,4, 5";
+		long[] longArray = SplitUtil.splitTo(str, ",", long[].class);
+		Assertions.assertArrayEquals(new long[]{1, 2, 3, 4, 5}, longArray);
+
+		longArray = SplitUtil.splitTo(str, ",", long[].class);
+		Assertions.assertArrayEquals(new long[]{1, 2, 3, 4, 5}, longArray);
+	}
+
+	@Test
+	public void splitToIntTest() {
+		final String str = "1,2,3,4, 5";
+		int[] intArray = SplitUtil.splitTo(str, ",", int[].class);
+		Assertions.assertArrayEquals(new int[]{1, 2, 3, 4, 5}, intArray);
+
+		intArray = SplitUtil.splitTo(str, ",", int[].class);
+		Assertions.assertArrayEquals(new int[]{1, 2, 3, 4, 5}, intArray);
+	}
+
+	@Test
+	public void splitTest() {
+		final String str = "a,b ,c,d,,e";
+		final List<String> split = SplitUtil.split(str, ",", -1, true, true);
+		// 测试空是否被去掉
+		Assertions.assertEquals(5, split.size());
+		// 测试去掉两边空白符是否生效
+		Assertions.assertEquals("b", split.get(1));
+
+		final String[] strings = SplitUtil.splitToArray("abc/", StrUtil.SLASH);
+		Assertions.assertEquals(2, strings.length);
+	}
+
+	@Test
+	public void splitToArrayNullTest() {
+		final String[] strings = SplitUtil.splitToArray(null, ".");
+		Assertions.assertNotNull(strings);
+		Assertions.assertEquals(0, strings.length);
+	}
 
 	@Test
 	public void splitByCharTest(){
@@ -87,6 +134,10 @@ public class SplitUtilTest {
 		final String[] strings2 = SplitUtil.split(str, ",", -1, false, true)
 				.toArray(new String[0]);
 		Assertions.assertEquals(0, strings2.length);
+
+		final List<String> strings3 = SplitUtil.split(str, ",", -1, true, true);
+		// 测试空是否被去掉
+		Assertions.assertEquals(0, strings3.size());
 	}
 
 	@SuppressWarnings("ConstantValue")
