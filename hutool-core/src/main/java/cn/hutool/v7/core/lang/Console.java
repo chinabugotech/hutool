@@ -36,7 +36,7 @@ public class Console {
 
 	private static final String TEMPLATE_VAR = "{}";
 
-	// --------------------------------------------------------------------------------- Log
+	// region ----- log
 
 	/**
 	 * 同 System.out.println()方法，打印控制台日志
@@ -115,8 +115,9 @@ public class Console {
 	private static void logInternal(final String template, final Object... values) {
 		log(null, template, values);
 	}
+	// endregion
 
-	// --------------------------------------------------------------------------------- print
+	// region ----- print
 
 	/**
 	 * 打印表格到控制台
@@ -194,6 +195,17 @@ public class Console {
 	}
 
 	/**
+	 * 同 System.out.printf()方法，格式化打印控制台日志
+	 *
+	 * @param template 模板
+	 * @param values   参数
+	 * @since 7.0.0
+	 */
+	public static void printf(final String template, final Object... values) {
+		out.printf(template, values);
+	}
+
+	/**
 	 * 同 System.out.println()方法，打印控制台日志
 	 *
 	 * @param template 文本模板，被替换的部分用 {} 表示
@@ -203,8 +215,9 @@ public class Console {
 	private static void printInternal(final String template, final Object... values) {
 		out.print(StrUtil.format(template, values));
 	}
+	// endregion
 
-	// --------------------------------------------------------------------------------- Error
+	// region ----- Error
 
 	/**
 	 * 同 System.err.println()方法，打印控制台日志
@@ -280,8 +293,9 @@ public class Console {
 	private static void errorInternal(final String template, final Object... values) {
 		error(null, template, values);
 	}
+	// endregion
 
-	// --------------------------------------------------------------------------------- in
+	// region ----- in
 
 	/**
 	 * 创建从控制台读取内容的{@link Scanner}
@@ -302,8 +316,7 @@ public class Console {
 	public static String input() {
 		return scanner().nextLine();
 	}
-
-	// --------------------------------------------------------------------------------- console lineNumber
+	// endregion
 
 	/**
 	 * 返回当前位置+行号 (不支持Lambda、内部类、递归内使用)
