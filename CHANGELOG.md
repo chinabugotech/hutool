@@ -1,7 +1,7 @@
 
 # 🚀Changelog
 -------------------------------------------------------------------------------------------------------------
-# 5.8.44(2026-01-22)
+# 5.8.44(2026-01-27)
 ### 🐣新特性
 * 【core   】      `NumberUtil.parseNumber`增加支持科学计数法（pr#4211@Github）
 * 【captcha】      `AbstractCaptcha`增加`setStroke`方法支持线条粗细（issue#IDJQ15@Gitee）
@@ -11,6 +11,7 @@
 * 【json       】  修复`JSONUtil.wrap`忽略错误问题（issue#4210@Github）
 * 【http       】  修复`HttpUtil.normalizeParams `在极端输入下抛 StringIndexOutOfBoundsException（pr#4216@Github）
 * 【extra      】  修复`MailAccount.setAuth`参数与field不一致问题（issue#4217@Github）
+* 【core       】  修复`TransMap.computeIfAbsent`mappingFunction处理不一致问题（issue#IDM6UR@Gitee）
 
 -------------------------------------------------------------------------------------------------------------
 # 5.8.43(2026-01-04)
