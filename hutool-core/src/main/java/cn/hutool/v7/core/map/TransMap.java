@@ -125,7 +125,7 @@ public abstract class TransMap<K, V> extends MapWrapper<K, V> {
 
 	@Override
 	public V computeIfAbsent(final K key, final Function<? super K, ? extends V> mappingFunction) {
-		return super.computeIfAbsent(customKey(key), mappingFunction);
+		return super.computeIfAbsent(customKey(key), k -> customValue(mappingFunction.apply(customKey(k))));
 	}
 	//---------------------------------------------------------------------------- Override default methods end
 
