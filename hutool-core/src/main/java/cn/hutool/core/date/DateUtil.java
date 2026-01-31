@@ -25,6 +25,7 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
@@ -44,6 +45,16 @@ public class DateUtil extends CalendarUtil {
 			"jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec", // 月份
 			"gmt", "ut", "utc", "est", "edt", "cst", "cdt", "mst", "mdt", "pst", "pdt"// 时间标准
 	};
+	
+	/**
+	 * 匹配日期分隔符（正斜杠、点、年、月），用于统一替换为横杠
+	 */
+	private static final Pattern DATE_SEPARATOR_PATTERN = Pattern.compile("[/.年月]");
+
+	/**
+	 * 匹配时间单位（时、分、秒），用于统一替换为冒号 匹配时间单位（时、分、秒），用于统一替换为冒号
+	 */
+	private static final Pattern TIME_UNIT_PATTERN = Pattern.compile("[时分秒]");
 
 	/**
 	 * 当前时间，转换为{@link DateTime}对象
@@ -2408,14 +2419,14 @@ public class DateUtil extends CalendarUtil {
 		final StringBuilder builder = StrUtil.builder();
 
 		// 日期部分（"\"、"/"、"."、"年"、"月"都替换为"-"）
-		String datePart = dateAndTime.get(0).replaceAll("[/.年月]", "-");
+		String datePart = DATE_SEPARATOR_PATTERN.matcher(dateAndTime.get(0)).replaceAll("-");
 		datePart = StrUtil.removeSuffix(datePart, "日");
 		builder.append(datePart);
 
 		// 时间部分
 		if (size == 2) {
 			builder.append(' ');
-			String timePart = dateAndTime.get(1).replaceAll("[时分秒]", ":");
+			String timePart = TIME_UNIT_PATTERN.matcher(dateAndTime.get(1)).replaceAll(":");
 			timePart = StrUtil.removeSuffix(timePart, ":");
 			//将ISO8601中的逗号替换为.
 			timePart = timePart.replace(',', '.');
