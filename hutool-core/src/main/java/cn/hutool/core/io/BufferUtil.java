@@ -6,6 +6,7 @@ import cn.hutool.core.util.StrUtil;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.charset.Charset;
+import java.util.Arrays;
 
 /**
  * {@link ByteBuffer} 工具类<br>
@@ -26,7 +27,7 @@ public class BufferUtil {
 	 * @return 新的ByteBuffer
 	 */
 	public static ByteBuffer copy(ByteBuffer src, int start, int end) {
-		return copy(src, ByteBuffer.allocate(end - start));
+		return ByteBuffer.wrap(Arrays.copyOfRange(src.array(), start, end));
 	}
 
 	/**

@@ -15,6 +15,7 @@
 * 【extra      】  修复`MailAccount.setAuth`参数与field不一致问题（issue#4217@Github）
 * 【core       】  修复`TransMap.computeIfAbsent`mappingFunction处理不一致问题（issue#IDM6UR@Gitee）
 * 【core       】  修复`MultiResource`游标歧义问题（issue#IDNAOY@Gitee）
+* 【core       】  修复`BufferUtil`copy歧义问题（issue#IDN097@Gitee）
 
 -------------------------------------------------------------------------------------------------------------
 # 5.8.43(2026-01-04)
