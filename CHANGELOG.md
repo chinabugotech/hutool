@@ -14,6 +14,7 @@
 * 【http       】  修复`HttpUtil.normalizeParams `在极端输入下抛 StringIndexOutOfBoundsException（pr#4216@Github）
 * 【extra      】  修复`MailAccount.setAuth`参数与field不一致问题（issue#4217@Github）
 * 【core       】  修复`TransMap.computeIfAbsent`mappingFunction处理不一致问题（issue#IDM6UR@Gitee）
+* 【core       】  修复`MultiResource`游标歧义问题（issue#IDNAOY@Gitee）
 
 -------------------------------------------------------------------------------------------------------------
 # 5.8.43(2026-01-04)
