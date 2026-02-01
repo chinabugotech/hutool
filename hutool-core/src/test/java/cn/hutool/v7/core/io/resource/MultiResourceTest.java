@@ -101,7 +101,7 @@ class MultiResourceTest {
 		assertEquals(0, getCursorValue(multiResource), "游标应该更新为0");
 
 		// 验证getName方法使用的是第一个资源
-		assertEquals("resource1", multiResource.name(), "getName应该返回第一个资源名称");
+		assertEquals("resource1", multiResource.getName(), "getName应该返回第一个资源名称");
 
 		// 第二次调用next()
 		final Resource result2 = multiResource.next();
@@ -109,7 +109,7 @@ class MultiResourceTest {
 		assertEquals(1, getCursorValue(multiResource), "游标应该更新为1");
 
 		// 验证getName方法使用的是第二个资源
-		assertEquals("resource2", multiResource.name(), "getName应该返回第二个资源名称");
+		assertEquals("resource2", multiResource.getName(), "getName应该返回第二个资源名称");
 	}
 
 	/**
@@ -142,7 +142,7 @@ class MultiResourceTest {
 		multiResource.remove();
 
 		assertEquals(2, getInternalSize(multiResource), "删除后资源数量应该是2");
-		assertEquals("resource2", multiResource.name(), "删除后getName应该返回第二个资源名称");
+		assertEquals("resource2", multiResource.getName(), "删除后getName应该返回第二个资源名称");
 	}
 
 	/**
@@ -265,11 +265,11 @@ class MultiResourceTest {
 	/**
 	 * 测试Resource接口的实现类，用于单元测试
 	 */
-		private record TestResource(String name, String content) implements Resource {
+		private record TestResource(String getName, String content) implements Resource {
 		@Override
 			public URL getUrl() {
 				try {
-					return new URL("http://example.com/" + name);
+					return new URL("http://example.com/" + getName);
 				} catch (final MalformedURLException e) {
 					throw new RuntimeException(e);
 				}

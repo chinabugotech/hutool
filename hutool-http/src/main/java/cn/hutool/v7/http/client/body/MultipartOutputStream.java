@@ -162,7 +162,7 @@ public class MultipartOutputStream extends OutputStream {
 	 * @throws IORuntimeException IO异常
 	 */
 	private void appendResource(final String formFieldName, final Resource resource) throws IORuntimeException {
-		final String fileName = resource.name();
+		final String fileName = resource.getName();
 
 		// Content-Disposition
 		if (null == fileName) {

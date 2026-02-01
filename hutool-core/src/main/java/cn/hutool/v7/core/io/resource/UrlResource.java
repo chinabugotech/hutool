@@ -89,7 +89,7 @@ public class UrlResource implements Resource, Serializable {
 	//-------------------------------------------------------------------------------------- Constructor end
 
 	@Override
-	public String name() {
+	public String getName() {
 		return this.name;
 	}
 

@@ -38,7 +38,7 @@ public class ResourceUtilTest {
 	@Test
 	public void stringResourceTest(){
 		final StringResource stringResource = new StringResource("testData", "test");
-		Assertions.assertEquals("test", stringResource.name());
+		Assertions.assertEquals("test", stringResource.getName());
 		Assertions.assertArrayEquals("testData".getBytes(), stringResource.readBytes());
 		Assertions.assertArrayEquals("testData".getBytes(), IoUtil.readBytes(stringResource.getStream()));
 	}
@@ -46,7 +46,7 @@ public class ResourceUtilTest {
 	@Test
 	public void fileResourceTest(){
 		final FileResource resource = new FileResource(FileUtil.file("test.xml"));
-		Assertions.assertEquals("test.xml", resource.name());
+		Assertions.assertEquals("test.xml", resource.getName());
 		Assertions.assertTrue(StrUtil.isNotEmpty(resource.readUtf8Str()));
 	}
 

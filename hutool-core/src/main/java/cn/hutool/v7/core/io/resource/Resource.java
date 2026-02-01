@@ -53,7 +53,7 @@ public interface Resource {
 	 * @return 资源名
 	 * @since 4.0.13
 	 */
-	String name();
+	String getName();
 
 	/**
 	 * 获得解析后的{@link URL}，无对应URL的返回{@code null}

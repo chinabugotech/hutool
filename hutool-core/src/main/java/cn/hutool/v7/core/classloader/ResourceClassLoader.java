@@ -57,7 +57,7 @@ public class ResourceClassLoader<T extends Resource> extends SecureClassLoader {
 	 * @return this
 	 */
 	public ResourceClassLoader<T> addResource(final T resource) {
-		this.resourceMap.put(resource.name(), resource);
+		this.resourceMap.put(resource.getName(), resource);
 		return this;
 	}
 

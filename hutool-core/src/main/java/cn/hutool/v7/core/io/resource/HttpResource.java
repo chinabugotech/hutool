@@ -54,8 +54,8 @@ public class HttpResource implements Resource, Serializable {
 	}
 
 	@Override
-	public String name() {
-		return resource.name();
+	public String getName() {
+		return resource.getName();
 	}
 
 	@Override

@@ -189,14 +189,14 @@ public class ZipWriter implements Closeable {
 	/**
 	 * 添加资源到压缩包，添加后关闭资源流
 	 *
-	 * @param resources 需要压缩的资源，资源的路径为{@link Resource#name()}
+	 * @param resources 需要压缩的资源，资源的路径为{@link Resource#getName()}
 	 * @return this
 	 * @throws IORuntimeException IO异常
 	 */
 	public ZipWriter add(final Resource... resources) throws IORuntimeException {
 		for (final Resource resource : resources) {
 			if (null != resource) {
-				add(resource.name(), resource.getStream());
+				add(resource.getName(), resource.getStream());
 			}
 		}
 		return this;
