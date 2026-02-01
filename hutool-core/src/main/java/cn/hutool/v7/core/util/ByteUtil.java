@@ -174,7 +174,7 @@ public class ByteUtil {
 	/**
 	 * long转byte数组<br>
 	 * 默认以小端序转换<br>
-	 * from: <a href="https://stackoverflow.com/questions/4485128/how-do-i-convert-long-to-byte-and-back-in-java">https://stackoverflow.com/questions/4485128/how-do-i-convert-long-to-byte-and-back-in-java</a>
+	 * from: <a href="https://stackoverflow.com/questions/4485128/how-do-i-convert-long-to-byte-and-back-in-java">how-do-i-convert-long-to-byte-and-back-in-java</a>
 	 *
 	 * @param longValue long值
 	 * @return byte数组
@@ -186,7 +186,7 @@ public class ByteUtil {
 	/**
 	 * long转byte数组<br>
 	 * 自定义端序<br>
-	 * from: <a href="https://stackoverflow.com/questions/4485128/how-do-i-convert-long-to-byte-and-back-in-java">https://stackoverflow.com/questions/4485128/how-do-i-convert-long-to-byte-and-back-in-java</a>
+	 * from: <a href="https://stackoverflow.com/questions/4485128/how-do-i-convert-long-to-byte-and-back-in-java">how-do-i-convert-long-to-byte-and-back-in-java</a>
 	 *
 	 * @param longValue long值
 	 * @param byteOrder 端序
