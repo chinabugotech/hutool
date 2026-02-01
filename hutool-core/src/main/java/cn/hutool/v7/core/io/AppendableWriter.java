@@ -87,11 +87,13 @@ public class AppendableWriter extends Writer implements Appendable {
 
 	@Override
 	public void write(final String str) throws IOException {
+		checkNotClosed();
 		appendable.append(str);
 	}
 
 	@Override
 	public void write(final char[] cbuf) throws IOException {
+		checkNotClosed();
 		appendable.append(CharBuffer.wrap(cbuf));
 	}
 
