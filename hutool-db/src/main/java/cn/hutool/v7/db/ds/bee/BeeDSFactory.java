@@ -54,7 +54,7 @@ public class BeeDSFactory extends AbstractDSFactory {
 		// 连接配置
 		final Properties connProps = config.getConnProps();
 		if(MapUtil.isNotEmpty(connProps)){
-			connProps.forEach((key, value)->beeConfig.addConnectProperty(key.toString(), value));
+			connProps.forEach((key, value)->beeConfig.addConnectionFactoryProperty(key.toString(), value));
 		}
 
 		return new BeeDataSource(beeConfig);

@@ -50,8 +50,7 @@
 		<dependency>
 			<groupId>org.quartz-scheduler</groupId>
 			<artifactId>quartz</artifactId>
-			<!-- 2.5.0有bug，只能使用2.4.0，见：https://github.com/quartz-scheduler/quartz/issues/1298 -->
-			<version>2.4.0</version>
+			<version>2.5.2</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

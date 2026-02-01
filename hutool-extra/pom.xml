@@ -37,15 +37,15 @@
 
 		<!-- template versions -->
 		<velocity.version>2.4.1</velocity.version>
-		<beetl.version>3.19.2.RELEASE</beetl.version>
+		<beetl.version>3.20.1.RELEASE</beetl.version>
 		<rythm.version>1.4.2</rythm.version>
 		<freemarker.version>2.3.34</freemarker.version>
 		<enjoy.version>5.2.5</enjoy.version>
 		<thymeleaf.version>3.1.3.RELEASE</thymeleaf.version>
-		<jte.version>3.2.1</jte.version>
+		<jte.version>3.2.2</jte.version>
 		<!-- 保持2.1.10，关联的antlr4与Beetl有兼容问题 -->
 		<jetbrick-template.version>2.1.10</jetbrick-template.version>
-		<pebble.version>3.2.4</pebble.version>
+		<pebble.version>4.1.0</pebble.version>
 		<wit-core.version>2.6.0</wit-core.version>
 
 		<!-- mail versions -->
@@ -53,23 +53,23 @@
 		<jakarta.mail.version>2.0.5</jakarta.mail.version>
 
 		<!-- ssh versions -->
-		<jsch.version>2.27.3</jsch.version>
+		<jsch.version>2.27.7</jsch.version>
 		<sshj.version>0.40.0</sshj.version>
-		<sshd.version>2.16.0</sshd.version>
+		<sshd.version>2.17.1</sshd.version>
 		<ganymed-ssh2.version>262</ganymed-ssh2.version>
 
-		<net.version>3.11.1</net.version>
+		<net.version>3.12.0</net.version>
 		<emoji-java.version>5.1.1</emoji-java.version>
-		<spring-boot.version>4.0.1</spring-boot.version>
-		<oshi.version>6.9.0</oshi.version>
-		<byte-buddy.version>1.17.8</byte-buddy.version>
+		<spring-boot.version>4.0.2</spring-boot.version>
+		<oshi.version>6.9.3</oshi.version>
+		<byte-buddy.version>1.18.4</byte-buddy.version>
 		<commons-compress.version>1.28.0</commons-compress.version>
 		<smartcn.version>8.11.4</smartcn.version>
 		<jaxb-runtime.version>4.0.6</jaxb-runtime.version>
 
 		<!-- mq client versions -->
 		<kafka.version>4.1.1</kafka.version>
-		<rabbitmq.version>5.26.0</rabbitmq.version>
+		<rabbitmq.version>5.28.0</rabbitmq.version>
 		<rocketmq.version>5.4.0</rocketmq.version>
 		<activemq.version>6.2.0</activemq.version>
 		<mica.version>2.5.11</mica.version>

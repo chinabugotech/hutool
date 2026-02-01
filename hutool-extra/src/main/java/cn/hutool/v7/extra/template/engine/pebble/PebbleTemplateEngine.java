@@ -27,7 +27,7 @@ import io.pebbletemplates.pebble.PebbleEngine;
 import io.pebbletemplates.pebble.loader.*;
 
 /**
- * Pebble(https://pebbletemplates.io/) 模板引擎
+ * Pebble(<a href="https://pebbletemplates.io/">pebbletemplates</a>) 模板引擎
  *
  * @author zooooooooy
  * @since 7.0.0
@@ -86,12 +86,10 @@ public class PebbleTemplateEngine implements TemplateEngine {
 				loader.setPrefix(StrUtil.addSuffixIfNot(config.getPath(), StrUtil.SLASH));
 				break;
 			case FILE:
-				loader = new FileLoader();
-				loader.setPrefix(StrUtil.addSuffixIfNot(config.getPath(), StrUtil.SLASH));
+				loader = new FileLoader(StrUtil.addSuffixIfNot(config.getPath(), StrUtil.SLASH));
 				break;
 			case WEB_ROOT:
-				loader = new FileLoader();
-				loader.setPrefix(StrUtil.addSuffixIfNot(
+				loader = new FileLoader(StrUtil.addSuffixIfNot(
 					FileUtil.getAbsolutePath(FileUtil.file(FileUtil.getWebRoot(), config.getPath())), StrUtil.SLASH));
 				break;
 			case STRING:
@@ -100,7 +98,7 @@ public class PebbleTemplateEngine implements TemplateEngine {
 			case COMPOSITE:
 				loader = new DelegatingLoader(ListUtil.of(
 					new ClasspathLoader(),
-					new FileLoader(),
+					new FileLoader(StrUtil.addSuffixIfNot(config.getPath(), StrUtil.SLASH)),
 					new StringLoader()
 				));
 			default:

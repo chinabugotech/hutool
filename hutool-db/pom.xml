@@ -36,13 +36,22 @@
 		<Automatic-Module-Name>cn.hutool.v7.db</Automatic-Module-Name>
 		<!-- versions -->
 		<c3p0.version>0.11.2</c3p0.version>
-		<dbcp2.version>2.13.0</dbcp2.version>
-		<tomcat-jdbc.version>11.0.12</tomcat-jdbc.version>
+		<dbcp2.version>2.14.0</dbcp2.version>
+		<tomcat-jdbc.version>11.0.18</tomcat-jdbc.version>
 		<druid.version>1.2.27</druid.version>
 		<hikariCP.version>7.0.2</hikariCP.version>
-		<sqlite.version>3.50.3.0</sqlite.version>
+		<beecp.version>5.2.0</beecp.version>
+
+		<!-- driver versions -->
+		<sqlite.version>3.51.1.0</sqlite.version>
 		<hsqldb.version>2.7.4</hsqldb.version>
-		<postgresql.version>42.7.8</postgresql.version>
+		<postgresql.version>42.7.9</postgresql.version>
+		<ngdbc.version>2.27.7</ngdbc.version>
+		<ojdbc8.version>23.26.0.0.0</ojdbc8.version>
+		<oceanbase.version>2.4.16</oceanbase.version>
+		<DmJdbcDriver18.version>8.1.3.140</DmJdbcDriver18.version>
+		<mysql.version>9.6.0</mysql.version>
+		<h2.version>2.4.240</h2.version>
 	</properties>
 
 	<dependencies>
@@ -90,7 +99,7 @@
 		<dependency>
 			<groupId>com.github.chris2018998</groupId>
 			<artifactId>beecp</artifactId>
-			<version>5.0.0</version>
+			<version>${beecp.version}</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>slf4j-api</artifactId>
@@ -122,37 +131,37 @@
 		<dependency>
 			<groupId>com.mysql</groupId>
 			<artifactId>mysql-connector-j</artifactId>
-			<version>9.4.0</version>
+			<version>${mysql.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
-			<version>2.4.240</version>
+			<version>${h2.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.dameng</groupId>
 			<artifactId>DmJdbcDriver18</artifactId>
-			<version>8.1.3.140</version>
+			<version>${DmJdbcDriver18.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.oracle.database.jdbc</groupId>
 			<artifactId>ojdbc8</artifactId>
-			<version>23.9.0.25.07</version>
+			<version>${ojdbc8.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.oceanbase</groupId>
 			<artifactId>oceanbase-client</artifactId>
-			<version>2.4.15</version>
+			<version>${oceanbase.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.sap.cloud.db.jdbc</groupId>
 			<artifactId>ngdbc</artifactId>
-			<version>2.26.6</version>
+			<version>${ngdbc.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
