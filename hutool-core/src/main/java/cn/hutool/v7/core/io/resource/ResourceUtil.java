@@ -319,7 +319,7 @@ public class ResourceUtil {
 	public static void loadTo(final Properties properties, final Resource resource, final Charset charset) {
 		Assert.notNull(properties);
 		Assert.notNull(resource);
-		final String filename = resource.getName();
+		final String filename = resource.name();
 		if (filename != null && StrUtil.endWithIgnoreCase(filename, ".xml")) {
 			// XML
 			try (final InputStream in = resource.getStream()) {

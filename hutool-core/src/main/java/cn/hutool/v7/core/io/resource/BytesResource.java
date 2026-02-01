@@ -67,7 +67,7 @@ public class BytesResource implements Resource, Serializable {
 	}
 
 	@Override
-	public String getName() {
+	public String name() {
 		return this.name;
 	}
 

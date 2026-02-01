@@ -48,7 +48,7 @@ public class MultiResource implements Resource, Iterable<Resource>, Iterator<Res
 	/**
 	 * 游标
 	 */
-	private int cursor;
+	private int cursor = -1;
 
 	/**
 	 * 构造
@@ -73,48 +73,48 @@ public class MultiResource implements Resource, Iterable<Resource>, Iterator<Res
 	}
 
 	@Override
-	public String getName() {
-		return resources.get(cursor).getName();
+	public String name() {
+		return resources.get(getValidCursor()).name();
 	}
 
 	@Override
 	public URL getUrl() {
-		return resources.get(cursor).getUrl();
+		return resources.get(getValidCursor()).getUrl();
 	}
 
 	@Override
 	public long size() {
-		return resources.get(cursor).size();
+		return resources.get(getValidCursor()).size();
 	}
 
 	@Override
 	public InputStream getStream() {
-		return resources.get(cursor).getStream();
+		return resources.get(getValidCursor()).getStream();
 	}
 
 	@Override
 	public boolean isModified() {
-		return resources.get(cursor).isModified();
+		return resources.get(getValidCursor()).isModified();
 	}
 
 	@Override
 	public BufferedReader getReader(final Charset charset) {
-		return resources.get(cursor).getReader(charset);
+		return resources.get(getValidCursor()).getReader(charset);
 	}
 
 	@Override
 	public String readStr(final Charset charset) throws IORuntimeException {
-		return resources.get(cursor).readStr(charset);
+		return resources.get(getValidCursor()).readStr(charset);
 	}
 
 	@Override
 	public String readUtf8Str() throws IORuntimeException {
-		return resources.get(cursor).readUtf8Str();
+		return resources.get(getValidCursor()).readUtf8Str();
 	}
 
 	@Override
 	public byte[] readBytes() throws IORuntimeException {
-		return resources.get(cursor).readBytes();
+		return resources.get(getValidCursor()).readBytes();
 	}
 
 	@Override
@@ -138,14 +138,14 @@ public class MultiResource implements Resource, Iterable<Resource>, Iterator<Res
 
 	@Override
 	public void remove() {
-		this.resources.remove(this.cursor);
+		this.resources.remove(getValidCursor());
 	}
 
 	/**
 	 * 重置游标
 	 */
 	public synchronized void reset() {
-		this.cursor = 0;
+		this.cursor = -1;
 	}
 
 	/**
@@ -171,4 +171,12 @@ public class MultiResource implements Resource, Iterable<Resource>, Iterator<Res
 		return this;
 	}
 
+	/**
+	 * 获取当前有效游标位置的资源
+	 *
+	 * @return 资源
+	 */
+	private int getValidCursor() {
+		return Math.max(cursor, 0);
+	}
 }

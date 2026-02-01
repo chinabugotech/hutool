@@ -94,7 +94,7 @@ public class FileResource implements Resource, Serializable {
 	// ----------------------------------------------------------------------- Constructor end
 
 	@Override
-	public String getName() {
+	public String name() {
 		return this.name;
 	}
 

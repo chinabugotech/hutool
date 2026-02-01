@@ -395,7 +395,7 @@ public class DelegatePath extends SimpleWrapper<Path> implements Path, Resource 
 	}
 
 	@Override
-	public String getName() {
+	public String name() {
 		return PathUtil.getName(this.raw);
 	}
 

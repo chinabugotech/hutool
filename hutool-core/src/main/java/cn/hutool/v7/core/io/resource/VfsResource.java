@@ -86,7 +86,7 @@ public class VfsResource implements Resource {
 	}
 
 	@Override
-	public String getName() {
+	public String name() {
 		return MethodUtil.invoke(virtualFile, VIRTUAL_FILE_METHOD_GET_NAME);
 	}
 

@@ -432,7 +432,7 @@ public class ZipUtil {
 	 *
 	 * @param zipFile   生成的Zip文件，包括文件名。注意：zipPath不能是srcPath路径下的子文件夹
 	 * @param charset   编码
-	 * @param resources 需要压缩的资源，资源的路径为{@link Resource#getName()}
+	 * @param resources 需要压缩的资源，资源的路径为{@link Resource#name()}
 	 * @return 压缩文件
 	 * @throws HutoolException IO异常
 	 * @since 5.5.2

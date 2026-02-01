@@ -57,7 +57,7 @@ public class FileObjectResource implements Resource {
 	}
 
 	@Override
-	public String getName() {
+	public String name() {
 		return this.fileObject.getName();
 	}
 
