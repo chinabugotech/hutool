@@ -95,7 +95,7 @@ public class BufferUtil {
 	 * @return 新的ByteBuffer
 	 */
 	public static ByteBuffer copy(final ByteBuffer src, final int start, final int end) {
-		return copy(src, ByteBuffer.allocate(end - start));
+		return ByteBuffer.wrap(Arrays.copyOfRange(src.array(), start, end));
 	}
 
 	/**
