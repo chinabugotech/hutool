@@ -105,17 +105,17 @@ public abstract class TransMap<K, V> extends MapWrapper<K, V> {
 
 	@Override
 	public V computeIfPresent(final K key, final BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
-		return super.computeIfPresent(customKey(key), (k, v) -> remappingFunction.apply(customKey(k), customValue(v)));
+		return super.computeIfPresent(customKey(key), (k, v) -> remappingFunction.apply(k, customValue(v)));
 	}
 
 	@Override
 	public V compute(final K key, final BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
-		return super.compute(customKey(key), (k, v) -> remappingFunction.apply(customKey(k), customValue(v)));
+		return super.compute(customKey(key), (k, v) -> remappingFunction.apply(k, customValue(v)));
 	}
 
 	@Override
 	public V merge(final K key, final V value, final BiFunction<? super V, ? super V, ? extends V> remappingFunction) {
-		return super.merge(customKey(key), customValue(value), (v1, v2) -> remappingFunction.apply(customValue(v1), customValue(v2)));
+		return super.merge(customKey(key), customValue(value), remappingFunction);
 	}
 
 	@Override
