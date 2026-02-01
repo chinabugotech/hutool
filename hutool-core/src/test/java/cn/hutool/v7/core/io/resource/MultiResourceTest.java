@@ -284,10 +284,5 @@ class MultiResourceTest {
 			public InputStream getStream() {
 				return new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8));
 			}
-
-			@Override
-			public boolean isModified() {
-				return false;
-			}
-		}
+	}
 }
