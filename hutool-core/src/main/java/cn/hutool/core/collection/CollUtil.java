@@ -1491,10 +1491,25 @@ public class CollUtil {
 	 * @param <R>        返回集合元素类型
 	 * @param collection 原集合
 	 * @param func       编辑函数
-	 * @param ignoreNull 是否忽略空值，这里的空值包括函数处理前和处理后的null值
 	 * @return 抽取后的新列表
-	 * @since 5.3.5
+	 * @since 5.8.44
 	 */
+	public static <T, R> List<R> map(Iterable<T> collection, Function<? super T, ? extends R> func) {
+		return map(collection, func, true);
+	}
+
+		/**
+		 * 通过func自定义一个规则，此规则将原集合中的元素转换成新的元素，生成新的列表返回<br>
+		 * 例如提供的是一个Bean列表，通过Function接口实现获取某个字段值，返回这个字段值组成的新列表
+		 *
+		 * @param <T>        集合元素类型
+		 * @param <R>        返回集合元素类型
+		 * @param collection 原集合
+		 * @param func       编辑函数
+		 * @param ignoreNull 是否忽略空值，这里的空值包括函数处理前和处理后的null值
+		 * @return 抽取后的新列表
+		 * @since 5.3.5
+		 */
 	public static <T, R> List<R> map(Iterable<T> collection, Function<? super T, ? extends R> func, boolean ignoreNull) {
 		final List<R> fieldValueList = new ArrayList<>();
 		if (null == collection) {
