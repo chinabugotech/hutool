@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.json.reader;
 
+import cn.hutool.v7.core.io.CharSequenceReader;
 import cn.hutool.v7.core.io.IoUtil;
 import cn.hutool.v7.core.io.ReaderWrapper;
 import cn.hutool.v7.core.lang.Assert;
@@ -27,7 +28,6 @@ import cn.hutool.v7.json.JSONException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
-import java.io.StringReader;
 
 /**
  * JSON解析器<br>
@@ -93,7 +93,7 @@ public class JSONTokener extends ReaderWrapper {
 	 * @param ignoreZeroWithChar 是否忽略零宽字符
 	 */
 	public JSONTokener(final CharSequence s, final boolean ignoreZeroWithChar) {
-		this(new StringReader(Assert.notBlank(s).toString()), ignoreZeroWithChar);
+		this(new CharSequenceReader(Assert.notBlank(s)), ignoreZeroWithChar);
 	}
 
 	/**

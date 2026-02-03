@@ -47,6 +47,15 @@ public class CharSequenceReader extends Reader {
 	/**
 	 * 构造
 	 *
+	 * @param str {@link CharSequence}
+	 */
+	public CharSequenceReader(final CharSequence str) {
+		this(str, 0, Assert.notNull(str).length());
+	}
+
+	/**
+	 * 构造
+	 *
 	 * @param str          {@link CharSequence}
 	 * @param startInclude 开始位置（包含）
 	 * @param endExclude   结束位置（不包含）
