@@ -4243,6 +4243,45 @@ public class CharSequenceUtil extends StrValidator {
 	}
 
 	/**
+	 * 将字符串转换为字符数组
+	 *
+	 * @param cs 字符串
+	 * @return 字符数组
+	 * @since 7.0.0
+	 */
+	public static char[] toCharArray(final CharSequence cs) {
+		if (cs == null) {
+			return null;
+		}
+
+		final int length = cs.length();
+		if (length == 0) {
+			return new char[0];
+		}
+
+		// 额外优化：优先处理 String 实现类，使用原生 toCharArray() 更高效
+		if (cs instanceof String) {
+			return ((String) cs).toCharArray();
+		}
+
+		// 其他 CharSequence 实现类，采用手动遍历拷贝
+		final char[] resultArray = new char[length];
+
+		if (cs instanceof StringBuilder) {
+			// 复制全部字符：从源索引0到length，写入目标数组索引0开始
+			((StringBuilder) cs).getChars(0, length, resultArray, 0);
+		} else if (cs instanceof StringBuffer) {
+			// 复制全部字符：从源索引0到length，写入目标数组索引0开始
+			((StringBuffer) cs).getChars(0, length, resultArray, 0);
+		} else {
+			for (int i = 0; i < length; i++) {
+				resultArray[i] = cs.charAt(i);
+			}
+		}
+		return resultArray;
+	}
+
+	/**
 	 * 遍历字符串的每个字符，并处理
 	 *
 	 * @param str      字符串
