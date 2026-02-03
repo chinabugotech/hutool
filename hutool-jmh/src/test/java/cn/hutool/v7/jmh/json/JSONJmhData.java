@@ -22,22 +22,23 @@ import java.util.Date;
 import java.util.List;
 
 public class JSONJmhData {
-	public static String jsonStr = "{\n" +
-		"  \"name\": \"张三\",\n" +
-		"  \"age\": 18,\n" +
-		"  \"birthday\": \"2020-01-01\",\n" +
-		"  \"booleanValue\": true,\n" +
-		"  \"jsonObjectSub\": {\n" +
-		"    \"subStr\": \"abc\",\n" +
-		"    \"subNumber\": 150343445454,\n" +
-		"    \"subBoolean\": true\n" +
-		"  },\n" +
-		"  \"jsonArraySub\": [\n" +
-		"    \"abc\",\n" +
-		"    123,\n" +
-		"    false\n" +
-		"  ]\n" +
-		"}";
+	public static String jsonStr = """
+		{
+		  "name": "张三",
+		  "age": 18,
+		  "birthday": "2020-01-01",
+		  "booleanValue": true,
+		  "jsonObjectSub": {
+		    "subStr": "abc",
+		    "subNumber": 150343445454,
+		    "subBoolean": true
+		  },
+		  "jsonArraySub": [
+		    "abc",
+		    123,
+		    false
+		  ]
+		}""";
 
 	@Data
 	public static class TestBean{
