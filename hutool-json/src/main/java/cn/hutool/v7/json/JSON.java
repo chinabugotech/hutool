@@ -61,6 +61,15 @@ public interface JSON extends Serializable {
 	void write(JSONWriter writer) throws JSONException;
 
 	/**
+	 * 输出JSON到{@link Appendable}
+	 *
+	 * @param appendable 追加器
+	 */
+	default void write(final Appendable appendable){
+		write(getFactory().ofWriter(appendable));
+	}
+
+	/**
 	 * 获取JSON配置
 	 *
 	 * @return {@link JSONConfig}
