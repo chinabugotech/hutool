@@ -20,10 +20,11 @@ import cn.hutool.v7.core.collection.ListUtil;
 import cn.hutool.v7.core.date.DateTime;
 import cn.hutool.v7.core.date.DateUtil;
 import cn.hutool.v7.core.date.TimeUtil;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class GsonTest {
 	/**
@@ -37,7 +38,7 @@ public class GsonTest {
 		final JSONEngineTest.TestBean testBean = new JSONEngineTest.TestBean("张三", 18, true);
 		final String jsonString = engine.toJsonString(testBean);
 		// 使用统一换行符
-		Assertions.assertEquals("""
+		assertEquals("""
 			{
 			  "name": "张三",
 			  "age": 18,
@@ -52,10 +53,10 @@ public class GsonTest {
 		final JSONEngine engine = JSONEngineFactory.createEngine("gson");
 
 		final String jsonString = engine.toJsonString(bean);
-		Assertions.assertEquals("{\"date\":1704038400000}", jsonString);
+		assertEquals("{\"date\":1704038400000}", jsonString);
 
 		engine.init(JSONEngineConfig.of().setDateFormat("yyyy-MM-dd HH:mm:ss"));
-		Assertions.assertEquals("{\"date\":\"2024-01-01 00:00:00\"}", engine.toJsonString(bean));
+		assertEquals("{\"date\":\"2024-01-01 00:00:00\"}", engine.toJsonString(bean));
 	}
 
 	@Test
@@ -63,6 +64,6 @@ public class GsonTest {
 		final ArrayList<Integer> integers = ListUtil.of(1, 2, 3);
 		final JSONEngine engine = JSONEngineFactory.createEngine("gson");
 		final String jsonString = engine.toJsonString(integers);
-		Assertions.assertEquals("[1,2,3]", jsonString);
+		assertEquals("[1,2,3]", jsonString);
 	}
 }

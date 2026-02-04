@@ -19,3 +19,4 @@ cn.hutool.v7.json.engine.gson.GsonEngine
 cn.hutool.v7.json.engine.fastjson.FastJSON2Engine
 cn.hutool.v7.json.engine.moshi.MoshiEngine
 cn.hutool.v7.json.engine.HutoolJSONEngine
+cn.hutool.v7.json.engine.wast.WastEngine

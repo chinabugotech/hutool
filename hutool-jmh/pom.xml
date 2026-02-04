@@ -42,6 +42,7 @@
 		<fastjson2.version>2.0.60</fastjson2.version>
 		<gson.version>2.13.2</gson.version>
 		<moshi.version>1.15.2</moshi.version>
+		<wast.version>0.0.29</wast.version>
 	</properties>
 
 	<dependencies>
@@ -95,6 +96,12 @@
 			<groupId>com.squareup.moshi</groupId>
 			<artifactId>moshi</artifactId>
 			<version>${moshi.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.github.wycst</groupId>
+			<artifactId>wast</artifactId>
+			<version>${wast.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

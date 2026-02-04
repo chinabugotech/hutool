@@ -16,21 +16,38 @@
 
 package cn.hutool.v7.json.engine;
 
-import cn.hutool.v7.core.lang.Console;
 import cn.hutool.v7.core.text.StrUtil;
-import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.JSONObject;
-import com.alibaba.fastjson2.JSONWriter;
-import com.alibaba.fastjson2.writer.ObjectWriter;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.io.StringReader;
+import java.util.Map;
 
-public class FastJSONTest {
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+public class WastTest {
+
+	final String jsonStr = """
+		{
+		  "name": "张三",
+		  "age": 18,
+		  "birthday": "2020-01-01",
+		  "booleanValue": true,
+		  "jsonObjectSub": {
+		    "subStr": "abc",
+		    "subNumber": 150343445454,
+		    "subBoolean": true
+		  },
+		  "jsonArraySub": [
+		    "abc",
+		    123,
+		    false
+		  ]
+		}""";
+
 	@Test
 	void prettyPrintTest() {
-		final JSONEngine engine = JSONEngineFactory.createEngine("fastjson");
+		final JSONEngine engine = JSONEngineFactory.createEngine("wast");
 		engine.init(JSONEngineConfig.of().setPrettyPrint(true));
 
 		final JSONEngineTest.TestBean testBean = new JSONEngineTest.TestBean("张三", 18, true);
@@ -39,25 +56,25 @@ public class FastJSONTest {
 		jsonString = StrUtil.removeAll(jsonString, '\r');
 		assertEquals("""
 			{
-				"name":"张三",
 				"age":18,
-				"gender":true
+				"gender":true,
+				"name":"张三"
 			}""", jsonString);
 	}
 
 	@Test
-	@Disabled
-	void toStringTest() {
-		final String jsonStr = "{\"name\":\"张三\",\"age\":18,\"birthday\":\"2020-01-01\"}";
-		final JSONObject jsonObject = JSON.parseObject(jsonStr);
-		final JSONWriter writer = JSONWriter.of();
-		writer.setRootObject(jsonObject);
-		writer.write(jsonObject);
+	void fromJsonStringTest() {
+		final JSONEngine engine = JSONEngineFactory.createEngine("wast");
+		final Map<String, Object> resultMap = engine.fromJsonString(jsonStr, Map.class);
+		assertNotNull(resultMap);
+		assertEquals(6, resultMap.size());
+	}
 
-		final JSONWriter.Context context = writer.getContext();
-		final ObjectWriter<?> objectWriter = context.getObjectWriter(jsonObject.getClass());
-		Console.log(objectWriter.getClass());
-
-		writer.close();
+	@Test
+	void deserializeTest() {
+		final JSONEngine engine = JSONEngineFactory.createEngine("wast");
+		final Map<String, Object> resultMap = engine.deserialize(new StringReader(jsonStr), Map.class);
+		assertNotNull(resultMap);
+		assertEquals(6, resultMap.size());
 	}
 }

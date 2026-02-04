@@ -5,7 +5,6 @@ sudo: false # faster builds
 install: true
 
 jdk:
-  - openjdk8
   - openjdk17
 
 notifications:

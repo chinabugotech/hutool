@@ -16,14 +16,15 @@
 
 package cn.hutool.v7.jmh.json;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.google.gson.JsonElement;
 import cn.hutool.v7.json.JSON;
 import cn.hutool.v7.json.JSONUtil;
 import cn.hutool.v7.json.engine.JSONEngine;
 import cn.hutool.v7.json.engine.JSONEngineFactory;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.google.gson.JsonElement;
 import org.openjdk.jmh.annotations.*;
 
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @BenchmarkMode(Mode.AverageTime)//每次执行平均花费时间
@@ -39,6 +40,7 @@ public class FromJsonStringStrJmh {
 	private JSONEngine gsonEngine;
 	private JSONEngine fastJSONEngine;
 	private JSONEngine hutoolEngine;
+	private JSONEngine wastEngine;
 
 	private String jsonStr;
 
@@ -50,6 +52,7 @@ public class FromJsonStringStrJmh {
 		gsonEngine = JSONEngineFactory.createEngine("gson");
 		fastJSONEngine = JSONEngineFactory.createEngine("fastjson");
 		hutoolEngine = JSONEngineFactory.createEngine("hutool");
+		wastEngine = JSONEngineFactory.createEngine("wast");
 	}
 
 	@Benchmark
@@ -65,6 +68,11 @@ public class FromJsonStringStrJmh {
 	@Benchmark
 	public void fastJSONJmh() {
 		fastJSONEngine.fromJsonString(jsonStr, com.alibaba.fastjson2.JSON.class);
+	}
+
+	@Benchmark
+	public void wastJmh() {
+		wastEngine.fromJsonString(jsonStr, Map.class);
 	}
 
 	@Benchmark

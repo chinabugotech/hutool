@@ -27,6 +27,7 @@ import org.openjdk.jmh.annotations.*;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @BenchmarkMode(Mode.AverageTime)//每次执行平均花费时间
@@ -42,6 +43,7 @@ public class deserializeJmh {
 	private JSONEngine gsonEngine;
 	private JSONEngine fastJSONEngine;
 	private JSONEngine hutoolEngine;
+	private JSONEngine wastEngine;
 
 	@Setup
 	public void setup() {
@@ -49,6 +51,7 @@ public class deserializeJmh {
 		gsonEngine = JSONEngineFactory.createEngine("gson");
 		fastJSONEngine = JSONEngineFactory.createEngine("fastjson");
 		hutoolEngine = JSONEngineFactory.createEngine("hutool");
+		wastEngine = JSONEngineFactory.createEngine("wast");
 	}
 
 	@Benchmark
@@ -73,6 +76,15 @@ public class deserializeJmh {
 	public void fastJSONJmh() {
 		try(final Reader jsonFileReader = FileUtil.getUtf8Reader(JSONJmhData.OUTPUT_FILE_PATH)){
 			fastJSONEngine.deserialize(jsonFileReader, com.alibaba.fastjson2.JSON.class);
+		} catch (final IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Benchmark
+	public void wastJmh() {
+		try(final Reader jsonFileReader = FileUtil.getUtf8Reader(JSONJmhData.OUTPUT_FILE_PATH)){
+			wastEngine.deserialize(jsonFileReader, Map.class);
 		} catch (final IOException e) {
 			throw new RuntimeException(e);
 		}
