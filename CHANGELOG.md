@@ -18,6 +18,7 @@
 * 【core       】  修复`BufferUtil`copy歧义问题（issue#IDN097@Gitee）
 * 【core       】  修复`JschSessionPool`回收导致的session未关闭问题（issue#4223@Github）
 * 【core       】  修复`XmlUtil.xmlToBean`option参数无效问题（issue#4226@Github）
+* 【core       】  修复`ReUtil.replaceAll`空指针问题（issue#IDPHVW@Gitee）
 
 -------------------------------------------------------------------------------------------------------------
 # 5.8.43(2026-01-04)
