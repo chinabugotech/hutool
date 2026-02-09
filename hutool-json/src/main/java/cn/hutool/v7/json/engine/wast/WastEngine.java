@@ -16,7 +16,6 @@
 
 package cn.hutool.v7.json.engine.wast;
 
-import cn.hutool.v7.core.io.IoUtil;
 import cn.hutool.v7.core.lang.Assert;
 import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.core.util.ObjUtil;
@@ -25,6 +24,7 @@ import cn.hutool.v7.json.engine.JSONEngineConfig;
 import io.github.wycst.wast.common.reflect.GenericParameterizedType;
 import io.github.wycst.wast.json.JSON;
 import io.github.wycst.wast.json.JSONConfig;
+import io.github.wycst.wast.json.JSONReader;
 
 import java.io.OutputStream;
 import java.io.Reader;
@@ -59,10 +59,9 @@ public class WastEngine extends AbstractJSONEngine {
 	@Override
 	public <T> T deserialize(final Reader reader, final Object type) {
 		initEngine();
-		https://github.com/wycst/wast/issues/3
-//		final JSONReader jsonReader = new JSONReader(reader);
-//		return (T) jsonReader.readAsResult(GenericParameterizedType.of((Type) type));
-		return (T) JSON.parse(IoUtil.read(reader), GenericParameterizedType.of((Type) type));
+		// https://github.com/wycst/wast/issues/3
+		final JSONReader jsonReader = new JSONReader(reader);
+		return (T) jsonReader.readAsResult(GenericParameterizedType.of((Type) type));
 	}
 
 	@SuppressWarnings("unchecked")
