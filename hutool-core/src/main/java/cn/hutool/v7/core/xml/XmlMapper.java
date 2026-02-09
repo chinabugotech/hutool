@@ -74,7 +74,7 @@ public class XmlMapper {
 			final String nodeName = CollUtil.getFirst(map.keySet());
 			if (bean.getSimpleName().equalsIgnoreCase(nodeName)) {
 				// 只有key和bean的名称匹配时才做单一对象转换
-				return BeanUtil.toBean(CollUtil.get(map.values(), 0), bean);
+				return BeanUtil.toBean(CollUtil.get(map.values(), 0), bean, copyOptions);
 			}
 		}
 		return BeanUtil.toBean(map, bean, copyOptions);
