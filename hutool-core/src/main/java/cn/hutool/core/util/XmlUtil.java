@@ -1022,7 +1022,7 @@ public class XmlUtil {
 			final String nodeName = CollUtil.getFirst(map.keySet());
 			if (simpleName.equalsIgnoreCase(nodeName)) {
 				// 只有key和bean的名称匹配时才做单一对象转换
-				return BeanUtil.toBean(map.get(nodeName), bean);
+				return BeanUtil.toBean(map.get(nodeName), bean, copyOptions);
 			}
 		}
 		return BeanUtil.toBean(map, bean, copyOptions);

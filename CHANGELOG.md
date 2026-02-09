@@ -1,7 +1,7 @@
 
 # 🚀Changelog
 -------------------------------------------------------------------------------------------------------------
-# 5.8.44(2026-02-03)
+# 5.8.44(2026-02-09)
 ### 🐣新特性
 * 【core   】      `NumberUtil.parseNumber`增加支持科学计数法（pr#4211@Github）
 * 【captcha】      `AbstractCaptcha`增加`setStroke`方法支持线条粗细（issue#IDJQ15@Gitee）
@@ -17,6 +17,7 @@
 * 【core       】  修复`MultiResource`游标歧义问题（issue#IDNAOY@Gitee）
 * 【core       】  修复`BufferUtil`copy歧义问题（issue#IDN097@Gitee）
 * 【core       】  修复`JschSessionPool`回收导致的session未关闭问题（issue#4223@Github）
+* 【core       】  修复`XmlUtil.xmlToBean`option参数无效问题（issue#4226@Github）
 
 -------------------------------------------------------------------------------------------------------------
 # 5.8.43(2026-01-04)
