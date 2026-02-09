@@ -251,4 +251,10 @@ public class ReUtilTest {
 		s = ReUtil.get(PatternPool.EMAIL, mail, 0);
 		assertEquals("a.b@Hutool.cn", s);
 	}
+
+	@Test
+	void issueIDPHVWTest(){
+		final String s = ReUtil.replaceAll("2 倾斜摄影成果", "(^\\d+(\\.\\d+)*)(\\s)(((.*?)(DEM|DOM)?)([（|\\(](.*?)[）|\\)])?$)", "$1$3$5($9)");
+		assertEquals("2 倾斜摄影成果()", s);
+	}
 }

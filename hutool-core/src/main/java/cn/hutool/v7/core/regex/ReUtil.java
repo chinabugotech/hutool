@@ -915,7 +915,7 @@ public class ReUtil {
 				String replacement = replacementTemplate;
 				for (final String var : varNums) {
 					final int group = Integer.parseInt(var);
-					replacement = replacement.replace("$" + var, matcher.group(group));
+					replacement = StrUtil.replace(replacement, "$" + var, matcher.group(group));
 				}
 				matcher.appendReplacement(sb, escape(replacement));
 				result = matcher.find();
