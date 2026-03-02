@@ -480,6 +480,16 @@ public class EnumUtil {
 		if (null == enumClass) {
 			return null;
 		}
-		return CACHE.computeIfAbsent(enumClass, (k) -> enumClass.getEnumConstants());
+		// fix issue#IDQYJK: 避免 ConcurrentHashMap.computeIfAbsent 在枚举类静态初始化时
+		// 递归调用导致 IllegalStateException: Recursive update 的问题
+		// 使用 get + putIfAbsent 替代 computeIfAbsent，安全支持递归场景
+		Enum<?>[] enums = CACHE.get(enumClass);
+		if (null == enums) {
+			enums = enumClass.getEnumConstants();
+			if (null != enums) {
+				CACHE.putIfAbsent(enumClass, enums);
+			}
+		}
+		return enums;
 	}
 }
