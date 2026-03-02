@@ -53,20 +53,6 @@ public class ZoneUtil {
 	public static final TimeZone ZONE_GMT = getTimeZone(GMT_ID);
 
 	/**
-	 * {@link ZoneId}转换为{@link TimeZone}，{@code null}则返回系统默认值
-	 *
-	 * @param zoneId {@link ZoneId}，{@code null}则返回系统默认值
-	 * @return {@link TimeZone}
-	 */
-	public static TimeZone toTimeZone(final ZoneId zoneId) {
-		if (null == zoneId) {
-			return TimeZone.getDefault();
-		}
-
-		return TimeZone.getTimeZone(zoneId);
-	}
-
-	/**
 	 * {@link TimeZone}转换为{@link ZoneId}，{@code null}则返回系统默认值
 	 *
 	 * @param timeZone {@link TimeZone}，{@code null}则返回系统默认值
@@ -113,6 +99,20 @@ public class ZoneUtil {
 	}
 
 	/**
+	 * {@link ZoneId}转换为{@link TimeZone}，{@code null}则返回系统默认值
+	 *
+	 * @param zoneId {@link ZoneId}，{@code null}则返回系统默认值
+	 * @return {@link TimeZone}
+	 */
+	public static TimeZone getTimeZone(final ZoneId zoneId) {
+		if (null == zoneId) {
+			return TimeZone.getDefault();
+		}
+
+		return TimeZone.getTimeZone(zoneId);
+	}
+
+	/**
 	 * 获取指定偏移量的可用时区ID，如果有多个时区匹配，使用第一个
 	 *
 	 * @param rawOffset 偏移量
@@ -125,7 +125,13 @@ public class ZoneUtil {
 		return ArrayUtil.isEmpty(availableIDs) ? null : availableIDs[0];
 	}
 
+	/**
+	 * 是否映射{@link ZoneId#SHORT_IDS}中的ID<br>
+	 * 默认为true，可以通过设置系统属性{@code "TimeZone.mapShortIDs=false"}来禁用。
+	 *
+	 * @return 是否映射{@link ZoneId#SHORT_IDS}中的ID
+	 */
 	private static boolean mapShortIDs() {
-		return SystemUtil.getBoolean("TimeZones.mapShortIDs", true);
+		return SystemUtil.getBoolean("TimeZone.mapShortIDs", true);
 	}
 }

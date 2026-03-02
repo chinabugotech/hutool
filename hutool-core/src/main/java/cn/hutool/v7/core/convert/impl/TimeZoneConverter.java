@@ -47,7 +47,7 @@ public class TimeZoneConverter extends AbstractConverter implements MatcherConve
 	@Override
 	protected TimeZone convertInternal(final Class<?> targetClass, final Object value) {
 		if(value instanceof ZoneId){
-			return ZoneUtil.toTimeZone((ZoneId) value);
+			return ZoneUtil.getTimeZone((ZoneId) value);
 		}
 		return ZoneUtil.getTimeZone(convertToStr(value));
 	}

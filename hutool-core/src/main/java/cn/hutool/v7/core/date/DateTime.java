@@ -213,7 +213,7 @@ public class DateTime extends Date {
 	 * @since 5.0.5
 	 */
 	public DateTime(final Instant instant, final ZoneId zoneId) {
-		this(instant.toEpochMilli(), ZoneUtil.toTimeZone(zoneId));
+		this(instant.toEpochMilli(), ZoneUtil.getTimeZone(zoneId));
 	}
 
 	/**

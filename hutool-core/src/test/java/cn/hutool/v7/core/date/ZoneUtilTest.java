@@ -16,22 +16,20 @@
 
 package cn.hutool.v7.core.date;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.time.ZoneId;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ZoneUtilTest {
 
 	@Test
 	public void test() {
-		Assertions.assertEquals(ZoneId.systemDefault(), ZoneUtil.toZoneId(null));
-		Assertions.assertEquals(TimeZone.getDefault(), ZoneUtil.toTimeZone(null));
+		assertEquals(ZoneId.systemDefault(), ZoneUtil.toZoneId(null));
+		assertEquals(TimeZone.getDefault(), ZoneUtil.getTimeZone((ZoneId) null));
 	}
 
 	@Test
