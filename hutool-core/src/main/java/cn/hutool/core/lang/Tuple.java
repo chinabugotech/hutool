@@ -33,7 +33,8 @@ public class Tuple extends CloneSupport<Tuple> implements Iterable<Object>, Seri
 	 * @param members 成员数组
 	 */
 	public Tuple(Object... members) {
-		this.members = members;
+		// defensive copy，保证 Tuple 的不可变性，防止外部修改传入数组影响内部状态
+		this.members = members.clone();
 	}
 
 	/**
@@ -51,10 +52,11 @@ public class Tuple extends CloneSupport<Tuple> implements Iterable<Object>, Seri
 	/**
 	 * 获得所有元素
 	 *
-	 * @return 获得所有元素
+	 * @return 获得所有元素的副本
 	 */
 	public Object[] getMembers() {
-		return this.members;
+		// 返回副本而非内部数组引用，防止外部修改破坏 Tuple 的不可变性
+		return this.members.clone();
 	}
 
 	/**
