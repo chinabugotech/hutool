@@ -621,6 +621,9 @@ public class Money implements Serializable, Comparable<Money> {
 	 * @return 相除后的结果。
 	 */
 	public Money divide(double val) {
+		if (val == 0) {
+			throw new ArithmeticException("Division by zero");
+		}
 		return newMoneyWithSameCurrency(Math.round(cent / val));
 	}
 
@@ -635,7 +638,10 @@ public class Money implements Serializable, Comparable<Money> {
 	 * @return 累除后的结果。
 	 */
 	public Money divideBy(double val) {
-		this.cent = Math.round(this.cent / val);
+
+		if (val == 0) {
+			throw new ArithmeticException("Division by zero");
+		}		this.cent = Math.round(this.cent / val);
 
 		return this;
 	}
