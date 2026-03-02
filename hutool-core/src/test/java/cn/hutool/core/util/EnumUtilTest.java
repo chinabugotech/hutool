@@ -70,6 +70,20 @@ public class EnumUtilTest {
 		assertEquals("type1", enumMap.get("TEST1"));
 	}
 
+	/**
+	 * 测试枚举类静态初始化中调用 EnumUtil 不会导致 Recursive update 异常
+	 * fix issue#IDQYJK
+	 */
+	@Test
+	public void getFieldValuesRecursiveTest() {
+		// SelfRefEnum 在静态初始化时调用了 EnumUtil.getNames，
+		// 修复前会抛出 IllegalStateException: Recursive update
+		// 修复后应正常返回结果
+		List<Object> values = EnumUtil.getFieldValues(SelfRefEnum.class, "label");
+		assertNotNull(values);
+		assertEquals(3, values.size());
+	}
+
 	public enum TestEnum{
 		TEST1("type1"), TEST2("type2"), TEST3("type3");
 
@@ -87,6 +101,26 @@ public class EnumUtilTest {
 
 		public String getName() {
 			return this.name;
+		}
+	}
+
+	/**
+	 * 静态初始化中使用 EnumUtil 的枚举，用于测试 fix issue#IDQYJK
+	 */
+	public enum SelfRefEnum {
+		A("labelA"), B("labelB"), C("labelC");
+
+		// 静态初始化块中调用 EnumUtil，触发 ConcurrentHashMap.computeIfAbsent 的递归场景
+		static final List<String> NAMES = EnumUtil.getNames(SelfRefEnum.class);
+
+		private final String label;
+
+		SelfRefEnum(String label) {
+			this.label = label;
+		}
+
+		public String getLabel() {
+			return label;
 		}
 	}
 }

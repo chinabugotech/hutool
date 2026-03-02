@@ -582,6 +582,9 @@ public class ArrayUtil extends PrimitiveArrayUtil {
 	 */
 	public static Object copy(Object src, int srcPos, Object dest, int destPos, int length) {
 		//noinspection SuspiciousSystemArraycopy
+		if (null == src || null == dest) {
+			throw new NullPointerException("Source array and destination array must not be null");
+		}
 		System.arraycopy(src, srcPos, dest, destPos, length);
 		return dest;
 	}
@@ -598,6 +601,9 @@ public class ArrayUtil extends PrimitiveArrayUtil {
 	 */
 	public static Object copy(Object src, Object dest, int length) {
 		//noinspection SuspiciousSystemArraycopy
+		if (null == src || null == dest) {
+			throw new NullPointerException("Source array and destination array must not be null");
+		}
 		System.arraycopy(src, 0, dest, 0, length);
 		return dest;
 	}

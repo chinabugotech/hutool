@@ -246,7 +246,8 @@ public class RC4 implements Serializable {
 		}
 
 		for (int i = 0; i < SBOX_LENGTH; i++) {
-			j = (j + sbox[i] + (key[i % key.length]) & 0xFF) % SBOX_LENGTH;
+			// fix: 运算符优先级修正，& 0xFF 应先与 key 字节值进行位与运算，再参与加法，避免有符号 byte 导致计算偏差
+			j = (j + sbox[i] + (key[i % key.length] & 0xFF)) % SBOX_LENGTH;
 			swap(i, j, sbox);
 		}
 		return sbox;
