@@ -127,7 +127,7 @@ public class TemporalUtil {
 	/**
 	 * 偏移到指定的周几
 	 *
-	 * @param temporal   日期或者日期时间
+	 * @param temporal   日期或者日期时间，为{@code null}返回{@code null}
 	 * @param dayOfWeek  周几
 	 * @param <T>        日期类型，如LocalDate或LocalDateTime
 	 * @param isPrevious 是否向前偏移，{@code true}向前偏移，{@code false}向后偏移。
@@ -135,7 +135,10 @@ public class TemporalUtil {
 	 * @since 5.8.0
 	 */
 	@SuppressWarnings("unchecked")
-	public <T extends Temporal> T offset(T temporal, DayOfWeek dayOfWeek, boolean isPrevious) {
+	public static <T extends Temporal> T offset(T temporal, DayOfWeek dayOfWeek, boolean isPrevious) {
+		if (null == temporal) {
+			return null;
+		}
 		return (T) temporal.with(isPrevious ? TemporalAdjusters.previous(dayOfWeek) : TemporalAdjusters.next(dayOfWeek));
 	}
 }
