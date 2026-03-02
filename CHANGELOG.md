@@ -8,6 +8,7 @@
 * 【core   】      `BooleanUtil`新增 exactlyOneTrue 方法用于互斥条件校验（issue#IDJQ15@Gitee）
 * 【core   】      `DateUtil.normalize`方法中正则预编译提升效率（pr#4221@Gitee）
 * 【core   】      `AppendableWriter`增加checkNotClosed（issue#IDMZ5K@Gitee）
+* 【core   】      `FastDateParser`改进在JDK25下三字母时区警告（issue#4100@Github）
 
 ### 🐞Bug修复
 * 【json       】  修复`JSONUtil.wrap`忽略错误问题（issue#4210@Github）

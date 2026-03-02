@@ -1,5 +1,6 @@
 package cn.hutool.core.date.format;
 
+import cn.hutool.core.date.TimeZoneUtil;
 import cn.hutool.core.map.SafeConcurrentHashMap;
 
 import java.io.IOException;
@@ -7,19 +8,7 @@ import java.io.ObjectInputStream;
 import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.ParsePosition;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.TimeZone;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.concurrent.ConcurrentMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -656,6 +645,22 @@ public class FastDateParser extends AbstractDateBasic implements DateParser {
 		private static final int ID = 0;
 
 		/**
+		 * Tests whether to skip the given time zone, true if TimeZone.getTimeZone().
+		 * <p>
+		 * On Java 25 and up, skips short IDs if {@code ignoreTimeZoneShortIDs} is true.
+		 * </p>
+		 * <p>
+		 * This method is package private only for testing.
+		 * </p>
+		 *
+		 * @param tzId the ID to test.
+		 * @return Whether to skip the given time zone ID.
+		 */
+		static boolean skipTimeZone(final String tzId) {
+			return TimeZoneUtil.GMT_ID.equalsIgnoreCase(tzId);
+		}
+
+		/**
 		 * Construct a Strategy that parses a TimeZone
 		 *
 		 * @param locale The Locale
@@ -672,10 +677,10 @@ public class FastDateParser extends AbstractDateBasic implements DateParser {
 			for (final String[] zoneNames : zones) {
 				// offset 0 is the time zone ID and is not localized
 				final String tzId = zoneNames[ID];
-				if ("GMT".equalsIgnoreCase(tzId)) {
+				if (skipTimeZone(tzId)) {
 					continue;
 				}
-				final TimeZone tz = TimeZone.getTimeZone(tzId);
+				final TimeZone tz = TimeZoneUtil.getTimeZone(tzId);
 				// offset 1 is long standard name
 				// offset 2 is short standard name
 				final TzInfo standard = new TzInfo(tz, false);
@@ -712,10 +717,10 @@ public class FastDateParser extends AbstractDateBasic implements DateParser {
 		@Override
 		void setCalendar(final FastDateParser parser, final Calendar cal, final String value) {
 			if (value.charAt(0) == '+' || value.charAt(0) == '-') {
-				final TimeZone tz = TimeZone.getTimeZone("GMT" + value);
+				final TimeZone tz = TimeZoneUtil.getTimeZone("GMT" + value);
 				cal.setTimeZone(tz);
 			} else if (value.regionMatches(true, 0, "GMT", 0, 3)) {
-				final TimeZone tz = TimeZone.getTimeZone(value.toUpperCase());
+				final TimeZone tz = TimeZoneUtil.getTimeZone(value.toUpperCase());
 				cal.setTimeZone(tz);
 			} else {
 				final TzInfo tzInfo = tzNames.get(value.toLowerCase(locale));
@@ -742,9 +747,9 @@ public class FastDateParser extends AbstractDateBasic implements DateParser {
 		@Override
 		void setCalendar(final FastDateParser parser, final Calendar cal, final String value) {
 			if (Objects.equals(value, "Z")) {
-				cal.setTimeZone(TimeZone.getTimeZone("UTC"));
+				cal.setTimeZone(TimeZoneUtil.getTimeZone("UTC"));
 			} else {
-				cal.setTimeZone(TimeZone.getTimeZone("GMT" + value));
+				cal.setTimeZone(TimeZoneUtil.getTimeZone("GMT" + value));
 			}
 		}
 

@@ -1,15 +1,15 @@
 package cn.hutool.core.convert;
 
-import static org.junit.jupiter.api.Assertions.*;
+import cn.hutool.core.date.TimeZoneUtil;
 import org.junit.jupiter.api.Test;
 
-import java.util.TimeZone;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class StringConvertTest {
 
 	@Test
 	public void timezoneToStrTest(){
-		final String s = Convert.toStr(TimeZone.getTimeZone("Asia/Shanghai"));
+		final String s = Convert.toStr(TimeZoneUtil.getTimeZone("Asia/Shanghai"));
 		assertEquals("Asia/Shanghai", s);
 	}
 }
