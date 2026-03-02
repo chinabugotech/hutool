@@ -26,11 +26,11 @@ public class BoundedPriorityQueue<E> extends PriorityQueue<E>{
 
 	/**
 	 * 构造
-	 * @param capacity 容量
+	 * @param capacity 容量，必须大于0
 	 * @param comparator 比较器
 	 */
 	public BoundedPriorityQueue(int capacity, final Comparator<? super E> comparator) {
-		super(capacity, (o1, o2) -> {
+		super(capacity <= 0 ? 1 : capacity, (o1, o2) -> {
 			int cResult;
 			if(comparator != null) {
 				cResult = comparator.compare(o1, o2);
@@ -53,6 +53,10 @@ public class BoundedPriorityQueue<E> extends PriorityQueue<E>{
 	 */
 	@Override
 	public boolean offer(E e) {
+		if (capacity <= 0) {
+			// 容量为0或负数时，不接受任何元素
+			return false;
+		}
 		if(size() >= capacity) {
 			E head = peek();
 			if (this.comparator().compare(e, head) <= 0){
