@@ -17,7 +17,9 @@
 package cn.hutool.v7.core.date;
 
 import cn.hutool.v7.core.array.ArrayUtil;
+import cn.hutool.v7.core.util.JdkUtil;
 import cn.hutool.v7.core.util.ObjUtil;
+import cn.hutool.v7.core.util.SystemUtil;
 
 import java.time.ZoneId;
 import java.util.TimeZone;
@@ -34,11 +36,21 @@ public class ZoneUtil {
 	/**
 	 * UTC 的 ZoneID
 	 */
-	public static final TimeZone ZONE_UTC = TimeZone.getTimeZone("UTC");
+	public static final TimeZone ZONE_UTC = ZoneUtil.getTimeZone("UTC");
 	/**
 	 * UTC 的 TimeZone
 	 */
 	public static final ZoneId ZONE_ID_UTC = ZONE_UTC.toZoneId();
+
+	/**
+	 * A public version of {@link java.util.TimeZone}'s package private {@code GMT_ID} field.
+	 */
+	public static final String GMT_ID = "GMT";
+
+	/**
+	 * The GMT time zone.
+	 */
+	public static final TimeZone ZONE_GMT = getTimeZone(GMT_ID);
 
 	/**
 	 * {@link ZoneId}转换为{@link TimeZone}，{@code null}则返回系统默认值
@@ -81,6 +93,26 @@ public class ZoneUtil {
 	}
 
 	/**
+	 * 在{@link ZoneId#SHORT_IDS}中映射ID后，委托给{@link TimeZone#getTimeZone(String)}。
+	 * <p>
+	 * 在Java 25中，使用{@link ZoneId#SHORT_IDS}中的ID调用{@link TimeZone#getTimeZone(String)}会在{@link System#err}中写入如下形式的消息：
+	 * </p>
+	 *
+	 * <pre>
+	 * WARNING: Use of the three-letter time zone ID "the-short-id" is deprecated and it will be removed in a future release
+	 * </pre>
+	 * <p>
+	 * 您可以通过设置系统属性{@code "TimeZones.mapShortIDs=false"}来禁用从{@link ZoneId#SHORT_IDS}的映射。
+	 * </p>
+	 *
+	 * @param id 与{@link TimeZone#getTimeZone(String)}相同。
+	 * @return 与{@link TimeZone#getTimeZone(String)}相同。
+	 */
+	public static TimeZone getTimeZone(final String id) {
+		return TimeZone.getTimeZone(JdkUtil.IS_AT_LEAST_JDK25 && mapShortIDs() ? ZoneId.SHORT_IDS.getOrDefault(id, id) : id);
+	}
+
+	/**
 	 * 获取指定偏移量的可用时区ID，如果有多个时区匹配，使用第一个
 	 *
 	 * @param rawOffset 偏移量
@@ -91,5 +123,9 @@ public class ZoneUtil {
 		final String[] availableIDs = TimeZone.getAvailableIDs(
 			(int) ObjUtil.defaultIfNull(timeUnit, TimeUnit.MILLISECONDS).toMillis(rawOffset));
 		return ArrayUtil.isEmpty(availableIDs) ? null : availableIDs[0];
+	}
+
+	private static boolean mapShortIDs() {
+		return SystemUtil.getBoolean("TimeZones.mapShortIDs", true);
 	}
 }

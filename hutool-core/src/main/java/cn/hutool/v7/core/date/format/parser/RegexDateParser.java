@@ -17,10 +17,7 @@
 package cn.hutool.v7.core.date.format.parser;
 
 import cn.hutool.v7.core.collection.ListUtil;
-import cn.hutool.v7.core.date.DateBuilder;
-import cn.hutool.v7.core.date.DateException;
-import cn.hutool.v7.core.date.Month;
-import cn.hutool.v7.core.date.Week;
+import cn.hutool.v7.core.date.*;
 import cn.hutool.v7.core.lang.Assert;
 import cn.hutool.v7.core.lang.Opt;
 import cn.hutool.v7.core.regex.ReUtil;
@@ -411,7 +408,7 @@ public class RegexDateParser implements DateParser, Serializable {
 		final String zoneName = ZONE_TREE.match(zone);
 		if (StrUtil.isNotBlank(zoneName)) {
 			dateBuilder.setZoneOffsetSetted(true);
-			dateBuilder.setZone(TimeZone.getTimeZone(zoneName));
+			dateBuilder.setZone(ZoneUtil.getTimeZone(zoneName));
 		}
 	}
 

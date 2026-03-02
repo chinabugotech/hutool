@@ -620,35 +620,35 @@ public class DateUtilTest {
 		assertEquals("2018-09-13 13:34:31", dateStr);
 
 		// 使用当前（上海）时区
-		dateStr = dt.toString(TimeZone.getTimeZone("GMT+8:00"));
+		dateStr = dt.toString(ZoneUtil.getTimeZone("GMT+8:00"));
 		assertEquals("2018-09-13 13:34:31", dateStr);
 
 		dateStr1 = "2018-09-13T13:34:32+0800";
 		dt = DateUtil.parse(dateStr1);
-		dateStr = Objects.requireNonNull(dt).toString(TimeZone.getTimeZone("GMT+8:00"));
+		dateStr = Objects.requireNonNull(dt).toString(ZoneUtil.getTimeZone("GMT+8:00"));
 		assertEquals("2018-09-13 13:34:32", dateStr);
 
 		dateStr1 = "2018-09-13T13:34:33+08:00";
 		dt = DateUtil.parse(dateStr1);
-		dateStr = Objects.requireNonNull(dt).toString(TimeZone.getTimeZone("GMT+8:00"));
+		dateStr = Objects.requireNonNull(dt).toString(ZoneUtil.getTimeZone("GMT+8:00"));
 		assertEquals("2018-09-13 13:34:33", dateStr);
 
 		dateStr1 = "2018-09-13T13:34:34+0800";
 		dt = DateUtil.parse(dateStr1);
 		assert dt != null;
-		dateStr = dt.toString(TimeZone.getTimeZone("GMT+8:00"));
+		dateStr = dt.toString(ZoneUtil.getTimeZone("GMT+8:00"));
 		assertEquals("2018-09-13 13:34:34", dateStr);
 
 		dateStr1 = "2018-09-13T13:34:35+08:00";
 		dt = DateUtil.parse(dateStr1);
 		assert dt != null;
-		dateStr = dt.toString(TimeZone.getTimeZone("GMT+8:00"));
+		dateStr = dt.toString(ZoneUtil.getTimeZone("GMT+8:00"));
 		assertEquals("2018-09-13 13:34:35", dateStr);
 
 		dateStr1 = "2018-09-13T13:34:36.999+0800";
 		dt = DateUtil.parse(dateStr1);
 		final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DateFormatPool.NORM_DATETIME_MS_PATTERN);
-		simpleDateFormat.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
+		simpleDateFormat.setTimeZone(ZoneUtil.getTimeZone("GMT+8:00"));
 		dateStr = Objects.requireNonNull(dt).toString(simpleDateFormat);
 		assertEquals("2018-09-13 13:34:36.999", dateStr);
 
@@ -709,7 +709,7 @@ public class DateUtilTest {
 
 		final SimpleDateFormat sdf = new SimpleDateFormat(DateFormatPool.JDK_DATETIME_PATTERN, Locale.US);
 		// Asia/Shanghai是以地区命名的地区标准时，在中国叫CST，因此如果解析CST时不使用"Asia/Shanghai"而使用"GMT+08:00"，会导致相差一个小时
-		sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
+		sdf.setTimeZone(ZoneUtil.getTimeZone("Asia/Shanghai"));
 		final DateTime parse = DateUtil.parse(dateStr, sdf);
 
 		final DateTime dateTime = DateUtil.parse(dateStr);
@@ -722,10 +722,10 @@ public class DateUtilTest {
 		final String dateStr = "Wed Sep 16 11:26:23 CST 2009";
 
 		final SimpleDateFormat sdf = new SimpleDateFormat(DateFormatPool.JDK_DATETIME_PATTERN, Locale.US);
-		sdf.setTimeZone(TimeZone.getTimeZone("America/Chicago"));
+		sdf.setTimeZone(ZoneUtil.getTimeZone("America/Chicago"));
 		final DateTime parse = DateUtil.parse(dateStr, sdf);
 
-		final FastDateFormat fdf = FastDateFormat.getInstance(DateFormatPool.JDK_DATETIME_PATTERN, TimeZone.getTimeZone("America/Chicago"), Locale.US);
+		final FastDateFormat fdf = FastDateFormat.getInstance(DateFormatPool.JDK_DATETIME_PATTERN, ZoneUtil.getTimeZone("America/Chicago"), Locale.US);
 		final DateTime parse2 = DateUtil.parse(dateStr, fdf);
 
 		assertEquals(parse, parse2);

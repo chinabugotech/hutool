@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.json.engine.gson;
 
+import cn.hutool.v7.core.date.ZoneUtil;
 import com.google.gson.*;
 
 import java.lang.reflect.Type;
@@ -41,6 +42,6 @@ public class TimeZoneGsonTypeAdapter implements GsonTypeAdapter<TimeZone> {
 
 	@Override
 	public TimeZone deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
-		return TimeZone.getTimeZone(json.getAsString());
+		return ZoneUtil.getTimeZone(json.getAsString());
 	}
 }

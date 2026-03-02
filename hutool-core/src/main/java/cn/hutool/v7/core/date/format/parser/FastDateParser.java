@@ -17,6 +17,7 @@
 package cn.hutool.v7.core.date.format.parser;
 
 import cn.hutool.v7.core.date.DateException;
+import cn.hutool.v7.core.date.ZoneUtil;
 import cn.hutool.v7.core.date.format.FastDateFormat;
 import cn.hutool.v7.core.date.format.FastDatePrinter;
 import cn.hutool.v7.core.date.format.SimpleDateBasic;
@@ -255,7 +256,7 @@ public class FastDateParser extends SimpleDateBasic implements PositionDateParse
 
 	@Override
 	public boolean parse(final CharSequence source, ParsePosition pos, final Calendar calendar) {
-		if(null == pos){
+		if (null == pos) {
 			pos = new ParsePosition(0);
 		}
 
@@ -306,6 +307,7 @@ public class FastDateParser extends SimpleDateBasic implements PositionDateParse
 	 * @param regex  The regular expression to build
 	 * @return The map of string display names to field values
 	 */
+	@SuppressWarnings("MagicConstant")
 	private static Map<String, Integer> appendDisplayNames(final Calendar cal, final Locale locale, final int field, final StringBuilder regex) {
 		final Map<String, Integer> values = new HashMap<>();
 
@@ -540,6 +542,7 @@ public class FastDateParser extends SimpleDateBasic implements PositionDateParse
 			createPattern(regex);
 		}
 
+		@SuppressWarnings("MagicConstant")
 		@Override
 		void setCalendar(final FastDateParser parser, final Calendar cal, final String value) {
 			final Integer iVal = lKeyValues.get(value.toLowerCase(locale));
@@ -567,6 +570,7 @@ public class FastDateParser extends SimpleDateBasic implements PositionDateParse
 			return true;
 		}
 
+		@SuppressWarnings("MagicConstant")
 		@Override
 		public boolean parse(final FastDateParser parser, final Calendar calendar, final CharSequence source, final ParsePosition pos, final int maxWidth) {
 			int idx = pos.getIndex();
@@ -670,16 +674,10 @@ public class FastDateParser extends SimpleDateBasic implements PositionDateParse
 			for (final String[] zoneNames : zones) {
 				// offset 0 is the time zone ID and is not localized
 				final String tzId = zoneNames[ID];
-				if(JdkUtil.IS_AT_LEAST_JDK25){
-					// issue#4100 JDK25+所有三位简写失效
-					// 见：https://stackoverflow.com/questions/41672825/which-three-letter-time-zone-ids-are-not-deprecated
-					if(tzId.length() == 3){
-						continue;
-					}
-				}else if ("GMT".equalsIgnoreCase(tzId)) {
+				if (skipTimeZone(tzId)) {
 					continue;
 				}
-				final TimeZone tz = TimeZone.getTimeZone(tzId);
+				final TimeZone tz = ZoneUtil.getTimeZone(tzId);
 				// offset 1 is long standard name
 				// offset 2 is short standard name
 				final TzInfo standard = new TzInfo(tz, false);
@@ -715,10 +713,10 @@ public class FastDateParser extends SimpleDateBasic implements PositionDateParse
 		@Override
 		void setCalendar(final FastDateParser parser, final Calendar cal, final String value) {
 			if (value.charAt(0) == '+' || value.charAt(0) == '-') {
-				final TimeZone tz = TimeZone.getTimeZone("GMT" + value);
+				final TimeZone tz = ZoneUtil.getTimeZone("GMT" + value);
 				cal.setTimeZone(tz);
 			} else if (value.regionMatches(true, 0, "GMT", 0, 3)) {
-				final TimeZone tz = TimeZone.getTimeZone(value.toUpperCase());
+				final TimeZone tz = ZoneUtil.getTimeZone(value.toUpperCase());
 				cal.setTimeZone(tz);
 			} else {
 				final TzInfo tzInfo = tzNames.get(value.toLowerCase(locale));
@@ -745,9 +743,9 @@ public class FastDateParser extends SimpleDateBasic implements PositionDateParse
 		@Override
 		void setCalendar(final FastDateParser parser, final Calendar cal, final String value) {
 			if (Objects.equals(value, "Z")) {
-				cal.setTimeZone(TimeZone.getTimeZone("UTC"));
+				cal.setTimeZone(ZoneUtil.getTimeZone("UTC"));
 			} else {
-				cal.setTimeZone(TimeZone.getTimeZone("GMT" + value));
+				cal.setTimeZone(ZoneUtil.getTimeZone("GMT" + value));
 			}
 		}
 
@@ -806,4 +804,27 @@ public class FastDateParser extends SimpleDateBasic implements PositionDateParse
 	private static final Strategy MINUTE_STRATEGY = new NumberStrategy(Calendar.MINUTE);
 	private static final Strategy SECOND_STRATEGY = new NumberStrategy(Calendar.SECOND);
 	private static final Strategy MILLISECOND_STRATEGY = new NumberStrategy(Calendar.MILLISECOND);
+
+	/**
+	 * Tests whether to skip the given time zone, true if ZoneUtil.getTimeZone().
+	 * <p>
+	 * On Java 25 and up, skips short IDs if {@code ignoreTimeZoneShortIDs} is true.
+	 * </p>
+	 * <p>
+	 * This method is package private only for testing.
+	 * </p>
+	 *
+	 * @param tzId the ID to test.
+	 * @return Whether to skip the given time zone ID.
+	 */
+	static boolean skipTimeZone(final String tzId) {
+		if (JdkUtil.IS_AT_LEAST_JDK25) {
+			// issue#4100 JDK25+所有三位简写失效
+			// 见：https://stackoverflow.com/questions/41672825/which-three-letter-time-zone-ids-are-not-deprecated
+			if (tzId.length() == 3) {
+				return true;
+			}
+		}
+		return ZoneUtil.GMT_ID.equalsIgnoreCase(tzId);
+	}
 }

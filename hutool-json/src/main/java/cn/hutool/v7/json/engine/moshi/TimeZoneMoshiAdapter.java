@@ -16,11 +16,12 @@
 
 package cn.hutool.v7.json.engine.moshi;
 
+import cn.hutool.v7.core.date.ZoneUtil;
+import cn.hutool.v7.core.reflect.TypeUtil;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.JsonReader;
 import com.squareup.moshi.JsonWriter;
 import com.squareup.moshi.Moshi;
-import cn.hutool.v7.core.reflect.TypeUtil;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
@@ -64,6 +65,6 @@ public class TimeZoneMoshiAdapter extends JsonAdapter<TimeZone> {
 
 	@Override
 	public TimeZone fromJson(final JsonReader jsonReader) throws IOException {
-		return TimeZone.getTimeZone(jsonReader.nextString());
+		return ZoneUtil.getTimeZone(jsonReader.nextString());
 	}
 }

@@ -30,7 +30,7 @@ public class IssueIBB6I5Test {
 	void parseISO8601Test() {
 		// 本测试中，解析一个UTC时间，当变更时区时，输出的时间就是对应的本地时间
 		final DateTime date = DateUtil.parse("2024-12-13T08:02:27Z");
-		final TimeZone timeZone = TimeZone.getTimeZone(ZoneId.of("Asia/Shanghai"));
+		final TimeZone timeZone = ZoneUtil.toTimeZone(ZoneId.of("Asia/Shanghai"));
 		date.setTimeZone(timeZone);
 		Assertions.assertEquals("2024-12-13 16:02:27", date.toString());
 	}
@@ -39,7 +39,7 @@ public class IssueIBB6I5Test {
 	void parseISO8601Test2() {
 		// 本测试中，解析一个本地时间，当变更时区时，输出的时间不变
 		final DateTime date = DateUtil.parse("2024-12-13T08:02:27");
-		final TimeZone timeZone = TimeZone.getTimeZone(ZoneId.of("Asia/Shanghai"));
+		final TimeZone timeZone = ZoneUtil.toTimeZone(ZoneId.of("Asia/Shanghai"));
 		date.setTimeZone(timeZone);
 		Assertions.assertEquals("2024-12-13 08:02:27", date.toString());
 	}

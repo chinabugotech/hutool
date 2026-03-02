@@ -16,6 +16,7 @@
 
 package cn.hutool.v7.json.serializer.impl;
 
+import cn.hutool.v7.core.date.ZoneUtil;
 import cn.hutool.v7.core.reflect.TypeUtil;
 import cn.hutool.v7.json.JSON;
 import cn.hutool.v7.json.JSONPrimitive;
@@ -56,6 +57,6 @@ public class TimeZoneTypeAdapter implements MatcherJSONSerializer<TimeZone>, Mat
 
 	@Override
 	public TimeZone deserialize(final JSON json, final Type deserializeType) {
-		return TimeZone.getTimeZone(json.toString());
+		return ZoneUtil.getTimeZone(json.toString());
 	}
 }

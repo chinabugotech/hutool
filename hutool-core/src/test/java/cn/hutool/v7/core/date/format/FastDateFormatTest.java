@@ -17,6 +17,7 @@
 package cn.hutool.v7.core.date.format;
 
 import cn.hutool.v7.core.date.DateUtil;
+import cn.hutool.v7.core.date.ZoneUtil;
 import org.junit.jupiter.api.Test;
 
 import java.text.SimpleDateFormat;
@@ -26,7 +27,7 @@ import java.util.TimeZone;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class FastDateFormatTest {
-	private static final TimeZone timezone = TimeZone.getTimeZone("Etc/Utc");
+	private static final TimeZone timezone = ZoneUtil.getTimeZone("Etc/Utc");
 
 	private static FastDateFormat getHutoolInstance(final String pattern) {
 		return FastDateFormat.getInstance(pattern, timezone);

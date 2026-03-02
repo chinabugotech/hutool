@@ -23,7 +23,6 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
 import java.util.Locale;
-import java.util.TimeZone;
 
 /**
  * 日期格式化类，提供常用的日期格式化对象<br>
@@ -288,7 +287,7 @@ public class DateFormatPool {
 	/**
 	 * HTTP头中日期时间格式 {@link FastDateFormat}：EEE, dd MMM yyyy HH:mm:ss GMT
 	 */
-	public static final FastDateFormat HTTP_DATETIME_FORMAT_GMT = FastDateFormat.getInstance(HTTP_DATETIME_PATTERN, TimeZone.getTimeZone("GMT"), Locale.US);
+	public static final FastDateFormat HTTP_DATETIME_FORMAT_GMT = FastDateFormat.getInstance(HTTP_DATETIME_PATTERN, ZoneUtil.getTimeZone("GMT"), Locale.US);
 	/**
 	 * HTTP头中日期时间格式 {@link FastDateFormat}：EEE, dd MMM yyyy HH:mm:ss z
 	 */

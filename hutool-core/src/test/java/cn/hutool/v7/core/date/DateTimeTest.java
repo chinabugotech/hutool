@@ -19,8 +19,6 @@ package cn.hutool.v7.core.date;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.TimeZone;
-
 /**
  * DateTime单元测试
  *
@@ -138,10 +136,10 @@ public class DateTimeTest {
 	public void toStringWithTimeZoneTest() {
 		final DateTime dateTime = new DateTime("2017-01-05 12:34:23", DateFormatPool.NORM_DATETIME_FORMAT);
 
-		final String dateStr = dateTime.toString(TimeZone.getTimeZone("UTC"));
+		final String dateStr = dateTime.toString(ZoneUtil.getTimeZone("UTC"));
 		Assertions.assertEquals("2017-01-05 04:34:23", dateStr);
 
-		dateTime.setTimeZone(TimeZone.getTimeZone("UTC"));
+		dateTime.setTimeZone(ZoneUtil.getTimeZone("UTC"));
 		Assertions.assertEquals("2017-01-05 04:34:23", dateTime.toString());
 	}
 

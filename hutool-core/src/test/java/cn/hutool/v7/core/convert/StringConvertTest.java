@@ -16,16 +16,16 @@
 
 package cn.hutool.v7.core.convert;
 
-import org.junit.jupiter.api.Assertions;
+import cn.hutool.v7.core.date.ZoneUtil;
 import org.junit.jupiter.api.Test;
 
-import java.util.TimeZone;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class StringConvertTest {
 
 	@Test
 	public void timezoneToStrTest(){
-		final String s = ConvertUtil.toStr(TimeZone.getTimeZone("Asia/Shanghai"));
-		Assertions.assertEquals("Asia/Shanghai", s);
+		final String s = ConvertUtil.toStr(ZoneUtil.getTimeZone("Asia/Shanghai"));
+		assertEquals("Asia/Shanghai", s);
 	}
 }

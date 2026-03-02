@@ -16,14 +16,15 @@
 
 package cn.hutool.v7.json.engine;
 
+import cn.hutool.v7.core.date.DateTime;
+import cn.hutool.v7.core.date.DateUtil;
+import cn.hutool.v7.core.date.TimeUtil;
+import cn.hutool.v7.core.date.ZoneUtil;
+import cn.hutool.v7.core.text.StrUtil;
 import com.alibaba.fastjson2.annotation.JSONField;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import cn.hutool.v7.core.date.DateTime;
-import cn.hutool.v7.core.date.DateUtil;
-import cn.hutool.v7.core.date.TimeUtil;
-import cn.hutool.v7.core.text.StrUtil;
 import org.junit.jupiter.api.Test;
 
 import java.io.StringReader;
@@ -108,7 +109,7 @@ public class JSONEngineTest {
 	}
 
 	private void assertWriteTimeZone(final String engineName) {
-		final TimeZone timeZone = TimeZone.getTimeZone("GMT+08:00");
+		final TimeZone timeZone = ZoneUtil.getTimeZone("GMT+08:00");
 		final JSONEngine engine = JSONEngineFactory.createEngine(engineName);
 
 		String jsonString = engine.toJsonString(timeZone);

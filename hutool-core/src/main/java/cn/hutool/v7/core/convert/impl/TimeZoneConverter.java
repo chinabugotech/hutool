@@ -49,6 +49,6 @@ public class TimeZoneConverter extends AbstractConverter implements MatcherConve
 		if(value instanceof ZoneId){
 			return ZoneUtil.toTimeZone((ZoneId) value);
 		}
-		return TimeZone.getTimeZone(convertToStr(value));
+		return ZoneUtil.getTimeZone(convertToStr(value));
 	}
 }
