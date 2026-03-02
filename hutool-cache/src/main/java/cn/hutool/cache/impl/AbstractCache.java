@@ -134,8 +134,12 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
 				// issue#3686 由于这个方法内的加锁是get独立锁，不和put锁互斥，而put和pruneCache会修改cacheMap，导致在pruneCache过程中get会有并发问题
 				// 因此此处需要使用带全局锁的get获取值
 				v = get(key, isUpdateLastAccess);
-				v = supplier.callWithRuntimeException();
-				put(key, v, timeout);
+				// fix issue#IDQGP2: 双重检查后若缓存已有值则直接返回，不再调用supplier
+				// 原实现忽略了双重检查的结果，导致高并发下缓存值被重复覆盖
+				if (null == v) {
+					v = supplier.callWithRuntimeException();
+					put(key, v, timeout);
+				}
 			} finally {
 				keyLock.unlock();
 				keyLockMap.remove(key);
