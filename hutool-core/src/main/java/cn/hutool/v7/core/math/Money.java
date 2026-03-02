@@ -28,7 +28,7 @@ import java.util.Currency;
 /**
  * 单币种货币类，处理货币算术、币种和取整。
  * <p>
- * 感谢提供此方法的用户：https://github.com/chinabugotech/hutool/issues/605
+ * 感谢提供此方法的用户：<a href="https://github.com/chinabugotech/hutool/issues/605">Issue#605@Github</a>
  *
  * <p>
  * 货币类中封装了货币金额和币种。目前金额在内部是long类型表示，
@@ -97,7 +97,7 @@ public class Money implements Serializable, Comparable<Money> {
 	 */
 	private final Currency currency;
 
-	// 构造器 ====================================================
+	// region ----- 构造器
 
 	/**
 	 * 缺省构造器。
@@ -293,8 +293,9 @@ public class Money implements Serializable, Comparable<Money> {
 		this.cent = rounding(amount.movePointRight(currency.getDefaultFractionDigits()),
 				roundingMode);
 	}
+	// endregion
 
-	// Bean方法 ====================================================
+	// region ----- Getters and Setters
 
 	/**
 	 * 获取本货币对象代表的金额数。
@@ -326,6 +327,15 @@ public class Money implements Serializable, Comparable<Money> {
 	}
 
 	/**
+	 * 设置货币的分值。
+	 *
+	 * @param cent 分值
+	 */
+	public void setCent(final long cent) {
+		this.cent = cent;
+	}
+
+	/**
 	 * 获取本货币对象代表的币种。
 	 *
 	 * @return 本货币对象所代表的币种。
@@ -342,8 +352,9 @@ public class Money implements Serializable, Comparable<Money> {
 	public int getCentFactor() {
 		return CENT_FACTORS[currency.getDefaultFractionDigits()];
 	}
+	// endregion
 
-	// 基本对象方法 ===================================================
+	// region ----- 基本对象方法
 
 	/**
 	 * 判断本货币对象与另一对象是否相等。
@@ -408,6 +419,7 @@ public class Money implements Serializable, Comparable<Money> {
 		assertSameCurrencyAs(other);
 		return Long.compare(cent, other.cent);
 	}
+	// endregion
 
 	/**
 	 * 货币比较。
@@ -425,7 +437,7 @@ public class Money implements Serializable, Comparable<Money> {
 		return compareTo(other) > 0;
 	}
 
-	// 货币算术 ==========================================
+	// region ----- 货币算术
 
 	/**
 	 * 货币加法。
@@ -725,9 +737,11 @@ public class Money implements Serializable, Comparable<Money> {
 
 		return this;
 	}
+	// endregion
 
+	// region ----- 货币分配
 	/**
-	 * 货币分配。
+	 * 货币分配
 	 *
 	 * <p>
 	 * 将本货币对象尽可能平均分配成{@code targets}份。
@@ -790,8 +804,7 @@ public class Money implements Serializable, Comparable<Money> {
 
 		return results;
 	}
-
-	// 格式化方法 =================================================
+	// endregion
 
 	/**
 	 * 生成本对象的缺省字符串表示
@@ -800,8 +813,6 @@ public class Money implements Serializable, Comparable<Money> {
 	public String toString() {
 		return getAmount().toString();
 	}
-
-	// 内部方法 ===================================================
 
 	/**
 	 * 断言本货币对象与另一货币对象是否具有相同的币种。
@@ -844,8 +855,6 @@ public class Money implements Serializable, Comparable<Money> {
 		return money;
 	}
 
-	// 调试方式 ==================================================
-
 	/**
 	 * 生成本对象内部变量的字符串表示，用于调试。
 	 *
@@ -859,14 +868,5 @@ public class Money implements Serializable, Comparable<Money> {
 				.append("currency = ")
 				.append(this.currency)
 				.toString();
-	}
-
-	/**
-	 * 设置货币的分值。
-	 *
-	 * @param cent 分值
-	 */
-	public void setCent(final long cent) {
-		this.cent = cent;
 	}
 }

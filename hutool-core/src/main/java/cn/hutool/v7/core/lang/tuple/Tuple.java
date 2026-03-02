@@ -71,7 +71,8 @@ public class Tuple implements Iterable<Object>, Serializable, Cloneable {
 	 * @param members 成员数组
 	 */
 	public Tuple(final Object... members) {
-		this.members = members;
+		// defensive copy，保证 Tuple 的不可变性，防止外部修改传入数组影响内部状态
+		this.members = members.clone();
 	}
 
 	/**
@@ -92,7 +93,8 @@ public class Tuple implements Iterable<Object>, Serializable, Cloneable {
 	 * @return 获得所有元素
 	 */
 	public Object[] getMembers() {
-		return this.members;
+		// 返回副本而非内部数组引用，防止外部修改破坏 Tuple 的不可变性
+		return this.members.clone();
 	}
 
 	/**

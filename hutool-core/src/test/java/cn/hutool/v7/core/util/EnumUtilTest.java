@@ -17,12 +17,14 @@
 package cn.hutool.v7.core.util;
 
 import cn.hutool.v7.core.collection.ListUtil;
-import cn.hutool.v7.core.util.EnumUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * EnumUtil单元测试
@@ -35,13 +37,13 @@ public class EnumUtilTest {
 	@Test
 	public void getNamesTest() {
 		final List<String> names = EnumUtil.getNames(TestEnum.class);
-		Assertions.assertEquals(ListUtil.of("TEST1", "TEST2", "TEST3"), names);
+		assertEquals(ListUtil.of("TEST1", "TEST2", "TEST3"), names);
 	}
 
 	@Test
 	public void getFieldValuesTest() {
 		final List<Object> types = EnumUtil.getFieldValues(TestEnum.class, "type");
-		Assertions.assertEquals(ListUtil.of("type1", "type2", "type3"), types);
+		assertEquals(ListUtil.of("type1", "type2", "type3"), types);
 	}
 
 	@Test
@@ -55,36 +57,36 @@ public class EnumUtilTest {
 	public void getByTest() {
 		// 枚举中字段互相映射使用
 		final TestEnum testEnum = EnumUtil.getBy(TestEnum::ordinal, 1);
-		Assertions.assertEquals("TEST2", testEnum.name());
+		assertEquals("TEST2", testEnum.name());
 	}
 
 	@Test
 	public void getFieldByTest() {
 		// 枚举中字段互相映射使用
 		final String type = EnumUtil.getFieldBy(TestEnum::getType, Enum::ordinal, 1);
-		Assertions.assertEquals("type2", type);
+		assertEquals("type2", type);
 
 		final int ordinal = EnumUtil.getFieldBy(TestEnum::ordinal, Enum::ordinal, 1);
-		Assertions.assertEquals(1, ordinal);
+		assertEquals(1, ordinal);
 	}
 
 	@Test
 	public void likeValueOfTest() {
 		final TestEnum value = EnumUtil.likeValueOf(TestEnum.class, "type2");
-		Assertions.assertEquals(TestEnum.TEST2, value);
+		assertEquals(TestEnum.TEST2, value);
 	}
 
 	@Test
 	public void getEnumMapTest() {
 		final Map<String,TestEnum> enumMap = EnumUtil.getEnumMap(TestEnum.class);
-		Assertions.assertEquals(TestEnum.TEST1, enumMap.get("TEST1"));
+		assertEquals(TestEnum.TEST1, enumMap.get("TEST1"));
 	}
 
 	@Test
 	public void getNameFieldMapTest() {
 		final Map<String, Object> enumMap = EnumUtil.getNameFieldMap(TestEnum.class, "type");
 		assert enumMap != null;
-		Assertions.assertEquals("type1", enumMap.get("TEST1"));
+		assertEquals("type1", enumMap.get("TEST1"));
 	}
 
 	public enum TestEnum{
@@ -104,6 +106,40 @@ public class EnumUtilTest {
 
 		public String getName() {
 			return this.name;
+		}
+	}
+
+	/**
+	 * 测试枚举类静态初始化中调用 EnumUtil 不会导致 Recursive update 异常
+	 * fix issue#IDQYJK
+	 */
+	@Test
+	public void getFieldValuesRecursiveTest() {
+		// SelfRefEnum 在静态初始化时调用了 EnumUtil.getNames，
+		// 修复前会抛出 IllegalStateException: Recursive update
+		// 修复后应正常返回结果
+		final List<Object> values = EnumUtil.getFieldValues(SelfRefEnum.class, "label");
+		assertNotNull(values);
+		assertEquals(3, values.size());
+	}
+
+	/**
+	 * 静态初始化中使用 EnumUtil 的枚举，用于测试 fix issue#IDQYJK
+	 */
+	public enum SelfRefEnum {
+		A("labelA"), B("labelB"), C("labelC");
+
+		// 静态初始化块中调用 EnumUtil，触发 ConcurrentHashMap.computeIfAbsent 的递归场景
+		static final List<String> NAMES = EnumUtil.getNames(SelfRefEnum.class);
+
+		private final String label;
+
+		SelfRefEnum(final String label) {
+			this.label = label;
+		}
+
+		public String getLabel() {
+			return label;
 		}
 	}
 }

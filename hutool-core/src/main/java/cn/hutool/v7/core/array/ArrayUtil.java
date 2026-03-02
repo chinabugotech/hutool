@@ -967,6 +967,9 @@ public class ArrayUtil extends PrimitiveArrayUtil {
 	 * @since 3.0.6
 	 */
 	public static <T> T copy(final Object src, final int srcPos, final T dest, final int destPos, final int length) {
+		if (null == src || null == dest) {
+			throw new NullPointerException("Source array and destination array must not be null");
+		}
 		//noinspection SuspiciousSystemArraycopy
 		System.arraycopy(src, srcPos, dest, destPos, length);
 		return dest;

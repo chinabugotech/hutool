@@ -135,7 +135,10 @@ public class TemporalUtil {
 	 * @since 5.8.0
 	 */
 	@SuppressWarnings("unchecked")
-	public <T extends Temporal> T offset(final T temporal, final DayOfWeek dayOfWeek, final boolean isPrevious) {
+	public static <T extends Temporal> T offset(final T temporal, final DayOfWeek dayOfWeek, final boolean isPrevious) {
+		if (null == temporal) {
+			return null;
+		}
 		return (T) temporal.with(isPrevious ? TemporalAdjusters.previous(dayOfWeek) : TemporalAdjusters.next(dayOfWeek));
 	}
 }
