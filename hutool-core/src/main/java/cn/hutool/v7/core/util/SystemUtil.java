@@ -17,9 +17,12 @@
 package cn.hutool.v7.core.util;
 
 import cn.hutool.v7.core.convert.ConvertUtil;
+import cn.hutool.v7.core.func.FuncUtil;
 import cn.hutool.v7.core.lang.Console;
+import cn.hutool.v7.core.text.StrUtil;
 
 import java.util.Properties;
+import java.util.function.Supplier;
 
 /**
  * 系统属性工具<br>
@@ -38,6 +41,22 @@ public class SystemUtil {
 	 * Hutool自定义系统属性：是否解析日期字符串采用严格模式
 	 */
 	public static final String HUTOOL_DATE_LENIENT = "hutool.date.lenient";
+
+	/**
+	 * 获取系统属性，如果因为Java安全的限制而失败，则将错误打在Log中，然后返回 defaultIfAbsent
+	 *
+	 * @param name         属性名
+	 * @param defaultIfAbsent 默认值
+	 * @return 属性值或defaultIfAbsent
+	 * @see System#getProperty(String)
+	 * @see System#getenv(String)
+	 */
+	public static String get(final String name, final Supplier<String> defaultIfAbsent){
+		if(StrUtil.isEmpty(name)){
+			return FuncUtil.get(defaultIfAbsent);
+		}
+		return ObjUtil.defaultIfNull(get(name), defaultIfAbsent);
+	}
 
 	/**
 	 * 取得系统属性，如果因为Java安全的限制而失败，则将错误打在Log中，然后返回 defaultValue
