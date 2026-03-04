@@ -36,6 +36,12 @@ public class ReflectUtil {
 	 * 方法缓存
 	 */
 	private static final WeakKeyValueConcurrentMap<Class<?>, Method[]> METHODS_CACHE = new WeakKeyValueConcurrentMap<>();
+	/**
+	 * 方法查找结果缓存（新增：细粒度缓存，避免重复遍历）
+	 * key: 方法查找键（类+是否忽略大小写+方法名+参数类型）
+	 * value: 查找到的Method
+	 */
+	private static final WeakKeyValueConcurrentMap<MethodLookupKey, Method> METHOD_LOOKUP_CACHE = new WeakKeyValueConcurrentMap<>();
 
 	// --------------------------------------------------------------------------------------------------------- Constructor
 
@@ -534,21 +540,25 @@ public class ReflectUtil {
 		if (null == clazz || StrUtil.isBlank(methodName)) {
 			return null;
 		}
-
-		Method res = null;
-		final Method[] methods = getMethods(clazz);
-		if (ArrayUtil.isNotEmpty(methods)) {
-			for (Method method : methods) {
-				if (StrUtil.equals(methodName, method.getName(), ignoreCase)
-					&& ClassUtil.isAllAssignableFrom(method.getParameterTypes(), paramTypes)
-					//排除协变桥接方法，pr#1965@Github
-					&& (res == null
-					|| res.getReturnType().isAssignableFrom(method.getReturnType()))) {
-					res = method;
+		// 优先从细粒度缓存查找
+		final MethodLookupKey key = new MethodLookupKey(clazz, ignoreCase, methodName, paramTypes);
+		return METHOD_LOOKUP_CACHE.computeIfAbsent(key, (lookupKey) -> {
+			// 缓存未命中时，执行原有的查找逻辑
+			Method res = null;
+			final Method[] methods = getMethods(clazz);
+			if (ArrayUtil.isNotEmpty(methods)) {
+				for (Method method : methods) {
+					if (StrUtil.equals(methodName, method.getName(), ignoreCase)
+						&& ClassUtil.isAllAssignableFrom(method.getParameterTypes(), paramTypes)
+						//排除协变桥接方法，pr#1965@Github
+						&& (res == null
+						|| res.getReturnType().isAssignableFrom(method.getReturnType()))) {
+						res = method;
+					}
 				}
 			}
-		}
-		return res;
+			return res;
+		});
 	}
 
 	/**
@@ -1192,5 +1202,41 @@ public class ReflectUtil {
 			}
 		}
 		return result;
+	}
+
+	/**
+	 * 方法查找键（用于细粒度缓存）
+	 * 用于唯一标识一次方法查找操作
+	 */
+	private static class MethodLookupKey {
+		private final Class<?> clazz;
+		private final boolean ignoreCase;
+		private final String methodName;
+		private final Class<?>[] paramTypes;
+
+		public MethodLookupKey(Class<?> clazz, boolean ignoreCase, String methodName, Class<?>[] paramTypes) {
+			this.clazz = clazz;
+			this.ignoreCase = ignoreCase;
+			this.methodName = methodName;
+			this.paramTypes = paramTypes;
+		}
+
+		@Override
+		public boolean equals(Object o) {
+			if (this == o) return true;
+			if (o == null || getClass() != o.getClass()) return false;
+			MethodLookupKey that = (MethodLookupKey) o;
+			return ignoreCase == that.ignoreCase &&
+				Objects.equals(clazz, that.clazz) &&
+				Objects.equals(methodName, that.methodName) &&
+				Arrays.equals(paramTypes, that.paramTypes);
+		}
+
+		@Override
+		public int hashCode() {
+			int result = Objects.hash(clazz, ignoreCase, methodName);
+			result = 31 * result + Arrays.hashCode(paramTypes);
+			return result;
+		}
 	}
 }
