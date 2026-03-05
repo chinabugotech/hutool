@@ -1,7 +1,7 @@
 
 # 🚀Changelog
 -------------------------------------------------------------------------------------------------------------
-# 5.8.44(2026-03-02)
+# 5.8.44(2026-03-05)
 ### 🐣新特性
 * 【core   】      `NumberUtil.parseNumber`增加支持科学计数法（pr#4211@Github）
 * 【captcha】      `AbstractCaptcha`增加`setStroke`方法支持线条粗细（issue#IDJQ15@Gitee）
@@ -22,6 +22,7 @@
 * 【core       】  修复`ReUtil.replaceAll`空指针问题（issue#IDPHVW@Gitee）
 * 【core       】  修复`EnumUtil`枚举类静态初始化时触发 Recursive update 异常（pr#1432@Gitee）
 * 【core       】  修复`AbstractCache`高并发下 get+supplier 双重检查锁逻辑缺陷（pr#1432@Gitee）
+* 【core       】  修复`Quarter`fromMonth计算错误问题（issue#IF15CP@Gitee）
 
 -------------------------------------------------------------------------------------------------------------
 # 5.8.43(2026-01-04)

@@ -96,7 +96,7 @@ public enum Quarter {
 	 */
 	public static Quarter fromMonth(Month month) {
 		Assert.notNull(month);
-		final int monthValue = month.getValue();
+		final int monthValue = month.getValueBaseOne();
 		return of(computeQuarterValueInternal(monthValue));
 	}
 
