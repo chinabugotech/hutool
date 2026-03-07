@@ -2879,7 +2879,7 @@ public class CharSequenceUtil extends StrValidator {
 	// region ----- center
 
 	/**
-	 * 居中字符串，两边补充指定字符串，如果指定长度小于字符串，则返回原字符串
+	 * 居中字符串，两边补充空格符，如果指定长度小于字符串，则返回原字符串
 	 *
 	 * <pre>
 	 * center(null, *)   = null
@@ -2900,7 +2900,7 @@ public class CharSequenceUtil extends StrValidator {
 	}
 
 	/**
-	 * 居中字符串，两边补充指定字符串，如果指定长度小于字符串，则返回原字符串
+	 * 居中字符串，两边补充指定字符，如果指定长度小于字符串，则返回原字符串
 	 *
 	 * <pre>
 	 * center(null, *, *)     = null
