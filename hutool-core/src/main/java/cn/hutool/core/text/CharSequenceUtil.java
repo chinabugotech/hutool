@@ -3372,7 +3372,7 @@ public class CharSequenceUtil {
 	// ------------------------------------------------------------------------ center
 
 	/**
-	 * 居中字符串，两边补充指定字符串，如果指定长度小于字符串，则返回原字符串
+	 * 居中字符串，两边补充空格符，如果指定长度小于字符串，则返回原字符串
 	 *
 	 * <pre>
 	 * CharSequenceUtil.center(null, *)   = null
@@ -3393,7 +3393,7 @@ public class CharSequenceUtil {
 	}
 
 	/**
-	 * 居中字符串，两边补充指定字符串，如果指定长度小于字符串，则返回原字符串
+	 * 居中字符串，两边补充指定字符，如果指定长度小于字符串，则返回原字符串
 	 *
 	 * <pre>
 	 * CharSequenceUtil.center(null, *, *)     = null
