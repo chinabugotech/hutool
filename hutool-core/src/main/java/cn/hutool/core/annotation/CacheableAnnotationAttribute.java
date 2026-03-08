@@ -17,8 +17,8 @@ public class CacheableAnnotationAttribute implements AnnotationAttribute {
 	private volatile boolean valueInvoked;
 	private volatile Object value;
 
-	private boolean defaultValueInvoked;
-	private Object defaultValue;
+	private volatile boolean defaultValueInvoked;
+	private volatile Object defaultValue;
 
 	private final Annotation annotation;
 	private final Method attribute;
