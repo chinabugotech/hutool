@@ -40,7 +40,7 @@ public class FileNameUtil {
 	/**
 	 * Windows下文件名中的无效字符
 	 */
-	private static final Pattern FILE_NAME_INVALID_PATTERN_WIN = Pattern.compile("[\\\\/:*?\"<>|\r\n]");
+	private static final Pattern FILE_NAME_INVALID_PATTERN_WIN = Pattern.compile("[\\\\/:*?\"<>|\r\n.]");
 
 	/**
 	 * 特殊后缀
