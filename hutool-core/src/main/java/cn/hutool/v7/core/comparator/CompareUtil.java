@@ -409,7 +409,7 @@ public class CompareUtil {
 	}
 
 	/**
-	 * c1是否大小于c2，通过调用{@code compare(c1, c2) < 0}完成
+	 * c1是否小于c2，通过调用{@code compare(c1, c2) < 0}完成
 	 *
 	 * @param <T> 被比较对象类型
 	 * @param c1  对象1，可以为{@code null}

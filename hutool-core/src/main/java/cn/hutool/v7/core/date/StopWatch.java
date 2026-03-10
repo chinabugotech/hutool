@@ -321,6 +321,15 @@ public class StopWatch {
 	}
 
 	/**
+	 * 从开始到当前的间隔时间（毫秒数），返回XX天XX小时XX分XX秒XX毫秒
+	 *
+	 * @return 从开始到当前的间隔时间（毫秒数）
+	 */
+	public String getTotalTimePretty() {
+		return DateUtil.formatBetween(getTotalTimeMillis());
+	}
+
+	/**
 	 * 获取任务数
 	 *
 	 * @return 任务数
