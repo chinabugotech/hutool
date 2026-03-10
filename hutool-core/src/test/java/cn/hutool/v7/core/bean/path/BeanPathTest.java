@@ -16,155 +16,157 @@
 
 package cn.hutool.v7.core.bean.path;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class BeanPathTest {
 
 	@Test
 	void parseDotTest() {
 		BeanPath<Object> beanPath = BeanPath.of("userInfo.examInfoDict[0].id");
-		Assertions.assertEquals("userInfo", beanPath.getNode().toString());
-		Assertions.assertEquals("examInfoDict[0].id", beanPath.getChild());
+		assertEquals("userInfo", beanPath.getNode().toString());
+		assertEquals("examInfoDict[0].id", beanPath.getChild());
 
 		beanPath = beanPath.next();
-		Assertions.assertEquals("examInfoDict", beanPath.getNode().toString());
-		Assertions.assertEquals("[0].id", beanPath.getChild());
+		assertEquals("examInfoDict", beanPath.getNode().toString());
+		assertEquals("[0].id", beanPath.getChild());
 
 		beanPath = beanPath.next();
-		Assertions.assertEquals("0", beanPath.getNode().toString());
-		Assertions.assertEquals(".id", beanPath.getChild());
+		assertEquals("0", beanPath.getNode().toString());
+		assertEquals(".id", beanPath.getChild());
 
 		beanPath = beanPath.next();
-		Assertions.assertEquals("id", beanPath.getNode().toString());
-		Assertions.assertNull(beanPath.getChild());
+		assertEquals("id", beanPath.getNode().toString());
+		assertNull(beanPath.getChild());
 	}
 
 	@Test
 	void parseDotWithQuoteTest() {
 		BeanPath<Object> beanPath = BeanPath.of("'userInfo'.examInfoDict[0].'id'");
-		Assertions.assertEquals("userInfo", beanPath.getNode().toString());
-		Assertions.assertEquals("examInfoDict[0].'id'", beanPath.getChild());
+		assertEquals("userInfo", beanPath.getNode().toString());
+		assertEquals("examInfoDict[0].'id'", beanPath.getChild());
 
 		beanPath = beanPath.next();
-		Assertions.assertEquals("examInfoDict", beanPath.getNode().toString());
-		Assertions.assertEquals("[0].'id'", beanPath.getChild());
+		assertEquals("examInfoDict", beanPath.getNode().toString());
+		assertEquals("[0].'id'", beanPath.getChild());
 
 		beanPath = beanPath.next();
-		Assertions.assertEquals("0", beanPath.getNode().toString());
-		Assertions.assertEquals(".'id'", beanPath.getChild());
+		assertEquals("0", beanPath.getNode().toString());
+		assertEquals(".'id'", beanPath.getChild());
 
 		beanPath = beanPath.next();
-		Assertions.assertEquals("id", beanPath.getNode().toString());
-		Assertions.assertNull(beanPath.getChild());
+		assertEquals("id", beanPath.getNode().toString());
+		assertNull(beanPath.getChild());
 	}
 
 	@Test
 	void parseDotWithQuoteTest2() {
 		BeanPath<Object> beanPath = BeanPath.of("userInfo.'examInfoDict'[0].id");
-		Assertions.assertEquals("userInfo", beanPath.getNode().toString());
-		Assertions.assertEquals("'examInfoDict'[0].id", beanPath.getChild());
+		assertEquals("userInfo", beanPath.getNode().toString());
+		assertEquals("'examInfoDict'[0].id", beanPath.getChild());
 
 		beanPath = beanPath.next();
-		Assertions.assertEquals("examInfoDict", beanPath.getNode().toString());
-		Assertions.assertEquals("[0].id", beanPath.getChild());
+		assertEquals("examInfoDict", beanPath.getNode().toString());
+		assertEquals("[0].id", beanPath.getChild());
 
 		beanPath = beanPath.next();
-		Assertions.assertEquals("0", beanPath.getNode().toString());
-		Assertions.assertEquals(".id", beanPath.getChild());
+		assertEquals("0", beanPath.getNode().toString());
+		assertEquals(".id", beanPath.getChild());
 
 		beanPath = beanPath.next();
-		Assertions.assertEquals("id", beanPath.getNode().toString());
-		Assertions.assertNull(beanPath.getChild());
+		assertEquals("id", beanPath.getNode().toString());
+		assertNull(beanPath.getChild());
 	}
 
 	@Test
 	void parseBucketTest() {
 		BeanPath<Object> beanPath = BeanPath.of("[userInfo][examInfoDict][0][id]");
-		Assertions.assertEquals("userInfo", beanPath.getNode().toString());
-		Assertions.assertEquals("[examInfoDict][0][id]", beanPath.getChild());
+		assertEquals("userInfo", beanPath.getNode().toString());
+		assertEquals("[examInfoDict][0][id]", beanPath.getChild());
 
 		beanPath = beanPath.next();
-		Assertions.assertEquals("examInfoDict", beanPath.getNode().toString());
-		Assertions.assertEquals("[0][id]", beanPath.getChild());
+		assertEquals("examInfoDict", beanPath.getNode().toString());
+		assertEquals("[0][id]", beanPath.getChild());
 
 		beanPath = beanPath.next();
-		Assertions.assertEquals("0", beanPath.getNode().toString());
-		Assertions.assertEquals("[id]", beanPath.getChild());
+		assertEquals("0", beanPath.getNode().toString());
+		assertEquals("[id]", beanPath.getChild());
 
 		beanPath = beanPath.next();
-		Assertions.assertEquals("id", beanPath.getNode().toString());
-		Assertions.assertNull(beanPath.getChild());
+		assertEquals("id", beanPath.getNode().toString());
+		assertNull(beanPath.getChild());
 	}
 
 	@Test
 	void parseBucketWithQuoteTest() {
 		BeanPath<Object> beanPath = BeanPath.of("['userInfo']['examInfoDict'][0][id]");
-		Assertions.assertEquals("userInfo", beanPath.getNode().toString());
-		Assertions.assertEquals("['examInfoDict'][0][id]", beanPath.getChild());
+		assertEquals("userInfo", beanPath.getNode().toString());
+		assertEquals("['examInfoDict'][0][id]", beanPath.getChild());
 
 		beanPath = beanPath.next();
-		Assertions.assertEquals("examInfoDict", beanPath.getNode().toString());
-		Assertions.assertEquals("[0][id]", beanPath.getChild());
+		assertEquals("examInfoDict", beanPath.getNode().toString());
+		assertEquals("[0][id]", beanPath.getChild());
 
 		beanPath = beanPath.next();
-		Assertions.assertEquals("0", beanPath.getNode().toString());
-		Assertions.assertEquals("[id]", beanPath.getChild());
+		assertEquals("0", beanPath.getNode().toString());
+		assertEquals("[id]", beanPath.getChild());
 
 		beanPath = beanPath.next();
-		Assertions.assertEquals("id", beanPath.getNode().toString());
-		Assertions.assertNull(beanPath.getChild());
+		assertEquals("id", beanPath.getNode().toString());
+		assertNull(beanPath.getChild());
 	}
 
 	@Test
 	void parseBucketWithQuoteTest2() {
 		BeanPath<Object> beanPath = BeanPath.of("[userInfo][examInfoDict][0]['id']");
-		Assertions.assertEquals("userInfo", beanPath.getNode().toString());
-		Assertions.assertEquals("[examInfoDict][0]['id']", beanPath.getChild());
+		assertEquals("userInfo", beanPath.getNode().toString());
+		assertEquals("[examInfoDict][0]['id']", beanPath.getChild());
 
 		beanPath = beanPath.next();
-		Assertions.assertEquals("examInfoDict", beanPath.getNode().toString());
-		Assertions.assertEquals("[0]['id']", beanPath.getChild());
+		assertEquals("examInfoDict", beanPath.getNode().toString());
+		assertEquals("[0]['id']", beanPath.getChild());
 
 		beanPath = beanPath.next();
-		Assertions.assertEquals("0", beanPath.getNode().toString());
-		Assertions.assertEquals("['id']", beanPath.getChild());
+		assertEquals("0", beanPath.getNode().toString());
+		assertEquals("['id']", beanPath.getChild());
 
 		beanPath = beanPath.next();
-		Assertions.assertEquals("id", beanPath.getNode().toString());
-		Assertions.assertNull(beanPath.getChild());
+		assertEquals("id", beanPath.getNode().toString());
+		assertNull(beanPath.getChild());
 	}
 
 	@Test
 	void rangePathTest() {
 		BeanPath<Object> beanPath = BeanPath.of("[userInfo][2:3]");
-		Assertions.assertEquals("userInfo", beanPath.getNode().toString());
-		Assertions.assertEquals("[2:3]", beanPath.getChild());
+		assertEquals("userInfo", beanPath.getNode().toString());
+		assertEquals("[2:3]", beanPath.getChild());
 
 		beanPath = beanPath.next();
-		Assertions.assertEquals("[2:3:1]", beanPath.getNode().toString());
-		Assertions.assertNull(beanPath.getChild());
+		assertEquals("[2:3:1]", beanPath.getNode().toString());
+		assertNull(beanPath.getChild());
 	}
 
 	@Test
 	void listPathTest() {
 		BeanPath<Object> beanPath = BeanPath.of("[userInfo][1,2,3]");
-		Assertions.assertEquals("userInfo", beanPath.getNode().toString());
-		Assertions.assertEquals("[1,2,3]", beanPath.getChild());
+		assertEquals("userInfo", beanPath.getNode().toString());
+		assertEquals("[1,2,3]", beanPath.getChild());
 
 		beanPath = beanPath.next();
-		Assertions.assertEquals("[1, 2, 3]", beanPath.getNode().toString());
-		Assertions.assertNull(beanPath.getChild());
+		assertEquals("[1, 2, 3]", beanPath.getNode().toString());
+		assertNull(beanPath.getChild());
 	}
 
 	@Test
 	void listKeysPathTest() {
 		BeanPath<Object> beanPath = BeanPath.of("[userInfo]['a', 'b', 'c']");
-		Assertions.assertEquals("userInfo", beanPath.getNode().toString());
-		Assertions.assertEquals("['a', 'b', 'c']", beanPath.getChild());
+		assertEquals("userInfo", beanPath.getNode().toString());
+		assertEquals("['a', 'b', 'c']", beanPath.getChild());
 
 		beanPath = beanPath.next();
-		Assertions.assertEquals("[a, b, c]", beanPath.getNode().toString());
-		Assertions.assertNull(beanPath.getChild());
+		assertEquals("[a, b, c]", beanPath.getNode().toString());
+		assertNull(beanPath.getChild());
 	}
 }

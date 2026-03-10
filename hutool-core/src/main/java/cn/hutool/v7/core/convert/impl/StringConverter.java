@@ -19,6 +19,7 @@ package cn.hutool.v7.core.convert.impl;
 import cn.hutool.v7.core.convert.AbstractConverter;
 import cn.hutool.v7.core.convert.impl.stringer.BlobStringer;
 import cn.hutool.v7.core.convert.impl.stringer.ClobStringer;
+import cn.hutool.v7.core.lang.wrapper.Wrapper;
 import cn.hutool.v7.core.map.MapUtil;
 import cn.hutool.v7.core.xml.XmlUtil;
 
@@ -59,7 +60,7 @@ public class StringConverter extends AbstractConverter {
 	}
 
 	@Override
-	protected String convertInternal(final Class<?> targetClass, final Object value) {
+	protected String convertInternal(final Class<?> targetClass, Object value) {
 
 		// 自定义toString
 		if(MapUtil.isNotEmpty(stringer)){
@@ -67,6 +68,11 @@ public class StringConverter extends AbstractConverter {
 			if(null != stringFunction){
 				return stringFunction.apply(value);
 			}
+		}
+
+		// issue#4234@Github JSONPrimitive需要获取其值
+		if(value instanceof Wrapper<?>){
+			value = ((Wrapper<?>) value).getRaw();
 		}
 
 		if (value instanceof TimeZone) {

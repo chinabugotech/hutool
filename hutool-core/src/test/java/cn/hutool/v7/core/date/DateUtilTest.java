@@ -756,7 +756,7 @@ public class DateUtilTest {
 	@Test
 	public void endOfQuarterTest() {
 		final Date date = DateUtil.endOfQuarter(
-				DateUtil.parse("2020-05-31 00:00:00"), false);
+			DateUtil.parse("2020-05-31 00:00:00"), false);
 
 		assertEquals("2020-06-30 23:59:59", DateUtil.format(date, "yyyy-MM-dd HH:mm:ss"));
 	}
@@ -832,7 +832,7 @@ public class DateUtilTest {
 		final LocalDate localDate = localDateTime.toLocalDate();
 		final DateTime date2 = DateUtil.date(localDate);
 		assertEquals("2017-05-06",
-				DateUtil.format(date2, DateFormatPool.NORM_DATE_PATTERN));
+			DateUtil.format(date2, DateFormatPool.NORM_DATE_PATTERN));
 	}
 
 	@Test
@@ -854,7 +854,7 @@ public class DateUtilTest {
 
 	@Test
 	public void ageTest2() {
-		Assertions.assertThrows(IllegalArgumentException.class, ()->{
+		Assertions.assertThrows(IllegalArgumentException.class, () -> {
 			final String d1 = "2019-02-29";
 			final String d2 = "2018-02-28";
 			DateUtil.age(DateUtil.parse(d1), DateUtil.parse(d2));
@@ -919,8 +919,8 @@ public class DateUtilTest {
 		for (int i = 0; i < 1000; i++) {
 			final String datr = RandomUtil.randomInt(1900, 2099) + "-01-20";
 			final long betweenDay = DateUtil.betweenDay(
-					DateUtil.parse("1970-01-01"),
-					DateUtil.parse(datr), false);
+				DateUtil.parse("1970-01-01"),
+				DateUtil.parse(datr), false);
 			assertEquals(Math.abs(LocalDate.parse(datr).toEpochDay()), betweenDay);
 		}
 	}
@@ -974,7 +974,7 @@ public class DateUtilTest {
 
 	@Test
 	public void parseNotFitTest() {
-		Assertions.assertThrows(DateException.class, ()->{
+		Assertions.assertThrows(DateException.class, () -> {
 			//https://github.com/chinabugotech/hutool/issues/1332
 			// 在日期格式不匹配的时候，测试是否正常报错
 			DateUtil.parse("2020-12-23", DateFormatPool.PURE_DATE_PATTERN);
@@ -998,7 +998,7 @@ public class DateUtilTest {
 		assertEquals("2021-07-14 10:05:38", format);
 
 		format = DateUtil.format(TimeUtil.parseByISO("2021-07-14T10:05:38"),
-				"yyyy-MM-dd HH:mm:ss");
+			"yyyy-MM-dd HH:mm:ss");
 		assertEquals("2021-07-14 10:05:38", format);
 	}
 
@@ -1060,39 +1060,39 @@ public class DateUtilTest {
 		final DateTime realEndTime = DateUtil.parse("2022-01-01 12:00:10");
 
 		final DateTime realStartTime1 = DateUtil.parse("2022-03-01 08:00:00");
-		final DateTime realEndTime1   = DateUtil.parse("2022-03-01 10:00:00");
+		final DateTime realEndTime1 = DateUtil.parse("2022-03-01 10:00:00");
 
-		final DateTime startTime  = DateUtil.parse("2022-03-23 05:00:00");
-		final DateTime endTime    = DateUtil.parse("2022-03-23 13:00:00");
+		final DateTime startTime = DateUtil.parse("2022-03-23 05:00:00");
+		final DateTime endTime = DateUtil.parse("2022-03-23 13:00:00");
 
 		Assertions.assertFalse(DateUtil.isOverlap(oneStartTime, oneEndTime, realStartTime, realEndTime));
 		Assertions.assertFalse(DateUtil.isOverlap(oneStartTime2, oneEndTime2, realStartTime, realEndTime));
 		Assertions.assertTrue(DateUtil.isOverlap(oneStartTime3, oneEndTime3, realStartTime, realEndTime));
 
-		Assertions.assertFalse(DateUtil.isOverlap(realStartTime1,realEndTime1,startTime,endTime));
-		Assertions.assertFalse(DateUtil.isOverlap(startTime,endTime,realStartTime1,realEndTime1));
+		Assertions.assertFalse(DateUtil.isOverlap(realStartTime1, realEndTime1, startTime, endTime));
+		Assertions.assertFalse(DateUtil.isOverlap(startTime, endTime, realStartTime1, realEndTime1));
 
-		Assertions.assertTrue(DateUtil.isOverlap(startTime,startTime,startTime,startTime));
-		Assertions.assertTrue(DateUtil.isOverlap(startTime,startTime,startTime,endTime));
-		Assertions.assertFalse(DateUtil.isOverlap(startTime,startTime,endTime,endTime));
-		Assertions.assertTrue(DateUtil.isOverlap(startTime,endTime,endTime,endTime));
+		Assertions.assertTrue(DateUtil.isOverlap(startTime, startTime, startTime, startTime));
+		Assertions.assertTrue(DateUtil.isOverlap(startTime, startTime, startTime, endTime));
+		Assertions.assertFalse(DateUtil.isOverlap(startTime, startTime, endTime, endTime));
+		Assertions.assertTrue(DateUtil.isOverlap(startTime, endTime, endTime, endTime));
 	}
 
 	@Test
-	public void isInTest(){
+	public void isInTest() {
 		final String sourceStr = "2022-04-19 00:00:00";
 		final String startTimeStr = "2022-04-19 00:00:00";
 		final String endTimeStr = "2022-04-19 23:59:59";
 		final boolean between = DateUtil.isIn(DateUtil.parse(startTimeStr),
-				DateUtil.parse(endTimeStr),
-				DateUtil.parse(sourceStr));
+			DateUtil.parse(endTimeStr),
+			DateUtil.parse(sourceStr));
 		Assertions.assertTrue(between);
 	}
 
 	@Test
-	public void isLastDayTest(){
+	public void isLastDayTest() {
 		final DateTime dateTime = DateUtil.parse("2022-09-30");
-		final int dayOfMonth  = DateUtil.getLastDayOfMonth(dateTime);
+		final int dayOfMonth = DateUtil.getLastDayOfMonth(dateTime);
 		assertEquals(dayOfMonth, Objects.requireNonNull(dateTime).dayOfMonth());
 		Assertions.assertTrue(DateUtil.isLastDayOfMonth(dateTime), "not is last day of this month !!");
 	}
@@ -1151,7 +1151,7 @@ public class DateUtilTest {
 	}
 
 	@Test
-	public void cellingAmPmTest(){
+	public void cellingAmPmTest() {
 		final String dateStr2 = "2020-02-29 10:59:34";
 		final Date date2 = DateUtil.parse(dateStr2);
 
@@ -1163,7 +1163,8 @@ public class DateUtilTest {
 		assertEquals("2020-02-29 11:59:59.000", dateTime.toString(DateFormatPool.NORM_DATETIME_MS_PATTERN));
 	}
 
-	@Test void roundAmPmTest() {
+	@Test
+	void roundAmPmTest() {
 		final String dateStr = "2020-02-29 13:59:34";
 		final Date date = DateUtil.parse(dateStr);
 
@@ -1175,5 +1176,10 @@ public class DateUtilTest {
 
 		final DateTime dateTime2 = DateUtil.round(date2, DateField.AM_PM);
 		assertEquals("2020-02-29 23:59:59.000", dateTime2.toString(DateFormatPool.NORM_DATETIME_MS_PATTERN));
+	}
+
+	@Test
+	void issue4234Test() {
+		assertEquals("2001-06-11 12:58:00", DateUtil.parse("20010611125800").toString());
 	}
 }

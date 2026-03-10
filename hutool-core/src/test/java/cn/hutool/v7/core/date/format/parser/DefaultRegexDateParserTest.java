@@ -193,6 +193,8 @@ public class DefaultRegexDateParserTest {
 		assertParse("2014-06-01 00:00:00", "201406");
 		assertParse("2014-06-02 00:00:00", "20140602");
 		assertParse("2014-07-22 10:52:03", "20140722105203");
+		// issue#4234
+		assertParse("2001-06-11 12:58:00", "20010611125800");
 
 		// unixtime(10)
 		assertParse("2012-03-19 18:11:59", "1332151919");
