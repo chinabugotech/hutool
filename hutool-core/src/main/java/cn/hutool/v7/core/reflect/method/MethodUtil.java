@@ -50,6 +50,13 @@ public class MethodUtil {
 	private static final WeakConcurrentMap<Class<?>, MethodReflect> METHODS_CACHE = new WeakConcurrentMap<>();
 
 	/**
+	 * 方法查找结果缓存（新增：细粒度缓存，避免重复遍历）
+	 * key: 方法查找键（类+是否忽略大小写+方法名+参数类型）
+	 * value: 查找到的Method
+	 */
+	private static final WeakConcurrentMap<MethodLookupKey, Method> METHOD_LOOKUP_CACHE = new WeakConcurrentMap<>();
+
+	/**
 	 * 清除方法缓存
 	 */
 	synchronized static void clearCache() {
@@ -172,7 +179,11 @@ public class MethodUtil {
 		if (null == clazz || StrUtil.isBlank(methodName)) {
 			return null;
 		}
-		return getMethod(getMethods(clazz), ignoreCase, methodName, paramTypes);
+		//return getMethod(getMethods(clazz), ignoreCase, methodName, paramTypes);
+
+		// 优先从细粒度缓存查找
+		final MethodLookupKey key = new MethodLookupKey(clazz, ignoreCase, methodName, paramTypes);
+		return METHOD_LOOKUP_CACHE.computeIfAbsent(key, (lookupKey) -> getMethod(getMethods(clazz), ignoreCase, methodName, paramTypes));
 	}
 
 	/**
@@ -517,7 +528,7 @@ public class MethodUtil {
 		}
 
 		// 必须有返回值
-		if(Void.class == method.getReturnType()){
+		if (Void.class == method.getReturnType()) {
 			return false;
 		}
 

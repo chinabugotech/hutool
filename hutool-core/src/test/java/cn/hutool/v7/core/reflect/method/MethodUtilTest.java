@@ -257,4 +257,29 @@ public class MethodUtilTest extends ReflectTestBeans {
 		assertThrows(IllegalArgumentException.class,
 				() -> MethodUtil.invoke(testClass, method, "aaa"));
 	}
+
+	/**
+	 * 验证getMethod缓存功能正常，结果与原逻辑一致
+	 */
+	@Test
+	public void testGetMethodWithCache() {
+		// 1. 正常方法查找验证
+		final Method method1 = MethodUtil.getMethod(String.class, "substring", int.class, int.class);
+		assertNotNull(method1);
+		assertEquals("substring", method1.getName());
+
+		// 2. 验证缓存命中：多次调用返回同一个对象
+		final Method method2 = MethodUtil.getMethod(String.class, "substring", int.class, int.class);
+		assertSame(method1, method2);
+
+		// 3. 忽略大小写场景验证
+		final Method methodIgnoreCase1 = MethodUtil.getMethodIgnoreCase(String.class, "SUBSTRING", int.class, int.class);
+		assertNotNull(methodIgnoreCase1);
+		final Method methodIgnoreCase2 = MethodUtil.getMethodIgnoreCase(String.class, "substring", int.class, int.class);
+		assertSame(methodIgnoreCase1, methodIgnoreCase2);
+
+		// 4. 边界场景：不存在的方法返回null
+		final Method nullMethod = MethodUtil.getMethod(String.class, "notExistMethod", String.class);
+		assertNull(nullMethod);
+	}
 }
