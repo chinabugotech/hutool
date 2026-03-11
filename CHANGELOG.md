@@ -1,7 +1,7 @@
 
 # 🚀Changelog
 -------------------------------------------------------------------------------------------------------------
-# 5.8.44(2026-03-05)
+# 5.8.44(2026-03-11)
 ### 🐣新特性
 * 【core   】      `NumberUtil.parseNumber`增加支持科学计数法（pr#4211@Github）
 * 【captcha】      `AbstractCaptcha`增加`setStroke`方法支持线条粗细（issue#IDJQ15@Gitee）
@@ -9,6 +9,7 @@
 * 【core   】      `DateUtil.normalize`方法中正则预编译提升效率（pr#4221@Gitee）
 * 【core   】      `AppendableWriter`增加checkNotClosed（issue#IDMZ5K@Gitee）
 * 【core   】      `FastDateParser`改进在JDK25下三字母时区警告（issue#4100@Github）
+* 【core   】      `ReflectUtil`增加二级缓存（pr#1433@Gitee）
 
 ### 🐞Bug修复
 * 【json       】  修复`JSONUtil.wrap`忽略错误问题（issue#4210@Github）

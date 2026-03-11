@@ -1223,8 +1223,12 @@ public class ReflectUtil {
 
 		@Override
 		public boolean equals(Object o) {
-			if (this == o) return true;
-			if (o == null || getClass() != o.getClass()) return false;
+			if (this == o) {
+				return true;
+			}
+			if (o == null || getClass() != o.getClass()) {
+				return false;
+			}
 			MethodLookupKey that = (MethodLookupKey) o;
 			return ignoreCase == that.ignoreCase &&
 				Objects.equals(clazz, that.clazz) &&
