@@ -1,29 +1,10 @@
 
 # 🚀Changelog
 -------------------------------------------------------------------------------------------------------------
-# 5.8.44(2026-03-11)
+# 5.8.44
 ### 🐣新特性
-* 【core   】      `NumberUtil.parseNumber`增加支持科学计数法（pr#4211@Github）
-* 【captcha】      `AbstractCaptcha`增加`setStroke`方法支持线条粗细（issue#IDJQ15@Gitee）
-* 【core   】      `BooleanUtil`新增 exactlyOneTrue 方法用于互斥条件校验（issue#IDJQ15@Gitee）
-* 【core   】      `DateUtil.normalize`方法中正则预编译提升效率（pr#4221@Gitee）
-* 【core   】      `AppendableWriter`增加checkNotClosed（issue#IDMZ5K@Gitee）
-* 【core   】      `FastDateParser`改进在JDK25下三字母时区警告（issue#4100@Github）
-* 【core   】      `ReflectUtil`增加二级缓存（pr#1433@Gitee）
 
 ### 🐞Bug修复
-* 【json       】  修复`JSONUtil.wrap`忽略错误问题（issue#4210@Github）
-* 【http       】  修复`HttpUtil.normalizeParams `在极端输入下抛 StringIndexOutOfBoundsException（pr#4216@Github）
-* 【extra      】  修复`MailAccount.setAuth`参数与field不一致问题（issue#4217@Github）
-* 【core       】  修复`TransMap.computeIfAbsent`mappingFunction处理不一致问题（issue#IDM6UR@Gitee）
-* 【core       】  修复`MultiResource`游标歧义问题（issue#IDNAOY@Gitee）
-* 【core       】  修复`BufferUtil`copy歧义问题（issue#IDN097@Gitee）
-* 【core       】  修复`JschSessionPool`回收导致的session未关闭问题（issue#4223@Github）
-* 【core       】  修复`XmlUtil.xmlToBean`option参数无效问题（issue#4226@Github）
-* 【core       】  修复`ReUtil.replaceAll`空指针问题（issue#IDPHVW@Gitee）
-* 【core       】  修复`EnumUtil`枚举类静态初始化时触发 Recursive update 异常（pr#1432@Gitee）
-* 【core       】  修复`AbstractCache`高并发下 get+supplier 双重检查锁逻辑缺陷（pr#1432@Gitee）
-* 【core       】  修复`Quarter`fromMonth计算错误问题（issue#IF15CP@Gitee）
 
 -------------------------------------------------------------------------------------------------------------
 # 5.8.43(2026-01-04)
