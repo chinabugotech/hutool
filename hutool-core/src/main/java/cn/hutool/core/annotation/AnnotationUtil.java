@@ -9,7 +9,9 @@ import cn.hutool.core.exceptions.UtilException;
 import cn.hutool.core.lang.Opt;
 import cn.hutool.core.lang.func.Func1;
 import cn.hutool.core.lang.func.LambdaUtil;
+import cn.hutool.core.map.WeakConcurrentMap;
 import cn.hutool.core.util.*;
+
 
 import java.lang.annotation.*;
 import java.lang.invoke.SerializedLambda;
@@ -40,6 +42,68 @@ public class AnnotationUtil {
 			Override.class, //
 			Deprecated.class//
 	);
+
+	/**
+	 * 注解查询两级缓存优化
+	 * 哨兵对象：用于表示“缓存中不存在该注解”，避免缓存null导致NPE */
+	private static final Annotation NULL_ANNOTATION_SENTINEL = new Annotation() {
+		@Override
+		public Class<? extends Annotation> annotationType() {
+			return null;
+		}
+	};
+
+	/**
+	 * L1 原始注解缓存（核心高频场景）<br>
+	 * 键：注解查询键（被注解元素 + 目标注解类型）<br>
+	 * 值：原生注解对象，或NULL_ANNOTATION_SENTINEL（表示不存在）
+	 */
+	private static final WeakConcurrentMap<AnnotationLookupKey, Annotation> L1_ANNOTATION_CACHE = new WeakConcurrentMap<>();
+
+	/**
+	 * L2 合成注解缓存（别名/聚合场景）<br>
+	 * 键：注解查询键（被注解元素 + 目标注解类型）<br>
+	 * 值：合成注解对象，或NULL_ANNOTATION_SENTINEL（表示不存在）
+	 */
+	private static final WeakConcurrentMap<AnnotationLookupKey, Annotation> L2_SYNTHESIZED_ANNOTATION_CACHE = new WeakConcurrentMap<>();
+
+	/**
+	 * 注解查询缓存键，唯一标识一次注解查询操作
+	 */
+	private static class AnnotationLookupKey {
+		/** 被注解的元素（Class、Method、Field等） */
+		private final AnnotatedElement element;
+		/** 目标注解类型 */
+		private final Class<? extends Annotation> annotationType;
+
+		/**
+		 * 构造
+		 *
+		 * @param element        被注解的元素
+		 * @param annotationType 目标注解类型
+		 */
+		public AnnotationLookupKey(AnnotatedElement element, Class<? extends Annotation> annotationType) {
+			this.element = element;
+			this.annotationType = annotationType;
+		}
+
+		@Override
+		public boolean equals(Object o) {
+			if (this == o) {
+				return true;
+			}
+			if (o == null || getClass() != o.getClass()) {
+				return false;
+			}
+			AnnotationLookupKey that = (AnnotationLookupKey) o;
+			return Objects.equals(element, that.element) && Objects.equals(annotationType, that.annotationType);
+		}
+
+		@Override
+		public int hashCode() {
+			return Objects.hash(element, annotationType);
+		}
+	}
 
 	/**
 	 * 是否为Jdk自带的元注解。<br>
@@ -169,15 +233,34 @@ public class AnnotationUtil {
 	}
 
 	/**
-	 * 获取指定注解
+	 * 获取指定注解（优化版：新增L1缓存，提升高频调用性能）<br>
+	 * 支持获取直接注解、元注解、组合注解，行为与原生实现完全一致
 	 *
 	 * @param <A>            注解类型
 	 * @param annotationEle  {@link AnnotatedElement}，可以是Class、Method、Field、Constructor、ReflectPermission
 	 * @param annotationType 注解类型
-	 * @return 注解对象
+	 * @return 注解对象，未找到返回{@code null}
 	 */
+	@SuppressWarnings("unchecked")
 	public static <A extends Annotation> A getAnnotation(AnnotatedElement annotationEle, Class<A> annotationType) {
-		return (null == annotationEle) ? null : toCombination(annotationEle).getAnnotation(annotationType);
+		if (null == annotationEle || null == annotationType) {
+			return null;
+		}
+
+		// 优先从L1缓存获取
+		final AnnotationLookupKey key = new AnnotationLookupKey(annotationEle, annotationType);
+		Annotation cached = L1_ANNOTATION_CACHE.get(key);
+
+		// 缓存命中
+		if (null != cached) {
+			return (cached == NULL_ANNOTATION_SENTINEL) ? null : (A) cached;
+		}
+
+		// 缓存未命中：执行原生逻辑
+		final A result = toCombination(annotationEle).getAnnotation(annotationType);
+		// 存入缓存：null值用哨兵代替
+		L1_ANNOTATION_CACHE.put(key, (null == result) ? NULL_ANNOTATION_SENTINEL : result);
+		return result;
 	}
 
 	/**
@@ -471,20 +554,35 @@ public class AnnotationUtil {
 	}
 
 	/**
-	 * 获取别名支持后的注解
+	 * 获取别名支持后的注解（优化版：新增L2缓存，提升高频别名解析性能）
 	 *
 	 * @param annotationEle  被注解的类
 	 * @param annotationType 注解类型Class
 	 * @param <T>            注解类型
-	 * @return 别名支持后的注解
+	 * @return 别名支持后的注解，未找到返回{@code null}
 	 * @since 5.7.23
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T extends Annotation> T getAnnotationAlias(AnnotatedElement annotationEle, Class<T> annotationType) {
-		final T annotation = getAnnotation(annotationEle, annotationType);
-		if (null == annotation) {
+		if (null == annotationEle || null == annotationType) {
 			return null;
 		}
-		return aggregatingFromAnnotation(annotation).synthesize(annotationType);
+
+		// 优先从L2缓存获取
+		final AnnotationLookupKey key = new AnnotationLookupKey(annotationEle, annotationType);
+		Annotation cached = L2_SYNTHESIZED_ANNOTATION_CACHE.get(key);
+
+		// 缓存命中
+		if (null != cached) {
+			return (cached == NULL_ANNOTATION_SENTINEL) ? null : (T) cached;
+		}
+
+		// 缓存未命中：执行原生逻辑
+		final T annotation = getAnnotation(annotationEle, annotationType);
+		final T result = (null == annotation) ? null : aggregatingFromAnnotation(annotation).synthesize(annotationType);
+		// 存入缓存：null值用哨兵代替
+		L2_SYNTHESIZED_ANNOTATION_CACHE.put(key, (null == result) ? NULL_ANNOTATION_SENTINEL : result);
+		return result;
 	}
 
 	/**
@@ -506,7 +604,7 @@ public class AnnotationUtil {
 	}
 
 	/**
-	 * <p>获取元素上距离指定元素最接近的合成注解
+	 * <p>获取元素上距离指定元素最接近的合成注解（优化版：新增L2缓存，避免重复合成解析）
 	 * <ul>
 	 *     <li>若元素是类，则递归解析全部父类和全部父接口上的注解;</li>
 	 *     <li>若元素是方法、属性或注解，则只解析其直接声明的注解;</li>
@@ -527,17 +625,38 @@ public class AnnotationUtil {
 	 * @return 合成注解
 	 * @see SynthesizedAggregateAnnotation
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T extends Annotation> T getSynthesizedAnnotation(AnnotatedElement annotatedEle, Class<T> annotationType) {
-		T target = annotatedEle.getAnnotation(annotationType);
-		if (ObjectUtil.isNotNull(target)) {
-			return target;
+		if (null == annotatedEle || null == annotationType) {
+			return null;
 		}
-		return AnnotationScanner.DIRECTLY
-				.getAnnotationsIfSupport(annotatedEle).stream()
-				.map(annotation -> getSynthesizedAnnotation(annotationType, annotation))
-				.filter(Objects::nonNull)
-				.findFirst()
-				.orElse(null);
+
+		// 优先从L2缓存获取
+		final AnnotationLookupKey key = new AnnotationLookupKey(annotatedEle, annotationType);
+		Annotation cached = L2_SYNTHESIZED_ANNOTATION_CACHE.get(key);
+
+		// 缓存命中
+		if (null != cached) {
+			return (cached == NULL_ANNOTATION_SENTINEL) ? null : (T) cached;
+		}
+
+		// 缓存未命中：执行原生逻辑
+		T result = annotatedEle.getAnnotation(annotationType);
+		if (ObjectUtil.isNotNull(result)) {
+			L2_SYNTHESIZED_ANNOTATION_CACHE.put(key, result);
+			return result;
+		}
+
+		result = AnnotationScanner.DIRECTLY
+			.getAnnotationsIfSupport(annotatedEle).stream()
+			.map(annotation -> getSynthesizedAnnotation(annotationType, annotation))
+			.filter(Objects::nonNull)
+			.findFirst()
+			.orElse(null);
+
+		// 存入缓存：null值用哨兵代替
+		L2_SYNTHESIZED_ANNOTATION_CACHE.put(key, (null == result) ? NULL_ANNOTATION_SENTINEL : result);
+		return result;
 	}
 
 	/**
