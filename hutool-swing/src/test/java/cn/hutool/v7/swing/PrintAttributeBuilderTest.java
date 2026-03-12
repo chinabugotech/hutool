@@ -18,6 +18,8 @@ package cn.hutool.v7.swing;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledOnOs;
+import org.junit.jupiter.api.condition.OS;
 
 import javax.print.PrintService;
 import javax.print.attribute.Attribute;
@@ -34,6 +36,7 @@ class PrintAttributeBuilderTest {
 	private Set<Class<? extends Attribute>> supportedAttributes;
 
 	@BeforeEach
+	@EnabledOnOs(OS.WINDOWS)
 	void setUp() {
 		supportedAttributes = new HashSet<>();
 		testPrinter = PrintUtil.getDefaultPrinter();
@@ -45,6 +48,7 @@ class PrintAttributeBuilderTest {
 	}
 
 	@Test
+	@EnabledOnOs(OS.WINDOWS)
 	void testCopies() {
 		// 测试份数设置
 		final PrintAttributeBuilder builder = new PrintAttributeBuilder(testPrinter);
@@ -57,6 +61,7 @@ class PrintAttributeBuilderTest {
 	}
 
 	@Test
+	@EnabledOnOs(OS.WINDOWS)
 	void testCopiesWithInvalidValue() {
 		// 测试无效份数（小于1）
 		final PrintAttributeBuilder builder = new PrintAttributeBuilder(testPrinter);
@@ -69,6 +74,7 @@ class PrintAttributeBuilderTest {
 	}
 
 	@Test
+	@EnabledOnOs(OS.WINDOWS)
 	void testJobName() {
 		final PrintAttributeBuilder builder = new PrintAttributeBuilder(testPrinter);
 		builder.jobName("Test Job");
@@ -80,6 +86,7 @@ class PrintAttributeBuilderTest {
 	}
 
 	@Test
+	@EnabledOnOs(OS.WINDOWS)
 	void testA4PaperWhenNotSupported() {
 		// 确保不支持MediaSizeName
 		supportedAttributes.clear();
@@ -92,6 +99,7 @@ class PrintAttributeBuilderTest {
 	}
 
 	@Test
+	@EnabledOnOs(OS.WINDOWS)
 	void testLandscapeWhenSupported() {
 		supportedAttributes.add(OrientationRequested.class);
 
@@ -103,6 +111,7 @@ class PrintAttributeBuilderTest {
 	}
 
 	@Test
+	@EnabledOnOs(OS.WINDOWS)
 	void testMonochromeWhenSupported() {
 		supportedAttributes.add(Chromaticity.class);
 
@@ -114,6 +123,7 @@ class PrintAttributeBuilderTest {
 	}
 
 	@Test
+	@EnabledOnOs(OS.WINDOWS)
 	void testPageRange() {
 		final PrintAttributeBuilder builder = new PrintAttributeBuilder(testPrinter);
 		builder.pageRange(3, 5);
@@ -125,6 +135,7 @@ class PrintAttributeBuilderTest {
 	}
 
 	@Test
+	@EnabledOnOs(OS.WINDOWS)
 	void testBuildReturnsClone() {
 		final PrintAttributeBuilder builder = new PrintAttributeBuilder(testPrinter);
 		builder.copies(2);
@@ -136,6 +147,7 @@ class PrintAttributeBuilderTest {
 	}
 
 	@Test
+	@EnabledOnOs(OS.WINDOWS)
 	void testColorWhenSupported() {
 		supportedAttributes.add(Chromaticity.class);
 

@@ -18,6 +18,8 @@ package cn.hutool.v7.swing;
 
 import cn.hutool.v7.swing.clipboard.ClipboardUtil;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledOnOs;
+import org.junit.jupiter.api.condition.OS;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -30,6 +32,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class ClipboardUtilTest {
 
 	@Test
+	@EnabledOnOs(OS.WINDOWS)
 	public void setAndGetStrTest() {
 		try {
 			ClipboardUtil.setStr("test");
