@@ -9,9 +9,8 @@ import cn.hutool.core.exceptions.UtilException;
 import cn.hutool.core.lang.Opt;
 import cn.hutool.core.lang.func.Func1;
 import cn.hutool.core.lang.func.LambdaUtil;
-import cn.hutool.core.map.WeakConcurrentMap;
+import cn.hutool.core.map.reference.WeakKeyConcurrentMap;
 import cn.hutool.core.util.*;
-
 
 import java.lang.annotation.*;
 import java.lang.invoke.SerializedLambda;
@@ -58,14 +57,14 @@ public class AnnotationUtil {
 	 * 键：注解查询键（被注解元素 + 目标注解类型）<br>
 	 * 值：原生注解对象，或NULL_ANNOTATION_SENTINEL（表示不存在）
 	 */
-	private static final WeakConcurrentMap<AnnotationLookupKey, Annotation> L1_ANNOTATION_CACHE = new WeakConcurrentMap<>();
+	private static final WeakKeyConcurrentMap<AnnotationLookupKey, Annotation> L1_ANNOTATION_CACHE = new WeakKeyConcurrentMap<>();
 
 	/**
 	 * L2 合成注解缓存（别名/聚合场景）<br>
 	 * 键：注解查询键（被注解元素 + 目标注解类型）<br>
 	 * 值：合成注解对象，或NULL_ANNOTATION_SENTINEL（表示不存在）
 	 */
-	private static final WeakConcurrentMap<AnnotationLookupKey, Annotation> L2_SYNTHESIZED_ANNOTATION_CACHE = new WeakConcurrentMap<>();
+	private static final WeakKeyConcurrentMap<AnnotationLookupKey, Annotation> L2_SYNTHESIZED_ANNOTATION_CACHE = new WeakKeyConcurrentMap<>();
 
 	/**
 	 * 注解查询缓存键，唯一标识一次注解查询操作
