@@ -240,12 +240,13 @@ public class AnnotationUtil {
 		}
 
 		// 优先从L1缓存获取
-		return (A) L1_ANNOTATION_CACHE.computeIfAbsent(new AnnotationLookupKey(annotationEle, annotationType), (lookupKey) -> {
+		final A result = (A) L1_ANNOTATION_CACHE.computeIfAbsent(new AnnotationLookupKey(annotationEle, annotationType), (lookupKey) -> {
 			// 缓存未命中：执行原生逻辑
-			final A result = toCombination(annotationEle).getAnnotation(annotationType);
+			final A annotation = toCombination(annotationEle).getAnnotation(annotationType);
 			// 存入缓存：null值用哨兵代替
-			return (null == result) ? NULL_ANNOTATION_SENTINEL : result;
+			return (null == annotation) ? NULL_ANNOTATION_SENTINEL : annotation;
 		});
+		return (result == NULL_ANNOTATION_SENTINEL) ? null : result;
 	}
 	// endregion
 
@@ -609,11 +610,11 @@ public class AnnotationUtil {
 	 *
 	 * <p>注解合成规则如下：
 	 * 若{@code AnnotatedEle}按顺序从上到下声明了A，B，C三个注解，且三注解存在元注解如下：
-	 * <pre>
-	 *    A -&gt; M1 -&gt; M2
-	 *    B -&gt; M3 -&gt; M1 -&gt; M2
-	 *    C -&gt; M2
-	 * </pre>
+	 * <pre>{@code
+	 *    A -> M1 -> M2
+	 *    B -> M3 -> M1 -> M2
+	 *    C -> M2
+	></pre>
 	 * 此时入参{@code annotationType}类型为{@code M1}，则最终将返回基于根注解A与根注解B合成的合成注解。
 	 *
 	 * @param annotatedEle   {@link AnnotatedElement}，可以是Class、Method、Field、Constructor、ReflectPermission
@@ -621,6 +622,10 @@ public class AnnotationUtil {
 	 * @param <T>            注解类型
 	 * @return 合成注解
 	 * @see SynthesizedAggregateAnnotation
+	 * @param <T> 注解类型
+	 * @param annotatedEle   {@link AnnotatedElement}，可以是Class、Method、Field、Constructor、ReflectPermission
+	 * @param annotationType 注解类
+	 * @return 合成注解
 	 */
 	public static <T extends Annotation> List<T> getAllSynthesizedAnnotations(final AnnotatedElement annotatedEle, final Class<T> annotationType) {
 		return AnnotationScanner.DIRECTLY
