@@ -769,4 +769,15 @@ public class MethodUtil {
 
 		return actualArgs;
 	}
+
+	/**
+	 * 方法是否为属性方法。 <br>
+	 * 方法无参数，且有返回值的方法认为是属性的方法。
+	 *
+	 * @param method 方法
+	 * @return 是否为属性方法
+	 */
+	public static boolean isAttributeMethod(final Method method) {
+		return method.getParameterCount() == 0 && method.getReturnType() != void.class;
+	}
 }

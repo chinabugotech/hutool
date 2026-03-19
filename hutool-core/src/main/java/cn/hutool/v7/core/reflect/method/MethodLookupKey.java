@@ -16,6 +16,8 @@
 
 package cn.hutool.v7.core.reflect.method;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -26,7 +28,10 @@ import java.util.Objects;
  * @author heco07
  * @since 5.8.44
  */
-class MethodLookupKey {
+class MethodLookupKey implements Serializable {
+	@Serial
+	private static final long serialVersionUID = 1L;
+
 	private final Class<?> clazz;
 	private final boolean ignoreCase;
 	private final String methodName;
