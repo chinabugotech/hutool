@@ -26,6 +26,7 @@ import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
 import java.util.*;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -152,14 +153,14 @@ public abstract class ReferenceConcurrentMap<K, V> implements ConcurrentMap<K, V
 	@Override
 	public V computeIfAbsent(final K key, final Function<? super K, ? extends V> mappingFunction) {
 		V result = null;
-		while(null == result){
+		while (null == result) {
 			this.purgeStale();
 			final Ref<V> vReference = this.raw.computeIfAbsent(wrapKey(key),
 				kReference -> wrapValue(mappingFunction.apply(unwrap(kReference))));
 
 			// issue#IA5GMH 如果vReference在此时被GC回收，则unwrap后为null，需要循环计算
 			// 但是当用户提供的值本身为null，则直接返回之
-			if(NullRef.NULL == vReference){
+			if (NullRef.NULL == vReference) {
 				// 用户提供的值本身为null
 				return null;
 			}
@@ -171,14 +172,14 @@ public abstract class ReferenceConcurrentMap<K, V> implements ConcurrentMap<K, V
 	@Override
 	public V computeIfPresent(final K key, final BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
 		V result = null;
-		while(null == result){
+		while (null == result) {
 			this.purgeStale();
 			final Ref<V> vReference = this.raw.computeIfPresent(wrapKey(key),
 				(kReference, vReference1) -> wrapValue(remappingFunction.apply(unwrap(kReference), unwrap(vReference1))));
 
 			// issue#IA5GMH 如果vReference在此时被GC回收，则unwrap后为null，需要循环计算
 			// 但是当用户提供的值本身为null，则直接返回之
-			if(NullRef.NULL == vReference){
+			if (NullRef.NULL == vReference) {
 				// 用户提供的值本身为null
 				return null;
 			}
@@ -334,27 +335,42 @@ public abstract class ReferenceConcurrentMap<K, V> implements ConcurrentMap<K, V
 	}
 
 	/**
+	 * 清理中的标记，防止并发清理
+	 */
+	private final AtomicBoolean purgeState = new AtomicBoolean(false);
+
+	/**
 	 * 清除被回收的键和值
 	 */
 	@SuppressWarnings("unchecked")
 	private void purgeStale() {
+		if (!purgeState.compareAndSet(false, true)) {
+			// issue#4236@Github 在高并发状态下，缓存对象可能被多个线程同时调用，导致多个线程同时执行清理，可能导致ReferenceQueue竞争死锁，
+			// 此处设置开关，并发调用时，如果有一个线程正在清理中，则其他线程调用此方法时，直接返回，不进行清理
+			return;
+		}
+
 		Ref<? extends K> key;
 		Ref<? extends V> value;
 
-		// 清除无效key对应键值对
-		while ((key = (Ref<? extends K>) this.lastKeyQueue.poll()) != null) {
-			value = this.raw.remove(key);
-			if (null != purgeListener) {
-				purgeListener.accept(key, value);
+		try {
+			// 清除无效key对应键值对
+			while ((key = (Ref<? extends K>) this.lastKeyQueue.poll()) != null) {
+				value = this.raw.remove(key);
+				if (null != purgeListener) {
+					purgeListener.accept(key, value);
+				}
 			}
-		}
 
-		// 清除无效value对应的键值对
-		while ((value = (Ref<? extends V>) this.lastValueQueue.poll()) != null) {
-			MapUtil.removeByValue(this.raw, (Ref<V>) value);
-			if (null != purgeListener) {
-				purgeListener.accept(null, value);
+			// 清除无效value对应的键值对
+			while ((value = (Ref<? extends V>) this.lastValueQueue.poll()) != null) {
+				MapUtil.removeByValue(this.raw, (Ref<V>) value);
+				if (null != purgeListener) {
+					purgeListener.accept(null, value);
+				}
 			}
+		} finally {
+			purgeState.set(false);
 		}
 	}
 
@@ -395,7 +411,7 @@ public abstract class ReferenceConcurrentMap<K, V> implements ConcurrentMap<K, V
 	 */
 	@SuppressWarnings("unchecked")
 	private Ref<V> wrapValue(final Object value) {
-		if(null == value){
+		if (null == value) {
 			return (Ref<V>) NullRef.NULL;
 		}
 		return wrapValue((V) value, this.lastValueQueue);

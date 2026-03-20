@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package cn.hutool.v7.core.reflect.creator;
+package cn.hutool.v7.core.reflect.factory;
 
 import cn.hutool.v7.core.lang.Assert;
 import cn.hutool.v7.core.reflect.ClassUtil;
@@ -46,7 +46,7 @@ import java.util.*;
  *
  * @param <T> 对象类型
  */
-public record PossibleObjectCreator<T>(Class<T> clazz) implements ObjectCreator<T> {
+public class PossibleObjectCreator<T> extends SimpleObjectFactory<T> {
 
 	/**
 	 * 创建默认的对象实例化器
@@ -58,6 +58,8 @@ public record PossibleObjectCreator<T>(Class<T> clazz) implements ObjectCreator<
 	public static <T> PossibleObjectCreator<T> of(final Class<T> clazz) {
 		return new PossibleObjectCreator<>(clazz);
 	}
+
+	private final Class<T> clazz;
 
 	/**
 	 * 构造
@@ -83,7 +85,7 @@ public record PossibleObjectCreator<T>(Class<T> clazz) implements ObjectCreator<
 
 		// 尝试默认构造实例化
 		try {
-			return DefaultObjectCreator.of(type).create();
+			return DefaultObjectFactory.of(type).create();
 		} catch (final Exception e) {
 			// ignore
 			// 默认构造不存在的情况下查找其它构造

@@ -15,9 +15,9 @@
  */
 
 /**
- * 对象实例化器，对象创建器
+ * 对象实例化器，对象工厂，用于创建对象
  *
  * @author Looly
  * @since 7.0.0
  */
-package cn.hutool.v7.core.reflect.creator;
+package cn.hutool.v7.core.reflect.factory;

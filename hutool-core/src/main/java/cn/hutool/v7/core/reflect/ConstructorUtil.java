@@ -19,8 +19,8 @@ package cn.hutool.v7.core.reflect;
 import cn.hutool.v7.core.exception.HutoolException;
 import cn.hutool.v7.core.lang.Assert;
 import cn.hutool.v7.core.map.reference.WeakConcurrentMap;
-import cn.hutool.v7.core.reflect.creator.DefaultObjectCreator;
-import cn.hutool.v7.core.reflect.creator.PossibleObjectCreator;
+import cn.hutool.v7.core.reflect.factory.DefaultObjectFactory;
+import cn.hutool.v7.core.reflect.factory.PossibleObjectCreator;
 
 import java.lang.reflect.Constructor;
 
@@ -111,7 +111,7 @@ public class ConstructorUtil {
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> T newInstance(final String clazz) throws HutoolException {
-		return (T) DefaultObjectCreator.of(clazz).create();
+		return (T) DefaultObjectFactory.of(clazz).create();
 	}
 
 	/**
@@ -124,7 +124,7 @@ public class ConstructorUtil {
 	 * @throws HutoolException 包装各类异常
 	 */
 	public static <T> T newInstance(final Class<T> clazz, final Object... params) throws HutoolException {
-		return DefaultObjectCreator.of(clazz, params).create();
+		return DefaultObjectFactory.of(clazz, params).create();
 	}
 
 	/**

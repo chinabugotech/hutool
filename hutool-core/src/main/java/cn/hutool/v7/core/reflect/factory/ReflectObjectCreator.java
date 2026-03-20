@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package cn.hutool.v7.core.reflect.creator;
+package cn.hutool.v7.core.reflect.factory;
 
 import cn.hutool.v7.core.classloader.ClassLoaderUtil;
+import cn.hutool.v7.core.exception.HutoolException;
 import cn.hutool.v7.core.lang.Assert;
 import cn.hutool.v7.core.reflect.ClassUtil;
-import cn.hutool.v7.core.reflect.lookup.LookupUtil;
-import cn.hutool.v7.core.reflect.method.MethodHandleUtil;
+import cn.hutool.v7.core.reflect.ConstructorUtil;
 
-import java.lang.invoke.MethodHandle;
+import java.lang.reflect.Constructor;
 
 /**
  * 默认对象实例化器<br>
@@ -30,7 +30,7 @@ import java.lang.invoke.MethodHandle;
  *
  * @param <T> 对象类型
  */
-public class DefaultObjectCreator<T> implements ObjectCreator<T> {
+public class ReflectObjectCreator<T> extends SimpleObjectFactory<T> {
 
 	/**
 	 * 创建默认的对象实例化器
@@ -39,7 +39,7 @@ public class DefaultObjectCreator<T> implements ObjectCreator<T> {
 	 * @param <T>    对象类型
 	 * @return DefaultObjectCreator
 	 */
-	public static <T> DefaultObjectCreator<T> of(final String fullClassName) {
+	public static <T> ReflectObjectCreator<T> of(final String fullClassName) {
 		return of(ClassLoaderUtil.loadClass(fullClassName));
 	}
 
@@ -51,11 +51,11 @@ public class DefaultObjectCreator<T> implements ObjectCreator<T> {
 	 * @param <T>    对象类型
 	 * @return DefaultObjectCreator
 	 */
-	public static <T> DefaultObjectCreator<T> of(final Class<T> clazz, final Object... params) {
-		return new DefaultObjectCreator<>(clazz, params);
+	public static <T> ReflectObjectCreator<T> of(final Class<T> clazz, final Object... params) {
+		return new ReflectObjectCreator<>(clazz, params);
 	}
 
-	final MethodHandle constructor;
+	final Constructor<T> constructor;
 	final Object[] params;
 
 	/**
@@ -64,15 +64,19 @@ public class DefaultObjectCreator<T> implements ObjectCreator<T> {
 	 * @param clazz  实例化的类
 	 * @param params 构造参数，无参数空
 	 */
-	public DefaultObjectCreator(final Class<T> clazz, final Object... params) {
+	public ReflectObjectCreator(final Class<T> clazz, final Object... params) {
 		final Class<?>[] paramTypes = ClassUtil.getClasses(params);
-		this.constructor = LookupUtil.findConstructor(clazz, paramTypes);
+		this.constructor = ConstructorUtil.getConstructor(clazz, paramTypes);
 		Assert.notNull(this.constructor, "Constructor not found!");
 		this.params = params;
 	}
 
 	@Override
 	public T create() {
-		return MethodHandleUtil.invokeHandle(constructor, params);
+		try {
+			return constructor.newInstance(params);
+		} catch (final Exception e) {
+			throw new HutoolException(e);
+		}
 	}
 }
