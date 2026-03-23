@@ -849,4 +849,11 @@ public class NumberUtilTest {
 		final String result = NumberUtil.getBinaryStr(3.5);
 		assertEquals("0100000000001100000000000000000000000000000000000000000000000000", result);
 	}
+
+	@Test
+	void issue4237Test(){
+		// 以 0 开头且第二位是数字的字符串应该被当作八进制数。
+		// 但 "0008" 包含了数字 '8'，超出了八进制的范围（0-7），因此被判定为非法数字。
+		assertFalse(NumberUtil.isNumber("0008"));
+	}
 }
