@@ -733,4 +733,9 @@ public class NumberUtilTest {
 		final String result = NumberUtil.getBinaryStr(3.5);
 		assertEquals("0100000000001100000000000000000000000000000000000000000000000000", result);
 	}
+
+	@Test
+	void issue4237Test(){
+		assertTrue(NumberUtil.isNumber("0008"));
+	}
 }

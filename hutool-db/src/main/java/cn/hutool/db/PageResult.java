@@ -38,7 +38,7 @@ public class PageResult<T> extends ArrayList<T> {
 	 * 构造
 	 */
 	public PageResult() {
-		this(0, DEFAULT_PAGE_SIZE);
+		this(PageUtil.getFirstPageNo(), DEFAULT_PAGE_SIZE);
 	}
 
 	/**
@@ -50,7 +50,7 @@ public class PageResult<T> extends ArrayList<T> {
 	public PageResult(int page, int pageSize) {
 		super(pageSize <= 0 ? DEFAULT_PAGE_SIZE : pageSize);
 
-		this.page = Math.max(page, 0);
+		this.page = Math.max(page, PageUtil.getFirstPageNo());
 		this.pageSize = pageSize <= 0 ? DEFAULT_PAGE_SIZE : pageSize;
 	}
 
@@ -86,7 +86,7 @@ public class PageResult<T> extends ArrayList<T> {
 	 * @param page 页码
 	 */
 	public void setPage(int page) {
-		this.page = page;
+		this.page = Math.max(page, PageUtil.getFirstPageNo());
 	}
 
 	/**
@@ -149,6 +149,6 @@ public class PageResult<T> extends ArrayList<T> {
 	 * @return 是否最后一页
 	 */
 	public boolean isLast() {
-		return this.page >= (this.totalPage - 1);
+		return this.page - PageUtil.getFirstPageNo() >= (this.totalPage - 1);
 	}
 }

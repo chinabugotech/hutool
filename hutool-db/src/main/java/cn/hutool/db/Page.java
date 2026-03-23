@@ -51,7 +51,7 @@ public class Page implements Segment<Integer>, Serializable {
 	 * @since 4.5.16
 	 */
 	public Page() {
-		this(0, DEFAULT_PAGE_SIZE);
+		this(PageUtil.getFirstPageNo(), DEFAULT_PAGE_SIZE);
 	}
 
 	/**
@@ -61,7 +61,7 @@ public class Page implements Segment<Integer>, Serializable {
 	 * @param pageSize   每页结果数
 	 */
 	public Page(int pageNumber, int pageSize) {
-		this.pageNumber = Math.max(pageNumber, 0);
+		this.pageNumber = Math.max(pageNumber, PageUtil.getFirstPageNo());
 		this.pageSize = pageSize <= 0 ? DEFAULT_PAGE_SIZE : pageSize;
 	}
 
@@ -93,7 +93,7 @@ public class Page implements Segment<Integer>, Serializable {
 	 * @param pageNumber 页码
 	 */
 	public void setPageNumber(int pageNumber) {
-		this.pageNumber = Math.max(pageNumber, 0);
+		this.pageNumber = Math.max(pageNumber, PageUtil.getFirstPageNo());
 	}
 
 	/**
