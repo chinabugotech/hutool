@@ -2659,6 +2659,11 @@ public class NumberUtil {
 			return Integer.parseInt(number.substring(2), 16);
 		}
 
+		// issue#4177@Github 严格模式：只有纯数字才能转换
+		if (!isNumber(number)) {
+			throw new NumberFormatException("For input string: \"" + number + "\"");
+		}
+
 		if (StrUtil.containsIgnoreCase(number, "E")) {
 			// 科学计数法忽略支持，科学计数法一般用于表示非常小和非常大的数字，这类数字转换为int后精度丢失，没有意义。
 			throw new NumberFormatException(StrUtil.format("Unsupported int format: [{}]", number));
@@ -2697,9 +2702,15 @@ public class NumberUtil {
 			return Long.parseLong(number.substring(2), 16);
 		}
 
+		// issue#4177@Github 严格模式：只有纯数字才能转换
+		if (!isNumber(number)) {
+			throw new NumberFormatException("For input string: \"" + number + "\"");
+		}
+
 		try {
 			return Long.parseLong(number);
 		} catch (NumberFormatException e) {
+			// 如果是科学计数法等特殊格式，尝试使用NumberUtil解析
 			return parseNumber(number).longValue();
 		}
 	}
