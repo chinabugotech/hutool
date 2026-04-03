@@ -16,10 +16,7 @@
 
 package cn.hutool.ai.core;
 
-import cn.hutool.core.util.ServiceLoaderUtil;
-
 import java.util.Map;
-import java.util.ServiceLoader;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -34,9 +31,8 @@ public class AIConfigRegistry {
 
 	// 加载所有 AIConfig 实现类
 	static {
-		final ServiceLoader<AIConfig> loader = ServiceLoaderUtil.load(AIConfig.class);
-		for (final AIConfig config : loader) {
-			configClasses.put(config.getModelName().toLowerCase(), config.getClass());
+		for (final AIConfig config : AISpiLoader.load(AIConfig.class)) {
+			configClasses.putIfAbsent(config.getModelName().toLowerCase(), config.getClass());
 		}
 	}
 
