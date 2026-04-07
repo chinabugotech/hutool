@@ -33,6 +33,10 @@ public class AIConfigRegistry {
 
 	// 加载所有 AIConfig 实现类
 	static {
+		for (final AIConfig config : ServiceLoaderUtil.load(AIConfig.class)) {
+			configClasses.putIfAbsent(config.getModelName().toLowerCase(), config.getClass());
+		}
+		// issue#4241@github，多线程和Spring环境下可能导致SPI文件找不到问题
 		for (final AIConfig config : ServiceLoaderUtil.load(AIConfig.class, AIConfig.class.getClassLoader())) {
 			configClasses.putIfAbsent(config.getModelName().toLowerCase(), config.getClass());
 		}
