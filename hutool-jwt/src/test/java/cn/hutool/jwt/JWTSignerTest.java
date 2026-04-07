@@ -1,12 +1,18 @@
 package cn.hutool.jwt;
 
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.thread.ThreadUtil;
 import cn.hutool.crypto.KeyUtil;
 import cn.hutool.jwt.signers.AlgorithmUtil;
 import cn.hutool.jwt.signers.JWTSigner;
 import cn.hutool.jwt.signers.JWTSignerUtil;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class JWTSignerTest {
 
@@ -24,6 +30,40 @@ public class JWTSignerTest {
 		final JWTSigner signer = JWTSignerUtil.hs256("123456".getBytes());
 
 		signAndVerify(signer);
+	}
+
+	@Test
+	public void sharedHs256SignerShouldBeSafeForConcurrentUse() throws InterruptedException {
+		final JWTSigner signer = JWTSignerUtil.hs256("123456".getBytes());
+		final int threadCount = 8;
+		final int iterationsPerThread = 200;
+		final CountDownLatch startLatch = new CountDownLatch(1);
+		final CountDownLatch doneLatch = new CountDownLatch(threadCount);
+		final AtomicReference<Throwable> failure = new AtomicReference<>();
+		final List<Runnable> tasks = new ArrayList<>(threadCount);
+
+		for (int i = 0; i < threadCount; i++) {
+			tasks.add(() -> {
+				try {
+					startLatch.await();
+					for (int j = 0; j < iterationsPerThread; j++) {
+						signAndVerify(signer);
+					}
+				} catch (Throwable e) {
+					failure.compareAndSet(null, e);
+				} finally {
+					doneLatch.countDown();
+				}
+			});
+		}
+
+		tasks.forEach(ThreadUtil::execute);
+		startLatch.countDown();
+		doneLatch.await();
+
+		if (failure.get() != null) {
+			fail(failure.get());
+		}
 	}
 
 	@Test

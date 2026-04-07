@@ -17,6 +17,7 @@ public class HMacJWTSigner implements JWTSigner {
 
 	private Charset charset = CharsetUtil.CHARSET_UTF_8;
 	private final HMac hMac;
+	private final Object lock = new Object();
 
 	/**
 	 * 构造
@@ -45,21 +46,27 @@ public class HMacJWTSigner implements JWTSigner {
 	 * @return 编码
 	 */
 	public HMacJWTSigner setCharset(Charset charset) {
-		this.charset = charset;
+		synchronized (this.lock) {
+			this.charset = charset;
+		}
 		return this;
 	}
 
 	@Override
 	public String sign(String headerBase64, String payloadBase64) {
-		return hMac.digestBase64(StrUtil.format("{}.{}", headerBase64, payloadBase64), charset, true);
+		synchronized (this.lock) {
+			return hMac.digestBase64(StrUtil.format("{}.{}", headerBase64, payloadBase64), charset, true);
+		}
 	}
 
 	@Override
 	public boolean verify(String headerBase64, String payloadBase64, String signBase64) {
-		final String sign = sign(headerBase64, payloadBase64);
-		return hMac.verify(
-				StrUtil.bytes(sign, charset),
-				StrUtil.bytes(signBase64, charset));
+		synchronized (this.lock) {
+			final String sign = hMac.digestBase64(StrUtil.format("{}.{}", headerBase64, payloadBase64), charset, true);
+			return hMac.verify(
+					StrUtil.bytes(sign, charset),
+					StrUtil.bytes(signBase64, charset));
+		}
 	}
 
 	@Override
