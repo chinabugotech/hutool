@@ -28,7 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 /**
  * Issue IHPHM4: BeanUtil不支持Record到Record的转换
  *
- * @author Hutool Contributors
+ * @author rongx563647
  */
 class IssueIHPHM4Test {
 
