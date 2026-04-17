@@ -553,6 +553,13 @@ public class BeanUtil {
 			return ConvertUtil.toList(targetType, collection);
 		}
 
+		// issue#IHPHM4 Record类型不支持setter，需要特殊处理
+		if (RecordUtil.isRecord(targetType)) {
+			return collection.stream().map((source) ->
+				RecordConverter.INSTANCE.convert(targetType, source)
+			).collect(Collectors.toList());
+		}
+
 		return collection.stream().map((source) -> {
 
 			final T target = ConstructorUtil.newInstanceIfPossible(targetType);

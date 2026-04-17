@@ -34,6 +34,7 @@ import java.util.Map;
  * <pre>
  *   Map =》 Record
  *   Bean =》 Record
+ *   Record =》 Record
  *   ValueProvider =》 Record
  * </pre>
  */
@@ -59,6 +60,8 @@ public class RecordConverter extends AbstractConverter implements MatcherConvert
 			valueProvider = (ValueProvider<String>) value;
 		} else if (value instanceof Map) {
 			valueProvider = new MapValueProvider((Map<String, ?>) value);
+		} else if (RecordUtil.isRecord(value.getClass())) {
+			valueProvider = new BeanValueProvider(value);
 		} else if (BeanUtil.isReadableBean(value.getClass())) {
 			valueProvider = new BeanValueProvider(value);
 		}
