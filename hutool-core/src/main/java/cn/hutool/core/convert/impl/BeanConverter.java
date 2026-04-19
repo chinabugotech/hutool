@@ -12,6 +12,7 @@ import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.TypeUtil;
 
+import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.Map;
 
@@ -78,8 +79,9 @@ public class BeanConverter<T> extends AbstractConverter<T> {
 		}
 
 		if(value instanceof Map ||
-				value instanceof ValueProvider ||
-				BeanUtil.isBean(value.getClass())) {
+			value instanceof ValueProvider ||
+			BeanUtil.isBean(value.getClass()) ||
+			hasAnySetter(value.getClass())) {
 			if(value instanceof Map && this.beanClass.isInterface()) {
 				// 将Map动态代理为Bean
 				return MapProxy.create((Map<?, ?>)value).toProxyBean(this.beanClass);
@@ -96,6 +98,21 @@ public class BeanConverter<T> extends AbstractConverter<T> {
 		}
 
 		throw new ConvertException("Unsupported source type: {}", value.getClass());
+	}
+
+	/**
+	 * 判断类是否有任意访问级别的setter方法（包括protected、private）
+	 *
+	 * @param clazz 待检测类
+	 * @return 是否有setter方法
+	 */
+	private boolean hasAnySetter(Class<?> clazz) {
+		for (Method method : clazz.getDeclaredMethods()) {
+			if (method.getParameterCount() == 1 && method.getName().startsWith("set")) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override
