@@ -22,6 +22,7 @@ import cn.hutool.v7.core.lang.Opt;
 import cn.hutool.v7.core.lang.tuple.Pair;
 import cn.hutool.v7.core.lang.tuple.Triple;
 import cn.hutool.v7.core.lang.tuple.Tuple;
+import cn.hutool.v7.core.reflect.TypeReference;
 import cn.hutool.v7.core.reflect.TypeUtil;
 import cn.hutool.v7.core.stream.StreamUtil;
 
@@ -175,7 +176,8 @@ public class RegisterConverter extends ConverterWithRoot implements Serializable
 				}
 			}
 		}
-		customConverterMap.put(type, converter);
+		final Type actualType = (type instanceof TypeReference) ? ((TypeReference<?>) type).getType() : type;
+		customConverterMap.put(actualType, converter);
 		return this;
 	}
 
