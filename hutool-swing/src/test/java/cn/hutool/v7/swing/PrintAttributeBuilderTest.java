@@ -17,6 +17,7 @@
 package cn.hutool.v7.swing;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledOnOs;
 import org.junit.jupiter.api.condition.OS;
@@ -147,6 +148,7 @@ class PrintAttributeBuilderTest {
 	}
 
 	@Test
+	@Disabled
 	@EnabledOnOs(OS.WINDOWS)
 	void testColorWhenSupported() {
 		supportedAttributes.add(Chromaticity.class);

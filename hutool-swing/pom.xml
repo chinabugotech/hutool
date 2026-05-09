@@ -35,7 +35,7 @@
 	<properties>
 		<Automatic-Module-Name>cn.hutool.v7.swing</Automatic-Module-Name>
 		<animated-gif-lib.version>1.4</animated-gif-lib.version>
-		<metadata-extractor.version>2.19.0</metadata-extractor.version>
+		<metadata-extractor.version>2.20.0</metadata-extractor.version>
 		<zxing.version>3.5.4</zxing.version>
 	</properties>
 
@@ -70,7 +70,7 @@
 		<dependency>
 			<groupId>com.formdev</groupId>
 			<artifactId>flatlaf</artifactId>
-			<version>3.7</version>
+			<version>3.7.1</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

@@ -16,29 +16,30 @@
 
 package cn.hutool.v7.core.reflect.kotlin;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class KClassUtilTest {
 
 	@Test
 	void isKotlinClassTest() {
 		boolean kotlinClass = KClassUtil.isKotlinClass(TestKBean.class);
-		Assertions.assertTrue(kotlinClass);
+		assertTrue(kotlinClass);
 
 		kotlinClass = KClassUtil.isKotlinClass(KClassUtilTest.class);
-		Assertions.assertFalse(kotlinClass);
+		assertFalse(kotlinClass);
 	}
 
 	@Test
 	void getConstructorTest() {
 		final List<?> constructors = KClassUtil.getConstructors(TestKBean.class);
-		Assertions.assertEquals(1, constructors.size());
+		assertEquals(1, constructors.size());
 
-		Assertions.assertEquals("kotlin.reflect.jvm.internal.DescriptorKFunction",
+		assertEquals("kotlin.reflect.jvm.internal.KotlinKConstructor",
 			constructors.get(0).getClass().getName());
 	}
 
@@ -47,11 +48,11 @@ public class KClassUtilTest {
 		final List<?> constructors = KClassUtil.getConstructors(TestKBean.class);
 
 		final List<KParameter> parameters = KClassUtil.getParameters(constructors.get(0));
-		Assertions.assertEquals(3, parameters.size());
+		assertEquals(3, parameters.size());
 
-		Assertions.assertEquals("id", parameters.get(0).getName());
-		Assertions.assertEquals("name", parameters.get(1).getName());
-		Assertions.assertEquals("country", parameters.get(2).getName());
+		assertEquals("id", parameters.get(0).getName());
+		assertEquals("name", parameters.get(1).getName());
+		assertEquals("country", parameters.get(2).getName());
 	}
 
 	@Test
@@ -63,8 +64,8 @@ public class KClassUtilTest {
 
 		final TestKBean testKBean = KClassUtil.newInstance(TestKBean.class, argsMap);
 
-		Assertions.assertEquals("VampireAchao", testKBean.getId());
-		Assertions.assertEquals("中国", testKBean.getCountry());
-		Assertions.assertNull(testKBean.getName());
+		assertEquals("VampireAchao", testKBean.getId());
+		assertEquals("中国", testKBean.getCountry());
+		assertNull(testKBean.getName());
 	}
 }
