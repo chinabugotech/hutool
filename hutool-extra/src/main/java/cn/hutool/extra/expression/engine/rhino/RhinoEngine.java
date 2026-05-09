@@ -1,7 +1,9 @@
 package cn.hutool.extra.expression.engine.rhino;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.extra.expression.ExpressionEngine;
+import cn.hutool.extra.expression.ExpressionException;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
@@ -24,6 +26,16 @@ public class RhinoEngine implements ExpressionEngine {
 
 	@Override
 	public Object eval(String expression, Map<String, Object> context, Collection<Class<?>> allowClassSet) {
+
+		// issue#4249 检查context的value类型是否在白名单中，不在则抛出异常
+		if(CollUtil.isNotEmpty(allowClassSet)){
+			context.values().forEach(value -> {
+				if(!allowClassSet.contains(value.getClass())){
+					throw new ExpressionException("Value type [{}] is not in allowClassSet [{}]", value.getClass(), allowClassSet);
+				}
+			});
+		}
+
 		final Context ctx = Context.enter();
 		final Scriptable scope = ctx.initStandardObjects();
 		if (MapUtil.isNotEmpty(context)) {

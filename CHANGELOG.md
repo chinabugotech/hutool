@@ -1,13 +1,16 @@
 
 # 🚀Changelog
 -------------------------------------------------------------------------------------------------------------
-# 5.8.45(2026-04-07)
+# 5.8.45(2026-05-09)
 ### 🐣新特性
 * 【core   】      `AnnotationUtil`新增两级缓存架构，提升高频注解解析性能（pr#1434@Gitee）
 
 ### 🐞Bug修复
 * 【db     】      修复`Page`和`PageResult`首页调用问题（issue#IH7A18@Gitee）
 * 【ai     】      修复AI SPI classloader找不到实现问题（issue#4241@Github）
+* 【extra  】      修复`ExpressionEngine`中SpELEngine、MVEL白名单无效问题（issue#4249@Github）
+* 【core   】      修复`JNDIUtil`远程加载漏洞（issue#4249@Github）
+* 【core   】      修复`ValidateObjectInputStream`白名单规则问题（issue#4249@Github）
 
 -------------------------------------------------------------------------------------------------------------
 # 5.8.44(2026-03-11)
