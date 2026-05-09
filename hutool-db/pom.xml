@@ -45,7 +45,7 @@
 		<!-- driver versions -->
 		<sqlite.version>3.51.1.0</sqlite.version>
 		<hsqldb.version>2.7.4</hsqldb.version>
-		<postgresql.version>42.7.9</postgresql.version>
+		<postgresql.version>42.7.11</postgresql.version>
 		<ngdbc.version>2.27.7</ngdbc.version>
 		<ojdbc8.version>23.26.0.0.0</ojdbc8.version>
 		<oceanbase.version>2.4.16</oceanbase.version>
