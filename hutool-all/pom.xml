@@ -16,8 +16,8 @@
   -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<packaging>jar</packaging>
@@ -123,11 +123,30 @@
 									<include>${project.groupId}:*:*</include>
 								</includes>
 							</artifactSet>
+							<transformers>
+								<!-- 处理 MANIFEST.MF 文件合并 -->
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+									<manifestEntries>
+										<Build-OS>${os.name}</Build-OS>
+										<Built-By>Looly</Built-By>
+										<Build-Jdk>${java.version}</Build-Jdk>
+										<Build-Timestamp>${maven.build.timestamp}</Build-Timestamp>
+										<Automatic-Module-Name>${Automatic-Module-Name}</Automatic-Module-Name>
+									</manifestEntries>
+								</transformer>
+								<!-- 处理其他 META-INF 资源文件 -->
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+							</transformers>
 							<filters>
 								<filter>
 									<artifact>*:*</artifact>
 									<excludes>
 										<exclude>META-INF/maven/**</exclude>
+										<exclude>META-INF/*.SF</exclude>
+										<exclude>META-INF/*.DSA</exclude>
+										<exclude>META-INF/*.RSA</exclude>
 									</excludes>
 								</filter>
 							</filters>

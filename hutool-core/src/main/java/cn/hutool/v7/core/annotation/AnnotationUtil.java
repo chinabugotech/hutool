@@ -76,7 +76,8 @@ public class AnnotationUtil {
 
 	/**
 	 * 注解查询两级缓存优化
-	 * 哨兵对象：用于表示“缓存中不存在该注解”，避免缓存null导致NPE */
+	 * 哨兵对象：用于表示“缓存中不存在该注解”，避免缓存null导致NPE
+	 */
 	private static final Annotation NULL_ANNOTATION_SENTINEL = new Annotation() {
 		@Override
 		public Class<? extends Annotation> annotationType() {
@@ -614,7 +615,7 @@ public class AnnotationUtil {
 	 *    A -> M1 -> M2
 	 *    B -> M3 -> M1 -> M2
 	 *    C -> M2
-	></pre>
+	 * ></pre>
 	 * 此时入参{@code annotationType}类型为{@code M1}，则最终将返回基于根注解A与根注解B合成的合成注解。
 	 *
 	 * @param annotatedEle   {@link AnnotatedElement}，可以是Class、Method、Field、Constructor、ReflectPermission
@@ -622,10 +623,6 @@ public class AnnotationUtil {
 	 * @param <T>            注解类型
 	 * @return 合成注解
 	 * @see SynthesizedAggregateAnnotation
-	 * @param <T> 注解类型
-	 * @param annotatedEle   {@link AnnotatedElement}，可以是Class、Method、Field、Constructor、ReflectPermission
-	 * @param annotationType 注解类
-	 * @return 合成注解
 	 */
 	public static <T extends Annotation> List<T> getAllSynthesizedAnnotations(final AnnotatedElement annotatedEle, final Class<T> annotationType) {
 		return AnnotationScanner.DIRECTLY
