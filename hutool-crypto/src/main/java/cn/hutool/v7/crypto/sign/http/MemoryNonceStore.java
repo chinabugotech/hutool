@@ -1,7 +1,5 @@
 package cn.hutool.v7.crypto.sign.http;
 
-import java.util.Iterator;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -39,10 +37,7 @@ public class MemoryNonceStore implements NonceStore {
 			cleanExpired(now);
 			return true;
 		}
-		if (existsExpireAt <= now && nonceMap.replace(nonceKey, existsExpireAt, expireAt)) {
-			return true;
-		}
-		return false;
+		return existsExpireAt <= now && nonceMap.replace(nonceKey, existsExpireAt, expireAt);
 	}
 
 	/**
@@ -51,12 +46,6 @@ public class MemoryNonceStore implements NonceStore {
 	 * @param now 当前时间戳，单位毫秒
 	 */
 	private void cleanExpired(final long now) {
-		final Iterator<Map.Entry<String, Long>> iterator = nonceMap.entrySet().iterator();
-		while (iterator.hasNext()) {
-			final Map.Entry<String, Long> entry = iterator.next();
-			if (entry.getValue() <= now) {
-				iterator.remove();
-			}
-		}
+		nonceMap.entrySet().removeIf(entry -> entry.getValue() <= now);
 	}
 }

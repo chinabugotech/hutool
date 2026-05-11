@@ -428,7 +428,7 @@ public class HttpSignConfig {
 			return false;
 		}
 		final String lowerName = headerName.trim().toLowerCase(Locale.ROOT);
-		return false == isExcludedHeader(lowerName)
+		return !isExcludedHeader(lowerName)
 			&& (getSignHeaderNames().signedHeaderNameSet().contains(lowerName) || extraSignedHeaderNameSet.contains(lowerName));
 	}
 
@@ -464,6 +464,6 @@ public class HttpSignConfig {
 			throw new HttpSignException(HttpSignErrorCode.SIGN_CANONICALIZE_FAILED, "Header name contains CR/LF.");
 		}
 		final String trimmedHeaderName = headerName.trim();
-		return trimmedHeaderName.length() == 0 ? null : trimmedHeaderName.toLowerCase(Locale.ROOT);
+		return trimmedHeaderName.isEmpty() ? null : trimmedHeaderName.toLowerCase(Locale.ROOT);
 	}
 }

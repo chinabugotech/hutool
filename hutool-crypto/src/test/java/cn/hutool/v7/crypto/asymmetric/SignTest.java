@@ -18,7 +18,7 @@ package cn.hutool.v7.crypto.asymmetric;
 
 import cn.hutool.v7.core.map.MapUtil;
 import cn.hutool.v7.core.util.ByteUtil;
-import cn.hutool.v7.crypto.SignUtil;
+import cn.hutool.v7.crypto.sign.SignUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

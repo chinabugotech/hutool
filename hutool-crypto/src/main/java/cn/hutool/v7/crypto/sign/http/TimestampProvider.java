@@ -13,7 +13,7 @@ public interface TimestampProvider {
 	/**
 	 * 系统时间戳提供器。
 	 */
-	TimestampProvider SYSTEM = () -> DateUtil.currentSeconds();
+	TimestampProvider SYSTEM = DateUtil::currentSeconds;
 
 	/**
 	 * 获取当前时间戳，单位秒。

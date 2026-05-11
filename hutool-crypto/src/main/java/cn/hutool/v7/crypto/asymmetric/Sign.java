@@ -23,7 +23,7 @@ import cn.hutool.v7.core.io.IoUtil;
 import cn.hutool.v7.crypto.CryptoException;
 import cn.hutool.v7.crypto.KeyUtil;
 import cn.hutool.v7.crypto.SecureUtil;
-import cn.hutool.v7.crypto.SignUtil;
+import cn.hutool.v7.crypto.sign.SignUtil;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;

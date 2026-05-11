@@ -93,7 +93,7 @@ class HttpSignCanonical {
 		canonicalQueryParams.sort(Comparator.comparing(CanonicalQueryParam::getRawName).thenComparing(CanonicalQueryParam::getRawValue));
 		final StringBuilder canonicalQuery = new StringBuilder();
 		for (final CanonicalQueryParam queryParam : canonicalQueryParams) {
-			if (canonicalQuery.length() > 0) {
+			if (!canonicalQuery.isEmpty()) {
 				canonicalQuery.append('&');
 			}
 			canonicalQuery.append(queryParam.encodedName).append('=').append(queryParam.encodedValue);
@@ -114,10 +114,10 @@ class HttpSignCanonical {
 			final String name = entry.getKey();
 			checkHeader(name, null);
 			final String lowerName = name.toLowerCase(Locale.ROOT);
-			if (config.getSignHeaderNames().isSignatureHeader(name) || false == config.isSignedHeader(lowerName)) {
+			if (config.getSignHeaderNames().isSignatureHeader(name) || !config.isSignedHeader(lowerName)) {
 				continue;
 			}
-			List<String> values = signedHeaders.computeIfAbsent(lowerName, k -> new ArrayList<>());
+			final List<String> values = signedHeaders.computeIfAbsent(lowerName, k -> new ArrayList<>());
 			if (null != entry.getValue()) {
 				for (final String value : entry.getValue()) {
 					checkHeader(name, value);
@@ -127,7 +127,7 @@ class HttpSignCanonical {
 		}
 		final StringBuilder canonicalHeaders = new StringBuilder();
 		for (final Map.Entry<String, List<String>> entry : signedHeaders.entrySet()) {
-			if (canonicalHeaders.length() > 0) {
+			if (!canonicalHeaders.isEmpty()) {
 				canonicalHeaders.append('&');
 			}
 			canonicalHeaders.append(entry.getKey()).append('=').append(CollUtil.join(entry.getValue(), ","));

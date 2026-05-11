@@ -22,6 +22,7 @@ import cn.hutool.v7.core.lang.Assert;
 import cn.hutool.v7.crypto.asymmetric.Sign;
 import cn.hutool.v7.crypto.asymmetric.SignAlgorithm;
 import cn.hutool.v7.crypto.bc.PemUtil;
+import cn.hutool.v7.crypto.sign.SignUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

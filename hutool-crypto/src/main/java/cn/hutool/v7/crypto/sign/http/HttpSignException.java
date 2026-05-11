@@ -2,6 +2,8 @@ package cn.hutool.v7.crypto.sign.http;
 
 import cn.hutool.v7.crypto.CryptoException;
 
+import java.io.Serial;
+
 /**
  * HTTP签名异常。
  *
@@ -9,6 +11,7 @@ import cn.hutool.v7.crypto.CryptoException;
  * @since 7.0.0
  */
 public class HttpSignException extends CryptoException {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private final HttpSignErrorCode errorCode;

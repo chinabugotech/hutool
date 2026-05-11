@@ -237,7 +237,7 @@ public class SignHeaderNames {
 	}
 
 	private static boolean equalsHeader(final String name1, final String name2) {
-		return null != name1 && null != name2 && name1.equalsIgnoreCase(name2);
+		return null != name1 && name1.equalsIgnoreCase(name2);
 	}
 
 	private static String normalizeHeaderName(final String headerName) {

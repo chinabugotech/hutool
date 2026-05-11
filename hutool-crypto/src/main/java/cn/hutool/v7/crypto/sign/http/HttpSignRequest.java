@@ -5,13 +5,7 @@ import cn.hutool.v7.core.util.CharsetUtil;
 
 import java.lang.reflect.Array;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 /**
  * HTTP签名请求，是签名核心模块使用的轻量请求模型。
@@ -200,11 +194,7 @@ public class HttpSignRequest {
 		if (null == name) {
 			return this;
 		}
-		List<String> headerValues = this.headerMap.get(name);
-		if (null == headerValues) {
-			headerValues = new ArrayList<>();
-			this.headerMap.put(name, headerValues);
-		}
+		final List<String> headerValues = this.headerMap.computeIfAbsent(name, k -> new ArrayList<>());
 		headerValues.add(null == value ? "" : value);
 		return this;
 	}
@@ -290,9 +280,7 @@ public class HttpSignRequest {
 			.setMethod(this.method)
 			.setPath(this.path)
 			.setBodyBytes(this.bodyBytes);
-		for (final QueryParam param : this.queryParamList) {
-			request.queryParamList.add(param);
-		}
+		request.queryParamList.addAll(this.queryParamList);
 		for (final Map.Entry<String, List<String>> entry : this.headerMap.entrySet()) {
 			for (final String value : entry.getValue()) {
 				request.addHeader(entry.getKey(), value);

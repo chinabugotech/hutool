@@ -79,7 +79,7 @@ public class HttpSignVerifier {
 		}
 
 		final HttpSignAlgorithm algorithm = HttpSignAlgorithm.of(algorithmValue);
-		if (null == algorithm || false == isAlgorithmAllowed(config.getAllowedAlgorithms(), algorithm)) {
+		if (null == algorithm || !isAlgorithmAllowed(config.getAllowedAlgorithms(), algorithm)) {
 			return HttpSignVerifyResult.fail(HttpSignErrorCode.SIGN_UNSUPPORTED_ALGORITHM, "Unsupported sign algorithm.");
 		}
 
@@ -98,14 +98,14 @@ public class HttpSignVerifier {
 		if (null == secretInfo) {
 			return HttpSignVerifyResult.fail(HttpSignErrorCode.SIGN_ACCESS_KEY_NOT_FOUND, "Access key not found.");
 		}
-		if (false == secretInfo.isEnabled()) {
+		if (!secretInfo.isEnabled()) {
 			return HttpSignVerifyResult.fail(HttpSignErrorCode.SIGN_ACCESS_KEY_DISABLED, "Access key is disabled.");
 		}
 		if (null != secretInfo.getExpireAt() && secretInfo.getExpireAt() < now) {
 			return HttpSignVerifyResult.fail(HttpSignErrorCode.SIGN_SECRET_EXPIRED, "Secret is expired.");
 		}
-		if (false == secretInfo.getAllowedAlgorithms().isEmpty()
-			&& false == secretInfo.getAllowedAlgorithms().contains(algorithm)) {
+		if (!secretInfo.getAllowedAlgorithms().isEmpty()
+			&& !secretInfo.getAllowedAlgorithms().contains(algorithm)) {
 			return HttpSignVerifyResult.fail(HttpSignErrorCode.SIGN_UNSUPPORTED_ALGORITHM, "Algorithm is not allowed by secret.");
 		}
 
@@ -115,12 +115,12 @@ public class HttpSignVerifier {
 		} catch (final HttpSignException e) {
 			return HttpSignVerifyResult.fail(e.getErrorCode(), e.getMessage());
 		}
-		if (false == constantTimeEquals(expectedSignResult.getSignature(), signature)) {
+		if (!constantTimeEquals(expectedSignResult.getSignature(), signature)) {
 			return HttpSignVerifyResult.fail(HttpSignErrorCode.SIGN_MISMATCH, "Signature mismatch.",
 				expectedSignResult.getCanonicalRequest(), expectedSignResult.getStringToSign());
 		}
 		final long ttlSeconds = Math.max(1L, config.getTimestampSkewSeconds() * 2);
-		if (null != nonceStore && false == nonceStore.putIfAbsent(accessKeyId, nonce, ttlSeconds)) {
+		if (null != nonceStore && !nonceStore.putIfAbsent(accessKeyId, nonce, ttlSeconds)) {
 			return HttpSignVerifyResult.fail(HttpSignErrorCode.SIGN_NONCE_REPLAY, "Nonce replay.");
 		}
 		return HttpSignVerifyResult.success(expectedSignResult.getCanonicalRequest(), expectedSignResult.getStringToSign());
