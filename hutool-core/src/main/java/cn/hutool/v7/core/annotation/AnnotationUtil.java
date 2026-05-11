@@ -615,7 +615,7 @@ public class AnnotationUtil {
 	 *    A -> M1 -> M2
 	 *    B -> M3 -> M1 -> M2
 	 *    C -> M2
-	 * ></pre>
+	 * }</pre>
 	 * 此时入参{@code annotationType}类型为{@code M1}，则最终将返回基于根注解A与根注解B合成的合成注解。
 	 *
 	 * @param annotatedEle   {@link AnnotatedElement}，可以是Class、Method、Field、Constructor、ReflectPermission
