@@ -19,7 +19,7 @@ import java.util.Map;
 public class HttpSigner {
 
 	private final HttpSignConfig config;
-	private final HttpSignCanonicalizer canonicalizer;
+	private final HttpSignCanonical canonicalizer;
 
 	/**
 	 * 创建签名器。
@@ -61,7 +61,7 @@ public class HttpSigner {
 	 */
 	public HttpSigner(final HttpSignConfig config) {
 		this.config = null == config ? HttpSignConfig.create() : config.copy();
-		this.canonicalizer = new HttpSignCanonicalizer();
+		this.canonicalizer = new HttpSignCanonical();
 	}
 
 	/**
@@ -102,7 +102,7 @@ public class HttpSigner {
 	 */
 	static HttpSignResult signPrepared(final HttpSignRequest request, final String accessKeySecret,
 									   final HttpSignAlgorithm algorithm, final HttpSignConfig config,
-									   final HttpSignCanonicalizer canonicalizer) {
+									   final HttpSignCanonical canonicalizer) {
 		final CanonicalRequest canonicalRequest = canonicalizer.canonicalize(request, config);
 		final String stringToSign = canonicalRequest.toStringToSign();
 		final byte[] signBytes = DigestUtil.hmac(algorithm.toHmacAlgorithm(), accessKeySecret.getBytes(config.getCharset()))

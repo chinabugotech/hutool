@@ -20,7 +20,7 @@ import java.util.TreeMap;
  * @author mumu
  * @since 5.8.45
  */
-class HttpSignCanonicalizer {
+class HttpSignCanonical {
 
 	private static final byte[] EMPTY_BODY = new byte[0];
 

@@ -9,9 +9,9 @@ import org.junit.jupiter.api.Test;
  *
  * @author mumu
  */
-public class HttpSignCanonicalizerTest {
+public class HttpSignCanonicalTest {
 
-	private final HttpSignCanonicalizer canonicalizer = new HttpSignCanonicalizer();
+	private final HttpSignCanonical canonicalizer = new HttpSignCanonical();
 
 	@Test
 	public void canonicalizeQueryTest() {
@@ -88,17 +88,17 @@ public class HttpSignCanonicalizerTest {
 	public void hashBodyTest() {
 		final HttpSignConfig config = HttpSignConfig.create();
 
-		Assertions.assertEquals(DigestUtil.sha256Hex(new byte[0]), HttpSignCanonicalizer.EMPTY_BODY_SHA256);
-		Assertions.assertEquals(HttpSignCanonicalizer.EMPTY_BODY_SHA256, canonicalizer.hashBody("GET", "abc".getBytes(config.getCharset()), config));
+		Assertions.assertEquals(DigestUtil.sha256Hex(new byte[0]), HttpSignCanonical.EMPTY_BODY_SHA256);
+		Assertions.assertEquals(HttpSignCanonical.EMPTY_BODY_SHA256, canonicalizer.hashBody("GET", "abc".getBytes(config.getCharset()), config));
 		Assertions.assertEquals(DigestUtil.sha256Hex("abc".getBytes(config.getCharset())), canonicalizer.hashBody("POST", "abc".getBytes(config.getCharset()), config));
 		Assertions.assertEquals(DigestUtil.sha256Hex("abc".getBytes(config.getCharset())), canonicalizer.hashBody("PUT", "abc".getBytes(config.getCharset()), config));
-		Assertions.assertEquals(HttpSignCanonicalizer.EMPTY_BODY_SHA256, canonicalizer.hashBody("DELETE", null, config));
+		Assertions.assertEquals(HttpSignCanonical.EMPTY_BODY_SHA256, canonicalizer.hashBody("DELETE", null, config));
 	}
 
 	@Test
 	public void emptyBodyDigestAlgorithmsTest() {
 		assertEmptyBodyHash(HttpSignDigestAlgorithm.SHA1, "da39a3ee5e6b4b0d3255bfef95601890afd80709");
-		assertEmptyBodyHash(HttpSignDigestAlgorithm.SHA256, HttpSignCanonicalizer.EMPTY_BODY_SHA256);
+		assertEmptyBodyHash(HttpSignDigestAlgorithm.SHA256, HttpSignCanonical.EMPTY_BODY_SHA256);
 		assertEmptyBodyHash(HttpSignDigestAlgorithm.SHA512,
 			"cf83e1357eefb8bdf1542850d66d8007d620e4050b5715dc83f4a921d36ce9ce"
 				+ "47d0d13c5d85f2b0ff8318d2877eec2f63b931bd47417a81a538327af927da3e");

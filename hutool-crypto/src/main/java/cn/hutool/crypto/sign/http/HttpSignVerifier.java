@@ -20,7 +20,7 @@ public class HttpSignVerifier {
 	private final SecretProvider secretProvider;
 	private final NonceStore nonceStore;
 	private final HttpSignConfig config;
-	private final HttpSignCanonicalizer canonicalizer;
+	private final HttpSignCanonical canonicalizer;
 
 	/**
 	 * 创建验签器。
@@ -46,7 +46,7 @@ public class HttpSignVerifier {
 		this.secretProvider = secretProvider;
 		this.nonceStore = nonceStore;
 		this.config = null == config ? HttpSignConfig.create() : config.copy();
-		this.canonicalizer = new HttpSignCanonicalizer();
+		this.canonicalizer = new HttpSignCanonical();
 	}
 
 	/**
