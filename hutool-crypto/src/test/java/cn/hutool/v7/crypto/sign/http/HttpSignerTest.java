@@ -1,9 +1,10 @@
 package cn.hutool.v7.crypto.sign.http;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * HTTP签名器测试。
@@ -20,11 +21,11 @@ public class HttpSignerTest {
 	public void defaultHeaderNamesTest() {
 		final HttpSignResult result = HttpSigner.sign(baseRequest(), AkSkCredentials.of(AK, SK), fixedConfig());
 
-		Assertions.assertEquals(AK, result.getHeaders().get("X-Access-Key-Id"));
-		Assertions.assertEquals(String.valueOf(NOW), result.getHeaders().get("X-Sign-Timestamp"));
-		Assertions.assertEquals("n8K3pV9", result.getHeaders().get("X-Sign-Nonce"));
-		Assertions.assertEquals("HmacSHA256", result.getHeaders().get("X-Sign-Algorithm"));
-		Assertions.assertNotNull(result.getHeaders().get("X-Signature"));
+		assertEquals(AK, result.getHeaders().get("X-Access-Key-Id"));
+		assertEquals(String.valueOf(NOW), result.getHeaders().get("X-Sign-Timestamp"));
+		assertEquals("n8K3pV9", result.getHeaders().get("X-Sign-Nonce"));
+		assertEquals("HmacSHA256", result.getHeaders().get("X-Sign-Algorithm"));
+		assertNotNull(result.getHeaders().get("X-Signature"));
 	}
 
 	@Test
@@ -32,8 +33,8 @@ public class HttpSignerTest {
 		final HttpSignConfig config = fixedConfig().setSignHeaderNames(SignHeaderNames.openapi());
 		final HttpSignResult result = HttpSigner.sign(baseRequest(), AkSkCredentials.of(AK, SK), config);
 
-		Assertions.assertEquals(AK, result.getHeaders().get("X-Openapi-App-Id"));
-		Assertions.assertTrue(result.getHeaders().containsKey("X-Openapi-Signature"));
+		assertEquals(AK, result.getHeaders().get("X-Openapi-App-Id"));
+		assertTrue(result.getHeaders().containsKey("X-Openapi-Signature"));
 	}
 
 	@Test
@@ -50,11 +51,11 @@ public class HttpSignerTest {
 		final HttpSignRequest request = baseRequest();
 		applyHeaders(request, signResult.getHeaders());
 
-		Assertions.assertTrue(signResult.getHeaders().containsKey("X-Channel-Ak"));
-		Assertions.assertTrue(signResult.getHeaders().containsKey("X-Channel-Sign"));
-		Assertions.assertTrue(signResult.getCanonicalRequest().getCanonicalHeaders().contains("x-channel-ak=" + AK));
-		Assertions.assertTrue(signResult.getCanonicalRequest().getCanonicalHeaders().contains("x-channel-time=" + NOW));
-		Assertions.assertTrue(HttpSignVerifier.create(secretProvider(HttpSignAlgorithm.HMAC_SHA256), MemoryNonceStore.create(), config).verify(request).isSuccess());
+		assertTrue(signResult.getHeaders().containsKey("X-Channel-Ak"));
+		assertTrue(signResult.getHeaders().containsKey("X-Channel-Sign"));
+		assertTrue(signResult.getCanonicalRequest().getCanonicalHeaders().contains("x-channel-ak=" + AK));
+		assertTrue(signResult.getCanonicalRequest().getCanonicalHeaders().contains("x-channel-time=" + NOW));
+		assertTrue(HttpSignVerifier.create(secretProvider(HttpSignAlgorithm.HMAC_SHA256), MemoryNonceStore.create(), config).verify(request).isSuccess());
 	}
 
 	@Test
@@ -68,8 +69,8 @@ public class HttpSignerTest {
 
 		final HttpSignResult result = HttpSigner.sign(request, AkSkCredentials.of(AK, SK), config);
 
-		Assertions.assertTrue(result.getCanonicalRequest().getCanonicalHeaders().contains("x-channel-id=channel-a"));
-		Assertions.assertFalse(result.getCanonicalRequest().getCanonicalHeaders().contains("x-trace-id"));
+		assertTrue(result.getCanonicalRequest().getCanonicalHeaders().contains("x-channel-id=channel-a"));
+		assertFalse(result.getCanonicalRequest().getCanonicalHeaders().contains("x-trace-id"));
 	}
 
 	@Test
@@ -77,8 +78,8 @@ public class HttpSignerTest {
 		final HttpSignConfig config = fixedConfig().setSignatureEncoding(SignatureEncoding.HEX);
 		final HttpSignResult result = HttpSigner.sign(baseRequest(), AkSkCredentials.of(AK, SK), config);
 
-		Assertions.assertEquals(64, result.getSignature().length());
-		Assertions.assertTrue(result.getSignature().matches("[0-9a-f]+"));
+		assertEquals(64, result.getSignature().length());
+		assertTrue(result.getSignature().matches("[0-9a-f]+"));
 	}
 
 	@Test
@@ -95,24 +96,24 @@ public class HttpSignerTest {
 		final HttpSignConfig config = fixedConfig().setBodyDigestAlgorithm(HttpSignDigestAlgorithm.SM3);
 		final HttpSignResult signResult = HttpSigner.sign(baseRequest(), AkSkCredentials.of(AK, SK), config);
 
-		Assertions.assertTrue(HttpSignVerifier.create(secretProvider(HttpSignAlgorithm.HMAC_SHA256), MemoryNonceStore.create(), config)
+		assertTrue(HttpSignVerifier.create(secretProvider(HttpSignAlgorithm.HMAC_SHA256), MemoryNonceStore.create(), config)
 			.verify(signedRequest(signResult)).isSuccess());
-		Assertions.assertFalse(HttpSignVerifier.create(secretProvider(HttpSignAlgorithm.HMAC_SHA256), MemoryNonceStore.create(), fixedConfig())
+		assertFalse(HttpSignVerifier.create(secretProvider(HttpSignAlgorithm.HMAC_SHA256), MemoryNonceStore.create(), fixedConfig())
 			.verify(signedRequest(signResult)).isSuccess());
 	}
 
 	@Test
 	public void headerNameInvalidTest() {
-		Assertions.assertThrows(IllegalArgumentException.class,
+		assertThrows(IllegalArgumentException.class,
 			() -> SignHeaderNames.create().setAccessKeyIdHeaderName(" "));
 
-		final HttpSignException exception = Assertions.assertThrows(HttpSignException.class,
+		final HttpSignException exception = assertThrows(HttpSignException.class,
 			() -> SignHeaderNames.create().setAccessKeyIdHeaderName("X-Ak\r\n"));
-		Assertions.assertEquals(HttpSignErrorCode.SIGN_CANONICALIZE_FAILED, exception.getErrorCode());
+		assertEquals(HttpSignErrorCode.SIGN_CANONICALIZE_FAILED, exception.getErrorCode());
 
-		final HttpSignException configException = Assertions.assertThrows(HttpSignException.class,
+		final HttpSignException configException = assertThrows(HttpSignException.class,
 			() -> HttpSignConfig.create().addSignedHeaderName("X-Channel\r\n"));
-		Assertions.assertEquals(HttpSignErrorCode.SIGN_CANONICALIZE_FAILED, configException.getErrorCode());
+		assertEquals(HttpSignErrorCode.SIGN_CANONICALIZE_FAILED, configException.getErrorCode());
 	}
 
 	private static void assertAlgorithm(final HttpSignAlgorithm algorithm) {
@@ -121,8 +122,8 @@ public class HttpSignerTest {
 			.allowAlgorithms(algorithm);
 		final HttpSignResult signResult = HttpSigner.sign(baseRequest(), AkSkCredentials.of(AK, SK), config);
 
-		Assertions.assertEquals(algorithm.getAlgorithmName(), signResult.getHeaders().get("X-Sign-Algorithm"));
-		Assertions.assertTrue(HttpSignVerifier.create(secretProvider(algorithm), MemoryNonceStore.create(), config)
+		assertEquals(algorithm.getAlgorithmName(), signResult.getHeaders().get("X-Sign-Algorithm"));
+		assertTrue(HttpSignVerifier.create(secretProvider(algorithm), MemoryNonceStore.create(), config)
 			.verify(signedRequest(signResult)).isSuccess());
 	}
 

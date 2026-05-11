@@ -23,12 +23,13 @@ import cn.hutool.v7.crypto.asymmetric.Sign;
 import cn.hutool.v7.crypto.asymmetric.SignAlgorithm;
 import cn.hutool.v7.crypto.bc.PemUtil;
 import cn.hutool.v7.crypto.sign.SignUtil;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.nio.charset.StandardCharsets;
 import java.security.KeyPair;
 import java.security.PublicKey;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SignUtilTest {
 
@@ -39,7 +40,7 @@ public class SignUtilTest {
 		// 验证base64转换
 		final String base64 = KeyUtil.toBase64(sign.getPublicKey());
 		final PublicKey publicKey = KeyUtil.generatePublicKey(SignAlgorithm.SHA256withRSA.getValue(), Base64.decode(base64));
-		Assertions.assertEquals(sign.getPublicKey(), publicKey);
+		assertEquals(sign.getPublicKey(), publicKey);
 
 		final String signHex = sign.signHex("abcd".getBytes(StandardCharsets.UTF_8));
 		Assert.notNull(signHex);

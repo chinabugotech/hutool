@@ -1,11 +1,13 @@
 package cn.hutool.v7.crypto.sign.http;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * HTTP签名请求模型测试。
@@ -20,10 +22,10 @@ public class HttpSignRequestTest {
 			.setHeader("X-Test", "1")
 			.setHeader("x-test", "2");
 
-		Assertions.assertEquals("2", request.getHeader("X-Test"));
-		Assertions.assertEquals(1, request.getHeaders().size());
-		Assertions.assertThrows(UnsupportedOperationException.class, () -> request.getHeaderValues("X-Test").add("3"));
-		Assertions.assertThrows(UnsupportedOperationException.class, () -> request.getHeaders().get("x-test").add("3"));
+		assertEquals("2", request.getHeader("X-Test"));
+		assertEquals(1, request.getHeaders().size());
+		assertThrows(UnsupportedOperationException.class, () -> request.getHeaderValues("X-Test").add("3"));
+		assertThrows(UnsupportedOperationException.class, () -> request.getHeaders().get("x-test").add("3"));
 	}
 
 	@Test
@@ -35,8 +37,8 @@ public class HttpSignRequestTest {
 
 		final HttpSignRequest request = HttpSignRequest.create().setQueryParams(queryParams);
 
-		Assertions.assertEquals(5, request.getQueryParams().size());
-		Assertions.assertEquals("", request.getQueryParams().get(4).getValue());
+		assertEquals(5, request.getQueryParams().size());
+		assertEquals("", request.getQueryParams().get(4).getValue());
 	}
 
 	@Test
@@ -45,15 +47,15 @@ public class HttpSignRequestTest {
 		final HttpSignRequest request = HttpSignRequest.create().setBodyBytes(body);
 		body[0] = 9;
 
-		Assertions.assertEquals(1, request.getBodyBytes()[0]);
+		assertEquals(1, request.getBodyBytes()[0]);
 
 		final byte[] readBody = request.getBodyBytes();
 		readBody[1] = 9;
-		Assertions.assertEquals(2, request.getBodyBytes()[1]);
+		assertEquals(2, request.getBodyBytes()[1]);
 
 		final HttpSignRequest copy = request.copy();
 		final byte[] copyBody = copy.getBodyBytes();
 		copyBody[2] = 9;
-		Assertions.assertEquals(3, copy.getBodyBytes()[2]);
+		assertEquals(3, copy.getBodyBytes()[2]);
 	}
 }

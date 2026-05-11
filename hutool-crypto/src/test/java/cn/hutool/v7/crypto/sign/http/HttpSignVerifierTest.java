@@ -1,9 +1,10 @@
 package cn.hutool.v7.crypto.sign.http;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * HTTP验签器测试。
@@ -22,7 +23,7 @@ public class HttpSignVerifierTest {
 		final HttpSignRequest request = signedRequest(baseRequest(), config);
 		final HttpSignVerifier verifier = HttpSignVerifier.create(secretProvider(true, SK, HttpSignAlgorithm.HMAC_SHA256), MemoryNonceStore.create(), config);
 
-		Assertions.assertTrue(verifier.verify(request).isSuccess());
+		assertTrue(verifier.verify(request).isSuccess());
 		assertError(verifier.verify(request), HttpSignErrorCode.SIGN_NONCE_REPLAY);
 	}
 
@@ -107,13 +108,13 @@ public class HttpSignVerifierTest {
 		final HttpSignRequest request = signedRequest(baseRequest(), config);
 		final HttpSignVerifier verifier = HttpSignVerifier.create(secretProvider(true, SK, HttpSignAlgorithm.HMAC_SHA256), null, config);
 
-		Assertions.assertTrue(verifier.verify(request).isSuccess());
-		Assertions.assertTrue(verifier.verify(request).isSuccess());
+		assertTrue(verifier.verify(request).isSuccess());
+		assertTrue(verifier.verify(request).isSuccess());
 	}
 
 	@Test
 	public void verifierSecretProviderRequiredTest() {
-		Assertions.assertThrows(IllegalArgumentException.class,
+		assertThrows(IllegalArgumentException.class,
 			() -> HttpSignVerifier.create(null, MemoryNonceStore.create(), fixedConfig()));
 	}
 
@@ -174,7 +175,7 @@ public class HttpSignVerifierTest {
 	}
 
 	private static void assertError(final HttpSignVerifyResult result, final HttpSignErrorCode errorCode) {
-		Assertions.assertFalse(result.isSuccess());
-		Assertions.assertEquals(errorCode, result.getErrorCode());
+		assertFalse(result.isSuccess());
+		assertEquals(errorCode, result.getErrorCode());
 	}
 }

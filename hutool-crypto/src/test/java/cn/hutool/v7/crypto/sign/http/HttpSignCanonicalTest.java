@@ -1,8 +1,10 @@
 package cn.hutool.v7.crypto.sign.http;
 
 import cn.hutool.v7.crypto.digest.DigestUtil;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * HTTP签名规范化测试。
@@ -25,7 +27,7 @@ public class HttpSignCanonicalTest {
 			.addQueryParam("slash", "a/b")
 			.addQueryParam("emoji", "\uD83D\uDE42");
 
-		Assertions.assertEquals(
+		assertEquals(
 			"a=abc&a=%E5%BC%A0%E4%B8%89&b=2&emoji=%F0%9F%99%82&empty=&plus=a%2Bb&slash=a%2Fb&space=a%20b",
 			canonicalizer.canonicalizeQuery(request, HttpSignConfig.create().getCharset())
 		);
@@ -42,7 +44,7 @@ public class HttpSignCanonicalTest {
 			.addQueryParam("b", "2")
 			.addQueryParam("a", "张三");
 
-		Assertions.assertEquals(
+		assertEquals(
 			canonicalizer.canonicalizeQuery(request1, HttpSignConfig.create().getCharset()),
 			canonicalizer.canonicalizeQuery(request2, HttpSignConfig.create().getCharset())
 		);
@@ -50,7 +52,7 @@ public class HttpSignCanonicalTest {
 
 	@Test
 	public void canonicalizePathTest() {
-		Assertions.assertEquals(
+		assertEquals(
 			"/api/%E5%BC%A0%20%E4%B8%89",
 			canonicalizer.canonicalizePath("api/%E5%BC%A0 三", HttpSignConfig.create().getCharset())
 		);
@@ -68,7 +70,7 @@ public class HttpSignCanonicalTest {
 			.setHeader("Content-Length", "10")
 			.setHeader("User-Agent", "client");
 
-		Assertions.assertEquals(
+		assertEquals(
 			"x-access-key-id=ak_test&x-sign-algorithm=HmacSHA256&x-sign-nonce=n1,n2&x-sign-timestamp=1731312000",
 			canonicalizer.canonicalizeHeaders(request, HttpSignConfig.create())
 		);
@@ -79,20 +81,20 @@ public class HttpSignCanonicalTest {
 		final HttpSignRequest request = HttpSignRequest.create()
 			.setHeader("X-Access-Key-Id", "ak\r\nbad");
 
-		final HttpSignException exception = Assertions.assertThrows(HttpSignException.class,
+		final HttpSignException exception = assertThrows(HttpSignException.class,
 			() -> canonicalizer.canonicalizeHeaders(request, HttpSignConfig.create()));
-		Assertions.assertEquals(HttpSignErrorCode.SIGN_CANONICALIZE_FAILED, exception.getErrorCode());
+		assertEquals(HttpSignErrorCode.SIGN_CANONICALIZE_FAILED, exception.getErrorCode());
 	}
 
 	@Test
 	public void hashBodyTest() {
 		final HttpSignConfig config = HttpSignConfig.create();
 
-		Assertions.assertEquals(DigestUtil.sha256Hex(new byte[0]), HttpSignCanonical.EMPTY_BODY_SHA256);
-		Assertions.assertEquals(HttpSignCanonical.EMPTY_BODY_SHA256, canonicalizer.hashBody("GET", "abc".getBytes(config.getCharset()), config));
-		Assertions.assertEquals(DigestUtil.sha256Hex("abc".getBytes(config.getCharset())), canonicalizer.hashBody("POST", "abc".getBytes(config.getCharset()), config));
-		Assertions.assertEquals(DigestUtil.sha256Hex("abc".getBytes(config.getCharset())), canonicalizer.hashBody("PUT", "abc".getBytes(config.getCharset()), config));
-		Assertions.assertEquals(HttpSignCanonical.EMPTY_BODY_SHA256, canonicalizer.hashBody("DELETE", null, config));
+		assertEquals(HttpSignCanonical.EMPTY_BODY_SHA256, DigestUtil.sha256Hex(new byte[0]));
+		assertEquals(HttpSignCanonical.EMPTY_BODY_SHA256, canonicalizer.hashBody("GET", "abc".getBytes(config.getCharset()), config));
+		assertEquals(DigestUtil.sha256Hex("abc".getBytes(config.getCharset())), canonicalizer.hashBody("POST", "abc".getBytes(config.getCharset()), config));
+		assertEquals(DigestUtil.sha256Hex("abc".getBytes(config.getCharset())), canonicalizer.hashBody("PUT", "abc".getBytes(config.getCharset()), config));
+		assertEquals(HttpSignCanonical.EMPTY_BODY_SHA256, canonicalizer.hashBody("DELETE", null, config));
 	}
 
 	@Test
@@ -110,22 +112,22 @@ public class HttpSignCanonicalTest {
 	public void bodyTooLargeTest() {
 		final HttpSignConfig config = HttpSignConfig.create().setMaxBodySignBytes(1);
 
-		final HttpSignException exception = Assertions.assertThrows(HttpSignException.class,
+		final HttpSignException exception = assertThrows(HttpSignException.class,
 			() -> canonicalizer.hashBody("POST", "12".getBytes(config.getCharset()), config));
-		Assertions.assertEquals(HttpSignErrorCode.SIGN_BODY_TOO_LARGE, exception.getErrorCode());
+		assertEquals(HttpSignErrorCode.SIGN_BODY_TOO_LARGE, exception.getErrorCode());
 	}
 
 	@Test
 	public void unsupportedMethodTest() {
-		final HttpSignException exception = Assertions.assertThrows(HttpSignException.class,
+		final HttpSignException exception = assertThrows(HttpSignException.class,
 			() -> canonicalizer.canonicalize(HttpSignRequest.create().setMethod("PATCH"), HttpSignConfig.create()));
-		Assertions.assertEquals(HttpSignErrorCode.SIGN_UNSUPPORTED_METHOD, exception.getErrorCode());
+		assertEquals(HttpSignErrorCode.SIGN_UNSUPPORTED_METHOD, exception.getErrorCode());
 	}
 
 	private void assertEmptyBodyHash(final HttpSignDigestAlgorithm digestAlgorithm, final String expectedHash) {
 		final HttpSignConfig config = HttpSignConfig.create().setBodyDigestAlgorithm(digestAlgorithm);
 
-		Assertions.assertEquals(expectedHash, canonicalizer.hashBody("POST", null, config));
-		Assertions.assertEquals(expectedHash, canonicalizer.hashBody("GET", "abc".getBytes(config.getCharset()), config));
+		assertEquals(expectedHash, canonicalizer.hashBody("POST", null, config));
+		assertEquals(expectedHash, canonicalizer.hashBody("GET", "abc".getBytes(config.getCharset()), config));
 	}
 }

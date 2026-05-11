@@ -17,13 +17,14 @@
 package cn.hutool.v7.crypto;
 
 import cn.hutool.v7.crypto.provider.GlobalProviderFactory;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class KeyUtilTest {
 
@@ -33,10 +34,10 @@ public class KeyUtilTest {
 	@Test
 	@Disabled
 	public void generateKeyPairTest() {
-		Assertions.assertThrows(CryptoException.class, ()->{
+		assertThrows(CryptoException.class, ()->{
 			GlobalProviderFactory.setUseCustomProvider(false);
 			final KeyPair pair = KeyUtil.generateKeyPair("SM2");
-			Assertions.assertNotNull(pair);
+			assertNotNull(pair);
 		});
 	}
 
@@ -45,7 +46,7 @@ public class KeyUtilTest {
 		final KeyPair keyPair = KeyUtil.generateKeyPair("RSA");
 		final PrivateKey aPrivate = keyPair.getPrivate();
 		final PublicKey rsaPublicKey = KeyUtil.getRSAPublicKey(aPrivate);
-		Assertions.assertEquals(rsaPublicKey, keyPair.getPublic());
+		assertEquals(rsaPublicKey, keyPair.getPublic());
 	}
 
 	/**
@@ -54,31 +55,31 @@ public class KeyUtilTest {
 	@Test
 	public void generateECIESKeyTest(){
 		final KeyPair ecies = KeyUtil.generateKeyPair("ECIES");
-		Assertions.assertNotNull(ecies.getPrivate());
-		Assertions.assertNotNull(ecies.getPublic());
+		assertNotNull(ecies.getPrivate());
+		assertNotNull(ecies.getPublic());
 
 		final byte[] privateKeyBytes = ecies.getPrivate().getEncoded();
 
 		final PrivateKey privateKey = KeyUtil.generatePrivateKey("EC", privateKeyBytes);
-		Assertions.assertEquals(ecies.getPrivate(), privateKey);
+		assertEquals(ecies.getPrivate(), privateKey);
 	}
 
 	@Test
 	public void generateDHTest(){
 		final KeyPair dh = KeyUtil.generateKeyPair("DH");
-		Assertions.assertNotNull(dh.getPrivate());
-		Assertions.assertNotNull(dh.getPublic());
+		assertNotNull(dh.getPrivate());
+		assertNotNull(dh.getPublic());
 
 		final byte[] privateKeyBytes = dh.getPrivate().getEncoded();
 
 		final PrivateKey privateKey = KeyUtil.generatePrivateKey("DH", privateKeyBytes);
-		Assertions.assertEquals(dh.getPrivate(), privateKey);
+		assertEquals(dh.getPrivate(), privateKey);
 	}
 
 	@Test
 	public void generateSm4KeyTest(){
 		// https://github.com/chinabugotech/hutool/issues/2150
-		Assertions.assertEquals(16, KeyUtil.generateKey("sm4").getEncoded().length);
-		Assertions.assertEquals(32, KeyUtil.generateKey("sm4", 256).getEncoded().length);
+		assertEquals(16, KeyUtil.generateKey("sm4").getEncoded().length);
+		assertEquals(32, KeyUtil.generateKey("sm4", 256).getEncoded().length);
 	}
 }
