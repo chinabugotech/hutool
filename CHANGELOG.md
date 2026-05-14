@@ -12,6 +12,7 @@
 * 【extra  】      修复`ExpressionEngine`中SpELEngine、MVEL白名单无效问题（issue#4249@Github）
 * 【core   】      修复`JNDIUtil`远程加载漏洞（issue#4249@Github）
 * 【core   】      修复`ValidateObjectInputStream`白名单规则问题（issue#4249@Github）
+* 【core   】      修复`VersionUtil`比对null时结果异常问题（issue#IJNFQZ@Gitee）
 
 -------------------------------------------------------------------------------------------------------------
 # 5.8.44(2026-03-11)

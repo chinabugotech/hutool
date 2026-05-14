@@ -142,7 +142,7 @@ public class VersionUtil {
 			throw new UtilException("非法的版本分隔符：" + versionsDelimiter);
 		}
 
-		if (StrUtil.isBlank(versionEl) || StrUtil.isBlank(currentVersion)) {
+		if (StrUtil.isBlank(versionEl)) {
 			return false;
 		}
 		String trimmedVersion = StrUtil.trim(currentVersion);
@@ -158,6 +158,9 @@ public class VersionUtil {
 			if (matcher.find()) {
 				String op = matcher.group();
 				String ver = StrUtil.removePrefix(el, op);
+				if("null".equalsIgnoreCase( ver)){
+					ver = null;
+				}
 				switch (op) {
 					case ">=":
 					case "≥":
