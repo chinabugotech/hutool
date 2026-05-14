@@ -192,6 +192,17 @@ public class ValidatorTest {
 	public void isPlateNumberTest(){
 		assertTrue(Validator.isPlateNumber("粤BA03205"));
 		assertTrue(Validator.isPlateNumber("闽20401领"));
+		//issue#3979
+		assertTrue(Validator.isPlateNumber("沪AE22075"));
+
+		// issue#IJNDJR
+		assertTrue(Validator.isPlateNumber("粤AP00000"));
+		assertTrue(Validator.isPlateNumber("粤AP00001"));
+		assertTrue(Validator.isPlateNumber("粤AP10000"));
+		assertTrue(Validator.isPlateNumber("粤AP20000"));
+		assertTrue(Validator.isPlateNumber("粤AP30000"));
+		assertTrue(Validator.isPlateNumber("粤AP40000"));
+		assertTrue(Validator.isPlateNumber("粤AP50000"));
 	}
 
 	@Test
