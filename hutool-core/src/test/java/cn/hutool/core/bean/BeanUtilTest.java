@@ -974,4 +974,85 @@ public class BeanUtilTest {
 		final boolean bean = BeanUtil.isBean(Dict.class);
 		assertFalse(bean);
 	}
+
+	// ============ Test for GitHub issue #4245 ============
+
+	@Data
+	@NoArgsConstructor
+	@AllArgsConstructor
+	public static class Order4245 {
+		private Long orderId;
+		private String orderNo;
+		private List<OrderItem4245> orderItemList;
+	}
+
+	@Getter
+	@Setter(AccessLevel.PROTECTED)
+	@AllArgsConstructor(access = AccessLevel.PROTECTED)
+	@NoArgsConstructor
+	public static class OrderItem4245 {
+		private Long itemId;
+		private String productName;
+		private Integer quantity;
+	}
+
+	@Data
+	public static class OrderDto4245 {
+		private Long orderId;
+		private String orderNo;
+		private List<OrderItemDto4245> orderItemList;
+	}
+
+	@Data
+	public static class OrderItemDto4245 {
+		private Long itemId;
+		private String productName;
+		private Integer quantity;
+	}
+
+	/**
+	 * GitHub issue#4245: BeanUtil.copyProperties throws ConvertException
+	 * when source list element has protected setters.
+	 *
+	 * <p>Root cause: BeanConverter used isBean() (which checks for public setters)
+	 * on the SOURCE object instead of isReadableBean() (which checks for public getters).
+	 * A source bean only needs to be readable, not writable.</p>
+	 */
+	@Test
+	public void issue4245Test() {
+		final Order4245 order = new Order4245(
+				1L,
+				"01",
+				new ArrayList<>()
+		);
+		order.getOrderItemList().add(
+				new OrderItem4245(1L, "aa", 1)
+		);
+
+		// This should not throw ConvertException
+		final OrderDto4245 dto = BeanUtil.copyProperties(order, OrderDto4245.class);
+
+		assertNotNull(dto);
+		assertEquals(order.getOrderId(), dto.getOrderId());
+		assertEquals(order.getOrderNo(), dto.getOrderNo());
+		assertNotNull(dto.getOrderItemList());
+		assertEquals(1, dto.getOrderItemList().size());
+		assertEquals(Long.valueOf(1L), dto.getOrderItemList().get(0).getItemId());
+		assertEquals("aa", dto.getOrderItemList().get(0).getProductName());
+		assertEquals(Integer.valueOf(1), dto.getOrderItemList().get(0).getQuantity());
+	}
+
+	/**
+	 * Test map conversion with protected setter bean
+	 */
+	@Test
+	public void issue4245MapConvertTest() {
+		final OrderItem4245 item = new OrderItem4245(1L, "aa", 1);
+		// Should not throw UnsupportedOperationException
+		final Map<String, Object> map = BeanUtil.beanToMap(item);
+		assertNotNull(map);
+		assertEquals(1L, map.get("itemId"));
+		assertEquals("aa", map.get("productName"));
+		assertEquals(1, map.get("quantity"));
+	}
 }
