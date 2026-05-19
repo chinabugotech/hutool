@@ -1,7 +1,7 @@
 
 # 🚀Changelog
 -------------------------------------------------------------------------------------------------------------
-# 5.8.45(2026-05-14)
+# 5.8.45(2026-05-19)
 ### 🐣新特性
 * 【core   】      `AnnotationUtil`新增两级缓存架构，提升高频注解解析性能（pr#1434@Gitee）
 * 【core   】      `RegexPool.PLATE_NUMBER`新增粤AP号段支持（issue#IJNDJR@Gitee）
@@ -13,6 +13,7 @@
 * 【core   】      修复`JNDIUtil`远程加载漏洞（issue#4249@Github）
 * 【core   】      修复`ValidateObjectInputStream`白名单规则问题（issue#4249@Github）
 * 【core   】      修复`VersionUtil`比对null时结果异常问题（issue#IJNFQZ@Gitee）
+* 【core   】      修复`BeanConverter`和`MapConverter`源Bean判断问题（pr#4252@Github）
 
 -------------------------------------------------------------------------------------------------------------
 # 5.8.44(2026-03-11)
