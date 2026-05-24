@@ -16,15 +16,16 @@
 
 package cn.hutool.v7.http.client.engine.httpclient4;
 
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.client.methods.RequestBuilder;
 import cn.hutool.v7.core.lang.Assert;
 import cn.hutool.v7.core.net.url.UrlBuilder;
+import cn.hutool.v7.http.client.ClientConfig;
 import cn.hutool.v7.http.client.Request;
 import cn.hutool.v7.http.client.body.HttpBody;
 import cn.hutool.v7.http.client.engine.EngineRequestBuilder;
 import cn.hutool.v7.http.meta.HeaderName;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.client.methods.RequestBuilder;
 
 /**
  * HttpClient4请求构建器
@@ -34,10 +35,15 @@ import cn.hutool.v7.http.meta.HeaderName;
  */
 public class HttpUriRequestBuilder implements EngineRequestBuilder<HttpUriRequest> {
 
+	private final ClientConfig config;
+
 	/**
-	 * 单例
+	 * 构造
+	 * @param config 配置
 	 */
-	public static final HttpUriRequestBuilder INSTANCE = new HttpUriRequestBuilder();
+	public HttpUriRequestBuilder(final ClientConfig config){
+		this.config = config;
+	}
 
 	@Override
 	public HttpUriRequest build(final Request message) {
@@ -74,13 +80,21 @@ public class HttpUriRequestBuilder implements EngineRequestBuilder<HttpUriReques
 	 * @param request 请求
 	 * @return {@link RequestConfig}
 	 */
-	private static RequestConfig buildRequestConfig(final Request request) {
+	private RequestConfig buildRequestConfig(final Request request) {
 		final RequestConfig.Builder requestConfigBuilder = RequestConfig.custom();
 		final int maxRedirects = request.maxRedirects();
 		if (maxRedirects > 0) {
 			requestConfigBuilder.setMaxRedirects(maxRedirects);
 		} else {
 			requestConfigBuilder.setRedirectsEnabled(false);
+		}
+
+		// issue#4253 修复请求参数覆盖问题
+		final int connectionTimeout = config.getConnectionTimeout();
+		if (connectionTimeout > 0) {
+			requestConfigBuilder.setConnectTimeout(connectionTimeout);
+			requestConfigBuilder.setConnectionRequestTimeout(connectionTimeout);
+			requestConfigBuilder.setSocketTimeout(connectionTimeout);
 		}
 
 		return requestConfigBuilder.build();

@@ -75,7 +75,7 @@ public class HttpClient4Engine extends AbstractClientEngine {
 	public Response send(final Request message) {
 		initEngine();
 
-		final HttpUriRequest request = HttpUriRequestBuilder.INSTANCE.build(message);
+		final HttpUriRequest request = new HttpUriRequestBuilder(this.config).build(message);
 		final CloseableHttpResponse response;
 		try {
 			response = this.engine.execute(request);
