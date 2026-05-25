@@ -1,6 +1,7 @@
 package cn.hutool.core.util;
 
 import cn.hutool.core.collection.ListUtil;
+import cn.hutool.core.comparator.VersionComparator;
 import cn.hutool.core.exceptions.UtilException;
 import org.junit.jupiter.api.Test;
 
@@ -104,4 +105,10 @@ class VersionUtilTest {
 		assertTrue(VersionUtil.matchEl("999.999.999", "-"));
 	}
 
+	@Test
+	void issueIJNFQZTest(){
+		assertEquals(1, VersionComparator.INSTANCE.compare("1.0", null));
+		assertEquals(1, StrUtil.compareVersion("1.0", null));
+		assertTrue(VersionUtil.isGreaterThan("1.0", null));
+	}
 }

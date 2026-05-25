@@ -22,7 +22,6 @@ import cn.hutool.ai.core.AIServiceProvider;
 import cn.hutool.core.util.ServiceLoaderUtil;
 
 import java.util.Map;
-import java.util.ServiceLoader;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -37,9 +36,12 @@ public class AIServiceFactory {
 
 	// 加载所有 AIModelProvider 实现类
 	static {
-		final ServiceLoader<AIServiceProvider> loader = ServiceLoaderUtil.load(AIServiceProvider.class);
-		for (final AIServiceProvider provider : loader) {
-			providers.put(provider.getServiceName().toLowerCase(), provider);
+		for (final AIServiceProvider provider : ServiceLoaderUtil.load(AIServiceProvider.class)) {
+			providers.putIfAbsent(provider.getServiceName().toLowerCase(), provider);
+		}
+		// issue#4241@github，多线程和Spring环境下可能导致SPI文件找不到问题
+		for (final AIServiceProvider provider : ServiceLoaderUtil.load(AIServiceProvider.class, AIServiceProvider.class.getClassLoader())) {
+			providers.putIfAbsent(provider.getServiceName().toLowerCase(), provider);
 		}
 	}
 

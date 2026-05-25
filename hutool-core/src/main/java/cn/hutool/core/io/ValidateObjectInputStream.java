@@ -85,14 +85,7 @@ public class ValidateObjectInputStream extends ObjectInputStream {
 			}
 		}
 
-		if(CollUtil.isEmpty(this.whiteClassSet)){
-			return;
-		}
-		if(className.startsWith("java.")){
-			// java中的类默认在白名单中
-			return;
-		}
-		if(this.whiteClassSet.contains(className)){
+		if(CollUtil.isEmpty(this.whiteClassSet) || this.whiteClassSet.contains(className)){
 			return;
 		}
 
