@@ -21,7 +21,8 @@ import cn.hutool.v7.http.proxy.ProxyInfo;
 import cn.hutool.v7.http.ssl.SSLInfo;
 
 /**
- * Http客户端配置
+ * Http客户端配置，此配置用于在客户端创建时的配置项，如连接超时、读取超时、SSL、代理等<br>
+ * 客户端一旦创建成功，配置项是不变且公用的，改变配置项后，将不再对已经创建的Client生效。
  *
  * @author Looly
  */

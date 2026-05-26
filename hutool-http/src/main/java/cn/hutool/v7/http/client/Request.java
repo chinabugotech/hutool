@@ -146,9 +146,9 @@ public class Request implements HeaderOperation<Request> {
 	 * 默认构造
 	 */
 	public Request() {
-		method = Method.GET;
-		headers = new ListValueMap<>(new LinkedHashMap<>());
-		maxRedirects = HttpGlobalConfig.getMaxRedirects();
+		this.method = Method.GET;
+		this.headers = new ListValueMap<>(new LinkedHashMap<>());
+		this.maxRedirects = HttpGlobalConfig.getMaxRedirects();
 
 		// 全局默认请求头
 		header(GlobalHeaders.INSTANCE.headers(), false);

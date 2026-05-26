@@ -133,7 +133,7 @@ public class HttpClient4EngineTimeoutTest {
 			.setConnectionTimeout(500)
 			.setReadTimeout(500);
 
-		try (HttpClient4Engine shortEngine = new HttpClient4Engine()) {
+		try (final HttpClient4Engine shortEngine = new HttpClient4Engine()) {
 			shortEngine.init(shortConfig);
 			final Request request = Request.of(UNREACHABLE_URL).method(Method.GET);
 
