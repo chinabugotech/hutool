@@ -481,5 +481,14 @@
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>
+		<!-- RabbitMQ 消息队列依赖 begin -->
+		<dependency>
+			<groupId>com.rabbitmq</groupId>
+			<artifactId>amqp-client</artifactId>
+			<version>5.18.0</version>
+			<scope>compile</scope>
+			<optional>true</optional>
+		</dependency>
+		<!-- RabbitMQ 消息队列依赖 end -->
 	</dependencies>
 </project>
