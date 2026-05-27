@@ -97,6 +97,7 @@ public class EnumConverter extends AbstractConverter<Object> {
 				for (Map.Entry<Class<?>, Method> entry : methodMap.entrySet()) {
 					if (ClassUtil.isAssignable(entry.getKey(), valueClass)) {
 						final Object result = ReflectUtil.invokeStatic(entry.getValue(), value);
+						// issue#4257 执行结果返回空时，尝试使用valueOf方法转换
 						if (null != result) {
 							return (Enum) result;
 						}
