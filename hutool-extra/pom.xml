@@ -37,7 +37,7 @@
 
 		<!-- template versions -->
 		<velocity.version>2.4.1</velocity.version>
-		<beetl.version>3.21.1.RELEASE</beetl.version>
+		<beetl.version>3.21.2.RELEASE</beetl.version>
 		<rythm.version>1.4.2</rythm.version>
 		<freemarker.version>2.3.34</freemarker.version>
 		<enjoy.version>5.2.5</enjoy.version>
