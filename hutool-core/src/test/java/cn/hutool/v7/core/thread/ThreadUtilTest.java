@@ -20,7 +20,6 @@ import cn.hutool.v7.core.date.TimeUtil;
 import cn.hutool.v7.core.exception.HutoolException;
 import cn.hutool.v7.core.lang.Console;
 import cn.hutool.v7.core.util.RandomUtil;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -28,6 +27,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ThreadUtilTest {
 
@@ -51,14 +53,14 @@ public class ThreadUtilTest {
 	public void executeTest() {
 		final boolean isValid = true;
 
-		ThreadUtil.execute(() -> Assertions.assertTrue(isValid));
+		ThreadUtil.execute(() -> assertTrue(isValid));
 	}
 
 	@Test
 	@Disabled
 	public void phaserTest(){
 		final LocalDateTime now = TimeUtil.parse("2022-08-04T22:59:59+08:00", DateTimeFormatter.ISO_OFFSET_DATE_TIME);
-		Assertions.assertNotNull(now);
+		assertNotNull(now);
 
 		final int repeat = 30; // 执行的轮数配置
 		final Phaser phaser = new Phaser() {  // 进行一些处理方法的覆写
@@ -127,6 +129,6 @@ public class ThreadUtilTest {
 		// 随机sleep时长，确保sleep时间足够
 		final long l = System.currentTimeMillis();
 		ThreadUtil.safeSleep(sleepMillis);
-		Assertions.assertTrue(System.currentTimeMillis() - l >= sleepMillis);
+		assertTrue(System.currentTimeMillis() - l >= sleepMillis);
 	}
 }
