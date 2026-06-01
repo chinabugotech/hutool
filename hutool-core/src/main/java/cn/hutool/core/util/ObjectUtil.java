@@ -370,7 +370,7 @@ public class ObjectUtil {
 	 * @param handle       非空时自定义的处理方法
 	 * @param defaultValue 默认为空的返回值
 	 * @return 处理后的返回值
-	 * @since 5.4.6
+	 * @since 5.8.7
 	 */
 	public static <T, R> T defaultIfNull(R source, Function<R, ? extends T> handle, final T defaultValue) {
 		if (isNotNull(source)) {
