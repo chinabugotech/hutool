@@ -317,16 +317,22 @@ public class HexUtil extends Hex {
 			separator = StrUtil.SPACE;
 		}
 
-		final int length = hexStr.length();
-		final StringBuilder builder = StrUtil.builder(length + length / 2 + (length / 2 * prefix.length()));
-		for (int i = 0; i < length; i++) {
-			if (i % 2 == 0) {
-				if (i != 0) {
-					builder.append(separator);
-				}
-				builder.append(prefix);
+		String normalizedHex = hexStr;
+		if (normalizedHex.length() % 2 != 0) {
+			normalizedHex = "0" + normalizedHex;
+		}
+
+		final int length = normalizedHex.length();
+		final int byteCount = length / 2;
+		final StringBuilder builder = StrUtil.builder(byteCount * (2 + prefix.length() + 1));
+
+		for (int i = 0; i < length; i += 2) {
+			if (i > 0) {
+				builder.append(separator);
 			}
-			builder.append(hexStr.charAt(i));
+			builder.append(prefix);
+			builder.append(normalizedHex.charAt(i));
+			builder.append(normalizedHex.charAt(i + 1));
 		}
 		return builder.toString();
 	}
