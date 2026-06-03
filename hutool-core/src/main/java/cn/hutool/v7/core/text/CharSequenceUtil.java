@@ -1418,7 +1418,7 @@ public class CharSequenceUtil extends StrValidator {
 	}
 
 	/**
-	 * 去除两边的指定字符串
+	 * 去除两边的指定字符串，如果只有一边有值，则只去除一边
 	 * <pre>{@code
 	 * "aaa_STRIPPED_bbb", "a"  -> "aa_STRIPPED_bbb"
 	 * "aaa_STRIPPED_bbb", ""  -> "aaa_STRIPPED_bbb"
@@ -1440,7 +1440,7 @@ public class CharSequenceUtil extends StrValidator {
 
 	/**
 	 * 去除两边的指定字符串<br>
-	 * 两边字符如果存在，则去除，不存在不做处理
+	 * 两边字符如果存在，则去除，不存在不做处理，如果只有一边有值，则只去除一边
 	 * <pre>{@code
 	 * "aaa_STRIPPED_bbb", "a", "b"  -> "aa_STRIPPED_bb"
 	 * "aaa_STRIPPED_bbb", null, null  -> "aaa_STRIPPED_bbb"
@@ -1466,7 +1466,7 @@ public class CharSequenceUtil extends StrValidator {
 
 	/**
 	 * 去除两边的指定字符串<br>
-	 * 两边字符如果存在，则去除，不存在不做处理
+	 * 两边字符如果存在，则去除，不存在不做处理，如果只有一边有值，则只去除一边
 	 * <pre>{@code
 	 * "aaa_STRIPPED_bbb", "a", "b"  -> "aa_STRIPPED_bb"
 	 * "aaa_STRIPPED_bbb", null, null  -> "aaa_STRIPPED_bbb"
@@ -1497,7 +1497,7 @@ public class CharSequenceUtil extends StrValidator {
 	}
 
 	/**
-	 * 去除两边<u><b>所有</b></u>的指定字符串
+	 * 去除两边<u><b>所有</b></u>的指定字符串，如果只有一边有值，则只去除一边
 	 *
 	 * <pre>{@code
 	 * "aaa_STRIPPED_bbb", "a"  -> "_STRIPPED_bbb"
@@ -1519,7 +1519,7 @@ public class CharSequenceUtil extends StrValidator {
 	}
 
 	/**
-	 * 去除两边<u><b>所有</b></u>的指定字符串
+	 * 去除两边<u><b>所有</b></u>的指定字符串，如果只有一边有值，则只去除一边
 	 *
 	 * <pre>{@code
 	 * "aaa_STRIPPED_bbb", "a", "b"  -> "_STRIPPED_"
@@ -1550,7 +1550,7 @@ public class CharSequenceUtil extends StrValidator {
 	}
 
 	/**
-	 * 去除两边<u><b>所有</b></u>的指定字符串
+	 * 去除两边<u><b>所有</b></u>的指定字符串，如果只有一边有值，则只去除一边
 	 *
 	 * <pre>{@code
 	 * "aaa_STRIPPED_bbb", "a", "b"  -> "_STRIPPED_"
