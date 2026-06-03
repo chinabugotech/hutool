@@ -177,7 +177,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.14.1</version>
+				<version>3.15.0</version>
 				<configuration>
 					<fork>true</fork>
 					<encoding>UTF-8</encoding>
@@ -190,7 +190,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
-				<version>3.4.2</version>
+				<version>3.5.0</version>
 				<configuration>
 					<archive>
 						<index>true</index>
