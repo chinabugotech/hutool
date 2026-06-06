@@ -53,9 +53,9 @@ public class TaskExecutorManager implements Serializable {
 		synchronized (this.executors) {
 			this.executors.add(executor);
 		}
-		// 子线程是否为deamon线程取决于父线程，因此此处无需显示调用
+		// 子线程是否为daemon线程取决于父线程，因此此处无需显式调用
 		// executor.setDaemon(this.scheduler.daemon);
-//		executor.start();
+		// executor.start();
 		this.scheduler.threadExecutor.execute(executor);
 		return executor;
 	}
