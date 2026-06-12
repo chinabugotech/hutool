@@ -7,6 +7,11 @@ import com.ql.util.express.ExpressRunner;
 import com.ql.util.express.config.QLExpressRunStrategy;
 
 import javax.naming.InitialContext;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.RandomAccessFile;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Map;
@@ -33,6 +38,23 @@ public class QLExpressEngine implements ExpressionEngine {
 		QLExpressRunStrategy.setForbidInvokeSecurityRiskMethods(true);
 		// Explicitly forbid JNDI lookup calls through InitialContext
 		QLExpressRunStrategy.addSecurityRiskMethod(InitialContext.class, "doLookup");
+
+		// The method blacklist above does not cover object creation, so also enforce the
+		// constructor blacklist; otherwise new FileOutputStream(...) can drop a payload that
+		// System.load then runs as native code
+		QLExpressRunStrategy.setForbidInvokeSecurityRiskConstructors(true);
+		// High-risk methods missing from the default blacklist
+		QLExpressRunStrategy.addSecurityRiskMethod(System.class, "load");
+		QLExpressRunStrategy.addSecurityRiskMethod(System.class, "loadLibrary");
+		QLExpressRunStrategy.addSecurityRiskMethod(System.class, "setProperty");
+		QLExpressRunStrategy.addSecurityRiskMethod(Runtime.class, "load");
+		QLExpressRunStrategy.addSecurityRiskMethod(Runtime.class, "loadLibrary");
+		// High-risk file read/write constructors
+		QLExpressRunStrategy.addRiskSecureConstructor(FileOutputStream.class);
+		QLExpressRunStrategy.addRiskSecureConstructor(FileWriter.class);
+		QLExpressRunStrategy.addRiskSecureConstructor(RandomAccessFile.class);
+		QLExpressRunStrategy.addRiskSecureConstructor(FileInputStream.class);
+		QLExpressRunStrategy.addRiskSecureConstructor(FileReader.class);
 	}
 
 	@Override

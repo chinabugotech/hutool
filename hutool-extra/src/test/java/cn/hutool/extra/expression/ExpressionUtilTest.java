@@ -108,4 +108,24 @@ public class ExpressionUtilTest {
 		assertEquals(-143.8, (double)eval, 0);
 	}
 
+	@Test
+	public void qlExpressSecurityTest(){
+		// https://github.com/chinabugotech/hutool/issues/4270
+		// 默认黑名单模式下，高危的构造方法与native库加载等不能通过表达式调用
+		final ExpressionEngine engine = new QLExpressEngine();
+		final Dict context = Dict.of();
+
+		assertThrows(ExpressionException.class,
+				() -> engine.eval("new java.io.FileOutputStream(\"/tmp/hutool_test\")", context, null));
+		assertThrows(ExpressionException.class,
+				() -> engine.eval("System.load(\"/tmp/hutool_test.so\")", context, null));
+		assertThrows(ExpressionException.class,
+				() -> engine.eval("System.setProperty(\"k\", \"v\")", context, null));
+		assertThrows(ExpressionException.class,
+				() -> engine.eval("new java.io.RandomAccessFile(\"/tmp/hutool_test\", \"rw\")", context, null));
+
+		// 普通表达式不受影响
+		assertEquals(7, engine.eval("1+2*3", context, null));
+	}
+
 }
