@@ -90,11 +90,14 @@ public class HttpUriRequestBuilder implements EngineRequestBuilder<HttpUriReques
 		}
 
 		// issue#4253 修复请求参数覆盖问题
-		final int connectionTimeout = config.getConnectionTimeout();
-		if (connectionTimeout > 0) {
-			requestConfigBuilder.setConnectTimeout(connectionTimeout);
-			requestConfigBuilder.setConnectionRequestTimeout(connectionTimeout);
-			requestConfigBuilder.setSocketTimeout(connectionTimeout);
+		// 添加空值检查以避免NPE
+		if (config != null) {
+			final int connectionTimeout = config.getConnectionTimeout();
+			if (connectionTimeout > 0) {
+				requestConfigBuilder.setConnectTimeout(connectionTimeout);
+				requestConfigBuilder.setConnectionRequestTimeout(connectionTimeout);
+				requestConfigBuilder.setSocketTimeout(connectionTimeout);
+			}
 		}
 
 		return requestConfigBuilder.build();
