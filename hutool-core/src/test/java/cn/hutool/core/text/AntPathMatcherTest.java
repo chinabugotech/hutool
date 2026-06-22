@@ -3,9 +3,33 @@ package cn.hutool.core.text;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
+import java.util.Comparator;
 import java.util.HashMap;
 
 public class AntPathMatcherTest {
+
+	/**
+	 * Test that the pattern comparator correctly handles ".*" in the middle of a pattern.
+	 * The bug: substring(pos - 1) without end index returns the rest of the string,
+	 * not just two characters, so ".*" followed by more chars is miscounted.
+	 */
+	@Test
+	public void testPatternComparatorDotStarInMiddle() {
+		AntPathMatcher matcher = new AntPathMatcher();
+		Comparator<String> comparator = matcher.getPatternComparator("/files/file.txt");
+
+		// Pattern A: "/files/.*.txt" - the ".*" should NOT count as a single wildcard
+		// because ".*" is a special pattern (match any extension), not a standalone "*"
+		// Correct total count: 0 (no single wildcards, no uri vars, no double wildcards)
+		//
+		// Pattern B: "/files/*a.txt" - the "*" preceded by "/" IS a single wildcard
+		// Correct total count: 1 (one single wildcard)
+		//
+		// Pattern A should be more specific (fewer wildcards), so compare(A, B) < 0
+		int result = comparator.compare("/files/.*.txt", "/files/*a.txt");
+		assertTrue(result < 0, "Pattern with .* should be more specific than pattern with *; " +
+				"got compare result: " + result);
+	}
 
 	@Test
 	public void matchesTest() {
