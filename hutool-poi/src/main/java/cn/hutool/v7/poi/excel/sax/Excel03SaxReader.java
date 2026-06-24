@@ -78,6 +78,10 @@ public class Excel03SaxReader implements HSSFListener, ExcelSaxReader<Excel03Sax
 	private List<Object> rowCellList = new ArrayList<>();
 
 	/**
+	 * 当前行号，从0开始计数
+	 */
+	private int rowIndex = -1;
+	/**
 	 * 自定义需要处理的sheet编号，如果-1表示处理所有sheet
 	 */
 	private int sheetIndex = -1;
@@ -88,7 +92,7 @@ public class Excel03SaxReader implements HSSFListener, ExcelSaxReader<Excel03Sax
 
 	/**
 	 * 当前rid索引
- 	 */
+	 */
 	private int curRid = -1;
 
 	/**
@@ -105,7 +109,7 @@ public class Excel03SaxReader implements HSSFListener, ExcelSaxReader<Excel03Sax
 		this.rowHandler = rowHandler;
 	}
 
-	// ------------------------------------------------------------------------------ Read start
+	// region ----- read
 	@Override
 	public Excel03SaxReader read(final File file, final String idOrRidOrSheetName) throws POIException {
 		try (final POIFSFileSystem poifsFileSystem = new POIFSFileSystem(file, true)) {
@@ -127,7 +131,7 @@ public class Excel03SaxReader implements HSSFListener, ExcelSaxReader<Excel03Sax
 	/**
 	 * 读取
 	 *
-	 * @param fs  {@link POIFSFileSystem}
+	 * @param fs                 {@link POIFSFileSystem}
 	 * @param idOrRidOrSheetName sheet id或者rid编号或sheet名称，从0开始，rid必须加rId前缀，例如rId0，如果为-1处理所有编号的sheet
 	 * @return this
 	 * @throws POIException IO异常包装
@@ -155,7 +159,7 @@ public class Excel03SaxReader implements HSSFListener, ExcelSaxReader<Excel03Sax
 		}
 		return this;
 	}
-	// ------------------------------------------------------------------------------ Read end
+	// endregion
 
 	/**
 	 * 获得Sheet序号，如果处理所有sheet，获得最大的Sheet序号，从0开始
@@ -172,7 +176,7 @@ public class Excel03SaxReader implements HSSFListener, ExcelSaxReader<Excel03Sax
 	 * @return Sheet名
 	 */
 	public String getSheetName() {
-		if(null != this.sheetName){
+		if (null != this.sheetName) {
 			return this.sheetName;
 		}
 
@@ -199,8 +203,8 @@ public class Excel03SaxReader implements HSSFListener, ExcelSaxReader<Excel03Sax
 			// Sheet边界记录，此Record中可以获得Sheet名
 			boundSheetRecords.add(boundSheetRecord);
 			final String currentSheetName = boundSheetRecord.getSheetname();
-			if(null != this.sheetName && StrUtil.equals(this.sheetName, currentSheetName)){
-				this.sheetIndex = this.boundSheetRecords.size() -1;
+			if (null != this.sheetName && StrUtil.equals(this.sheetName, currentSheetName)) {
+				this.sheetIndex = this.boundSheetRecords.size() - 1;
 			}
 		} else if (record instanceof SSTRecord) {
 			// 静态字符串表
@@ -213,11 +217,11 @@ public class Excel03SaxReader implements HSSFListener, ExcelSaxReader<Excel03Sax
 				}
 				curRid++;
 			}
-		} else if (record instanceof EOFRecord){
-			if(this.sheetIndex < 0 && null != this.sheetName){
+		} else if (record instanceof EOFRecord) {
+			if (this.sheetIndex < 0 && null != this.sheetName) {
 				throw new POIException("Sheet [{}] not exist!", this.sheetName);
 			}
-			if(this.curRid != -1 && isProcessCurrentSheet()) {
+			if (this.curRid != -1 && isProcessCurrentSheet()) {
 				//只有在当前指定的sheet中，才触发结束事件，且curId=-1时也不处理，避免重复调用
 				processLastCellSheet();
 			}
@@ -226,8 +230,9 @@ public class Excel03SaxReader implements HSSFListener, ExcelSaxReader<Excel03Sax
 				// 空值的操作
 				addToRowCellList(mc);
 			} else if (record instanceof LastCellOfRowDummyRecord) {
+				this.rowIndex = ((LastCellOfRowDummyRecord) record).getRow();
 				// 行结束
-				processLastCell((LastCellOfRowDummyRecord) record);
+				processLastCell();
 			} else {
 				// 处理单元格值
 				processCellValue(record);
@@ -260,19 +265,20 @@ public class Excel03SaxReader implements HSSFListener, ExcelSaxReader<Excel03Sax
 	/**
 	 * 将单元格数据加入到行列表中
 	 *
-	 * @param row    行号
-	 * @param column 单元格
-	 * @param value  值
+	 * @param rowIndex 行号
+	 * @param columnIndex   单元格
+	 * @param value    值
 	 */
-	private void addToRowCellList(final int row, final int column, final Object value) {
-		while (column > this.rowCellList.size()) {
+	private void addToRowCellList(final int rowIndex, final int columnIndex, final Object value) {
+		this.rowIndex = rowIndex;
+		while (columnIndex > this.rowCellList.size()) {
 			// 对于中间无数据的单元格补齐空白
 			this.rowCellList.add(StrUtil.EMPTY);
-			this.rowHandler.handleCell(this.curRid, row, rowCellList.size() - 1, value, null);
+			this.rowHandler.handleCell(this.curRid, rowIndex, rowCellList.size() - 1, value, null);
 		}
 
-		this.rowCellList.add(column, value);
-		this.rowHandler.handleCell(this.curRid, row, column, value, null);
+		this.rowCellList.add(columnIndex, value);
+		this.rowHandler.handleCell(this.curRid, rowIndex, columnIndex, value, null);
 	}
 
 	/**
@@ -344,11 +350,10 @@ public class Excel03SaxReader implements HSSFListener, ExcelSaxReader<Excel03Sax
 	/**
 	 * 处理行结束后的操作，{@link LastCellOfRowDummyRecord}是行结束的标识Record
 	 *
-	 * @param lastCell 行结束的标识Record
 	 */
-	private void processLastCell(final LastCellOfRowDummyRecord lastCell) {
+	private void processLastCell() {
 		// 每行结束时， 调用handle() 方法
-		this.rowHandler.handle(curRid, lastCell.getRow(), this.rowCellList);
+		this.rowHandler.handle(this.curRid, this.rowIndex, this.rowCellList);
 		// 清空行Cache
 		this.rowCellList = new ArrayList<>(this.rowCellList.size());
 	}
@@ -356,7 +361,13 @@ public class Excel03SaxReader implements HSSFListener, ExcelSaxReader<Excel03Sax
 	/**
 	 * 处理sheet结束后的操作
 	 */
-	private void processLastCellSheet(){
+	private void processLastCellSheet() {
+		// 如果最后一行没有LastCellOfRowDummyRecord，rowCellList中可能还有未处理的数据
+		if (!this.rowCellList.isEmpty()) {
+			this.rowHandler.handle(curRid, this.rowIndex, this.rowCellList);
+			this.rowCellList.clear();
+			this.rowCellList = null;
+		}
 		this.rowHandler.doAfterAllAnalysed();
 	}
 
@@ -388,7 +399,7 @@ public class Excel03SaxReader implements HSSFListener, ExcelSaxReader<Excel03Sax
 		if (StrUtil.startWithIgnoreCase(idOrRidOrSheetName, RID_PREFIX)) {
 			// rid从1开始计数，此处转换为从0开始的索引
 			this.sheetIndex = Integer.parseInt(StrUtil.removePrefixIgnoreCase(idOrRidOrSheetName, RID_PREFIX)) - 1;
-		} else if(StrUtil.startWithIgnoreCase(idOrRidOrSheetName, SHEET_NAME_PREFIX)){
+		} else if (StrUtil.startWithIgnoreCase(idOrRidOrSheetName, SHEET_NAME_PREFIX)) {
 			// since 5.7.10，支持任意名称
 			this.sheetName = StrUtil.removePrefixIgnoreCase(idOrRidOrSheetName, SHEET_NAME_PREFIX);
 		} else {

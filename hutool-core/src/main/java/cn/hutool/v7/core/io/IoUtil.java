@@ -178,7 +178,7 @@ public class IoUtil extends NioUtil {
 		return FileChannelCopier.of().copy(in, out);
 	}
 
-	// endregion ----- Copy
+	// endregion
 
 	// region ----- toReader and toWriter
 
