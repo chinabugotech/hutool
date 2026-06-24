@@ -10,6 +10,7 @@
 * 【core   】      修复`HexUtil.format`奇数位数输出错误问题（issue#4263@Github）
 * 【core   】      修复`CamelCaseLinkedMap`顺序错乱问题（issue#IJV845@Gitee）
 * 【core   】      修复`AntPathMatcher`substring问题（pr#4276@Github）
+* 【poi    】      修复`Excel03SaxReader`读取xls时最后一行数据丢失问题（pr#1442@Gitee）
 
 # 5.8.46(2026-05-25)
 ### 🐣新特性

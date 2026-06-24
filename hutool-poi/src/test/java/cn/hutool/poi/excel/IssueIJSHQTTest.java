@@ -16,7 +16,7 @@ public class IssueIJSHQTTest {
     @Disabled
 	public void readBySaxXlsTest() {
 		// 替换为你的xls文件路径
-		ExcelUtil.readBySax("C:\\Users\\admin\\Downloads\\b106e21a-78e1-49a7-86e4-da70035ac6ed.xls", 0,
+		ExcelUtil.readBySax("d:/test/b106e21a-78e1-49a7-86e4-da70035ac6ed.xls", 0,
 				(sheetIndex, rowIndex, rowList) -> {
 					Console.log("[{}] [{}] {}", sheetIndex, rowIndex, rowList);
 				});
