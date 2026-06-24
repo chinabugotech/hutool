@@ -183,7 +183,13 @@ public class MethodUtil {
 
 		// 优先从细粒度缓存查找
 		final MethodLookupKey key = new MethodLookupKey(clazz, ignoreCase, methodName, paramTypes);
-		return METHOD_LOOKUP_CACHE.computeIfAbsent(key, (lookupKey) -> getMethod(getMethods(clazz), ignoreCase, methodName, paramTypes));
+		if (METHOD_LOOKUP_CACHE.containsKey(key)) {
+			return METHOD_LOOKUP_CACHE.get(key);
+		}
+
+		// issue#4277 getMethods走缓存查找，放在computeIfAbsent嵌套中可能会导致线程等待和CPU占用100%
+		final Method[] methods = getMethods(clazz);
+		return METHOD_LOOKUP_CACHE.computeIfAbsent(key, (lookupKey) -> getMethod(methods, ignoreCase, methodName, paramTypes));
 	}
 
 	/**
