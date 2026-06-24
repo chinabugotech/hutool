@@ -73,6 +73,11 @@ public class Excel03SaxReader implements HSSFListener, ExcelSaxReader<Excel03Sax
 
 	private boolean isOutputNextStringRecord;
 
+	/**
+	 * 上一个已处理的行号
+	 */
+	private int lastProcessedRow = -1;
+
 	// 存储行记录的容器
 	private List<Object> rowCellList = new ArrayList<>();
 
@@ -267,6 +272,7 @@ public class Excel03SaxReader implements HSSFListener, ExcelSaxReader<Excel03Sax
 	 * @param value  值
 	 */
 	private void addToRowCellList(int row, int column, Object value) {
+		lastProcessedRow = row;
 		while (column > this.rowCellList.size()) {
 			// 对于中间无数据的单元格补齐空白
 			this.rowCellList.add(StrUtil.EMPTY);
@@ -350,7 +356,8 @@ public class Excel03SaxReader implements HSSFListener, ExcelSaxReader<Excel03Sax
 	 */
 	private void processLastCell(LastCellOfRowDummyRecord lastCell) {
 		// 每行结束时， 调用handle() 方法
-		this.rowHandler.handle(curRid, lastCell.getRow(), this.rowCellList);
+		lastProcessedRow = lastCell.getRow();
+		this.rowHandler.handle(curRid, lastProcessedRow, this.rowCellList);
 		// 清空行Cache
 		this.rowCellList = new ArrayList<>(this.rowCellList.size());
 	}
@@ -359,6 +366,11 @@ public class Excel03SaxReader implements HSSFListener, ExcelSaxReader<Excel03Sax
 	 * 处理sheet结束后的操作
 	 */
 	private void processLastCellSheet(){
+		// 如果最后一行没有LastCellOfRowDummyRecord，rowCellList中可能还有未处理的数据
+		if (false == this.rowCellList.isEmpty()) {
+			this.rowHandler.handle(curRid, lastProcessedRow, this.rowCellList);
+			this.rowCellList.clear();
+		}
 		this.rowHandler.doAfterAllAnalysed();
 	}
 
