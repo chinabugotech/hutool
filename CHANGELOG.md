@@ -4,6 +4,8 @@
 # 5.8.47(2026-06-24)
 ### 🐣新特性
 * 【core   】      `EnumConverter`变更规则，当用户自定义方法返回null时，调用默认valueOf（pr#4258@Github）
+* 【core   】      `DateUtil`parseISO8601增加检查范围（pr#4275@Github）
+
 ### 🐞Bug修复
 * 【core   】      修复`HexUtil.format`奇数位数输出错误问题（issue#4263@Github）
 * 【core   】      修复`CamelCaseLinkedMap`顺序错乱问题（issue#IJV845@Gitee）
