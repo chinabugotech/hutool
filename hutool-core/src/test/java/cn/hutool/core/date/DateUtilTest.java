@@ -1261,4 +1261,12 @@ public class DateUtilTest {
 		 */
 	}
 
+
+	@Test
+	public void parseISO8601ShortZoneOffsetTest() {
+		// Short zone offset like "+0" should throw DateException, not StringIndexOutOfBoundsException
+		assertThrows(DateException.class, () -> {
+			DateUtil.parseISO8601("2019-06-01T19:45:43+0");
+		});
+	}
 }
