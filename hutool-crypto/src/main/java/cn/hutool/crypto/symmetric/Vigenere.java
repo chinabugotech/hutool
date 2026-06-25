@@ -20,6 +20,9 @@ public class Vigenere {
 	public static String encrypt(CharSequence data, CharSequence cipherKey) {
 		final int dataLen = data.length();
 		final int cipherKeyLen = cipherKey.length();
+		if (cipherKeyLen == 0) {
+			throw new IllegalArgumentException("cipherKey must not be empty");
+		}
 
 		final char[] cipherArray = new char[dataLen];
 		for (int i = 0; i < dataLen / cipherKeyLen + 1; i++) {
@@ -45,6 +48,9 @@ public class Vigenere {
 	public static String decrypt(CharSequence data, CharSequence cipherKey) {
 		final int dataLen = data.length();
 		final int cipherKeyLen = cipherKey.length();
+		if (cipherKeyLen == 0) {
+			throw new IllegalArgumentException("cipherKey must not be empty");
+		}
 
 		final char[] clearArray = new char[dataLen];
 		for (int i = 0; i < dataLen; i++) {
