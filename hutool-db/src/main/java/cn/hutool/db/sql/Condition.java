@@ -563,6 +563,9 @@ public class Condition extends CloneSupport<Condition> {
 			return null;
 		}
 		value = value.trim();
+		if (value.isEmpty()) {
+			return value;
+		}
 
 		int from = 0;
 		int to = value.length();
