@@ -251,7 +251,7 @@ public enum FileMagicNumber {
 					&& Objects.equals(bytes[8], (byte) 0x4d)
 					&& Objects.equals(bytes[9], (byte) 0x34)
 					&& Objects.equals(bytes[10], (byte) 0x41))
-					|| (Objects.equals(bytes[0], (byte) 0x4d)
+					|| (bytes.length > 3 && Objects.equals(bytes[0], (byte) 0x4d)
 					&& Objects.equals(bytes[1], (byte) 0x34)
 					&& Objects.equals(bytes[2], (byte) 0x41)
 					&& Objects.equals(bytes[3], (byte) 0x20));
@@ -260,7 +260,7 @@ public enum FileMagicNumber {
 	AAC("audio/aac", "aac") {
 		@Override
 		public boolean match(final byte[] bytes) {
-			if (bytes.length < 1) {
+			if (bytes.length < 2) {
 				return false;
 			}
 			final boolean flag1 = Objects.equals(bytes[0], (byte) 0xFF) && Objects.equals(bytes[1], (byte) 0xF1);
@@ -282,7 +282,7 @@ public enum FileMagicNumber {
 					&& Objects.equals(bytes[4], (byte) 0x52)
 					&& Objects.equals(bytes[5], (byte) 0x0A);
 			//multi-channel:
-			final boolean flag2 = Objects.equals(bytes[0], (byte) 0x23)
+			final boolean flag2 = bytes.length >= 12 && Objects.equals(bytes[0], (byte) 0x23)
 					&& Objects.equals(bytes[1], (byte) 0x21)
 					&& Objects.equals(bytes[2], (byte) 0x41)
 					&& Objects.equals(bytes[3], (byte) 0x4d)
