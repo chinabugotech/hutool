@@ -30,4 +30,9 @@ public class Md5Test {
 		});
 		IoUtil.close(tester);
 	}
+
+	@Test
+	public void md5HexTo16ShortInputTest() {
+		assertThrows(IllegalArgumentException.class, () -> DigestUtil.md5HexTo16("short"));
+	}
 }
