@@ -16,6 +16,8 @@
 
 package cn.hutool.ai.core;
 
+import cn.hutool.ai.AIException;
+
 import java.lang.reflect.Constructor;
 import java.net.Proxy;
 
@@ -35,18 +37,15 @@ public class AIConfigBuilder {
 	 * @param modelName 模型厂商的名称（注意不是指具体的模型）
 	 */
 	public AIConfigBuilder(final String modelName) {
+		final Class<? extends AIConfig> configClass = AIConfigRegistry.getConfigClass(modelName);
+		if (configClass == null) {
+			throw new IllegalArgumentException("Unsupported model: " + modelName);
+		}
 		try {
-			// 获取配置类
-			final Class<? extends AIConfig> configClass = AIConfigRegistry.getConfigClass(modelName);
-			if (configClass == null) {
-				throw new IllegalArgumentException("Unsupported model: " + modelName);
-			}
-
-			// 使用反射创建实例
 			final Constructor<? extends AIConfig> constructor = configClass.getDeclaredConstructor();
 			config = constructor.newInstance();
-		} catch (final Exception e) {
-			throw new RuntimeException("Failed to create AIConfig instance", e);
+		} catch (final ReflectiveOperationException e) {
+			throw new AIException("Failed to create AIConfig instance", e);
 		}
 	}
 
@@ -95,7 +94,7 @@ public class AIConfigBuilder {
 	/**
 	 * 动态设置Request请求体中的属性字段，每个模型功能支持的字段请参照对应的官方文档
 	 *
-	 * @param key   Request中的支持的属性名
+	 * @param key Request中的支持的属性名
 	 * @param value 设置的属性值
 	 * @return config
 	 * @since 5.8.38

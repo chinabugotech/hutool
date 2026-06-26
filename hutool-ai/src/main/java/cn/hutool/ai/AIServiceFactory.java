@@ -20,7 +20,9 @@ import cn.hutool.ai.core.AIConfig;
 import cn.hutool.ai.core.AIService;
 import cn.hutool.ai.core.AIServiceProvider;
 import cn.hutool.core.util.ServiceLoaderUtil;
+import cn.hutool.core.util.StrUtil;
 
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -37,11 +39,11 @@ public class AIServiceFactory {
 	// 加载所有 AIModelProvider 实现类
 	static {
 		for (final AIServiceProvider provider : ServiceLoaderUtil.load(AIServiceProvider.class)) {
-			providers.putIfAbsent(provider.getServiceName().toLowerCase(), provider);
+			providers.putIfAbsent(normalizeModelName(provider.getServiceName()), provider);
 		}
 		// issue#4241@github，多线程和Spring环境下可能导致SPI文件找不到问题
 		for (final AIServiceProvider provider : ServiceLoaderUtil.load(AIServiceProvider.class, AIServiceProvider.class.getClassLoader())) {
-			providers.putIfAbsent(provider.getServiceName().toLowerCase(), provider);
+			providers.putIfAbsent(normalizeModelName(provider.getServiceName()), provider);
 		}
 	}
 
@@ -67,7 +69,10 @@ public class AIServiceFactory {
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T extends AIService> T getAIService(final AIConfig config, final Class<T> clazz) {
-		final AIServiceProvider provider = providers.get(config.getModelName().toLowerCase());
+		if (config == null) {
+			throw new IllegalArgumentException("AIConfig must not be null");
+		}
+		final AIServiceProvider provider = providers.get(normalizeModelName(config.getModelName()));
 		if (provider == null) {
 			throw new IllegalArgumentException("Unsupported model: " + config.getModelName());
 		}
@@ -78,5 +83,12 @@ public class AIServiceFactory {
 		}
 
 		return (T) service;
+	}
+
+	private static String normalizeModelName(final String modelName) {
+		if (StrUtil.isBlank(modelName)) {
+			throw new IllegalArgumentException("Model name must not be blank");
+		}
+		return modelName.trim().toLowerCase(Locale.ROOT);
 	}
 }
