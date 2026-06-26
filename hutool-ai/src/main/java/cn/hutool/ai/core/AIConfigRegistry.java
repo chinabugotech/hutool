@@ -17,7 +17,9 @@
 package cn.hutool.ai.core;
 
 import cn.hutool.core.util.ServiceLoaderUtil;
+import cn.hutool.core.util.StrUtil;
 
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -34,11 +36,11 @@ public class AIConfigRegistry {
 	// 加载所有 AIConfig 实现类
 	static {
 		for (final AIConfig config : ServiceLoaderUtil.load(AIConfig.class)) {
-			configClasses.putIfAbsent(config.getModelName().toLowerCase(), config.getClass());
+			configClasses.putIfAbsent(normalizeModelName(config.getModelName()), config.getClass());
 		}
 		// issue#4241@github，多线程和Spring环境下可能导致SPI文件找不到问题
 		for (final AIConfig config : ServiceLoaderUtil.load(AIConfig.class, AIConfig.class.getClassLoader())) {
-			configClasses.putIfAbsent(config.getModelName().toLowerCase(), config.getClass());
+			configClasses.putIfAbsent(normalizeModelName(config.getModelName()), config.getClass());
 		}
 	}
 
@@ -49,6 +51,13 @@ public class AIConfigRegistry {
 	 * @return AIConfig实现类
 	 */
 	public static Class<? extends AIConfig> getConfigClass(final String modelName) {
-		return configClasses.get(modelName.toLowerCase());
+		return configClasses.get(normalizeModelName(modelName));
+	}
+
+	private static String normalizeModelName(final String modelName) {
+		if (StrUtil.isBlank(modelName)) {
+			throw new IllegalArgumentException("Model name must not be blank");
+		}
+		return modelName.trim().toLowerCase(Locale.ROOT);
 	}
 }
