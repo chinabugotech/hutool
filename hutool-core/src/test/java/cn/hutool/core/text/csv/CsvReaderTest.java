@@ -202,4 +202,17 @@ public class CsvReaderTest {
 		final CsvReader reader = CsvUtil.getReader(ResourceUtil.getUtf8Reader("test_bean.csv"));
 		reader.stream().limit(2).forEach(Console::log);
 	}
+
+	@Test
+	public void csvRowGetNegativeIndexReturnsNull() {
+		// CsvRow.get(int) should return null for any out-of-bounds index, including negative.
+		CsvReader reader = new CsvReader();
+		CsvData data = reader.readFromStr("a,b,c\n");
+		CsvRow row = data.getRow(0);
+		// Negative index should return null, not throw IndexOutOfBoundsException
+		assertNull(row.get(-1));
+		assertNull(row.get(-100));
+		// Positive out-of-bounds already works
+		assertNull(row.get(10));
+	}
 }
