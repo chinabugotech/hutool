@@ -588,7 +588,8 @@ public class IdcardUtil {
 	public static String getProvinceCodeByIdCard(String idcard) {
 		int len = idcard.length();
 		if (len == CHINA_ID_MIN_LENGTH || len == CHINA_ID_MAX_LENGTH) {
-			return idcard.substring(0, 2);
+			// 截取省份代码。新版外国人永久居留身份证以9开头，第二三位是受理地代码
+			return idcard.startsWith("9") ? idcard.substring(1, 3): idcard.substring(0, 2);
 		}
 		return null;
 	}
