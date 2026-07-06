@@ -27,6 +27,7 @@ import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * 对称加密算法单元测试
@@ -237,5 +238,16 @@ public class SymmetricTest {
 		assertEquals("zXScRZ]KIOMhQjc0\\bYRXZOJK[Vi", encrypt);
 		final String decrypt = Vigenere.decrypt(encrypt, key);
 		assertEquals(content, decrypt);
+	}
+
+	@Test
+	public void vigenereEmptyKeyTest() {
+		final String content = "Hello";
+		final String emptyKey = "";
+
+		// encrypt with an empty key should throw IllegalArgumentException, not ArithmeticException
+		assertThrows(IllegalArgumentException.class, () -> Vigenere.encrypt(content, emptyKey));
+		// decrypt with an empty key should also throw IllegalArgumentException
+		assertThrows(IllegalArgumentException.class, () -> Vigenere.decrypt(content, emptyKey));
 	}
 }

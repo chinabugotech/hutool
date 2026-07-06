@@ -16,6 +16,8 @@
 
 package cn.hutool.v7.crypto.symmetric;
 
+import cn.hutool.v7.core.lang.Assert;
+
 /**
  * 维吉尼亚密码实现。<br>
  * 人们在恺撒移位密码的基础上扩展出多表密码，称为维吉尼亚密码。<br>
@@ -34,8 +36,13 @@ public class Vigenere {
 	 * @return 密文
 	 */
 	public static String encrypt(final CharSequence data, final CharSequence cipherKey) {
+		Assert.notNull(data, "data must not be null");
+		Assert.notNull(cipherKey, "cipherKey must not be null");
 		final int dataLen = data.length();
 		final int cipherKeyLen = cipherKey.length();
+		if (cipherKeyLen == 0) {
+			throw new IllegalArgumentException("cipherKey must not be empty");
+		}
 
 		final char[] cipherArray = new char[dataLen];
 		for (int i = 0; i < dataLen / cipherKeyLen + 1; i++) {
@@ -59,8 +66,13 @@ public class Vigenere {
 	 * @return 明文
 	 */
 	public static String decrypt(final CharSequence data, final CharSequence cipherKey) {
+		Assert.notNull(data, "data must not be null");
+		Assert.notNull(cipherKey, "cipherKey must not be null");
 		final int dataLen = data.length();
 		final int cipherKeyLen = cipherKey.length();
+		if (cipherKeyLen == 0) {
+			throw new IllegalArgumentException("cipherKey must not be empty");
+		}
 
 		final char[] clearArray = new char[dataLen];
 		for (int i = 0; i < dataLen; i++) {
