@@ -136,7 +136,9 @@ public class CIN {
 	 * @return 省份编码
 	 */
 	public String getProvinceCode() {
-		return this.code.substring(0, 2);
+		// 截取省份代码。新版外国人永久居留身份证以9开头，第二三位是受理地代码
+		final String code = this.code;
+		return code.startsWith("9") ? code.substring(1, 3): code.substring(0, 2);
 	}
 
 	/**

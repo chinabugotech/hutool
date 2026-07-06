@@ -608,8 +608,8 @@ public class Condition implements Cloneable, Serializable {
 	 * @return 去掉引号后的值
 	 */
 	private static String unwrapQuote(final String value) {
-		if (null == value) {
-			return null;
+		if (StrUtil.isEmpty(value)) {
+			return value;
 		}
 
 		int from = 0;
