@@ -418,6 +418,8 @@ public class BCrypt {
 		int rounds, off;
 		StringBuilder rs = new StringBuilder();
 
+		if (salt.length() < 29)
+			throw new IllegalArgumentException("Invalid salt");
 		if (salt.charAt(0) != '$' || salt.charAt(1) != '2')
 			throw new IllegalArgumentException("Invalid salt version");
 		if (salt.charAt(2) == '$')
