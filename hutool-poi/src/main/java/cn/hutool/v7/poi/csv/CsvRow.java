@@ -118,7 +118,7 @@ public final class CsvRow extends ListWrapper<String> {
 
 	@Override
 	public String get(final int index) {
-		return index >= size() ? null : super.get(index);
+		return index < 0 || index >= size() ? null : super.get(index);
 	}
 
 	@Override
