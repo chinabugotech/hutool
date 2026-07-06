@@ -9,6 +9,7 @@
 * 【crypto 】      Reject empty cipherKey in Vigenere with a clear exception（pr#4279@Github）
 * 【core   】      Return null from CsvRow.get for a negative index（pr#4280@Github）
 * 【crypto 】      Reject too-short salt in `BCrypt.hashpw` with IllegalArgumentException（pr#4282@Github）
+* 【crypto 】      Validate `md5HexTo16` input length to avoid StringIndexOutOfBoundsException（pr#4283@Github）
 
 ### 🐞Bug修复
 * 【core   】      修复`HexUtil.format`奇数位数输出错误问题（issue#4263@Github）
