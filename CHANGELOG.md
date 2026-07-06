@@ -7,6 +7,7 @@
 * 【core   】      `DateUtil`parseISO8601增加检查范围（pr#4275@Github）
 * 【core   】      Guard FileMagicNumber AAC/M4A/AMR matchers against short byte arrays（pr#4278@Github）
 * 【crypto 】      Reject empty cipherKey in Vigenere with a clear exception（pr#4279@Github）
+* 【core   】      Return null from CsvRow.get for a negative index（pr#4280@Github）
 
 ### 🐞Bug修复
 * 【core   】      修复`HexUtil.format`奇数位数输出错误问题（issue#4263@Github）
