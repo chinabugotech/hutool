@@ -16,14 +16,25 @@
 
 package cn.hutool.v7.crypto.digest;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class BCryptTest {
 
 	@Test
 	public void checkpwTest(){
-		Assertions.assertFalse(BCrypt.checkpw("xxx",
+		assertFalse(BCrypt.checkpw("xxx",
 				"$2a$2a$10$e4lBTlZ019KhuAFyqAlgB.Jxc6cM66GwkSR/5/xXNQuHUItPLyhzy"));
+	}
+
+	@Test
+	public void hashpwShortSaltThrowsIllegalArgumentException() {
+		assertThrows(IllegalArgumentException.class, () -> BCrypt.hashpw("password", "$"));
+		assertThrows(IllegalArgumentException.class, () -> BCrypt.hashpw("password", "$2"));
+		assertThrows(IllegalArgumentException.class, () -> BCrypt.hashpw("password", "$2a"));
+		assertThrows(IllegalArgumentException.class, () -> BCrypt.hashpw("password", "$2a$"));
+		assertThrows(IllegalArgumentException.class, () -> BCrypt.hashpw("password", "$2a$10$"));
 	}
 }

@@ -442,11 +442,15 @@ public class BCrypt {
 		final int off;
 		final StringBuilder rs = new StringBuilder();
 
-		if (salt.charAt(0) != '$' || salt.charAt(1) != '2')
+		if (salt.length() < 29){
+			throw new IllegalArgumentException("Invalid salt");
+		}
+		if (salt.charAt(0) != '$' || salt.charAt(1) != '2'){
 			throw new IllegalArgumentException("Invalid salt version");
-		if (salt.charAt(2) == '$')
+		}
+		if (salt.charAt(2) == '$') {
 			off = 3;
-		else {
+		}else {
 			minor = salt.charAt(2);
 			// pr#1560@Github
 			// 修正一个在Blowfish实现上的安全风险
