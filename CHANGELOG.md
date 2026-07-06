@@ -1,10 +1,12 @@
 
 # 🚀Changelog
 -------------------------------------------------------------------------------------------------------------
-# 5.8.47(2026-06-24)
+# 5.8.47(2026-07-06)
 ### 🐣新特性
 * 【core   】      `EnumConverter`变更规则，当用户自定义方法返回null时，调用默认valueOf（pr#4258@Github）
 * 【core   】      `DateUtil`parseISO8601增加检查范围（pr#4275@Github）
+* 【core   】      Guard FileMagicNumber AAC/M4A/AMR matchers against short byte arrays（pr#4278@Github）
+* 【crypto 】      Reject empty cipherKey in Vigenere with a clear exception（pr#4279@Github）
 
 ### 🐞Bug修复
 * 【core   】      修复`HexUtil.format`奇数位数输出错误问题（issue#4263@Github）
