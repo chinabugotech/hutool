@@ -128,6 +128,20 @@ public class ConstructorUtil {
 	}
 
 	/**
+	 * 根据指定的参数类型和参数值，创建类的实例
+	 *
+	 * @param <T>        对象类型
+	 * @param clazz      类
+	 * @param paramTypes 构造函数参数类型数组
+	 * @param params     构造函数参数值数组
+	 * @return 对象实例
+	 * @throws HutoolException 包装各类异常
+	 */
+	public static <T> T newInstance(final Class<T> clazz, final Class<?>[] paramTypes, final Object[] params) throws HutoolException {
+		return DefaultObjectFactory.of(clazz, paramTypes, params).create();
+	}
+
+	/**
 	 * 尝试遍历并调用此类的所有构造方法，直到构造成功并返回
 	 * <p>
 	 * 对于某些特殊的接口，按照其默认实现实例化，例如：

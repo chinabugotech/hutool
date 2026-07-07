@@ -164,9 +164,12 @@ public class ClassUtil {
 	 * 获得对象数组的类数组
 	 *
 	 * @param objects 对象数组，如果数组中存在{@code null}元素，则此元素被认为是Object类型
-	 * @return 类数组
+	 * @return 类数组，如果为空数组或null，返回空数组
 	 */
 	public static Class<?>[] getClasses(final Object... objects) {
+		if(ArrayUtil.isEmpty(objects)){
+			return new Class[0];
+		}
 		final Class<?>[] classes = new Class<?>[objects.length];
 		Object obj;
 		for (int i = 0; i < objects.length; i++) {

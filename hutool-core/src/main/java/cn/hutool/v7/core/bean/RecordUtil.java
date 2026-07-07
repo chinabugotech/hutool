@@ -16,8 +16,10 @@
 
 package cn.hutool.v7.core.bean;
 
+import cn.hutool.v7.core.array.ArrayUtil;
 import cn.hutool.v7.core.bean.copier.ValueProvider;
 import cn.hutool.v7.core.reflect.ConstructorUtil;
+import cn.hutool.v7.core.reflect.TypeUtil;
 
 import java.lang.reflect.RecordComponent;
 import java.lang.reflect.Type;
@@ -46,7 +48,7 @@ public class RecordUtil {
 	 * 获取Record类中所有字段名称，getter方法名与字段同名
 	 *
 	 * @param recordClass Record类
-	 * @return 字段数组，如果类不是Record，则返回null
+	 * @return 字段数组，Entry的key为字段名，value为字段类型，如果类不是Record，则返回null
 	 */
 	@SuppressWarnings("unchecked")
 	public static Map.Entry<String, Type>[] getRecordComponents(final Class<?> recordClass) {
@@ -70,11 +72,16 @@ public class RecordUtil {
 	 */
 	public static Object newInstance(final Class<?> recordClass, final ValueProvider<String> valueProvider) {
 		final Map.Entry<String, Type>[] recordComponents = getRecordComponents(recordClass);
+		if(ArrayUtil.isEmpty(recordComponents)){
+			throw new IllegalArgumentException("Record class [" + recordClass.getName() + "] has no components");
+		}
+		final Class<?>[] argTypes = new Class<?>[recordComponents.length];
 		final Object[] args = new Object[recordComponents.length];
 		for (int i = 0; i < args.length; i++) {
+			argTypes[i] = TypeUtil.getClass(recordComponents[i].getValue());
 			args[i] = valueProvider.value(recordComponents[i].getKey(), recordComponents[i].getValue());
 		}
 
-		return ConstructorUtil.newInstance(recordClass, args);
+		return ConstructorUtil.newInstance(recordClass, argTypes, args);
 	}
 }

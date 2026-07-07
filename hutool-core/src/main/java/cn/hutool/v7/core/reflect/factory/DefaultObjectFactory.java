@@ -35,8 +35,8 @@ public class DefaultObjectFactory<T> extends SimpleObjectFactory<T> {
 	/**
 	 * 创建默认的对象实例化器
 	 *
-	 * @param fullClassName  类名全程
-	 * @param <T>    对象类型
+	 * @param fullClassName 类名全程
+	 * @param <T>           对象类型
 	 * @return DefaultObjectCreator
 	 */
 	public static <T> DefaultObjectFactory<T> of(final String fullClassName) {
@@ -55,7 +55,21 @@ public class DefaultObjectFactory<T> extends SimpleObjectFactory<T> {
 		return new DefaultObjectFactory<>(clazz, params);
 	}
 
+	/**
+	 * 构造方法查找器，通过传入类、参数类型和参数来创建对象实例化器
+	 *
+	 * @param clazz      实例化的类
+	 * @param paramTypes 参数类型，无参数空
+	 * @param params     构造参数，无参数空
+	 * @param <T>        对象类型
+	 * @return DefaultObjectFactory
+	 */
+	public static <T> DefaultObjectFactory<T> of(final Class<T> clazz, final Class<?>[] paramTypes, final Object[] params) {
+		return new DefaultObjectFactory<>(clazz, paramTypes, params);
+	}
+
 	final MethodHandle constructor;
+	final Class<?>[] paramTypes;
 	final Object[] params;
 
 	/**
@@ -65,9 +79,21 @@ public class DefaultObjectFactory<T> extends SimpleObjectFactory<T> {
 	 * @param params 构造参数，无参数空
 	 */
 	public DefaultObjectFactory(final Class<T> clazz, final Object... params) {
-		final Class<?>[] paramTypes = ClassUtil.getClasses(params);
+		this(clazz, ClassUtil.getClasses(params), params);
+	}
+
+	/**
+	 * 构造
+	 *
+	 * @param clazz      实例化的类
+	 * @param paramTypes 构造参数类型，无参数空
+	 * @param params     构造参数，无参数空
+	 */
+	public DefaultObjectFactory(final Class<T> clazz, final Class<?>[] paramTypes, final Object[] params) {
 		this.constructor = LookupUtil.findConstructor(clazz, paramTypes);
 		Assert.notNull(this.constructor, "Constructor not found!");
+
+		this.paramTypes = paramTypes;
 		this.params = params;
 	}
 
