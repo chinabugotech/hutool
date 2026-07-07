@@ -1,9 +1,7 @@
 package cn.hutool.core.bean;
 
 import cn.hutool.core.bean.copier.ValueProvider;
-import cn.hutool.core.util.ClassUtil;
-import cn.hutool.core.util.JdkUtil;
-import cn.hutool.core.util.ReflectUtil;
+import cn.hutool.core.util.*;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
@@ -100,11 +98,16 @@ public class RecordUtil {
 	 */
 	public static Object newInstance(final Class<?> recordClass, final ValueProvider<String> valueProvider) {
 		final Map.Entry<String, Type>[] recordComponents = getRecordComponents(recordClass);
+		if(ArrayUtil.isEmpty(recordComponents)){
+			throw new IllegalArgumentException("Record class [" + recordClass.getName() + "] has no components");
+		}
+		final Class<?>[] argTypes = new Class<?>[recordComponents.length];
 		final Object[] args = new Object[recordComponents.length];
 		for (int i = 0; i < args.length; i++) {
+			argTypes[i] = TypeUtil.getClass(recordComponents[i].getValue());
 			args[i] = valueProvider.value(recordComponents[i].getKey(), recordComponents[i].getValue());
 		}
 
-		return ReflectUtil.newInstance(recordClass, args);
+		return ReflectUtil.newInstance(recordClass, argTypes, args);
 	}
 }

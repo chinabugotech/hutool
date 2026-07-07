@@ -17,6 +17,7 @@
 * 【core   】      修复`AntPathMatcher`substring问题（pr#4276@Github）
 * 【poi    】      修复`Excel03SaxReader`读取xls时最后一行数据丢失问题（pr#1442@Gitee）
 * 【core   】      修复根据新版外国人永久居留身份证（18位）身份编号获取户籍省份编码的问题（pr#4288@Github）
+* 【core   】      修复`Record`反序列化时字段null导致报错问题（issue#4269@Github）
 
 # 5.8.46(2026-05-25)
 ### 🐣新特性
