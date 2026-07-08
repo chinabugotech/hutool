@@ -16,11 +16,12 @@
 
 package cn.hutool.v7.core.reflect;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Type;
 import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * 见：<a href="https://gitee.com/chinabugotech/hutool/pulls/447/files">https://gitee.com/chinabugotech/hutool/pulls/447/files</a>
@@ -34,15 +35,15 @@ public class ActualTypeMapperPoolTest {
 		final Map<Type, Type> typeTypeMap = ActualTypeMapperPool.get(FinalClass.class);
 		typeTypeMap.forEach((key, value)->{
 			if("A".equals(key.getTypeName())){
-				Assertions.assertEquals(Character.class, value);
+				assertEquals(Character.class, value);
 			} else if("B".equals(key.getTypeName())){
-				Assertions.assertEquals(Boolean.class, value);
+				assertEquals(Boolean.class, value);
 			} else if("C".equals(key.getTypeName())){
-				Assertions.assertEquals(String.class, value);
+				assertEquals(String.class, value);
 			} else if("D".equals(key.getTypeName())){
-				Assertions.assertEquals(Double.class, value);
+				assertEquals(Double.class, value);
 			} else if("E".equals(key.getTypeName())){
-				Assertions.assertEquals(Integer.class, value);
+				assertEquals(Integer.class, value);
 			}
 		});
 	}
@@ -52,15 +53,15 @@ public class ActualTypeMapperPoolTest {
 		final Map<String, Type> typeTypeMap = ActualTypeMapperPool.getStrKeyMap(FinalClass.class);
 		typeTypeMap.forEach((key, value)->{
 			if("A".equals(key)){
-				Assertions.assertEquals(Character.class, value);
+				assertEquals(Character.class, value);
 			} else if("B".equals(key)){
-				Assertions.assertEquals(Boolean.class, value);
+				assertEquals(Boolean.class, value);
 			} else if("C".equals(key)){
-				Assertions.assertEquals(String.class, value);
+				assertEquals(String.class, value);
 			} else if("D".equals(key)){
-				Assertions.assertEquals(Double.class, value);
+				assertEquals(Double.class, value);
 			} else if("E".equals(key)){
-				Assertions.assertEquals(Integer.class, value);
+				assertEquals(Integer.class, value);
 			}
 		});
 	}

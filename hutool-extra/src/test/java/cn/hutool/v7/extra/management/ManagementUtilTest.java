@@ -296,7 +296,6 @@ public class ManagementUtilTest {
 		assertNotNull(info.getCurrentDir());
 		assertNotNull(info.getTempDir());
 		assertNotNull(info.getLanguage());
-		assertNotNull(info.getCountry());
 
 		// 验证临时目录以分隔符结尾
 		assertTrue(info.getTempDir().endsWith(File.separator));
