@@ -157,7 +157,7 @@ class RecordUtilTest {
 			RecordUtil.newInstance(SimpleRecord.class, null));
 
 		// 测试边界值：非Record类
-		assertThrows(NullPointerException.class, () ->
+		assertThrows(IllegalArgumentException.class, () ->
 			RecordUtil.newInstance(String.class, simpleProvider));
 	}
 

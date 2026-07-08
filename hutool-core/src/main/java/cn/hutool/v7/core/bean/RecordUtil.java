@@ -16,7 +16,6 @@
 
 package cn.hutool.v7.core.bean;
 
-import cn.hutool.v7.core.array.ArrayUtil;
 import cn.hutool.v7.core.bean.copier.ValueProvider;
 import cn.hutool.v7.core.reflect.ConstructorUtil;
 import cn.hutool.v7.core.reflect.TypeUtil;
@@ -72,7 +71,7 @@ public class RecordUtil {
 	 */
 	public static Object newInstance(final Class<?> recordClass, final ValueProvider<String> valueProvider) {
 		final Map.Entry<String, Type>[] recordComponents = getRecordComponents(recordClass);
-		if(ArrayUtil.isEmpty(recordComponents)){
+		if(null == recordComponents){
 			throw new IllegalArgumentException("Record class [" + recordClass.getName() + "] has no components");
 		}
 		final Class<?>[] argTypes = new Class<?>[recordComponents.length];
