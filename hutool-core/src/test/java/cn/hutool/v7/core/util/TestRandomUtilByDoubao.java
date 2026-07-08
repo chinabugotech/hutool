@@ -22,6 +22,7 @@ import cn.hutool.v7.core.date.DateUnit;
 import cn.hutool.v7.core.date.DateUtil;
 import cn.hutool.v7.core.lang.selector.WeightObj;
 import cn.hutool.v7.core.lang.selector.WeightRandomSelector;
+import cn.hutool.v7.core.text.StrUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -445,13 +446,17 @@ public class TestRandomUtilByDoubao {
 
 	// ===================== 随机日期测试 =====================
 	@Test
-	void testRandomDate() {
+	void testRandomDay(){
 		// 测试基于当天的随机天数
 		final DateTime randomDay = RandomUtil.randomDay(-5, 5);
 		// 验证日期在 [-5, 4] 天范围内（因为 max 不包含）
-		final long diff = DateUtil.betweenDay(DateUtil.now(), randomDay, true);
-		assertTrue(diff >= -5 && diff <= 4);
+		final DateTime now = DateUtil.now();
+		final long diff = DateUtil.betweenDay(now, randomDay, true);
+		assertTrue(diff >= -5 && diff <= 4, StrUtil.format("随机天数范围验证失败，随机：{}，当前：{}", diff, now));
+	}
 
+	@Test
+	void testRandomDate() {
 		// 测试基于指定日期的随机时间
 		final DateTime baseDate = DateUtil.parse("2024-01-01 12:00:00");
 		final DateTime randomDate = RandomUtil.randomDate(baseDate, DateField.HOUR_OF_DAY, -2, 3);
