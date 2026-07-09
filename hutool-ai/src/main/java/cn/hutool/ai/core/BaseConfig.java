@@ -128,5 +128,6 @@ public class BaseConfig implements AIConfig {
 	@Override
 	public void setProxy(Proxy proxy) {
 		this.proxy = proxy;
+		this.hasProxy = proxy != null;
 	}
 }
