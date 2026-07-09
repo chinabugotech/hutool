@@ -904,6 +904,9 @@ public class DateUtil extends CalendarUtil {
 			}
 			if (false == StrUtil.contains(zoneOffset, ':')) {
 				// +0800转换为+08:00
+				if (zoneOffset.length() < 2) {
+					throw new DateException("Invalid format: [{}]", iso8601String);
+				}
 				final String pre = StrUtil.subBefore(iso8601String, '+', true);
 				iso8601String = pre + "+" + zoneOffset.substring(0, 2) + ":" + "00";
 			}

@@ -1,6 +1,24 @@
 
 # 🚀Changelog
 -------------------------------------------------------------------------------------------------------------
+# 5.8.47(2026-07-06)
+### 🐣新特性
+* 【core   】      `EnumConverter`变更规则，当用户自定义方法返回null时，调用默认valueOf（pr#4258@Github）
+* 【core   】      `DateUtil`parseISO8601增加检查范围（pr#4275@Github）
+* 【core   】      Guard FileMagicNumber AAC/M4A/AMR matchers against short byte arrays（pr#4278@Github）
+* 【crypto 】      Reject empty cipherKey in Vigenere with a clear exception（pr#4279@Github）
+* 【core   】      Return null from CsvRow.get for a negative index（pr#4280@Github）
+* 【crypto 】      Reject too-short salt in `BCrypt.hashpw` with IllegalArgumentException（pr#4282@Github）
+* 【crypto 】      Validate `md5HexTo16` input length to avoid StringIndexOutOfBoundsException（pr#4283@Github）
+
+### 🐞Bug修复
+* 【core   】      修复`HexUtil.format`奇数位数输出错误问题（issue#4263@Github）
+* 【core   】      修复`CamelCaseLinkedMap`顺序错乱问题（issue#IJV845@Gitee）
+* 【core   】      修复`AntPathMatcher`substring问题（pr#4276@Github）
+* 【poi    】      修复`Excel03SaxReader`读取xls时最后一行数据丢失问题（pr#1442@Gitee）
+* 【core   】      修复根据新版外国人永久居留身份证（18位）身份编号获取户籍省份编码的问题（pr#4288@Github）
+* 【core   】      修复`Record`反序列化时字段null导致报错问题（issue#4269@Github）
+
 # 5.8.46(2026-05-25)
 ### 🐣新特性
 * 【core   】      `AnnotationUtil`新增两级缓存架构，提升高频注解解析性能（pr#1434@Gitee）

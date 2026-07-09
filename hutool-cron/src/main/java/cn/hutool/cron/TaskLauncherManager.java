@@ -31,9 +31,9 @@ public class TaskLauncherManager implements Serializable {
 		synchronized (this.launchers) {
 			this.launchers.add(launcher);
 		}
-		//子线程是否为deamon线程取决于父线程，因此此处无需显示调用
+		// 子线程是否为daemon线程取决于父线程，因此此处无需显式调用
 		//launcher.setDaemon(this.scheduler.daemon);
-//		launcher.start();
+		// launcher.start();
 		this.scheduler.threadExecutor.execute(launcher);
 		return launcher;
 	}

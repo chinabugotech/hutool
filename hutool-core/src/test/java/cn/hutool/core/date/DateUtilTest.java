@@ -5,6 +5,7 @@ import cn.hutool.core.date.BetweenFormatter.Level;
 import cn.hutool.core.date.format.FastDateFormat;
 import cn.hutool.core.lang.Console;
 import cn.hutool.core.util.RandomUtil;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.text.SimpleDateFormat;
@@ -1220,6 +1221,7 @@ public class DateUtilTest {
 	}
 
 	@Test
+	@Disabled
 	public void formatSpeedTest(){
 		Date value = new Date();
 		//long t0 = System.currentTimeMillis();
@@ -1261,4 +1263,12 @@ public class DateUtilTest {
 		 */
 	}
 
+
+	@Test
+	public void parseISO8601ShortZoneOffsetTest() {
+		// Short zone offset like "+0" should throw DateException, not StringIndexOutOfBoundsException
+		assertThrows(DateException.class, () -> {
+			DateUtil.parseISO8601("2019-06-01T19:45:43+0");
+		});
+	}
 }

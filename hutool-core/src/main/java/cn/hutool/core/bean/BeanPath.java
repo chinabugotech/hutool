@@ -99,7 +99,7 @@ public class BeanPath implements Serializable {
 	}
 
 	/**
-	 * 设置表达式指定位置（或filed对应）的值<br>
+	 * 设置表达式指定位置（或field对应）的值<br>
 	 * 若表达式指向一个List则设置其坐标对应位置的值，若指向Map则put对应key的值，Bean则设置字段的值<br>
 	 * 注意：
 	 *
@@ -123,7 +123,7 @@ public class BeanPath implements Serializable {
 	//region Private Methods
 
 	/**
-	 * 设置表达式指定位置（或filed对应）的值<br>
+	 * 设置表达式指定位置（或field对应）的值<br>
 	 * 若表达式指向一个List则设置其坐标对应位置的值，若指向Map则put对应key的值，Bean则设置字段的值<br>
 	 * 注意：
 	 *

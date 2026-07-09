@@ -1,10 +1,11 @@
 package cn.hutool.core.util;
 
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * HexUtil单元测试
@@ -181,25 +182,25 @@ public class HexUtilTest {
 	@Test
 	public void testFormatSingleChar() {
 		String result = HexUtil.format("1");
-		assertEquals("1", result);
+		assertEquals("01", result);
 	}
 
 	@Test
 	public void testFormatOddLength() {
 		String result = HexUtil.format("123");
-		assertEquals("12 3", result);
+		assertEquals("01 23", result);
 	}
 
 	@Test
 	public void testFormatWithPrefixSingleChar() {
 		String result = HexUtil.format("1", "0x");
-		assertEquals("0x1", result);
+		assertEquals("0x01", result);
 	}
 
 	@Test
 	public void testFormatWithPrefixOddLength() {
 		String result = HexUtil.format("123", "0x");
-		assertEquals("0x12 0x3", result);
+		assertEquals("0x01 0x23", result);
 	}
 
 }

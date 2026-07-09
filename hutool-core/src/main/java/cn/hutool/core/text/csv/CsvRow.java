@@ -191,7 +191,7 @@ public final class CsvRow implements List<String> {
 
 	@Override
 	public String get(int index) {
-		return index >= fields.size() ? null : fields.get(index);
+		return index < 0 || index >= fields.size() ? null : fields.get(index);
 	}
 
 	@Override

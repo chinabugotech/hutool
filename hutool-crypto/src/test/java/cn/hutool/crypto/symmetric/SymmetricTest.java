@@ -273,4 +273,15 @@ public class SymmetricTest {
 		String decrypt = Vigenere.decrypt(encrypt, key);
 		assertEquals(content, decrypt);
 	}
+
+	@Test
+	public void vigenereEmptyKeyTest() {
+		String content = "Hello";
+		String emptyKey = "";
+
+		// encrypt with an empty key should throw IllegalArgumentException, not ArithmeticException
+		assertThrows(IllegalArgumentException.class, () -> Vigenere.encrypt(content, emptyKey));
+		// decrypt with an empty key should also throw IllegalArgumentException
+		assertThrows(IllegalArgumentException.class, () -> Vigenere.decrypt(content, emptyKey));
+	}
 }
