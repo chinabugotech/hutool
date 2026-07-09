@@ -6,6 +6,8 @@ import cn.hutool.core.util.ReUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledOnOs;
+import org.junit.jupiter.api.condition.OS;
 
 import java.math.BigInteger;
 import java.net.HttpCookie;
@@ -93,6 +95,7 @@ public class NetUtilTest {
 	}
 
 	@Test
+	@EnabledOnOs(OS.WINDOWS)
 	public void pingTest(){
 		assertTrue(NetUtil.ping("127.0.0.1"));
 	}
