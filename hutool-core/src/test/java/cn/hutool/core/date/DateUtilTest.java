@@ -1247,6 +1247,7 @@ public class DateUtilTest {
 		long formtTime1 = t2 - t1;
 		long formatTime2 = t3 - t2;
 
+		Console.log(formtTime1, formatTime2);
 		//此处仍然不明白，两个for循环实际执行format方法都一样，为什么第1个for时间大致是第2个for的3倍。
 		assertTrue(formtTime1 > formatTime2);
 
