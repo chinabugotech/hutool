@@ -362,7 +362,7 @@ public class HutoolServiceImpl extends BaseAIService implements HutoolService {
 				//如果没有文本参数就重新增加
 				StringBuilder textBuilder = new StringBuilder();
 				for (HutoolCommon.HutoolVideo videoParam : videoParams) {
-					textBuilder.append(videoParam.getType()).append(videoParam.getValue()).append(" ");
+					textBuilder.append(videoParam.getType()).append(" ").append(videoParam.getValue()).append(" ");
 				}
 				textMap.put("type", "text");
 				textMap.put("text", textBuilder.toString());
