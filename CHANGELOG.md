@@ -5,6 +5,10 @@
 ### 🐣新特性
 * 【core   】      `NumberUtil.toInt`增加长度校验（pr#4289@Github）
 ### 🐞Bug修复
+* 【ai     】      Set hasProxy in BaseConfig.setProxy so a directly-set proxy is not ignored（pr#4291@Github）
+* 【ai     】      Serialize the streaming AI request body as UTF-8（pr#4294@Github）
+* 【ai     】      Attach generationConfig to the Gemini chatJson request（pr#4295@Github）
+* 【ai     】      Separate video parameter flag and value with a space（pr#4296@Github）
 
 -------------------------------------------------------------------------------------------------------------
 # 5.8.47(2026-07-06)
