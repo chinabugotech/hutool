@@ -62,7 +62,6 @@ public class RandomUtilTest {
 	}
 
 	@Test
-	@Disabled
 	public void randomStringWithoutStrTest() {
 		for (int i = 0; i < 100; i++) {
 			final String s = RandomUtil.randomStringWithoutStr(8, "0IPOL");
@@ -71,5 +70,13 @@ public class RandomUtilTest {
 				assertFalse(s.contains((String.valueOf(c).toLowerCase(Locale.ROOT))));
 			}
 		}
+	}
+
+	@Test
+	public void randomEleWithNullTest() {
+		assertNull(RandomUtil.randomEle((List<String>) null));
+		assertNull(RandomUtil.randomEle((List<String>) null, 5));
+		assertNull(RandomUtil.randomEle((String[]) null));
+		assertNull(RandomUtil.randomEle((String[]) null, 5));
 	}
 }
