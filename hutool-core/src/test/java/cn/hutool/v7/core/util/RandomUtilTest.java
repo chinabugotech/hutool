@@ -240,4 +240,12 @@ public class RandomUtilTest {
 				"小数位数应该不超过10位，实际：" + decimalPlaces);
 		}
 	}
+
+	@Test
+	public void randomEleWithNullTest() {
+		assertNull(RandomUtil.randomEle((List<String>) null));
+		assertNull(RandomUtil.randomEle((List<String>) null, 5));
+		assertNull(RandomUtil.randomEle((String[]) null));
+		assertNull(RandomUtil.randomEle((String[]) null, 5));
+	}
 }

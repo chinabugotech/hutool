@@ -550,6 +550,9 @@ public class RandomUtil {
 	 * @return 随机元素
 	 */
 	public static <T> T randomEle(final List<T> list) {
+		if (null == list) {
+			return null;
+		}
 		return randomEle(list, list.size());
 	}
 
@@ -562,6 +565,9 @@ public class RandomUtil {
 	 * @return 随机元素
 	 */
 	public static <T> T randomEle(final List<T> list, int limit) {
+		if (null == list) {
+			return null;
+		}
 		if (list.size() < limit) {
 			limit = list.size();
 		}
@@ -577,6 +583,9 @@ public class RandomUtil {
 	 * @since 3.3.0
 	 */
 	public static <T> T randomEle(final T[] array) {
+		if (null == array) {
+			return null;
+		}
 		return randomEle(array, array.length);
 	}
 
@@ -590,6 +599,9 @@ public class RandomUtil {
 	 * @since 3.3.0
 	 */
 	public static <T> T randomEle(final T[] array, int limit) {
+		if (null == array) {
+			return null;
+		}
 		if (array.length < limit) {
 			limit = array.length;
 		}
