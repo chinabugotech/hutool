@@ -47,6 +47,9 @@ public class AIConfigRegistry {
 	 * @return AIConfig实现类
 	 */
 	public static Class<? extends AIConfig> getConfigClass(final String modelName) {
+		if (modelName == null) {
+			throw new IllegalArgumentException("modelName cannot be null");
+		}
 		return configClasses.get(modelName.toLowerCase());
 	}
 }

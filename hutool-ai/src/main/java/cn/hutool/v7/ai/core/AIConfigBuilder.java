@@ -47,6 +47,9 @@ public class AIConfigBuilder {
 			final Constructor<? extends AIConfig> constructor = configClass.getDeclaredConstructor();
 			config = constructor.newInstance();
 		} catch (final Exception e) {
+			if (e instanceof RuntimeException) {
+				throw (RuntimeException) e;
+			}
 			throw new RuntimeException("Failed to create AIConfig instance", e);
 		}
 	}

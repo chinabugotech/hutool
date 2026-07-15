@@ -56,6 +56,11 @@ public class HutoolServiceImpl extends BaseAIService implements HutoolService {
 	//创建视频生成任务
 	private final String CREATE_VIDEO = "/video/generations";
 
+	/**
+	 * 构造器
+	 *
+	 * @param config 配置信息
+	 */
 	public HutoolServiceImpl(final AIConfig config) {
 		//初始化hutool客户端
 		super(config);
@@ -344,11 +349,11 @@ public class HutoolServiceImpl extends BaseAIService implements HutoolService {
 		//添加视频参数
 		if (videoParams != null && !videoParams.isEmpty()) {
 			//如果有文本参数就加在后面
-			if (textMap != null && !textMap.isEmpty()) {
+			if (!textMap.isEmpty()) {
 				final int textIndex = content.indexOf(textMap);
 				final StringBuilder textBuilder = new StringBuilder(text);
 				for (final HutoolCommon.HutoolVideo videoParam : videoParams) {
-					textBuilder.append(" ").append(videoParam.getType()).append(" ").append(videoParam.getValue());
+					textBuilder.append(StrUtil.SPACE).append(videoParam.getType()).append(StrUtil.SPACE).append(videoParam.getValue());
 				}
 				textMap.put("type", "text");
 				textMap.put("text", textBuilder.toString());
@@ -362,7 +367,7 @@ public class HutoolServiceImpl extends BaseAIService implements HutoolService {
 				//如果没有文本参数就重新增加
 				final StringBuilder textBuilder = new StringBuilder();
 				for (final HutoolCommon.HutoolVideo videoParam : videoParams) {
-					textBuilder.append(videoParam.getType()).append(videoParam.getValue()).append(" ");
+					textBuilder.append(videoParam.getType()).append(StrUtil.SPACE).append(videoParam.getValue()).append(StrUtil.SPACE);
 				}
 				textMap.put("type", "text");
 				textMap.put("text", textBuilder.toString());

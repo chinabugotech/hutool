@@ -115,6 +115,7 @@ public class GeminiServiceImpl extends BaseAIService implements GeminiService {
 		}
 		//指定响应MIME类型为JSON
 		genConfig.put("response_mime_type", "application/json");
+		paramMap.put("generationConfig", genConfig);
 
 		final Response response = sendPost(getEndpoint(false), JSONUtil.toJsonStr(paramMap));
 		return response.bodyStr();
