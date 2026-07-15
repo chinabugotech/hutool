@@ -673,6 +673,7 @@ public class StatementWrapper extends SimpleWrapper<PreparedStatement> implement
 				}
 			}
 			this.raw.setNull(paramIndex, type);
+			return;
 		}
 
 		// 日期特殊处理，默认按照时间戳传入，避免毫秒丢失
@@ -712,6 +713,7 @@ public class StatementWrapper extends SimpleWrapper<PreparedStatement> implement
 		//java.sql.Blob
 		if(param instanceof Blob){
 			this.raw.setBlob(paramIndex, (Blob) param);
+			return;
 		}
 
 		// 其它参数类型
