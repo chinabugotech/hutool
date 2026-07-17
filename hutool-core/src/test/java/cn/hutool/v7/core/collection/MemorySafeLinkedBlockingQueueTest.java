@@ -29,10 +29,10 @@ public class MemorySafeLinkedBlockingQueueTest {
 	public void offerTest(){
 		// 设置初始值达到最大，这样任何时候元素都无法加入队列
 		final MemorySafeLinkedBlockingQueue<String> queue = new MemorySafeLinkedBlockingQueue<>(Long.MAX_VALUE);
-		assertFalse(queue.offer(RandomUtil.randomLettersAndNumbersLower(RandomUtil.randomInt(100))));
+		assertFalse(queue.offer(RandomUtil.randomLettersAndNumbersLower(RandomUtil.randomInt(1, 100))));
 
 		// 设定一个很小的值，可以成功加入
 		queue.setMaxFreeMemory(10);
-		assertTrue(queue.offer(RandomUtil.randomLettersAndNumbersLower(RandomUtil.randomInt(100))));
+		assertTrue(queue.offer(RandomUtil.randomLettersAndNumbersLower(RandomUtil.randomInt(1, 100))));
 	}
 }
