@@ -18,8 +18,10 @@ package cn.hutool.v7.core.collection;
 
 import cn.hutool.v7.core.collection.queue.MemorySafeLinkedBlockingQueue;
 import cn.hutool.v7.core.util.RandomUtil;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MemorySafeLinkedBlockingQueueTest {
 
@@ -27,10 +29,10 @@ public class MemorySafeLinkedBlockingQueueTest {
 	public void offerTest(){
 		// 设置初始值达到最大，这样任何时候元素都无法加入队列
 		final MemorySafeLinkedBlockingQueue<String> queue = new MemorySafeLinkedBlockingQueue<>(Long.MAX_VALUE);
-		Assertions.assertFalse(queue.offer(RandomUtil.randomLettersAndNumbersLower(RandomUtil.randomInt(100))));
+		assertFalse(queue.offer(RandomUtil.randomLettersAndNumbersLower(RandomUtil.randomInt(100))));
 
 		// 设定一个很小的值，可以成功加入
 		queue.setMaxFreeMemory(10);
-		Assertions.assertTrue(queue.offer(RandomUtil.randomLettersAndNumbersLower(RandomUtil.randomInt(100))));
+		assertTrue(queue.offer(RandomUtil.randomLettersAndNumbersLower(RandomUtil.randomInt(100))));
 	}
 }

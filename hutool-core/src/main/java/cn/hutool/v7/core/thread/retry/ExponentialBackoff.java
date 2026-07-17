@@ -26,7 +26,6 @@ import java.util.concurrent.ThreadLocalRandom;
  * <p>
  * 计算公式：{@code delay = min(initialDelay * multiplier^(attempt-1), maxDelay)}，
  * 启用抖动时在 {@code [0, delay)} 范围内随机取值（Full Jitter）。
- * </p>
  * <p>
  * 典型用法：
  * <pre>{@code
@@ -35,7 +34,6 @@ import java.util.concurrent.ThreadLocalRandom;
  *     .backoff(new ExponentialBackoff(Duration.ofMillis(500), 2.0, Duration.ofSeconds(30), true))
  *     .execute();
  * }</pre>
- * </p>
  *
  * @author dong0713
  * @see FixedBackoff
