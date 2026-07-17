@@ -125,6 +125,10 @@ public class RetryableTask<T> {
 	 */
 	private Duration delay = Duration.ofSeconds(1);
 	/**
+	 * 退避策略，设置后优先于 {@link #delay} 字段
+	 */
+	private Backoff backoff;
+	/**
 	 * 异常信息
 	 */
 	private Throwable throwable;
@@ -150,7 +154,7 @@ public class RetryableTask<T> {
 	 * @return 当前对象
 	 */
 	public RetryableTask<T> maxAttempts(final long maxAttempts) {
-		Assert.isTrue(this.maxAttempts > 0, "maxAttempts must be greater than 0");
+		Assert.isTrue(maxAttempts > 0, "maxAttempts must be greater than 0");
 
 		this.maxAttempts = maxAttempts;
 		return this;
@@ -163,9 +167,33 @@ public class RetryableTask<T> {
 	 * @return 当前对象
 	 */
 	public RetryableTask<T> delay(final Duration delay) {
-		Assert.notNull(this.delay, "delay parameter cannot be null");
+		Assert.notNull(delay, "delay parameter cannot be null");
 
 		this.delay = delay;
+		return this;
+	}
+
+	/**
+	 * 设置退避策略，设置后优先于 {@link #delay(Duration)}。
+	 * <p>
+	 * 使用示例：
+	 * <pre>{@code
+	 * RetryableTask.retryForExceptions(() -> callApi(), IOException.class)
+	 *     .maxAttempts(5)
+	 *     .backoff(new ExponentialBackoff(Duration.ofMillis(500), 2.0, Duration.ofSeconds(30), true))
+	 *     .execute();
+	 * }</pre>
+	 * </p>
+	 *
+	 * @param backoff 退避策略 {@link Backoff}
+	 * @return 当前对象
+	 * @see FixedBackoff
+	 * @see ExponentialBackoff
+	 */
+	public RetryableTask<T> backoff(final Backoff backoff) {
+		Assert.notNull(backoff, "backoff parameter cannot be null");
+
+		this.backoff = backoff;
 		return this;
 	}
 
@@ -222,6 +250,7 @@ public class RetryableTask<T> {
 	 **/
 	private RetryableTask<T> doExecute() {
 		Throwable th = null;
+		int attempt = 0;
 
 		// 任务至少被执行一次
 		do {
@@ -239,7 +268,11 @@ public class RetryableTask<T> {
 
 			// 避免最后一次任务执行时的线程睡眠
 			if (this.maxAttempts > 0) {
-				ThreadUtil.sleep(delay.toMillis());
+				attempt++;
+				final Duration sleepDuration = (null != this.backoff)
+					? this.backoff.nextDelay(attempt)
+					: this.delay;
+				ThreadUtil.sleep(sleepDuration.toMillis());
 			}
 		} while (--this.maxAttempts >= 0);
 
