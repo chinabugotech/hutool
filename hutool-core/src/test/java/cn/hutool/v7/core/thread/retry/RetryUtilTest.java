@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package cn.hutool.v7.core.thread;
+package cn.hutool.v7.core.thread.retry;
 
 import cn.hutool.v7.core.lang.Console;
 import org.junit.jupiter.api.Assertions;

@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 
-package cn.hutool.v7.core.thread;
+package cn.hutool.v7.core.thread.retry;
 
 import cn.hutool.v7.core.lang.Assert;
+import cn.hutool.v7.core.thread.GlobalThreadPool;
+import cn.hutool.v7.core.thread.ThreadUtil;
 
 import java.time.Duration;
 import java.util.Arrays;
@@ -121,13 +123,9 @@ public class RetryableTask<T> {
 	 */
 	private long maxAttempts = 3;
 	/**
-	 * 重试间隔，默认1秒
-	 */
-	private Duration delay = Duration.ofSeconds(1);
-	/**
 	 * 退避策略，设置后优先于 {@link #delay} 字段
 	 */
-	private Backoff backoff;
+	private Backoff backoff = new FixedBackoff(Duration.ofSeconds(1));
 	/**
 	 * 异常信息
 	 */
@@ -168,9 +166,7 @@ public class RetryableTask<T> {
 	 */
 	public RetryableTask<T> delay(final Duration delay) {
 		Assert.notNull(delay, "delay parameter cannot be null");
-
-		this.delay = delay;
-		return this;
+		return this.backoff(new FixedBackoff(delay));
 	}
 
 	/**
@@ -192,7 +188,6 @@ public class RetryableTask<T> {
 	 */
 	public RetryableTask<T> backoff(final Backoff backoff) {
 		Assert.notNull(backoff, "backoff parameter cannot be null");
-
 		this.backoff = backoff;
 		return this;
 	}
@@ -269,10 +264,7 @@ public class RetryableTask<T> {
 			// 避免最后一次任务执行时的线程睡眠
 			if (this.maxAttempts > 0) {
 				attempt++;
-				final Duration sleepDuration = (null != this.backoff)
-					? this.backoff.nextDelay(attempt)
-					: this.delay;
-				ThreadUtil.sleep(sleepDuration.toMillis());
+				ThreadUtil.sleep(this.backoff.nextDelay(attempt).toMillis());
 			}
 		} while (--this.maxAttempts >= 0);
 
