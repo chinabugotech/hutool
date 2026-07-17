@@ -131,7 +131,7 @@ public class BOMInputStream extends InputStream {
 
 		for (final ByteOrderMark byteOrderMark : ByteOrderMark.ALL) {
 			if(byteOrderMark.test(bom)){
-				charset = byteOrderMark.getCharsetName();
+				charset = byteOrderMark.charsetName();
 				unread = n - byteOrderMark.length();
 				break;
 			}

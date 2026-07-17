@@ -112,7 +112,6 @@ public class MethodUtil {
 	 *
 	 * <p>
 	 * 此方法为精准获取方法名，即方法名和参数数量和类型必须一致，否则返回{@code null}。
-	 * </p>
 	 *
 	 * @param obj        被查找的对象，如果为{@code null}返回{@code null}
 	 * @param methodName 方法名，如果为空字符串返回{@code null}
@@ -132,7 +131,6 @@ public class MethodUtil {
 	 *
 	 * <p>
 	 * 此方法为精准获取方法名，即方法名和参数数量和类型必须一致，否则返回{@code null}。
-	 * </p>
 	 *
 	 * @param clazz      类，如果为{@code null}返回{@code null}
 	 * @param methodName 方法名，如果为空字符串返回{@code null}
@@ -150,7 +148,6 @@ public class MethodUtil {
 	 *
 	 * <p>
 	 * 此方法为精准获取方法名，即方法名和参数数量和类型必须一致，否则返回{@code null}。
-	 * </p>
 	 *
 	 * @param clazz      类，如果为{@code null}返回{@code null}
 	 * @param methodName 方法名，如果为空字符串返回{@code null}
@@ -230,9 +227,8 @@ public class MethodUtil {
 	 *
 	 * <p>
 	 * 此方法只检查方法名是否一致，并不检查参数的一致性。
-	 * </p>
 	 *
-	 * @param clazz      类，如果为{@code null}返回{@code null}
+	 *  @param clazz      类，如果为{@code null}返回{@code null}
 	 * @param methodName 方法名，如果为空字符串返回{@code null}
 	 * @return 方法
 	 * @throws SecurityException 无权访问抛出异常
@@ -247,7 +243,6 @@ public class MethodUtil {
 	 *
 	 * <p>
 	 * 此方法只检查方法名是否一致（忽略大小写），并不检查参数的一致性。
-	 * </p>
 	 *
 	 * @param clazz      类，如果为{@code null}返回{@code null}
 	 * @param methodName 方法名，如果为空字符串返回{@code null}
@@ -264,7 +259,6 @@ public class MethodUtil {
 	 *
 	 * <p>
 	 * 此方法只检查方法名是否一致，并不检查参数的一致性。
-	 * </p>
 	 *
 	 * @param clazz      类，如果为{@code null}返回{@code null}
 	 * @param ignoreCase 是否忽略大小写

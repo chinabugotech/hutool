@@ -27,9 +27,9 @@ import java.nio.charset.StandardCharsets;
  * 安全的 UDP 包动态构建器（自动扩容）
  *
  * <p>该类提供了链式 API 用于构建二进制数据包，支持多种数据类型的写入操作。
- * 内部采用动态扩容机制，初始容量为 64 字节，当空间不足时会自动扩容。</p>
+ * 内部采用动态扩容机制，初始容量为 64 字节，当空间不足时会自动扩容。
  *
- * <h3>使用示例：</h3>
+ * <p>使用示例：
  * <pre>{@code
  * byte[] packet = new PacketBuilder()
  *     .writeByte((byte) 0x01)
@@ -38,7 +38,7 @@ import java.nio.charset.StandardCharsets;
  *     .build();
  * }</pre>
  *
- * <h3>特性：</h3>
+ * <p>特性：
  * <ul>
  *   <li>支持设置字节序（大端/小端）</li>
  *   <li>链式调用设计</li>

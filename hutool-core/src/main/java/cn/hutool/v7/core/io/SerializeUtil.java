@@ -70,7 +70,6 @@ public class SerializeUtil {
 	 *
 	 * <p>
 	 * 注意！！！ 此方法不会检查反序列化安全，可能存在反序列化漏洞风险！！！
-	 * </p>
 	 *
 	 * @param <T>           对象类型
 	 * @param bytes         反序列化的字节码

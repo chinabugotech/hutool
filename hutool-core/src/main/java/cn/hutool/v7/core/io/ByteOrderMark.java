@@ -36,11 +36,14 @@ import java.util.function.Predicate;
  * 	<li>FF FE 00 00 = UTF-32LE, little-endian</li>
  * </ul>
  *
- * <p>来自：Apache-commons-io</p>
+ * <p>来自：Apache-commons-io
  *
+ * @param charsetName BOM头
+ * @param bytes       BOM bytes
  * @author Apache-commons-io
  */
-public class ByteOrderMark implements Predicate<byte[]>, Comparable<ByteOrderMark>, Serializable {
+public record ByteOrderMark(String charsetName,
+                            byte... bytes) implements Predicate<byte[]>, Comparable<ByteOrderMark>, Serializable {
 	@Serial
 	private static final long serialVersionUID = 1L;
 
@@ -49,52 +52,43 @@ public class ByteOrderMark implements Predicate<byte[]>, Comparable<ByteOrderMar
 	 * UTF-8 BOM.
 	 */
 	public static final ByteOrderMark UTF_8 = new ByteOrderMark(CharsetUtil.NAME_UTF_8,
-			(byte) 0xEF, (byte) 0xBB, (byte) 0xBF);
+		(byte) 0xEF, (byte) 0xBB, (byte) 0xBF);
 
 	/**
 	 * UTF-16BE BOM (Big-Endian).
 	 */
 	public static final ByteOrderMark UTF_16BE = new ByteOrderMark("UTF-16BE",
-			(byte) 0xFE, (byte) 0xFF);
+		(byte) 0xFE, (byte) 0xFF);
 
 	/**
 	 * UTF-16LE BOM (Little-Endian).
 	 */
 	public static final ByteOrderMark UTF_16LE = new ByteOrderMark("UTF-16LE",
-			(byte) 0xFF, (byte) 0xFE);
+		(byte) 0xFF, (byte) 0xFE);
 
 	/**
 	 * UTF-32BE BOM (Big-Endian).
 	 */
 	public static final ByteOrderMark UTF_32BE = new ByteOrderMark("UTF-32BE",
-			(byte) 0x00, (byte) 0x00, (byte) 0xFE, (byte) 0xFF);
+		(byte) 0x00, (byte) 0x00, (byte) 0xFE, (byte) 0xFF);
 
 	/**
 	 * UTF-32LE BOM (Little-Endian).
 	 */
 	public static final ByteOrderMark UTF_32LE = new ByteOrderMark("UTF-32LE",
-			(byte) 0xFF, (byte) 0xFE, (byte) 0x00, (byte) 0x00);
+		(byte) 0xFF, (byte) 0xFE, (byte) 0x00, (byte) 0x00);
 
 	/**
 	 * 预定义的所有BOM信息
 	 */
 	public static final ByteOrderMark[] ALL = new ByteOrderMark[]{
-			UTF_32BE,
-			UTF_32LE,
-			UTF_8,
-			UTF_16BE,
-			UTF_16LE
+		UTF_32BE,
+		UTF_32LE,
+		UTF_8,
+		UTF_16BE,
+		UTF_16LE
 	};
 	// endregion
-
-	/**
-	 * BOM头
-	 */
-	private final String charsetName;
-	/**
-	 * BOM bytes
-	 */
-	private final byte[] bytes;
 
 	/**
 	 * 构造
@@ -117,7 +111,8 @@ public class ByteOrderMark implements Predicate<byte[]>, Comparable<ByteOrderMar
 	 *
 	 * @return 编码名称
 	 */
-	public String getCharsetName() {
+	@Override
+	public String charsetName() {
 		return charsetName;
 	}
 
@@ -145,7 +140,8 @@ public class ByteOrderMark implements Predicate<byte[]>, Comparable<ByteOrderMar
 	 *
 	 * @return a copy of the BOM's bytes
 	 */
-	public byte[] getBytes() {
+	@Override
+	public byte[] bytes() {
 		return Arrays.copyOfRange(bytes, 0, bytes.length);
 	}
 
