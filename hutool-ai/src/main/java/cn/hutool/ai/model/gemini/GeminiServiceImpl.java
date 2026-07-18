@@ -259,7 +259,7 @@ public class GeminiServiceImpl extends BaseAIService implements GeminiService {
 		//如果是反代或自定义节点，动态拼接
 		try {
 			final URL url = new URL(apiUrl);
-			return new URL(url.getProtocol(), url.getHost(), url.getPort(), UPLOAD_BASE_URL).toString();
+			return new URL(url.getProtocol(), url.getHost(), url.getPort(), "/upload/v1beta/files").toString();
 		} catch (Exception e) {
 			return apiUrl.replace("/models/", "/upload/v1beta/files").split("/models")[0];
 		}
