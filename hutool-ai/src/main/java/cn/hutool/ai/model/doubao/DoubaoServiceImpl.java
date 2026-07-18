@@ -316,6 +316,8 @@ public class DoubaoServiceImpl extends BaseAIService implements DoubaoService {
 		final Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("model", config.getModel());
 		paramMap.put("text", text);
+		//合并其他参数
+		paramMap.putAll(config.getAdditionalConfigMap());
 		return JSONUtil.toJsonStr(paramMap);
 	}
 
