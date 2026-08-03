@@ -119,6 +119,9 @@ public class ClassUtil {
 	 * @since 4.1.9
 	 */
 	public static String getShortClassName(String className) {
+		if (StrUtil.isBlank(className)) {
+			return className;
+		}
 		final List<String> packages = StrUtil.split(className, CharUtil.DOT);
 		if (null == packages || packages.size() < 2) {
 			return className;
@@ -126,9 +129,14 @@ public class ClassUtil {
 
 		final int size = packages.size();
 		final StringBuilder result = StrUtil.builder();
-		result.append(packages.get(0).charAt(0));
+		if (StrUtil.isNotBlank(packages.get(0))) {
+			result.append(packages.get(0).charAt(0));
+		}
 		for (int i = 1; i < size - 1; i++) {
-			result.append(CharUtil.DOT).append(packages.get(i).charAt(0));
+			result.append(CharUtil.DOT);
+			if (StrUtil.isNotBlank(packages.get(i))) {
+				result.append(packages.get(i).charAt(0));
+			}
 		}
 		result.append(CharUtil.DOT).append(packages.get(size - 1));
 		return result.toString();
