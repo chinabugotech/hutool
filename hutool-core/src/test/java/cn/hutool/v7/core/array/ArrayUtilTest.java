@@ -547,7 +547,7 @@ public class ArrayUtilTest {
 		final Integer[] a = {0x12, 0x56, 0x78, 0x56, 0x78, 0x9A};
 		final Integer[] b = {0x56, 0x78};
 		final int i = ArrayUtil.lastIndexOfSub(a, b);
-		assertEquals(1, i);
+		assertEquals(3, i);
 	}
 
 	@Test
