@@ -1468,6 +1468,8 @@ public class NumberUtil {
 	 * @return 整数列表
 	 */
 	public static int[] range(int start, int stop, int step) {
+		Assert.isFalse(step == 0, "step cannot be zero");
+
 		if (start < stop) {
 			step = Math.abs(step);
 		} else if (start > stop) {
