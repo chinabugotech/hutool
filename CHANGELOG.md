@@ -13,6 +13,7 @@
 * 【ai     】      Separate video parameter flag and value with a space（pr#4296@Github）
 * 【core   】      修复`NumberUtil`的range方法对step为0时未检查问题（pr#1463@Gitee）
 * 【socket 】      修复`ChannelUtil`的前缀，修复为`Hutool-socket-`（pr#1457@Gitee）
+* 【ai     】      Merge additional config into the Doubao tokenization request（pr#4300@Github）
 
 -------------------------------------------------------------------------------------------------------------
 # 5.8.47(2026-07-06)
