@@ -349,7 +349,7 @@ public class GeminiServiceImpl extends BaseAIService implements GeminiService {
 					try {
 						final byte[] bytes = HttpUtil.createGet(media).send().bodyBytes();
 						//尝试识别下载文件的 MIME，无法识别则不强加后缀逻辑，通过流内容自适应
-						String mime = FileUtil.getMimeType(media);
+						String mime = detectMimeType(media);
 						if (StrUtil.isBlank(mime)) {
 							// 基础兜底
 							mime = "image/jpeg";
@@ -565,5 +565,18 @@ public class GeminiServiceImpl extends BaseAIService implements GeminiService {
 				connection.disconnect();
 			}
 		}
+	}
+
+	/**
+	 * Detects the MIME type of a media URL by its path, ignoring any query string or fragment.
+	 * {@link FileUtil#getMimeType(String)} matches on the file extension, so a URL such as
+	 * {@code https://host/a.png?v=1} would otherwise fail to resolve.
+	 *
+	 * @param url the media URL
+	 * @return the detected MIME type, or {@code null} if it cannot be determined
+	 */
+	private static String detectMimeType(final String url) {
+		final String path = StrUtil.subBefore(StrUtil.subBefore(url, "?", false), "#", false);
+		return FileUtil.getMimeType(path);
 	}
 }
