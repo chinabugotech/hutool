@@ -17,6 +17,7 @@
 * 【ai     】      Ignore query string and fragment when detecting a media URL MIME type（pr#4299@Github）
 * 【ai     】      Build the Gemini upload URL with the upload path, not the full base URL（pr#4298@Github）
 * 【json   】      修复`JSONArray.toJSONObject`数组越界问题（pr#1455@Gitee）
+* 【core   】      修复`ClassUtil.getShortClassName`空指针问题（pr#1453@Gitee）
 
 -------------------------------------------------------------------------------------------------------------
 # 5.8.47(2026-07-06)
