@@ -16,6 +16,7 @@
 * 【ai     】      Merge additional config into the Doubao tokenization request（pr#4300@Github）
 * 【ai     】      Ignore query string and fragment when detecting a media URL MIME type（pr#4299@Github）
 * 【ai     】      Build the Gemini upload URL with the upload path, not the full base URL（pr#4298@Github）
+* 【json   】      修复`JSONArray.toJSONObject`数组越界问题（pr#1455@Gitee）
 
 -------------------------------------------------------------------------------------------------------------
 # 5.8.47(2026-07-06)
