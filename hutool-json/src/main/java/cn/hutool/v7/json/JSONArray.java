@@ -202,7 +202,8 @@ public class JSONArray extends ListWrapper<JSON> implements JSON, JSONGetter<Int
 			return null;
 		}
 		final JSONObject jo = this.factory.ofObj();
-		for (int i = 0; i < names.size(); i += 1) {
+		final int size = Math.min(names.size(), this.size());
+		for (int i = 0; i < size; i += 1) {
 			jo.putValue(names.getStr(i), this.getObj(i));
 		}
 		return jo;
