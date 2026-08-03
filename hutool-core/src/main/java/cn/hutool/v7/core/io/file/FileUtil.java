@@ -1576,7 +1576,7 @@ public class FileUtil {
 	}
 
 	/**
-	 * 获得相对子路径
+	 * 获得相对子路径，自动跟随符号链接
 	 * <p>
 	 * 栗子：
 	 *
@@ -1590,8 +1590,28 @@ public class FileUtil {
 	 * @return 相对子路径
 	 */
 	public static String subPath(final String rootDir, final File file) {
+		return subPath(rootDir, file, true);
+	}
+
+	/**
+	 * 获得相对子路径
+	 * <p>
+	 * 栗子：
+	 *
+	 * <pre>
+	 * dirPath: d:/aaa/bbb    filePath: d:/aaa/bbb/ccc     =》    ccc
+	 * dirPath: d:/Aaa/bbb    filePath: d:/aaa/bbb/ccc.txt     =》    ccc.txt
+	 * </pre>
+	 *
+	 * @param rootDir       绝对父路径
+	 * @param file          文件
+	 * @param isFollowLinks 是否跟随符号链接
+	 * @return 相对子路径
+	 * @since 5.8.48
+	 */
+	public static String subPath(final String rootDir, final File file, final boolean isFollowLinks) {
 		try {
-			return subPath(rootDir, file.getCanonicalPath());
+			return subPath(rootDir, isFollowLinks ? file.getCanonicalPath() : file.getAbsolutePath());
 		} catch (final IOException e) {
 			throw new IORuntimeException(e);
 		}
