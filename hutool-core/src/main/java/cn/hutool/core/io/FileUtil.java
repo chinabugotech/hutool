@@ -576,8 +576,8 @@ public class FileUtil extends PathUtil {
 	 * 计算文件的总行数<br>
 	 * 参考：https://stackoverflow.com/questions/453018/number-of-lines-in-a-file-in-java
 	 *
-	 * @param file       文件
-	 * @param bufferSize 缓存大小，小于1则使用默认的1024
+	 * @param file                       文件
+	 * @param bufferSize                 缓存大小，小于1则使用默认的1024
 	 * @param lastLineSeparatorAsNewLine 是否将最后一行分隔符作为新行，Linux下要求最后一行必须带有换行符，不算一行，此处用户选择
 	 * @return 该文件总行数
 	 * @since 5.8.37
@@ -628,14 +628,14 @@ public class FileUtil extends PathUtil {
 				readChars = is.read(chars);
 			}
 
-			if(lastLineSeparatorAsNewLine){
+			if (lastLineSeparatorAsNewLine) {
 				// 最后一个字符为\r，则单独计数行
-				if(c == CharUtil.CR){
+				if (c == CharUtil.CR) {
 					++count;
 				}
-			}else{
+			} else {
 				// 最后一个字符为\n，则可选是否算作新行单独计数行
-				if(c == CharUtil.LF){
+				if (c == CharUtil.LF) {
 					--count;
 				}
 			}
@@ -1712,7 +1712,7 @@ public class FileUtil extends PathUtil {
 		// 去除开头空白符，末尾空白符合法，不去除
 		pathToUse = StrUtil.trimStart(pathToUse);
 		// issue#IAB65V 去除尾部的换行符
-		pathToUse = StrUtil.trim(pathToUse, 1, (c)->c == '\n' || c == '\r');
+		pathToUse = StrUtil.trim(pathToUse, 1, (c) -> c == '\n' || c == '\r');
 
 		String prefix = StrUtil.EMPTY;
 		int prefixIndex = pathToUse.indexOf(StrUtil.COLON);
@@ -1772,7 +1772,7 @@ public class FileUtil extends PathUtil {
 	}
 
 	/**
-	 * 获得相对子路径
+	 * 获得相对子路径，自动跟随符号链接
 	 * <p>
 	 * 栗子：
 	 *
@@ -1786,8 +1786,28 @@ public class FileUtil extends PathUtil {
 	 * @return 相对子路径
 	 */
 	public static String subPath(String rootDir, File file) {
+		return subPath(rootDir, file, true);
+	}
+
+	/**
+	 * 获得相对子路径
+	 * <p>
+	 * 栗子：
+	 *
+	 * <pre>
+	 * dirPath: d:/aaa/bbb    filePath: d:/aaa/bbb/ccc     =》    ccc
+	 * dirPath: d:/Aaa/bbb    filePath: d:/aaa/bbb/ccc.txt     =》    ccc.txt
+	 * </pre>
+	 *
+	 * @param rootDir       绝对父路径
+	 * @param file          文件
+	 * @param isFollowLinks 是否跟随符号链接
+	 * @return 相对子路径
+	 * @since 5.8.48
+	 */
+	public static String subPath(String rootDir, File file, boolean isFollowLinks) {
 		try {
-			return subPath(rootDir, file.getCanonicalPath());
+			return subPath(rootDir, isFollowLinks ? file.getCanonicalPath() : file.getAbsolutePath());
 		} catch (IOException e) {
 			throw new IORuntimeException(e);
 		}
