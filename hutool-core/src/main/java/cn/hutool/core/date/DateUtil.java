@@ -6,6 +6,7 @@ import cn.hutool.core.date.format.DateParser;
 import cn.hutool.core.date.format.DatePrinter;
 import cn.hutool.core.date.format.FastDateFormat;
 import cn.hutool.core.date.format.GlobalCustomFormat;
+import cn.hutool.core.date.natural.NaturalDateParser;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.lang.PatternPool;
 import cn.hutool.core.util.CharUtil;
@@ -45,7 +46,7 @@ public class DateUtil extends CalendarUtil {
 			"jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec", // 月份
 			"gmt", "ut", "utc", "est", "edt", "cst", "cdt", "mst", "mdt", "pst", "pdt"// 时间标准
 	};
-	
+
 	/**
 	 * 匹配日期分隔符（正斜杠、点、年、月），用于统一替换为横杠
 	 */
@@ -2457,5 +2458,50 @@ public class DateUtil extends CalendarUtil {
 		return StrUtil.subBefore(dateStr, before, true)
 				+ before
 				+ millOrNaco + after + StrUtil.subAfter(dateStr, after, true);
+	}
+
+	/**
+	 * 解析自然语言日期时间表达式
+	 * <p>
+	 * 支持以下格式：
+	 * <ul>
+	 *     <li>相对日期：今天、明天、后天、昨天、前天</li>
+	 *     <li>相对日期+时间：明天下午3点、后天上午10点半</li>
+	 *     <li>相对偏移：3天前、5天后、2周前、1个月后</li>
+	 *     <li>星期几：下周一、本周五、上周日</li>
+	 *     <li>星期几+时间：下周一上午9点</li>
+	 *     <li>边界：本月第一天、下个月最后一天、月初、月末</li>
+	 *     <li>时间段：上午、中午、下午、晚上</li>
+	 *     <li>季度：本季度、下季度、上季度</li>
+	 *     <li>年份：今年、明年、去年</li>
+	 *     <li>年月：2026年8月</li>
+	 *     <li>特殊：现在、此刻</li>
+	 * </ul>
+	 *
+	 * @param natural 自然语言日期时间表达式
+	 * @return 解析后的DateTime，无法解析返回null
+	 * @since 6.0.0
+	 */
+	public static DateTime parseNatural(String natural) {
+		return parseNatural(natural, date());
+	}
+
+	/**
+	 * 解析自然语言日期时间表达式（指定基准日期）
+	 *
+	 * @param natural 自然语言日期时间表达式
+	 * @param base    基准日期（相对计算的参考点）
+	 * @return 解析后的DateTime，无法解析返回null
+	 * @since 6.0.0
+	 */
+	public static DateTime parseNatural(String natural, DateTime base) {
+		if (StrUtil.isBlank(natural)) {
+			return null;
+		}
+		if (base == null) {
+			base = date();
+		}
+		DateTime dateTime = NaturalDateParser.parse(natural.trim(), base);
+		return dateTime;
 	}
 }
