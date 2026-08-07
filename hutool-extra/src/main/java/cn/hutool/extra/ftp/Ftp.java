@@ -664,13 +664,29 @@ public class Ftp extends AbstractFtp {
 		if (outFile.isDirectory()) {
 			outFile = new File(outFile, fileName);
 		}
-		if (false == outFile.exists()) {
-			FileUtil.touch(outFile);
-		}
-		try (OutputStream out = FileUtil.getOutputStream(outFile)) {
-			download(path, fileName, out);
+
+		// 修复 issue #4304：先下载到临时文件，成功后原子替换目标文件，
+		// 避免底层 FTPClient.retrieveFile 返回 false 时留下 0 字节目标文件
+		final File tmpFile = new File(null == outFile.getParentFile() ? new File(".") : outFile.getParentFile(),
+				outFile.getName() + ".download." + System.nanoTime());
+		boolean moved = false;
+		try {
+			try (OutputStream out = FileUtil.getOutputStream(tmpFile)) {
+				download(path, fileName, out);
+			}
+			// 原子替换：同盘内 Files.move 保证不会出现"半截文件"
+			java.nio.file.Files.move(tmpFile.toPath(), outFile.toPath(),
+					java.nio.file.StandardCopyOption.REPLACE_EXISTING,
+					java.nio.file.StandardCopyOption.ATOMIC_MOVE);
+			moved = true;
 		} catch (IOException e) {
 			throw new IORuntimeException(e);
+		} finally {
+			// 无论成功还是失败，都确保临时文件不残留；
+			// 只有当 Files.move 真正完成时才跳过清理（移动后 tmpFile 已不存在）。
+			if (!moved) {
+				FileUtil.del(tmpFile);
+			}
 		}
 	}
 
