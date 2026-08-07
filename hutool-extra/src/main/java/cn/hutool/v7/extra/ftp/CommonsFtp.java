@@ -682,18 +682,30 @@ public class CommonsFtp extends AbstractFtp {
 	 * @param outFile  输出文件或目录，当为目录时使用服务端文件名
 	 * @throws IORuntimeException IO异常
 	 */
-	public void download(final String path, final String fileName, File outFile) throws IORuntimeException {
+	public boolean download(final String path, final String fileName, File outFile) throws IORuntimeException {
 		if (outFile.isDirectory()) {
 			outFile = new File(outFile, fileName);
 		}
+
+		boolean isNewFile = false;
 		if (!outFile.exists()) {
 			FileUtil.touch(outFile);
+			isNewFile = true;
 		}
+
+		boolean isSuccess = false;
 		try (final OutputStream out = FileUtil.getOutputStream(outFile)) {
-			download(path, fileName, out);
+			isSuccess = download(path, fileName, out);
 		} catch (final IOException e) {
 			throw new IORuntimeException(e);
+		} finally {
+			// issue#4304 修复下载文件失败后，文件大小为0的问题
+			if (!isSuccess && isNewFile) {
+				FileUtil.del(outFile);
+			}
 		}
+
+		return isSuccess;
 	}
 
 	/**
@@ -702,9 +714,10 @@ public class CommonsFtp extends AbstractFtp {
 	 * @param path     文件路径
 	 * @param fileName 文件名
 	 * @param out      输出位置
+	 * @return 是否下载成功
 	 */
-	public void download(final String path, final String fileName, final OutputStream out) {
-		download(path, fileName, out, null);
+	public boolean download(final String path, final String fileName, final OutputStream out) {
+		return download(path, fileName, out, null);
 	}
 
 	/**
