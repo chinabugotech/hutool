@@ -675,9 +675,7 @@ public class Ftp extends AbstractFtp {
 				download(path, fileName, out);
 			}
 			// 原子替换：同盘内 Files.move 保证不会出现"半截文件"
-			java.nio.file.Files.move(tmpFile.toPath(), outFile.toPath(),
-					java.nio.file.StandardCopyOption.REPLACE_EXISTING,
-					java.nio.file.StandardCopyOption.ATOMIC_MOVE);
+			FileUtil.move(tmpFile, outFile, true);
 			moved = true;
 		} catch (IOException e) {
 			throw new IORuntimeException(e);

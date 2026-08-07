@@ -1,7 +1,7 @@
 
 # 🚀Changelog
 -------------------------------------------------------------------------------------------------------------
-# 5.8.48(2026-08-03)
+# 5.8.48(2026-08-07)
 ### 🐣新特性
 * 【core   】      `NumberUtil.toInt`增加长度校验（pr#4289@Github）
 * 【core   】      `FileUtil.subPath`增加重载，可选是否追踪链接（issue#IK3K5Z@Gitee）
@@ -18,6 +18,7 @@
 * 【ai     】      Build the Gemini upload URL with the upload path, not the full base URL（pr#4298@Github）
 * 【json   】      修复`JSONArray.toJSONObject`数组越界问题（pr#1455@Gitee）
 * 【core   】      修复`ClassUtil.getShortClassName`空指针问题（pr#1453@Gitee）
+* 【core   】      修复`Ftp.download`文件下载失败0字节文件残留问题（pr#4305@Github）
 
 -------------------------------------------------------------------------------------------------------------
 # 5.8.47(2026-07-06)
