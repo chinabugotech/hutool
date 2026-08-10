@@ -171,7 +171,11 @@ public class EnumUtil {
 		String fieldName;
 		for (final Field field : fields) {
 			fieldName = field.getName();
-			if (field.getType().isEnum() || StrUtil.equalsAny("ENUM$VALUES", "ordinal", fieldName)) {
+			if (field.getType().isEnum() ||
+				fieldName.contains("$VALUES") ||
+				"ordinal".equals(fieldName) ||
+				// 通过判断字段定义类，避免用户自定义的name字段误判
+				(field.getDeclaringClass().equals(Enum.class) && "name".equals(fieldName))) {
 				// 跳过一些特殊字段
 				continue;
 			}
@@ -181,7 +185,7 @@ public class EnumUtil {
 				}
 			}
 		}
-		return null;
+		return fromStringQuietly(enumClass, value.toString());
 	}
 
 	/**

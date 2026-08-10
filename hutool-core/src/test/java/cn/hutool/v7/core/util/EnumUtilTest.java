@@ -23,8 +23,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * EnumUtil单元测试
@@ -141,5 +140,93 @@ public class EnumUtilTest {
 		public String getLabel() {
 			return label;
 		}
+	}
+
+	// Define test enum for testing likeValueOf functionality
+	enum TestColor {
+		RED("red_color", 1),
+		GREEN("green_color", 2),
+		BLUE("blue_color", 3);
+
+		private final String description;
+		private final int code;
+
+		TestColor(final String description, final int code) {
+			this.description = description;
+			this.code = code;
+		}
+
+		public String getDescription() {
+			return description;
+		}
+
+		public int getCode() {
+			return code;
+		}
+	}
+
+	@Test
+	public void testLikeValueOfWithExactMatch() {
+		// Test matching by name
+		assertEquals(TestColor.RED, EnumUtil.likeValueOf(TestColor.class, "RED"));
+		assertEquals(TestColor.GREEN, EnumUtil.likeValueOf(TestColor.class, "GREEN"));
+		assertEquals(TestColor.BLUE, EnumUtil.likeValueOf(TestColor.class, "BLUE"));
+	}
+
+	@Test
+	public void testLikeValueOfWithDescriptionField() {
+		// Test matching by description field
+		assertEquals(TestColor.RED, EnumUtil.likeValueOf(TestColor.class, "red_color"));
+		assertEquals(TestColor.GREEN, EnumUtil.likeValueOf(TestColor.class, "green_color"));
+		assertEquals(TestColor.BLUE, EnumUtil.likeValueOf(TestColor.class, "blue_color"));
+	}
+
+	@Test
+	public void testLikeValueOfWithCodeField() {
+		// Test matching by code field
+		assertEquals(TestColor.RED, EnumUtil.likeValueOf(TestColor.class, 1));
+		assertEquals(TestColor.GREEN, EnumUtil.likeValueOf(TestColor.class, 2));
+		assertEquals(TestColor.BLUE, EnumUtil.likeValueOf(TestColor.class, 3));
+	}
+
+	@Test
+	public void testLikeValueOfWithNullInputs() {
+		// Test with null enum class
+		assertNull(EnumUtil.likeValueOf(null, "RED"));
+
+		// Test with null value
+		assertNull(EnumUtil.likeValueOf(TestColor.class, null));
+	}
+
+	@Test
+	public void testLikeValueOfWithNonExistentValue() {
+		// Test with non-existent value
+		assertNull(EnumUtil.likeValueOf(TestColor.class, "YELLOW"));
+		assertNull(EnumUtil.likeValueOf(TestColor.class, "nonexistent_color"));
+		assertNull(EnumUtil.likeValueOf(TestColor.class, 999));
+	}
+
+	@Test
+	public void testLikeValueOfWithWhitespace() {
+		// Test with whitespace in string values
+		assertEquals(TestColor.RED, EnumUtil.likeValueOf(TestColor.class, " RED "));
+		assertEquals(TestColor.GREEN, EnumUtil.likeValueOf(TestColor.class, " green_color "));
+	}
+
+	@Test
+	public void testLikeValueOfWithEmptyAndBlankStrings() {
+		// Test with empty and blank strings
+		assertNull(EnumUtil.likeValueOf(TestColor.class, ""));
+		assertNull(EnumUtil.likeValueOf(TestColor.class, "   "));
+	}
+
+	@Test
+	public void testLikeValueOfWithCaseSensitivity() {
+		// The method should be case-sensitive when matching field values
+		assertNull(EnumUtil.likeValueOf(TestColor.class, "red")); // lowercase
+		assertNull(EnumUtil.likeValueOf(TestColor.class, "Red")); // mixed case
+
+		// But should still work for exact matches
+		assertEquals(TestColor.RED, EnumUtil.likeValueOf(TestColor.class, "RED"));
 	}
 }
