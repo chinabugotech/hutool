@@ -173,7 +173,7 @@ public class EnumUtil {
 			fieldName = field.getName();
 			if (field.getType().isEnum() ||
 				fieldName.contains("$VALUES") ||
-				"ordinal".equals(fieldName) ||
+				StrUtil.equalsAny(fieldName, "hash", "ordinal") ||
 				// 通过判断字段定义类，避免用户自定义的name字段误判
 				(field.getDeclaringClass().equals(Enum.class) && "name".equals(fieldName))) {
 				// 跳过一些特殊字段
