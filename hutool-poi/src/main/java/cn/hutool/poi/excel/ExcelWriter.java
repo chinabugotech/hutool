@@ -1200,7 +1200,7 @@ public class ExcelWriter extends ExcelBase<ExcelWriter> {
 	 *
 	 * @param headerVal       表头名称,如果为null则不写入
 	 * @param colData         需要写入的列数据
-	 * @param isResetRowIndex 如果为true，写入完毕后Row index 将会重置为写入之前的未知，如果为false，写入完毕后Row index将会在写完的数据下方
+	 * @param isResetRowIndex 如果为true，写入完毕后Row index 将会重置为写入之前的位置，如果为false，写入完毕后Row index将会在写完的数据下方
 	 * @return this
 	 */
 	public ExcelWriter writeCol(Object headerVal, Iterable<?> colData, boolean isResetRowIndex) {
@@ -1216,7 +1216,7 @@ public class ExcelWriter extends ExcelBase<ExcelWriter> {
 	 * @param headerVal       表头名称,如果为null则不写入
 	 * @param colIndex        列index
 	 * @param colData         需要写入的列数据
-	 * @param isResetRowIndex 如果为true，写入完毕后Row index 将会重置为写入之前的未知，如果为false，写入完毕后Row index将会在写完的数据下方
+	 * @param isResetRowIndex 如果为true，写入完毕后Row index 将会重置为写入之前的位置，如果为false，写入完毕后Row index将会在写完的数据下方
 	 * @return this
 	 */
 	public ExcelWriter writeCol(Object headerVal, int colIndex, Iterable<?> colData, boolean isResetRowIndex) {
