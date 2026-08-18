@@ -19,7 +19,7 @@ package cn.hutool.v7.core.func;
 import cn.hutool.v7.core.exception.HutoolException;
 import cn.hutool.v7.core.lang.Assert;
 import cn.hutool.v7.core.lang.mutable.MutableEntry;
-import cn.hutool.v7.core.map.reference.WeakConcurrentMap;
+import cn.hutool.v7.core.map.reference.SoftConcurrentMap;
 import cn.hutool.v7.core.reflect.ClassUtil;
 import cn.hutool.v7.core.reflect.ReflectUtil;
 import cn.hutool.v7.core.reflect.lookup.LookupUtil;
@@ -42,7 +42,7 @@ public class LambdaFactory {
 		throw new IllegalAccessException();
 	}
 
-	private static final Map<MutableEntry<Class<?>, Executable>, Object> CACHE = new WeakConcurrentMap<>();
+	private static final Map<MutableEntry<Class<?>, Executable>, Object> CACHE = new SoftConcurrentMap<>();
 
 	/**
 	 * 构建Lambda

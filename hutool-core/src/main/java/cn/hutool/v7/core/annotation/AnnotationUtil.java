@@ -29,6 +29,7 @@ import cn.hutool.v7.core.func.LambdaInfo;
 import cn.hutool.v7.core.func.LambdaUtil;
 import cn.hutool.v7.core.func.SerFunction;
 import cn.hutool.v7.core.lang.Opt;
+import cn.hutool.v7.core.map.reference.SoftConcurrentMap;
 import cn.hutool.v7.core.map.reference.WeakConcurrentMap;
 import cn.hutool.v7.core.reflect.FieldUtil;
 import cn.hutool.v7.core.reflect.method.MethodUtil;
@@ -78,12 +79,7 @@ public class AnnotationUtil {
 	 * 注解查询两级缓存优化
 	 * 哨兵对象：用于表示“缓存中不存在该注解”，避免缓存null导致NPE
 	 */
-	private static final Annotation NULL_ANNOTATION_SENTINEL = new Annotation() {
-		@Override
-		public Class<? extends Annotation> annotationType() {
-			return null;
-		}
-	};
+	private static final Annotation NULL_ANNOTATION_SENTINEL = () -> null;
 
 	/**
 	 * 直接声明的注解缓存
@@ -95,14 +91,14 @@ public class AnnotationUtil {
 	 * 键：注解查询键（被注解元素 + 目标注解类型）<br>
 	 * 值：原生注解对象，或NULL_ANNOTATION_SENTINEL（表示不存在）
 	 */
-	private static final Map<AnnotationLookupKey, Annotation> L1_ANNOTATION_CACHE = new WeakConcurrentMap<>();
+	private static final Map<AnnotationLookupKey, Annotation> L1_ANNOTATION_CACHE = new SoftConcurrentMap<>();
 
 	/**
 	 * L2 合成注解缓存（别名/聚合场景）<br>
 	 * 键：注解查询键（被注解元素 + 目标注解类型）<br>
 	 * 值：合成注解对象，或NULL_ANNOTATION_SENTINEL（表示不存在）
 	 */
-	private static final Map<AnnotationLookupKey, Annotation> L2_SYNTHESIZED_ANNOTATION_CACHE = new WeakConcurrentMap<>();
+	private static final Map<AnnotationLookupKey, Annotation> L2_SYNTHESIZED_ANNOTATION_CACHE = new SoftConcurrentMap<>();
 
 	/**
 	 * 判断注解是否为元注解

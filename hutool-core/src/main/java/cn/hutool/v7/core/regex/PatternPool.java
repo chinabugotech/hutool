@@ -16,7 +16,8 @@
 
 package cn.hutool.v7.core.regex;
 
-import cn.hutool.v7.core.map.reference.WeakConcurrentMap;
+import cn.hutool.v7.core.map.reference.ReferenceConcurrentMap;
+import cn.hutool.v7.core.map.reference.SoftConcurrentMap;
 
 import java.util.regex.Pattern;
 
@@ -211,7 +212,7 @@ public class PatternPool {
 	/**
 	 * Pattern池
 	 */
-	private static final WeakConcurrentMap<RegexWithFlag, Pattern> POOL = new WeakConcurrentMap<>();
+	private static final ReferenceConcurrentMap<RegexWithFlag, Pattern> POOL = new SoftConcurrentMap<>();
 
 	/**
 	 * 先从Pattern池中查找正则对应的{@link Pattern}，找不到则编译正则表达式并入池。
