@@ -39,6 +39,7 @@
     <a href="https://deepwiki.com/chinabugotech/hutool">
         <img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki">
     </a>
+<a href="https://inspect.software/software/chinabugotech/hutool"><img src="https://raw.githubusercontent.com/inspect-software/badges/main/v1/c/chinabugotech/hutool.svg" alt="inspect.software score badge for chinabugotech/hutool" /></a>
 </p>
 
 <br/>
