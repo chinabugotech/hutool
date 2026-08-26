@@ -52,7 +52,7 @@ public class Excel07SaxReader implements ExcelSaxReader<Excel07SaxReader> {
 	// ------------------------------------------------------------------------------ Read start
 	@Override
 	public Excel07SaxReader read(File file, int rid) throws POIException {
-		return read(file, RID_PREFIX + rid);
+		return read(file, String.valueOf(rid));
 	}
 
 	@Override
@@ -66,7 +66,7 @@ public class Excel07SaxReader implements ExcelSaxReader<Excel07SaxReader> {
 
 	@Override
 	public Excel07SaxReader read(InputStream in, int rid) throws POIException {
-		return read(in, RID_PREFIX + rid);
+		return read(in, String.valueOf(rid));
 	}
 
 	@Override
@@ -89,7 +89,7 @@ public class Excel07SaxReader implements ExcelSaxReader<Excel07SaxReader> {
 	 * @throws POIException POI异常
 	 */
 	public Excel07SaxReader read(OPCPackage opcPackage, int rid) throws POIException {
-		return read(opcPackage, RID_PREFIX + rid);
+		return read(opcPackage, String.valueOf(rid));
 	}
 
 	/**
