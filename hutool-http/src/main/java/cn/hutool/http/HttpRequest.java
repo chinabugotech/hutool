@@ -1332,6 +1332,18 @@ public class HttpRequest extends HttpBase<HttpRequest> {
 					} else {
 						redirectUrl = UrlBuilder.ofHttpWithoutEncode(location);
 					}
+					// issue#IKA82X@Gitee 跨源重定向时剥离敏感头，避免泄漏到第三方主机
+					if (false == isSameOrigin(this.url, redirectUrl)) {
+						this.headers.remove(Header.AUTHORIZATION.toString());
+						this.headers.remove(Header.PROXY_AUTHORIZATION.toString());
+						this.headers.remove(Header.COOKIE.toString());
+						this.cookie = null;
+						// 307、308跨源时丢弃请求体，避免敏感表单数据泄漏（保留方法，不降级为GET）
+						if (HttpStatus.HTTP_TEMP_REDIRECT == responseCode || HttpStatus.HTTP_PERMANENT_REDIRECT == responseCode) {
+							this.body = null;
+							this.form = null;
+						}
+					}
 					setUrl(redirectUrl);
 					// https://www.rfc-editor.org/rfc/rfc7231#section-6.4.7
 					// https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Redirections
@@ -1350,6 +1362,17 @@ public class HttpRequest extends HttpBase<HttpRequest> {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * 判断两个URL是否同源（host与port一致）。
+	 *
+	 * @param source 源URL
+	 * @param target 目标URL
+	 * @return 是否同源
+	 */
+	private static boolean isSameOrigin(UrlBuilder source, UrlBuilder target) {
+		return source.getHost().equalsIgnoreCase(target.getHost()) && source.getPort() == target.getPort();
 	}
 
 	/**
