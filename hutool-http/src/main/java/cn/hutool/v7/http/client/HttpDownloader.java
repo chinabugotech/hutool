@@ -131,6 +131,18 @@ public class HttpDownloader {
 	}
 
 	/**
+	 * 设置最大重定向次数<br>
+	 * 如果次数小于1则表示不重定向，大于等于1表示打开重定向<br>
+	 *
+	 * @param maxRedirects 最大重定向次数
+	 * @return this
+	 */
+	public HttpDownloader setMaxRedirects(final int maxRedirects) {
+		this.request.setMaxRedirects(maxRedirects);
+		return this;
+	}
+
+	/**
 	 * 设置引擎，用于自定义引擎
 	 *
 	 * @param engine 引擎
