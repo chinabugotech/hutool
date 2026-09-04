@@ -70,4 +70,15 @@ public class HttpUrlUtil {
 
 		return redirectUrl;
 	}
+
+	/**
+	 * 判断两个URL是否同源（host与port一致）。
+	 *
+	 * @param source 源URL
+	 * @param target 目标URL
+	 * @return 是否同源
+	 */
+	public static boolean isSameOrigin(final UrlBuilder source, final UrlBuilder target) {
+		return source.getHost().equalsIgnoreCase(target.getHost()) && source.getPort() == target.getPort();
+	}
 }

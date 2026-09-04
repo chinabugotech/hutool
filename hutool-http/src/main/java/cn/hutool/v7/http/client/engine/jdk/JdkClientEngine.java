@@ -80,10 +80,10 @@ public class JdkClientEngine extends AbstractClientEngine {
 
 	@Override
 	protected void initEngine() {
-		if(null != this.cookieManager){
+		if (null != this.cookieManager) {
 			return;
 		}
-		if(null != this.config && this.config.isUseCookieManager()){
+		if (null != this.config && this.config.isUseCookieManager()) {
 			this.cookieStore = new InMemoryCookieStore();
 			this.cookieManager = new JdkCookieManager(this.cookieStore);
 		}
@@ -119,7 +119,7 @@ public class JdkClientEngine extends AbstractClientEngine {
 			}
 
 			if (HttpStatus.isRedirected(code)) {
-				if (HttpStatus.isRedirectToGet( code)) {
+				if (HttpStatus.isRedirectToGet(code)) {
 					// 重定向默认使用GET
 					message.method(Method.GET);
 				}
