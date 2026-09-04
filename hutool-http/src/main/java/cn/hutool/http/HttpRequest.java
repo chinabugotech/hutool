@@ -408,10 +408,10 @@ public class HttpRequest extends HttpBase<HttpRequest> {
 	public boolean isKeepAlive() {
 		String connection = header(Header.CONNECTION);
 		if (connection == null) {
-			return false == HTTP_1_0.equalsIgnoreCase(httpVersion);
+			return !HTTP_1_0.equalsIgnoreCase(httpVersion);
 		}
 
-		return false == "close".equalsIgnoreCase(connection);
+		return !"close".equalsIgnoreCase(connection);
 	}
 
 	/**
@@ -663,7 +663,7 @@ public class HttpRequest extends HttpBase<HttpRequest> {
 	 */
 	public HttpRequest form(String name, Resource resource) {
 		if (null != resource) {
-			if (false == isKeepAlive()) {
+			if (!isKeepAlive()) {
 				keepAlive(true);
 			}
 
@@ -1269,7 +1269,7 @@ public class HttpRequest extends HttpBase<HttpRequest> {
 	 * 对于非rest的GET请求，且处于重定向时，参数丢弃
 	 */
 	private void urlWithParamIfGet() {
-		if (Method.GET.equals(method) && false == this.isRest && this.redirectCount <= 0) {
+		if (Method.GET.equals(method) && !this.isRest && this.redirectCount <= 0) {
 			UrlQuery query = this.url.getQuery();
 			if (null == query) {
 				query = new UrlQuery();
@@ -1311,9 +1311,9 @@ public class HttpRequest extends HttpBase<HttpRequest> {
 				if (HttpStatus.isRedirected(responseCode)) {
 					final UrlBuilder redirectUrl;
 					String location = httpConnection.header(Header.LOCATION);
-					if (false == HttpUtil.isHttp(location) && false == HttpUtil.isHttps(location)) {
+					if (!HttpUtil.isHttp(location) && !HttpUtil.isHttps(location)) {
 						// issue#I5TPSY, location可能为相对路径
-						if (false == location.startsWith("/")) {
+						if (!location.startsWith("/")) {
 							location = StrUtil.addSuffixIfNot(this.url.getPathStr(), "/") + location;
 						}
 
@@ -1333,11 +1333,11 @@ public class HttpRequest extends HttpBase<HttpRequest> {
 						redirectUrl = UrlBuilder.ofHttpWithoutEncode(location);
 					}
 					// issue#IKA82X@Gitee 跨源重定向时剥离敏感头，避免泄漏到第三方主机
-					if (false == isSameOrigin(this.url, redirectUrl)) {
-						this.headers.remove(Header.AUTHORIZATION.toString());
-						this.headers.remove(Header.PROXY_AUTHORIZATION.toString());
-						this.headers.remove(Header.COOKIE.toString());
-						this.cookie = null;
+					if (!isSameOrigin(this.url, redirectUrl)) {
+//						this.headers.remove(Header.AUTHORIZATION.toString());
+//						this.headers.remove(Header.PROXY_AUTHORIZATION.toString());
+//						this.headers.remove(Header.COOKIE.toString());
+//						this.cookie = null;
 						// 307、308跨源时丢弃请求体，避免敏感表单数据泄漏（保留方法，不降级为GET）
 						if (HttpStatus.HTTP_TEMP_REDIRECT == responseCode || HttpStatus.HTTP_PERMANENT_REDIRECT == responseCode) {
 							this.body = null;
