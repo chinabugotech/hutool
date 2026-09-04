@@ -1,10 +1,11 @@
 
 # 🚀Changelog
 -------------------------------------------------------------------------------------------------------------
-# 5.8.48(2026-08-18)
+# 5.8.48(2026-09-04)
 ### 🐣新特性
 * 【core   】      `NumberUtil.toInt`增加长度校验（pr#4289@Github）
 * 【core   】      `FileUtil.subPath`增加重载，可选是否追踪链接（issue#IK3K5Z@Gitee）
+* 【core   】      添加`Base85`编码（pr#1474@Gitee）
 
 ### 🐞Bug修复
 * 【ai     】      Set hasProxy in BaseConfig.setProxy so a directly-set proxy is not ignored（pr#4291@Github）
