@@ -3252,7 +3252,13 @@ public class CharSequenceUtil extends StrValidator {
 		if (INDEX_NOT_FOUND == startInclude) {
 			return toStringOrNull(str);
 		}
-		return replaceByCodePoint(str, startInclude, startInclude + searchStr.length(), replacedStr);
+
+		// indexOf返回的是char下标，而replaceByCodePoint使用的是码点下标，此处需要换算，
+		// 否则字符串中只要含有增补字符（如emoji，占2个char），替换位置就会偏移
+		final int startIncludeByCodePoint = Character.codePointCount(str, 0, startInclude);
+		final int endExcludeByCodePoint = startIncludeByCodePoint + Character.codePointCount(searchStr, 0, searchStr.length());
+		return replaceByCodePoint(str, startIncludeByCodePoint, endExcludeByCodePoint, replacedStr);
+		//return replaceByCodePoint(str, startInclude, startInclude + searchStr.length(), replacedStr);
 	}
 
 	/**

@@ -240,6 +240,28 @@ public class CharSequenceUtilTest {
 	}
 
 	@Test
+	public void replaceFirstWithSupplementaryCharTest() {
+		// 增补字符（如emoji）占2个char，replaceFirst按码点定位，否则替换位置会偏移
+		assertEquals("😀Xbc", StrUtil.replaceFirst("😀abc", "a", "X", false));
+		// 与兄弟方法保持一致
+		assertEquals("😀Xbc", StrUtil.replace("😀abc", "a", "X"));
+		assertEquals("😀Xbc", StrUtil.replaceLast("😀abc", "a", "X", false));
+
+		// 增补字符出现在中间
+		assertEquals("ab😀Xd", StrUtil.replaceFirst("ab😀cd", "c", "X", false));
+		// 增补字符在末尾
+		assertEquals("a😀X", StrUtil.replaceFirst("a😀b", "b", "X", false));
+		// 连续多个增补字符
+		assertEquals("😀😀Y", StrUtil.replaceFirst("😀😀x", "x", "Y", false));
+		// 被查找的字符串本身含有增补字符
+		assertEquals("Xbc", StrUtil.replaceFirst("😀abc", "😀a", "X", false));
+
+		// 不含增补字符时行为不变
+		assertEquals("Xbc", StrUtil.replaceFirst("abc", "a", "X", false));
+		assertEquals("abc", StrUtil.replaceFirst("abc", "z", "X", false));
+	}
+
+	@Test
 	public void issueI5YN49Test() {
 		final String str = "A5E6005700000000000000000000000000000000000000090D0100000000000001003830";
 		assertEquals("38", StrUtil.subByLength(str,-2,2));
