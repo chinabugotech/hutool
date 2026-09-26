@@ -89,8 +89,9 @@ public abstract class CRC16Checksum implements Checksum, Serializable {
 
 	@Override
 	public void update(final byte[] b, final int off, final int len) {
-		for (int i = off; i < off + len; i++)
+		for (int i = off; i < off + len; i++){{
 			update(b[i]);
+		}}
 	}
 
 }

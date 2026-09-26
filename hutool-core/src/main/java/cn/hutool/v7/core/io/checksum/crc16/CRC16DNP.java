@@ -32,9 +32,10 @@ public class CRC16DNP extends CRC16Checksum{
 	private static final int WC_POLY = 0xA6BC;
 
 	@Override
-	public void update(final byte[] b, final int off, final int len) {
-		super.update(b, off, len);
-		wCRCin ^= 0xffff;
+	public long getValue() {
+		// 结果与0xFFFF异或属于最终处理：若放在update中，分块调用会每块异或一次，
+		// 使同一个字节序列因分块方式不同而得到不同结果
+		return (wCRCin ^ 0xffff) & 0xFFFF;
 	}
 
 	@Override

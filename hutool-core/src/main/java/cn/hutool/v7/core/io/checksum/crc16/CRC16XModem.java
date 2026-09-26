@@ -47,5 +47,8 @@ public class CRC16XModem extends CRC16Checksum{
 			if (c15 ^ bit)
 				wCRCin ^= WC_POLY;
 		}
+
+		// 左移会把结果留在int的高位，此处截断为16位，否则逐字节调用与批量调用结果不一致
+		wCRCin &= 0xffff;
 	}
 }
