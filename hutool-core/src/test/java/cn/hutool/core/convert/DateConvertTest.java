@@ -1,13 +1,15 @@
 package cn.hutool.core.convert;
 
 import cn.hutool.core.date.DateUtil;
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class DateConvertTest {
 
@@ -66,6 +68,6 @@ public class DateConvertTest {
 
 		String str = "2020-12-12 12:12:12.0";
 		ldt = Convert.toLocalDateTime(str);
-		assertEquals(ldt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S")), str);
+		assertEquals(str, ldt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S")));
 	}
 }
