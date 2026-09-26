@@ -12,7 +12,6 @@ import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.nio.charset.Charset;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -491,7 +490,7 @@ public class Convert {
 	 * @since 5.0.7
 	 */
 	public static Date toInstant(Object value, Date defaultValue) {
-		return convertQuietly(Instant.class, value, defaultValue);
+		return convertQuietly(Date.class, value, defaultValue);
 	}
 
 	/**
