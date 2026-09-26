@@ -534,7 +534,7 @@ public class ConvertUtil {
 	 * @return 结果
 	 * @since 5.0.7
 	 */
-	public static Date toInstant(final Object value, final Date defaultValue) {
+	public static Instant toInstant(final Object value, final Instant defaultValue) {
 		return convertQuietly(Instant.class, value, defaultValue);
 	}
 

@@ -17,6 +17,8 @@
 package cn.hutool.v7.core.convert.impl;
 
 import cn.hutool.v7.core.convert.AbstractConverter;
+import cn.hutool.v7.core.convert.ConvertException;
+import cn.hutool.v7.core.convert.ConvertUtil;
 import cn.hutool.v7.core.date.DateTime;
 import cn.hutool.v7.core.date.DateUtil;
 import cn.hutool.v7.core.date.TimeUtil;
@@ -32,6 +34,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -112,6 +115,8 @@ public class TemporalAccessorConverter extends AbstractConverter {
 			return parseFromInstant(targetClass, dateTime.toInstant(), dateTime.getZoneId());
 		} else if (value instanceof final Calendar calendar) {
 			return parseFromInstant(targetClass, calendar.toInstant(), calendar.getTimeZone().toZoneId());
+		} else if (value instanceof Map) {
+			return parseFromMap(targetClass, (Map<?, ?>) value);
 		} else {
 			return parseFromCharSequence(targetClass, convertToStr(value));
 		}
@@ -323,5 +328,23 @@ public class TemporalAccessorConverter extends AbstractConverter {
 			result = OffsetTime.ofInstant(instant, zoneId);
 		}
 		return result;
+	}
+
+	/**
+	 * 从Map转换
+	 * @param targetClass 目标了类型
+	 * @param map map
+	 * @return TemporalAccessor
+	 */
+	private TemporalAccessor parseFromMap(final Class<?> targetClass, final Map<?, ?> map){
+		if (LocalDate.class.equals(targetClass)) {
+			return LocalDate.of(ConvertUtil.toInt(map.get("year")), ConvertUtil.toInt(map.get("month")), ConvertUtil.toInt(map.get("day")));
+		} else if (LocalDateTime.class.equals(targetClass)) {
+			return LocalDateTime.of(ConvertUtil.toInt(map.get("year")), ConvertUtil.toInt(map.get("month")), ConvertUtil.toInt(map.get("day")),
+				ConvertUtil.toInt(map.get("hour")), ConvertUtil.toInt(map.get("minute")), ConvertUtil.toInt(map.get("second")), ConvertUtil.toInt(map.get("nano")));
+		} else if (LocalTime.class.equals(targetClass)) {
+			return LocalTime.of(ConvertUtil.toInt(map.get("hour")), ConvertUtil.toInt(map.get("minute")), ConvertUtil.toInt(map.get("second")), ConvertUtil.toInt(map.get("nano")));
+		}
+		throw new ConvertException("Unsupported type: [{}] from map: [{}]", targetClass, map);
 	}
 }
