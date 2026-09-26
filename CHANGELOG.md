@@ -26,6 +26,7 @@
 * 【core   】      修复`ReentrantCache`双重检查返回空值问题（pr#4325@Github）
 * 【core   】      修复`CharSequenceUtil.replaceFirst`在含增补字符时替换位置错误的问题（pr#4337@Github）
 * 【core   】      修复`Caesar.encode`负偏移量抛出异常及非字母表字符被静默损坏问题（pr#4327@Github）
+* 【core   】      修复`FileMagicNumber`的MP3与DOC matcher对截断输入抛出`ArrayIndexOutOfBoundsException`问题（pr#4330@Github）
 
 -------------------------------------------------------------------------------------------------------------
 # 5.8.47(2026-07-06)
