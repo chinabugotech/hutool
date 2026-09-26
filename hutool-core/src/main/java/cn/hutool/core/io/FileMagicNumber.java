@@ -213,7 +213,7 @@ public enum FileMagicNumber {
 			if (bytes.length < 2) {
 				return false;
 			}
-			final boolean flag1 = Objects.equals(bytes[0], (byte) 0x49) && Objects.equals(bytes[1], (byte) 0x44) && Objects.equals(bytes[2], (byte) 0x33);
+			final boolean flag1 = bytes.length > 2 && Objects.equals(bytes[0], (byte) 0x49) && Objects.equals(bytes[1], (byte) 0x44) && Objects.equals(bytes[2], (byte) 0x33);
 			final boolean flag2 = Objects.equals(bytes[0], (byte) 0xFF) && Objects.equals(bytes[1], (byte) 0xFB);
 			final boolean flag3 = Objects.equals(bytes[0], (byte) 0xFF) && Objects.equals(bytes[1], (byte) 0xF3);
 			final boolean flag4 = Objects.equals(bytes[0], (byte) 0xFF) && Objects.equals(bytes[1], (byte) 0xF2);
@@ -942,8 +942,7 @@ public enum FileMagicNumber {
 						, (byte) 0x44, (byte) 0x6f, (byte) 0x63, (byte) 0x00, (byte) 0x10, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x57, (byte) 0x6f, (byte) 0x72, (byte) 0x64,
 						(byte) 0x2e, (byte) 0x44, (byte) 0x6f, (byte) 0x63, (byte) 0x75, (byte) 0x6d, (byte) 0x65, (byte) 0x6e, (byte) 0x74, (byte) 0x2e, (byte) 0x38, (byte) 0x00,
 						(byte) 0xf4, (byte) 0x39, (byte) 0xb2, (byte) 0x71};
-				final byte[] range = Arrays.copyOfRange(bytes, 2075, 2142);
-				final boolean flag3 = bytes.length > 2142 && FileMagicNumber.indexOf(range, byte3) > 0;
+				final boolean flag3 = bytes.length > 2142 && FileMagicNumber.indexOf(Arrays.copyOfRange(bytes, 2075, 2142), byte3) > 0;
 				return flag2 || flag3;
 			}
 			return false;
