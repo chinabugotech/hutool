@@ -489,8 +489,24 @@ public class Convert {
 	 * @param defaultValue 转换错误时的默认值
 	 * @return 结果
 	 * @since 5.0.7
+	 * @deprecated 参数错误，请使用{@link #toInstant(Object, Instant)}
 	 */
+	@Deprecated
 	public static Date toInstant(Object value, Date defaultValue) {
+		return convertQuietly(Instant.class, value, defaultValue);
+	}
+
+	/**
+	 * Instant<br>
+	 * 如果给定的值为空，或者转换失败，返回默认值<br>
+	 * 转换失败不会报错
+	 *
+	 * @param value        被转换的值
+	 * @param defaultValue 转换错误时的默认值
+	 * @return 结果
+	 * @since 5.8.48
+	 */
+	public static Instant toInstant(Object value, Instant defaultValue) {
 		return convertQuietly(Instant.class, value, defaultValue);
 	}
 
