@@ -4,6 +4,7 @@ import cn.hutool.core.date.DateUtil;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -69,5 +70,19 @@ public class DateConvertTest {
 		String str = "2020-12-12 12:12:12.0";
 		ldt = Convert.toLocalDateTime(str);
 		assertEquals(str, ldt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S")));
+	}
+
+	@Test
+	public void toInstantTest() {
+		// Convert.toInstant返回类型是Date，内部转换的目标类型却写成了Instant.class，
+		// 导致defaultValue为null时任何非null输入都抛出ClassCastException
+		assertEquals(0L, Convert.toInstant(Instant.ofEpochMilli(0L), null).getTime());
+
+		final Date date = new Date();
+		assertEquals(date.getTime(), Convert.toInstant(date, null).getTime());
+
+		assertEquals("2020-01-01", DateUtil.formatDate(Convert.toInstant("2020-01-01", null)));
+
+		assertNull(Convert.toInstant(null, null));
 	}
 }
