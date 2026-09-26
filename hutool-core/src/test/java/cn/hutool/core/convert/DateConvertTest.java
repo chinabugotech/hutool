@@ -9,8 +9,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class DateConvertTest {
 
@@ -76,13 +75,13 @@ public class DateConvertTest {
 	public void toInstantTest() {
 		// Convert.toInstant返回类型是Date，内部转换的目标类型却写成了Instant.class，
 		// 导致defaultValue为null时任何非null输入都抛出ClassCastException
-		assertEquals(0L, Convert.toInstant(Instant.ofEpochMilli(0L), null).getTime());
+		assertEquals(0L, Convert.toInstant(Instant.ofEpochMilli(0L), (Date) null).getTime());
 
 		final Date date = new Date();
-		assertEquals(date.getTime(), Convert.toInstant(date, null).getTime());
+		assertEquals(date.getTime(), Convert.toInstant(date, (Date) null).getTime());
 
-		assertEquals("2020-01-01", DateUtil.formatDate(Convert.toInstant("2020-01-01", null)));
+		assertEquals("2020-01-01", DateUtil.formatDate(Convert.toInstant("2020-01-01", (Date) null)));
 
-		assertNull(Convert.toInstant(null, null));
+		assertNull(Convert.toInstant(null, (Date) null));
 	}
 }

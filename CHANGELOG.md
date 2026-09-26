@@ -27,6 +27,7 @@
 * 【core   】      修复`CharSequenceUtil.replaceFirst`在含增补字符时替换位置错误的问题（pr#4337@Github）
 * 【core   】      修复`Caesar.encode`负偏移量抛出异常及非字母表字符被静默损坏问题（pr#4327@Github）
 * 【core   】      修复`Convert.toInstant`转换目标类型写错、以及Map转LocalDateTime纳秒取错字段的问题（pr#4333@Github）
+* 【core   】      修复CRC16校验值随数据喂入方式变化的问题（pr#4335@Github）
 
 -------------------------------------------------------------------------------------------------------------
 # 5.8.47(2026-07-06)
