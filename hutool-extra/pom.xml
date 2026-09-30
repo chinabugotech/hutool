@@ -39,7 +39,7 @@
 		<velocity.version>2.4.1</velocity.version>
 		<beetl.version>3.21.2.RELEASE</beetl.version>
 		<rythm.version>1.4.2</rythm.version>
-		<freemarker.version>2.3.34</freemarker.version>
+		<freemarker.version>2.3.35</freemarker.version>
 		<enjoy.version>5.3.0</enjoy.version>
 		<thymeleaf.version>3.1.5.RELEASE</thymeleaf.version>
 		<jte.version>3.2.4</jte.version>
