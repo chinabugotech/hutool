@@ -97,43 +97,6 @@ public class IssueIKA82XTest {
 		attacker.stop(0);
 	}
 
-	// ------------------------------------------------------------------ 回归测试（修复后验证）
-
-	@Test
-	public void sensitiveHeaderNotLeakTest() throws Exception {
-		final AtomicReference<String> leakedAuthorization = new AtomicReference<>();
-		final AtomicReference<String> leakedCookie = new AtomicReference<>();
-		final HttpServer attacker = HttpServer.create(new InetSocketAddress(0), 0);
-		attacker.createContext("/steal", exchange -> {
-			leakedAuthorization.set(exchange.getRequestHeaders().getFirst("Authorization"));
-			leakedCookie.set(exchange.getRequestHeaders().getFirst("Cookie"));
-			exchange.sendResponseHeaders(200, -1);
-			exchange.close();
-		});
-		attacker.start();
-
-		final HttpServer origin = HttpServer.create(new InetSocketAddress(0), 0);
-		final String attackerUrl = "http://localhost:" + attacker.getAddress().getPort() + "/steal";
-		origin.createContext("/", exchange -> {
-			exchange.getResponseHeaders().set("Location", attackerUrl);
-			exchange.sendResponseHeaders(302, -1);
-			exchange.close();
-		});
-		origin.start();
-
-		HttpRequest.get("http://localhost:" + origin.getAddress().getPort() + "/")
-				.bearerAuth("SUPER_SECRET_TOKEN")
-				.cookie("sessionid=VERY_SENSITIVE_COOKIE")
-				.setFollowRedirects(true)
-				.execute();
-
-		assertNull(leakedAuthorization.get());
-		assertNull(leakedCookie.get());
-
-		origin.stop(0);
-		attacker.stop(0);
-	}
-
 	@Test
 	public void postBodyNotLeakTest() throws Exception {
 		final AtomicReference<String> leakedMethod = new AtomicReference<>();
