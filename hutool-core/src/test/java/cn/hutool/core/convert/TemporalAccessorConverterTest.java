@@ -11,6 +11,8 @@ import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.ZonedDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TemporalAccessorConverterTest {
 
@@ -58,5 +60,27 @@ public class TemporalAccessorConverterTest {
 	public void toOffsetTimeTest(){
 		OffsetTime offsetTime = Convert.convert(OffsetTime.class, "2019-02-18");
 		assertEquals("00:00+08:00", offsetTime.toString());
+	}
+
+	@Test
+	public void toLocalDateTimeFromMapTest(){
+		final Map<String, Object> map = new HashMap<>();
+		map.put("year", 2020);
+		map.put("month", 2);
+		map.put("day", 3);
+		map.put("hour", 4);
+		map.put("minute", 5);
+		map.put("second", 6);
+		map.put("nano", 789000000);
+
+		// 纳秒应取自map的"nano"键，此前误取了"second"，导致nano变成6
+		final LocalDateTime localDateTime = Convert.convert(LocalDateTime.class, map);
+		assertEquals("2020-02-03T04:05:06.789", localDateTime.toString());
+		assertEquals(6, localDateTime.getSecond());
+		assertEquals(789000000, localDateTime.getNano());
+
+		// 与LocalTime的处理保持一致
+		final LocalTime localTime = Convert.convert(LocalTime.class, map);
+		assertEquals("04:05:06.789", localTime.toString());
 	}
 }

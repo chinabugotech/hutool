@@ -148,7 +148,7 @@ public class BaseAIService {
 				// 发送请求体
 				try (OutputStream os = connection.getOutputStream()) {
 					String jsonInputString = JSONUtil.toJsonStr(paramMap);
-					os.write(jsonInputString.getBytes());
+					os.write(jsonInputString.getBytes(java.nio.charset.StandardCharsets.UTF_8));
 					os.flush();
 				}
 

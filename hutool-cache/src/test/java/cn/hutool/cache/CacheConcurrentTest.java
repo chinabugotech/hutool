@@ -9,8 +9,13 @@ import cn.hutool.core.thread.ThreadUtil;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -86,6 +91,51 @@ public class CacheConcurrentTest {
 		for (Object tt : cache) {
 			Console.log(tt);
 		}
+	}
+
+	@Test
+	public void reentrantCacheShouldReturnValueAfterDoubleCheck() throws Exception {
+		final String key = "key";
+		final CountDownLatch initialMiss = new CountDownLatch(1);
+		final CountDownLatch continueDoubleCheck = new CountDownLatch(1);
+		final AtomicInteger factoryCount = new AtomicInteger();
+		final AtomicReference<Thread> delayedThread = new AtomicReference<>();
+		final AtomicReference<String> delayedValue = new AtomicReference<>();
+		final LRUCache<String, String> cache = new LRUCache<String, String>(2) {
+			@Override
+			public String get(String key, boolean isUpdateLastAccess) {
+				final String value = super.get(key, isUpdateLastAccess);
+				if (Thread.currentThread() == delayedThread.get() && null == value) {
+					initialMiss.countDown();
+					try {
+						continueDoubleCheck.await(5, TimeUnit.SECONDS);
+					} catch (InterruptedException e) {
+						Thread.currentThread().interrupt();
+						throw new AssertionError(e);
+					}
+				}
+				return value;
+			}
+		};
+		final Thread delayed = new Thread(() -> delayedValue.set(cache.get(key, false, () -> "delayed")));
+		delayedThread.set(delayed);
+		delayed.start();
+
+		assertTrue(initialMiss.await(5, TimeUnit.SECONDS));
+
+		final Thread winner = new Thread(() -> cache.get(key, false, () -> {
+			factoryCount.incrementAndGet();
+			return "winner";
+		}));
+		winner.start();
+		winner.join(5000);
+		assertFalse(winner.isAlive());
+
+		continueDoubleCheck.countDown();
+		delayed.join(5000);
+		assertFalse(delayed.isAlive());
+		assertEquals("winner", delayedValue.get());
+		assertEquals(1, factoryCount.get());
 	}
 
 	@Test

@@ -117,7 +117,7 @@ public class TemporalAccessorConverter extends AbstractConverter<TemporalAccesso
 				return LocalDate.of(Convert.toInt(map.get("year")), Convert.toInt(map.get("month")), Convert.toInt(map.get("day")));
 			} else if (LocalDateTime.class.equals(this.targetType)) {
 				return LocalDateTime.of(Convert.toInt(map.get("year")), Convert.toInt(map.get("month")), Convert.toInt(map.get("day")),
-					Convert.toInt(map.get("hour")), Convert.toInt(map.get("minute")), Convert.toInt(map.get("second")), Convert.toInt(map.get("second")));
+					Convert.toInt(map.get("hour")), Convert.toInt(map.get("minute")), Convert.toInt(map.get("second")), Convert.toInt(map.get("nano")));
 			} else if (LocalTime.class.equals(this.targetType)) {
 				return LocalTime.of(Convert.toInt(map.get("hour")), Convert.toInt(map.get("minute")), Convert.toInt(map.get("second")), Convert.toInt(map.get("nano")));
 			}

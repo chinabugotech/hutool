@@ -738,4 +738,29 @@ public class NumberUtilTest {
 	void issue4237Test(){
 		assertTrue(NumberUtil.isNumber("0008"));
 	}
+
+	@Test
+	public void toIntByteArrayTest() {
+		// toBytes/toInt 往返：大端字节序保持一致
+		final int value = 0x1234ABCD;
+		assertEquals(value, NumberUtil.toInt(NumberUtil.toBytes(value)));
+
+		// 边界值：全 0 与全 1
+		assertEquals(0, NumberUtil.toInt(new byte[]{0, 0, 0, 0}));
+		assertEquals(-1, NumberUtil.toInt(new byte[]{-1, -1, -1, -1}));
+	}
+
+	@Test
+	public void toIntByteArrayNullTest() {
+		// null 入参应抛出 IllegalArgumentException，而非 NPE
+		assertThrows(IllegalArgumentException.class, () -> NumberUtil.toInt((byte[]) null));
+	}
+
+	@Test
+	public void toIntByteArrayInvalidLengthTest() {
+		// 长度不为 4 的数组应抛出 IllegalArgumentException，而非 ArrayIndexOutOfBoundsException
+		assertThrows(IllegalArgumentException.class, () -> NumberUtil.toInt(new byte[0]));
+		assertThrows(IllegalArgumentException.class, () -> NumberUtil.toInt(new byte[]{1, 2, 3}));
+		assertThrows(IllegalArgumentException.class, () -> NumberUtil.toInt(new byte[]{1, 2, 3, 4, 5}));
+	}
 }

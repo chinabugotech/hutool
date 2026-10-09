@@ -9,7 +9,8 @@ import cn.hutool.core.exceptions.UtilException;
 import cn.hutool.core.lang.Opt;
 import cn.hutool.core.lang.func.Func1;
 import cn.hutool.core.lang.func.LambdaUtil;
-import cn.hutool.core.map.reference.WeakKeyConcurrentMap;
+import cn.hutool.core.map.reference.ReferenceConcurrentMap;
+import cn.hutool.core.map.reference.SoftConcurrentMap;
 import cn.hutool.core.util.*;
 
 import java.lang.annotation.*;
@@ -45,26 +46,21 @@ public class AnnotationUtil {
 	/**
 	 * 注解查询两级缓存优化
 	 * 哨兵对象：用于表示“缓存中不存在该注解”，避免缓存null导致NPE */
-	private static final Annotation NULL_ANNOTATION_SENTINEL = new Annotation() {
-		@Override
-		public Class<? extends Annotation> annotationType() {
-			return null;
-		}
-	};
+	private static final Annotation NULL_ANNOTATION_SENTINEL = () -> null;
 
 	/**
 	 * L1 原始注解缓存（核心高频场景）<br>
 	 * 键：注解查询键（被注解元素 + 目标注解类型）<br>
 	 * 值：原生注解对象，或NULL_ANNOTATION_SENTINEL（表示不存在）
 	 */
-	private static final WeakKeyConcurrentMap<AnnotationLookupKey, Annotation> L1_ANNOTATION_CACHE = new WeakKeyConcurrentMap<>();
+	private static final ReferenceConcurrentMap<AnnotationLookupKey, Annotation> L1_ANNOTATION_CACHE = new SoftConcurrentMap<>();
 
 	/**
 	 * L2 合成注解缓存（别名/聚合场景）<br>
 	 * 键：注解查询键（被注解元素 + 目标注解类型）<br>
 	 * 值：合成注解对象，或NULL_ANNOTATION_SENTINEL（表示不存在）
 	 */
-	private static final WeakKeyConcurrentMap<AnnotationLookupKey, Annotation> L2_SYNTHESIZED_ANNOTATION_CACHE = new WeakKeyConcurrentMap<>();
+	private static final ReferenceConcurrentMap<AnnotationLookupKey, Annotation> L2_SYNTHESIZED_ANNOTATION_CACHE = new SoftConcurrentMap<>();
 
 	/**
 	 * 注解查询缓存键，唯一标识一次注解查询操作
@@ -141,7 +137,7 @@ public class AnnotationUtil {
 	 * @return 是否为Jdk自带的元注解
 	 */
 	public static boolean isNotJdkMateAnnotation(Class<? extends Annotation> annotationType) {
-		return false == isJdkMetaAnnotation(annotationType);
+		return !isJdkMetaAnnotation(annotationType);
 	}
 
 	/**
@@ -379,9 +375,9 @@ public class AnnotationUtil {
 				// 只读取无参方法
 				final String name = t.getName();
 				// 跳过自有的几个方法
-				return (false == "hashCode".equals(name)) //
-						&& (false == "toString".equals(name)) //
-						&& (false == "annotationType".equals(name));
+				return (!"hashCode".equals(name)) //
+						&& (!"toString".equals(name)) //
+						&& (!"annotationType".equals(name));
 			}
 			return false;
 		});

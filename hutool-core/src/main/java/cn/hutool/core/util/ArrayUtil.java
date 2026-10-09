@@ -1374,6 +1374,17 @@ public class ArrayUtil extends PrimitiveArrayUtil {
 	}
 
 	// ---------------------------------------------------------------------- Reverse array
+	/**
+	 * 反转数组，会变更原数组
+	 *
+	 * @param <T>   数组元素类型
+	 * @param array 数组，会变更
+	 * @return 变更后的原数组
+	 * @since 3.0.9
+	 */
+	public static <T> T[] reverse(T[] array) {
+		return reverse(array, 0, array.length);
+	}
 
 	/**
 	 * 反转数组，会变更原数组
@@ -1401,19 +1412,6 @@ public class ArrayUtil extends PrimitiveArrayUtil {
 		}
 		return array;
 	}
-
-	/**
-	 * 反转数组，会变更原数组
-	 *
-	 * @param <T>   数组元素类型
-	 * @param array 数组，会变更
-	 * @return 变更后的原数组
-	 * @since 3.0.9
-	 */
-	public static <T> T[] reverse(T[] array) {
-		return reverse(array, 0, array.length);
-	}
-
 	// ------------------------------------------------------------------------------------------------------------ min and max
 
 	/**

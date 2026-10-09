@@ -4,6 +4,7 @@ import cn.hutool.core.lang.Assert;
 
 /**
  * 凯撒密码实现<br>
+ * 仅对{@link #TABLE}中定义的52个大小写英文字母进行位移，其它字符（数字、符号、中文等）保持原样<br>
  * 算法来自：https://github.com/zhaorenjie110/SymmetricEncryptionAndDecryption
  *
  * @author looly
@@ -27,7 +28,7 @@ public class Caesar {
 		char c;
 		for (int i = 0; i < len; i++) {
 			c = message.charAt(i);
-			if (false == Character.isLetter(c)) {
+			if (false == isCaesarChar(c)) {
 				continue;
 			}
 			plain[i] = encodeChar(c, offset);
@@ -49,7 +50,7 @@ public class Caesar {
 		char c;
 		for (int i = 0; i < len; i++) {
 			c = cipherText.charAt(i);
-			if (false == Character.isLetter(c)) {
+			if (false == isCaesarChar(c)) {
 				continue;
 			}
 			plain[i] = decodeChar(c, offset);
@@ -60,6 +61,18 @@ public class Caesar {
 	// ----------------------------------------------------------------------------------------- Private method start
 
 	/**
+	 * 是否为凯撒密码支持的字符，即是否在{@link #TABLE}字母表中<br>
+	 * 不在字母表中的字符（如中文等非拉丁字母）无法参与位移计算，将保持原样
+	 *
+	 * @param c 字符
+	 * @return 是否为支持的字符
+	 * @since 5.8.48
+	 */
+	private static boolean isCaesarChar(char c) {
+		return TABLE.indexOf(c) >= 0;
+	}
+
+	/**
 	 * 加密轮盘
 	 *
 	 * @param c      被加密字符
@@ -68,8 +81,11 @@ public class Caesar {
 	 */
 	private static char encodeChar(char c, int offset) {
 		int position = (TABLE.indexOf(c) + offset) % 52;
+		if (position < 0) {
+			// 偏移量为负数时取模结果为负数，此处修正
+			position += 52;
+		}
 		return TABLE.charAt(position);
-
 	}
 
 	/**

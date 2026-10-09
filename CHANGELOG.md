@@ -1,6 +1,35 @@
 
 # 🚀Changelog
 -------------------------------------------------------------------------------------------------------------
+# 5.8.48(2026-09-26)
+### 🐣新特性
+* 【core   】      `NumberUtil.toInt`增加长度校验（pr#4289@Github）
+* 【core   】      `FileUtil.subPath`增加重载，可选是否追踪链接（issue#IK3K5Z@Gitee）
+* 【core   】      添加`Base85`编码（pr#1474@Gitee）
+
+### 🐞Bug修复
+* 【ai     】      Set hasProxy in BaseConfig.setProxy so a directly-set proxy is not ignored（pr#4291@Github）
+* 【ai     】      Serialize the streaming AI request body as UTF-8（pr#4294@Github）
+* 【ai     】      Attach generationConfig to the Gemini chatJson request（pr#4295@Github）
+* 【ai     】      Separate video parameter flag and value with a space（pr#4296@Github）
+* 【core   】      修复`NumberUtil`的range方法对step为0时未检查问题（pr#1463@Gitee）
+* 【socket 】      修复`ChannelUtil`的前缀，修复为`Hutool-socket-`（pr#1457@Gitee）
+* 【ai     】      Merge additional config into the Doubao tokenization request（pr#4300@Github）
+* 【ai     】      Ignore query string and fragment when detecting a media URL MIME type（pr#4299@Github）
+* 【ai     】      Build the Gemini upload URL with the upload path, not the full base URL（pr#4298@Github）
+* 【json   】      修复`JSONArray.toJSONObject`数组越界问题（pr#1455@Gitee）
+* 【core   】      修复`ClassUtil.getShortClassName`空指针问题（pr#1453@Gitee）
+* 【core   】      修复`Ftp.download`文件下载失败0字节文件残留问题（pr#4305@Github）
+* 【core   】      修复`AnnotationUtil`缓存key引起的缓存失效问题（issue#4310@Github）
+* 【core   】      修复`CsvParser.readLine()`跳过注释字符时没有更新`preChar`问题（pr#4321@Github）
+* 【core   】      修复`CsvParser`引号字段中连续 `\r` 的行号统计问题（pr#4324@Github）
+* 【core   】      修复`ReentrantCache`双重检查返回空值问题（pr#4325@Github）
+* 【core   】      修复`CharSequenceUtil.replaceFirst`在含增补字符时替换位置错误的问题（pr#4337@Github）
+* 【core   】      修复`Caesar.encode`负偏移量抛出异常及非字母表字符被静默损坏问题（pr#4327@Github）
+* 【core   】      修复`Convert.toInstant`转换目标类型写错、以及Map转LocalDateTime纳秒取错字段的问题（pr#4333@Github）
+* 【core   】      修复CRC16校验值随数据喂入方式变化的问题（pr#4335@Github）
+
+-------------------------------------------------------------------------------------------------------------
 # 5.8.47(2026-07-06)
 ### 🐣新特性
 * 【core   】      `EnumConverter`变更规则，当用户自定义方法返回null时，调用默认valueOf（pr#4258@Github）
@@ -19,6 +48,7 @@
 * 【core   】      修复根据新版外国人永久居留身份证（18位）身份编号获取户籍省份编码的问题（pr#4288@Github）
 * 【core   】      修复`Record`反序列化时字段null导致报错问题（issue#4269@Github）
 
+-------------------------------------------------------------------------------------------------------------
 # 5.8.46(2026-05-25)
 ### 🐣新特性
 * 【core   】      `AnnotationUtil`新增两级缓存架构，提升高频注解解析性能（pr#1434@Gitee）

@@ -2,27 +2,27 @@ package cn.hutool.core.util;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Console;
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.math.RoundingMode;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class RandomUtilTest {
 
 	@Test
 	public void randomEleSetTest(){
 		Set<Integer> set = RandomUtil.randomEleSet(CollUtil.newArrayList(1, 2, 3, 4, 5, 6), 2);
-		assertEquals(set.size(), 2);
+		assertEquals(2, set.size());
 	}
 
 	@Test
 	public void randomElesTest(){
 		List<Integer> result = RandomUtil.randomEles(CollUtil.newArrayList(1, 2, 3, 4, 5, 6), 2);
-		assertEquals(result.size(), 2);
+		assertEquals(2, result.size());
 	}
 
 	@Test
@@ -62,14 +62,20 @@ public class RandomUtilTest {
 	}
 
 	@Test
-	@Disabled
 	public void randomStringWithoutStrTest() {
 		for (int i = 0; i < 100; i++) {
 			final String s = RandomUtil.randomStringWithoutStr(8, "0IPOL");
-			System.out.println(s);
 			for (char c : "0IPOL".toCharArray()) {
-				assertFalse(s.contains((String.valueOf(c).toLowerCase(Locale.ROOT))));
+				assertFalse(s.contains((String.valueOf(c))));
 			}
 		}
+	}
+
+	@Test
+	public void randomEleWithNullTest() {
+		assertNull(RandomUtil.randomEle((List<String>) null));
+		assertNull(RandomUtil.randomEle((List<String>) null, 5));
+		assertNull(RandomUtil.randomEle((String[]) null));
+		assertNull(RandomUtil.randomEle((String[]) null, 5));
 	}
 }

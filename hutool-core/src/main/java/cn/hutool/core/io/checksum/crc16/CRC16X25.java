@@ -18,9 +18,10 @@ public class CRC16X25 extends CRC16Checksum{
 	}
 
 	@Override
-	public void update(byte[] b, int off, int len) {
-		super.update(b, off, len);
-		wCRCin ^= 0xffff;
+	public long getValue() {
+		// 结果与0xFFFF异或属于最终处理：若放在update中，分块调用会每块异或一次，
+		// 使同一个字节序列因分块方式不同而得到不同结果
+		return (wCRCin ^ 0xffff) & 0xFFFF;
 	}
 
 	@Override

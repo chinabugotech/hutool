@@ -281,7 +281,8 @@ public class JSONArray implements JSON, JSONGetter<Integer>, List<Object>, Rando
 			return null;
 		}
 		final JSONObject jo = new JSONObject(this.config);
-		for (int i = 0; i < names.size(); i += 1) {
+		final int size = Math.min(names.size(), this.size());
+		for (int i = 0; i < size; i += 1) {
 			jo.set(names.getStr(i), this.getObj(i));
 		}
 		return jo;

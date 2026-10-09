@@ -1468,6 +1468,8 @@ public class NumberUtil {
 	 * @return 整数列表
 	 */
 	public static int[] range(int start, int stop, int step) {
+		Assert.isFalse(step == 0, "step cannot be zero");
+
 		if (start < stop) {
 			step = Math.abs(step);
 		} else if (start > stop) {
@@ -2976,6 +2978,11 @@ public class NumberUtil {
 	 * @since 4.4.5
 	 */
 	public static int toInt(byte[] bytes) {
+		// byte 数组必须为长度 4 的大端字节序，否则属于非法入参，抛出明确异常而非 NPE/AIOOBE
+		if (null == bytes || bytes.length != 4) {
+			throw new IllegalArgumentException("bytes must be length 4, but: "
+				+ (null == bytes ? "null" : bytes.length));
+		}
 		return (bytes[0] & 0xff) << 24//
 			| (bytes[1] & 0xff) << 16//
 			| (bytes[2] & 0xff) << 8//

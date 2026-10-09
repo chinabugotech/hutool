@@ -10,6 +10,8 @@ import lombok.Data;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.List;
 import java.util.Map;
@@ -140,6 +142,28 @@ public class CsvReaderTest {
 		// 文件中第3行数据，对应原始行号是6（从0开始）
 		assertEquals(6, data.getRow(3).getOriginalLineNumber());
 		assertEquals("a,s,d,f", CollUtil.join(data.getRow(3), ","));
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {"\r", "\n", "\r\n"})
+	public void consecutiveLineBreaksInQuotedField(String lineEnd) {
+		final String field = "first" + lineEnd + lineEnd + "last";
+		final CsvData data = new CsvReader().readFromStr("\"" + field + "\",value" + lineEnd + "next,row");
+		assertEquals(2, data.getRowCount());
+		assertEquals(field, data.getRow(0).get(0));
+		assertEquals(0, data.getRow(0).getOriginalLineNumber());
+		assertEquals(3, data.getRow(1).getOriginalLineNumber());
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {"\r", "\n", "\r\n"})
+	public void headerAfterConsecutiveQuotedLineBreaks(String lineEnd) {
+		final CsvReadConfig config = CsvReadConfig.defaultConfig().setBeginLineNo(3).setHeaderLineNo(3);
+		final String csv = "\"first" + lineEnd + lineEnd + "last\",value" + lineEnd + "name,value" + lineEnd + "next,row";
+		final CsvData data = new CsvReader(config).readFromStr(csv);
+		assertEquals(1, data.getRowCount());
+		assertEquals("next", data.getRow(0).getByName("name"));
+		assertEquals(4, data.getRow(0).getOriginalLineNumber());
 	}
 
 	@Test

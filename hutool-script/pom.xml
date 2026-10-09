@@ -9,7 +9,7 @@
 	<parent>
 		<groupId>cn.hutool</groupId>
 		<artifactId>hutool-parent</artifactId>
-		<version>5.8.47</version>
+		<version>5.8.48</version>
 	</parent>
 
 	<artifactId>hutool-script</artifactId>
@@ -52,6 +52,11 @@
 				<exclusion>
 					<artifactId>junit</artifactId>
 					<groupId>junit</groupId>
+				</exclusion>
+				<!-- groovy-testng 传递引入 testng:7.5（CVE-2022-4065 路径穿越），脚本模块仅需 JSR-223 能力，无需 TestNG 集成 -->
+				<exclusion>
+					<artifactId>groovy-testng</artifactId>
+					<groupId>org.codehaus.groovy</groupId>
 				</exclusion>
 			</exclusions>
 		</dependency>

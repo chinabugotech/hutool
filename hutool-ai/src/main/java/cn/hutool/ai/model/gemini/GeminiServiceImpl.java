@@ -104,6 +104,7 @@ public class GeminiServiceImpl extends BaseAIService implements GeminiService {
 		}
 		//指定响应MIME类型为JSON
 		genConfig.put("response_mime_type", "application/json");
+		paramMap.put("generationConfig", genConfig);
 
 		final HttpResponse response = sendPost(getEndpoint(false), JSONUtil.toJsonStr(paramMap));
 		return response.body();
@@ -258,7 +259,7 @@ public class GeminiServiceImpl extends BaseAIService implements GeminiService {
 		//如果是反代或自定义节点，动态拼接
 		try {
 			final URL url = new URL(apiUrl);
-			return new URL(url.getProtocol(), url.getHost(), url.getPort(), UPLOAD_BASE_URL).toString();
+			return new URL(url.getProtocol(), url.getHost(), url.getPort(), "/upload/v1beta/files").toString();
 		} catch (Exception e) {
 			return apiUrl.replace("/models/", "/upload/v1beta/files").split("/models")[0];
 		}
@@ -286,6 +287,19 @@ public class GeminiServiceImpl extends BaseAIService implements GeminiService {
 		}
 		paramMap.putAll(config.getAdditionalConfigMap());
 		return paramMap;
+	}
+
+	/**
+	 * Detects the MIME type of a media URL by its path, ignoring any query string or fragment.
+	 * {@link FileUtil#getMimeType(String)} matches on the file extension, so a URL such as
+	 * {@code https://host/a.png?v=1} would otherwise fail to resolve.
+	 *
+	 * @param url the media URL
+	 * @return the detected MIME type, or {@code null} if it cannot be determined
+	 */
+	private static String detectMimeType(final String url) {
+		final String path = StrUtil.subBefore(StrUtil.subBefore(url, "?", false), "#", false);
+		return FileUtil.getMimeType(path);
 	}
 
 	private Map<String, Object> buildMultimodalRequestMap(String prompt, final List<String> mediaList) {
@@ -317,7 +331,7 @@ public class GeminiServiceImpl extends BaseAIService implements GeminiService {
 					try {
 						final byte[] bytes = HttpUtil.downloadBytes(media);
 						//尝试识别下载文件的 MIME，无法识别则不强加后缀逻辑，通过流内容自适应
-						String mime = FileUtil.getMimeType(media);
+						String mime = detectMimeType(media);
 						if (StrUtil.isBlank(mime)) {
 							// 基础兜底
 							mime = "image/jpeg";
@@ -523,7 +537,7 @@ public class GeminiServiceImpl extends BaseAIService implements GeminiService {
 			// 发送请求体
 			try (OutputStream os = connection.getOutputStream()) {
 				String jsonInputString = JSONUtil.toJsonStr(paramMap);
-				os.write(jsonInputString.getBytes());
+				os.write(jsonInputString.getBytes(java.nio.charset.StandardCharsets.UTF_8));
 				os.flush();
 			}
 
