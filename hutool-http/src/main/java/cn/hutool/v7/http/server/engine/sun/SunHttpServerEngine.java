@@ -115,7 +115,12 @@ public class SunHttpServerEngine extends AbstractServerEngine {
 	public HttpContext createContext(String path, final HttpHandler handler) {
 		// 非/开头的路径会报错
 		path = StrUtil.addPrefixIfNot(path, StrUtil.SLASH);
-		final HttpContext context = this.server.createContext(path, handler);
+		final HttpContext context;
+		try{
+			context = this.server.createContext(path, handler);
+		} catch (final IllegalArgumentException e) {
+			throw new IllegalArgumentException("Create context error: " + path, e);
+		}
 		// 增加整体过滤器
 		if (CollUtil.isNotEmpty(this.filters)) {
 			context.getFilters().addAll(this.filters);
@@ -145,7 +150,7 @@ public class SunHttpServerEngine extends AbstractServerEngine {
 
 	@Override
 	protected void initEngine() {
-		// 请求处理器
+		// 请求根目录，则请求用户定义的处理器
 		createContext("/", exchange -> handler.handle(
 			new SunServerRequest(exchange),
 			new SunServerResponse(exchange)

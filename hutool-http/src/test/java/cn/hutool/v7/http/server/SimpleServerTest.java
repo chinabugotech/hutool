@@ -82,7 +82,10 @@ public class SimpleServerTest {
 						new HttpCookie("cc", "123").toString(),
 						new HttpCookie("cc", "abc").toString()));
 				response.write("Cookie ok");
-			}))
+			})).addAction("/getOrigin", (request, response) -> {
+				// issue#IKKIOZ 用于测试Origin头信息是否正确传递
+				response.write("Origin: " + request.getHeader(HeaderName.ORIGIN));
+			})
 			.start();
 	}
 }

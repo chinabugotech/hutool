@@ -16,13 +16,19 @@
 
 package cn.hutool.v7.http.server.engine.sun;
 
-import com.sun.net.httpserver.*;
 import cn.hutool.v7.core.lang.Console;
 import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.http.server.ServerConfig;
 import cn.hutool.v7.http.server.engine.sun.filter.HttpFilter;
 import cn.hutool.v7.http.server.engine.sun.filter.SimpleFilter;
+import cn.hutool.v7.http.server.handler.HttpHandler;
+import cn.hutool.v7.http.server.handler.NotFoundHandler;
 import cn.hutool.v7.http.server.handler.RootHandler;
+import cn.hutool.v7.http.server.handler.RouteHttpHandler;
+
+import com.sun.net.httpserver.Filter;
+import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpServer;
 
 import javax.net.ssl.SSLContext;
 import java.io.File;
@@ -31,7 +37,7 @@ import java.net.InetSocketAddress;
 import java.util.concurrent.Executor;
 
 /**
- * 简易Http服务器，基于{@link HttpServer}
+ * 简易Http服务器，基于{@link SunHttpServerEngine}
  *
  * @author Looly
  * @since 5.2.5
@@ -39,6 +45,7 @@ import java.util.concurrent.Executor;
 public class SimpleServer {
 
 	private final SunHttpServerEngine engine;
+	private final RouteHttpHandler handler;
 
 	/**
 	 * 构造
@@ -82,7 +89,8 @@ public class SimpleServer {
 			.setPort(address.getPort())
 			.setSslContext(sslContext);
 		this.engine.init(serverConfig);
-		this.engine.initEngine();
+		this.handler = new RouteHttpHandler(new NotFoundHandler());
+		this.engine.setHandler(this.handler);
 	}
 
 	/**
@@ -92,8 +100,7 @@ public class SimpleServer {
 	 * <ul>
 	 *     <li>{@link #setRoot(File)}  </li>
 	 *     <li>{@link #setRoot(String)}  </li>
-	 *     <li>{@link #createContext(String, HttpHandler)} </li>
-	 *     <li>{@link #addHandler(String, HttpHandler)}</li>
+	 *     <li>{@link #addAction(String, HttpHandler)}</li>
 	 * </ul>
 	 *
 	 * @param filter {@link Filter} 请求过滤器
@@ -112,8 +119,7 @@ public class SimpleServer {
 	 * <ul>
 	 *     <li>{@link #setRoot(File)}  </li>
 	 *     <li>{@link #setRoot(String)}  </li>
-	 *     <li>{@link #createContext(String, HttpHandler)} </li>
-	 *     <li>{@link #addHandler(String, HttpHandler)}</li>
+	 *     <li>{@link #addAction(String, HttpHandler)} (String, HttpHandler)}</li>
 	 * </ul>
 	 *
 	 * @param filter {@link Filter} 请求过滤器
@@ -136,40 +142,12 @@ public class SimpleServer {
 	 * @param path    路径，例如:/a/b 或者 a/b
 	 * @param handler 处理器，包括请求和响应处理
 	 * @return this
-	 * @see #createContext(String, HttpHandler)
 	 */
-	public SimpleServer addHandler(final String path, final HttpHandler handler) {
-		createContext(path, handler);
-		return this;
-	}
-
-	/**
-	 * 创建请求映射上下文，创建后，用户访问指定路径可使用{@link HttpHandler} 中的规则进行处理
-	 *
-	 * @param path    路径，例如:/a/b 或者 a/b
-	 * @param handler 处理器，包括请求和响应处理
-	 * @return {@link HttpContext}
-	 * @since 5.5.7
-	 */
-	public HttpContext createContext(String path, final HttpHandler handler) {
+	public SimpleServer addAction(String path, final HttpHandler handler) {
 		// 非/开头的路径会报错
 		path = StrUtil.addPrefixIfNot(path, StrUtil.SLASH);
-		return this.engine.createContext(path, handler);
-	}
-
-	/**
-	 * 增加请求处理规则，使用默认的{@link RootHandler}，默认从当前项目根目录读取页面
-	 *
-	 * @param path   路径，例如:/a/b 或者 a/b
-	 * @param action 处理器，包括请求和响应处理
-	 * @return this
-	 * @since 7.0.0
-	 */
-	public SimpleServer addAction(final String path, final cn.hutool.v7.http.server.handler.HttpHandler action) {
-		return addHandler(path, exchange -> {
-			final HttpExchangeWrapper exchangeWrapper = new HttpExchangeWrapper(exchange);
-			action.handle(exchangeWrapper.getRequest(), exchangeWrapper.getResponse());
-		});
+		this.handler.route(path, handler);
+		return this;
 	}
 
 	/**

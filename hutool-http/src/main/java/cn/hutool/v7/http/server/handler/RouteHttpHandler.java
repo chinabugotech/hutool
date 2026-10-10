@@ -37,7 +37,13 @@ public class RouteHttpHandler implements HttpHandler {
 		return new RouteHttpHandler(defaultHandler);
 	}
 
+	/**
+	 * 路径树，用于存储路由和对应的处理器
+	 */
 	private final PathTrie pathTrie;
+	/**
+	 * 默认处理器，当没有匹配到路由时使用此处理器处理请求
+	 */
 	private final HttpHandler defaultHandler;
 
 	/**

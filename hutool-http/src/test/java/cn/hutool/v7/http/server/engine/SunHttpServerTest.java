@@ -16,24 +16,13 @@
 
 package cn.hutool.v7.http.server.engine;
 
-import cn.hutool.v7.core.io.file.FileUtil;
 import cn.hutool.v7.core.lang.Console;
-import cn.hutool.v7.core.net.ssl.SSLContextUtil;
-import cn.hutool.v7.crypto.KeyStoreUtil;
 import cn.hutool.v7.http.server.ServerConfig;
 
-import javax.net.ssl.SSLContext;
-import java.security.KeyStore;
-
-public class SunServerTest {
+public class SunHttpServerTest {
 	public static void main(final String[] args) {
-		final char[] pwd = "123456".toCharArray();
-		final KeyStore keyStore = KeyStoreUtil.readJKSKeyStore(FileUtil.file("d:/test/keystore.jks"), pwd);
-		// 初始化SSLContext
-		final SSLContext sslContext = SSLContextUtil.createSSLContext(keyStore, pwd);
-
 		final ServerEngine engine = ServerEngineFactory.createEngine("SunHttpServer");
-		engine.init(ServerConfig.of().setSslContext(sslContext));
+		engine.init(ServerConfig.of());
 		engine.setHandler((request, response) -> {
 			Console.log(request.getPath());
 			response.write("Hutool Sun Server response test");
