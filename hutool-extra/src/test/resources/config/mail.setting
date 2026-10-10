@@ -29,7 +29,7 @@ from = 本兔<hutool@yeah.net>
 # 用户名（注意：如果使用foxmail邮箱，此处user为qq号）
 user = hutool@yeah.net
 # 密码
-pass = PMQBiZwBk2k3p7WD
+pass = 123456
 # 使用 STARTTLS安全连接
 starttlsEnable = true
 # 是否开启SSL
