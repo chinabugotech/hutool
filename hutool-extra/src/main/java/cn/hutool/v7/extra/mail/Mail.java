@@ -358,8 +358,6 @@ public class Mail implements Builder<MimeMessage> {
 	@Override
 	public SMTPMessage build() {
 		return SMTPMessage.of(this.mailAccount, this.useGlobalSession, this.debugOutput)
-			// 标题
-			.setTitle(this.title)
 			// 收件人
 			.setTos(this.tos)
 			// 抄送人
@@ -368,8 +366,12 @@ public class Mail implements Builder<MimeMessage> {
 			.setBccs(this.bccs)
 			// 回复地址(reply-to)
 			.setReply(this.reply)
-			// 内容和附件
-			.setContent(this.content, this.isHtml);
+			// 标题
+			.setTitle(this.title)
+			// 内容
+			.setContent(this.content, this.isHtml)
+			// 附件
+			.addAttachments(this.attachments);
 	}
 
 	/**

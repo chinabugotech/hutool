@@ -23,7 +23,6 @@ import cn.hutool.v7.core.io.IoUtil;
 import cn.hutool.v7.core.io.file.FileUtil;
 import cn.hutool.v7.core.text.StrUtil;
 import cn.hutool.v7.core.util.ObjUtil;
-import jakarta.activation.DataHandler;
 import jakarta.activation.DataSource;
 import jakarta.activation.FileDataSource;
 import jakarta.activation.FileTypeMap;
@@ -31,7 +30,6 @@ import jakarta.mail.*;
 import jakarta.mail.internet.MimeBodyPart;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.internet.MimeMultipart;
-import jakarta.mail.internet.MimeUtility;
 import jakarta.mail.util.ByteArrayDataSource;
 
 import java.io.File;
@@ -195,8 +193,10 @@ public class SMTPMessage extends MimeMessage {
 	 * @return this
 	 */
 	public SMTPMessage setContent(final String content, final boolean isHtml) {
+		final MimeBodyPart contentBodyPart = PartUtil.buildContent(content, this.mailAccount.getCharset(), isHtml);
+		addBodyPart(contentBodyPart, 0);
 		try {
-			super.setContent(buildContent(content, this.mailAccount.getCharset(), isHtml));
+			super.setContent(this.multipart);
 		} catch (final MessagingException e) {
 			throw new MailException(e);
 		}
@@ -281,7 +281,7 @@ public class SMTPMessage extends MimeMessage {
 		if (ArrayUtil.isNotEmpty(attachments)) {
 			final Charset charset = this.mailAccount.getCharset();
 			for (final DataSource attachment : attachments) {
-				addBodyPart(buildBodyPart(attachment, charset));
+				addBodyPart(PartUtil.buildAttachment(attachment, charset, this.mailAccount.isEncodefilename()));
 			}
 		}
 		return this;
@@ -340,25 +340,6 @@ public class SMTPMessage extends MimeMessage {
 	}
 
 	/**
-	 * 构建邮件信息主体
-	 *
-	 * @param content 内容, {@code null}则使用{@link StrUtil#EMPTY}替换
-	 * @param charset 编码，{@code null}则使用{@link MimeUtility#getDefaultJavaCharset()}
-	 * @param isHtml  是否为HTML
-	 * @return 邮件信息主体
-	 * @throws MessagingException 消息异常
-	 */
-	private Multipart buildContent(final String content, final Charset charset, final boolean isHtml) throws MessagingException {
-		final String charsetStr = null != charset ? charset.name() : MimeUtility.getDefaultJavaCharset();
-		// 正文
-		final MimeBodyPart body = new MimeBodyPart();
-		// 内容如果是null会抛异常, 使用空字符串代替
-		body.setContent(StrUtil.emptyIfNull(content), StrUtil.format("text/{}; charset={}", isHtml ? "html" : "plain", charsetStr));
-		addBodyPart(body, 0);
-		return this.multipart;
-	}
-
-	/**
 	 * 执行发送
 	 *
 	 * @return message-id
@@ -367,34 +348,5 @@ public class SMTPMessage extends MimeMessage {
 	private String doSend() throws MessagingException {
 		Transport.send(this);
 		return getMessageID();
-	}
-
-	/**
-	 * 构建邮件信息主体
-	 *
-	 * @param attachment 附件
-	 * @param charset    编码
-	 * @return 邮件信息主体
-	 */
-	private MimeBodyPart buildBodyPart(final DataSource attachment, final Charset charset) {
-		final MimeBodyPart bodyPart = new MimeBodyPart();
-
-		try {
-			bodyPart.setDataHandler(new DataHandler(attachment));
-			String nameEncoded = attachment.getName();
-			if (this.mailAccount.isEncodefilename()) {
-				nameEncoded = InternalMailUtil.encodeText(nameEncoded, charset);
-			}
-			// 普通附件文件名
-			bodyPart.setFileName(nameEncoded);
-			if (StrUtil.startWith(attachment.getContentType(), "image/")) {
-				// 图片附件，用于正文中引用图片
-				bodyPart.setContentID(nameEncoded);
-				bodyPart.setDisposition(MimeBodyPart.INLINE);
-			}
-		} catch (final MessagingException e) {
-			throw new MailException(e);
-		}
-		return bodyPart;
 	}
 }

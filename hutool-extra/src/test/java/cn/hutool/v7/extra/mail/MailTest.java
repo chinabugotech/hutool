@@ -50,7 +50,7 @@ public class MailTest {
 	@Disabled
 	public void sendWithImageTest() {
 		final Map<String, InputStream> map = new HashMap<>();
-		map.put("testImage", FileUtil.getInputStream("f:/test/me.png"));
+		map.put("testImage", FileUtil.getInputStream("d:/test/test.jpg"));
 		MailUtil.sendHtml("hutool@foxmail.com", "测试", "<h1>邮件来自Hutool测试</h1><img src=\"cid:testImage\" />", map);
 	}
 
