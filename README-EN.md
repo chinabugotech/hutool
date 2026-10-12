@@ -57,80 +57,83 @@
 -------------------------------------------------------------------------------
 
 ## 📚Introduction
-**Hutool** is a small but comprehensive library of Java tools, achieved by encapsulation through static methods, reduce the cost of learning related APIs, increase productivity, and make Java as elegant as a functional programming language,let the Java be "sweet" too.
 
-**Hutool** tools and methods from each user's crafted, it covers all aspects of the underlying code of Java development, it is a powerful tool for large project development to solve small problems, but also the efficiency of small projects;
-
-**Hutool** is a project "util" package friendly alternative, it saves developers on the project of common classes and common tool methods of encapsulation time, so that development focus on business, at the same time can minimize the encapsulation is not perfect to avoid the bugs.
+**Hutool** is a feature-rich and easy-to-use Java utility library. It provides a large set of static utility methods that help developers complete common tasks quickly and conveniently. The encapsulated tools cover strings, numbers, collections, encoding, dates, files, I/O, encryption, database (JDBC), JSON, HTTP clients, and more, meeting a broad range of development needs.
 
 ### 🎁Origin of the 'Hutool' name
 
-**Hutool = Hu + tool**，Is the original company project after the stripping of the underlying code of the open source library , "Hu" is the short name of the company , 'tool' that tool .
+Hutool = Hu + tool. It is an open-source library derived from the low-level code of the original company's projects, where "Hu" is the company name and "tool" stands for tools. "Hutool" is a homophone of "hútú" (糊涂), which is easy to remember and also hints at the Chinese idiom "难得糊涂" (roughly, "a rare blessing to stay blissfully unaware").
 
-Hutool,' Hútú '(Chinese Pinyin)，On the one hand, it is simple and easy to understand, on the other hand, it means "hard to be confused".(note: confused means 'Hútú (糊涂)' in china )
+### 🍺Philosophy
 
-### 🍺How Hutool is changing the way we code
+**Hutool** is both a toolbox and a knowledge base. We never claim the code is entirely original — most utility classes are collected from elsewhere, so:
 
-The goal of  **Hutool**  is to use a simple function instead of a complex piece of code, thus avoiding the problem of "copy and paste" code as much as possible and revolutionizing the way we write code.
+- You are free to use, copy, and modify it without any attribution. We only ask that you report bugs promptly.
+- We make a constant effort to keep the comments comprehensive and in Chinese, so that anyone reading the source code can understand it.
 
-To calculate MD5 for example:
+The goal of **Hutool** is to replace a complex block of code with a single, simple method, avoiding copy-paste programming as much as possible and changing the way we write code.
 
-- 👴【Before】Open a search engine -> search "Java MD5 encryption" -> open a blog -> copy and paste -> change it to work.
-- 👦【Now   】import Hutool -> SecureUtil.md5()
+Take calculating an MD5 hash as an example:
 
-Hutool exists to reduce code search costs and avoid bugs caused by imperfect code on the web.
+- 👴【Before】Open a search engine -> search "Java MD5 encryption" -> open a blog -> copy and paste -> tweak it until it works.
+- 👦【Now】Import Hutool -> `SecureUtil.md5()`
+
+Hutool exists to reduce the cost of searching for code and to avoid the bugs caused by imperfect snippets found online.
 
 ### Thanks
-> this README is PR by [chengxian-yi](https://gitee.com/yichengxian)
--------------------------------------------------------------------------------
-
-## 🛠️Module
-A Java-based tool class for files, streams, encryption and decryption, transcoding, regular, thread, XML and other JDK methods for encapsulation，composing various Util tool classes, as well as providing the following modules：
-
-| module             |     description                                                                                                            |
-|--------------------|-------------------------------------------------------------------------------------------------------------------------|
-| hutool-aop         |     JDK dynamic proxy encapsulation to provide non-IOC faceting support                                                 |
-| hutool-bloomFilter |     Bloom filtering to provide some Hash algorithm Bloom filtering                                                      |
-| hutool-cache       |     Simple cache                                                                                                        |
-| hutool-core        |     Core, including Bean operations, dates, various Utils, etc.                                                         |
-| hutool-cron        |     Task scheduling with Cron expressions                                                                               |
-| hutool-crypto      |     Provides symmetric, asymmetric and digest algorithm encapsulation                                                   |
-| hutool-db          |     Db operations based on ActiveRecord thinking.                                                                       |
-| hutool-dfa         |     DFA models, such as multi-keyword lookups                                                                           |
-| hutool-extra       |     Extension modules, third-party wrappers (template engine, mail, servlet, QR code, Emoji, FTP, word splitting, etc.) |
-| hutool-http        |     Http client                                                                                                         |
-| hutool-log         |     Log (facade)                                                                                                        |
-| hutool-script      |     Script execution encapsulation, e.g. Javascript                                                                     |
-| hutool-setting     |     Stronger Setting Profile tools and Properties tools                                                                 |
-| hutool-system      |     System parameter tools (JVM information, etc.)                                                                      |
-| hutool-json        |     JSON                                                                                                                |
-| hutool-captcha     |     Image Captcha                                                                                                       |
-| hutool-poi         |     Tools for working with Excel and Word in POI                                                                        |
-| hutool-socket      |     Java-based tool classes for NIO and AIO sockets                                                                     |
-| hutool-jwt         |     JSON Web Token (JWT) implement                                                                                      |
-| hutool-ai          |     AI implement                                                                                      |
-
-Each module can be introduced individually, or all modules can be introduced by introducing `hutool-all` as required.
+> This README is based on a PR by [chengxian-yi](https://gitee.com/yichengxian).
 
 -------------------------------------------------------------------------------
 
-## 📝Doc
+## 🛠️Modules
+
+A Java utility library that wraps the JDK's file, stream, encryption/decryption, transcoding, regex, thread, XML, and other APIs into various `Util` classes, and also provides the following modules:
+
+| module             | description                                                                                                    |
+|--------------------|----------------------------------------------------------------------------------------------------------------|
+| hutool-aop         | JDK dynamic proxy encapsulation, providing aspect support without an IoC container                             |
+| hutool-bloomFilter | Bloom filter, with several Hash-based Bloom filter implementations                                             |
+| hutool-cache       | A simple cache implementation                                                                                  |
+| hutool-core        | Core module: bean operations, date handling, various Utils, etc.                                               |
+| hutool-cron        | Scheduled tasks using Crontab-like expressions                                                                 |
+| hutool-crypto      | Encryption/decryption, wrapping symmetric, asymmetric, and digest algorithms                                   |
+| hutool-db          | Database operations based on the ActiveRecord pattern                                                           |
+| hutool-dfa         | Multi-keyword lookup based on the DFA model                                                                    |
+| hutool-extra       | Extension modules wrapping third-party libraries (template engines, mail, Servlet, QR codes, Emoji, FTP, word segmentation, etc.) |
+| hutool-http        | HTTP client based on `HttpUrlConnection`                                                                       |
+| hutool-log         | Logging facade that auto-detects the log implementation                                                         |
+| hutool-script      | Script execution wrapper, e.g. JavaScript                                                                       |
+| hutool-setting     | More powerful wrappers for `Setting` config files and `Properties`                                             |
+| hutool-system      | System parameter wrappers (JVM info, etc.)                                                                     |
+| hutool-json        | JSON implementation                                                                                             |
+| hutool-captcha     | Image captcha implementation                                                                                    |
+| hutool-poi         | Wrappers for working with Excel and Word via POI                                                               |
+| hutool-socket      | NIO/AIO socket wrappers for Java                                                                                |
+| hutool-jwt         | JSON Web Token (JWT) implementation                                                                            |
+| hutool-ai          | AI large-model wrappers                                                                                         |
+
+Each module can be introduced individually, or all of them can be introduced at once via `hutool-all`.
+
+-------------------------------------------------------------------------------
+
+## 📝Documentation
 
 [📘Chinese documentation](https://doc.hutool.cn/pages/index/)
 
 [📘Chinese back-up documentation](https://plus.hutool.cn/)
 
-[📙API](https://plus.hutool.cn/apidocs/)
+[📙API reference](https://plus.hutool.cn/apidocs/)
 
-[🎬Video](https://www.bilibili.com/video/BV1bQ4y1M7d9?p=2)
+[🎬Video introduction](https://www.bilibili.com/video/BV1bQ4y1M7d9?p=2)
 
 -------------------------------------------------------------------------------
 
-
-
-## 📦Install
+## 📦Installation
 
 ### 🍊Maven
+
+Add the following to the `<dependencies>` section of your `pom.xml`:
+
 ```xml
 <dependency>
     <groupId>cn.hutool</groupId>
@@ -140,62 +143,72 @@ Each module can be introduced individually, or all modules can be introduced by 
 ```
 
 ### 🍐Gradle
+
 ```
 implementation 'cn.hutool:hutool-all:5.8.49'
 ```
 
-## 📥Download
+### 📥Download the jar
 
-- [Maven Repo](https://repo1.maven.org/maven2/cn/hutool/hutool-all/5.8.49/)
+Click the link below and download `hutool-all-X.X.X.jar`:
 
-> 🔔️note:
-> Hutool 5.x supports JDK8+ and is not tested on Android platforms, and cannot guarantee that all tool classes or tool methods are available.
-> If your project uses JDK7, please use Hutool 4.x version.
+- [Maven Central](https://repo1.maven.org/maven2/cn/hutool/hutool-all/5.8.49/)
+
+> 🔔️Note:
+> Hutool 5.x requires JDK 8+. It has not been tested on Android, so not all utility classes or methods are guaranteed to work there.
+> If your project uses JDK 7, please use Hutool 4.x (no longer updated).
 
 ### 🚽Compile and install
 
-Download the entire project source code
-
-gitee：[https://gitee.com/chinabugotech/hutool](https://gitee.com/chinabugotech/hutool) 
-
-github:[https://github.com/chinabugotech/hutool](https://github.com/chinabugotech/hutool)
+Download the full project source from the Hutool Gitee homepage — [https://gitee.com/chinabugotech/hutool](https://gitee.com/chinabugotech/hutool) — (either the `v5-master` or `v5-dev` branch), then run the following in the project directory:
 
 ```sh
-cd ${hutool}
 ./hutool.sh install
 ```
 
+You can then use Maven to add it as a dependency.
+
 -------------------------------------------------------------------------------
 
-## 🏗️Other
+## 🏗️Contributing
 
-### 🎋Branch Description
+### 🎋Branch description
 
-Hutool's source code is divided into two branches:
+Hutool's source code is split into two branches:
 
-| branch | description                                               |
-|-----------|---------------------------------------------------------------|
-| v5-master | The master branch, the branch used by the release version, is the same as the jar committed to the central repository and does not receive any pr or modifications. |
-| v5-dev    | Development branch, which defaults to the next SNAPSHOT version, accepts modifications or pr |
+| branch     | description                                                                                                    |
+|------------|----------------------------------------------------------------------------------------------------------------|
+| v5-master  | The release branch. Matches the jar published to Maven Central and does not accept any PR or modification.     |
+| v5-dev     | The development branch. Points to the next SNAPSHOT version and accepts modifications and PRs.                 |
 
-### 🐞Provide feedback or suggestions on bugs
+### 🐞Bug reports and suggestions
 
-When submitting feedback, please indicate which JDK version, Hutool version, and related dependency library version you are using.
+When submitting an issue, please state which JDK version, Hutool version, and related dependency versions you are using.
 
 - [Gitee issue](https://gitee.com/chinabugotech/hutool/issues)
 - [Github issue](https://github.com/chinabugotech/hutool/issues)
 - [Gitcode issue](https://gitcode.com/chinabugotech/hutool/issues)
 
-### 🧬Principles of PR(pull request)
+### 🧬Contribution steps
 
-Hutool welcomes anyone to contribute code to Hutool, but the author suffers from OCD and needs to submit a pr (pull request) that meets some specifications in order to care for the patient.：
+1. Fork the project to your own account on Gitee, GitHub, or Gitcode.
+2. Clone your fork to your local machine.
+3. Make your changes (remember to work on the `v5-dev` branch).
+4. Commit and push to your fork (`v5-dev` branch).
+5. On the Gitee/GitHub/Gitcode homepage you will see a "pull request" button — click it, fill in a description, and submit.
+6. Wait for the maintainer to merge it.
 
-1. Improve the comments, especially each new method should follow the Java documentation specification to indicate the method description, parameter description, return value description and other information, if necessary, please add unit tests, if you want, you can also add your name.
-2. Code indentation according to Eclipse.
-3. Newly added methods do not use third-party library methods，Unless the method tool is add to the '**extra module**'.
-4. Please pull request to the `v5-dev` branch. Hutool uses a new branch after 5.x: `v5-master` is the master branch, which indicates the version of the central library that has been released, and this branch does not allow pr or modifications.
+### 📐PR principles
 
-### 📖 Documentation source code
+Hutool welcomes anyone to contribute. However, the maintainer is a bit of a perfectionist, so PRs (pull requests) need to meet a few conventions:
+
+1. Comments must be complete. In particular, every new method should follow the Java documentation convention and describe the method, its parameters, and its return value. Add unit tests where necessary — and if you'd like, add your name.
+2. Indentation follows the Eclipse default (tab). Please keep it.
+3. Newly added methods must not call third-party library methods — Hutool follows a no-dependency principle (except when adding tools to the `extra` module).
+4. Please open pull requests against the `v5-dev` branch. In Hutool 5.x and later, `v5-master` is the release branch (already published to Maven Central) and does not accept PRs or modifications.
+5. If we close your issue or PR, please don't be surprised — it is how we keep things tidy. You are still welcome to keep discussing; we will reopen it once a conclusion is reached.
+
+### 📖Documentation source code
 
 [Documentation source code](https://gitee.com/loolly_admin/hutool-doc-handy)
 
