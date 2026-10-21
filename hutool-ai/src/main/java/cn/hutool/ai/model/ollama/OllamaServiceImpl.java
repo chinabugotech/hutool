@@ -250,12 +250,16 @@ public class OllamaServiceImpl extends BaseAIService implements OllamaService {
 	 */
 	private HttpResponse sendDeleteRequest(String endpoint, String paramJson) {
 		try {
-			return HttpRequest.delete(config.getApiUrl() + endpoint)
+			final HttpRequest httpRequest = HttpRequest.delete(config.getApiUrl() + endpoint)
 				.header(Header.CONTENT_TYPE, "application/json")
 				.header(Header.ACCEPT, "application/json")
 				.body(paramJson)
-				.timeout(config.getTimeout())
-				.execute();
+				.timeout(config.getTimeout());
+			//与其他请求保持一致，支持代理
+			if (config.getHasProxy()) {
+				httpRequest.setProxy(config.getProxy());
+			}
+			return httpRequest.execute();
 		} catch (Exception e) {
 			throw new AIException("Failed to send DELETE request: " + e.getMessage(), e);
 		}

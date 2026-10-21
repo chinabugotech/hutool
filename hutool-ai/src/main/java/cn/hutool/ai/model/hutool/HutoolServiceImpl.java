@@ -84,7 +84,6 @@ public class HutoolServiceImpl extends BaseAIService implements HutoolService {
 	@Override
 	public void chatVision(String prompt, List<String> images, String detail, Consumer<String> callback) {
 		Map<String, Object> paramMap = buildChatVisionStreamRequestBody(prompt, images, detail);
-		System.out.println(JSONUtil.toJsonStr(paramMap));
 		ThreadUtil.newThread(() -> sendPostStream(CHAT_ENDPOINT, paramMap, callback::accept), "hutool-chatVision-sse").start();
 	}
 
@@ -289,7 +288,6 @@ public class HutoolServiceImpl extends BaseAIService implements HutoolService {
 		paramMap.put("input", input);
 		//合并其他参数
 		paramMap.putAll(config.getAdditionalConfigMap());
-		System.out.println(JSONUtil.toJsonStr(paramMap));
 		return JSONUtil.toJsonStr(paramMap);
 	}
 
@@ -373,7 +371,6 @@ public class HutoolServiceImpl extends BaseAIService implements HutoolService {
 		paramMap.put("content", content);
 		//合并其他参数
 		paramMap.putAll(config.getAdditionalConfigMap());
-		System.out.println(JSONUtil.toJsonStr(paramMap));
 		return JSONUtil.toJsonStr(paramMap);
 	}
 
