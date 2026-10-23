@@ -38,6 +38,8 @@ public class Sftp extends AbstractFtp {
 
 	private Session session;
 	private ChannelSftp channel;
+	private boolean reuseSession;
+	private boolean closeSessionOnClose = true;
 
 	// ---------------------------------------------------------------------------------------- Constructor start
 
@@ -74,7 +76,7 @@ public class Sftp extends AbstractFtp {
 	 * @since 5.3.3
 	 */
 	public Sftp(FtpConfig config) {
-		this(config, true);
+		this(config, true, false);
 	}
 
 	/**
@@ -85,7 +87,21 @@ public class Sftp extends AbstractFtp {
 	 * @since 5.8.4
 	 */
 	public Sftp(FtpConfig config, boolean init) {
+		this(config, init, false);
+	}
+
+	/**
+	 * 构造
+	 *
+	 * @param config       FTP配置
+	 * @param init         是否立即初始化
+	 * @param reuseSession 是否复用SSH会话，复用时由 {@link JschUtil#close(String)} 或 {@link JschUtil#closeAll()} 关闭会话
+	 * @since 5.8.49
+	 */
+	public Sftp(FtpConfig config, boolean init, boolean reuseSession) {
 		super(config);
+		this.reuseSession = reuseSession;
+		this.closeSessionOnClose = false == reuseSession;
 		if (init) {
 			init(config);
 		}
@@ -108,7 +124,20 @@ public class Sftp extends AbstractFtp {
 	 * @since 4.1.14
 	 */
 	public Sftp(Session session, Charset charset) {
+		this(session, charset, true);
+	}
+
+	/**
+	 * 构造
+	 *
+	 * @param session             {@link Session}
+	 * @param charset             编码
+	 * @param closeSessionOnClose {@code true} 表示关闭Sftp时一并关闭会话；{@code false} 表示会话由外部管理
+	 * @since 5.8.49
+	 */
+	public Sftp(Session session, Charset charset, boolean closeSessionOnClose) {
 		super(FtpConfig.create().setCharset(charset).setHost(session.getHost()).setPort(session.getPort()));
+		this.closeSessionOnClose = closeSessionOnClose;
 		init(session, charset);
 	}
 
@@ -121,7 +150,21 @@ public class Sftp extends AbstractFtp {
 	 * @since 5.8.4
 	 */
 	public Sftp(Session session, Charset charset, long timeOut) {
+		this(session, charset, timeOut, true);
+	}
+
+	/**
+	 * 构造
+	 *
+	 * @param session             {@link Session}
+	 * @param charset             编码
+	 * @param timeOut             超时时间，单位毫秒
+	 * @param closeSessionOnClose {@code true} 表示关闭Sftp时一并关闭会话；{@code false} 表示会话由外部管理
+	 * @since 5.8.49
+	 */
+	public Sftp(Session session, Charset charset, long timeOut, boolean closeSessionOnClose) {
 		super(FtpConfig.create().setCharset(charset).setConnectionTimeout(timeOut));
+		this.closeSessionOnClose = closeSessionOnClose;
 		init(session, charset);
 	}
 
@@ -160,7 +203,17 @@ public class Sftp extends AbstractFtp {
 	 * @param charset 编码
 	 */
 	public void init(String sshHost, int sshPort, String sshUser, String sshPass, Charset charset) {
-		init(JschUtil.getSession(sshHost, sshPort, sshUser, sshPass), charset);
+		Session session = this.reuseSession
+				? JschUtil.getSession(sshHost, sshPort, sshUser, sshPass)
+				: JschUtil.openSession(sshHost, sshPort, sshUser, sshPass, (int) this.ftpConfig.getConnectionTimeout());
+		try {
+			init(session, charset);
+		} catch (RuntimeException e) {
+			if (this.closeSessionOnClose) {
+				JschUtil.close(session);
+			}
+			throw e;
+		}
 	}
 
 	/**
@@ -705,7 +758,9 @@ public class Sftp extends AbstractFtp {
 	public void close() {
 		JschUtil.close(this.channel);
 		this.channel = null;
-		JschUtil.close(this.session);
+		if (this.closeSessionOnClose) {
+			JschUtil.close(this.session);
+		}
 		this.session = null;
 	}
 
