@@ -74,11 +74,11 @@ public class DoubaoCommon {
 		DURATION_5("--dur", 5),//文生视频，图生视频
 		DURATION_10("--dur", 10),//文生视频
 
-		//帧率，即一秒时间内视频画面数量
-		FPS_5("--fps", 24),
+		//帧率，即一秒时间内视频画面数量（原FPS_5命名与值24不符，修正为FPS_24）
+		FPS_24("--fps", 24),
 
-		//视频分辨率
-		RESOLUTION_5("--rs", "720p"),
+		//视频分辨率（原RESOLUTION_5命名与值720p不符，修正为RESOLUTION_720P）
+		RESOLUTION_720P("--rs", "720p"),
 
 		//生成视频是否包含水印
 		WATERMARK_TRUE("--wm", true),

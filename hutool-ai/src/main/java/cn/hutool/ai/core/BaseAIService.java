@@ -25,6 +25,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -148,12 +149,13 @@ public class BaseAIService {
 				// 发送请求体
 				try (OutputStream os = connection.getOutputStream()) {
 					String jsonInputString = JSONUtil.toJsonStr(paramMap);
-					os.write(jsonInputString.getBytes(java.nio.charset.StandardCharsets.UTF_8));
+					os.write(jsonInputString.getBytes(StandardCharsets.UTF_8));
 					os.flush();
 				}
 
-				// 读取流式响应
-				try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+				// 读取流式响应，显式指定UTF-8，避免依赖平台默认编码导致中文乱码
+				try (BufferedReader reader = new BufferedReader(
+					new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8))) {
 					String line;
 					while ((line = reader.readLine()) != null) {
 						// 调用回调函数处理每一行数据
@@ -161,7 +163,8 @@ public class BaseAIService {
 					}
 				}
 			} catch (Exception e) {
-				callback.accept("{\"error\": \"" + e.getMessage() + "\"}");
+				// 不吞异常：流式调用失败必须向上抛出，否则调用方无法感知失败
+				throw new AIException("Failed to read stream response: " + e.getMessage(), e);
 			} finally {
 				// 关闭连接
 				if (connection != null) {
