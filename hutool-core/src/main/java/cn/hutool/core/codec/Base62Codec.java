@@ -1,9 +1,11 @@
 package cn.hutool.core.codec;
 
 import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.util.StrUtil;
 
 import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
+import java.util.Arrays;
 
 /**
  * Base62编码解码实现，常用于短URL<br>
@@ -140,14 +142,29 @@ public class Base62Codec implements Encoder<byte[], byte[]>, Decoder<byte[], byt
 		 */
 		public Base62Decoder(byte[] alphabet) {
 			lookupTable = new byte['z' + 1];
+			Arrays.fill(lookupTable, (byte) -1);
 			for (int i = 0; i < alphabet.length; i++) {
 				lookupTable[alphabet[i]] = (byte) i;
 			}
 		}
 
 
+		/**
+		 * 解码Base62消息
+		 *
+		 * @param encoded Base62内容
+		 * @return 解码后的bytes
+		 * @throws IllegalArgumentException 非法Base62内容，包括不在字母表中的字符、超出字母表范围的高位字节
+		 */
 		@Override
 		public byte[] decode(byte[] encoded) {
+			// 校验非法字符，对齐Base58Codec的行为：非法字符抛出IllegalArgumentException而非静默解码或数组越界
+			for (int i = 0; i < encoded.length; i++) {
+				final byte b = encoded[i];
+				if (b < 0 || b > 'z' || lookupTable[b] < 0) {
+					throw new IllegalArgumentException(StrUtil.format("Invalid char '{}' at [{}]", (char) (b & 0xFF), i));
+				}
+			}
 			final byte[] prepared = translate(encoded, lookupTable);
 			return convert(prepared, TARGET_BASE, STANDARD_BASE);
 		}
