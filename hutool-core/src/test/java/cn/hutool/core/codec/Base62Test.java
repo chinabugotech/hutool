@@ -47,4 +47,19 @@ public class Base62Test {
 		String decodeStr = Base62.decodeStrInverted(encode);
 		assertEquals(a, decodeStr);
 	}
+
+	@Test
+	public void decodeInvalidCharTest() {
+		// 不在字母表中的合法ASCII字符（如'+'）应抛出异常，而非被静默当作'0'解码出错误数据
+		assertThrows(IllegalArgumentException.class, () -> Base62.decode("+HelloWorld123".getBytes()));
+		assertThrows(IllegalArgumentException.class, () -> Base62.decodeInverted("+HelloWorld123".getBytes()));
+		assertThrows(IllegalArgumentException.class, () -> Base62.decodeStr("http://hutool.cn"));
+	}
+
+	@Test
+	public void decodeOutOfRangeCharTest() {
+		// 大于'z'的字符与高位字节（负数byte）应抛出IllegalArgumentException，而非ArrayIndexOutOfBoundsException
+		assertThrows(IllegalArgumentException.class, () -> Base62.decode("{".getBytes()));
+		assertThrows(IllegalArgumentException.class, () -> Base62.decode(new byte[]{(byte) 0xE4, (byte) 0xB8, (byte) 0xAD}));
+	}
 }
