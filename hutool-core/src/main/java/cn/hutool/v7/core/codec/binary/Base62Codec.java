@@ -16,13 +16,15 @@
 
 package cn.hutool.v7.core.codec.binary;
 
+import cn.hutool.v7.core.array.ArrayUtil;
 import cn.hutool.v7.core.codec.Decoder;
 import cn.hutool.v7.core.codec.Encoder;
-import cn.hutool.v7.core.array.ArrayUtil;
+import cn.hutool.v7.core.text.StrUtil;
 
 import java.io.ByteArrayOutputStream;
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Arrays;
 
 /**
  * Base62编码解码实现，常用于短URL<br>
@@ -175,12 +177,20 @@ public class Base62Codec implements Encoder<byte[], byte[]>, Decoder<byte[], byt
 		 */
 		public Base62Decoder(final byte[] alphabet) {
 			lookupTable = new byte['z' + 1];
+			Arrays.fill(lookupTable, (byte) -1);
 			for (int i = 0; i < alphabet.length; i++) {
 				lookupTable[alphabet[i]] = (byte) i;
 			}
 		}
 
 
+		/**
+		 * 解码Base62消息
+		 *
+		 * @param encoded Base62内容
+		 * @return 解码后的bytes
+		 * @throws IllegalArgumentException 非法Base62内容，包括不在字母表中的字符、超出字母表范围的高位字节
+		 */
 		@Override
 		public byte[] decode(final byte[] encoded) {
 			final byte[] prepared = translate(encoded, lookupTable);
@@ -191,7 +201,7 @@ public class Base62Codec implements Encoder<byte[], byte[]>, Decoder<byte[], byt
 	// region Private Methods
 
 	/**
-	 * 按照字典转换bytes
+	 * 按照字典校验并转换bytes
 	 *
 	 * @param indices    内容
 	 * @param dictionary 字典
@@ -201,6 +211,10 @@ public class Base62Codec implements Encoder<byte[], byte[]>, Decoder<byte[], byt
 		final byte[] translation = new byte[indices.length];
 
 		for (int i = 0; i < indices.length; i++) {
+			// pr#4349 检查非法字符，包括不在字母表中的合法ASCII字符（如'+'）与超出字母表范围的高位字节（负数byte）
+			if (indices[i] < 0 || indices[i] > 'z' || dictionary[indices[i]] < 0) {
+				throw new IllegalArgumentException(StrUtil.format("Invalid char '{}' at [{}]", (char) (indices[i] & 0xFF), i));
+			}
 			translation[i] = dictionary[indices[i]];
 		}
 
