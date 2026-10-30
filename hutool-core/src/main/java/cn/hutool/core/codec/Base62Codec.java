@@ -158,13 +158,6 @@ public class Base62Codec implements Encoder<byte[], byte[]>, Decoder<byte[], byt
 		 */
 		@Override
 		public byte[] decode(byte[] encoded) {
-			// 校验非法字符，对齐Base58Codec的行为：非法字符抛出IllegalArgumentException而非静默解码或数组越界
-			for (int i = 0; i < encoded.length; i++) {
-				final byte b = encoded[i];
-				if (b < 0 || b > 'z' || lookupTable[b] < 0) {
-					throw new IllegalArgumentException(StrUtil.format("Invalid char '{}' at [{}]", (char) (b & 0xFF), i));
-				}
-			}
 			final byte[] prepared = translate(encoded, lookupTable);
 			return convert(prepared, TARGET_BASE, STANDARD_BASE);
 		}
@@ -183,6 +176,10 @@ public class Base62Codec implements Encoder<byte[], byte[]>, Decoder<byte[], byt
 		final byte[] translation = new byte[indices.length];
 
 		for (int i = 0; i < indices.length; i++) {
+			// pr#4349 检查非法字符，包括不在字母表中的合法ASCII字符（如'+'）与超出字母表范围的高位字节（负数byte）
+			if (indices[i] < 0 || indices[i] > 'z' || dictionary[indices[i]] < 0) {
+				throw new IllegalArgumentException(StrUtil.format("Invalid char '{}' at [{}]", (char) (indices[i] & 0xFF), i));
+			}
 			translation[i] = dictionary[indices[i]];
 		}
 
