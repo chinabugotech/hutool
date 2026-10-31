@@ -32,7 +32,7 @@ public class HashUtilTest {
 		String s32="MurmurHash算法32";
 		String s64="MurmurHash算法64";
 		assertEquals(HashUtil.murmur32(s32), HashUtil.murmur32(StrUtil.bytes(s32, "utf-8")));
-		assertEquals(HashUtil.murmur32(s64), HashUtil.murmur32(StrUtil.bytes(s64, "utf-8")));
+		assertEquals(HashUtil.murmur64(s64), HashUtil.murmur64(StrUtil.bytes(s64, "utf-8")));
 	}
 
 }
