@@ -399,6 +399,9 @@ public class DesensitizedUtil {
 	 * @return 脱敏后的地址
 	 */
 	public static String ipv4(String ipv4) {
+		if (StrUtil.isBlank(ipv4)) {
+			return StrUtil.EMPTY;
+		}
 		return StrUtil.subBefore(ipv4, '.', false) + ".*.*.*";
 	}
 
@@ -409,6 +412,9 @@ public class DesensitizedUtil {
 	 * @return 脱敏后的地址
 	 */
 	public static String ipv6(String ipv6) {
+		if (StrUtil.isBlank(ipv6)) {
+			return StrUtil.EMPTY;
+		}
 		return StrUtil.subBefore(ipv6, ':', false) + ":*:*:*:*:*:*:*";
 	}
 
