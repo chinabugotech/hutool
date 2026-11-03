@@ -2,11 +2,12 @@
 # 🚀Changelog
 
 -------------------------------------------------------------------------------------------------------------
-# 5.8.49(2026-10-30)
+# 5.8.49(2026-11-03)
 ### 🐣新特性
 * 【core   】      `URLUtil.getJarFile`增加可选使用缓存的版本（pr#4340@Github）
 * 【core   】      `Base85`decode时增加越界检查（pr#4342@Github）
 * 【extra  】      `SFTP`增加重载，支持自定义是否复用Session和关闭Session（pr#4347@Github）
+* 【extra  】      `HashUtil.murmur32`增加 String 重载（pr#1491@Gitee）
 
 ### 🐞Bug修复
 * 【core   】      修复`ClassScanner`扫描jar后关闭共享JarFile导致`Zip file closed`的问题（pr#4340@Github）
