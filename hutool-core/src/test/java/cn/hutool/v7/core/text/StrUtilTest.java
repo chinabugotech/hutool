@@ -26,8 +26,7 @@ import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * 字符串工具类单元测试
@@ -250,7 +249,7 @@ public class StrUtilTest {
 
 	@Test
 	public void subPreTest() {
-		Assertions.assertNull(StrUtil.subPre(null, 3));
+		assertNull(StrUtil.subPre(null, 3));
 		assertEquals("ab", StrUtil.subPre("ab", 3));
 		assertEquals("abc", StrUtil.subPre("abc", 3));
 		assertEquals("abc", StrUtil.subPre("abcd", 3));
@@ -382,6 +381,12 @@ public class StrUtilTest {
 		assertEquals(text, str);
 		str = StrUtil.limitLength(text, 50);
 		assertEquals(text, str);
+
+		// 合法 length 下返回 null（当前实现即可通过）
+		assertNull(CharSequenceUtil.limitLength(null, 5));
+		// 非正 length 下也应返回 null，而不是抛异常
+		assertNull(CharSequenceUtil.limitLength(null, 0));
+		assertNull(CharSequenceUtil.limitLength(null, -1));
 	}
 
 	@Test
@@ -409,7 +414,7 @@ public class StrUtilTest {
 
 	@Test
 	public void centerTest() {
-		Assertions.assertNull(StrUtil.center(null, 10));
+		assertNull(StrUtil.center(null, 10));
 		assertEquals("    ", StrUtil.center("", 4));
 		assertEquals("ab", StrUtil.center("ab", -1));
 		assertEquals(" ab ", StrUtil.center("ab", 4));
@@ -419,23 +424,23 @@ public class StrUtilTest {
 
 	@Test
 	public void padPreTest() {
-		Assertions.assertNull(StrUtil.padPre(null, 10, ' '));
+		assertNull(StrUtil.padPre(null, 10, ' '));
 		assertEquals("001", StrUtil.padPre("1", 3, '0'));
 		assertEquals("12", StrUtil.padPre("123", 2, '0'));
 
-		Assertions.assertNull(StrUtil.padPre(null, 10, "AA"));
+		assertNull(StrUtil.padPre(null, 10, "AA"));
 		assertEquals("AB1", StrUtil.padPre("1", 3, "ABC"));
 		assertEquals("12", StrUtil.padPre("123", 2, "ABC"));
 	}
 
 	@Test
 	public void padAfterTest() {
-		Assertions.assertNull(StrUtil.padAfter(null, 10, ' '));
+		assertNull(StrUtil.padAfter(null, 10, ' '));
 		assertEquals("100", StrUtil.padAfter("1", 3, '0'));
 		assertEquals("23", StrUtil.padAfter("123", 2, '0'));
 		assertEquals("", StrUtil.padAfter("123", -1, '0'));
 
-		Assertions.assertNull(StrUtil.padAfter(null, 10, "ABC"));
+		assertNull(StrUtil.padAfter(null, 10, "ABC"));
 		assertEquals("1AB", StrUtil.padAfter("1", 3, "ABC"));
 		assertEquals("23", StrUtil.padAfter("123", 2, "ABC"));
 	}
@@ -587,7 +592,7 @@ public class StrUtilTest {
 
 	@Test
 	public void hideTest() {
-		Assertions.assertNull(StrUtil.hide(null, 1, 1));
+		assertNull(StrUtil.hide(null, 1, 1));
 		assertEquals("", StrUtil.hide("", 1, 1));
 		assertEquals("****duan@163.com", StrUtil.hide("jackduan@163.com", -1, 4));
 		assertEquals("ja*kduan@163.com", StrUtil.hide("jackduan@163.com", 2, 3));
@@ -699,14 +704,14 @@ public class StrUtilTest {
 
 		//保证Unicode字符语义正确，类似emoji、组合字符
 		//A😊B
-		String emojiStr = "A\uD83D\uDE0AB";
-		String reversedEmoji = StrUtil.reverseByCodePoint(emojiStr);
+		final String emojiStr = "A\uD83D\uDE0AB";
+		final String reversedEmoji = StrUtil.reverseByCodePoint(emojiStr);
 		//B😊A
 		assertEquals("B\uD83D\uDE0AA", reversedEmoji);
 
 		//A🇨🇳B
-		String surrogate = "A\uD83C\uDDE8\uD83C\uDDF3B";
-		String reversedSurrogate = StrUtil.reverseByCodePoint(surrogate);
+		final String surrogate = "A\uD83C\uDDE8\uD83C\uDDF3B";
+		final String reversedSurrogate = StrUtil.reverseByCodePoint(surrogate);
 		//B🇨🇳A
 		assertNotEquals("B\uD83C\uDDE8\uD83C\uDDF3A", reversedSurrogate);
 	}
