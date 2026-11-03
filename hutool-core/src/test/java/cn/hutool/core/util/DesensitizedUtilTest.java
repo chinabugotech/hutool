@@ -38,6 +38,10 @@ public class DesensitizedUtilTest {
 		assertEquals("6227 **** **** **** 123", DesensitizedUtil.desensitized("6227880100100105123", DesensitizedUtil.DesensitizedType.BANK_CARD));
 		assertEquals("192.*.*.*", DesensitizedUtil.desensitized("192.168.1.1", DesensitizedUtil.DesensitizedType.IPV4));
 		assertEquals("2001:*:*:*:*:*:*:*", DesensitizedUtil.desensitized("2001:0db8:86a3:08d3:1319:8a2e:0370:7344", DesensitizedUtil.DesensitizedType.IPV6));
+		assertEquals(StrUtil.EMPTY, DesensitizedUtil.ipv4(null));
+		assertEquals(StrUtil.EMPTY, DesensitizedUtil.ipv4(""));
+		assertEquals(StrUtil.EMPTY, DesensitizedUtil.ipv6(null));
+		assertEquals(StrUtil.EMPTY, DesensitizedUtil.ipv6(""));
 	}
 
 	@Test

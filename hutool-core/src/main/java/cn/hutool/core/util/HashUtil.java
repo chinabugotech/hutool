@@ -447,6 +447,26 @@ public class HashUtil {
 	/**
 	 * MurmurHash算法32-bit实现
 	 *
+	 * @param data 字符串数据
+	 * @return hash值
+	 */
+	public static int murmur32(String data) {
+		return murmur32(StrUtil.bytes(data, CharsetUtil.CHARSET_UTF_8));
+	}
+
+	/**
+	 * MurmurHash算法64-bit实现
+	 *
+	 * @param data 字符串数据
+	 * @return hash值
+	 */
+	public static long murmur64(String data) {
+		return murmur64(StrUtil.bytes(data, CharsetUtil.CHARSET_UTF_8));
+	}
+
+	/**
+	 * MurmurHash算法32-bit实现
+	 *
 	 * @param data 数据
 	 * @return hash值
 	 * @since 4.3.3
