@@ -1,6 +1,7 @@
 package cn.hutool.core.util;
 
 import cn.hutool.core.lang.Dict;
+import cn.hutool.core.text.CharSequenceUtil;
 import org.junit.jupiter.api.Test;
 
 import java.nio.charset.StandardCharsets;
@@ -422,6 +423,11 @@ public class StrUtilTest {
 		assertEquals(text, str);
 		str = StrUtil.maxLength(text, 50);
 		assertEquals(text, str);
+		// 合法 length 下返回 null（当前实现即可通过）
+		assertNull(CharSequenceUtil.maxLength(null, 5));
+		// 非正 length 下也应返回 null，而不是抛异常
+		assertNull(CharSequenceUtil.maxLength(null, 0));
+		assertNull(CharSequenceUtil.maxLength(null, -1));
 	}
 
 	@Test

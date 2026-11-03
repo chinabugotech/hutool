@@ -4189,9 +4189,11 @@ public class CharSequenceUtil {
 	 * @since 4.0.10
 	 */
 	public static String maxLength(CharSequence string, int length) {
-		Assert.isTrue(length > 0);
 		if (null == string) {
 			return null;
+		}
+		if (length <= 0) {
+			return EMPTY;
 		}
 		if (string.length() <= length) {
 			return string.toString();
