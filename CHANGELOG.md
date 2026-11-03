@@ -15,6 +15,7 @@
 * 【core   】      修复`Base32.decode`单字符输入抛出`ArrayIndexOutOfBoundsException`的问题（pr#4345@Github）
 * 【core   】      修复`Locale`为土耳其语时忽略大小写的Map及Month/Week/ColorUtil名称解析失效的问题（pr#4348@Github）
 * 【core   】      修复`Base62`解码遇到非法字符时静默产出错误数据或抛`ArrayIndexOutOfBoundsException`的问题（pr#4349@Github）
+* 【core   】      修复分隔符阈值判断中 int 整除导致补齐分支被跳过的问题，并移除重复的 arraycopy（pr#1490@Gitee）
 
 -------------------------------------------------------------------------------------------------------------
 # 5.8.48(2026-09-26)
