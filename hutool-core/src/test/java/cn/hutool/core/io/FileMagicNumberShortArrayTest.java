@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * Regression test: the AAC, M4A, AMR, MP3 and DOC matchers must return {@code false} for byte arrays too short
+ * Regression test: the AAC, M4A, AMR, MP3, DOC and DCM matchers must return {@code false} for byte arrays too short
  * to contain their magic number, instead of throwing {@link ArrayIndexOutOfBoundsException}.
  */
 class FileMagicNumberShortArrayTest {
@@ -53,6 +53,28 @@ class FileMagicNumberShortArrayTest {
 			System.arraycopy(OLE_HEADER, 0, bytes, 0, OLE_HEADER.length);
 			assertFalse(FileMagicNumber.DOC.match(bytes), "DOC len=" + len);
 		}
+	}
+
+	@Test
+	void shortDicomReturnFalseInsteadOfThrowing() {
+		// 短于128的输入直接返回false
+		for (int len = 0; len <= 128; len++) {
+			assertFalse(FileMagicNumber.DCM.match(new byte[len]), "DCM len=" + len);
+		}
+
+		// DCM读取bytes[128..131]，但此前只要求长度大于128。
+		// 必须构造魔数前缀，否则&&短路不会走到越界的位置。
+		final byte[] magic = {0x44, 0x49, 0x43, 0x4D};
+		for (int len = 129; len <= 131; len++) {
+			final byte[] bytes = new byte[len];
+			System.arraycopy(magic, 0, bytes, 128, len - 128);
+			assertFalse(FileMagicNumber.DCM.match(bytes), "DCM magic len=" + len);
+		}
+
+		// 完整长度时仍应被识别
+		final byte[] valid = new byte[132];
+		System.arraycopy(magic, 0, valid, 128, magic.length);
+		assertTrue(FileMagicNumber.DCM.match(valid), "DICOM magic");
 	}
 
 	@Test
