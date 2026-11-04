@@ -18,6 +18,7 @@ package cn.hutool.v7.core.lang;
 
 import cn.hutool.v7.core.data.CreditCodeUtil;
 import cn.hutool.v7.core.data.IdcardUtil;
+import cn.hutool.v7.core.date.DateTime;
 import cn.hutool.v7.core.date.DateUtil;
 import cn.hutool.v7.core.exception.ValidateException;
 import cn.hutool.v7.core.math.NumberUtil;
@@ -718,7 +719,12 @@ public class Validator {
 	}
 
 	/**
-	 * 验证是否为生日
+	 * 验证是否为规范的生日格式，规则如下：
+	 * <ul>
+	 *     <li>年份从1900年开始计算，且不能是未来的日期</li>
+	 *     <li>月份从1开始计算，且不能超过12</li>
+	 *     <li>日期从1开始计算，且不能超过本月最大天数</li>
+	 * </ul>
 	 *
 	 * @param year  年，从1900年开始计算
 	 * @param month 月，从1开始计数
@@ -741,6 +747,17 @@ public class Validator {
 		if (day < 1 || day > 31) {
 			return false;
 		}
+
+		// 今年内的未来日期不能作为生日
+		if (year == thisYear) {
+			final DateTime now = DateUtil.now();
+			final int thisMonth = DateUtil.month(now) + 1;
+			final int thisDay = DateUtil.dayOfMonth(now);
+			if (month > thisMonth || (month == thisMonth && day > thisDay)) {
+				return false;
+			}
+		}
+
 		// 检查几个特殊月的最大天数
 		if (day == 31 && (month == 4 || month == 6 || month == 9 || month == 11)) {
 			return false;

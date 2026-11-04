@@ -17,6 +17,9 @@
 package cn.hutool.v7.extra.validation;
 
 import cn.hutool.v7.core.array.ArrayUtil;
+import cn.hutool.v7.core.date.DateTime;
+import cn.hutool.v7.core.date.DateUtil;
+import cn.hutool.v7.core.lang.Validator;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Valid;
 import jakarta.validation.ValidationException;
@@ -128,11 +131,11 @@ public class ValidationUtilTest {
 		user.setPassword("123456"); // 无效的密码
 
 		// 测试有效属性
-		Set<ConstraintViolation<User>> usernameViolations = ValidationUtil.validateProperty(user, "username");
+		final Set<ConstraintViolation<User>> usernameViolations = ValidationUtil.validateProperty(user, "username");
 		assertTrue(usernameViolations.isEmpty());
 
 		// 测试无效属性
-		Set<ConstraintViolation<User>> passwordViolations = ValidationUtil.validateProperty(user, "password");
+		final Set<ConstraintViolation<User>> passwordViolations = ValidationUtil.validateProperty(user, "password");
 		assertEquals(1, passwordViolations.size());
 		assertEquals("密码必须包含大小写字母和数字，长度至少8位", passwordViolations.iterator().next().getMessage());
 	}
@@ -358,5 +361,14 @@ public class ValidationUtilTest {
 		@Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$",
 			message = "更新时密码必须包含特殊字符", groups = UpdateGroup.class)
 		private String password;
+	}
+
+	@Test
+	public void isFutureBirthdayTest() {
+		final DateTime today = DateUtil.now();
+		assertTrue(Validator.isBirthday(DateUtil.year(today), DateUtil.month(today) + 1, DateUtil.dayOfMonth(today)));
+
+		final DateTime tomorrow = DateUtil.offsetDay(today, 1);
+		assertFalse(Validator.isBirthday(DateUtil.year(tomorrow), DateUtil.month(tomorrow) + 1, DateUtil.dayOfMonth(tomorrow)));
 	}
 }
