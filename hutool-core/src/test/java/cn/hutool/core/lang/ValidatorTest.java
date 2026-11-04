@@ -1,5 +1,7 @@
 package cn.hutool.core.lang;
 
+import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.date.DateTime;
 import cn.hutool.core.exceptions.ValidateException;
 import cn.hutool.core.util.IdUtil;
 import org.junit.jupiter.api.Assertions;
@@ -81,6 +83,15 @@ public class ValidatorTest {
 		assertFalse(Validator.isBirthday("2015.13.01"));
 		//验证日非法
 		assertFalse(Validator.isBirthday("2015.02.29"));
+	}
+
+	@Test
+	public void isFutureBirthdayTest() {
+		final DateTime today = DateUtil.date();
+		assertTrue(Validator.isBirthday(DateUtil.year(today), DateUtil.month(today) + 1, DateUtil.dayOfMonth(today)));
+
+		final DateTime tomorrow = DateUtil.offsetDay(today, 1);
+		assertFalse(Validator.isBirthday(DateUtil.year(tomorrow), DateUtil.month(tomorrow) + 1, DateUtil.dayOfMonth(tomorrow)));
 	}
 
 	@Test
