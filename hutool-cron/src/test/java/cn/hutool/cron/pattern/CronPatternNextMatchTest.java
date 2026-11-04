@@ -241,4 +241,21 @@ public class CronPatternNextMatchTest {
 			}
 		}
 	}
+
+	@Test
+	public void nextMatchAfterWithUnorderedYearsTest() {
+		// 年份列表未按升序书写时，应返回最近的匹配年份，而非书写顺序中第一个满足条件的年份
+		final DateTime date = DateUtil.parse("2026-06-01 00:00:00");
+
+		CronPattern pattern = new CronPattern("0 0 0 1 1 ? 2030,2027");
+		assertEquals(DateUtil.parse("2027-01-01 00:00:00"), DateUtil.date(pattern.nextMatchAfter(date.toCalendar())));
+		assertEquals(DateUtil.parse("2027-01-01 00:00:00"), CronPatternUtil.nextDateAfter(pattern, date, true));
+
+		pattern = new CronPattern("0 0 0 1 1 ? 2029-2031,2027");
+		assertEquals(DateUtil.parse("2027-01-01 00:00:00"), DateUtil.date(pattern.nextMatchAfter(date.toCalendar())));
+
+		// 当年已无匹配时间，跳到下一个匹配年份
+		pattern = new CronPattern("0 0 0 1 1 ? 2031,2026,2028");
+		assertEquals(DateUtil.parse("2028-01-01 00:00:00"), DateUtil.date(pattern.nextMatchAfter(date.toCalendar())));
+	}
 }
