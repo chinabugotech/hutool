@@ -19,6 +19,7 @@
 * 【core   】      修复`CharSequenceUtil`: maxLength对null判断前置并对非正长度宽松处理（pr#1492@Gitee）
 * 【core   】      修复`Validator.isBirthday`允许今年内未来日期的问题（pr#4355@Github）
 * 【core   】      修复`FileMagicNumber`的DCM matcher对截断输入抛出`ArrayIndexOutOfBoundsException`的问题（pr#4351@Github）
+* 【core   】      修复`FileUtil.pathEndsWith`忽略大小写不完整及土耳其语Locale下匹配失败的问题（pr#4354@Github）
 
 -------------------------------------------------------------------------------------------------------------
 # 5.8.48(2026-09-26)
