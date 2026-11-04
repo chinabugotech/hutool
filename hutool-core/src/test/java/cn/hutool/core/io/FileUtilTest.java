@@ -14,6 +14,7 @@ import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -645,5 +646,21 @@ public class FileUtilTest {
 		assertThrows(IllegalArgumentException.class, ()->{
 			FileUtil.checkSlip(FileUtil.file("test/a"), FileUtil.file("test/../a"));
 		});
+	}
+
+	@Test
+	public void pathEndsWithTest() {
+		final File file = new File("C:\\TMP\\FILE");
+		assertTrue(FileUtil.pathEndsWith(file, "file"));
+		assertTrue(FileUtil.pathEndsWith(file, "FILE"));
+
+		final Locale defaultLocale = Locale.getDefault();
+		Locale.setDefault(Locale.forLanguageTag("tr-TR"));
+		try {
+			assertTrue(FileUtil.pathEndsWith(file, "file"));
+			assertTrue(FileUtil.pathEndsWith(file, "FILE"));
+		} finally {
+			Locale.setDefault(defaultLocale);
+		}
 	}
 }
