@@ -248,4 +248,23 @@ public class RandomUtilTest {
 		assertNull(RandomUtil.randomEle((String[]) null));
 		assertNull(RandomUtil.randomEle((String[]) null, 5));
 	}
+
+	@Test
+	public void turkishLocaleTest() {
+		final Locale defaultLocale = Locale.getDefault();
+		Locale.setDefault(Locale.forLanguageTag("tr-TR"));
+		try {
+			for (int i = 0; i < 16; i++) {
+				final String upper = RandomUtil.randomLettersLower(64);
+				assertFalse(upper.codePoints().anyMatch(c -> c == 0x130), "randomStringUpper: " + upper);
+			}
+
+			for (int i = 0; i < 16; i++) {
+				final String lowerWithoutI = RandomUtil.randomLettersAndNumbersLowerWithoutStr(64, "I");
+				assertFalse(lowerWithoutI.contains("i"), "randomStringLowerWithoutStr: " + lowerWithoutI);
+			}
+		} finally {
+			Locale.setDefault(defaultLocale);
+		}
+	}
 }

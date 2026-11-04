@@ -49,4 +49,17 @@ public class MorseTest {
 		assertEquals(morse, morseCoder.encode(text));
 		assertEquals(text, morseCoder.decode(morse));
 	}
+
+	@Test
+	public void turkishLocaleTest() {
+		final Locale defaultLocale = Locale.getDefault();
+		Locale.setDefault(Locale.forLanguageTag("tr-TR"));
+		try {
+			// 土耳其语下 i 会转成 İ，不能影响摩斯编码
+			assertEquals("../", morseCoder.encode("i"));
+			assertEquals("../", morseCoder.encode("I"));
+		} finally {
+			Locale.setDefault(defaultLocale);
+		}
+	}
 }
