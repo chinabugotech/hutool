@@ -2,7 +2,7 @@
 # 🚀Changelog
 
 -------------------------------------------------------------------------------------------------------------
-# 5.8.49(2026-11-03)
+# 5.8.49(2026-11-04)
 ### 🐣新特性
 * 【core   】      `URLUtil.getJarFile`增加可选使用缓存的版本（pr#4340@Github）
 * 【core   】      `Base85`decode时增加越界检查（pr#4342@Github）
@@ -18,6 +18,7 @@
 * 【core   】      修复分隔符阈值判断中 int 整除导致补齐分支被跳过的问题，并移除重复的 arraycopy（pr#1490@Gitee）
 * 【core   】      修复`CharSequenceUtil`: maxLength对null判断前置并对非正长度宽松处理（pr#1492@Gitee）
 * 【core   】      修复`Validator.isBirthday`允许今年内未来日期的问题（pr#4355@Github）
+* 【core   】      修复`FileMagicNumber`的DCM matcher对截断输入抛出`ArrayIndexOutOfBoundsException`的问题（pr#4351@Github）
 
 -------------------------------------------------------------------------------------------------------------
 # 5.8.48(2026-09-26)
