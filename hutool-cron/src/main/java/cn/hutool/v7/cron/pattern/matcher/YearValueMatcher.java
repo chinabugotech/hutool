@@ -18,6 +18,7 @@ package cn.hutool.v7.cron.pattern.matcher;
 
 import java.util.Collection;
 import java.util.LinkedHashSet;
+import java.util.TreeSet;
 
 /**
  * 年匹配<br>
@@ -27,7 +28,8 @@ import java.util.LinkedHashSet;
  */
 public class YearValueMatcher implements PartMatcher {
 
-	private final LinkedHashSet<Integer> valueList;
+	// 此处使用TreeSet保证当用户传入年份顺序不正确时，获取下一年错误问题
+	private final TreeSet<Integer> valueList;
 
 	/**
 	 * 构造
@@ -35,7 +37,7 @@ public class YearValueMatcher implements PartMatcher {
 	 * @param intValueList 年数字列表
 	 */
 	public YearValueMatcher(final Collection<Integer> intValueList) {
-		this.valueList = new LinkedHashSet<>(intValueList);
+		this.valueList = new TreeSet<>(intValueList);
 	}
 
 	@Override
@@ -45,14 +47,9 @@ public class YearValueMatcher implements PartMatcher {
 
 	@Override
 	public int nextAfter(final int value) {
-		for (final Integer year : valueList) {
-			if (year >= value) {
-				return year;
-			}
-		}
-
-		// 年无效，此表达式整体无效
-		return -1;
+		final Integer year = valueList.ceiling(value);
+		// null表示年无效，此表达式整体无效
+		return null == year ? -1 : year;
 	}
 
 	@Override
