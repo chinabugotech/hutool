@@ -38,7 +38,7 @@ public class RandomUtil {
 	/**
 	 * 用于随机选的字符和数字（包括大写和小写字母）
 	 */
-	public static final String BASE_CHAR_NUMBER = BASE_CHAR.toUpperCase() + BASE_CHAR_NUMBER_LOWER;
+	public static final String BASE_CHAR_NUMBER = BASE_CHAR.toUpperCase(Locale.ROOT) + BASE_CHAR_NUMBER_LOWER;
 
 	// region ----- get or create Random
 
@@ -619,7 +619,7 @@ public class RandomUtil {
 	 * @since 4.0.13
 	 */
 	public static String randomStringUpper(final int length) {
-		return randomString(BASE_CHAR_NUMBER, length).toUpperCase();
+		return randomString(BASE_CHAR_NUMBER, length).toUpperCase(Locale.ROOT);
 	}
 
 	/**
@@ -645,7 +645,7 @@ public class RandomUtil {
 	 */
 	public static String randomStringLowerWithoutStr(final int length, final String elemData) {
 		String baseStr = BASE_CHAR_NUMBER_LOWER;
-		baseStr = StrUtil.removeAll(baseStr, elemData.toLowerCase().toCharArray());
+		baseStr = StrUtil.removeAll(baseStr, elemData.toLowerCase(Locale.ROOT).toCharArray());
 		return randomString(baseStr, length);
 	}
 

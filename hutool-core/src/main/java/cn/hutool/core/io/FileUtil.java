@@ -1972,7 +1972,7 @@ public class FileUtil extends PathUtil {
 	 * @return 是否有指定后缀
 	 */
 	public static boolean pathEndsWith(File file, String suffix) {
-		return file.getPath().toLowerCase().endsWith(suffix);
+		return file.getPath().toLowerCase(Locale.ROOT).endsWith(suffix.toLowerCase(Locale.ROOT));
 	}
 
 	/**

@@ -2,6 +2,7 @@ package cn.hutool.core.codec;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import cn.hutool.core.lang.Assert;
@@ -124,7 +125,7 @@ public class Morse {
 	public String encode(String text) {
 		Assert.notNull(text, "Text should not be null.");
 
-		text = text.toUpperCase();
+		text = text.toUpperCase(Locale.ROOT);
 		final StringBuilder morseBuilder = new StringBuilder();
 		final int len = text.codePointCount(0, text.length());
 		for (int i = 0; i < len; i++) {

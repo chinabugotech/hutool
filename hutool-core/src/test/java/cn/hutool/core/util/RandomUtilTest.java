@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.math.RoundingMode;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -77,5 +78,24 @@ public class RandomUtilTest {
 		assertNull(RandomUtil.randomEle((List<String>) null, 5));
 		assertNull(RandomUtil.randomEle((String[]) null));
 		assertNull(RandomUtil.randomEle((String[]) null, 5));
+	}
+
+	@Test
+	public void turkishLocaleTest() {
+		final Locale defaultLocale = Locale.getDefault();
+		Locale.setDefault(Locale.forLanguageTag("tr-TR"));
+		try {
+			for (int i = 0; i < 16; i++) {
+				final String upper = RandomUtil.randomStringUpper(64);
+				assertFalse(upper.codePoints().anyMatch(c -> c == 0x130), "randomStringUpper: " + upper);
+			}
+
+			for (int i = 0; i < 16; i++) {
+				final String lowerWithoutI = RandomUtil.randomStringLowerWithoutStr(64, "I");
+				assertFalse(lowerWithoutI.contains("i"), "randomStringLowerWithoutStr: " + lowerWithoutI);
+			}
+		} finally {
+			Locale.setDefault(defaultLocale);
+		}
 	}
 }
