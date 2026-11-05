@@ -2,7 +2,7 @@
 # 🚀Changelog
 
 -------------------------------------------------------------------------------------------------------------
-# 5.8.49(2026-11-04)
+# 5.8.49(2026-11-05)
 ### 🐣新特性
 * 【core   】      `URLUtil.getJarFile`增加可选使用缓存的版本（pr#4340@Github）
 * 【core   】      `Base85`decode时增加越界检查（pr#4342@Github）
@@ -20,6 +20,7 @@
 * 【core   】      修复`Validator.isBirthday`允许今年内未来日期的问题（pr#4355@Github）
 * 【core   】      修复`FileMagicNumber`的DCM matcher对截断输入抛出`ArrayIndexOutOfBoundsException`的问题（pr#4351@Github）
 * 【core   】      修复`FileUtil.pathEndsWith`忽略大小写不完整及土耳其语Locale下匹配失败的问题（pr#4354@Github）
+* 【core   】      修复`CronPattern`传入年数组非顺序时获取`nextMatchAfter`错误问题（pr#4357@Github）
 
 -------------------------------------------------------------------------------------------------------------
 # 5.8.48(2026-09-26)
