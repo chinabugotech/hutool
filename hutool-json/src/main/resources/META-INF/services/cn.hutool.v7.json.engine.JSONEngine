@@ -15,6 +15,7 @@
 #
 
 cn.hutool.v7.json.engine.jackson.JacksonEngine
+cn.hutool.v7.json.engine.jackson3.Jackson3Engine
 cn.hutool.v7.json.engine.gson.GsonEngine
 cn.hutool.v7.json.engine.fastjson.FastJSON2Engine
 cn.hutool.v7.json.engine.moshi.MoshiEngine
