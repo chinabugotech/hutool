@@ -5,12 +5,12 @@
 <h4 align="center">👉 <a href="https://hutool.cn">https://hutool.cn/</a> 👈</h4>
 
 <p align="center">
-    <a href="https://central.sonatype.com/artifact/cn.hutool.v7/hutool-all"><img alt="maven-central" src="https://img.shields.io/maven-central/v/cn.hutool/hutool-all.svg?label=Maven%20Central" /></a>
+    <a href="https://central.sonatype.com/artifact/cn.hutool.v7/hutool-all"><img alt="maven-central" src="https://img.shields.io/maven-central/v/cn.hutool.v7/hutool-all.svg?label=Maven%20Central" /></a>
     <a href="https://www.apache.org/licenses/LICENSE-2.0.html"><img alt="LICENSE" src="https://img.shields.io/:license-apache2.0-blue.svg?logo=apache" /></a>
     <a href="https://www.oracle.com/java/technologies/downloads/#java17"><img alt="jdk17" src="https://img.shields.io/badge/JDK-17+-green.svg" /></a>
-    <a href="https://app.travis-ci.com/chinabugotech/hutool"><img alt="travis-ci" src="https://api.travis-ci.com/chinabugotech/hutool.svg?branch=v5-master" /></a>
+    <a href="https://app.travis-ci.com/chinabugotech/hutool"><img alt="travis-ci" src="https://api.travis-ci.com/chinabugotech/hutool.svg?branch=v7-dev" /></a>
     <a href="https://codecov.io/gh/chinabugotech/hutool"><img alt="" src="https://app.codacy.com/project/badge/Grade/8a6897d9de7440dd9de8804c28d2871d"/></a>
-    <a href="https://codecov.io/gh/cn/hutool"><img alt="" src="https://codecov.io/gh/chinabugotech/hutool/branch/v7-master/graph/badge.svg" /></a>
+    <a href="https://codecov.io/gh/chinabugotech/hutool"><img alt="" src="https://codecov.io/gh/chinabugotech/hutool/branch/v7-dev/graph/badge.svg" /></a>
     <a href='https://gitee.com/chinabugotech/hutool/stargazers'><img alt="star" src='https://gitee.com/chinabugotech/hutool/badge/star.svg'/></a>
     <a href='https://github.com/chinabugotech/hutool'><img alt="github star" src="https://img.shields.io/github/stars/chinabugotech/hutool.svg?style=social"/></a>
     <a href='https://gitcode.com/chinabugotech/hutool'><img src="https://gitcode.com/chinabugotech/hutool/star/badge.svg" alt="gitcode star"/></a>
@@ -126,7 +126,7 @@ implementation 'cn.hutool.v7:hutool-all:7.0.0-M9'
 ### 🚽编译安装
 
 访问`Hutool`的`Gitee`主页：[https://gitee.com/chinabugotech/hutool](https://gitee.com/chinabugotech/hutool)
-下载整个项目源码（`v7-master`或`v7-dev`分支都可）然后进入`Hutool`项目目录执行：
+下载整个项目源码（`v7-dev`分支）然后进入`Hutool`项目目录执行：
 
 ```sh
 ./hutool.sh install
@@ -140,12 +140,13 @@ implementation 'cn.hutool.v7:hutool-all:7.0.0-M9'
 
 ### 🎋分支说明
 
-Hutool的源码分为两个分支，功能如下：
+Hutool 7.x当前使用`v7-dev`作为开发分支：
 
 | 分支        | 作用                                         |
 |-----------|--------------------------------------------|
-| v7-master | 主分支，release版本使用的分支，与中央库提交的jar一致，不接收任何pr或修改 |
 | v7-dev    | 开发分支，默认为下个版本的SNAPSHOT版本，接受修改或pr            |
+
+> `v7-master`将在正式版本发布后启用，仅用于发布，不接收PR或修改。
 
 ### 🐞提供bug反馈或建议
 
@@ -171,7 +172,7 @@ Hutool的源码分为两个分支，功能如下：
 1. 注释完备，尤其每个新增的方法应按照Java文档规范标明方法说明、参数说明、返回值说明等信息，必要时请添加单元测试，如果愿意，也可以加上你的大名。
 2. `Hutool`的缩进按照`Eclipse`（~~不要跟我说IDEA多好用，维护者非常懒，学不会~~，IDEA真香，改了`Eclipse`快捷键后舒服多了）默认（tab）缩进，所以请遵守（不要和我争执空格与tab的问题，这是一个病人的习惯）。
 3. 新加的方法不要使用第三方库的方法，`Hutool`遵循无依赖原则（除非在extra模块中加方法工具）。
-4. 请pull request到`v7-dev`分支。Hutool在7.x版本后使用了新的分支：`v7-master`是主分支，表示已经发布中央库的版本，这个分支不允许pr，也不允许修改。
+4. 请pull request到`v7-dev`分支。Hutool 7.x当前以`v7-dev`作为开发分支；`v7-master`将在正式版本发布后启用，仅用于发布，不允许PR或修改。
 
 ### 💞沟通说明
 
