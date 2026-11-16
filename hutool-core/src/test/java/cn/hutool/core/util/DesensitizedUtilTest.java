@@ -6,9 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
- * 脱敏工具类 DesensitizedUtils 安全测试
+ * 脱敏工具类 DesensitizedUtil 安全测试
  *
- * @author dazer and nuesoft
+ * @author dazer and neusoft
  * @see DesensitizedUtil
  */
 public class DesensitizedUtilTest {

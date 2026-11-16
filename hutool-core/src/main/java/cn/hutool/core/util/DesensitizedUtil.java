@@ -18,6 +18,13 @@ import java.util.List;
  *     <li>密码</li>
  *     <li>车牌</li>
  *     <li>银行卡号</li>
+ *     <li>IPv4地址</li>
+ *     <li>IPv6地址</li>
+ *     <li>护照号</li>
+ *     <li>统一社会信用代码</li>
+ *     <li>首字符保留</li>
+ *     <li>清空为null</li>
+ *     <li>清空为空字符串</li>
  *     <li>MAC地址</li>
  * </ul>
  *
