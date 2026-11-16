@@ -171,7 +171,7 @@ cd ${hutool}
 
 ### 🎋Branch Description
 
-Hutool's source code is divided into two branches:
+Hutool 5.x uses the following two primary branches:
 
 | branch | description                                               |
 |-----------|---------------------------------------------------------------|
