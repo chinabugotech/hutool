@@ -810,7 +810,7 @@ public class ReflectUtil {
 			return false;
 		}
 		if (ignoreCase) {
-			name = name.toLowerCase();
+			name = name.toLowerCase(Locale.ROOT);
 		}
 		switch (parameterCount) {
 			case 0:
