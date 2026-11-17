@@ -5,12 +5,12 @@
 <h4 align="center">👉 <a href="https://hutool.cn">https://hutool.cn/</a> 👈</h4>
 
 <p align="center">
-    <a href="https://central.sonatype.com/artifact/cn.hutool.v7/hutool-all"><img alt="maven-central" src="https://img.shields.io/maven-central/v/cn.hutool/hutool-all.svg?label=Maven%20Central" /></a>
+    <a href="https://central.sonatype.com/artifact/cn.hutool.v7/hutool-all"><img alt="maven-central" src="https://img.shields.io/maven-central/v/cn.hutool.v7/hutool-all.svg?label=Maven%20Central" /></a>
     <a href="https://www.apache.org/licenses/LICENSE-2.0.html"><img alt="LICENSE" src="https://img.shields.io/:license-apache2.0-blue.svg?logo=apache" /></a>
     <a href="https://www.oracle.com/java/technologies/downloads/#java17"><img alt="jdk17" src="https://img.shields.io/badge/JDK-17+-green.svg" /></a>
-    <a href="https://app.travis-ci.com/chinabugotech/hutool"><img alt="travis-ci" src="https://api.travis-ci.com/chinabugotech/hutool.svg?branch=v5-master" /></a>
+    <a href="https://app.travis-ci.com/chinabugotech/hutool"><img alt="travis-ci" src="https://api.travis-ci.com/chinabugotech/hutool.svg?branch=v7-master" /></a>
     <a href="https://codecov.io/gh/chinabugotech/hutool"><img alt="" src="https://app.codacy.com/project/badge/Grade/8a6897d9de7440dd9de8804c28d2871d"/></a>
-    <a href="https://codecov.io/gh/cn/hutool"><img alt="" src="https://codecov.io/gh/chinabugotech/hutool/branch/v7-master/graph/badge.svg" /></a>
+    <a href="https://codecov.io/gh/chinabugotech/hutool"><img alt="" src="https://codecov.io/gh/chinabugotech/hutool/branch/v7-master/graph/badge.svg" /></a>
     <a href='https://gitee.com/chinabugotech/hutool/stargazers'><img alt="star" src='https://gitee.com/chinabugotech/hutool/badge/star.svg'/></a>
     <a href='https://github.com/chinabugotech/hutool'><img alt="github star" src="https://img.shields.io/github/stars/chinabugotech/hutool.svg?style=social"/></a>
     <a href='https://gitcode.com/chinabugotech/hutool'><img src="https://gitcode.com/chinabugotech/hutool/star/badge.svg" alt="gitcode star"/></a>
