@@ -22,6 +22,7 @@
 * 【core   】      修复`FileUtil.pathEndsWith`忽略大小写不完整及土耳其语Locale下匹配失败的问题（pr#4354@Github）
 * 【core   】      修复`CronPattern`传入年数组非顺序时获取`nextMatchAfter`错误问题（pr#4357@Github）
 * 【core   】      修复`BeanDesc`在土耳其语Locale下IS前缀Getter/Setter匹配失败的问题（pr#4365@Github）
+* 【cron   】      修复`CronPattern`day-of-month steps like 2/2 also fire on the last day of the month（pr#4358@Github）
 
 -------------------------------------------------------------------------------------------------------------
 # 5.8.48(2026-09-26)
