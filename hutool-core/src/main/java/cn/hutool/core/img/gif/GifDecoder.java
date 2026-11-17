@@ -16,6 +16,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * GIF文件解析
@@ -334,9 +335,10 @@ public class GifDecoder {
 	public int read(String name) {
 		status = STATUS_OK;
 		try {
-			name = name.trim().toLowerCase();
-			if ((name.contains("file:")) ||
-					(name.indexOf(":/") > 0)) {
+			name = name.trim();
+			final String lowerName = name.toLowerCase(Locale.ROOT);
+			if ((lowerName.contains("file:")) ||
+					(lowerName.indexOf(":/") > 0)) {
 				URL url = new URL(name);
 				in = new BufferedInputStream(url.openStream());
 			} else {
