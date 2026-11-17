@@ -1,5 +1,9 @@
 package cn.hutool.core.bean;
 
+import cn.hutool.core.bean.copier.provider.BeanValueProvider;
+
+import java.util.Locale;
+
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -74,6 +78,31 @@ public class BeanDescTest {
 
 		assertEquals("setLastPage", desc.getSetter("lastPage").getName());
 		assertEquals("setIsLastPage", desc.getSetter("isLastPage").getName());
+	}
+
+	@Test
+	public void beanValueProviderTurkishLocaleTest() {
+		final Locale defaultLocale = Locale.getDefault();
+		Locale.setDefault(Locale.forLanguageTag("tr-TR"));
+		try {
+			final BeanValueProvider provider = new BeanValueProvider(new LocaleBean(), true, false);
+			assertTrue(provider.containsKey("ACTIVE"));
+			assertTrue(provider.containsKey("active"));
+		} finally {
+			Locale.setDefault(defaultLocale);
+		}
+	}
+
+	public static class LocaleBean {
+		private boolean active;
+
+		public boolean isActive() {
+			return active;
+		}
+
+		public void setActive(boolean active) {
+			this.active = active;
+		}
 	}
 
 	public static class User {
