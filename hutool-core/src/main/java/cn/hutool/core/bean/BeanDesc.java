@@ -13,6 +13,7 @@ import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -273,9 +274,9 @@ public class BeanDesc implements Serializable {
 	private boolean isMatchGetter(String methodName, String fieldName, boolean isBooleanField, boolean ignoreCase) {
 		final String handledFieldName;
 		if (ignoreCase) {
-			// 全部转为小写，忽略大小写比较
-			methodName = methodName.toLowerCase();
-			handledFieldName = fieldName.toLowerCase();
+			// 全部转为小写，忽略大小写比较。使用Locale.ROOT避免土耳其语等Locale下大小写转换差异导致的匹配失败
+			methodName = methodName.toLowerCase(Locale.ROOT);
+			handledFieldName = fieldName.toLowerCase(Locale.ROOT);
 			fieldName = handledFieldName;
 		} else {
 			handledFieldName = StrUtil.upperFirst(fieldName);
@@ -321,9 +322,9 @@ public class BeanDesc implements Serializable {
 	private boolean isMatchSetter(String methodName, String fieldName, boolean isBooleanField, boolean ignoreCase) {
 		final String handledFieldName;
 		if (ignoreCase) {
-			// 全部转为小写，忽略大小写比较
-			methodName = methodName.toLowerCase();
-			handledFieldName = fieldName.toLowerCase();
+			// 全部转为小写，忽略大小写比较。使用Locale.ROOT避免土耳其语等Locale下大小写转换差异导致的匹配失败
+			methodName = methodName.toLowerCase(Locale.ROOT);
+			handledFieldName = fieldName.toLowerCase(Locale.ROOT);
 			fieldName = handledFieldName;
 		} else {
 			handledFieldName = StrUtil.upperFirst(fieldName);
