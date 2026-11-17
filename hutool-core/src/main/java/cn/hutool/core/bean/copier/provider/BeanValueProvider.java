@@ -10,6 +10,7 @@ import cn.hutool.core.util.StrUtil;
 import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -52,7 +53,7 @@ public class BeanValueProvider implements ValueProvider<String> {
 		// issue#I5VRHW@Gitee 使Function可以被序列化
 		this.sourcePdMap = new FuncKeyMap<>(new HashMap<>(sourcePdMap.size(), 1), (Function<Object, String> & Serializable)(key) -> {
 			if (ignoreCase && key instanceof CharSequence) {
-				key = key.toString().toLowerCase();
+				key = key.toString().toLowerCase(Locale.ROOT);
 			}
 			if (null != keyEditor) {
 				key = keyEditor.edit(key.toString());
