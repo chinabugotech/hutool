@@ -164,12 +164,30 @@ public class ReflectUtilTest {
 	@Data
 	static class TestClass {
 		private int a;
+
+		public boolean ISActive() {
+			return true;
+		}
 	}
 
 	@Data
 	@SuppressWarnings("InnerClassMayBeStatic")
 	class NoneStaticClass {
 		private int a = 2;
+	}
+
+	@Test
+	public void isGetterOrSetterTurkishLocaleTest() throws NoSuchMethodException {
+		final Method method = TestClass.class.getMethod("ISActive");
+		assertTrue(ReflectUtil.isGetterOrSetter(method, true));
+
+		final Locale defaultLocale = Locale.getDefault();
+		Locale.setDefault(Locale.forLanguageTag("tr-TR"));
+		try {
+			assertTrue(ReflectUtil.isGetterOrSetter(method, true));
+		} finally {
+			Locale.setDefault(defaultLocale);
+		}
 	}
 
 	@Test
