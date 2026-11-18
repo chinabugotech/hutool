@@ -101,7 +101,7 @@ public class DesensitizedUtilTest {
 
 	@Test
 	public void bankCardTest(){
-		assertEquals(null, DesensitizedUtil.bankCard(null));
+		assertNull(DesensitizedUtil.bankCard(null));
 		assertEquals("", DesensitizedUtil.bankCard(""));
 		assertEquals("1234 **** **** **** **** 9", DesensitizedUtil.bankCard("1234 2222 3333 4444 6789 9"));
 		assertEquals("1234 **** **** **** **** 91", DesensitizedUtil.bankCard("1234 2222 3333 4444 6789 91"));
@@ -112,7 +112,7 @@ public class DesensitizedUtilTest {
 
     @Test
     public void passportTest(){
-        assertEquals(null, DesensitizedUtil.passport(null));
+		assertNull(DesensitizedUtil.passport(null));
         assertEquals("", DesensitizedUtil.passport(""));
         assertEquals("EM*****67", DesensitizedUtil.passport("EM1234567"));
         assertEquals("*", DesensitizedUtil.passport("3"));
@@ -120,7 +120,7 @@ public class DesensitizedUtilTest {
 
     @Test
     public void creditCodeTest(){
-        assertEquals(null, DesensitizedUtil.creditCode(null));
+		assertNull(DesensitizedUtil.creditCode(null));
         assertEquals("", DesensitizedUtil.creditCode(""));
         assertEquals("9111**********CDE7", DesensitizedUtil.creditCode("91110108MA01ABCDE7"));
     }
