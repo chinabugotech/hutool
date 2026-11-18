@@ -16,9 +16,12 @@
 
 package cn.hutool.v7.core.data.masking;
 
+import cn.hutool.v7.core.lang.Validator;
 import cn.hutool.v7.core.text.CharUtil;
 import cn.hutool.v7.core.text.StrUtil;
+import cn.hutool.v7.core.text.split.SplitUtil;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -148,6 +151,8 @@ public class MaskingManager {
 		manager.register(BANK_CARD.name(), manager::bankCard);
 		manager.register(IPV4.name(), manager::ipv4);
 		manager.register(IPV6.name(), manager::ipv6);
+		// pr#4361@Github
+		manager.register(MAC_ADDRESS.name(), manager::macAddress);
 		manager.register(FIRST_MASK.name(), manager::firstMask);
 		manager.register(CLEAR_TO_EMPTY.name(), (str) -> StrUtil.EMPTY);
 		manager.register(CLEAR_TO_NULL.name(), (str) -> null);
@@ -341,5 +346,54 @@ public class MaskingManager {
 	 */
 	public String ipv6(final CharSequence ipv6) {
 		return StrUtil.subBefore(ipv6, ':', false) + StrUtil.repeat(":" + maskChar, 7);
+	}
+
+	/**
+	 * MAC地址脱敏，保留前三组，隐藏后三组。
+	 * <pre>
+	 * 00:1A:2B:3C:4D:5E -》 00:1A:2B:**:**:**
+	 * 00-1A-2B-3C-4D-5E -》 00-1A-2B-**-**-**
+	 * 001A2B3C4D5E       -》 001A2B******
+	 * </pre>
+	 * 非法格式不做处理。
+	 *
+	 * @param macAddress MAC地址
+	 * @return 脱敏后的MAC地址
+	 * @since 5.8.49
+	 */
+	public String macAddress(final CharSequence macAddress) {
+		if (StrUtil.isBlank(macAddress)) {
+			return StrUtil.EMPTY;
+		}
+
+		final String mac = StrUtil.trim(macAddress);
+		char separator = CharUtil.COLON;
+		if (!StrUtil.contains(mac, separator)) {
+			separator = CharUtil.DASHED;
+			if (!StrUtil.contains(mac, separator)) {
+				if (mac.length() == 12 && Validator.isHex(mac)) {
+					return StrUtil.sub(mac, 0, 6) + StrUtil.repeat(maskChar, 6);
+				}
+				return mac;
+			}
+		}
+
+		final List<String> parts = SplitUtil.split(mac, CharUtil.toString(separator));
+		if (parts.size() != 6) {
+			return mac;
+		}
+
+		final StringBuilder result = new StringBuilder();
+		for (int i = 0; i < parts.size(); i++) {
+			final String part = parts.get(i);
+			if (part.length() != 2 || !Validator.isHex(part)) {
+				return mac;
+			}
+			if (i > 0) {
+				result.append(separator);
+			}
+			result.append(i < 3 ? part : StrUtil.repeat(maskChar, 2));
+		}
+		return result.toString();
 	}
 }

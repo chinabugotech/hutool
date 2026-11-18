@@ -71,6 +71,10 @@ public enum MaskingType {
 	 */
 	IPV6,
 	/**
+	 * MAC地址
+	 */
+	MAC_ADDRESS,
+	/**
 	 * 定义了一个first_mask的规则，只显示第一个字符。
 	 */
 	FIRST_MASK,

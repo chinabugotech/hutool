@@ -182,7 +182,7 @@ public class PartParser {
 				}
 			}
 			if (step > 0) {
-				final int maxValue = part.getMax();
+				final int maxValue = getRangeMax(minValue);
 				if (minValue > maxValue) {
 					throw new CronException("Invalid value {} > {}", minValue, maxValue);
 				}
@@ -203,7 +203,7 @@ public class PartParser {
 		if (size == 1) {// 普通值
 			final int v1 = parseNumber(value, true);
 			if (step > 0) {//类似 20/2的形式
-				NumberUtil.appendRange(v1, part.getMax(), step, results);
+				NumberUtil.appendRange(v1, getRangeMax(v1), step, results);
 			} else {
 				results.add(v1);
 			}
@@ -218,7 +218,7 @@ public class PartParser {
 				// 对于类似3-3这种形式，忽略step，即3-3/2与单值3一致
 				NumberUtil.appendRange(v1, v2, step, results);
 			} else {// 逆向范围，反选模式，例如：5-2
-				NumberUtil.appendRange(v1, part.getMax(), step, results);
+				NumberUtil.appendRange(v1, getRangeMax(v1), step, results);
 				NumberUtil.appendRange(part.getMin(), v2, step, results);
 			}
 		} else {
@@ -294,6 +294,21 @@ public class PartParser {
 				Week.of(name).ordinal();
 			default -> throw new CronException("Invalid alias value: [{}]", name);
 		};
+	}
 
+	/**
+	 * 获取步进或逆向范围展开到部分末尾时使用的最大值<br>
+	 * 日的最大值32并不是真实的日期，而是用于表示“L”（每月最后一天），只有显式指定L或32时才应包含。
+	 * 展开步进时如果直接使用32，类似“2/2”的表达式会因为32被选中而在每月最后一天（如1月31日）错误匹配。
+	 *
+	 * @param startValue 起始值，如果起始值本身就是32（如“L/2”），保持原值
+	 * @return 展开时使用的最大值
+	 */
+	private int getRangeMax(final int startValue) {
+		final int maxValue = part.getMax();
+		if (Part.DAY_OF_MONTH == this.part && startValue < maxValue) {
+			return maxValue - 1;
+		}
+		return maxValue;
 	}
 }

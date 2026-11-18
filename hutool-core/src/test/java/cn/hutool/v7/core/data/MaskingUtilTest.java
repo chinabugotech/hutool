@@ -19,6 +19,7 @@ package cn.hutool.v7.core.data;
 import cn.hutool.v7.core.data.masking.MaskingManager;
 import cn.hutool.v7.core.data.masking.MaskingType;
 import cn.hutool.v7.core.data.masking.MaskingUtil;
+import cn.hutool.v7.core.text.StrUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -50,6 +51,7 @@ public class MaskingUtilTest {
 		assertEquals("6227 **** **** **** 123", MaskingUtil.masking(MaskingType.BANK_CARD, "6227880100100105123"));
 		assertEquals("192.*.*.*", MaskingUtil.masking(MaskingType.IPV4, "192.168.1.1"));
 		assertEquals("2001:*:*:*:*:*:*:*", MaskingUtil.masking(MaskingType.IPV6, "2001:0db8:86a3:08d3:1319:8a2e:0370:7344"));
+		assertEquals("00:1A:2B:**:**:**", MaskingUtil.masking(MaskingType.MAC_ADDRESS, "00:1A:2B:3C:4D:5E"));
 	}
 
 	@Test
@@ -145,5 +147,16 @@ public class MaskingUtilTest {
 
 		final String masking = maskingManager.masking("custom", "hutool");
 		Assertions.assertEquals("customhutool", masking);
+	}
+
+	@Test
+	public void macAddressTest() {
+		assertEquals(StrUtil.EMPTY, MaskingUtil.macAddress(null));
+		assertEquals(StrUtil.EMPTY, MaskingUtil.macAddress(""));
+		assertEquals("00:1A:2B:**:**:**", MaskingUtil.macAddress("00:1A:2B:3C:4D:5E"));
+		assertEquals("00-1a-2b-**-**-**", MaskingUtil.macAddress("00-1a-2b-3c-4d-5e"));
+		assertEquals("001A2B******", MaskingUtil.macAddress("001A2B3C4D5E"));
+		assertEquals("00:1A:2B:3C:4D", MaskingUtil.macAddress("00:1A:2B:3C:4D"));
+		assertEquals("GG:1A:2B:3C:4D:5E", MaskingUtil.macAddress("GG:1A:2B:3C:4D:5E"));
 	}
 }

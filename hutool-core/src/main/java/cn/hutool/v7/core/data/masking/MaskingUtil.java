@@ -36,6 +36,7 @@ import cn.hutool.v7.core.text.StrUtil;
  *     <li>银行卡号</li>
  *     <li>IPv4</li>
  *     <li>IPv6</li>
+ *     <li>MAC地址</li>
  * </ul>
  *
  * @author dazer and neusoft and qiaomu
@@ -232,5 +233,21 @@ public class MaskingUtil {
 	 */
 	public static String ipv6(final CharSequence ipv6) {
 		return MaskingManager.EMPTY.ipv6(ipv6);
+	}
+
+	/**
+	 * MAC地址脱敏，保留前三组，隐藏后三组。
+	 * <pre>
+	 * 00:1A:2B:3C:4D:5E -》 00:1A:2B:**:**:**
+	 * 00-1A-2B-3C-4D-5E -》 00-1A-2B-**-**-**
+	 * 001A2B3C4D5E       -》 001A2B******
+	 * </pre>
+	 * 非法格式不做处理。
+	 *
+	 * @param macAddress MAC地址
+	 * @return 脱敏后的MAC地址
+	 */
+	public static String macAddress(final CharSequence macAddress) {
+		return MaskingManager.EMPTY.macAddress(macAddress);
 	}
 }
