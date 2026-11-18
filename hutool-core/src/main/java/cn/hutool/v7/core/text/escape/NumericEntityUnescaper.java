@@ -65,7 +65,17 @@ public class NumericEntityUnescaper extends StrReplacer {
 				} catch (final NumberFormatException nfe) {
 					return 0;
 				}
-				out.append((char)entityValue);
+				//out.append((char)entityValue);
+				if (entityValue > 0xFFFF) {
+					// 补充平面字符需要两个char（代理对）表示，直接强转为char会丢失高位
+					if (entityValue > Character.MAX_CODE_POINT) {
+						// 非法码点，保留原文
+						return 0;
+					}
+					out.append(Character.toChars(entityValue));
+				} else {
+					out.append((char) entityValue);
+				}
 				return 2 + end - start + (isHex ? 1 : 0) + 1;
 			}
 		}

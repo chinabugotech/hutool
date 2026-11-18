@@ -206,4 +206,17 @@ public class EscapeUtilTest {
 		assertEquals("中", EscapeUtil.unescape("%u4E2D"));
 		assertEquals("中", EscapeUtil.unescape("%u4E2D"));
 	}
+
+	/**
+	 * 补充平面字符（如 emoji）的数值字符引用应解码为代理对，而非截断为单个char。
+	 * 例如 emoji 😀 的码点为 U+1F600，`&#x1F600;` 应解码为两个char。
+	 */
+	@Test
+	void testUnescapeNumericEntitySupplementaryCharacter() {
+		assertEquals("😀", EscapeUtil.unescapeHtml4("&#x1F600;"));
+		assertEquals("😀", EscapeUtil.unescapeHtml4("&#128512;"));
+		assertEquals("😀", EscapeUtil.unescapeXml("&#x1F600;"));
+		// 超出Unicode最大码点的非法引用应原样保留，而非截断
+		assertEquals("&#x110000;", EscapeUtil.unescapeHtml4("&#x110000;"));
+	}
 }
