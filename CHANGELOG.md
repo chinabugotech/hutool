@@ -25,6 +25,7 @@
 * 【core   】      修复`BeanDesc`在土耳其语Locale下IS前缀Getter/Setter匹配失败的问题（pr#4365@Github）
 * 【cron   】      修复`CronPattern`day-of-month steps like 2/2 also fire on the last day of the month（pr#4358@Github）
 * 【core   】      修复`GifDecoder`读取 URL 时路径被转小写的问题（pr#4367@Github）
+* 【core   】      修复`NumericEntityUnescaper`将补充平面字符数值实体截断为单个char的问题（pr#4359@Github）
 
 -------------------------------------------------------------------------------------------------------------
 # 5.8.48(2026-09-26)
