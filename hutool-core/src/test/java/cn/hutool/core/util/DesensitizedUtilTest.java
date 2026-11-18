@@ -6,9 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
- * 脱敏工具类 DesensitizedUtils 安全测试
+ * 脱敏工具类 DesensitizedUtil 安全测试
  *
- * @author dazer and nuesoft
+ * @author dazer and neusoft
  * @see DesensitizedUtil
  */
 public class DesensitizedUtilTest {
@@ -38,6 +38,7 @@ public class DesensitizedUtilTest {
 		assertEquals("6227 **** **** **** 123", DesensitizedUtil.desensitized("6227880100100105123", DesensitizedUtil.DesensitizedType.BANK_CARD));
 		assertEquals("192.*.*.*", DesensitizedUtil.desensitized("192.168.1.1", DesensitizedUtil.DesensitizedType.IPV4));
 		assertEquals("2001:*:*:*:*:*:*:*", DesensitizedUtil.desensitized("2001:0db8:86a3:08d3:1319:8a2e:0370:7344", DesensitizedUtil.DesensitizedType.IPV6));
+		assertEquals("00:1A:2B:**:**:**", DesensitizedUtil.desensitized("00:1A:2B:3C:4D:5E", DesensitizedUtil.DesensitizedType.MAC_ADDRESS));
 		assertEquals(StrUtil.EMPTY, DesensitizedUtil.ipv4(null));
 		assertEquals(StrUtil.EMPTY, DesensitizedUtil.ipv4(""));
 		assertEquals(StrUtil.EMPTY, DesensitizedUtil.ipv6(null));
@@ -123,4 +124,15 @@ public class DesensitizedUtilTest {
         assertEquals("", DesensitizedUtil.creditCode(""));
         assertEquals("9111**********CDE7", DesensitizedUtil.creditCode("91110108MA01ABCDE7"));
     }
+
+	@Test
+	public void macAddressTest() {
+		assertEquals(StrUtil.EMPTY, DesensitizedUtil.macAddress(null));
+		assertEquals(StrUtil.EMPTY, DesensitizedUtil.macAddress(""));
+		assertEquals("00:1A:2B:**:**:**", DesensitizedUtil.macAddress("00:1A:2B:3C:4D:5E"));
+		assertEquals("00-1a-2b-**-**-**", DesensitizedUtil.macAddress("00-1a-2b-3c-4d-5e"));
+		assertEquals("001A2B******", DesensitizedUtil.macAddress("001A2B3C4D5E"));
+		assertEquals("00:1A:2B:3C:4D", DesensitizedUtil.macAddress("00:1A:2B:3C:4D"));
+		assertEquals("GG:1A:2B:3C:4D:5E", DesensitizedUtil.macAddress("GG:1A:2B:3C:4D:5E"));
+	}
 }

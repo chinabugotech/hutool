@@ -1,5 +1,9 @@
 package cn.hutool.core.util;
 
+import cn.hutool.core.lang.Validator;
+
+import java.util.List;
+
 /**
  * 脱敏工具类，支持以下类型信息的脱敏自动处理：
  *
@@ -14,6 +18,14 @@ package cn.hutool.core.util;
  *     <li>密码</li>
  *     <li>车牌</li>
  *     <li>银行卡号</li>
+ *     <li>IPv4地址</li>
+ *     <li>IPv6地址</li>
+ *     <li>护照号</li>
+ *     <li>统一社会信用代码</li>
+ *     <li>首字符保留</li>
+ *     <li>清空为null</li>
+ *     <li>清空为空字符串</li>
+ *     <li>MAC地址</li>
  * </ul>
  *
  * @author dazer and neusoft and qiaomu
@@ -94,7 +106,11 @@ public class DesensitizedUtil {
 		/**
 		 * 清空为""
 		 */
-		CLEAR_TO_EMPTY
+		CLEAR_TO_EMPTY,
+		/**
+		 * MAC地址
+		 */
+		MAC_ADDRESS
 	}
 
 	/**
@@ -111,6 +127,7 @@ public class DesensitizedUtil {
 	 * DesensitizedUtil.desensitized("苏D40000", DesensitizedUtil.DesensitizedType.CAR_LICENSE)) = "苏D4***0"
 	 * DesensitizedUtil.desensitized("11011111222233333256", DesensitizedUtil.DesensitizedType.BANK_CARD)) = "1101 **** **** **** 3256"
 	 * DesensitizedUtil.desensitized("192.168.1.1", DesensitizedUtil.DesensitizedType.IPV4)) = "192.*.*.*"
+	 * DesensitizedUtil.desensitized("00:1A:2B:3C:4D:5E", DesensitizedUtil.DesensitizedType.MAC_ADDRESS)) = "00:1A:2B:**:**:**"
 	 * </pre>
 	 *
 	 * @param str              字符串
@@ -166,6 +183,9 @@ public class DesensitizedUtil {
 				break;
 			case CREDIT_CODE:
 				newStr = creditCode(String.valueOf(str));
+				break;
+			case MAC_ADDRESS:
+				newStr = macAddress(String.valueOf(str));
 				break;
 			case FIRST_MASK:
 				newStr = firstMask(String.valueOf(str));
@@ -447,5 +467,54 @@ public class DesensitizedUtil {
 		final int length = code.length();
 		if (length <= 4) return StrUtil.hide(code, 0, length);
 		return StrUtil.hide(code, 4, length - 4);
+	}
+
+	/**
+	 * MAC地址脱敏，保留前三组，隐藏后三组。
+	 * <pre>
+	 * 00:1A:2B:3C:4D:5E -》 00:1A:2B:**:**:**
+	 * 00-1A-2B-3C-4D-5E -》 00-1A-2B-**-**-**
+	 * 001A2B3C4D5E       -》 001A2B******
+	 * </pre>
+	 * 非法格式不做处理。
+	 *
+	 * @param macAddress MAC地址
+	 * @return 脱敏后的MAC地址
+	 * @since 5.8.49
+	 */
+	public static String macAddress(String macAddress) {
+		if (StrUtil.isBlank(macAddress)) {
+			return StrUtil.EMPTY;
+		}
+
+		final String mac = StrUtil.trim(macAddress);
+		char separator = CharUtil.COLON;
+		if (false == StrUtil.contains(mac, separator)) {
+			separator = CharUtil.DASHED;
+			if (false == StrUtil.contains(mac, separator)) {
+				if (mac.length() == 12 && Validator.isHex(mac)) {
+					return StrUtil.sub(mac, 0, 6) + "******";
+				}
+				return mac;
+			}
+		}
+
+		final List<String> parts = StrUtil.split(mac, separator);
+		if (parts.size() != 6) {
+			return mac;
+		}
+
+		final StringBuilder result = new StringBuilder();
+		for (int i = 0; i < parts.size(); i++) {
+			final String part = parts.get(i);
+			if (part.length() != 2 || false == Validator.isHex(part)) {
+				return mac;
+			}
+			if (i > 0) {
+				result.append(separator);
+			}
+			result.append(i < 3 ? part : "**");
+		}
+		return result.toString();
 	}
 }
