@@ -2,7 +2,7 @@
 # 🚀Changelog
 
 -------------------------------------------------------------------------------------------------------------
-# 5.8.49(2026-11-17)
+# 5.8.49(2026-11-18)
 ### 🐣新特性
 * 【core   】      `URLUtil.getJarFile`增加可选使用缓存的版本（pr#4340@Github）
 * 【core   】      `Base85`decode时增加越界检查（pr#4342@Github）
@@ -23,6 +23,7 @@
 * 【core   】      修复`CronPattern`传入年数组非顺序时获取`nextMatchAfter`错误问题（pr#4357@Github）
 * 【core   】      修复`BeanDesc`在土耳其语Locale下IS前缀Getter/Setter匹配失败的问题（pr#4365@Github）
 * 【cron   】      修复`CronPattern`day-of-month steps like 2/2 also fire on the last day of the month（pr#4358@Github）
+* 【core   】      修复`GifDecoder`读取 URL 时路径被转小写的问题（pr#4367@Github）
 
 -------------------------------------------------------------------------------------------------------------
 # 5.8.48(2026-09-26)
