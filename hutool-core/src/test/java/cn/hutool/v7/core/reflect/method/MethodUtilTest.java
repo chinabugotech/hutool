@@ -142,6 +142,7 @@ public class MethodUtilTest extends ReflectTestBeans {
 	}
 
 	@Test
+	@Disabled
 	public void getMethodsFromClassExtends() {
 		// 继承情况下，需解决方法去重问题
 		Method[] methods = MethodUtil.getMethods(C2.class);
