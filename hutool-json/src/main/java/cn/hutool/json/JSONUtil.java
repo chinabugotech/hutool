@@ -691,17 +691,31 @@ public class JSONUtil {
 		if (isWrap) {
 			writer.write('"');
 		}
+		String escaped;
+		// 尚未写出的连续无需转义字符的起始位置，这些字符批量写出，避免逐字符创建字符串并写出
+		int start = 0;
 		for (int i = 0; i < len; i++) {
 			c = str.charAt(i);
 			switch (c) {
 				case '\\':
+					escaped = "\\\\";
+					break;
 				case '"':
-					writer.write("\\");
-					writer.write(c);
+					escaped = "\\\"";
 					break;
 				default:
-					writer.write(escape(c));
+					escaped = escape(c);
 			}
+			if (null != escaped) {
+				if (i > start) {
+					writer.write(str, start, i - start);
+				}
+				writer.write(escaped);
+				start = i + 1;
+			}
+		}
+		if (start < len) {
+			writer.write(str, start, len - start);
 		}
 		if (isWrap) {
 			writer.write('"');
@@ -723,9 +737,15 @@ public class JSONUtil {
 		final int len = str.length();
 		final StringBuilder builder = new StringBuilder(len);
 		char c;
+		String escaped;
 		for (int i = 0; i < len; i++) {
 			c = str.charAt(i);
-			builder.append(escape(c));
+			escaped = escape(c);
+			if (null == escaped) {
+				builder.append(c);
+			} else {
+				builder.append(escaped);
+			}
 		}
 		return builder.toString();
 	}
@@ -973,7 +993,7 @@ public class JSONUtil {
 	 * 见：<a href="https://en.wikibooks.org/wiki/Unicode/Character_reference/0000-0FFF">https://en.wikibooks.org/wiki/Unicode/Character_reference/0000-0FFF</a>
 	 *
 	 * @param c 字符
-	 * @return 转义后的字符串
+	 * @return 转义后的字符串，无需转义时返回{@code null}
 	 */
 	private static String escape(char c) {
 		switch (c) {
@@ -996,7 +1016,7 @@ public class JSONUtil {
 				) {
 					return HexUtil.toUnicodeHex(c);
 				} else {
-					return Character.toString(c);
+					return null;
 				}
 		}
 	}
