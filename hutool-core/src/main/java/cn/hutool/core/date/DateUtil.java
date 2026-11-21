@@ -1056,7 +1056,7 @@ public class DateUtil extends CalendarUtil {
 		} else if (ReUtil.isMatch(PatternPool.TIME, dateStr)) {
 			// HH:mm:ss 或者 HH:mm 时间格式匹配单独解析
 			return parseTimeToday(dateStr);
-		} else if (StrUtil.containsAnyIgnoreCase(dateStr, wtb)) {
+		} else if (containsWtb(dateStr)) {
 			// JDK的Date对象toString默认格式，类似于：
 			// Tue Jun 4 16:25:15 +0800 2019
 			// Thu May 16 17:57:18 GMT+08:00 2019
@@ -2437,6 +2437,29 @@ public class DateUtil extends CalendarUtil {
 		}
 
 		return builder.toString();
+	}
+
+	/**
+	 * 检查日期字符串中是否包含星期、月份或时区的英文缩写（忽略大小写），结果与{@code StrUtil.containsAnyIgnoreCase(dateStr, wtb)}一致。<br>
+	 * wtb中的缩写均以字母开头，非字母的位置不可能匹配，因此只在字母位置尝试匹配，
+	 * 避免对“yyyy-MM-dd HH:mm:ss”这类不含字母的常见日期字符串逐位比较所有缩写。
+	 *
+	 * @param dateStr 日期字符串
+	 * @return 是否包含星期、月份或时区的英文缩写
+	 */
+	private static boolean containsWtb(String dateStr) {
+		final int length = dateStr.length();
+		for (int i = 0; i < length; i++) {
+			if (false == Character.isLetter(dateStr.charAt(i))) {
+				continue;
+			}
+			for (String word : wtb) {
+				if (dateStr.regionMatches(true, i, word, 0, word.length())) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 	// ------------------------------------------------------------------------ Private method end
 
