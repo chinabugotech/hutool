@@ -71,7 +71,8 @@ public class JSONUtil {
 	}
 
 	/**
-	 * JSON字符串转JSONObject对象
+	 * JSON字符串转JSONObject对象<br>
+	 * 超出 {@code long} 取值范围的整数会解析为 {@link String}，以保留完整的十进制数字。
 	 *
 	 * @param jsonStr JSON字符串
 	 * @return JSONObject
@@ -99,6 +100,7 @@ public class JSONUtil {
 	 * @param config JSON配置
 	 * @return JSONObject
 	 * @since 5.3.1
+	 * @see #parseObj(String)
 	 */
 	public static JSONObject parseObj(Object obj, JSONConfig config) {
 		return new JSONObject(obj, ObjectUtil.defaultIfNull(config, JSONConfig::create));
