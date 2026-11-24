@@ -9,6 +9,7 @@
 * 【extra  】      `SFTP`增加重载，支持自定义是否复用Session和关闭Session（pr#4347@Github）
 * 【core  】      `HashUtil.murmur32`增加 String 重载（pr#1491@Gitee）
 * 【core   】      `DesensitizedUtil`增加MAC地址脱敏（pr#4361@Github）
+* 【core   】      优化`DateUtil.parse`检查星期、月份缩写时只在字母位置匹配（pr#4369@Github）
 
 ### 🐞Bug修复
 * 【core   】      修复`ClassScanner`扫描jar后关闭共享JarFile导致`Zip file closed`的问题（pr#4340@Github）
