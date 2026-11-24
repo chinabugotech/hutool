@@ -78,7 +78,7 @@ public class JSONTokener extends ReaderWrapper {
 	/**
 	 * 从InputStream中构建，使用UTF-8编码
 	 *
-	 * @param inputStream InputStream
+	 * @param inputStream        InputStream
 	 * @param ignoreZeroWithChar 是否忽略零宽字符
 	 * @throws JSONException JSON异常，包装IO异常
 	 */
@@ -169,9 +169,9 @@ public class JSONTokener extends ReaderWrapper {
 	 */
 	public char next() throws JSONException {
 		char c;
-		while(true){
+		while (true) {
 			c = _next();
-			if(this.ignoreZeroWithChar && CharUtil.isZeroWidthChar(c)){
+			if (this.ignoreZeroWithChar && CharUtil.isZeroWidthChar(c)) {
 				continue;
 			}
 			return c;
@@ -192,9 +192,14 @@ public class JSONTokener extends ReaderWrapper {
 	 * <pre>{@code '4f60' -> '你'}</pre>
 	 *
 	 * @return 字符
+	 * @throws JSONException 非法Unicode转义符
 	 */
-	public char nextUnicode() {
-		return (char) NumberUtil.parseInt(next(4), 16);
+	public char nextUnicode() throws JSONException {
+		try {
+			return (char) NumberUtil.parseInt(next(4), 16);
+		} catch (final NumberFormatException e) {
+			throw this.syntaxError("Illegal Unicode escape.");
+		}
 	}
 
 	/**
