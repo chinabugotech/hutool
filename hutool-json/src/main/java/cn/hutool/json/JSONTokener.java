@@ -259,7 +259,7 @@ public class JSONTokener {
 							sb.append('\r');
 							break;
 						case 'u':// Unicode符
-							sb.append((char) Integer.parseInt(this.next(4), 16));
+							sb.append((char) this.parseUnicode(this.next(4)));
 							break;
 						case '"':
 						case '\'':
@@ -277,6 +277,21 @@ public class JSONTokener {
 					}
 					sb.append(c);
 			}
+		}
+	}
+
+	/**
+	 * 将Unicode转义中的十六进制数字转换为数值。
+	 *
+	 * @param value 十六进制数字
+	 * @return 转换后的数值
+	 * @throws JSONException 数值转换失败
+	 */
+	int parseUnicode(String value) {
+		try {
+			return Integer.parseInt(value, 16);
+		} catch (NumberFormatException e) {
+			throw this.syntaxError("Illegal Unicode escape.");
 		}
 	}
 
