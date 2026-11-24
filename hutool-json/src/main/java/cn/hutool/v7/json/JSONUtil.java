@@ -135,6 +135,7 @@ public class JSONUtil {
 
 	/**
 	 * JSON字符串转JSONObject对象<br>
+	 * 超出 {@code long} 取值范围的整数会解析为 {@link String}，以保留完整的十进制数字。<br>
 	 * 此方法会忽略空值，但是对JSON字符串不影响
 	 *
 	 * @param obj Bean对象或者Map
@@ -146,6 +147,7 @@ public class JSONUtil {
 
 	/**
 	 * JSON字符串转JSONObject对象<br>
+	 * 超出 {@code long} 取值范围的整数会解析为 {@link String}，以保留完整的十进制数字。<br>
 	 * 此方法会忽略空值，但是对JSON字符串不影响
 	 *
 	 * @param obj    Bean对象或者Map
