@@ -2,7 +2,7 @@
 # 🚀Changelog
 
 -------------------------------------------------------------------------------------------------------------
-# 5.8.49(2026-11-18)
+# 5.8.49(2026-11-24)
 ### 🐣新特性
 * 【core   】      `URLUtil.getJarFile`增加可选使用缓存的版本（pr#4340@Github）
 * 【core   】      `Base85`decode时增加越界检查（pr#4342@Github）
@@ -26,6 +26,7 @@
 * 【cron   】      修复`CronPattern`day-of-month steps like 2/2 also fire on the last day of the month（pr#4358@Github）
 * 【core   】      修复`GifDecoder`读取 URL 时路径被转小写的问题（pr#4367@Github）
 * 【core   】      修复`NumericEntityUnescaper`将补充平面字符数值实体截断为单个char的问题（pr#4359@Github）
+* 【json   】      修复`JSONTokener`解析Unicode转义时的异常类型不一致问题（pr#4374@Github）
 
 -------------------------------------------------------------------------------------------------------------
 # 5.8.48(2026-09-26)
