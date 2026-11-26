@@ -329,7 +329,10 @@ public class ChineseDate {
 	 * @return 获得农历节日
 	 */
 	public String getFestivals() {
-		return StrUtil.join(",", LunarFestival.getFestivals(this.year, this.isLeapMonth ? this.month - 1 : this.month, day));
+		if (this.isLeapMonth) {
+			return StrUtil.EMPTY;
+		}
+		return StrUtil.join(",", LunarFestival.getFestivals(this.year, this.month, this.day));
 	}
 
 	/**
