@@ -93,6 +93,29 @@ public class ChineseDateTest {
 	}
 
 	@Test
+	public void leapMonthFestivalsFromSolarDateTest() {
+		Assertions.assertEquals("龙头节 龙抬头", new ChineseDate(LocalDate.of(2023, 2, 21)).getFestivals());
+		Assertions.assertEquals("", new ChineseDate(LocalDate.of(2023, 3, 23)).getFestivals());
+		Assertions.assertEquals("端午节 端阳节", new ChineseDate(LocalDate.of(2028, 5, 28)).getFestivals());
+		Assertions.assertEquals("", new ChineseDate(LocalDate.of(2028, 6, 27)).getFestivals());
+	}
+
+	@Test
+	public void leapMonthFestivalsFromLunarDateTest() {
+		Assertions.assertEquals("龙头节 龙抬头", new ChineseDate(2023, 2, 2, false).getFestivals());
+		Assertions.assertEquals("", new ChineseDate(2023, 2, 2, true).getFestivals());
+		Assertions.assertEquals("端午节 端阳节", new ChineseDate(2028, 5, 5, false).getFestivals());
+		Assertions.assertEquals("", new ChineseDate(2028, 5, 5, true).getFestivals());
+	}
+
+	@Test
+	public void festivalsAfterLeapMonthTest() {
+		Assertions.assertEquals("中秋节", new ChineseDate(LocalDate.of(2023, 9, 29)).getFestivals());
+		Assertions.assertEquals("除夕", new ChineseDate(2021, 12, 29, false).getFestivals());
+		Assertions.assertEquals("除夕", new ChineseDate(2022, 12, 30, false).getFestivals());
+	}
+
+	@Test
 	public void dateTest(){
 		// 修复这两个日期不正确的问题
 		// 问题出在计算与1900-01-31相差天数的问题上了，相差天数非整天
