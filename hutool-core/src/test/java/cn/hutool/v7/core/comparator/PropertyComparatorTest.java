@@ -16,6 +16,9 @@
 
 package cn.hutool.v7.core.comparator;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import cn.hutool.v7.core.collection.ListUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -69,4 +72,19 @@ public class PropertyComparatorTest {
 		private String a;
 		private String b;
 	}
+	@Test
+	void readsCurrentNestedValueOnEveryComparison() {
+		final Map<String, Object> left = new HashMap<>();
+		final Map<String, Object> right = new HashMap<>();
+		left.put("detail", Collections.singletonMap("rank", 1));
+		right.put("detail", Collections.singletonMap("rank", 2));
+		final PropertyComparator<Map<String, Object>> comparator = new PropertyComparator<>("detail.rank", false, true);
+		Assertions.assertTrue(comparator.compare(left, right) < 0);
+		left.put("detail", Collections.singletonMap("rank", 3));
+		Assertions.assertTrue(comparator.compare(left, right) > 0);
+		left.put("detail.rank", 0);
+		Assertions.assertTrue(comparator.compare(left, right) < 0);
+		Assertions.assertEquals(0, new PropertyComparator<>(" ", false, true).compare(left, right));
+	}
+
 }

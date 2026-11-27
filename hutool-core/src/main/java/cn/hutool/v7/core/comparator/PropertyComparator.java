@@ -16,9 +16,13 @@
 
 package cn.hutool.v7.core.comparator;
 
-import cn.hutool.v7.core.bean.BeanUtil;
+import cn.hutool.v7.core.bean.path.BeanPath;
+import cn.hutool.v7.core.lang.loader.LazyFunLoader;
+import cn.hutool.v7.core.text.StrUtil;
 
 import java.io.Serial;
+import java.util.Map;
+import java.util.function.Function;
 
 /**
  * Bean属性排序器<br>
@@ -61,6 +65,21 @@ public class PropertyComparator<T> extends FuncComparator<T> {
 	 * @since 5.8.28
 	 */
 	public PropertyComparator(final String property, final boolean compareSelf, final boolean isNullGreater) {
-		super(isNullGreater, compareSelf, (bean) -> BeanUtil.getProperty(bean, property));
+		super(isNullGreater, compareSelf, propertyReader(property));
+	}
+
+	/** 创建读取排序属性的函数，首次使用时解析路径。 */
+	private static <T> Function<T, Comparable<?>> propertyReader(final String property) {
+		if (StrUtil.isBlank(property)) {
+			return bean -> null;
+		}
+		final LazyFunLoader<BeanPath<Object>> path = LazyFunLoader.of(() -> BeanPath.of(property));
+		return bean -> {
+			// 含点号的完整 Map 键优先于嵌套路径。
+			if (bean instanceof Map<?, ?> map && map.containsKey(property)) {
+				return (Comparable<?>) map.get(property);
+			}
+			return (Comparable<?>) path.get().getValue(bean);
+		};
 	}
 }
