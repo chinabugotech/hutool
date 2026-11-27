@@ -8,7 +8,6 @@ import cn.hutool.core.util.ObjectUtil;
 import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 /**
  * 树工具类
@@ -280,7 +279,7 @@ public class TreeUtil {
 	}
 
 	/**
-	 * 函数式构建树状结构(无需继承Tree类)
+	 * 函数式构建树状结构(无需继承Tree类)。构建期间节点ID和父ID应保持稳定。
 	 *
 	 * @param nodes			需要构建树集合
 	 * @param rootId		根节点ID
@@ -295,38 +294,48 @@ public class TreeUtil {
 									   Function<E, T> idFunc,
 									   Function<E, T> parentIdFunc,
 									   BiConsumer<E, List<E>> setChildFunc) {
-		List<E> rootList = nodes.stream().filter(tree -> parentIdFunc.apply(tree).equals(rootId)).collect(Collectors.toList());
-		Set<T> filterOperated = new HashSet<>(rootList.size() + nodes.size());
-		//对每个根节点都封装它的孩子节点
-		rootList.forEach(root -> setChildren(root, nodes, filterOperated, idFunc, parentIdFunc, setChildFunc));
-		return rootList;
+		final Map<T, List<E>> byParent = new HashMap<>();
+		final List<E> roots = new ArrayList<>();
+		for (E node : nodes) {
+			final T parentId = parentIdFunc.apply(node);
+			if (parentId.equals(rootId)) {
+				roots.add(node);
+			}
+			byParent.computeIfAbsent(parentId, key -> new ArrayList<>()).add(node);
+		}
+
+		final Set<T> visited = new HashSet<>();
+		final Deque<ChildFrame<E>> stack = new ArrayDeque<>();
+		for (E root : roots) {
+			stack.push(new ChildFrame<>(root, byParent.get(idFunc.apply(root))));
+			while (!stack.isEmpty()) {
+				final ChildFrame<E> frame = stack.peek();
+				if (frame.next == frame.candidates.size()) {
+					// 与递归构建一致，所有后代设置完成后再回调父节点。
+					setChildFunc.accept(frame.node, frame.children);
+					stack.pop();
+					continue;
+				}
+				final E child = frame.candidates.get(frame.next++);
+				final T id = idFunc.apply(child);
+				if (visited.add(id)) {
+					frame.children.add(child);
+					stack.push(new ChildFrame<>(child, byParent.get(id)));
+				}
+			}
+		}
+		return roots;
 	}
 
-	/**
-	 * 封装孩子节点
-	 *
-	 * @param root				根节点
-	 * @param nodes				节点集合
-	 * @param filterOperated	过滤操作Map
-	 * @param idFunc			获取节点ID函数
-	 * @param parentIdFunc		获取节点父ID函数
-	 * @param setChildFunc		设置孩子集合函数
-	 * @param <T>				节点ID类型
-	 * @param <E>				节点类型
-	 */
-	private static <T, E> void setChildren(E root, List<E> nodes, Set<T> filterOperated, Function<E, T> idFunc, Function<E, T> parentIdFunc, BiConsumer<E, List<E>> setChildFunc) {
-		List<E> children = new ArrayList<>();
-		nodes.stream()
-			//过滤出未操作过的节点
-			.filter(body -> !filterOperated.contains(idFunc.apply(body)))
-			//过滤出孩子节点
-			.filter(body -> Objects.equals(idFunc.apply(root), parentIdFunc.apply(body)))
-			.forEach(body -> {
-				filterOperated.add(idFunc.apply(body));
-				children.add(body);
-				//递归 对每个孩子节点执行同样操作
-				setChildren(body, nodes, filterOperated, idFunc, parentIdFunc, setChildFunc);
-			});
-		setChildFunc.accept(root, children);
+	private static class ChildFrame<E> {
+		final E node;
+		final List<E> candidates;
+		final List<E> children = new ArrayList<>();
+		int next;
+
+		ChildFrame(E node, List<E> candidates) {
+			this.node = node;
+			this.candidates = candidates == null ? Collections.emptyList() : candidates;
+		}
 	}
 }
