@@ -1,6 +1,10 @@
 package cn.hutool.core.comparator;
 
-import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.bean.BeanPath;
+import cn.hutool.core.lang.loader.LazyFunLoader;
+import cn.hutool.core.util.StrUtil;
+
+import java.util.function.Function;
 
 /**
  * Bean属性排序器<br>
@@ -41,6 +45,15 @@ public class PropertyComparator<T> extends FuncComparator<T> {
 	 * @since 5.8.28
 	 */
 	public PropertyComparator(String property, final boolean compareSelf, boolean isNullGreater) {
-		super(isNullGreater, compareSelf, (bean) -> BeanUtil.getProperty(bean, property));
+		super(isNullGreater, compareSelf, propertyReader(property));
+	}
+
+	/** 创建读取排序属性的函数，首次使用时解析路径。 */
+	private static <T> Function<T, Comparable<?>> propertyReader(final String property) {
+		if (StrUtil.isBlank(property)) {
+			return bean -> null;
+		}
+		final LazyFunLoader<BeanPath> path = LazyFunLoader.on(() -> BeanPath.create(property));
+		return bean -> (Comparable<?>) path.get().get(bean);
 	}
 }
