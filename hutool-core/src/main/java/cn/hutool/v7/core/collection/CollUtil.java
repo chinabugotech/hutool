@@ -2130,24 +2130,33 @@ public class CollUtil {
 	 * @since 7.0.0
 	 */
 	public static <T> List<List<T>> groupByFunc(final Collection<T> collection, final Function<T, ?> getter) {
-		return group(collection, new Hash32<>() {
-			private final List<Object> hashValList = new ArrayList<>();
-
-			@Override
-			public int hash32(final T t) {
-				if (null == t || !BeanUtil.isWritableBean(t.getClass())) {
-					// 非Bean放在同一子分组中
-					return 0;
-				}
-				final Object value = getter.apply(t);
-				int hash = hashValList.indexOf(value);
-				if (hash < 0) {
-					hashValList.add(value);
-					hash = hashValList.size() - 1;
-				}
-				return hash;
+		final List<Object> keys = new ArrayList<>();
+		final Map<Object, Integer> stableIndexes = new HashMap<>();
+		return group(collection, t -> {
+			if (t == null || !BeanUtil.isWritableBean(t.getClass())) {
+				return 0;
 			}
+			final Object value = getter.apply(t);
+			// 任意对象都能作为分组值；可变对象仍按首次出现时的顺序匹配。
+			if (isStableHashKey(value)) {
+				return stableIndexes.computeIfAbsent(value, key -> {
+					keys.add(key);
+					return keys.size() - 1;
+				});
+			}
+			final int index = keys.indexOf(value);
+			if (index >= 0) {
+				return index;
+			}
+			keys.add(value);
+			return keys.size() - 1;
 		});
+	}
+
+	/** 判断是否可以在批量操作中复用此键的散列索引。 */
+	private static boolean isStableHashKey(final Object key) {
+		return key == null || key instanceof String || key instanceof Enum<?> || key instanceof UUID
+			|| ObjUtil.isBasicType(key);
 	}
 	// endregion
 
