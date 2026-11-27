@@ -65,9 +65,25 @@ public class StrFinder extends TextFinder {
 	@Override
 	public int start(int from) {
 		Assert.notNull(this.text, "Text to find must be not null!");
+		final int boundary = getValidEndIndex();
+		if (!caseInsensitive && text instanceof String source && strToFind instanceof String needle) {
+			if (negative && boundary == -1) {
+				return source.lastIndexOf(needle, from);
+			}
+			if (!negative && boundary == source.length()) {
+				return source.indexOf(needle, from);
+			}
+		}
+
+		return findInRange(from, boundary);
+	}
+
+	private int findInRange(int from, final int boundary) {
 		final int subLen = strToFind.length();
 		final int textLen = text.length();
-
+		if (!negative && boundary < subLen) {
+			return INDEX_NOT_FOUND;
+		}
 		// pr#4134@github
 		// 基于Sunday算法实现高效子串查询，理想情况为O(N / M)，最差情况(大量重复元素)会退化至O(M * N)，一般情况下优于 KMP算法，任何情况下都优于原来的暴力算法
 		if (negative) {
@@ -79,7 +95,7 @@ public class StrFinder extends TextFinder {
 				from = maxIndex;
 			}
 			int i = from;
-			while (i >= 0) {
+			while (i >= 0 && i > boundary) {
 				if (isSubEquals(text, i, strToFind, 0, subLen, caseInsensitive)) {
 					return i;
 				}
@@ -100,13 +116,13 @@ public class StrFinder extends TextFinder {
 			if (from < 0) {
 				from = 0;
 			}
-			final int endLimit = textLen - subLen;
+			final int endLimit = boundary - subLen;
 			int i = from;
 			while (i <= endLimit) {
 				if (isSubEquals(text, i, strToFind, 0, subLen, caseInsensitive)) {
 					return i;
 				}
-				if (i + subLen >= textLen) {
+				if (i + subLen >= boundary) {
 					break;
 				}
 				final char nextChar = text.charAt(i + subLen);
