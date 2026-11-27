@@ -409,6 +409,38 @@ public class CollUtilTest {
 	}
 
 	@Test
+	void groupByFieldRetainsFirstSeenOrderAndNullKeys() {
+		final TestBean first = new TestBean("FB", 1);
+		final TestBean collision = new TestBean("Ea", 2);
+		final TestBean repeated = new TestBean("FB", 3);
+		final TestBean unnamed = new TestBean(null, 4);
+		final List<Object> rows = Arrays.asList(null, first, collision, repeated, unnamed, unnamed);
+		assertEquals(Arrays.asList(Arrays.asList(null, first, repeated), Collections.singletonList(collision),
+			Arrays.asList(unnamed, unnamed)), CollUtil.groupByField(rows, "name"));
+	}
+
+	@Test
+	void groupByFieldSupportsKeysWithoutHashing() {
+		final Object key = new Object() {
+			@Override
+			public int hashCode() {
+				throw new AssertionError("group key must not require hashing");
+			}
+		};
+		final GroupRow first = new GroupRow(key);
+		final GroupRow other = new GroupRow("other");
+		final GroupRow repeated = new GroupRow(key);
+		assertEquals(Arrays.asList(Arrays.asList(first, repeated), Collections.singletonList(other)),
+			CollUtil.groupByField(Arrays.asList(first, other, repeated), "key"));
+	}
+
+	@Data
+	@AllArgsConstructor
+	static class GroupRow {
+		private Object key;
+	}
+
+	@Test
 	public void groupByFieldTest() {
 		final List<TestBean> list = CollUtil.newArrayList(new TestBean("张三", 12), new TestBean("李四", 13), new TestBean("王五", 12));
 		final List<List<TestBean>> groupByField = CollUtil.groupByField(list, "age");

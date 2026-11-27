@@ -39,6 +39,12 @@ import java.util.function.Supplier;
  */
 public class CollUtil {
 
+	/** 判断是否可以在批量操作中复用此键的散列索引。 */
+	private static boolean isStableHashKey(final Object key) {
+		return key == null || key instanceof String || key instanceof Enum<?> || key instanceof java.util.UUID
+			|| ObjectUtil.isBasicType(key);
+	}
+
 	/**
 	 * 如果提供的集合为{@code null}，返回一个不可变的默认空集合，否则返回原集合<br>
 	 * 空集合使用{@link Collections#emptySet()}
@@ -2836,26 +2842,29 @@ public class CollUtil {
 	 * @return 分组列表
 	 */
 	public static <T> List<List<T>> groupByField(Collection<T> collection, final String fieldName) {
-		return group(collection, new Hash32<T>() {
-			private final List<Object> fieldNameList = new ArrayList<>();
-
-			@Override
-			public int hash32(T t) {
-				if (null == t || !BeanUtil.isBean(t.getClass())) {
-					// 非Bean放在同一子分组中
-					return 0;
-				}
-				final Object value = ReflectUtil.getFieldValue(t, fieldName);
-				int hash = fieldNameList.indexOf(value);
-				if (hash < 0) {
-					fieldNameList.add(value);
-					return fieldNameList.size() - 1;
-				} else {
-					return hash;
-				}
+		final List<Object> keys = new ArrayList<>();
+		final Map<Object, Integer> stableIndexes = new HashMap<>();
+		return group(collection, t -> {
+			if (t == null || !BeanUtil.isBean(t.getClass())) {
+				return 0;
 			}
+			final Object value = ReflectUtil.getFieldValue(t, fieldName);
+			// 任意对象都能作为分组值；可变对象仍按首次出现时的顺序匹配。
+			if (isStableHashKey(value)) {
+				return stableIndexes.computeIfAbsent(value, key -> {
+					keys.add(key);
+					return keys.size() - 1;
+				});
+			}
+			final int index = keys.indexOf(value);
+			if (index >= 0) {
+				return index;
+			}
+			keys.add(value);
+			return keys.size() - 1;
 		});
 	}
+
 
 	/**
 	 * 反序给定List，会在原List基础上直接修改
