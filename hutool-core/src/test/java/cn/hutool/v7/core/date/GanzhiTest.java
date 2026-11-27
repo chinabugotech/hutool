@@ -22,6 +22,8 @@ import cn.hutool.v7.core.date.chinese.GanZhi;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
+
 import java.util.Objects;
 
 public class GanzhiTest {
@@ -62,4 +64,39 @@ public class GanzhiTest {
 		final String cyclicalYMD = chineseDate.toString(ChineseDateFormat.GGG);
 		Assertions.assertEquals("农历乙巳年甲申月己亥日",cyclicalYMD);
 	}
+	@Test
+	public void lunarYearStartsAtSpringFestivalTest() {
+		Assertions.assertEquals("癸卯", new ChineseDate(LocalDate.of(2024, 2, 4)).getCyclical());
+		Assertions.assertEquals("癸卯", new ChineseDate(LocalDate.of(2024, 2, 9)).getCyclical());
+		Assertions.assertEquals("甲辰", new ChineseDate(LocalDate.of(2024, 2, 10)).getCyclical());
+		Assertions.assertEquals("甲辰", new ChineseDate(LocalDate.of(2025, 1, 28)).getCyclical());
+		Assertions.assertEquals("乙巳", new ChineseDate(LocalDate.of(2025, 1, 29)).getCyclical());
+		Assertions.assertEquals("乙巳", new ChineseDate(LocalDate.of(2025, 2, 3)).getCyclical());
+	}
+
+	@Test
+	public void monthChangesOnJieDateTest() {
+		Assertions.assertEquals("甲子", GanZhi.getGanzhiOfMonth(2024, 1, 5));
+		Assertions.assertEquals("乙丑", GanZhi.getGanzhiOfMonth(2024, 1, 6));
+		Assertions.assertEquals("乙丑", GanZhi.getGanzhiOfMonth(2024, 2, 3));
+		Assertions.assertEquals("丙寅", GanZhi.getGanzhiOfMonth(2024, 2, 4));
+		Assertions.assertEquals("丁丑", GanZhi.getGanzhiOfMonth(2025, 2, 2));
+		Assertions.assertEquals("戊寅", GanZhi.getGanzhiOfMonth(2025, 2, 3));
+	}
+
+	@Test
+	public void dayFollowsCivilDateTest() {
+		Assertions.assertEquals("甲子", GanZhi.getGanzhiOfDay(1949, 10, 1));
+		Assertions.assertEquals("己亥", GanZhi.getGanzhiOfDay(2024, 2, 5));
+		Assertions.assertEquals("庚子", GanZhi.getGanzhiOfDay(2024, 2, 6));
+	}
+
+	@Test
+	public void combinedFormatKeepsLunarYearTest() {
+		Assertions.assertEquals("农历癸卯年丙寅月己亥日",
+			new ChineseDate(LocalDate.of(2024, 2, 5)).toString(ChineseDateFormat.GGG));
+		Assertions.assertEquals("农历乙巳年丁丑月辛丑日",
+			new ChineseDate(LocalDate.of(2025, 2, 1)).toString(ChineseDateFormat.GGG));
+	}
+
 }
