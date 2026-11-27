@@ -1562,8 +1562,9 @@ public class DateUtil extends CalendarUtil {
 	 */
 	public static long betweenDay(Date beginDate, Date endDate, boolean isReset) {
 		if (isReset) {
-			beginDate = beginOfDay(beginDate);
-			endDate = beginOfDay(endDate);
+			// 按日历日计算，不能用两个零点的毫秒差除以一天的毫秒数：
+			// 在有夏令时的时区，切换当天只有23或25小时（如America/New_York的2024-03-10），零点之间的毫秒差不是一天的整数倍
+			return Math.abs(calendarDayIndex(endDate) - calendarDayIndex(beginDate));
 		}
 		return between(beginDate, endDate, DateUnit.DAY);
 	}
@@ -1578,8 +1579,7 @@ public class DateUtil extends CalendarUtil {
 	 */
 	public static long betweenWeek(Date beginDate, Date endDate, boolean isReset) {
 		if (isReset) {
-			beginDate = beginOfDay(beginDate);
-			endDate = beginOfDay(endDate);
+			return betweenDay(beginDate, endDate, true) / 7;
 		}
 		return between(beginDate, endDate, DateUnit.WEEK);
 	}
@@ -2372,6 +2372,19 @@ public class DateUtil extends CalendarUtil {
 	 */
 	public static int getLastDayOfMonth(Date date){
 		return date(date).getLastDayOfMonth();
+	}
+
+	/**
+	 * 获取日期在其时区中所在的日历日序号，即本地日期距1970-01-01的天数<br>
+	 * 使用日期自身的时区（{@link DateTime}的时区或默认时区）计算本地时间，不受夏令时导致的23或25小时的天影响
+	 *
+	 * @param date 日期
+	 * @return 日历日序号
+	 */
+	private static long calendarDayIndex(Date date) {
+		final Calendar calendar = calendar(date);
+		final long millis = calendar.getTimeInMillis();
+		return Math.floorDiv(millis + calendar.getTimeZone().getOffset(millis), DateUnit.DAY.getMillis());
 	}
 
 	// ------------------------------------------------------------------------ Private method start
