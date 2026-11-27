@@ -2,7 +2,7 @@
 # 🚀Changelog
 
 -------------------------------------------------------------------------------------------------------------
-# 5.8.49(2026-11-24)
+# 5.8.49(2026-11-27)
 ### 🐣新特性
 * 【core   】      `URLUtil.getJarFile`增加可选使用缓存的版本（pr#4340@Github）
 * 【core   】      `Base85`decode时增加越界检查（pr#4342@Github）
@@ -10,6 +10,8 @@
 * 【core  】      `HashUtil.murmur32`增加 String 重载（pr#1491@Gitee）
 * 【core   】      `DesensitizedUtil`增加MAC地址脱敏（pr#4361@Github）
 * 【core   】      优化`DateUtil.parse`检查星期、月份缩写时只在字母位置匹配（pr#4369@Github）
+* 【core   】      增加 HKO 农历与节气全量离线校验（pr#4379@Github）
+* 【core   】      明确干支年月日边界并补回归测试（pr#4381@Github）
 
 ### 🐞Bug修复
 * 【core   】      修复`ClassScanner`扫描jar后关闭共享JarFile导致`Zip file closed`的问题（pr#4340@Github）
@@ -28,6 +30,8 @@
 * 【core   】      修复`GifDecoder`读取 URL 时路径被转小写的问题（pr#4367@Github）
 * 【core   】      修复`NumericEntityUnescaper`将补充平面字符数值实体截断为单个char的问题（pr#4359@Github）
 * 【json   】      修复`JSONTokener`解析Unicode转义时的异常类型不一致问题（pr#4374@Github）
+* 【core   】      修复闰月重复返回农历节日问题（pr#4375@Github）
+* 【core   】      修复农历转公历的时区偏移与起点日期（pr#4377@Github）
 
 -------------------------------------------------------------------------------------------------------------
 # 5.8.48(2026-09-26)
