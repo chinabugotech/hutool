@@ -995,6 +995,18 @@ public class CollUtilTest {
 	}
 
 	@Test
+	void zipSequentialListsWithoutIndexedReads() {
+		final List<Integer> sequential = new LinkedList<Integer>(Arrays.asList(1, 2, 3)) {
+			@Override
+			public Integer get(int index) {
+				throw new AssertionError("indexed access on a sequential list");
+			}
+		};
+		assertEquals(Arrays.asList(11, 22), CollUtil.zip(sequential, Arrays.asList(10, 20), Integer::sum));
+		assertEquals(Arrays.asList(11, 22), CollUtil.zip(Arrays.asList(10, 20), sequential, Integer::sum));
+	}
+
+	@Test
 	public void zipTest2() {
 		// 1. 正常情况测试
 		final List<String> list1 = ListUtil.of("a", "b", "c");
