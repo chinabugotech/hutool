@@ -166,28 +166,36 @@ public class TextSimilarity {
 	 * @return 公共子串
 	 */
 	public static int longestCommonSubstringLength(final String strA, final String strB) {
-		final int m = strA.length();
-		final int n = strB.length();
-
-		// 初始化矩阵数据,matrix[0][0]的值为0， 如果字符数组chars_strA和chars_strB的对应位相同，则matrix[i][j]的值为左上角的值加1，
-		// 否则，matrix[i][j]的值等于左上方最近两个位置的较大值， 矩阵中其余各点的值为0.
-		int[] lastLine = new int[n + 1];
-		int[] currLine = new int[n + 1];
-		int[] temp;
-		for (int i = 1; i <= m; i++) {
-			for (int j = 1; j <= n; j++) {
-				if (strA.charAt(i - 1) == strB.charAt(j - 1)) {
-					currLine[j] = lastLine[j - 1] + 1;
-				} else {
-					currLine[j] = Math.max(currLine[j - 1], lastLine[j]);
-				}
-			}
-			temp = lastLine;
-			lastLine = currLine;
-			currLine = temp;
+		if (strA.length() < strB.length()) {
+			return longestCommonSubstringLength(strB, strA);
 		}
-
-		return lastLine[n];
+		int start = 0;
+		int endA = strA.length();
+		int endB = strB.length();
+		while (start < endB && strA.charAt(start) == strB.charAt(start)) {
+			start++;
+		}
+		while (endB > start && strA.charAt(endA - 1) == strB.charAt(endB - 1)) {
+			endA--;
+			endB--;
+		}
+		// 相同前后缀可直接计入公共子序列，只对中间部分计算一行状态。
+		final int width = endB - start;
+		final int shared = strB.length() - width;
+		if (width == 0) {
+			return shared;
+		}
+		final int[] lengths = new int[width + 1];
+		for (int i = start; i < endA; i++) {
+			final char c = strA.charAt(i);
+			int diagonal = 0;
+			for (int j = 0; j < width; j++) {
+				final int above = lengths[j + 1];
+				lengths[j + 1] = c == strB.charAt(start + j) ? diagonal + 1 : Math.max(above, lengths[j]);
+				diagonal = above;
+			}
+		}
+		return shared + lengths[width];
 	}
 
 	/**
