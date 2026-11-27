@@ -22,7 +22,6 @@ import cn.hutool.v7.core.codec.hash.Hash32;
 import cn.hutool.v7.core.collection.iter.ArrayIter;
 import cn.hutool.v7.core.collection.iter.IterUtil;
 import cn.hutool.v7.core.collection.iter.IteratorEnumeration;
-import cn.hutool.v7.core.collection.queue.BoundedPriorityQueue;
 import cn.hutool.v7.core.collection.set.SetUtil;
 import cn.hutool.v7.core.collection.set.UniqueKeySet;
 import cn.hutool.v7.core.comparator.CompareUtil;
@@ -1830,7 +1829,7 @@ public class CollUtil {
 
 	/**
 	 * 将多个集合排序并显示不同的段落（分页）<br>
-	 * 采用{@link BoundedPriorityQueue}实现分页取局部
+	 * 浅分页时分批保留排序前缀
 	 *
 	 * @param <T>        集合元素类型
 	 * @param pageNo     页码，从0开始计数，0表示第一页
@@ -1841,15 +1840,59 @@ public class CollUtil {
 	 */
 	@SafeVarargs
 	public static <T> List<T> sortPageAll(final int pageNo, final int pageSize, final Comparator<T> comparator, final Collection<T>... colls) {
-		final List<T> list = new ArrayList<>(pageNo * pageSize);
+		// 页码乘积可能溢出 int，只按实际数据量选择排序策略。
+		long total = 0;
+		for (final Collection<T> coll : colls) {
+			total += coll.size();
+		}
+		final long start = Math.max(0L, (long) pageNo) * pageSize;
+		final long end = start + pageSize;
+		if (pageSize > 0 && start >= total) {
+			return new ArrayList<>();
+		}
+		// 浅分页最多保留两倍前缀。深分页直接利用 List 的稳定排序。
+		if (pageSize > 0 && comparator != null && end <= total / 4 && end <= Integer.MAX_VALUE / 2) {
+			return sortedPrefixPage((int) start, (int) end, comparator, colls);
+		}
+		final List<T> list = new ArrayList<>();
 		for (final Collection<T> coll : colls) {
 			list.addAll(coll);
 		}
 		if (null != comparator) {
 			list.sort(comparator);
 		}
-
 		return ListUtil.page(list, pageNo, pageSize);
+	}
+
+	/**
+	 * 分批稳定排序，仅保留排在请求页末尾之前的元素。
+	 *
+	 * @param start 页起始下标（含）
+	 * @param end 页结束下标（不含）
+	 * @param comparator 排序规则
+	 * @param colls 按遇到顺序遍历的源集合
+	 * @param <T> 元素类型
+	 * @return 指定页
+	 */
+	private static <T> List<T> sortedPrefixPage(final int start, final int end,
+												final Comparator<T> comparator, final Collection<T>[] colls) {
+		final List<T> prefix = new ArrayList<>(end);
+		for (final Collection<T> coll : colls) {
+			for (final T value : coll) {
+				if (prefix.size() >= end && comparator.compare(value, prefix.get(end - 1)) >= 0) {
+					continue;
+				}
+				prefix.add(value);
+				if (prefix.size() == end || prefix.size() == 2 * end) {
+					prefix.sort(comparator);
+					prefix.subList(end, prefix.size()).clear();
+				}
+			}
+		}
+		if (prefix.size() != end) {
+			prefix.sort(comparator);
+		}
+		return new ArrayList<>(prefix.subList(Math.min(start, prefix.size()), Math.min(end, prefix.size())));
 	}
 
 	/**
