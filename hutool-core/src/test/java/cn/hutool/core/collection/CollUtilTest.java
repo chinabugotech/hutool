@@ -1,5 +1,6 @@
 package cn.hutool.core.collection;
 
+import cn.hutool.core.util.PageUtil;
 import cn.hutool.core.comparator.ComparableComparator;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.Dict;
@@ -728,6 +729,36 @@ public class CollUtilTest {
 		final List<Integer> retval = CollUtil.sub(list, start, end);
 		// Assert result
 		assertTrue(retval.isEmpty());
+	}
+
+	@Test
+	void sortedPageMatchesStableSortAcrossCollectionBoundaries() {
+		final List<Integer> input = new ArrayList<>();
+		for (int i = 0; i < 300; i++) {
+			input.add(i);
+		}
+		Collections.shuffle(input, new Random(42));
+		input.set(10, null);
+		final Comparator<Integer> byBucket = Comparator.nullsFirst(Comparator.comparingInt(i -> i % 9));
+		final List<Integer> sorted = new ArrayList<>(input);
+		sorted.sort(byBucket);
+		final List<Integer> left = input.subList(0, 113);
+		final List<Integer> right = input.subList(113, input.size());
+		final int firstPage = PageUtil.getFirstPageNo();
+		for (int page = 0; page < 44; page++) {
+			final int start = Math.min(page * 7, sorted.size());
+			assertEquals(sorted.subList(start, Math.min(start + 7, sorted.size())),
+				CollUtil.sortPageAll(firstPage + page, 7, byBucket, left, right));
+		}
+		assertEquals(input.subList(7, 14), CollUtil.sortPageAll(firstPage + 1, 7, null, left, right));
+		assertTrue(CollUtil.sortPageAll(Integer.MAX_VALUE, 7, byBucket, left, right).isEmpty());
+		try {
+			PageUtil.setFirstPageNo(1);
+			assertEquals(sorted.subList(0, 7), CollUtil.sortPageAll(1, 7, byBucket, left, right));
+			assertEquals(sorted.subList(7, 14), CollUtil.sortPageAll(2, 7, byBucket, left, right));
+		} finally {
+			PageUtil.setFirstPageNo(firstPage);
+		}
 	}
 
 	@Test
