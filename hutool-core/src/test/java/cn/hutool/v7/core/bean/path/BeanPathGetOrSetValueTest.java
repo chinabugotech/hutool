@@ -16,11 +16,12 @@
 
 package cn.hutool.v7.core.bean.path;
 
-import lombok.Data;
+import cn.hutool.v7.core.bean.path.node.NameNode;
 import cn.hutool.v7.core.array.ArrayUtil;
 import cn.hutool.v7.core.lang.test.bean.ExamInfoDict;
 import cn.hutool.v7.core.lang.test.bean.UserInfoDict;
 import cn.hutool.v7.core.map.Dict;
+import lombok.Data;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -167,5 +168,48 @@ public class BeanPathGetOrSetValueTest {
 	@Data
 	static class MyUser2 {
 		private MyUser myUser;
+	}
+
+	@Test
+	void returnsExpandedRootAndReconnectsExpandedIntermediateArray() {
+		final Object[] empty = {};
+		final BeanPath<Object> path = BeanPath.of("[0].detail.name");
+		final Object[] expanded = (Object[]) path.setValue(empty, "value");
+		Assertions.assertNotSame(empty, expanded);
+		Assertions.assertEquals("value", path.getValue(expanded));
+		final Map<String, Object> root = new HashMap<>();
+		root.put("items", empty);
+		final BeanPath<Object> nested = BeanPath.of("items[0].detail.name");
+		Assertions.assertSame(root, nested.setValue(root, "nested"));
+		Assertions.assertEquals("nested", nested.getValue(root));
+	}
+
+
+	@Test
+	void propagatesCopyOnWriteFactoryResultsToTheRoot() {
+		final NodeBeanFactory<Map<String, Object>> factory = new NodeBeanFactory<Map<String, Object>>() {
+			@Override
+			public Map<String, Object> create(Map<String, Object> parent, BeanPath<Map<String, Object>> path) {
+				return new HashMap<>();
+			}
+
+			@Override
+			public Object getValue(Map<String, Object> bean, BeanPath<Map<String, Object>> path) {
+				return bean.get(((NameNode) path.getNode()).getName());
+			}
+
+			@Override
+			public Map<String, Object> setValue(Map<String, Object> bean, Object value, BeanPath<Map<String, Object>> path) {
+				final Map<String, Object> updated = new HashMap<>(bean);
+				updated.put(((NameNode) path.getNode()).getName(), value);
+				return updated;
+			}
+		};
+		final Map<String, Object> original = new HashMap<>();
+		final BeanPath<Map<String, Object>> path = BeanPath.of("a.b.c", factory);
+		@SuppressWarnings("unchecked")
+		final Map<String, Object> updated = (Map<String, Object>) path.setValue(original, 42);
+		Assertions.assertTrue(original.isEmpty());
+		Assertions.assertEquals(42, path.getValue(updated));
 	}
 }

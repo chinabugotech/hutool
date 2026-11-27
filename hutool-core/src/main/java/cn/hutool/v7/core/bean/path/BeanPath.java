@@ -203,20 +203,21 @@ public class BeanPath<T> implements Iterator<BeanPath<T>> {
 		}
 
 		final BeanPath<T> childBeanPath = next();
-		Object subBean = beanFactory.getValue(bean, this);
+		T parent = bean;
+		Object subBean = beanFactory.getValue(parent, this);
 		if (null == subBean) {
-			subBean = beanFactory.create(bean, this);
-			beanFactory.setValue(bean, subBean, this);
+			subBean = beanFactory.create(parent, this);
+			parent = beanFactory.setValue(parent, subBean, this);
 			// 如果自定义put方法修改了value，返回修改后的value，避免值丢失
-			subBean = beanFactory.getValue(bean, this);
+			subBean = beanFactory.getValue(parent, this);
 		}
 		// 递归逐层查找子节点，赋值
 		final Object newSubBean = childBeanPath.setValue((T) subBean, value);
 		if (newSubBean != subBean) {
 			//对于数组对象，set新值后，会返回新的数组，此时将新对象再加入父bean中，覆盖旧数组
-			beanFactory.setValue(bean, newSubBean, this);
+			return beanFactory.setValue(parent, newSubBean, this);
 		}
-		return bean;
+		return parent;
 	}
 
 	@Override
