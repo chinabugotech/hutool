@@ -22,6 +22,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import java.util.Random;
+
 /**
  * 文本相似度计算工具类单元测试
  *
@@ -69,5 +71,34 @@ public class TextSimilarityTest {
 
 		final int i = TextSimilarity.longestCommonSubstringLength(strA, strB);
 		Console.log(i);
+	}
+
+	@Test
+	void rollingLengthMatchesReconstructedSubsequenceInBothDirections() {
+		final Random random = new Random(31);
+		for (int n = 0; n < 100; n++) {
+			final StringBuilder a = new StringBuilder();
+			final StringBuilder b = new StringBuilder();
+			for (int i = 0; i < n % 19; i++) {
+				a.append("中ab".charAt(random.nextInt(3)));
+			}
+			for (int i = 0; i < n % 13; i++) {
+				b.append("中ab".charAt(random.nextInt(3)));
+			}
+			final int length = TextSimilarity.longestCommonSubstring(a.toString(), b.toString()).length();
+			final int max = Math.max(a.length(), b.length());
+			final double expected = max == 0 ? 1D : (double) length / max;
+			Assertions.assertEquals(expected, TextSimilarity.similar(a.toString(), b.toString()), 1e-9);
+			Assertions.assertEquals(expected, TextSimilarity.similar(b.toString(), a.toString()), 1e-9);
+		}
+	}
+
+
+	@Test
+	void sharedEndsDoNotOverlapOrHideMatchesInTheMiddle() {
+		Assertions.assertEquals(1D, TextSimilarity.similar("aaaa", "aaaa"));
+		Assertions.assertEquals(0.75D, TextSimilarity.similar("aaa", "aaaa"));
+		Assertions.assertEquals(0.75D, TextSimilarity.similar("xaay", "xaby"));
+		Assertions.assertEquals(0.8D, TextSimilarity.similar("abca", "axbca"));
 	}
 }
