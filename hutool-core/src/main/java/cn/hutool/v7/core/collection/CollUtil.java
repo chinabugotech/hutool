@@ -506,13 +506,28 @@ public class CollUtil {
 		if (isEmpty(coll1) || isEmpty(coll2)) {
 			return false;
 		}
-		final boolean isFirstSmaller = coll1.size() <= coll2.size();
-		// 用元素较少的集合来遍历
-		final Collection<?> smallerColl = isFirstSmaller ? coll1 : coll2;
-		// 用元素较多的集合构造Set, 用于快速判断是否有相同元素
-		final Set<?> biggerSet = isFirstSmaller ? new HashSet<>(coll2) : new HashSet<>(coll1);
-		for (final Object object : smallerColl) {
-			if (biggerSet.contains(object)) {
+		final boolean firstIsSmaller = coll1.size() <= coll2.size();
+		final Collection<?> probes = firstIsSmaller ? coll1 : coll2;
+		final Collection<?> lookup = firstIsSmaller ? coll2 : coll1;
+		final Iterator<?> it = probes.iterator();
+		final Class<?> type = lookup.getClass();
+		final boolean linearList = type == ArrayList.class || type == LinkedList.class;
+		Collection<?> membership = lookup;
+		if (linearList && probes.size() >= 16) {
+			// 先探测前几项，保留常见的提前命中。
+			for (int i = 0; i < 4 && it.hasNext(); i++) {
+				if (lookup.contains(it.next())) {
+					return true;
+				}
+			}
+			membership = new HashSet<>(lookup);
+		} else if (!linearList && type != HashSet.class && type != LinkedHashSet.class) {
+			// 自定义集合仍使用原有的 HashSet 相等规则。
+			membership = new HashSet<>(lookup);
+		}
+		while (it.hasNext()) {
+			final Object probe = it.next();
+			if (membership.contains(probe)) {
 				return true;
 			}
 		}
