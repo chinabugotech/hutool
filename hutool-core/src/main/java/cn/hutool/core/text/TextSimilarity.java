@@ -134,9 +134,36 @@ public class TextSimilarity {
 	 * @return 公共子串
 	 */
 	private static int longestCommonSubstringLength(String strA, String strB) {
-		final int m = strA.length();
-		final int n = strB.length();
-		return generateMatrix(strA, strB)[m][n];
+		if (strA.length() < strB.length()) {
+			return longestCommonSubstringLength(strB, strA);
+		}
+		int start = 0;
+		int endA = strA.length();
+		int endB = strB.length();
+		while (start < endB && strA.charAt(start) == strB.charAt(start)) {
+			start++;
+		}
+		while (endB > start && strA.charAt(endA - 1) == strB.charAt(endB - 1)) {
+			endA--;
+			endB--;
+		}
+		// 相同前后缀可直接计入公共子序列，只对中间部分计算一行状态。
+		final int width = endB - start;
+		final int shared = strB.length() - width;
+		if (width == 0) {
+			return shared;
+		}
+		final int[] lengths = new int[width + 1];
+		for (int i = start; i < endA; i++) {
+			final char c = strA.charAt(i);
+			int diagonal = 0;
+			for (int j = 0; j < width; j++) {
+				final int above = lengths[j + 1];
+				lengths[j + 1] = c == strB.charAt(start + j) ? diagonal + 1 : Math.max(above, lengths[j]);
+				diagonal = above;
+			}
+		}
+		return shared + lengths[width];
 	}
 
 	/**
