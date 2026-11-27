@@ -752,6 +752,29 @@ public class CollUtilTest {
 	}
 
 	@Test
+	void sortedPageMatchesStableSortAcrossCollectionBoundaries() {
+		final List<Integer> input = new ArrayList<>();
+		for (int i = 0; i < 300; i++) {
+			input.add(i);
+		}
+		Collections.shuffle(input, new Random(42));
+		input.set(10, null);
+		final Comparator<Integer> byBucket = Comparator.nullsFirst(Comparator.comparingInt(i -> i % 9));
+		final List<Integer> sorted = new ArrayList<>(input);
+		sorted.sort(byBucket);
+		final List<Integer> left = input.subList(0, 113);
+		final List<Integer> right = input.subList(113, input.size());
+		final int firstPage = 0;
+		for (int page = 0; page < 44; page++) {
+			final int start = Math.min(page * 7, sorted.size());
+			assertEquals(sorted.subList(start, Math.min(start + 7, sorted.size())),
+				CollUtil.sortPageAll(firstPage + page, 7, byBucket, left, right));
+		}
+		assertEquals(input.subList(7, 14), CollUtil.sortPageAll(firstPage + 1, 7, null, left, right));
+		assertTrue(CollUtil.sortPageAll(Integer.MAX_VALUE, 7, byBucket, left, right).isEmpty());
+	}
+
+	@Test
 	public void sortPageAllTest() {
 		final List<Integer> list = ListUtil.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
 		final List<Integer> sortPageAll = CollUtil.sortPageAll(1, 5, Comparator.reverseOrder(), list);
