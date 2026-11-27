@@ -95,7 +95,7 @@ public class BeanPath implements Serializable {
 	 * @return 值，如果对应值不存在，则返回null
 	 */
 	public Object get(final Object bean) {
-		return get(this.patternParts, bean, false);
+		return get(this.patternParts, bean, this.patternParts.size(), false);
 	}
 
 	/**
@@ -112,7 +112,7 @@ public class BeanPath implements Serializable {
 	 * @param value 值
 	 */
 	public void set(final Object bean, final Object value) {
-		set(bean, this.patternParts, lastIsNumber(this.patternParts), value);
+		set(bean, this.patternParts, lastIsNumber(this.patternParts), value, canCreateParents(bean));
 	}
 
 	@Override
@@ -121,6 +121,17 @@ public class BeanPath implements Serializable {
 	}
 
 	//region Private Methods
+
+	// 投影会生成临时集合，类名前缀可能重定向到根对象，两者都需要重新从根定位父节点。
+	private boolean canCreateParents(Object bean) {
+		for (String part : patternParts) {
+			if ("*".equals(part) || part.indexOf(':') >= 0 || part.indexOf(',') >= 0 ||
+					(!isStartWith && BeanUtil.isMatchName(bean, part, true))) {
+				return false;
+			}
+		}
+		return true;
+	}
 
 	/**
 	 * 设置表达式指定位置（或field对应）的值<br>
@@ -134,23 +145,24 @@ public class BeanPath implements Serializable {
 	 *
 	 * @param bean           Bean、Map或List
 	 * @param patternParts   表达式块列表
-	 * @param nextNumberPart 下一个值是否
+	 * @param nextNumberPart 下一个路径段是否为下标
+	 * @param createParents   是否允许沿单值路径补齐父节点
 	 * @param value          值
 	 */
-	private void set(Object bean, List<String> patternParts, boolean nextNumberPart, Object value) {
-		Object subBean = this.get(patternParts, bean, true);
+	private void set(Object bean, List<String> patternParts, boolean nextNumberPart, Object value, boolean createParents) {
+		Object subBean = this.get(patternParts, bean, patternParts.size() - 1, createParents);
 		if (null == subBean) {
 			// 当前节点是空，则先创建父节点
 			final List<String> parentParts = getParentParts(patternParts);
-			this.set(bean, parentParts, lastIsNumber(parentParts), nextNumberPart ? new ArrayList<>() : new HashMap<>());
+			this.set(bean, parentParts, lastIsNumber(parentParts), nextNumberPart ? new ArrayList<>() : new HashMap<>(), createParents);
 			//set中有可能做过转换，因此此处重新获取bean
-			subBean = this.get(patternParts, bean, true);
+			subBean = this.get(patternParts, bean, patternParts.size() - 1, createParents);
 		}
 
 		final Object newSubBean = BeanUtil.setFieldValue(subBean, patternParts.get(patternParts.size() - 1), value);
 		if(newSubBean != subBean){
 			// 对象变更，重新加入
-			this.set(bean, getParentParts(patternParts), nextNumberPart, newSubBean);
+			this.set(bean, getParentParts(patternParts), nextNumberPart, newSubBean, createParents);
 		}
 	}
 
@@ -161,7 +173,16 @@ public class BeanPath implements Serializable {
 	 * @return 是否为数字
 	 */
 	private static boolean lastIsNumber(List<String> patternParts) {
-		return NumberUtil.isInteger(patternParts.get(patternParts.size() - 1));
+		return isIndexPart(patternParts.get(patternParts.size() - 1));
+	}
+
+	private static boolean isIndexPart(String part) {
+		if (StrUtil.isEmpty(part)) {
+			return false;
+		}
+		// 属性名最为常见，避免为每个非数字名称在 parseInt 中创建异常。
+		final char first = part.charAt(0);
+		return (first == '+' || first == '-' || Character.isDigit(first)) && NumberUtil.isInteger(part);
 	}
 
 	/**
@@ -179,14 +200,11 @@ public class BeanPath implements Serializable {
 	 *
 	 * @param patternParts 表达式分段列表
 	 * @param bean         Bean对象或Map或List等
-	 * @param ignoreLast   是否忽略最后一个值，忽略最后一个值则用于set，否则用于read
+	 * @param length       需要访问的路径段个数
+	 * @param createMissing 是否按需补齐写操作的中间节点
 	 * @return 值，如果对应值不存在，则返回null
 	 */
-	private Object get(final List<String> patternParts, final Object bean, final boolean ignoreLast) {
-		int length = patternParts.size();
-		if (ignoreLast) {
-			length--;
-		}
+	private Object get(final List<String> patternParts, final Object bean, final int length, boolean createMissing) {
 		Object subBean = bean;
 		boolean isFirst = true;
 		String patternPart;
@@ -203,12 +221,25 @@ public class BeanPath implements Serializable {
 				return subBean;
 			}
 			
-			subBean = getFieldValue(subBean, patternPart);
+			final Object parent = subBean;
+			if (createMissing && (parent instanceof Collection || ArrayUtil.isArray(parent)) && !isIndexPart(patternPart)) {
+				// 对整个集合取属性也会产生投影，写入必须保留原有的定位过程。
+				createMissing = false;
+			}
+			subBean = getFieldValue(parent, patternPart);
 			if (null == subBean) {
 				// 支持表达式的第一个对象为Bean本身（若用户定义表达式$开头，则不做此操作）
 				if (isFirst && false == this.isStartWith && BeanUtil.isMatchName(bean, patternPart, true)) {
 					subBean = bean;
 					isFirst = false;
+				} else if (createMissing && parent != null && !ArrayUtil.isArray(parent)) {
+					// 在当前父节点直接补齐下一层，重新读取以取得字段转换或自定义 put 后的实际对象。
+					final Object child = isIndexPart(patternParts.get(i + 1)) ? new ArrayList<>() : new HashMap<>();
+					BeanUtil.setFieldValue(parent, patternPart, child);
+					subBean = getFieldValue(parent, patternPart);
+					if (subBean == null) {
+						return null;
+					}
 				} else {
 					return null;
 				}
@@ -237,7 +268,7 @@ public class BeanPath implements Serializable {
 			// 处理集合
 			for (Object item : (Collection<?>) collectionOrArray) {
 				if (item != null) {
-					final Object value = get(remainingParts, item, false);
+					final Object value = get(remainingParts, item, remainingParts.size(), false);
 					if (value != null) {
 						results.add(value);
 					}
@@ -249,7 +280,7 @@ public class BeanPath implements Serializable {
 			for (int i = 0; i < arrayLength; i++) {
 				final Object item = ArrayUtil.get(collectionOrArray, i);
 				if (item != null) {
-					final Object value = get(remainingParts, item, false);
+					final Object value = get(remainingParts, item, remainingParts.size(), false);
 					if (value != null) {
 						results.add(value);
 					}
