@@ -739,6 +739,31 @@ public class CollUtilTest {
 	}
 
 	@Test
+	void containsAnyPreservesLookupSemanticsAndFindsLateHits() {
+		final List<Integer> left = new ArrayList<>();
+		final List<Integer> right = new ArrayList<>();
+		for (int i = 0; i < 64; i++) {
+			left.add(i);
+			right.add(i + 64);
+		}
+		assertFalse(CollUtil.containsAny(left, right));
+		left.set(63, null);
+		right.set(63, null);
+		assertTrue(CollUtil.containsAny(left, right));
+
+		final Set<String> insensitive = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
+		insensitive.add("VALUE");
+		insensitive.add("other");
+		assertTrue(CollUtil.containsAny(Collections.singletonList("value"), insensitive));
+
+		// Timestamp.equals(Date) 与 Date.equals(Timestamp) 方向不同。
+		final List<Date> dates = new ArrayList<>(Collections.nCopies(32, new Date(1)));
+		final List<Date> stamps = new ArrayList<>(Collections.nCopies(16, new java.sql.Timestamp(2)));
+		stamps.set(15, new java.sql.Timestamp(1));
+		assertFalse(CollUtil.containsAny(stamps, dates));
+	}
+
+	@Test
 	public void containsAnyTest() {
 		final ArrayList<Integer> list1 = CollUtil.newArrayList(1, 2, 3, 4, 5);
 		final ArrayList<Integer> list2 = CollUtil.newArrayList(5, 3, 1, 9, 11);

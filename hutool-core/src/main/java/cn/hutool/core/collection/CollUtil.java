@@ -39,6 +39,12 @@ import java.util.function.Supplier;
  */
 public class CollUtil {
 
+	/** 判断是否可以在批量操作中复用此键的散列索引。 */
+	private static boolean isStableHashKey(final Object key) {
+		return key == null || key instanceof String || key instanceof Enum<?> || key instanceof java.util.UUID
+			|| ObjectUtil.isBasicType(key);
+	}
+
 	/**
 	 * 如果提供的集合为{@code null}，返回一个不可变的默认空集合，否则返回原集合<br>
 	 * 空集合使用{@link Collections#emptySet()}
@@ -515,17 +521,30 @@ public class CollUtil {
 		if (isEmpty(coll1) || isEmpty(coll2)) {
 			return false;
 		}
-		if (coll1.size() < coll2.size()) {
-			for (Object object : coll1) {
-				if (coll2.contains(object)) {
+		final boolean firstIsSmaller = coll1.size() < coll2.size();
+		final Collection<?> probes = firstIsSmaller ? coll1 : coll2;
+		final Collection<?> lookup = firstIsSmaller ? coll2 : coll1;
+		final Iterator<?> it = probes.iterator();
+		final Class<?> type = lookup.getClass();
+		final boolean linearList = type == ArrayList.class || type == LinkedList.class;
+		Collection<?> membership = lookup;
+		if (linearList && probes.size() >= 16) {
+			// 先探测前几项，保留常见的提前命中。
+			for (int i = 0; i < 4 && it.hasNext(); i++) {
+				if (lookup.contains(it.next())) {
 					return true;
 				}
 			}
-		} else {
-			for (Object object : coll2) {
-				if (coll1.contains(object)) {
-					return true;
-				}
+			// 自定义对象仍使用 List.contains，避免引入 hashCode 要求。
+			if (lookup.stream().allMatch(CollUtil::isStableHashKey)) {
+				membership = new HashSet<>(lookup);
+			}
+		}
+		while (it.hasNext()) {
+			final Object probe = it.next();
+			final Collection<?> target = membership == lookup || isStableHashKey(probe) ? membership : lookup;
+			if (target.contains(probe)) {
+				return true;
 			}
 		}
 		return false;
