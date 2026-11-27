@@ -287,6 +287,19 @@ public class JSONUtilTest {
 	}
 
 	@Test
+	public void quoteTest() {
+		// 无需转义
+		assertEquals("\"中文abc\"", JSONUtil.quote("中文abc"));
+		assertEquals("中文abc", JSONUtil.quote("中文abc", false));
+		// 需转义的字符位于开头、中间（含连续）和末尾
+		assertEquals("\"\\\"a\\\\b\\n\\tc\\u2028\\\"\"", JSONUtil.quote("\"a\\b\n\tc \""));
+		assertEquals("\\\\\\\"", JSONUtil.quote("\\\"", false));
+		assertEquals("a\\tb\\u0001", JSONUtil.escape("a\tb\u0001"));
+		// 键名同样转义
+		assertEquals("{\"k\\\"ey\":\"v\\\\\"}", new JSONObject().set("k\"ey", "v\\").toString());
+	}
+
+	@Test
 	public void issue3540Test() {
 		Long userId = 10101010L;
 		final String jsonStr = JSONUtil.toJsonStr(userId);

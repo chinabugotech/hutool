@@ -135,7 +135,8 @@ public class JSONWriter extends Writer {
 		}
 		// 换行缩进
 		writeLF().writeSpace(indentFactor + indent);
-		return writeRaw(JSONUtil.quote(key));
+		writeStrValue(key);
+		return this;
 	}
 
 	/**
