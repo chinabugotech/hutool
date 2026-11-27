@@ -7,6 +7,8 @@ import cn.hutool.core.lang.tree.parser.NodeParser;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ObjectUtil;
 
+import java.util.ArrayList;
+import java.util.IdentityHashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -286,23 +288,21 @@ public class TreeBuilder<E> implements Builder<Tree<E>> {
 			return;
 		}
 
-		final Map<E, Tree<E>> eTreeMap = MapUtil.sortByValue(this.idTreeMap, false);
-		E parentId;
-		for (Tree<E> node : eTreeMap.values()) {
-			if (null == node) {
+		// 只比较同一父节点新收到的子节点；已有子节点保持原位置。
+		final Map<Tree<E>, List<Tree<E>>> siblings = new IdentityHashMap<>();
+		for (final Tree<E> node : this.idTreeMap.values()) {
+			if (node == null) {
 				continue;
 			}
-			parentId = node.getParentId();
-			if (ObjectUtil.equals(this.root.getId(), parentId)) {
-				this.root.addChildren(node);
-				continue;
-			}
-
-			final Tree<E> parentNode = eTreeMap.get(parentId);
-			if (null != parentNode) {
-				parentNode.addChildren(node);
+			final E parentId = node.getParentId();
+			final Tree<E> parent = ObjectUtil.equals(this.root.getId(), parentId) ? this.root : this.idTreeMap.get(parentId);
+			if (parent != null) {
+				siblings.computeIfAbsent(parent, key -> new ArrayList<>()).add(node);
 			}
 		}
+		// 稳定排序保留相同权重节点的输入顺序，排序全部成功后再修改树。
+		siblings.values().forEach(children -> children.sort(null));
+		siblings.forEach((parent, children) -> children.forEach(parent::addChildren));
 	}
 
 	/**
