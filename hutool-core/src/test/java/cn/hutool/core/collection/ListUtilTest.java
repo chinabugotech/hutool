@@ -281,4 +281,16 @@ public class ListUtilTest {
 		List<String> expectedResult3 = new ArrayList<>(Arrays.asList("A", "E", "B", "C", "D"));
 		assertEquals(expectedResult3, ListUtil.move(list, "E", 1));
 	}
+	@Test
+	void zipSequentialListsWithoutIndexedReads() {
+		final List<Integer> sequential = new LinkedList<Integer>(Arrays.asList(1, 2, 3)) {
+			@Override
+			public Integer get(int index) {
+				throw new AssertionError("indexed access on a sequential list");
+			}
+		};
+		assertEquals(Arrays.asList(11, 22), ListUtil.zip(sequential, Arrays.asList(10, 20), Integer::sum));
+		assertEquals(Arrays.asList(11, 22), ListUtil.zip(Arrays.asList(10, 20), sequential, Integer::sum));
+	}
+
 }

@@ -748,8 +748,16 @@ public class ListUtil {
 
 		final int size = Math.min(listA.size(), listB.size());
 		final List<R> result = new ArrayList<>(size);
-		for (int i = 0; i < size; i++) {
-			result.add(zipper.apply(listA.get(i), listB.get(i)));
+		if (listA instanceof RandomAccess && listB instanceof RandomAccess) {
+			for (int i = 0; i < size; i++) {
+				result.add(zipper.apply(listA.get(i), listB.get(i)));
+			}
+		} else {
+			final Iterator<A> left = listA.iterator();
+			final Iterator<B> right = listB.iterator();
+			for (int i = 0; i < size; i++) {
+				result.add(zipper.apply(left.next(), right.next()));
+			}
 		}
 		return result;
 	}
