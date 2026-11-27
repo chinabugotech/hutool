@@ -164,14 +164,11 @@ public class ChineseDate {
 		this.month = isLeapMonth ? chineseMonth + 1 : chineseMonth;
 		this.year = chineseYear;
 
-		final DateTime dateTime = lunar2solar(chineseYear, chineseMonth, chineseDay, isLeapMonth);
-		if (null != dateTime) {
-			//初始化公历年
-			this.gday = dateTime.dayOfMonth();
-			//初始化公历月
-			this.gmonthBase1 = dateTime.month() + 1;
-			//初始化公历日
-			this.gyear = dateTime.year();
+		final LocalDate solarDate = lunar2solar(chineseYear, chineseMonth, chineseDay, isLeapMonth);
+		if (null != solarDate) {
+			this.gday = solarDate.getDayOfMonth();
+			this.gmonthBase1 = solarDate.getMonthValue();
+			this.gyear = solarDate.getYear();
 		} else {
 			//初始化公历年
 			this.gday = -1;
@@ -494,10 +491,9 @@ public class ChineseDate {
 	 * @param isLeapMonth  传入的月是不是闰月
 	 * @return 公历信息
 	 */
-	private DateTime lunar2solar(final int chineseYear, final int chineseMonth, final int chineseDay, final boolean isLeapMonth) {
+	private LocalDate lunar2solar(final int chineseYear, final int chineseMonth, final int chineseDay, final boolean isLeapMonth) {
 		//超出了最大极限值
-		if ((chineseYear == 2100 && chineseMonth == 12 && chineseDay > 1) ||
-			(chineseYear == LunarInfo.BASE_YEAR && chineseMonth == 1 && chineseDay < 31)) {
+		if (chineseYear == 2100 && chineseMonth == 12 && chineseDay > 1) {
 			return null;
 		}
 		final int day = LunarInfo.monthDays(chineseYear, chineseMonth);
@@ -506,7 +502,7 @@ public class ChineseDate {
 			_day = LunarInfo.leapDays(chineseYear);
 		}
 		//参数合法性效验
-		if (chineseYear < LunarInfo.BASE_YEAR || chineseYear > 2100 || chineseDay > _day) {
+		if (chineseYear < LunarInfo.BASE_YEAR || chineseYear > 2100 || chineseDay < 1 || chineseDay > _day) {
 			return null;
 		}
 		//计算农历的时间差
@@ -530,8 +526,8 @@ public class ChineseDate {
 		if (isLeapMonth) {
 			offset += day;
 		}
-		//1900年农历正月一日的公历时间为1900年1月30日0时0分0秒(该时间也是本农历的最开始起始点) -2203804800000
-		return DateUtil.date(((offset + chineseDay - 31) * 86400000L) - 2203804800000L);
+		// 农历日期仅按天计算，避免通过时间戳和默认时区转换时产生日期偏移。
+		return LocalDate.ofEpochDay(LunarInfo.BASE_DAY).plusDays(offset + chineseDay - 1L);
 	}
 
 	// ------------------------------------------------------- private method end
