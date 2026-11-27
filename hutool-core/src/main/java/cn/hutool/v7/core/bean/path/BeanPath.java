@@ -77,6 +77,7 @@ public class BeanPath<T> implements Iterator<BeanPath<T>> {
 
 	private final Node node;
 	private final String child;
+	private volatile BeanPath<T> childPath;
 	private final NodeBeanFactory<T> beanFactory;
 
 	/**
@@ -166,7 +167,15 @@ public class BeanPath<T> implements Iterator<BeanPath<T>> {
 
 	@Override
 	public BeanPath<T> next() {
-		return new BeanPath<>(this.child, this.beanFactory);
+		if (this.beanFactory != DefaultNodeBeanFactory.INSTANCE) {
+			return new BeanPath<>(this.child, this.beanFactory);
+		}
+		BeanPath<T> next = this.childPath;
+		if (next == null) {
+			next = new BeanPath<>(this.child, this.beanFactory);
+			this.childPath = next;
+		}
+		return next;
 	}
 
 	/**
