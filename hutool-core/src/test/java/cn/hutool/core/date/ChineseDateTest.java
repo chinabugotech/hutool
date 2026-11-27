@@ -4,6 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class ChineseDateTest {
@@ -70,6 +71,29 @@ public class ChineseDateTest {
 		// issue#I1XHSF@Gitee，2023-01-20对应农历腊月29，非除夕
 		ChineseDate chineseDate = new ChineseDate(DateUtil.parseDate("2023-01-20"));
 		assertTrue(StrUtil.isEmpty(chineseDate.getFestivals()));
+	}
+
+	@Test
+	public void leapMonthFestivalsFromSolarDateTest() {
+		assertEquals("龙抬头", new ChineseDate(LocalDate.of(2023, 2, 21)).getFestivals());
+		assertEquals("", new ChineseDate(LocalDate.of(2023, 3, 23)).getFestivals());
+		assertEquals("端午节 端阳节", new ChineseDate(LocalDate.of(2028, 5, 28)).getFestivals());
+		assertEquals("", new ChineseDate(LocalDate.of(2028, 6, 27)).getFestivals());
+	}
+
+	@Test
+	public void leapMonthFestivalsFromLunarDateTest() {
+		assertEquals("龙抬头", new ChineseDate(2023, 2, 2, false).getFestivals());
+		assertEquals("", new ChineseDate(2023, 2, 2, true).getFestivals());
+		assertEquals("端午节 端阳节", new ChineseDate(2028, 5, 5, false).getFestivals());
+		assertEquals("", new ChineseDate(2028, 5, 5, true).getFestivals());
+	}
+
+	@Test
+	public void festivalsAfterLeapMonthTest() {
+		assertEquals("中秋节", new ChineseDate(LocalDate.of(2023, 9, 29)).getFestivals());
+		assertEquals("除夕", new ChineseDate(2021, 12, 29, false).getFestivals());
+		assertEquals("除夕", new ChineseDate(2022, 12, 30, false).getFestivals());
 	}
 
 	@Test
