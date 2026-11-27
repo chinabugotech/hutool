@@ -30,19 +30,34 @@ public class StrFinder extends TextFinder {
 	@Override
 	public int start(int from) {
 		Assert.notNull(this.text, "Text to find must be not null!");
-		final int subLen = strToFind.length();
-
 		if (from < 0) {
 			from = 0;
 		}
-		int endLimit = getValidEndIndex();
+		final int endLimit = getValidEndIndex();
+		if (!caseInsensitive && text instanceof String && strToFind instanceof String) {
+			// Java 8 的 indexOf 没有结束下标；有界搜索继续使用下方的区间循环。
+			if (negative && endLimit == -1) {
+				return ((String) text).lastIndexOf((String) strToFind, from);
+			}
+			if (!negative && endLimit == text.length()) {
+				return ((String) text).indexOf((String) strToFind, from);
+			}
+		}
+		return findInRange(from, endLimit);
+	}
+
+	private int findInRange(int from, int endLimit) {
+		final int subLen = strToFind.length();
 		if (negative) {
-			for (int i = from; i > endLimit; i--) {
+			for (int i = Math.min(from, text.length() - subLen); i >= 0 && i > endLimit; i--) {
 				if (CharSequenceUtil.isSubEquals(text, i, strToFind, 0, subLen, caseInsensitive)) {
 					return i;
 				}
 			}
 		} else {
+			if (endLimit < subLen) {
+				return INDEX_NOT_FOUND;
+			}
 			endLimit = endLimit - subLen + 1;
 			for (int i = from; i < endLimit; i++) {
 				if (CharSequenceUtil.isSubEquals(text, i, strToFind, 0, subLen, caseInsensitive)) {
