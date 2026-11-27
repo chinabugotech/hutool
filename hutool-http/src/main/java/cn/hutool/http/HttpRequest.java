@@ -535,7 +535,7 @@ public class HttpRequest extends HttpBase<HttpRequest> {
 				return this.form(name, (File[]) value);
 			}
 			// 数组对象
-			strValue = ArrayUtil.join((Object[]) value, ",");
+			strValue = ArrayUtil.join(value, ",");
 		} else {
 			// 其他对象一律转换为字符串
 			strValue = Convert.toStr(value, null);
