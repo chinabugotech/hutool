@@ -25,6 +25,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
@@ -142,6 +143,22 @@ public class BeanTreeTest {
 										.build()))
 						.build()
 		), javaBeanList);
+	}
+
+
+	@Test
+	void indexesParentsOnceAndKeepsChildrenInInputOrder() {
+		final JavaBean parent = JavaBean.builder().id(1L).parentId(0L).build();
+		final JavaBean a = JavaBean.builder().id(2L).parentId(1L).build();
+		final JavaBean b = JavaBean.builder().id(3L).parentId(1L).build();
+		final AtomicInteger lookups = new AtomicInteger();
+		final BeanTree<JavaBean, Long> builder = BeanTree.of(JavaBean::getId, row -> {
+			lookups.incrementAndGet();
+			return row.getParentId();
+		}, 0L, JavaBean::getChildren, JavaBean::setChildren);
+		Assertions.assertEquals(singletonList(parent), builder.toTree(asList(b, parent, a)));
+		Assertions.assertEquals(asList(b, a), parent.getChildren());
+		Assertions.assertEquals(3, lookups.get());
 	}
 
 }
