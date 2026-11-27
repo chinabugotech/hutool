@@ -9,10 +9,13 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * {@link BeanPath} 单元测试
@@ -152,5 +155,62 @@ public class BeanPathTest {
 	@Data
 	static class MyUser {
 		private String[] hobby;
+	}
+
+	@Test
+	void createsMissingPathWithoutRestartingAtRoot() {
+		final int[] reads = {0};
+		final Map<String, Object> root = new HashMap<String, Object>() {
+			@Override
+			public Object get(Object key) {
+				reads[0]++;
+				return super.get(key);
+			}
+
+			@Override
+			public Object put(String key, Object value) {
+				// 模拟容器在写入时替换为自己的 Map 实例。
+				return super.put(key, value instanceof Map ? new LinkedHashMap<>() : value);
+			}
+		};
+		final BeanPath path = BeanPath.create("a.b.c[2].d.e.f");
+		path.set(root, "value");
+		assertEquals(2, reads[0]);
+		assertEquals("value", path.get(root));
+	}
+
+	@Test
+	void createsIntermediateNodeWhenNestedArrayGrows() {
+		final Map<String, Object> root = new HashMap<>();
+		root.put("items", new Object[0]);
+		final BeanPath path = BeanPath.create("items[0].detail.name");
+		path.set(root, "value");
+		assertEquals("value", path.get(root));
+		assertEquals(1, ((Object[]) root.get("items")).length);
+	}
+
+
+	@Test
+	void preservesSignedUnicodeAndOverflowingPathParts() {
+		final Map<String, Object> root = new HashMap<>();
+		BeanPath.create("signed[+1].value").set(root, "s");
+		BeanPath.create("unicode[１].value").set(root, "u");
+		BeanPath.create("large[2147483648].value").set(root, "m");
+		assertEquals("s", BeanPath.create("signed[1].value").get(root));
+		assertEquals("u", BeanPath.create("unicode[1].value").get(root));
+		assertEquals("m", BeanPath.create("large['2147483648'].value").get(root));
+	}
+
+	@Test
+	void preservesRootAliasAndProjectionWriteSemantics() {
+		final Map<String, Object> root = new HashMap<>();
+		BeanPath.create("outer[0].hashMap[0].value").set(root, 7);
+		assertEquals(7, BeanPath.create("outer[0].hashMap[0].value").get(root));
+		assertFalse(root.containsKey("value"));
+
+		final List<Object> rows = new ArrayList<>();
+		root.put("rows", rows);
+		assertThrows(IllegalArgumentException.class, () -> BeanPath.create("rows.name[2].value").set(root, "x"));
+		assertEquals(0, rows.size());
 	}
 }
