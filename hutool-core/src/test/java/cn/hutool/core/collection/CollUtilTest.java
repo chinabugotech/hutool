@@ -8,6 +8,7 @@ import cn.hutool.core.util.StrUtil;
 import lombok.*;
 import org.junit.jupiter.api.Test;
 
+import java.io.Serializable;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -231,6 +232,58 @@ public class CollUtilTest {
 		map2.put("2", "v2");
 		final List<String> r2 = CollUtil.subtractToList(map1.keySet(), map2.keySet());
 		assertEquals("[1]", r2.toString());
+	}
+
+	@Test
+	public void subtractFixedSizeListTest() {
+		// 定长列表（Arrays.asList）未实现 Cloneable，元素也不可序列化时，不应抛异常
+		final Object keep = new Object();
+		final Object remove = new Object();
+		final List<Object> coll1 = Arrays.asList(remove, keep, keep);
+
+		final Collection<Object> result = CollUtil.subtract(coll1, Collections.singleton(remove));
+
+		// 结果的顺序、重复次数与元素引用均与输入一致
+		assertEquals(2, result.size());
+		final Iterator<Object> iterator = result.iterator();
+		assertSame(keep, iterator.next());
+		assertSame(keep, iterator.next());
+		// 原集合不被修改
+		assertEquals(Arrays.asList(remove, keep, keep), coll1);
+	}
+
+	@Test
+	public void subtractSynchronizedListTest() {
+		// synchronizedList 未实现 Cloneable，序列化克隆会复制元素，
+		// 导致默认按引用相等的元素无法被删除
+		final DefaultEqualsBean keep = new DefaultEqualsBean("keep");
+		final DefaultEqualsBean remove = new DefaultEqualsBean("remove");
+		final List<DefaultEqualsBean> coll1 = Collections.synchronizedList(new ArrayList<>(Arrays.asList(remove, keep)));
+
+		final Collection<DefaultEqualsBean> result = CollUtil.subtract(coll1, Collections.singleton(remove));
+
+		assertEquals(1, result.size());
+		assertSame(keep, result.iterator().next());
+		// 原集合不被修改
+		assertEquals(Arrays.asList(remove, keep), coll1);
+	}
+
+	/**
+	 * 默认使用引用相等、且可序列化的对象，用于测试集合差集
+	 */
+	static class DefaultEqualsBean implements Serializable {
+		private static final long serialVersionUID = 1L;
+
+		private final String name;
+
+		DefaultEqualsBean(String name) {
+			this.name = name;
+		}
+
+		@Override
+		public String toString() {
+			return name;
+		}
 	}
 
 	@Test

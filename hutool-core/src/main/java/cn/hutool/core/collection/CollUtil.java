@@ -365,17 +365,17 @@ public class CollUtil {
 			return coll1;
 		}
 
-		Collection<T> result = ObjectUtil.clone(coll1);
+		// 不能使用流式克隆：元素可能不可序列化，且克隆会改变元素引用，导致removeAll删不掉
+		Collection<T> result = coll1 instanceof Cloneable ? ObjectUtil.clone(coll1) : null;
+		if (null == result) {
+			// Arrays.asList、synchronizedList等不可Cloneable的集合，浅拷贝以保留元素引用
+			result = coll1 instanceof Set ? new LinkedHashSet<>(coll1) : new ArrayList<>(coll1);
+		}
 		try {
-			if (null == result) {
-				result = CollUtil.create(coll1.getClass());
-				result.addAll(coll1);
-			}
 			result.removeAll(coll2);
 		} catch (UnsupportedOperationException e) {
 			// 针对 coll1 为只读集合的补偿
-			result = CollUtil.create(AbstractCollection.class);
-			result.addAll(coll1);
+			result = new ArrayList<>(coll1);
 			result.removeAll(coll2);
 		}
 		return result;
